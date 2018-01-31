@@ -7,3 +7,5 @@ erl_crash.dump
 *.env
 *.DS_store
 /frontend/node_modules
+
+/.idea

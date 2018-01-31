@@ -11,7 +11,7 @@
     "test": "node node_modules/jest/bin/jest.js --watch"
   },
   "jest": {
-   "preset": "jest-expo"
+    "preset": "jest-expo"
   },
   "author": "TOMOAKI TSURUTA",
   "devDependencies": {
@@ -27,5 +27,9 @@
     "react-test-renderer": "^16.2.0",
     "redux": "^3.7.2",
     "redux-thunk": "^2.2.0"
+  },
+  "dependencies": {
+    "dotenv": "^5.0.0",
+    "react-apollo": "^2.0.4"
   }
 }
