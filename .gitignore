@@ -4,3 +4,6 @@
 erl_crash.dump
 *.ez
 *.beam
+*.env
+*.DS_store
+/frontend/node_modules
