@@ -39,11 +39,14 @@ defmodule Api.Mixfile do
       {:phoenix, "~> 1.3.0"},
       {:phoenix_pubsub, "~> 1.0"},
       {:phoenix_html, "~> 2.10"},
-      {:phoenix_ecto, "-> 3.2.1"},
+      {:phoenix_ecto, "~> 3.2.1"},
       {:phoenix_live_reload, "~> 1.0", only: :dev},
       {:db, in_umbrella: true},
       {:gettext, "~> 0.11"},
-      {:cowboy, "~> 1.0"}
+      {:cowboy, "~> 1.0"},
+      {:absinthe, "~> 1.4.2"},
+      {:absinthe_plug, "~> 1.4.0"},
+      {:absinthe_phoenix, "~> 1.4.0"},
     ]
   end
 end
