@@ -11,6 +11,7 @@ defmodule ApiWeb.Router do
 
   pipeline :api do
     plug :accepts, ["json"]
+    plug ApiWeb.Context
   end
 
   scope "/", ApiWeb do

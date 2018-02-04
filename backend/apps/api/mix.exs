@@ -47,6 +47,7 @@ defmodule Api.Mixfile do
       {:absinthe, "~> 1.4.2"},
       {:absinthe_plug, "~> 1.4.0"},
       {:absinthe_phoenix, "~> 1.4.0"},
+      {:guardian, "~> 1.0"}
     ]
   end
 end
