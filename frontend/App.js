@@ -1,9 +1,9 @@
 import { Navigation } from 'react-native-navigation';
-import ApolloAndReduxProvider from './apollo-and-reduc-provider';
+import ApolloAndReduxProvider from './apollo-and-redux-provider';
 import {
   AUTH_SCREEN
 } from './src/constants';
-export ApolloClient, { createNetworkInterface } from 'apollo-client';
+import ApolloClient, { createNetworkInterface } from 'apollo-client';
 
 const networkInterface = createNetworkInterface({
   uri: '/graphql',
@@ -13,8 +13,12 @@ const networkInterface = createNetworkInterface({
 });
 const client = new ApolloClient({
   networkInterface,
-  dataIdFromObject: o => o.id;
+  dataIdFromObject: o => o.id
 });
+
+import configureStore from './src/store/configureStore';
+const store = configureStore();
+
 
 
 Navigation.registerComponent(
