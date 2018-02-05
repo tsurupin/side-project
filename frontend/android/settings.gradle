@@ -1,0 +1,3 @@
+rootProject.name = 'SideProject'
+
+include ':app'
