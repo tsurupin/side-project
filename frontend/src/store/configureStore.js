@@ -4,11 +4,13 @@ import {
   compose,
   applyMiddleware
 } from 'redux';
+import uiReducer from './reducers/ui';
 import thunk from 'redux-thunk';
 
 const rootReducer = combineReducers({
-
+  ui: uiReducer,
 });
+
 
 let composeEnchancers = compose;
 
