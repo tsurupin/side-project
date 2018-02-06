@@ -5,9 +5,11 @@ import {
   applyMiddleware
 } from 'redux';
 import uiReducer from './reducers/ui';
+import authReducer from './reducers/auth';
 import thunk from 'redux-thunk';
 
 const rootReducer = combineReducers({
+  auth: authReducer,
   ui: uiReducer,
 });
 
