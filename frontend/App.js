@@ -23,7 +23,7 @@ const store = configureStore();
 
 Navigation.registerComponent(
   AUTH_SCREEN,
-  () => apolloAndReduxProvider(
+  () => ApolloAndReduxProvider(
     component,
     store,
     client

@@ -1,0 +1,26 @@
+dependencies: \
+  /Users/tomoakitsuruta/side-project/frontend/node_modules/react-native/React/Base/RCTJavaScriptLoader.mm \
+  /Users/tomoakitsuruta/side-project/frontend/node_modules/react-native/React/Base/RCTJavaScriptLoader.h \
+  /Users/tomoakitsuruta/side-project/frontend/node_modules/react-native/React/Base/RCTDefines.h \
+  /Users/tomoakitsuruta/side-project/frontend/ios/build/Build/Products/Debug-iphonesimulator/include/cxxreact/JSBundleType.h \
+  /Users/tomoakitsuruta/side-project/frontend/ios/build/Build/Products/Debug-iphonesimulator/include/jschelpers/JavaScriptCore.h \
+  /Users/tomoakitsuruta/side-project/frontend/ios/build/Build/Products/Debug-iphonesimulator/include/jschelpers/JSCWrapper.h \
+  /Users/tomoakitsuruta/side-project/frontend/node_modules/react-native/React/Base/RCTBridge.h \
+  /Users/tomoakitsuruta/side-project/frontend/node_modules/react-native/React/Base/RCTBridgeDelegate.h \
+  /Users/tomoakitsuruta/side-project/frontend/node_modules/react-native/React/Base/RCTBridgeModule.h \
+  /Users/tomoakitsuruta/side-project/frontend/node_modules/react-native/React/Base/RCTFrameUpdate.h \
+  /Users/tomoakitsuruta/side-project/frontend/node_modules/react-native/React/Base/RCTInvalidating.h \
+  /Users/tomoakitsuruta/side-project/frontend/node_modules/react-native/React/Base/RCTConvert.h \
+  /Users/tomoakitsuruta/side-project/frontend/node_modules/react-native/React/Views/RCTAnimationType.h \
+  /Users/tomoakitsuruta/side-project/frontend/node_modules/react-native/React/Views/RCTBorderStyle.h \
+  /Users/tomoakitsuruta/side-project/frontend/node_modules/react-native/React/Base/RCTLog.h \
+  /Users/tomoakitsuruta/side-project/frontend/node_modules/react-native/React/Base/RCTAssert.h \
+  /Users/tomoakitsuruta/side-project/frontend/node_modules/react-native/React/Base/RCTUtils.h \
+  /Users/tomoakitsuruta/side-project/frontend/node_modules/react-native/React/Views/RCTPointerEvents.h \
+  /Users/tomoakitsuruta/side-project/frontend/node_modules/react-native/React/Views/RCTTextDecorationLineType.h \
+  /Users/tomoakitsuruta/side-project/frontend/ios/build/Build/Products/Debug-iphonesimulator/include/yoga/Yoga.h \
+  /Users/tomoakitsuruta/side-project/frontend/ios/build/Build/Products/Debug-iphonesimulator/include/yoga/YGEnums.h \
+  /Users/tomoakitsuruta/side-project/frontend/ios/build/Build/Products/Debug-iphonesimulator/include/yoga/YGMacros.h \
+  /Users/tomoakitsuruta/side-project/frontend/node_modules/react-native/React/Base/RCTMultipartDataTask.h \
+  /Users/tomoakitsuruta/side-project/frontend/node_modules/react-native/React/Base/RCTMultipartStreamReader.h \
+  /Users/tomoakitsuruta/side-project/frontend/node_modules/react-native/React/Base/RCTPerformanceLogger.h
