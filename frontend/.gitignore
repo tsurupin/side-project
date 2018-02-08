@@ -3,6 +3,7 @@
 # expo
 .expo/
 
+config.js
 # dependencies
 /node_modules
 
@@ -18,3 +19,7 @@ yarn-error.log*
 
 # ios
 /ios/build/
+/ios/Bolts.framework/
+/ios/FBSDKCoreKit.framework/
+/ios/FBSDKLoginKit.framework/
+/ios/FBSDKShareKit.framework/
