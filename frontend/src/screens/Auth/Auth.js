@@ -1,6 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { tryAuth } from "../../store/actions/index"
+import { tryAuth } from "../../store/actions/index";
+import {
+  FIREBASE_API_KEY,
+  FIREBASE_AUTH_DOMAIN,
+  FIREBASE_DATABASE_URL,
+  FIREBASE_PROJECT_ID
+} from '../../../config';
 
 import {
   View,
@@ -11,22 +17,22 @@ import {
 import FBSDK, { LoginManager, AccessToken } from 'react-native-fbsdk';
 import firebase from 'firebase';
 
+const firebaseConfig = {
+  apiKey: FIREBASE_API_KEY,
+  authDomain: FIREBASE_AUTH_DOMAIN,
+  databaseURL: FIREBASE_DATABASE_URL,
+  projectId: FIREBASE_PROJECT_ID
+}
+const firebaseReference = firebase.initializeApp(firebaseConfig);
+
 class AuthScreen extends Component {
   constructor(props) {
     super(props);
     console.log('initia')
   }
-  state = {
-    hoge: 'h'
-  }
 
   fbLoginHandler = () => {
-    console.log(FBSDK);
-    console.log("aaaaaaaaa")
-    console.log(LoginManager);
-    console.log(this.state.hoge);
-    console.log(LoginManager.logInWithReadPermissions(['email']))
-    LoginManager.logInWithReadPermissions(['email']).then(result => {
+    LoginManager.logInWithReadPermissions(['public_profile', 'email']).then(result => {
       if (result.isCancelled) {
         console.log("Login is cancelled")
       } else {
@@ -34,15 +40,15 @@ class AuthScreen extends Component {
         AccessToken.getCurrentAccessToken()
         .then(accessTokenData => {
           const credentials = firebase.auth.FacebookAuthProvider.credential(accessTokenData.accessToken);
-          firebase.auth().signInWithCredential(credential)
+          console.log(credentials);
+          firebase.auth().signInWithCredential(credentials)
           .then(result => {
                 console.log(result)
           }
-        ).catch(error => console.log(error))
+          ).catch(error => console.log(error))
         })
-        result.grantedPermissions.toString()
+        .catch(error => console.log(error))
       }
-
     }).catch(error => console.log(error))
   }
 
