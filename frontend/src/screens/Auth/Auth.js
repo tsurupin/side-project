@@ -24,6 +24,7 @@ const firebaseConfig = {
   projectId: FIREBASE_PROJECT_ID
 }
 const firebaseReference = firebase.initializeApp(firebaseConfig);
+import { singUp } from '../../store/actions/accounts';
 
 class AuthScreen extends Component {
   constructor(props) {
@@ -75,7 +76,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    onLogin: () => dispatch(tryAuth())
+    onLogin: (providerId, uid) => dispatch(singUp(providerId, uid))
   }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(AuthScreen);

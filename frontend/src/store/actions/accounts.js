@@ -1,16 +1,30 @@
-import client from '../client';
+import client from '../../../client';
 import { signUp } from 'mutations/accounts';
+import { SIGN_UP_SUCCESS , SIGN_UP_FAILURE} from '../../constants';
 
-export signUp = (prociderId, uid) => {
+export const signUp = (prociderId, uid) => {
   client.mutation({
     query: signUp,
-    
-  })
+    variables: {providerId, uid}
+  }).then(resp => {
+    if (resp.data) {
+      dispatch(signUpSuccess(resp.data)
+    }
+  }).catch(err =>
+    dispatch(signUpFailure(err))
+  )
 }
-export function fetchAds() {
-	return (dispatch, getState) => {
-		const state = getState();
-		dispatch({ type: 'FETCH_ADS' });
-		client.query({
-			query: adsQuery,
-			variables: { first: state.Filter.limit }
+
+const signUpSuccess = ({providerId, uid}) => {
+  return {
+    type: SIGN_UP_SUCCESS,
+    payload: {providerId, uid}
+  }
+}
+
+const signUpFailure = (error) =>{
+  return {
+    type: SIGN_UP_FAILURE,
+    payload: { error }
+  }
+}

@@ -1,18 +1,9 @@
 import { Provider } from 'react-redux';
-// import { ApolloProvider } from 'react-apollo';
-// import ApolloClient, { createNetworkInterface } from 'react-apollo';
-import { ApolloClient } from 'apollo-client';
-import { createHttpLink } from 'apollo-link-http';
-import { HttpLink } from 'apollo-link-http';
-import { InMemoryCache } from 'apollo-cache-inmemory';
+
 import { ApolloProvider, graphql } from 'react-apollo';
-import gql from 'graphql-tag';
 import React, { Component } from 'react';
 
-const uri = '/graphql';
-
-
-const apolloAndReduxProviderHOC = (WrappedComponent, store) => {
+const apolloAndReduxProviderHOC = (WrappedComponent, store, client) => {
   // const networkInterface = createNetworkInterface({
   //   uri,
   //   opts: {
@@ -36,10 +27,10 @@ const apolloAndReduxProviderHOC = (WrappedComponent, store) => {
   //      }
   //  }])
 
-  const client = new ApolloClient({
-    link: createHttpLink({ uri }),
-    cache: new InMemoryCache(),
-  });
+  // const client = new ApolloClient({
+  //   link: createHttpLink({ uri }),
+  //   cache: new InMemoryCache(),
+  // });
 
   class Enhance extends React.Component {
     render () {
