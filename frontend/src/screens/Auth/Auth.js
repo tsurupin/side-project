@@ -39,8 +39,11 @@ class AuthScreen extends Component {
         console.log(result)
         AccessToken.getCurrentAccessToken()
         .then(accessTokenData => {
+          console.log(accessTokenData);
+          userId = accessTokenData.userID;
           const credentials = firebase.auth.FacebookAuthProvider.credential(accessTokenData.accessToken);
           console.log(credentials);
+          console.log('credential ha')
           firebase.auth().signInWithCredential(credentials)
           .then(result => {
                 console.log(result)
