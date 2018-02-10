@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { signUp } from "../../store/actions/index";
+import { graphql, compose } from 'react-apollo';
 import {
   FIREBASE_API_KEY,
   FIREBASE_AUTH_DOMAIN,
@@ -24,11 +24,14 @@ const firebaseConfig = {
   projectId: FIREBASE_PROJECT_ID
 }
 const firebaseReference = firebase.initializeApp(firebaseConfig);
-import { singUp } from '../../store/actions/accounts';
+import { signUpMutation } from '../../graphqls/mutations/accounts';
+
+// import { singUp } from '../../store/actions/accounts';
 
 class AuthScreen extends Component {
   constructor(props) {
     super(props);
+    console.log(props);
     console.log('initia')
   }
 
@@ -41,10 +44,11 @@ class AuthScreen extends Component {
         AccessToken.getCurrentAccessToken()
         .then(accessTokenData => {
           console.log(accessTokenData);
-          userId = accessTokenData.userID;
+          uid = accessTokenData.userID;
           providerId = accessTokenData.providerId;
-          console.log(userId)
-          this.props.onLogin(userId, providerId);
+
+
+          this.signUp(providerId, uid);
           // const credentials = firebase.auth.FacebookAuthProvider.credential(accessTokenData.accessToken);
           // console.log(credentials);
           // console.log('credential ha')
@@ -57,6 +61,17 @@ class AuthScreen extends Component {
         .catch(error => console.log(error))
       }
     }).catch(error => console.log(error))
+  }
+
+  signUp = async (providerId, uid) => {
+    console.log('start')
+    await this.props.signUp({
+      variables: {
+        providerId,
+        uid
+      }
+    }).catch(error => console.log(error))
+    console.log("end")
   }
 
   render() {
@@ -77,9 +92,31 @@ const mapStateToProps = state => {
   }
 }
 
-const mapDispatchToProps = dispatch => {
-  return {
-    onLogin: (providerId, uid) => dispatch(singUp(providerId, uid))
-  }
-}
-export default connect(mapStateToProps, mapDispatchToProps)(AuthScreen);
+// const mapDispatchToProps = dispatch => {
+//   return {
+//     onLogin: (providerId, uid) => dispatch(singUp(providerId, uid))
+//   }
+// }
+
+// const gContainer = graphql(signUpMutation, {
+//   name: 'signUp',
+//   options: props => {
+//     variables: {
+//       providerId: props.providerId,
+//       uid: props.uid
+//     }
+//   }
+// })(AuthScreen);
+
+export default compose(
+  graphql(signUpMutation, {
+    name: 'signUp',
+    options: props => ({
+      variables: {
+        providerId: props.providerId,
+        uid: props.uid,
+      }
+    })
+  }),
+  connect(mapStateToProps)
+)(AuthScreen);

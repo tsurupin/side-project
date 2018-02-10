@@ -5,13 +5,13 @@ import {
   applyMiddleware
 } from 'redux';
 import uiReducer from './reducers/ui';
-import authReducer from './reducers/auth';
+//import authReducer from './reducers/auth';
 import accountsReducer from './reducers/accounts';
 import thunk from 'redux-thunk';
 
 const rootReducer = combineReducers({
   accounts: accountsReducer,
-  auth: authReducer,
+  //auth: authReducer,
   ui: uiReducer,
 });
 
