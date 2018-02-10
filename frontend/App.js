@@ -38,6 +38,7 @@ import {
 
 import AuthScreen from './src/screens/Auth/Auth';
 import configureStore from './src/store/configureStore';
+import client from './client';
 const store = configureStore();
 
 
@@ -45,7 +46,8 @@ Navigation.registerComponent(
   AUTH_SCREEN,
   () => ApolloAndReduxProvider(
     AuthScreen,
-    store
+    store,
+    client
   )
 );
 

@@ -1,13 +1,17 @@
 defmodule ApiWeb.Resolvers.Accounts do
   alias Api.Accounts
 
-  def login(_, %{provider_id: provider_id, uid: uid}) do
-    case Accounts.authenticate(provider_id, uid) do
-      {:ok, user} ->
-        token = ApiWeb.Authenticate.sign(%{})
-        {:ok, %{token: token, user: user}}
-      _ ->
-        {:error, "invalid access"}
+  def signup(_, %{provider_id: provider_id, uid: uid}) do
+    with {:ok, uid, jwt} <- Accounts.Authenntication.authenticate(%{provider_id: provider_id, uid: uid}),
+    do
+      {:ok, uid, jwt}
+    else
+      {:error, reason} -> {:error, reason}
+      _ -> {:error, "invalid access"}
     end
   end
 end
+
+# figure out how to create JWT encode
+# figure out how to send fb token through graphql
+# figure out how to send token in header in all the requests

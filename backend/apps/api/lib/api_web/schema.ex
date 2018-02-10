@@ -47,11 +47,16 @@ defmodule PlateSlateWeb.Schema do
 
   end
 
+  @desc "Signup"
   mutation do
-    field :login_user, :user do
+    field :signup, :user do
       arg :provider_id, non_null(:string)
       arg :uid, non_null(:string)
-      resolve &Resolvers.Accounts.login_user/3
+      # arg :token
+      # arg :email, :string
+      # arg :display_name, :string
+      # arg :photo_url, :string
+      resolve &Resolvers.Accounts.signup/3
     end
   end
 

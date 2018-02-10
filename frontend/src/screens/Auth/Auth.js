@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { tryAuth } from "../../store/actions/index";
+import { signUp } from "../../store/actions/index";
 import {
   FIREBASE_API_KEY,
   FIREBASE_AUTH_DOMAIN,
@@ -24,6 +24,7 @@ const firebaseConfig = {
   projectId: FIREBASE_PROJECT_ID
 }
 const firebaseReference = firebase.initializeApp(firebaseConfig);
+import { singUp } from '../../store/actions/accounts';
 
 class AuthScreen extends Component {
   constructor(props) {
@@ -39,13 +40,19 @@ class AuthScreen extends Component {
         console.log(result)
         AccessToken.getCurrentAccessToken()
         .then(accessTokenData => {
-          const credentials = firebase.auth.FacebookAuthProvider.credential(accessTokenData.accessToken);
-          console.log(credentials);
-          firebase.auth().signInWithCredential(credentials)
-          .then(result => {
-                console.log(result)
-          }
-          ).catch(error => console.log(error))
+          console.log(accessTokenData);
+          userId = accessTokenData.userID;
+          providerId = accessTokenData.providerId;
+          console.log(userId)
+          this.props.onLogin(userId, providerId);
+          // const credentials = firebase.auth.FacebookAuthProvider.credential(accessTokenData.accessToken);
+          // console.log(credentials);
+          // console.log('credential ha')
+          // firebase.auth().signInWithCredential(credentials)
+          // .then(result => {
+          //       console.log(result)
+          // }
+          // ).catch(error => console.log(error))
         })
         .catch(error => console.log(error))
       }
@@ -72,7 +79,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    onLogin: () => dispatch(tryAuth())
+    onLogin: (providerId, uid) => dispatch(singUp(providerId, uid))
   }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(AuthScreen);
