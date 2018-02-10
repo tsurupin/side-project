@@ -1,5 +1,5 @@
 import gql from 'graphql-tag';
-export const signUp = gql`
+export const signUpMutation = gql`
   mutation ($providerId: String!, $uid: String!) {
     signUp(providerId: $providerId, uid: $uid) {
       uid

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { tryAuth } from "../../store/actions/index";
+import { signUp } from "../../store/actions/index";
 import {
   FIREBASE_API_KEY,
   FIREBASE_AUTH_DOMAIN,
@@ -42,14 +42,17 @@ class AuthScreen extends Component {
         .then(accessTokenData => {
           console.log(accessTokenData);
           userId = accessTokenData.userID;
-          const credentials = firebase.auth.FacebookAuthProvider.credential(accessTokenData.accessToken);
-          console.log(credentials);
-          console.log('credential ha')
-          firebase.auth().signInWithCredential(credentials)
-          .then(result => {
-                console.log(result)
-          }
-          ).catch(error => console.log(error))
+          providerId = accessTokenData.providerId;
+          console.log(userId)
+          this.props.onLogin(userId, providerId);
+          // const credentials = firebase.auth.FacebookAuthProvider.credential(accessTokenData.accessToken);
+          // console.log(credentials);
+          // console.log('credential ha')
+          // firebase.auth().signInWithCredential(credentials)
+          // .then(result => {
+          //       console.log(result)
+          // }
+          // ).catch(error => console.log(error))
         })
         .catch(error => console.log(error))
       }
