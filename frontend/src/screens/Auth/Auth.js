@@ -24,9 +24,10 @@ const firebaseConfig = {
   projectId: FIREBASE_PROJECT_ID
 }
 const firebaseReference = firebase.initializeApp(firebaseConfig);
-import { signUpMutation } from '../../graphqls/mutations/accounts';
+import { signUpMutation } from '../../graphql/mutations';
 
 // import { singUp } from '../../store/actions/accounts';
+const FACEBOOK = 'facebook';
 
 class AuthScreen extends Component {
   constructor(props) {
@@ -45,10 +46,7 @@ class AuthScreen extends Component {
         .then(accessTokenData => {
           console.log(accessTokenData);
           uid = accessTokenData.userID;
-          providerId = accessTokenData.providerId;
-
-
-          this.signUp(providerId, uid);
+          this.signUp(FACEBOOK, uid);
           // const credentials = firebase.auth.FacebookAuthProvider.credential(accessTokenData.accessToken);
           // console.log(credentials);
           // console.log('credential ha')
@@ -64,13 +62,14 @@ class AuthScreen extends Component {
   }
 
   signUp = async (providerId, uid) => {
-    console.log('start')
     await this.props.signUp({
       variables: {
         providerId,
         uid
       }
-    }).catch(error => console.log(error))
+    }).catch(error =>
+      console.log(error)
+    )
     console.log("end")
   }
 

@@ -11,7 +11,7 @@ defmodule Db.Application do
     import Supervisor.Spec
     # List all child processes to be supervised
     children = [
-      Db.Repo
+      supervisor(Db.Repo, [])
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

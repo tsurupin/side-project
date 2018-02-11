@@ -1,4 +1,4 @@
-defmodule ApiWeb.Schema.AccountsType do
+defmodule ApiWeb.Schema.AccountsTypes do
   use Absinthe.Schema.Notation
 
   object :user do
@@ -9,5 +9,10 @@ defmodule ApiWeb.Schema.AccountsType do
     field :display_name, :string
     field :email, :string
     field :photo_url, :string
+  end
+
+  object :test do
+    field :name, :string
+
   end
 end

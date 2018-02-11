@@ -1,14 +1,22 @@
 defmodule ApiWeb.Resolvers.Accounts do
-  alias Api.Accounts
+  alias Api.Accounts.Authentication
 
-  def signup(_, %{provider_id: provider_id, uid: uid}) do
-    with {:ok, uid, jwt} <- Accounts.Authenntication.authenticate(%{provider_id: provider_id, uid: uid}),
+  def signup(_, %{provider_id: provider_id, uid: uid} = attrs, _) do
+    IO.inspect(attrs)
+    with {:ok, uid, jwt} <- Authentication.authenticate(attrs)
     do
-      {:ok, uid, jwt}
+      {:ok, %{uid: uid, token: jwt}}
     else
-      {:error, reason} -> {:error, reason}
+      {:error, reason} ->
+        IO.inspect(reason)
+        {:error, reason}
       _ -> {:error, "invalid access"}
     end
+  end
+
+  def test(_, _, __) do
+    IO.inspect "hogafas"
+    {:ok, %Db.Users.User{}}
   end
 end
 

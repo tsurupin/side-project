@@ -11,21 +11,20 @@ defmodule ApiWeb.Router do
 
   pipeline :api do
     plug :accepts, ["json"]
-    plug Guardian.Plug.VerifyHeader, realm: "Bearer"
-    plug Guardian.Plug.LoadResource
+    # plug Guardian.Plug.VerifyHeader, realm: "Bearer"
+    # plug Guardian.Plug.LoadResource
     plug ApiWeb.Context
   end
 
-  scope "/", ApiWeb do
+  scope "/api" do
     pipe_through :api # Use the default browser stack
 
-    forward "/api", Absinthe.Plug,
-      schema: ApiWeb.Schema
+    # forward "/api", Absinthe.Plug,
+    #   schema: ApiWeb.Schema
 
     forward "/graphiql", Absinthe.Plug.GraphiQL,
-      schema: ApiWeb.Scchema,
-      interface: :simple,
-      socket: ApiWeb.UserSocket
+      socket: ApiWeb.UserSocket,
+      schema: ApiWeb.Schema
   end
 
   # Other scopes may use custom stacks.

@@ -6,7 +6,7 @@ import { ApolloClient } from 'apollo-client';
 import { HttpLink } from 'apollo-link-http';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 
-const uri = '/graphql';
+const uri = 'http://localhost:4000/api/graphiql';
 
 const apolloAndReduxProviderHOC = (WrappedComponent, store) => {
   // const networkInterface = createNetworkInterface({

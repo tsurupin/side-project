@@ -1,6 +1,7 @@
 defmodule Api.Accounts.Authentication do
   alias Db.Users.Accounts
-  use Guardian, otp_app: :api
+  alias Api.Guardian
+  #use Guardian, otp_app: :api
 
   def authenticate(%{provider_id: provider_id, uid: uid} = attrs) do
     with {:ok, user} <- Accounts.get_or_create_user(attrs),
@@ -21,18 +22,22 @@ defmodule Api.Accounts.Authentication do
   end
 
   @aud "https://identitytoolkit.googleapis.com/google.identity.identitytoolkit.v1.IdentityToolkit"
-  defp create_token(uid) do
+  @one_month_in_unix 60 * 60 * 24 * 30
+  def create_token(user) do
+    current_time = DateTime.to_unix(DateTime.utc_now)
+    thirty_days_later = current_time + @one_month_in_unix
     custom_claims = %{
-      iss: "email",
-      sub: "email",
+      iss: System.get_env("AUTH_EMAIL"),
+      sub: System.get_env("AUTH_EMAIL"),
       aud: @aud,
-      iat: "time",
-      exp: "time + 30 days"
-      uid: uid
+      iat: current_time,
+      exp: thirty_days_later,
+      uid: user.uid
     }
-    with {:ok, jwt, _full_cliams} Guardian.encode_and_sign(%{uid: uid}, custom_claims),
+
+    with {:ok, jwt, _full_cliams} <- Guardian.encode_and_sign(user, custom_claims)
     do
-      {:ok, uid, jwt}
+      {:ok, user.uid, jwt}
     else
       {:error, reason} -> {:error, reason}
       _ -> {:error, "unknown"}

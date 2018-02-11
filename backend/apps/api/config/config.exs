@@ -26,11 +26,12 @@ config :logger, :console,
   format: "$time $metadata[$level] $message\n",
   metadata: [:request_id]
 
-config :guardian, Guardian,
+config :api, Api.Guardian,
   allowed_algos: ["RS256"],
-  issuer: "Api.#{Mix.env}",
-  ttl: {30.days},
-  secret_key: to_string(Mix.env),
+  verify_module: Guardian.JWT,
+  issuer: "api",
+  ttl: {30, :days},
+  secret_key: System.get_env("SECRET_KEY")
 
 
 # Import environment specific config. This must remain at the bottom

@@ -9,11 +9,11 @@ defmodule Db.Users.Accounts do
   alias Db.Users.User
 
   def get_or_create_user(%{provider_id: provider_id, uid: uid}) do
-    with {:ok, user} <- get_user(provider_id, uid),
-    do
-      {:ok, user.uid}
-    else
-      create_user(%{provider_id: provider_id, uid: uid})
+    case get_user(provider_id, uid) do
+      {:ok, user} ->
+        {:ok, user.uid}
+      _ ->
+        create_user(%{provider_id: provider_id, uid: uid})  
     end
   end
 
