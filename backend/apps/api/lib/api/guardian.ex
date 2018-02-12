@@ -14,7 +14,9 @@ defmodule Api.Guardian do
     #resource = Repo.get(Db.Users.User, id)
     {:ok, claims["sub"]}
   end
+
   def resource_from_claims(_claims) do
     {:error, :reason_for_error}
   end
+
 end

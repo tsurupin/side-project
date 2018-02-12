@@ -28,10 +28,10 @@ config :logger, :console,
 
 config :api, Api.Guardian,
   allowed_algos: ["RS256"],
-  verify_module: Guardian.JWT,
+  verify_module: Api.Guardian.JWT,
   issuer: "api",
   ttl: {30, :days},
-  secret_key: System.get_env("SECRET_KEY")
+  secret_key: {Api.GuardianSecretKey, :get_key, []}
 
 
 # Import environment specific config. This must remain at the bottom

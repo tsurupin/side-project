@@ -1,7 +1,5 @@
 defmodule Api.Accounts.Authentication do
   alias Db.Users.Accounts
-  alias Api.Guardian
-  #use Guardian, otp_app: :api
 
   def authenticate(%{provider_id: provider_id, uid: uid} = attrs) do
     with {:ok, user} <- Accounts.get_or_create_user(attrs),
@@ -35,7 +33,7 @@ defmodule Api.Accounts.Authentication do
       uid: user.uid
     }
 
-    with {:ok, jwt, _full_cliams} <- Guardian.encode_and_sign(user, custom_claims)
+    with {:ok, jwt, _full_cliams} <- Api.Guardian.encode_and_sign(user, custom_claims)
     do
       {:ok, user.uid, jwt}
     else
