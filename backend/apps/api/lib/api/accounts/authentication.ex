@@ -3,7 +3,7 @@ defmodule Api.Accounts.Authentication do
 
   def authenticate(%{provider_id: provider_id, uid: uid} = attrs) do
     with {:ok, user} <- Accounts.get_or_create_user(attrs),
-      {:ok, uid, jwt} <- create_token(user.uid)
+      {:ok, uid, jwt} <- create_token(user)
     do
       {:ok, uid, jwt}
     else

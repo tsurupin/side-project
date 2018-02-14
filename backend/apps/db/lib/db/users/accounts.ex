@@ -11,9 +11,9 @@ defmodule Db.Users.Accounts do
   def get_or_create_user(%{provider_id: provider_id, uid: uid}) do
     case get_user(provider_id, uid) do
       {:ok, user} ->
-        {:ok, user.uid}
+        {:ok, user}
       _ ->
-        create_user(%{provider_id: provider_id, uid: uid})  
+        create_user(%{provider_id: provider_id, uid: uid})
     end
   end
 

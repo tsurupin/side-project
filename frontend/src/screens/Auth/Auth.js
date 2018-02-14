@@ -45,16 +45,17 @@ class AuthScreen extends Component {
         AccessToken.getCurrentAccessToken()
         .then(accessTokenData => {
           console.log(accessTokenData);
-          uid = accessTokenData.userID;
-          this.signUp(FACEBOOK, uid);
-          // const credentials = firebase.auth.FacebookAuthProvider.credential(accessTokenData.accessToken);
-          // console.log(credentials);
-          // console.log('credential ha')
-          // firebase.auth().signInWithCredential(credentials)
-          // .then(result => {
-          //       console.log(result)
-          // }
-          // ).catch(error => console.log(error))
+          const uid = accessTokenData.userID;
+          const result = this.signUp(FACEBOOK, uid);
+          if (result.data) {
+            token = result.data.token;
+            const credentials = firebase.auth.FacebookAuthProvider.credential(token);
+            console.log(credentials);
+            firebase.auth().signInWithCredential(credentials).then(result => {
+              console.log(result);
+            }).catch(error => console.log(error))
+          }
+  
         })
         .catch(error => console.log(error))
       }
@@ -62,7 +63,7 @@ class AuthScreen extends Component {
   }
 
   signUp = async (providerId, uid) => {
-    await this.props.signUp({
+    const result = await this.props.signUp({
       variables: {
         providerId,
         uid
@@ -70,7 +71,8 @@ class AuthScreen extends Component {
     }).catch(error =>
       console.log(error)
     )
-    console.log("end")
+    console.log(result)
+    return result;
   }
 
   render() {
