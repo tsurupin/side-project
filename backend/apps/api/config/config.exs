@@ -29,9 +29,9 @@ config :logger, :console,
 config :api, Api.Guardian,
   allowed_algos: ["RS256"],
   verify_module: Api.Guardian.JWT,
-  issuer: "api",
-  ttl: {30, :days},
-  secret_key: {Api.GuardianSecretKey, :get_key, []}
+  issuer: System.get_env("FIREBASE_SERVICE_ACCOUNT_EMAIL"),
+  ttl: {1, :hours},
+  secret_key: {Api.Guardian.FirebaseKey, :get_key, [:secret]}
 
 
 # Import environment specific config. This must remain at the bottom

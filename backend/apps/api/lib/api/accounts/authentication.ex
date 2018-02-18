@@ -9,31 +9,26 @@ defmodule Api.Accounts.Authentication do
     else
       {:error, reason} -> {:error, reason}
     end
-
-    # JWT encode
-    # and return JWT token
-    # get uid and auth data
-    # try to find user
-    # if not create user
-    # encode token
-    # return token and user_id
   end
 
   @aud "https://identitytoolkit.googleapis.com/google.identity.identitytoolkit.v1.IdentityToolkit"
-  @one_month_in_unix 60 * 60 * 24 * 30
+  @one_hour_in_unix 60 * 60
   def create_token(user) do
+    #IO.inspect(user.uid)
     current_time = DateTime.to_unix(DateTime.utc_now)
-    thirty_days_later = current_time + @one_month_in_unix
+    one_hour_later = current_time + @one_hour_in_unix
+
     custom_claims = %{
-      iss: System.get_env("AUTH_EMAIL"),
-      sub: System.get_env("AUTH_EMAIL"),
+      iss: System.get_env("FIREBASE_SERVICE_ACCOUNT_EMAIL"),
+      sub: System.get_env("FIREBASE_SERVICE_ACCOUNT_EMAIL"),
       aud: @aud,
       iat: current_time,
-      exp: thirty_days_later,
+      exp: one_hour_later,
       uid: user.uid
     }
+    #IO.inspect(custom_claims)
 
-    with {:ok, jwt, _full_cliams} <- Api.Guardian.encode_and_sign(user, custom_claims)
+    with {:ok, jwt, full_claims} <- Api.Guardian.encode_and_sign(user, custom_claims)
     do
       {:ok, user.uid, jwt}
     else
@@ -42,5 +37,23 @@ defmodule Api.Accounts.Authentication do
     end
   end
 
+  @certificate Api.Guardian.FirebaseKey.get_key(:public)
+  def verify(token) do
+    with {:ok, claims } <- Api.Guardian.decode_and_verify(token, %{}, secret: @certificate),
+      {:ok, user} <- Accounts.get_by(%{uid: claims["sub"]})
+    do
+      {:ok, user}
+    else
+      _ -> IO.inspect("error")
+    end
+
+
+
+
+
+  end
+# need to combine public and secret key
+# https://github.com/ueberauth/guardian/issues/291
+# https://github.com/dvsekhvalnov/jose-jwt/issues/83
 
 end

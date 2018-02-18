@@ -11,7 +11,8 @@ import {
 import {
   View,
   Text,
-  TouchableOpacity
+  TouchableOpacity,
+  AsyncStorage
 } from 'react-native';
 
 import FBSDK, { LoginManager, AccessToken } from 'react-native-fbsdk';
@@ -25,6 +26,7 @@ const firebaseConfig = {
 }
 const firebaseReference = firebase.initializeApp(firebaseConfig);
 import { signUpMutation } from '../../graphql/mutations';
+import { getIdQuery } from '../../graphql/queries';
 
 // import { singUp } from '../../store/actions/accounts';
 const FACEBOOK = 'facebook';
@@ -32,33 +34,23 @@ const FACEBOOK = 'facebook';
 class AuthScreen extends Component {
   constructor(props) {
     super(props);
-    console.log(props);
-    console.log('initia')
+  }
+
+
+  fetchId = async () => {
+    const result = await this.props.getIdQuery().then(r => console.log(r)).catch(e => console.log(e))
   }
 
   fbLoginHandler = () => {
     LoginManager.logInWithReadPermissions(['public_profile', 'email']).then(result => {
-      if (result.isCancelled) {
-        console.log("Login is cancelled")
-      } else {
-        console.log(result)
-        AccessToken.getCurrentAccessToken()
-        .then(accessTokenData => {
-          console.log(accessTokenData);
-          const uid = accessTokenData.userID;
-          const result = this.signUp(FACEBOOK, uid);
-          if (result.data) {
-            token = result.data.token;
-            const credentials = firebase.auth.FacebookAuthProvider.credential(token);
-            console.log(credentials);
-            firebase.auth().signInWithCredential(credentials).then(result => {
-              console.log(result);
-            }).catch(error => console.log(error))
-          }
-  
-        })
-        .catch(error => console.log(error))
-      }
+
+      if (result.isCancelled) { return console.log("Login is cancelled") }
+
+      AccessToken.getCurrentAccessToken()
+      .then(accessTokenData => {
+        this.signUp(FACEBOOK, accessTokenData.userID)
+      }).catch(error => console.log(error))
+
     }).catch(error => console.log(error))
   }
 
@@ -68,11 +60,19 @@ class AuthScreen extends Component {
         providerId,
         uid
       }
-    }).catch(error =>
-      console.log(error)
-    )
-    console.log(result)
-    return result;
+    }).catch(error => console.error(error))
+
+    const token = result.data.signup.token;
+    console.log(token)
+
+    firebase.auth().signInWithCustomToken(token)
+    .then(result => {
+      result.getIdToken(false).then(async (idToken) => {
+        console.log(idToken);
+        await AsyncStorage.setItem("token", idToken);
+      })
+    })
+    .catch(error => console.log(error))
   }
 
   render() {
@@ -81,6 +81,9 @@ class AuthScreen extends Component {
       <View>
         <TouchableOpacity onPress={this.fbLoginHandler}>
           <Text> Auth Screen</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={this.fetchId}>
+          <Text> Auth Id</Text>
         </TouchableOpacity>
       </View>
     )
@@ -118,6 +121,9 @@ export default compose(
         uid: props.uid,
       }
     })
+  }),
+  graphql(getIdQuery, {
+    name: 'getId'
   }),
   connect(mapStateToProps)
 )(AuthScreen);

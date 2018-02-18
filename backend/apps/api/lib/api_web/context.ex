@@ -1,27 +1,30 @@
 defmodule ApiWeb.Context do
   @behaviour Plug
   import Plug.Conn
+  alias Api.Accounts.Authentication
 
   def init(opts), do: opts
 
   def call(conn, _) do
-    #context = build_context(conn)
-    Absinthe.Plug.put_options(conn, context: %{})
+    IO.inspect(conn)
+    IO.inspect("------------------")
+    context = build_context(conn)
+    Absinthe.Plug.put_options(conn, context: context)
   end
 
   defp build_context(conn) do
-    %{}
-    # with ["Bearer" <> token] <- get_reg_header(conn, "authorization"),
-    #       {:ok, data} <- ApiWeb.Authorization.verify(token),
-    #       %{} = user <- get_user(data)
-    # do
-    #   %{current_user: user}
-    # else
-    #   _ -> %{}
+     #MyApp.Guardian.decode_and_verify(token)
+    # case Guardian.Plug.current_resource(conn) do
+    #  nil -> conn
+    #  user -> {:current_user, user}
     # end
+    with ["Bearer " <> token] <- get_req_header(conn, "authorization"),
+        {:ok, user} <- Authentication.verify(token)
+    do
+      %{current_user: user}
+    else
+      _ -> %{}
+    end
   end
 
-  defp get_user(%{id: id}) do
-    Api.Accounts.lookup(id)
-  end
 end

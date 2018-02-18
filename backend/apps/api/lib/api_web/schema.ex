@@ -9,11 +9,11 @@ defmodule ApiWeb.Schema do
   #   |> apply(:errors, field, object)
   #   |> apply(:debug, field, object)
   # end
-  #
+  # #
   # defp apply(middleware, :errors, _field, %{identifier: :mutation}) do
   #   middleware ++ [Middleware.ChangesetErrors]
   # end
-  #
+  # #
   # defp apply(middleware, :debug, _field, _object) do
   #   if System.get_env("DEBUG") do
   #     [{Middleware.Debug, :start}] ++ middleware
@@ -47,8 +47,6 @@ defmodule ApiWeb.Schema do
     field :test, :user do
       resolve &Resolvers.Accounts.test/3
     end
-
-
   end
 
   @desc "Signup"
