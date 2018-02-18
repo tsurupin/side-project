@@ -10,10 +10,12 @@ defmodule ApiWeb.Schema.Middleware.Authorize do
   @behaviour Absinthe.Middleware
 
   def call(resolution, role) do
-    with %{current_user: current_user} <- resolution.context,
-    true <- correct_role?(current_user, role) do
-      resolution
-    else
+    case resolution.context do
+      %{current_user: current_user} ->
+        resolution
+      %{expired: True} ->
+        resolution
+        |> Absinthe.Resolution.put_result({:error, "expired"})
       _ ->
         resolution
         |> Absinthe.Resolution.put_result({:error, "unauthorized"})

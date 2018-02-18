@@ -20,7 +20,6 @@ defmodule Db.Users.Accounts do
   end
 
   def get_by(%{uid: uid}) do
-    IO.inspect(uid)
     Repo.get_by(User, uid: uid)
   end
 

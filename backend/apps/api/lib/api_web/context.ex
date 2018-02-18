@@ -23,6 +23,7 @@ defmodule ApiWeb.Context do
     do
       %{current_user: user}
     else
+      {:error, :expired} -> %{expired: True}
       _ -> %{}
     end
   end

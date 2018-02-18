@@ -7,6 +7,8 @@ import { createHttpLink } from 'apollo-link-http';
 import { setContext } from 'apollo-link-context';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { AsyncStorage } from 'react-native';
+import { onError } from 'apollo-link-error'
+import firebase from 'firebase';
 
 const uri = 'http://localhost:4000/api/graphiql';
 
@@ -28,12 +30,43 @@ const authLink = setContext(async (_, { headers }) => {
   }
 });
 
+const errorLink = onError(({ networkError, graphQLErrors }) => {
+  console.log(networkError)
+  console.log(graphQLErrors)
+  console.log("error Link")
+  if (networkError.statusCode === 403 && networkError.message == "token is expired") {
+    client.query({
+      query: qql`
+        query RefreshToken {
+          refresh {
+            token
+          }
+        }
+      `,
+    }).then( result => {
+      const token = result.data.refresh.token;
+      console.log(token)
+
+      firebase.auth().signInWithCustomToken(token)
+      .then(result => {
+        result.getIdToken(false).then(async (idToken) => {
+          console.log(idToken);
+          await AsyncStorage.setItem("token", idToken);
+        })
+      })
+    }).catch(error => console.log(error))
+  }
+})
+//https://github.com/apollographql/apollo-client/issues/1784
+
+const client = new ApolloClient({
+  link: [httpLink, authLink, errorLink],
+  cache: new InMemoryCache(),
+});
+
 const apolloAndReduxProviderHOC = (WrappedComponent, store) => {
 
-  const client = new ApolloClient({
-    link: authLink.concat(httpLink),
-    cache: new InMemoryCache(),
-  });
+
 
   class Enhance extends React.Component {
     render () {

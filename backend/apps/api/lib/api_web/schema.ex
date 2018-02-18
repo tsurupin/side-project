@@ -4,27 +4,30 @@ defmodule ApiWeb.Schema do
   alias ApiWeb.Resolvers
   alias ApiWeb.Scheme.Middleware
 
-  # def middleware(middleware, field, object) do
-  #   middleware
-  #   |> apply(:errors, field, object)
-  #   |> apply(:debug, field, object)
-  # end
+  def middleware(middleware, field, object) do
+    IO.inspect(field)
+    IO.inspect(object)
+    IO.inspect("aaaaaaaaaaa")
+    middleware
+    #|> apply(:errors, field, object)
+    |> apply(:debug, field, object)
+  end
   # #
   # defp apply(middleware, :errors, _field, %{identifier: :mutation}) do
   #   middleware ++ [Middleware.ChangesetErrors]
   # end
   # #
-  # defp apply(middleware, :debug, _field, _object) do
-  #   if System.get_env("DEBUG") do
-  #     [{Middleware.Debug, :start}] ++ middleware
-  #   else
-  #     middleware
-  #   end
-  # end
+  defp apply(middleware, :debug, _field, _object) do
+    if System.get_env("DEBUG") do
+      [{Middleware.Debug, :start}] ++ middleware
+    else
+      middleware
+    end
+  end
   #
-  # defp apply(middleware, _, _, _) do
-  #   middleware
-  # end
+  defp apply(middleware, _, _, _) do
+    middleware
+  end
   #
   # def plugins do
   #   #[Absinthe.Middleware.Dataloader | Absinthe.Plugin.defaults]

@@ -40,17 +40,18 @@ defmodule Api.Accounts.Authentication do
   @certificate Api.Guardian.FirebaseKey.get_key(:public)
   def verify(token) do
     with {:ok, claims } <- Api.Guardian.decode_and_verify(token, %{}, secret: @certificate),
+      {:ok} <- active_token?(claims["exp"])
       {:ok, user} <- Accounts.get_by(%{uid: claims["sub"]})
     do
       {:ok, user}
     else
+      {:error, :expired} -> {:error, :expired}
       _ -> IO.inspect("error")
     end
+  end
 
-
-
-
-
+  defp active_token?(iop_time) do
+    # compare with now
   end
 # need to combine public and secret key
 # https://github.com/ueberauth/guardian/issues/291

@@ -37,9 +37,9 @@ class AuthScreen extends Component {
   }
 
 
-  fetchId = async () => {
-    const result = await this.props.getIdQuery().then(r => console.log(r)).catch(e => console.log(e))
-  }
+  // fetchId = async () => {
+  //   const result = await this.props.getIdQuery().then(r => console.log(r)).catch(e => console.log(e))
+  // }
 
   fbLoginHandler = () => {
     LoginManager.logInWithReadPermissions(['public_profile', 'email']).then(result => {
@@ -121,9 +121,6 @@ export default compose(
         uid: props.uid,
       }
     })
-  }),
-  graphql(getIdQuery, {
-    name: 'getId'
   }),
   connect(mapStateToProps)
 )(AuthScreen);
