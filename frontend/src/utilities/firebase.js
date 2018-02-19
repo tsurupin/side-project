@@ -37,6 +37,7 @@ export const refreshTokenIfNecessary = async () => {
   const expiredAtInUnix = await AsyncStorage.getItem('expiredAtInUnix');
 
   const currentTimeInUnix = Math.floor(Date.now() / 1000);
+  console.log(currentToken)
 
   if (!expiredAtInUnix || parseInt(expiredAtInUnix) > currentTimeInUnix) { return currentToken };
   if (!refreshToken) { return };
@@ -53,7 +54,7 @@ export const refreshTokenIfNecessary = async () => {
     })
   };
 
-  fetch(`https://securetoken.googleapis.com/v1/token?key=${FIREBASE_API_KEY}`, config)
+  const result = await fetch(`https://securetoken.googleapis.com/v1/token?key=${FIREBASE_API_KEY}`, config)
   .then(result => result.json())
   .then(async(result) => {
      const token = result.id_token;
@@ -65,4 +66,5 @@ export const refreshTokenIfNecessary = async () => {
      return token;
    })
    .catch(error => console.log(error))
+   return result;
 };
