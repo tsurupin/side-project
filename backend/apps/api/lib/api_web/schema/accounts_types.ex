@@ -12,7 +12,6 @@ defmodule ApiWeb.Schema.AccountsTypes do
   end
 
   object :test do
-    field :name, :string
-
+    field :uid, :string
   end
 end

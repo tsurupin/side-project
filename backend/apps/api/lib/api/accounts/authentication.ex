@@ -3,9 +3,9 @@ defmodule Api.Accounts.Authentication do
 
   def authenticate(%{provider_id: provider_id, uid: uid} = attrs) do
     with {:ok, user} <- Accounts.get_or_create_user(attrs),
-      {:ok, uid, jwt} <- create_token(user)
+      {:ok, jwt} <- create_token(user)
     do
-      {:ok, uid, jwt}
+      {:ok, jwt}
     else
       {:error, reason} -> {:error, reason}
     end
@@ -14,7 +14,6 @@ defmodule Api.Accounts.Authentication do
   @aud "https://identitytoolkit.googleapis.com/google.identity.identitytoolkit.v1.IdentityToolkit"
   @one_hour_in_unix 60 * 60
   def create_token(user) do
-    #IO.inspect(user.uid)
     current_time = DateTime.to_unix(DateTime.utc_now)
     one_hour_later = current_time + @one_hour_in_unix
 
@@ -26,28 +25,29 @@ defmodule Api.Accounts.Authentication do
       exp: one_hour_later,
       uid: user.uid
     }
-    #IO.inspect(custom_claims)
 
-    with {:ok, jwt, full_claims} <- Api.Guardian.encode_and_sign(user, custom_claims)
-    do
-      {:ok, user.uid, jwt}
-    else
+    case Api.Guardian.encode_and_sign(user, custom_claims) do
+      {:ok, token, _full_claims} -> {:ok, token}
       {:error, reason} -> {:error, reason}
-      _ -> {:error, "unknown"}
+      _ -> {:error, "unknown error"}
     end
   end
 
   @certificate Api.Guardian.FirebaseKey.get_key(:public)
   def verify(token) do
     with {:ok, claims } <- Api.Guardian.decode_and_verify(token, %{}, secret: @certificate),
-      {:ok} <- active_token?(claims["exp"])
-      {:ok, user} <- Accounts.get_by(%{uid: claims["sub"]})
+      user <- Accounts.get_by(%{uid: claims["sub"]})
     do
       {:ok, user}
     else
-      {:error, :expired} -> {:error, :expired}
-      _ -> IO.inspect("error")
+      {:error, :token_expired} -> {:error, :token_expired}
+      {:error, :invalid_token} -> IO.inspect("invalid token")
+      _ -> IO.inspect("unknown error")
     end
+  end
+
+  def refresh(refresh_token) do
+    IO.inspect(refresh_token)
   end
 
   defp active_token?(iop_time) do

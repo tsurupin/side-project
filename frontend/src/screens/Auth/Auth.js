@@ -1,12 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { graphql, compose } from 'react-apollo';
-import {
-  FIREBASE_API_KEY,
-  FIREBASE_AUTH_DOMAIN,
-  FIREBASE_DATABASE_URL,
-  FIREBASE_PROJECT_ID
-} from '../../../config';
 
 import {
   View,
@@ -16,17 +10,12 @@ import {
 } from 'react-native';
 
 import FBSDK, { LoginManager, AccessToken } from 'react-native-fbsdk';
-import firebase from 'firebase';
+import firebase from '../../utilities/firebase';
 
-const firebaseConfig = {
-  apiKey: FIREBASE_API_KEY,
-  authDomain: FIREBASE_AUTH_DOMAIN,
-  databaseURL: FIREBASE_DATABASE_URL,
-  projectId: FIREBASE_PROJECT_ID
-}
-const firebaseReference = firebase.initializeApp(firebaseConfig);
+
 import { signUpMutation } from '../../graphql/mutations';
 import { getIdQuery } from '../../graphql/queries';
+import { firebaseSignIn } from '../../utilities/firebase';
 
 // import { singUp } from '../../store/actions/accounts';
 const FACEBOOK = 'facebook';
@@ -37,9 +26,14 @@ class AuthScreen extends Component {
   }
 
 
-  // fetchId = async () => {
-  //   const result = await this.props.getIdQuery().then(r => console.log(r)).catch(e => console.log(e))
-  // }
+  fetchId = () => {
+    console.log("aaaa")
+    console.log(this.props.getIdQuery)
+    // this.props.getIdQuery().then(re => {
+    //     console.log(re)
+    // }).catch(error => console.log(error))
+
+  }
 
   fbLoginHandler = () => {
     LoginManager.logInWithReadPermissions(['public_profile', 'email']).then(result => {
@@ -63,16 +57,8 @@ class AuthScreen extends Component {
     }).catch(error => console.error(error))
 
     const token = result.data.signup.token;
-    console.log(token)
-
-    firebase.auth().signInWithCustomToken(token)
-    .then(result => {
-      result.getIdToken(false).then(async (idToken) => {
-        console.log(idToken);
-        await AsyncStorage.setItem("token", idToken);
-      })
-    })
-    .catch(error => console.log(error))
+    console.log(token);
+    firebaseSignIn(token);
   }
 
   render() {
@@ -119,8 +105,20 @@ export default compose(
       variables: {
         providerId: props.providerId,
         uid: props.uid,
+      },
+      context: {
+        needAuth: false
       }
     })
+  }),
+  graphql(getIdQuery, {
+    name: 'getIdQuery',
+    options: {
+      context: {
+        needAuth: true
+      },
+      fetchPolicy: 'network-only',
+    }
   }),
   connect(mapStateToProps)
 )(AuthScreen);

@@ -6,24 +6,18 @@ defmodule ApiWeb.Context do
   def init(opts), do: opts
 
   def call(conn, _) do
-    IO.inspect(conn)
-    IO.inspect("------------------")
     context = build_context(conn)
     Absinthe.Plug.put_options(conn, context: context)
   end
 
   defp build_context(conn) do
-     #MyApp.Guardian.decode_and_verify(token)
-    # case Guardian.Plug.current_resource(conn) do
-    #  nil -> conn
-    #  user -> {:current_user, user}
-    # end
+    IO.inspect(conn)
     with ["Bearer " <> token] <- get_req_header(conn, "authorization"),
         {:ok, user} <- Authentication.verify(token)
     do
       %{current_user: user}
     else
-      {:error, :expired} -> %{expired: True}
+      {:error, :token_expired} -> %{error: :token_expired}
       _ -> %{}
     end
   end

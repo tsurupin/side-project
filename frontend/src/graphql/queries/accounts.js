@@ -7,3 +7,11 @@ export const getIdQuery = gql`
     }
   }
 `;
+
+export const refreshTokenQuery = gql`
+  query RefreshToken($refreshToken: String!) {
+    refreshToken(refreshToken: $refreshToken) {
+      token
+    }
+  }
+`;

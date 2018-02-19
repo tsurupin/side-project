@@ -2,15 +2,12 @@ defmodule ApiWeb.Schema do
   use Absinthe.Schema
 
   alias ApiWeb.Resolvers
-  alias ApiWeb.Scheme.Middleware
+  alias ApiWeb.Schema.Middleware
 
   def middleware(middleware, field, object) do
-    IO.inspect(field)
-    IO.inspect(object)
-    IO.inspect("aaaaaaaaaaa")
     middleware
     #|> apply(:errors, field, object)
-    |> apply(:debug, field, object)
+    #|> apply(:debug, field, object)
   end
   # #
   # defp apply(middleware, :errors, _field, %{identifier: :mutation}) do
@@ -47,8 +44,14 @@ defmodule ApiWeb.Schema do
   import_types Absinthe.Phoenix.Types
   #
   query do
-    field :test, :user do
+    field :test, :test do
+      middleware Middleware.Authorize
       resolve &Resolvers.Accounts.test/3
+    end
+
+    field :refresh_token, :user do
+      arg :refresh_token, non_null(:string)
+      resolve &Resolvers.Accounts.refresh/3
     end
   end
 
