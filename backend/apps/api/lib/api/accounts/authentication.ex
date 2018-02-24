@@ -41,7 +41,7 @@ defmodule Api.Accounts.Authentication do
       {:ok, user}
     else
       {:error, :token_expired} -> {:error, :token_expired}
-      {:error, :invalid_token} -> IO.inspect("invalid token")
+      {:error, :invalid_token} -> {:error, :invalid_token}
       _ -> IO.inspect("unknown error")
     end
   end
@@ -58,13 +58,6 @@ defmodule Api.Accounts.Authentication do
     end
   end
 
-  def refresh(refresh_token) do
-    IO.inspect(refresh_token)
-  end
-
-  defp active_token?(iop_time) do
-    # compare with now
-  end
 
 
 end
