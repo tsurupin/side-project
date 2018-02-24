@@ -31,6 +31,14 @@ export const firebaseSignIn = (token) => {
   }).catch(error => console.log(error))
 };
 
+export const firebaseSignOut = () => {
+  firebase.auth().signOut().then(async () => {
+    await AsyncStorage.removeItem('token');
+    await AsyncStorage.removeItem('refreshToken');
+    await AsyncStorage.removeItem('expiredAtInUnix');
+  }.catch(error => console.log(error))
+};
+
 export const refreshTokenIfNecessary = async () => {
   const currentToken = await AsyncStorage.getItem('token');
   const refreshToken = await AsyncStorage.getItem('refreshToken');

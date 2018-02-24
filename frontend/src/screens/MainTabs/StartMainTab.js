@@ -1,6 +1,9 @@
 import { Navigation } from 'react-native-navigation';
 import Icon from 'react-native-vector-icons/Ionicons';
-import { AUTH_SCREEN } from '../../constants/screens';
+import {
+  AUTH_SCREEN,
+  TOP_SCREEN
+} from '../../constants/screens';
 
 const startTabs = () => {
   Promise.all([
@@ -10,7 +13,21 @@ const startTabs = () => {
   ]).then(sources => {
     Navigation.startTabBasedApp({
       tabs: [
-
+        {
+          screen: TOP_SCREEN,
+          label: "Top",
+          title: "Top",
+          icon: sources[0],
+          navigatorButtons: {
+            leftButtons: [
+              {
+                icon: sources[2],
+                title: "Menu",
+                id: "sideDrawerToggle"
+              }
+            ]
+          }
+        }
       ],
       drawer: {
 

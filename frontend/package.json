@@ -38,6 +38,7 @@
     "redux-thunk": "^2.2.0"
   },
   "dependencies": {
+    "apollo-link-state": "^0.4.0",
     "react": "16.0.0",
     "react-native": "^0.51.0"
   }

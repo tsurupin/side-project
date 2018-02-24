@@ -60,7 +60,6 @@ defmodule ApiWeb.Schema do
     field :signup, :user do
       arg :provider_id, non_null(:string)
       arg :uid, non_null(:string)
-      # arg :token
       # arg :email, :string
       # arg :display_name, :string
       # arg :photo_url, :string

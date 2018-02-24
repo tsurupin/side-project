@@ -34,15 +34,16 @@ const authLink = setContext(async (_, context) => {
   }
 });
 
-const errorLink = onError(async({ networkError, graphQLErrors }) => {
-  if (graphQLErrors.length > 0 && graphQLErrors[0].message === "token expired") {
-
-  }
-
-})
+// const errorLink = onError(async({ networkError, graphQLErrors }) => {
+//   if (graphQLErrors.length > 0 && graphQLErrors[0].message === "token expired") {
+//
+//   }
+//
+// })
 
 const client = new ApolloClient({
-  link: authLink.concat(errorLink.concat(httpLink)),
+  //link: authLink.concat(errorLink.concat(httpLink)),
+  link: authLink.concat(httpLink),
   cache: new InMemoryCache(),
 });
 

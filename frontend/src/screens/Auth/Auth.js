@@ -25,6 +25,10 @@ class AuthScreen extends Component {
     super(props);
   }
 
+  componentDidMount() {
+    this.props.onAutoSignIn();
+  }
+
 
   fetchId = () => {
     console.log("aaaa")
@@ -105,9 +109,6 @@ export default compose(
       variables: {
         providerId: props.providerId,
         uid: props.uid,
-      },
-      context: {
-        needAuth: false
       }
     })
   }),

@@ -3,8 +3,8 @@ defmodule Db.Users.User do
   import Ecto.Changeset
 
   schema "users" do
-    field :uid, :string
-    field :provider_id, :string
+    field :uid, :string, null: false
+    field :provider_id, :string, null: false
     field :display_name, :string
     field :email, :string
     field :photo_url, :string
