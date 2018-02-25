@@ -1,9 +1,11 @@
 import {
   getIdQuery,
-  refreshTokenQuery
+  refreshTokenQuery,
+  loginStatusQuery
 } from './accounts';
 
 export {
   getIdQuery,
-  refreshTokenQuery
+  refreshTokenQuery,
+  loginStatusQuery
 };

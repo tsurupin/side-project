@@ -15,3 +15,9 @@ export const refreshTokenQuery = gql`
     }
   }
 `;
+
+export const loginStatusQuery = gql`
+  {
+    logined @client
+  }
+`;

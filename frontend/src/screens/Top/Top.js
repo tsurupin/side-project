@@ -7,20 +7,24 @@ import {
   TouchableOpacity
 } from 'react-native';
 
+import { logoutMutation } from '../../graphql/mutations';
 import { firebaseSignOut } from '../../utilities/firebase';
 
 class TopScreen extends Component {
   constructor(props) {
     super(props);
   }
+
   logout = () => {
-    firebaseSignOut();
+    firebaseSignOut().then(() => {
+      this.logout()
+    })
   }
 
   render() {
     return (
       <View>
-        <TouchableOpacity onPress={this.logput}>
+        <TouchableOpacity onPress={this.logout}>
           <Text> Top Screen</Text>
         </TouchableOpacity>
       </View>
@@ -28,10 +32,14 @@ class TopScreen extends Component {
   }
 };
 
-const mapStateToProps = state => {
-  return {
-    isLoading: true,
-  }
-}
 
-export default connect(mapStateToProps)(TopScreen);
+export default compose(
+  graphql(logoutMutation, {
+    name: 'logout',
+    options: props => ({
+      variables: {
+        logined: false
+      }
+    })
+  })
+)(TopScreen);

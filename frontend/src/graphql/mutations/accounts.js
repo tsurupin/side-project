@@ -8,3 +8,15 @@ export const signUpMutation = gql`
     }
   }
 `;
+
+export const loginMutation = gql`
+  mutation login($logined: Boolean!) {
+    changeLoginStatus(logined: $logined) @client
+  }
+`;
+
+export const logoutMutation = gql`
+  mutation logout($logined: Boolean!) {
+    changeLoginStatus(logined: $logined) @client
+  }
+`;

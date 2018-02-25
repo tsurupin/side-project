@@ -13,10 +13,10 @@ import FBSDK, { LoginManager, AccessToken } from 'react-native-fbsdk';
 import firebase from '../../utilities/firebase';
 
 
-import { signUpMutation } from '../../graphql/mutations';
-import { getIdQuery } from '../../graphql/queries';
+import { signUpMutation, loginMutation } from '../../graphql/mutations';
+import { getIdQuery, loginStatusQuery } from '../../graphql/queries';
 import { firebaseSignIn } from '../../utilities/firebase';
-
+import { startMainTabs } from '../MainTabs/startMainTab';
 // import { singUp } from '../../store/actions/accounts';
 const FACEBOOK = 'facebook';
 
@@ -26,7 +26,10 @@ class AuthScreen extends Component {
   }
 
   componentDidMount() {
-    this.props.onAutoSignIn();
+    if (this.props.loginStatus.logined) {
+      startMainTabs();
+      // move to next screen;
+    }
   }
 
 
@@ -62,7 +65,9 @@ class AuthScreen extends Component {
 
     const token = result.data.signup.token;
     console.log(token);
-    firebaseSignIn(token);
+    firebaseSignIn(token).then(() => {
+      this.login();
+    })
   }
 
   render() {
@@ -86,29 +91,22 @@ const mapStateToProps = state => {
   }
 }
 
-// const mapDispatchToProps = dispatch => {
-//   return {
-//     onLogin: (providerId, uid) => dispatch(singUp(providerId, uid))
-//   }
-// }
-
-// const gContainer = graphql(signUpMutation, {
-//   name: 'signUp',
-//   options: props => {
-//     variables: {
-//       providerId: props.providerId,
-//       uid: props.uid
-//     }
-//   }
-// })(AuthScreen);
-
 export default compose(
+  graphql(loginStatusQuery, {name: 'loginStatus'},
   graphql(signUpMutation, {
     name: 'signUp',
     options: props => ({
       variables: {
         providerId: props.providerId,
         uid: props.uid,
+      }
+    })
+  }),
+  graphql(loginMutation, {
+    name: 'login',
+    options: props => ({
+      variables: {
+        logined: true
       }
     })
   }),
