@@ -69,7 +69,9 @@ class AuthScreen extends Component {
     firebaseSignIn(token).then(() => {
       console.log("login")
       this.props.login()
-      .then(() => console.log("success"))
+      .then(() => {
+        startMainTab();
+      })
       .catch(error => console.error(error));
     })
   }
@@ -111,14 +113,14 @@ export default compose(
     name: 'login',
     options: { variables: { logined: true }}
   }),
-  graphql(getIdQuery, {
-    name: 'getIdQuery',
-    options: {
-      context: {
-        needAuth: true
-      },
-      fetchPolicy: 'network-only',
-    }
-  }),
+  // graphql(getIdQuery, {
+  //   name: 'getIdQuery',
+  //   options: {
+  //     context: {
+  //       needAuth: true
+  //     },
+  //     fetchPolicy: 'network-only',
+  //   }
+  // }),
   connect(mapStateToProps)
 )(AuthScreen);

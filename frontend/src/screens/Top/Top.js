@@ -17,7 +17,9 @@ class TopScreen extends Component {
 
   logout = () => {
     firebaseSignOut().then(() => {
-      this.logout()
+      this.props.logout()
+      .then(() => console.log('logout succeeded'))
+      .catch(error => console.log(error))
     })
   }
 
@@ -36,10 +38,6 @@ class TopScreen extends Component {
 export default compose(
   graphql(logoutMutation, {
     name: 'logout',
-    options: props => ({
-      variables: {
-        logined: false
-      }
-    })
+    options: {variables: { logined: false }}
   })
 )(TopScreen);

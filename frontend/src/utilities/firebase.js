@@ -18,7 +18,7 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 
 export const firebaseSignIn = (token) => {
-  return new Promise((resolve, reject) =>{
+  return new Promise((resolve, reject) => {
     firebase.auth().signInWithCustomToken(token)
     .then(result => {
       result.getIdToken(false).then(async (idToken) => {
@@ -38,11 +38,17 @@ export const firebaseSignIn = (token) => {
 };
 
 export const firebaseSignOut = () => {
-  firebase.auth().signOut().then(async () => {
-    await AsyncStorage.removeItem('token');
-    await AsyncStorage.removeItem('refreshToken');
-    await AsyncStorage.removeItem('expiredAtInUnix');
-  }).catch(error => console.log(error))
+  return new Promise((resolve, reject) => {
+    firebase.auth().signOut().then(async () => {
+      await AsyncStorage.removeItem('token');
+      await AsyncStorage.removeItem('refreshToken');
+      await AsyncStorage.removeItem('expiredAtInUnix');
+      resolve();
+    }).catch(error => {
+      console.log(error)
+      reject();
+    });
+});
 };
 
 export const refreshTokenIfNecessary = async () => {
