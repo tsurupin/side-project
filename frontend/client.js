@@ -7,8 +7,10 @@ import { withClientState } from 'apollo-link-state';
 import authentication from './src/graphql/resolvers/authentication';
 import { createHttpLink } from 'apollo-link-http';
 //import { onError } from 'apollo-link-error'
-
+import Retry from 'apollo-link-retry';
 import { refreshTokenIfNecessary } from './src/utilities/firebase';
+import absintheSocketLink from "./absinthe-socket-link";
+
 const uri = 'http://localhost:4000/api/graphiql';
 
 const httpLink = createHttpLink({
@@ -49,7 +51,15 @@ const stateLink = withClientState({
     logined: false,
   }
 });
-const link = ApolloLink.from([stateLink, authLink, httpLink]);
+const link = new Retry().split(
+  (operation) => {
+    console.log(operation);
+    console.log(operation.getContext());
+    return ApolloLink.from([absintheSocketLink, stateLink, authLink, httpLink]);
+    //operation..getContext()
+  }
+);
+//const link = ApolloLink.from([stateLink, authLink, httpLink]);
 const client = new ApolloClient({
   //link
   cache,
