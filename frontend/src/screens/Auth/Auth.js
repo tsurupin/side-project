@@ -16,7 +16,7 @@ import firebase from '../../utilities/firebase';
 import { signUpMutation, loginMutation } from '../../graphql/mutations';
 import { getIdQuery, loginStatusQuery } from '../../graphql/queries';
 import { firebaseSignIn } from '../../utilities/firebase';
-import { startMainTabs } from '../MainTabs/startMainTab';
+import startMainTab  from '../MainTabs/StartMainTab';
 // import { singUp } from '../../store/actions/accounts';
 const FACEBOOK = 'facebook';
 
@@ -26,8 +26,10 @@ class AuthScreen extends Component {
   }
 
   componentDidMount() {
+    console.log(this.props.loginStatus.logined);
     if (this.props.loginStatus.logined) {
-      startMainTabs();
+
+      //startMainTab();
       // move to next screen;
     }
   }
@@ -64,14 +66,17 @@ class AuthScreen extends Component {
     }).catch(error => console.error(error))
 
     const token = result.data.signup.token;
-    console.log(token);
     firebaseSignIn(token).then(() => {
-      this.login();
+      console.log("login")
+      this.props.login()
+      .then(() => console.log("success"))
+      .catch(error => console.error(error));
     })
   }
 
   render() {
 
+    console.log(this.props.loginStatus.logined);
     return (
       <View>
         <TouchableOpacity onPress={this.fbLoginHandler}>
@@ -92,7 +97,7 @@ const mapStateToProps = state => {
 }
 
 export default compose(
-  graphql(loginStatusQuery, {name: 'loginStatus'},
+  graphql(loginStatusQuery, {name: 'loginStatus'}),
   graphql(signUpMutation, {
     name: 'signUp',
     options: props => ({
@@ -104,11 +109,7 @@ export default compose(
   }),
   graphql(loginMutation, {
     name: 'login',
-    options: props => ({
-      variables: {
-        logined: true
-      }
-    })
+    options: { variables: { logined: true }}
   }),
   graphql(getIdQuery, {
     name: 'getIdQuery',

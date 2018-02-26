@@ -1,13 +1,14 @@
 defmodule Api.Guardian.FirebaseKey do
   def get_key(:secret) do
-    JOSE.JWK.from_pem_file(System.get_env("FIREBASE_SECRET_PEM_FILE_PATH"))
+    get_key(System.get_env("FIREBASE_SECRET_PEM_FILE_PATH"))
   end
 
-  def get_key(:public, kid) do
-    JOSE.JWK.from_pem_file("#{System.get_env("FIREBASE_PUBLIC_PEM_FOLDER_PATH")}/#{kid}.pem")
+  def get_key(:public, path) do
+    get_key(path)
   end
 
-  defp pem_file(type) do
-    JOSE.JWK.from_pem_file(System.get_env("FIREBASE_#{type}_PEM_FILE_PATH"))
+  def get_key(path) do
+    JOSE.JWK.from_pem_file(path)
   end
+
 end

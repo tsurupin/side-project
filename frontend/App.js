@@ -19,12 +19,13 @@ Navigation.registerComponent(
   )
 );
 
-Navigation.registerComponent(
-  TOP_SCREEN,
-  () => ApolloAndReduxProvider(,
-  TopScreen,
-  store
-);
+// Navigation.registerComponent(
+//   TOP_SCREEN,
+//   () => ApolloAndReduxProvider(,
+//     TopScreen,
+//     store
+//   )
+// );
 
 Navigation.startSingleScreenApp({
   screen: {

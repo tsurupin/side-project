@@ -45,14 +45,14 @@ defmodule ApiWeb.Schema do
   #
   query do
     field :test, :test do
-      middleware Middleware.Authorize
+      #middleware Middleware.Authorize
       resolve &Resolvers.Accounts.test/3
     end
 
-    field :refresh_token, :user do
-      arg :refresh_token, non_null(:string)
-      resolve &Resolvers.Accounts.refresh/3
-    end
+    # field :refresh_token, :user do
+    #   arg :refresh_token, non_null(:string)
+    #   resolve &Resolvers.Accounts.refresh/3
+    # end
   end
 
   @desc "Signup"

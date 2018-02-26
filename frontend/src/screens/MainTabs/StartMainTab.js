@@ -5,7 +5,7 @@ import {
   TOP_SCREEN
 } from '../../constants/screens';
 
-const startMainTabs = () => {
+const startMainTab = () => {
   Promise.all([
     Icon.getImageSource('md-map', 30),
     Icon.getImageSource('ios-share-alt', 30),
@@ -37,4 +37,4 @@ const startMainTabs = () => {
 }
 
 
-export default startMainTabs;
+export default startMainTab;

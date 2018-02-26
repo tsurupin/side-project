@@ -35,9 +35,9 @@ defmodule Api.Accounts.Authentication do
 
   def verify(token) do
     with {:ok, public_key} <- get_public_key(token),
-         {:ok, claims } <- Api.Guardian.decode_and_verify(token, %{}, secret: public_key),
-         user <- Accounts.get_by(%{uid: claims["sub"]})
+      {:ok, claims} = Api.Guardian.decode_and_verify(token, %{}, secret: public_key)
     do
+      user = Accounts.get_by(%{uid: claims["sub"]})
       {:ok, user}
     else
       {:error, :token_expired} -> {:error, :token_expired}
@@ -47,16 +47,43 @@ defmodule Api.Accounts.Authentication do
   end
 
   defp get_public_key(token) do
-
+    ## NOTE: cache public_key
     with %{headers: %{"kid" => kid}} <- Api.Guardian.peek(token),
-      public_key <- Api.Guardian.FirebaseKey.get_key(:public, kid)
+      {:ok, public_key} <- get_secret(kid)
     do
+      IO.inspect(public_key)
       {:ok, public_key}
     else
       {:error, :no_public_key} -> {:ok, :no_public_key}
       _ -> {:ok, :no_kid}
     end
   end
+
+  defp get_secret(kid) do
+    with {:ok, cert} <- get_google_cert(kid),
+      {:ok, path} <- Briefly.create(extname: ".pem")
+    do
+      File.write(path, cert)
+      secret = Api.Guardian.FirebaseKey.get_key(:public, path)
+      {:ok, secret}
+    else
+      {:error, "cert was not found"} -> {:error, "cert was not found"}
+      _ -> {:error, "secret was not created"}
+    end
+  end
+
+  @google_cert_url "https://www.googleapis.com/robot/v1/metadata/x509/securetoken@system.gserviceaccount.com"
+  defp get_google_cert(kid) do
+    with {:ok, http} <- HTTPoison.get(@google_cert_url),
+      {:ok, data} <- Poison.decode(http.body),
+      {:ok, cert} <- Map.fetch(data, kid)
+    do
+      {:ok, cert}
+    else
+      _ -> {:error, "cert was not found"}
+    end
+  end
+
 
 
 

@@ -1,2 +1,3 @@
 import authentication from './authentication';
-export { authentication };
+const resolvers = [authentication];
+export default resolvers;

@@ -9,25 +9,23 @@ defmodule ApiWeb.Resolvers.Accounts do
     end
   end
 
-  def refresh(_, %{refresh_token: refresh_token}, _) do
-    case Authentication.refresh(refresh_token) do
-      {:ok, token} -> {:ok, %{token: token}}
-      {:error, reason} -> {:error, reason}
-      _ -> {:error, "invalid refresh_token"}
-    end
-  end
+  # def refresh(_, %{refresh_token: refresh_token}, _) do
+  #   case Authentication.refresh(refresh_token) do
+  #     {:ok, token} -> {:ok, %{token: token}}
+  #     {:error, reason} -> {:error, reason}
+  #     _ -> {:error, "invalid refresh_token"}
+  #   end
+  # end
 
   def test(_, _, resolution) do
     IO.inspect(resolution)
 
     case resolution.context do
       %{current_user: user} -> {:ok, %{uid: user.uid}}
-      _ -> IO.inspect("errorrrrr")
+      _ ->
+        IO.inspect("errorrrrr")
+        {:error, "error"}
     end
 
   end
 end
-
-# figure out how to create JWT encode
-# figure out how to send fb token through graphql
-# figure out how to send token in header in all the requests
