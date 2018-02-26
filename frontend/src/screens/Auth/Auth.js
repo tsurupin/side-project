@@ -13,10 +13,10 @@ import FBSDK, { LoginManager, AccessToken } from 'react-native-fbsdk';
 import firebase from '../../utilities/firebase';
 
 
-import { signUpMutation } from '../../graphql/mutations';
-import { getIdQuery } from '../../graphql/queries';
+import { signUpMutation, loginMutation } from '../../graphql/mutations';
+import { getIdQuery, loginStatusQuery } from '../../graphql/queries';
 import { firebaseSignIn } from '../../utilities/firebase';
-
+import startMainTab  from '../MainTabs/StartMainTab';
 // import { singUp } from '../../store/actions/accounts';
 const FACEBOOK = 'facebook';
 
@@ -26,7 +26,12 @@ class AuthScreen extends Component {
   }
 
   componentDidMount() {
-    this.props.onAutoSignIn();
+    console.log(this.props.loginStatus.logined);
+    if (this.props.loginStatus.logined) {
+
+      //startMainTab();
+      // move to next screen;
+    }
   }
 
 
@@ -61,12 +66,19 @@ class AuthScreen extends Component {
     }).catch(error => console.error(error))
 
     const token = result.data.signup.token;
-    console.log(token);
-    firebaseSignIn(token);
+    firebaseSignIn(token).then(() => {
+      console.log("login")
+      this.props.login()
+      .then(() => {
+        startMainTab();
+      })
+      .catch(error => console.error(error));
+    })
   }
 
   render() {
 
+    console.log(this.props.loginStatus.logined);
     return (
       <View>
         <TouchableOpacity onPress={this.fbLoginHandler}>
@@ -86,23 +98,8 @@ const mapStateToProps = state => {
   }
 }
 
-// const mapDispatchToProps = dispatch => {
-//   return {
-//     onLogin: (providerId, uid) => dispatch(singUp(providerId, uid))
-//   }
-// }
-
-// const gContainer = graphql(signUpMutation, {
-//   name: 'signUp',
-//   options: props => {
-//     variables: {
-//       providerId: props.providerId,
-//       uid: props.uid
-//     }
-//   }
-// })(AuthScreen);
-
 export default compose(
+  graphql(loginStatusQuery, {name: 'loginStatus'}),
   graphql(signUpMutation, {
     name: 'signUp',
     options: props => ({
@@ -112,14 +109,18 @@ export default compose(
       }
     })
   }),
-  graphql(getIdQuery, {
-    name: 'getIdQuery',
-    options: {
-      context: {
-        needAuth: true
-      },
-      fetchPolicy: 'network-only',
-    }
+  graphql(loginMutation, {
+    name: 'login',
+    options: { variables: { logined: true }}
   }),
+  // graphql(getIdQuery, {
+  //   name: 'getIdQuery',
+  //   options: {
+  //     context: {
+  //       needAuth: true
+  //     },
+  //     fetchPolicy: 'network-only',
+  //   }
+  // }),
   connect(mapStateToProps)
 )(AuthScreen);

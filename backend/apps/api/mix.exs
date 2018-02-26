@@ -22,7 +22,7 @@ defmodule Api.Mixfile do
   # Type `mix help compile.app` for more information.
   def application do
     [
-      mod: {Api.Application, []},
+      mod: {Api.Application, [:cachex]},
       extra_applications: [:phoenix_ecto, :db, :logger, :runtime_tools]
     ]
   end
@@ -47,7 +47,11 @@ defmodule Api.Mixfile do
       {:absinthe, "~> 1.4.2"},
       {:absinthe_plug, "~> 1.4.0"},
       {:absinthe_phoenix, "~> 1.4.0"},
-      {:guardian, "~> 1.0"}
+      {:guardian, "~> 1.0"},
+      {:httpoison, "~> 1.0"},
+      {:poison, "~> 3.1"},
+      {:cachex, "~> 3.0"},
+      {:briefly, "~> 0.3"}
     ]
   end
 end

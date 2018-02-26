@@ -18,25 +18,37 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 
 export const firebaseSignIn = (token) => {
-  firebase.auth().signInWithCustomToken(token)
-  .then(result => {
-    result.getIdToken(false).then(async (idToken) => {
-      console.log(token);
-      await AsyncStorage.setItem("token", idToken);
-      const currentTimeInUnix = Math.floor(Date.now() / 1000);
-      const expiredAtInUnix = `${3600 + currentTimeInUnix}`;
-      await AsyncStorage.setItem("refreshToken", result.refreshToken);
-      await AsyncStorage.setItem("expiredAtInUnix", expiredAtInUnix);
+  return new Promise((resolve, reject) => {
+    firebase.auth().signInWithCustomToken(token)
+    .then(result => {
+      result.getIdToken(false).then(async (idToken) => {
+        console.log(token);
+        await AsyncStorage.setItem("token", idToken);
+        const currentTimeInUnix = Math.floor(Date.now() / 1000);
+        const expiredAtInUnix = `${3600 + currentTimeInUnix}`;
+        await AsyncStorage.setItem("refreshToken", result.refreshToken);
+        await AsyncStorage.setItem("expiredAtInUnix", expiredAtInUnix);
+        resolve();
+      })
+    }).catch(error => {
+      console.log(error)
+      reject();
     })
-  }).catch(error => console.log(error))
+  })
 };
 
 export const firebaseSignOut = () => {
-  firebase.auth().signOut().then(async () => {
-    await AsyncStorage.removeItem('token');
-    await AsyncStorage.removeItem('refreshToken');
-    await AsyncStorage.removeItem('expiredAtInUnix');
-  }.catch(error => console.log(error))
+  return new Promise((resolve, reject) => {
+    firebase.auth().signOut().then(async () => {
+      await AsyncStorage.removeItem('token');
+      await AsyncStorage.removeItem('refreshToken');
+      await AsyncStorage.removeItem('expiredAtInUnix');
+      resolve();
+    }).catch(error => {
+      console.log(error)
+      reject();
+    });
+});
 };
 
 export const refreshTokenIfNecessary = async () => {

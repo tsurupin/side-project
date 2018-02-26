@@ -1,7 +1,11 @@
 import {
-  signUpMutation
+  signUpMutation,
+  loginMutation,
+  logoutMutation
 } from './accounts';
 
 export {
-  signUpMutation
+  signUpMutation,
+  loginMutation,
+  logoutMutation
 };
