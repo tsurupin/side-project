@@ -21,7 +21,18 @@ import startMainTab  from '../MainTabs/StartMainTab';
 // import { singUp } from '../../store/actions/accounts';
 const FACEBOOK = 'facebook';
 
-class AuthScreen extends Component {
+type Props = {
+  subscribeToNewComments: ({repoName: string}) => void,
+  login: ({logined: boolean}) => void,
+  comments: () => void,
+  submit: () => void,
+  signUp: () => void,
+}
+
+type State = {
+  isLoading: boolean
+}
+class AuthScreen extends Component<Props, State> {
   constructor(props) {
     super(props);
   }

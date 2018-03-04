@@ -1,0 +1,6 @@
+query comments($repoName: String!) {
+  comments(repoName: $repoName) {
+    id
+    content
+  }
+}

@@ -1,0 +1,3 @@
+mutation login($logined: Boolean!) {
+  changeLoginStatus(logined: $logined) @client
+}
