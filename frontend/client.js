@@ -4,7 +4,7 @@ import { InMemoryCache } from 'apollo-cache-inmemory';
 import { ApolloLink, split } from 'apollo-link';
 import { ApolloClient } from 'apollo-client';
 import { withClientState } from 'apollo-link-state';
-import authentication from './src/graphql/resolvers/authentication';
+//import authentication from './src/graphql/resolvers/authentication';
 import { createHttpLink } from 'apollo-link-http';
 //import { onError } from 'apollo-link-error'
 import Retry from 'apollo-link-retry';

@@ -94,9 +94,7 @@ defmodule ApiWeb.Schema do
     field :submit_comment, :comment do
       arg :repo_name, non_null(:string)
       resolve fn a, b, c ->
-        IO.inspect(a)
-        IO.inspect(b)
-        IO.inspect(c)
+        IO.inspect("just submit-----------")
         {:ok, %{id: 1, content: 'comment2', repo_name: 'test'}}
       end
     end
@@ -114,7 +112,6 @@ defmodule ApiWeb.Schema do
       arg :repo_name, non_null(:string)
 
       config fn args, _ ->
-        IO.inspect(args)
         {:ok, topic: args.repo_name}
       end
 
@@ -123,13 +120,13 @@ defmodule ApiWeb.Schema do
       # It also has a topic function used to find what subscriptions care about
       # this particular comment
 
-      trigger :submit_comment, topic: fn comment ->
-        comment.repo_name
+      trigger :submit_comment, topic: fn
+        comment -> [comment.repo_name]
       end
 
-      resolve fn comment, _, _ ->
-        IO.inspect(comment)
-        IO.inspect("aaaaaaaaaaaaaaaa")
+      resolve fn comment,_,_ ->
+
+
         # this function is often not actually necessary, as the default resolver
         # for subscription functions will just do what we're doing here.
         # The point is, subscription resolvers receive whatever value triggers

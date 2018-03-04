@@ -26,18 +26,24 @@ class AuthScreen extends Component {
     super(props);
   }
 
-  componentDidMount() {
+  componentWillMount() {
     console.log(this.props)
     //if (this.props.loginStatus.logined) {
+    this.props.subscribeToNewComments({
+        repoName: 'test'
+    });
 
-      this.props.subscribeToNewComments({
-          repoName: 'test'
-      });
 
       //startMainTab();
       // move to next screen;
     //}
   }
+  //
+  // componentWillReceiveProps(currentProps, nextProps) {
+  //   this.props.subscribeToNewComments({
+  //       repoName: 'test'
+  //   });
+  // }
 
 
   fetchId = () => {
@@ -51,7 +57,7 @@ class AuthScreen extends Component {
 
   submitTest = () => {
     console.log("bbb")
-    this.props.submit().then(re => console.log(re)).catch(e => console.log(e));
+    this.props.submit();
     // this.props.getIdQuery().then(re => {
     //     console.log(re)
     // }).catch(error => console.log(error))
