@@ -17,7 +17,7 @@ config :phoenix, :generators, migration: false
 config :api, ApiWeb.Endpoint,
   url: [host: "localhost"],
   secret_key_base: "bLpP0NF/xthZwGyfBHPmXUKzZb5iG5M8SmD0Q90+0AMHtB9Y8JuAIzC4aU+JOf1p",
-  render_errors: [view: ApiWeb.ErrorView, accepts: ~w(html json)],
+  render_errors: [view: ApiWeb.ErrorView, accepts: ~w(json)],
   pubsub: [name: Api.PubSub,
            adapter: Phoenix.PubSub.PG2]
 

@@ -12,6 +12,7 @@
     "preset": "react-native"
   },
   "devDependencies": {
+    "@absinthe/socket-apollo-link": "^0.1.11",
     "apollo-cache-inmemory": "*",
     "apollo-client": "*",
     "apollo-client-preset": "^1.0.8",
@@ -38,6 +39,7 @@
   },
   "dependencies": {
     "apollo-link-state": "*",
+    "apollo-utilities": "^1.0.8",
     "react": "16.2.0",
     "react-native": "^0.53.3",
     "react-native-vector-icons": "^4.5.0"

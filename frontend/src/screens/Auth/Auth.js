@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { graphql, compose } from 'react-apollo';
-
+import gql from 'graphql-tag';
 import {
   View,
   Text,
@@ -15,6 +15,7 @@ import firebase from '../../utilities/firebase';
 
 import { signUpMutation, loginMutation } from '../../graphql/mutations';
 import { getIdQuery, loginStatusQuery } from '../../graphql/queries';
+import { addCommentSubscription } from '../../graphql/subscriptions';
 import { firebaseSignIn } from '../../utilities/firebase';
 import startMainTab  from '../MainTabs/StartMainTab';
 // import { singUp } from '../../store/actions/accounts';
@@ -25,19 +26,38 @@ class AuthScreen extends Component {
     super(props);
   }
 
-  componentDidMount() {
-    console.log(this.props.loginStatus.logined);
-    if (this.props.loginStatus.logined) {
+  componentWillMount() {
+    console.log(this.props)
+    //if (this.props.loginStatus.logined) {
+    this.props.subscribeToNewComments({
+        repoName: 'test'
+    });
+
 
       //startMainTab();
       // move to next screen;
-    }
+    //}
   }
+  //
+  // componentWillReceiveProps(currentProps, nextProps) {
+  //   this.props.subscribeToNewComments({
+  //       repoName: 'test'
+  //   });
+  // }
 
 
   fetchId = () => {
     console.log("aaaa")
     console.log(this.props.getIdQuery)
+    // this.props.getIdQuery().then(re => {
+    //     console.log(re)
+    // }).catch(error => console.log(error))
+
+  }
+
+  submitTest = () => {
+    console.log("bbb")
+    this.props.submit();
     // this.props.getIdQuery().then(re => {
     //     console.log(re)
     // }).catch(error => console.log(error))
@@ -78,7 +98,7 @@ class AuthScreen extends Component {
 
   render() {
 
-    console.log(this.props.loginStatus.logined);
+    //console.log(this.props.loginStatus.logined);
     return (
       <View>
         <TouchableOpacity onPress={this.fbLoginHandler}>
@@ -86,6 +106,9 @@ class AuthScreen extends Component {
         </TouchableOpacity>
         <TouchableOpacity onPress={this.fetchId}>
           <Text> Auth Id</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={this.submitTest}>
+          <Text> Test</Text>
         </TouchableOpacity>
       </View>
     )
@@ -98,14 +121,87 @@ const mapStateToProps = state => {
   }
 }
 
+
+const COMMENT_QUERY = gql`
+  query comments($repoName: String!) {
+    comments(repoName: $repoName) {
+      id
+      content
+    }
+  }
+`;
+const COMMENT_SUBSCRIPTION = gql`
+    subscription commentAdded($repoName: String!){
+       commentAdded(repoName: $repoName){
+        id
+        content
+      }
+    }
+`;
+
+const SUMBMIT_COMMENT = gql`
+    mutation submitComment($repoName: String!){
+       submitComment(repoName: $repoName){
+        id
+        content
+      }
+    }
+`;
+
+
 export default compose(
-  graphql(loginStatusQuery, {name: 'loginStatus'}),
+  graphql(COMMENT_QUERY, {
+    name: 'comments',
+    options: props => ({
+        variables: {
+          repoName: 'test'
+        },
+        context: {
+          needAuth: false
+        },
+    }),
+    props: props => {
+        return {
+           ...props,
+            subscribeToNewComments: params => {
+                return props.comments.subscribeToMore({
+                    document: COMMENT_SUBSCRIPTION,
+                    variables: {
+                        repoName: 'test',
+                    },
+                    updateQuery: (prev, {subscriptionData}) => {
+                        console.log(prev);
+                        console.log(subscriptionData);
+                        if (!subscriptionData.data) {
+                            return prev;
+                        }
+
+                        const newFeedItem = subscriptionData.data.commentAdded;
+
+                        return Object.assign({}, prev, {
+                            comments: [newFeedItem, ...prev.comments]
+                        });
+                    }
+                });
+            }
+        };
+    }
+  }),
+  // graphql(loginStatusQuery, {name: 'loginStatus'}),
   graphql(signUpMutation, {
     name: 'signUp',
     options: props => ({
       variables: {
         providerId: props.providerId,
         uid: props.uid,
+      }
+    })
+  }),
+  graphql(SUMBMIT_COMMENT, {
+    name: 'submit',
+    options: props => ({
+      variables: {
+        repoName: 'test'
       }
     })
   }),
