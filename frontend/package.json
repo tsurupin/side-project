@@ -6,7 +6,9 @@
     "start": "react-native start",
     "android": "react-native run-android",
     "ios": "react-native run-ios",
-    "test": "node node_modules/jest/bin/jest.js"
+    "test": "node node_modules/jest/bin/jest.js",
+    "flow": "flow",
+    "build": "babel src/ -d lib/"
   },
   "jest": {
     "preset": "react-native"
@@ -21,14 +23,16 @@
     "apollo-link-error": "^1.0.7",
     "apollo-link-http": "^1.5.1",
     "apollo-link-retry": "^2.2.0",
+    "babel-cli": "^6.26.0",
+    "babel-plugin-inline-import-graphql-ast": "^2.2.0",
     "babel-preset-flow": "^6.23.0",
     "babel-preset-react-native-stage-0": "^1.0.1",
     "firebase": "^4.10.1",
+    "flow-bin": "^0.66.0",
     "graphql": "^0.12.3",
     "graphql-tag": "^2.8.0",
     "jest-react-native": "^18.0.0",
     "lodash": "^4.17.5",
-    "react-apollo": "^2.0.4",
     "react-native-fbsdk": "^0.7.0",
     "react-native-image-picker": "^0.26.7",
     "react-native-navigation": "^1.1.388",
@@ -41,6 +45,7 @@
     "apollo-link-state": "*",
     "apollo-utilities": "^1.0.8",
     "react": "16.2.0",
+    "react-apollo": "^2.0.4",
     "react-native": "^0.53.3",
     "react-native-vector-icons": "^4.5.0"
   }

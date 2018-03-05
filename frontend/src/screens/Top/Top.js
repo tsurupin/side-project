@@ -7,7 +7,9 @@ import {
   TouchableOpacity
 } from 'react-native';
 
-import { logoutMutation } from '../../graphql/mutations';
+import  {
+  logout
+}  from '../../queries/accounts';
 import { firebaseSignOut } from '../../utilities/firebase';
 
 class TopScreen extends Component {
@@ -36,8 +38,5 @@ class TopScreen extends Component {
 
 
 export default compose(
-  graphql(logoutMutation, {
-    name: 'logout',
-    options: {variables: { logined: false }}
-  })
+  logout
 )(TopScreen);
