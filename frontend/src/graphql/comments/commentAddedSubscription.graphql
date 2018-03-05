@@ -1,5 +1,6 @@
-subscription commendAdded ($repo_name: String!) {
-  commentAdded(repo_name: $repo_name) {
-    comment
+subscription commendAdded($repoName: String!) {
+  commentAdded(repoName: $repoName) {
+    id
+    content
   }
 }

@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { graphql, compose } from 'react-apollo';
-import gql from 'graphql-tag';
 import {
   View,
   Text,
@@ -13,12 +12,20 @@ import FBSDK, { LoginManager, AccessToken } from 'react-native-fbsdk';
 import firebase from '../../utilities/firebase';
 
 
-import { signUpMutation, loginMutation } from '../../graphql/mutations';
-import { getIdQuery, loginStatusQuery } from '../../graphql/queries';
-import { addCommentSubscription } from '../../graphql/subscriptions';
+import  {
+  fetchComments,
+  submitComment
+}  from '../../queries/comments';
+
+import  {
+  login,
+  signup,
+  checkLoginStatus
+}  from '../../queries/accounts';
+
 import { firebaseSignIn } from '../../utilities/firebase';
 import startMainTab  from '../MainTabs/StartMainTab';
-// import { singUp } from '../../store/actions/accounts';
+
 const FACEBOOK = 'facebook';
 
 type Props = {
@@ -49,12 +56,6 @@ class AuthScreen extends Component<Props, State> {
       // move to next screen;
     //}
   }
-  //
-  // componentWillReceiveProps(currentProps, nextProps) {
-  //   this.props.subscribeToNewComments({
-  //       repoName: 'test'
-  //   });
-  // }
 
 
   fetchId = () => {
@@ -89,7 +90,7 @@ class AuthScreen extends Component<Props, State> {
   }
 
   signUp = async (providerId, uid) => {
-    const result = await this.props.signUp({
+    const result = await this.props.signup({
       variables: {
         providerId,
         uid
@@ -131,95 +132,12 @@ const mapStateToProps = state => {
     isLoading: true,
   }
 }
-
-
-const COMMENT_QUERY = gql`
-  query comments($repoName: String!) {
-    comments(repoName: $repoName) {
-      id
-      content
-    }
-  }
-`;
-const COMMENT_SUBSCRIPTION = gql`
-    subscription commentAdded($repoName: String!){
-       commentAdded(repoName: $repoName){
-        id
-        content
-      }
-    }
-`;
-
-const SUMBMIT_COMMENT = gql`
-    mutation submitComment($repoName: String!){
-       submitComment(repoName: $repoName){
-        id
-        content
-      }
-    }
-`;
-
-
 export default compose(
-  graphql(COMMENT_QUERY, {
-    name: 'comments',
-    options: props => ({
-        variables: {
-          repoName: 'test'
-        },
-        context: {
-          needAuth: false
-        },
-    }),
-    props: props => {
-        return {
-           ...props,
-            subscribeToNewComments: params => {
-                return props.comments.subscribeToMore({
-                    document: COMMENT_SUBSCRIPTION,
-                    variables: {
-                        repoName: 'test',
-                    },
-                    updateQuery: (prev, {subscriptionData}) => {
-                        console.log(prev);
-                        console.log(subscriptionData);
-                        if (!subscriptionData.data) {
-                            return prev;
-                        }
-
-                        const newFeedItem = subscriptionData.data.commentAdded;
-
-                        return Object.assign({}, prev, {
-                            comments: [newFeedItem, ...prev.comments]
-                        });
-                    }
-                });
-            }
-        };
-    }
-  }),
+  fetchComments,
+  submitComment,
   // graphql(loginStatusQuery, {name: 'loginStatus'}),
-  graphql(signUpMutation, {
-    name: 'signUp',
-    options: props => ({
-      variables: {
-        providerId: props.providerId,
-        uid: props.uid,
-      }
-    })
-  }),
-  graphql(SUMBMIT_COMMENT, {
-    name: 'submit',
-    options: props => ({
-      variables: {
-        repoName: 'test'
-      }
-    })
-  }),
-  graphql(loginMutation, {
-    name: 'login',
-    options: { variables: { logined: true }}
-  }),
+  signup,
+  login,
   // graphql(getIdQuery, {
   //   name: 'getIdQuery',
   //   options: {

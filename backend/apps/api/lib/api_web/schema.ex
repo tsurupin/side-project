@@ -125,6 +125,8 @@ defmodule ApiWeb.Schema do
       end
 
       resolve fn comment,_,_ ->
+        IO.inspect(comment)
+        IO.inspect('resolving')
 
 
         # this function is often not actually necessary, as the default resolver

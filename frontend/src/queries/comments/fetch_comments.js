@@ -1,9 +1,9 @@
 // @flow
 import { graphql } from "react-apollo";
 import type { OperationComponent } from "react-apollo";
-import COMMENT_QUERY from '../../graphql/comments/commentsQuery.graphql';
-import COMMENT_SUBSCRIPTION from '../../graphql/comments/commentAddedSubscription.graphql';
 
+import COMMENT_SUBSCRIPTION from '../../graphql/comments/commentAddedSubscription.graphql';
+import COMMENT_QUERY from '../../graphql/comments/commentsQuery.graphql';
 
 
 type Comment = {
@@ -19,7 +19,7 @@ type InputProps = {
   repoName: string
 };
 
-const comments: OperationComponent<Response, InputProps> = graphql(COMMENT_QUERY, {
+const fetchComments: OperationComponent<Response, InputProps> = graphql(COMMENT_QUERY, {
   name: 'comments',
   options: (props: any) => ({
       variables: {
@@ -57,4 +57,4 @@ const comments: OperationComponent<Response, InputProps> = graphql(COMMENT_QUERY
   }
 });
 
-export default comments;
+export default fetchComments;

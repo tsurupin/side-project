@@ -24,6 +24,7 @@
     "apollo-link-http": "^1.5.1",
     "apollo-link-retry": "^2.2.0",
     "babel-cli": "^6.26.0",
+    "babel-plugin-inline-import-graphql-ast": "^2.2.0",
     "babel-preset-flow": "^6.23.0",
     "babel-preset-react-native-stage-0": "^1.0.1",
     "firebase": "^4.10.1",
