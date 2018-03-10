@@ -10,16 +10,21 @@ import { createHttpLink } from 'apollo-link-http';
 import Retry from 'apollo-link-retry';
 import { refreshTokenIfNecessary } from './src/utilities/firebase';
 import { getMainDefinition } from 'apollo-utilities';
-import absintheSocketLink from "./absinthe-socket-link";
+import * as AbsintheSocket from "@absinthe/socket";
+import {createAbsintheSocketLink} from "@absinthe/socket-apollo-link";
+import {Socket as PhoenixSocket} from "phoenix";
+
 
 const uri = 'http://localhost:4000/api/graphiql';
 
 const httpLink = createHttpLink({
   uri,
-
   credentials: process.env.NODE_ENV === 'development' ? 'include' : 'same-origin'
 });
 
+const absintheSocketLink = createAbsintheSocketLink(AbsintheSocket.create(
+  new PhoenixSocket("ws://localhost:4000/socket")
+));
 
 const authLink = setContext(async (_, context) => {
 
@@ -35,7 +40,7 @@ const authLink = setContext(async (_, context) => {
   }
 });
 
-const cache = new InMemoryCache();
+
 const stateLink = withClientState({
   cache,
   resolvers: {
@@ -50,6 +55,7 @@ const stateLink = withClientState({
     logined: false,
   }
 });
+
 const link = split(
   ({query}) => {
     const {kind, operation} = getMainDefinition(query);
@@ -59,10 +65,11 @@ const link = split(
   ApolloLink.from([stateLink, authLink, httpLink])
 );
 
-//const link = ApolloLink.from([stateLink, authLink, httpLink]);
+const cache = new InMemoryCache();
+
 const client = new ApolloClient({
   cache,
-  link: ApolloLink.from([absintheSocketLink, stateLink, authLink, httpLink])
+  link
 });
 
 export default client;
