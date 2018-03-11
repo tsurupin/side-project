@@ -12,10 +12,10 @@ defmodule Db.Chats.Content do
     field(:source_id, :integer, null: false)
     field(:source_type, :string, null: false)
     field(:message, :string)
-    field(:image_url, ChatImageUploader)
-    field(:deleted_at, :datetime)
+    field(:image_url, ChatImageUploader.Type)
+    field(:deleted_at, :utc_datetime)
     belongs_to(:chat_id, Chat)
-    timestamps()
+    timestamps(type: :utc_datetime)
   end
 
   @spec changeset(map()) :: Ecto.Changeset.t()

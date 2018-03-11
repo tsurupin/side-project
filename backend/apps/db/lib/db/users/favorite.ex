@@ -10,10 +10,10 @@ defmodule Db.Users.Favorite do
   schema "user_favorites" do
     field(:target_id, :integer, null: false)
     field(:target_type, :string, null: false)
-    field(:deleted_at, :datetime)
+    field(:deleted_at, :utc_datetime)
     belongs_to(:user_id, User)
 
-    timestamps()
+    timestamps(type: :utc_datetime)
   end
 
   @spec changeset(map()) :: Ecto.Changeset.t()

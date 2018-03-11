@@ -4,6 +4,9 @@ defmodule Db.Users.User do
   alias Db.Users.Photo
   alias Db.OccupationType
   alias Db.Country
+  alias Db.Projects.Project
+  alias Db.Skills.Skill
+  alias Db.Chats.Chat
 
   alias __MODULE__
 
@@ -20,21 +23,21 @@ defmodule Db.Users.User do
     field(:status, UserStatusEnum)
     field(:latitude, :float)
     field(:longitude, :float)
-    field(:last_activated_at, :datetime, null: false)
+    field(:last_activated_at, :utc_datetime, null: false)
     field(:area_name, :string)
 
     has_many(:photos, Photo)
-    belongs_to(:occupation_type, OccupationType, foreign_key: :occupation_type_id)
-    belongs_to(:country_id, Country, foreign_key: :country_id)
-    many_to_many(:skills, join_through: "user_skills")
-    many_to_many(:projects, join_through: "project_members")
-    many_to_many(:chats, join_through: "chat_members")
+    belongs_to(:occupation_type, OccupationType)
+    belongs_to(:country, Country)
+    many_to_many(:skills, Skill, join_through: "user_skills")
+    many_to_many(:projects, Project, join_through: "project_members")
+    many_to_many(:chats, Chat, join_through: "chat_members")
 
-    timestamps()
+    timestamps(type: :utc_datetime)
   end
 
   @spec changeset(map()) :: Ecto.Changeset.t()
-  def changeset(user, attrs) do
+  def changeset(attrs) do
     permitted_attributes = ~w(uid provider_id display_name email)a
     required_attributes = ~w(uid provider_id)a
 

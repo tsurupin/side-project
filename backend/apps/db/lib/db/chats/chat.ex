@@ -1,6 +1,7 @@
 defmodule Db.Chats.Chat do
   use Ecto.Schema
   import Ecto.Changeset
+  alias Db.Users.User
   alias Db.Chats.{Content, Member, Project}
 
   alias __MODULE__
@@ -10,10 +11,10 @@ defmodule Db.Chats.Chat do
   schema "chats" do
     field(:name, :string, null: false)
     field(:type, ChatTypeEnum)
-    timestamps()
+    timestamps(type: :utc_datetime)
 
     has_many(:contents, Content)
-    many_to_many(:users, join_through: "chat_members")
+    many_to_many(:users, User, join_through: "chat_members")
   end
 
   @spec changeset(map()) :: Ecto.Changeset.t()

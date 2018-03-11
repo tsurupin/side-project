@@ -10,9 +10,9 @@ defmodule Db.Chats.Member do
   schema "chat_members" do
     belongs_to(:chat, Chat)
     belongs_to(:user_id, User)
-    field(:deleted_at, :datetime)
+    field(:deleted_at, :utc_datetime)
 
-    timestamps()
+    timestamps(type: :utc_datetime)
   end
 
   @spec changeset(map()) :: Ecto.Changeset.t()

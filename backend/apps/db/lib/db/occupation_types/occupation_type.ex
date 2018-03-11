@@ -1,7 +1,7 @@
 defmodule Db.OccupationTypes.OccupationType do
-  @(@moduledoc """
+  @moduledoc """
 
-    """)
+  """
   use Ecto.Schema
   import Ecto.Changeset
   alias Db.Users.User
@@ -11,7 +11,7 @@ defmodule Db.OccupationTypes.OccupationType do
 
   schema "occupation_types" do
     field(:name, :string, null: false)
-    timestamps()
+    timestamps(type: :utc_datetime)
 
     has_many(:users, User)
   end

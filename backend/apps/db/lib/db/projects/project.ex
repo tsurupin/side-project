@@ -1,9 +1,10 @@
-defmodule Db.Skills.Skill do
+defmodule Db.Skills.Project do
   use Ecto.Schema
   import Ecto.Changeset
   alias Db.Users.User
   alias Db.Genres.Genre
   alias Db.Projects.Photo
+  alias Db.Skills.Skill
   alias __MODULE__
 
   @type t :: %Project{}
@@ -12,16 +13,16 @@ defmodule Db.Skills.Skill do
     field(:name, :string)
     field(:lead_sentence, :string)
     field(:why, :string)
-    field(:deleted_at, :datetime)
+    field(:deleted_at, :utc_datetime)
     field(:status, ProjectStatusEnum)
     field(:motivation, :string)
     field(:requirement, :string)
     has_many(:photos, Photo)
     belongs_to(:owner, User)
     belongs_to(:genre, Genre)
-    many_to_many(:skills, join_through: "project_skills")
+    many_to_many(:skills, Skill, join_through: "project_skills")
 
-    timestamps()
+    timestamps(type: :utc_datetime)
   end
 
   @spec changeset(map()) :: Ecto.Changeset.t()

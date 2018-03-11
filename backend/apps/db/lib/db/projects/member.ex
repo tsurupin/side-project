@@ -10,9 +10,9 @@ defmodule Db.Projects.Member do
   schema "project_members" do
     belongs_to(:project, Project)
     belongs_to(:user_id, User)
-    field(:deleted_at, :datetime)
+    field(:deleted_at, :utc_datetime)
     field(:status, ProjectMemberStatusEnum, default: 0)
-    timestamps()
+    timestamps(type: :utc_datetime)
   end
 
   @spec changeset(map()) :: Ecto.Changeset.t()

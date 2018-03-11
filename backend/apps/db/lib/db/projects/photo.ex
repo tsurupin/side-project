@@ -5,7 +5,7 @@ defmodule Db.Projects.Photo do
   alias Db.Projects.Project
   alias Db.Uploaders.ProjectPhotoUploader
 
-  alias _MODULE__
+  alias __MODULE__
 
   @type t :: %Photo{}
 
@@ -13,7 +13,7 @@ defmodule Db.Projects.Photo do
     field(:is_main, :boolean, default: false, null: false)
     field(:image_url, ProjectPhotoUploader.Type, null: false)
     belongs_to(:project, Project)
-    timestamps()
+    timestamps(type: :utc_datetime)
   end
 
   @spec changeset(map()) :: Ecto.Changeset.t()

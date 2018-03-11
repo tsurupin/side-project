@@ -10,9 +10,9 @@ defmodule Db.Users.Like do
   schema "user_likes" do
     belongs_to(:source_user, User)
     belongs_to(:target_user, User)
-    field(:deleted_at, :datetime)
+    field(:deleted_at, :utc_datetime)
     field(:status, UserLikeStatusEnum, default: 0)
-    timestamps()
+    timestamps(type: :utc_datetime)
   end
 
   @spec changeset(map()) :: Ecto.Changeset.t()

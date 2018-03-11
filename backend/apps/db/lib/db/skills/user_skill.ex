@@ -12,7 +12,7 @@ defmodule Db.Skills.UserSkill do
     belongs_to(:skill, Skill)
     belongs_to(:user, User)
 
-    timestamps()
+    timestamps(type: :utc_datetime)
   end
 
   @spec changeset(map()) :: Ecto.Changeset.t()

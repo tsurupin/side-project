@@ -11,7 +11,7 @@ defmodule Db.Skills.ProjectSkill do
     belongs_to(:skill, Skill)
     belongs_to(:project, Project)
 
-    timestamps()
+    timestamps(type: :utc_datetime)
   end
 
   @spec changeset(map()) :: Ecto.Changeset.t()
