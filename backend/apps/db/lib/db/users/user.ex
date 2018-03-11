@@ -20,7 +20,7 @@ defmodule Db.Users.User do
     field(:status, UserStatusEnum)
     field(:latitude, :float)
     field(:longitude, :float)
-    filed(:last_activated_at, :datetime, null: false)
+    field(:last_activated_at, :datetime, null: false)
     field(:area_name, :string)
 
     has_many(:photos, Photo)

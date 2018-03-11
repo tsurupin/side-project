@@ -48,7 +48,7 @@ defmodule Api.Mixfile do
       {:absinthe_plug, "~> 1.4.0"},
       {:absinthe_phoenix, "~> 1.4.0"},
       {:guardian, "~> 1.0"},
-      {:httpoison, "~> 1.0"},
+      {:httpoison, "~> 0.11"},
       {:poison, "~> 3.1"},
       {:cachex, "~> 3.0"},
       {:briefly, "~> 0.3"}

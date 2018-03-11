@@ -26,14 +26,15 @@ defmodule Db.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      {:phoenix, "~> 1.3.0"},
       {:postgrex, "~> 0.13.0"},
       {:ecto, "~> 2.1.1"},
       {:ecto_enum, "~> 1.0"},
       {:arc, "~> 0.8.0"},
       {:arc_ecto, "~> 0.7.0"},
       {:ex_aws, "~> 1.1.3"},
-      {:hackney, "~> 1.8.0", override: true}
+      {:hackney, "~> 1.8.0", override: true},
+      {:poison, "~> 3.1"},
+      {:sweet_xml, "~> 0.6"}
     ]
   end
 end

@@ -8,3 +8,5 @@ config :db, Db.Repo,
   username: System.get_env("DB_USER_NAME"),
   hostname: "localhost",
   pool_size: 10
+
+config :arc, storage: Arc.Storage.Local
