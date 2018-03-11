@@ -27,7 +27,8 @@ defmodule Db.MixProject do
   defp deps do
     [
       {:postgrex, "~> 0.13.0"},
-      {:ecto, "~> 2.1.1"}
+      {:ecto, "~> 2.1.1"},
+      {:ecto_enum, "~> 1.0"}
     ]
   end
 end

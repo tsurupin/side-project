@@ -3,7 +3,7 @@ defmodule Db.Repo.Migrations.CreateInitialTables do
 
   def change do
 
-    create table(:generes) do
+    create table(:genres) do
       add :name, :string, null: false
       timestamps()
     end
@@ -92,7 +92,7 @@ defmodule Db.Repo.Migrations.CreateInitialTables do
     end
 
     create unique_index(:projects, [:owner_id, :name])
-    create constraint(:projects, "valid project constraints", check: "(status = 0) OR (status = 1 AND name IS NOT NULL)"
+    create constraint(:projects, "valid project constraints", check: "(status = 0) OR (status = 1 AND name IS NOT NULL)")
 
 
     create table(:user_projects) do
