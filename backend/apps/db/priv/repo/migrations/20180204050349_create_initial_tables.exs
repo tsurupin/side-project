@@ -135,11 +135,26 @@ defmodule Db.Repo.Migrations.CreateInitialTables do
 
     create unique_index(:user_likes, [:source_user_id, :target_user_id], name: "user_likes_unique_index")
 
-    create table(:chats) do
-      add :type, :integer
+
+    create table(:chat_groups) do
+      add :source_id, :integer, null: false
+      add :source_type, :string, null: false, comment: "source is either Project or UserLike"
       add :deleted_at, :datetime
       timestamps()
     end
+
+    create unique_index(:chat_groups, [:source_id, :source_type], name: "chat_groups_source_id_and_source_type_index")
+
+    create table(:chats) do
+      add :chat_group_id, references(:chat_groups), null: false
+      add :name, :string, null: false
+      add :is_main, :boolean, default: false, null: false
+      add :deleted_at, :datetime
+      timestamps()
+    end
+    create unique_index(:chats, [:chat_group_id, :is_main], where: "is_main = true", name: "chats_chat_group_id_and_is_main_index")
+    create unique_index(:chats, [:chat_group_id, :name], name: "chats_chat_group_id_and_name_index")
+
 
     create table(:chat_contents) do
       add :chat_id, references(:chats), null: false
@@ -160,17 +175,6 @@ defmodule Db.Repo.Migrations.CreateInitialTables do
       timestamps()
     end
     create unique_index(:chat_members, [:chat_id, :user_id], name: "chat_members_chat_id_and_user_id_index")
-
-
-    create table(:chat_projects) do
-      add :project_id, references(:projects), null: false
-      add :chat_id, references(:chats), null: false
-      add :deleted_at, :datetime
-      timestamps()
-    end
-
-    create unique_index(:chat_projects, [:chat_id, :project_id], name: "chat_projects_chat_id_and_project_id_index")
-
 
     create table(:user_favorites) do
       add :user_id, references(:users), null: false
