@@ -5,8 +5,6 @@ defmodule Db.Application do
 
   use Application
 
-
-
   def start(_type, _args) do
     import Supervisor.Spec
     # List all child processes to be supervised

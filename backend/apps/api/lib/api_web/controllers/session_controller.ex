@@ -7,6 +7,4 @@ defmodule ApiWeb.SessionController do
     login(token: $token, provider_id: $provider_id, uid: $uid)
   }
   """
-
-
 end

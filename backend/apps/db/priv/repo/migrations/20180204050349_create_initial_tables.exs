@@ -8,7 +8,7 @@ defmodule Db.Repo.Migrations.CreateInitialTables do
       timestamps()
     end
 
-    create unique_index(:genres, [:name])
+    create unique_index(:genres, [:name], name: "genres_name_index")
 
 
     create table(:countries) do
@@ -16,14 +16,14 @@ defmodule Db.Repo.Migrations.CreateInitialTables do
       timestamps()
     end
 
-    create unique_index(:countries, [:name])
+    create unique_index(:countries, [:name], name: "countries_name_index")
 
     create table(:occupation_types) do
       add :name, :string, null: false
       timestamps()
     end
 
-    create unique_index(:occupation_types, [:name])
+    create unique_index(:occupation_types, [:name], name: "occupation_types_name_index")
 
 
     create table(:skills) do
@@ -31,7 +31,7 @@ defmodule Db.Repo.Migrations.CreateInitialTables do
       timestamps()
     end
 
-    create unique_index(:skills, [:name])
+    create unique_index(:skills, [:name], name: "skills_name_index")
 
 
     create table(:users) do
@@ -57,8 +57,8 @@ defmodule Db.Repo.Migrations.CreateInitialTables do
 
     create constraint(:users, "valid_user_status", check: "status = 0 OR (status = 1 AND display_name IS NOT NULL and occupation_type_id IS NOT NULL AND longitude IS NOT NULL AND latitude IS NOT NULL)")
 
-    create unique_index(:users, [:provider_id, :uid])
-    create unique_index(:users, [:email])
+    create unique_index(:users, [:provider_id, :uid], name: "users_provider_id_and_uid_index")
+    create unique_index(:users, [:email], name: "users_name_index")
     create index(:users, [:country_id])
 
 
@@ -69,7 +69,7 @@ defmodule Db.Repo.Migrations.CreateInitialTables do
 
       timestamps()
     end
-    create unique_index(:user_photos, [:user_id, :is_main], where: "is_main = true")
+    create unique_index(:user_photos, [:user_id, :is_main], where: "is_main = true", name: "user_photos_user_id_and_is_main_index")
 
     create table(:user_skills) do
       add :skill_id, references(:skills), null: false
@@ -77,8 +77,9 @@ defmodule Db.Repo.Migrations.CreateInitialTables do
       add :rank, :integer, null: false, default: 0, comment: "ASC display order"
       timestamps()
     end
-    create unique_index(:user_skills, [:skill_id, :user_id])
-    create unique_index(:user_skills, [:user_id, :rank])
+    create unique_index(:user_skills, [:skill_id, :user_id], name: "user_skills_skill_id_and_user_id_index")
+    create unique_index(:user_skills, [:user_id, :rank], name: "user_skills_user_id_and_rank_index")
+
 
     create table(:projects) do
       add :name, :string
@@ -91,22 +92,40 @@ defmodule Db.Repo.Migrations.CreateInitialTables do
       timestamps()
     end
 
-    create unique_index(:projects, [:owner_id, :name])
+    create unique_index(:projects, [:owner_id, :name], name: "projects_owner_id_and_name_index")
     create constraint(:projects, "valid project constraints", check: "(status = 0) OR (status = 1 AND name IS NOT NULL)")
 
+    create table(:project_skills) do
+      add :skill_id, references(:skills), null: false
+      add :project_id, references(:users), null: false
+      add :rank, :integer, null: false, default: 0, comment: "ASC display order"
+      timestamps()
+    end
+    create unique_index(:project_skills, [:skill_id, :project_id], name: "project_skills_skill_id_and_project_id_index")
+    create unique_index(:project_skills, [:project_id, :rank], name: "project_skills_project_id_and_rank_index")
 
-    create table(:user_projects) do
-      add :user_id, references(:users), null: false
+    create table(:project_photos, comment: "always main photo is displayed first and the others are displayed in recent order") do
       add :project_id, references(:projects), null: false
+      add :image_url, :string, null: false
+      add :is_main, :boolean, null: false, default: false
+
+      timestamps()
+    end
+    create unique_index(:project_photos, [:project_id, :is_main], where: "is_main = true", name: "project_photos_user_id_and_is_main_index")
+
+
+    create table(:project_members) do
+      add :project_id, references(:projects), null: false
+      add :user_id, references(:users), null: false
       add :status, :integer, default: 0, null: false, comment: "0: requested, 1: approved, 2: rejected, 3: withdrawed"
       add :deleted_at, :datetime
       timestamps()
     end
 
-    create unique_index(:user_projects, [:user_id, :project_id])
+    create unique_index(:project_members, [:project_id, :user_id], name: "project_members_project_id_and_user_id_index")
 
 
-    create table(:user_interests) do
+    create table(:user_likes) do
        add :source_user_id, references(:users), null: false
        add :target_user_id, references(:users), null: false
        add :status, :integer, default: 0, null: false, comment: "0: requested, 1: approved, 2: rejected, 3: withdrawed"
@@ -114,7 +133,7 @@ defmodule Db.Repo.Migrations.CreateInitialTables do
        timestamps()
     end
 
-    create unique_index(:user_interests, [:source_user_id, :target_user_id])
+    create unique_index(:user_likes, [:source_user_id, :target_user_id], name: "user_likes_unique_index")
 
     create table(:chats) do
       add :type, :integer
@@ -131,17 +150,16 @@ defmodule Db.Repo.Migrations.CreateInitialTables do
       add :deleted_at, :datetime
       timestamps()
     end
-    create unique_index(:chat_contents, [:chat_id, :source_id, :source_type])
+    create unique_index(:chat_contents, [:chat_id, :source_id, :source_type], name: "chat_contents_unique_index")
     create constraint(:chat_contents, "valid chat contents", check: "message IS NOT NULL OR image_url IS NOT NULL")
 
-    create table(:chat_users) do
-      add :user_id, references(:users), null: false
+    create table(:chat_members) do
       add :chat_id, references(:chats), null: false
+      add :user_id, references(:users), null: false
       add :deleted_at, :datetime
       timestamps()
     end
-    create unique_index(:chat_users, [:user_id, :chat_id])
-
+    create unique_index(:chat_members, [:chat_id, :user_id], name: "chat_members_chat_id_and_user_id_index")
 
 
     create table(:chat_projects) do
@@ -151,7 +169,7 @@ defmodule Db.Repo.Migrations.CreateInitialTables do
       timestamps()
     end
 
-    create unique_index(:chat_projects, [:project_id, :chat_id])
+    create unique_index(:chat_projects, [:chat_id, :project_id], name: "chat_projects_chat_id_and_project_id_index")
 
 
     create table(:user_favorites) do
@@ -162,7 +180,7 @@ defmodule Db.Repo.Migrations.CreateInitialTables do
       timestamps()
     end
 
-    create unique_index(:user_favorites, [:user_id, :target_id, :target_type])
+    create unique_index(:user_favorites, [:user_id, :target_id, :target_type], name: "user_favorites_unique_index")
 
 
   end

@@ -10,5 +10,4 @@ defmodule Api.Guardian.FirebaseKey do
   def get_key(path) do
     JOSE.JWK.from_pem_file(path)
   end
-
 end

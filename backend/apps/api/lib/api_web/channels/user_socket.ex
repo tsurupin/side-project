@@ -6,7 +6,7 @@ defmodule ApiWeb.UserSocket do
   # channel "room:*", ApiWeb.RoomChannel
 
   ## Transports
-  transport :websocket, Phoenix.Transports.WebSocket
+  transport(:websocket, Phoenix.Transports.WebSocket)
   # transport :longpoll, Phoenix.Transports.LongPoll
 
   # Socket params are passed from the client and can
@@ -22,10 +22,10 @@ defmodule ApiWeb.UserSocket do
   # performing token verification on connect.
   def connect(_params, socket) do
     absinthe_config = %{
-     schema: ApiWeb.Schema
-   }
+      schema: ApiWeb.Schema
+    }
 
-   {:ok, assign(socket, :absinthe, absinthe_config)}
+    {:ok, assign(socket, :absinthe, absinthe_config)}
   end
 
   # Socket id's are topics that allow you to identify all sockets for a given user:

@@ -28,5 +28,4 @@ defmodule Db.Users.Accounts do
     |> User.changeset(attrs)
     |> Repo.insert()
   end
-
 end

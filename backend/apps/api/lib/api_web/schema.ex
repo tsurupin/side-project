@@ -6,9 +6,10 @@ defmodule ApiWeb.Schema do
 
   def middleware(middleware, field, object) do
     middleware
-    #|> apply(:errors, field, object)
-    #|> apply(:debug, field, object)
+    # |> apply(:errors, field, object)
+    # |> apply(:debug, field, object)
   end
+
   # #
   # defp apply(middleware, :errors, _field, %{identifier: :mutation}) do
   #   middleware ++ [Middleware.ChangesetErrors]
@@ -21,10 +22,12 @@ defmodule ApiWeb.Schema do
       middleware
     end
   end
+
   #
   defp apply(middleware, _, _, _) do
     middleware
   end
+
   #
   # def plugins do
   #   #[Absinthe.Middleware.Dataloader | Absinthe.Plugin.defaults]
@@ -40,8 +43,8 @@ defmodule ApiWeb.Schema do
   #   |> Map.put(:loader, dataloader())
   # end
 
-  import_types __MODULE__.AccountsTypes
-  import_types Absinthe.Phoenix.Types
+  import_types(__MODULE__.AccountsTypes)
+  import_types(Absinthe.Phoenix.Types)
   #
 
   #
@@ -51,27 +54,23 @@ defmodule ApiWeb.Schema do
   # end
 
   object :comment do
-    field :id, :integer
-    field :content, :string
-    field :repo_name, :string
+    field(:id, :integer)
+    field(:content, :string)
+    field(:repo_name, :string)
   end
-
-
-
 
   query do
     field :test, :test do
-      #middleware Middleware.Authorize
-      resolve &Resolvers.Accounts.test/3
+      # middleware Middleware.Authorize
+      resolve(&Resolvers.Accounts.test/3)
     end
 
-
     field :comments, list_of(:comment) do
-      arg :repo_name, non_null(:string)
-      #middleware Middleware.Authorize
-      resolve fn a, b, c ->
-        {:ok, [%{id: 1,content: 'comment1'}]}
-      end
+      arg(:repo_name, non_null(:string))
+      # middleware Middleware.Authorize
+      resolve(fn a, b, c ->
+        {:ok, [%{id: 1, content: 'comment1'}]}
+      end)
     end
 
     # field :refresh_token, :user do
@@ -83,20 +82,21 @@ defmodule ApiWeb.Schema do
   @desc "Signup"
   mutation do
     field :signup, :user do
-      arg :provider_id, non_null(:string)
-      arg :uid, non_null(:string)
+      arg(:provider_id, non_null(:string))
+      arg(:uid, non_null(:string))
       # arg :email, :string
       # arg :display_name, :string
       # arg :photo_url, :string
-      resolve &Resolvers.Accounts.signup/3
+      resolve(&Resolvers.Accounts.signup/3)
     end
 
     field :submit_comment, :comment do
-      arg :repo_name, non_null(:string)
-      resolve fn a, b, c ->
+      arg(:repo_name, non_null(:string))
+
+      resolve(fn a, b, c ->
         IO.inspect("just submit-----------")
         {:ok, %{id: 1, content: 'comment2', repo_name: 'test'}}
-      end
+      end)
     end
 
     # field :submit_comment, :comment do
@@ -107,72 +107,68 @@ defmodule ApiWeb.Schema do
   end
 
   subscription do
-
     field :comment_added, :comment do
-      arg :repo_name, non_null(:string)
+      arg(:repo_name, non_null(:string))
 
-      config fn args, _ ->
+      config(fn args, _ ->
         {:ok, topic: args.repo_name}
-      end
+      end)
 
       # this tells Absinthe to run any subscriptions with this field every time
       # the :submit_comment mutation happens.
       # It also has a topic function used to find what subscriptions care about
       # this particular comment
 
-      trigger :submit_comment, topic: fn
-        comment -> [comment.repo_name]
-      end
+      trigger(:submit_comment, topic: fn comment -> [comment.repo_name] end)
 
-      resolve fn comment,_,_ ->
+      resolve(fn comment, _, _ ->
         IO.inspect(comment)
         IO.inspect('resolving')
-
 
         # this function is often not actually necessary, as the default resolver
         # for subscription functions will just do what we're doing here.
         # The point is, subscription resolvers receive whatever value triggers
         # the subscription, in our case a comment.
         {:ok, %{id: 1, content: 'comment2'}}
-      end
+      end)
     end
 
-  #   field :comment_added, :comment do
-  #     arg :channel, non_null(:string)
-  #     arg :content, non_null(:string)
-  #     # The topic function is used to determine what topic a given subscription
-  #   # cares about based on its arguments. You can think of it as a way to tell the
-  #   # difference between
-  #   # subscription {
-  #   #   commentAdded(repoName: "absinthe-graphql/absinthe") { content }
-  #   # }
-  #   #
-  #   # and
-  #   #
-  #   # subscription {
-  #   #   commentAdded(repoName: "elixir-lang/elixir") { content }
-  #   # }
-  #   config fn args, _ ->
-  #     {:ok, topic: args.channel}
-  #   end
-  #
-  #   # this tells Absinthe to run any subscriptions with this field every time
-  #   # the :submit_comment mutation happens.
-  #   # It also has a topic function used to find what subscriptions care about
-  #   # this particular comment
-  #
-  #   trigger :submit_comment, topic: fn comment ->
-  #     comment.channel
-  #   end
-  #
-  #   resolve fn comment, _, _ ->
-  #     # this function is often not actually necessary, as the default resolver
-  #     # for subscription functions will just do what we're doing here.
-  #     # The point is, subscription resolvers receive whatever value triggers
-  #     # the subscription, in our case a comment.
-  #     {:ok, comment}
-  #   end
-  #
-  #
+    #   field :comment_added, :comment do
+    #     arg :channel, non_null(:string)
+    #     arg :content, non_null(:string)
+    #     # The topic function is used to determine what topic a given subscription
+    #   # cares about based on its arguments. You can think of it as a way to tell the
+    #   # difference between
+    #   # subscription {
+    #   #   commentAdded(repoName: "absinthe-graphql/absinthe") { content }
+    #   # }
+    #   #
+    #   # and
+    #   #
+    #   # subscription {
+    #   #   commentAdded(repoName: "elixir-lang/elixir") { content }
+    #   # }
+    #   config fn args, _ ->
+    #     {:ok, topic: args.channel}
+    #   end
+    #
+    #   # this tells Absinthe to run any subscriptions with this field every time
+    #   # the :submit_comment mutation happens.
+    #   # It also has a topic function used to find what subscriptions care about
+    #   # this particular comment
+    #
+    #   trigger :submit_comment, topic: fn comment ->
+    #     comment.channel
+    #   end
+    #
+    #   resolve fn comment, _, _ ->
+    #     # this function is often not actually necessary, as the default resolver
+    #     # for subscription functions will just do what we're doing here.
+    #     # The point is, subscription resolvers receive whatever value triggers
+    #     # the subscription, in our case a comment.
+    #     {:ok, comment}
+    #   end
+    #
+    #
   end
 end
