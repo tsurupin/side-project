@@ -10,8 +10,8 @@ defmodule Db.Users.Like do
   schema "user_likes" do
     belongs_to(:source_user, User)
     belongs_to(:target_user, User)
-    field :deleted_at, :datetime
-    field :status, UserLikeStatusEnum, default: 0
+    field(:deleted_at, :datetime)
+    field(:status, UserLikeStatusEnum, default: 0)
     timestamps()
   end
 
@@ -27,5 +27,4 @@ defmodule Db.Users.Like do
     |> assoc_constraint(:target_user)
     |> unique_constraint(:source_user_id, name: "user_likes_unique_index")
   end
-
 end

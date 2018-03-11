@@ -1,7 +1,7 @@
 defmodule Db.Genres.Genre do
-  @@moduledoc """
+  @(@moduledoc """
 
-  """
+    """)
   use Ecto.Schema
   import Ecto.Changeset
   alias Db.Users.User
@@ -10,11 +10,11 @@ defmodule Db.Genres.Genre do
   @type t :: %Genre{}
 
   schema "genres" do
-    field :name, :string, null: false
+    field(:name, :string, null: false)
     timestamps()
 
-    has_many :users, User
-    has_many :projects, Project
+    has_many(:users, User)
+    has_many(:projects, Project)
   end
 
   @spec changeset(map()) :: Ecto.Changeset.t()

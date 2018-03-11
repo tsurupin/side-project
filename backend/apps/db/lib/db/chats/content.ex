@@ -9,14 +9,13 @@ defmodule Db.Chats.Content do
   @type t :: %Content{}
 
   schema "chat_contents" do
-    field :source_id, :integer, null: false
-    field :source_type, :string, null: false
-    field :message, :string
-    field :image_url, ChatImageUploader
-    field :deleted_at, :datetime
+    field(:source_id, :integer, null: false)
+    field(:source_type, :string, null: false)
+    field(:message, :string)
+    field(:image_url, ChatImageUploader)
+    field(:deleted_at, :datetime)
     belongs_to(:chat_id, Chat)
     timestamps()
-
   end
 
   @spec changeset(map()) :: Ecto.Changeset.t()
@@ -29,5 +28,4 @@ defmodule Db.Chats.Content do
     |> validate_required(attrs, required_attrs)
     |> unique_constraint(:chat_id, name: "chat_contents_unique_index")
   end
-
 end

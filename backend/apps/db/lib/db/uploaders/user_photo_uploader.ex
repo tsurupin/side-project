@@ -5,23 +5,23 @@ defmodule Db.Uploaders.UserPhotoUploader do
   @versions [:original, :thumb, :mini_thumb]
   @acl :public_read
   def validate({file, _}) do
-   ~w(.jpg .jpeg .gif .png) |> Enum.member?(Path.extname(file.file_name))
- end
+    ~w(.jpg .jpeg .gif .png) |> Enum.member?(Path.extname(file.file_name))
+  end
 
- def transform(:thumb, _) do
-   {:convert, "-strip -thumbnail x500^ -gravity center -extent x500"}
- end
+  def transform(:thumb, _) do
+    {:convert, "-strip -thumbnail x500^ -gravity center -extent x500"}
+  end
 
- def transform(:mini_thumb, _) do
-   {:convert, "-strip -thumbnail 200x200^ -gravity center -extent 200x200"}
- end
+  def transform(:mini_thumb, _) do
+    {:convert, "-strip -thumbnail 200x200^ -gravity center -extent 200x200"}
+  end
 
- def filename(version, {_file, _scope}) do
-   "#{version}"
- end
+  def filename(version, {_file, _scope}) do
+    "#{version}"
+  end
 
- # Override the storage directory:
- def storage_dir(_version, {_file, scope}) do
-   "uploads/user_photos/#{scope.uuid}"
- end
+  # Override the storage directory:
+  def storage_dir(_version, {_file, scope}) do
+    "uploads/user_photos/#{scope.uuid}"
+  end
 end

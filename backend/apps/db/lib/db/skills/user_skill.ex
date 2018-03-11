@@ -8,7 +8,7 @@ defmodule Db.Skills.UserSkill do
   @type t :: %UserSkill{}
 
   schema "user_skills" do
-    field :rank, :integer, null: false, default: 0
+    field(:rank, :integer, null: false, default: 0)
     belongs_to(:skill, Skill)
     belongs_to(:user, User)
 
@@ -28,5 +28,4 @@ defmodule Db.Skills.UserSkill do
     |> unique_constraint(:skill_id, name: "user_skills_skill_id_and_user_id_index")
     |> unique_constraint(:rank, name: "user_skills_user_id_and_rank_index")
   end
-
 end

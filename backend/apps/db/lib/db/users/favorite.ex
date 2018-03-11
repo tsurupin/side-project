@@ -8,9 +8,9 @@ defmodule Db.Users.Favorite do
   @type t :: %Favorite{}
 
   schema "user_favorites" do
-    field :target_id, :integer, null: false
-    field :target_type, :string, null: false
-    field :deleted_at, :datetime
+    field(:target_id, :integer, null: false)
+    field(:target_type, :string, null: false)
+    field(:deleted_at, :datetime)
     belongs_to(:user_id, User)
 
     timestamps()

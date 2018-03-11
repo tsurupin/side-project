@@ -10,7 +10,7 @@ defmodule Db.Chats.Member do
   schema "chat_members" do
     belongs_to(:chat, Chat)
     belongs_to(:user_id, User)
-    field :deleted_at, :datetime
+    field(:deleted_at, :datetime)
 
     timestamps()
   end
@@ -27,5 +27,4 @@ defmodule Db.Chats.Member do
     |> assoc_constraint(:user)
     |> unique_constraint(:chat_id, name: "chat_members_chat_id_and_user_id_index")
   end
-
 end

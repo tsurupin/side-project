@@ -7,7 +7,7 @@ defmodule Db.Skills.ProjectSkill do
   @type t :: %ProjectSkill{}
 
   schema "project_skills" do
-    field :rank, :integer, null: false, default: 0
+    field(:rank, :integer, null: false, default: 0)
     belongs_to(:skill, Skill)
     belongs_to(:project, Project)
 
@@ -27,5 +27,4 @@ defmodule Db.Skills.ProjectSkill do
     |> unique_constraint(:rank, name: "project_skills_project_id_and_rank_index")
     |> unique_constraint(:skill_id, name: "project_skills_project_id_and skill_id_index")
   end
-
 end

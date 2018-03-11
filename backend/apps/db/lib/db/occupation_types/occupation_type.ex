@@ -1,7 +1,7 @@
 defmodule Db.OccupationTypes.OccupationType do
-  @@moduledoc """
+  @(@moduledoc """
 
-  """
+    """)
   use Ecto.Schema
   import Ecto.Changeset
   alias Db.Users.User
@@ -10,10 +10,10 @@ defmodule Db.OccupationTypes.OccupationType do
   @type t :: %OccupationType{}
 
   schema "occupation_types" do
-    field :name, :string, null: false
+    field(:name, :string, null: false)
     timestamps()
 
-    has_many :users, User
+    has_many(:users, User)
   end
 
   @spec changeset(map()) :: Ecto.Changeset.t()

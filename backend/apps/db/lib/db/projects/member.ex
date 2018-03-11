@@ -10,8 +10,8 @@ defmodule Db.Projects.Member do
   schema "project_members" do
     belongs_to(:project, Project)
     belongs_to(:user_id, User)
-    field :deleted_at, :datetime
-    field :status, ProjectMemberStatusEnum, default: 0
+    field(:deleted_at, :datetime)
+    field(:status, ProjectMemberStatusEnum, default: 0)
     timestamps()
   end
 
@@ -27,5 +27,4 @@ defmodule Db.Projects.Member do
     |> assoc_constraint(:user)
     |> unique_constraint(:project_id, name: "project_members_project_id_and_user_id_index")
   end
-
 end

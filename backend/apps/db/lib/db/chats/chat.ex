@@ -8,12 +8,12 @@ defmodule Db.Chats.Chat do
   @type t :: %Chat{}
 
   schema "chats" do
-    field :name, :string, null: false
-    field :type, ChatTypeEnum
+    field(:name, :string, null: false)
+    field(:type, ChatTypeEnum)
     timestamps()
 
-    has_many :contents, Content
-    many_to_many :users, join_through: "chat_members"
+    has_many(:contents, Content)
+    many_to_many(:users, join_through: "chat_members")
   end
 
   @spec changeset(map()) :: Ecto.Changeset.t()
@@ -26,5 +26,4 @@ defmodule Db.Chats.Chat do
     |> validate_required(attrs, required_attrs)
     |> unique_constraint(:name, name: "chats_name_index")
   end
-
 end

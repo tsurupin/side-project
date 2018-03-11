@@ -9,17 +9,17 @@ defmodule Db.Skills.Skill do
   @type t :: %Project{}
 
   schema "projects" do
-    field :name, :string
-    field :lead_sentence, :string
-    field :why, :string
-    field :deleted_at , :datetime
-    field :status, ProjectStatusEnum
-    field :motivation, :string
-    field :requirement, :string
-    has_many :photos, Photo
+    field(:name, :string)
+    field(:lead_sentence, :string)
+    field(:why, :string)
+    field(:deleted_at, :datetime)
+    field(:status, ProjectStatusEnum)
+    field(:motivation, :string)
+    field(:requirement, :string)
+    has_many(:photos, Photo)
     belongs_to(:owner, User)
     belongs_to(:genre, Genre)
-    many_to_many :skills, join_through: "project_skills"
+    many_to_many(:skills, join_through: "project_skills")
 
     timestamps()
   end
@@ -27,7 +27,7 @@ defmodule Db.Skills.Skill do
   @spec changeset(map()) :: Ecto.Changeset.t()
   def changeset(attrs) do
     permitted_attrs = ~w(name lead_sentence why owner_id genre_id status motivation requirement)a
-    required_attrs =  ~w(owner_id)a
+    required_attrs = ~w(owner_id)a
 
     %Project{}
     |> cast(attrs, permitted_attrs)
@@ -36,5 +36,4 @@ defmodule Db.Skills.Skill do
     |> assoc_constraint(:owner)
     |> unique_constraint(:name, name: "projects_name_and_is_main_index")
   end
-
 end

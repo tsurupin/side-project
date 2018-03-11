@@ -7,11 +7,11 @@ defmodule Db.Skills.Skill do
   @type t :: %Skill{}
 
   schema "skills" do
-    field :name, :string, null: false
+    field(:name, :string, null: false)
     timestamps()
 
-    has_many :user_skills, UserSkill
-    has_many :project_skills, ProjectSkill
+    has_many(:user_skills, UserSkill)
+    has_many(:project_skills, ProjectSkill)
   end
 
   @spec changeset(map()) :: Ecto.Changeset.t()
@@ -24,5 +24,4 @@ defmodule Db.Skills.Skill do
     |> validate_required(attrs, required_attrs)
     |> unique_constraint(:name, name: "skills_name_index")
   end
-
 end
