@@ -35,8 +35,7 @@ config :api, ApiWeb.Endpoint,
   url: [host: "localhost"],
   secret_key_base: "bLpP0NF/xthZwGyfBHPmXUKzZb5iG5M8SmD0Q90+0AMHtB9Y8JuAIzC4aU+JOf1p",
   render_errors: [view: ApiWeb.ErrorView, accepts: ~w(json)],
-  pubsub: [name: Api.PubSub,
-           adapter: Phoenix.PubSub.PG2],
+  pubsub: [name: Api.PubSub, adapter: Phoenix.PubSub.PG2],
   live_reload: [
     patterns: [
       ~r{priv/static/.*(js|css|png|jpeg|jpg|gif|svg)$},

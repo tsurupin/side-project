@@ -10,8 +10,8 @@ defmodule Api.Application do
     children = [
       # Start the endpoint when the application starts
       supervisor(ApiWeb.Endpoint, []),
-      supervisor(Absinthe.Subscription, [ApiWeb.Endpoint]),
-      #woerker(Cachex, [:my_cache, []])
+      supervisor(Absinthe.Subscription, [ApiWeb.Endpoint])
+      # woerker(Cachex, [:my_cache, []])
       # Start your own worker by calling: Api.Worker.start_link(arg1, arg2, arg3)
       # worker(Api.Worker, [arg1, arg2, arg3]),
     ]

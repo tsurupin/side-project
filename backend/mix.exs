@@ -5,7 +5,8 @@ defmodule SideProject.MixProject do
     [
       apps_path: "apps",
       start_permanent: Mix.env() == :prod,
-      deps: deps()
+      deps: deps(),
+      aliases: aliases()
     ]
   end
 
@@ -16,5 +17,16 @@ defmodule SideProject.MixProject do
   # Run "mix help deps" for examples and options.
   defp deps do
     []
+  end
+
+  defp aliases do
+    [
+      "ecto.setup": [
+        "ecto.drop",
+        "ecto.create",
+        "ecto.migrate",
+        "run apps/db/priv/repo/seeds.exs"
+      ]
+    ]
   end
 end

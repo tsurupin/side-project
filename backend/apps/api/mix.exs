@@ -10,9 +10,9 @@ defmodule Api.Mixfile do
       deps_path: "../../deps",
       lockfile: "../../mix.lock",
       elixir: "~> 1.4",
-      elixirc_paths: elixirc_paths(Mix.env),
-      compilers: [:phoenix, :gettext] ++ Mix.compilers,
-      start_permanent: Mix.env == :prod,
+      elixirc_paths: elixirc_paths(Mix.env()),
+      compilers: [:phoenix, :gettext] ++ Mix.compilers(),
+      start_permanent: Mix.env() == :prod,
       deps: deps()
     ]
   end
@@ -29,7 +29,7 @@ defmodule Api.Mixfile do
 
   # Specifies which paths to compile per environment.
   defp elixirc_paths(:test), do: ["lib", "test/support"]
-  defp elixirc_paths(_),     do: ["lib"]
+  defp elixirc_paths(_), do: ["lib"]
 
   # Specifies your project dependencies.
   #
@@ -48,7 +48,7 @@ defmodule Api.Mixfile do
       {:absinthe_plug, "~> 1.4.0"},
       {:absinthe_phoenix, "~> 1.4.0"},
       {:guardian, "~> 1.0"},
-      {:httpoison, "~> 1.0"},
+      {:httpoison, "~> 0.11"},
       {:poison, "~> 3.1"},
       {:cachex, "~> 3.0"},
       {:briefly, "~> 0.3"}

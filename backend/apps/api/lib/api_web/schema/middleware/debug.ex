@@ -1,24 +1,25 @@
 defmodule ApiWeb.Schema.Middleware.Debug do
-
   @behaviour Absinthe.Middleware
 
   def call(resolution, :start) do
-    path = resolution |> Absinthe.Resolution.path |> Enum.join(".")
-    IO.puts """
+    path = resolution |> Absinthe.Resolution.path() |> Enum.join(".")
+
+    IO.puts("""
     ======================
     starting: #{path}
-    with source: #{inspect resolution.source}\
-    """
-    %{resolution |
-      middleware: resolution.middleware ++ [{__MODULE__, {:finish, path}}]
-    }
+    with source: #{inspect(resolution.source)}\
+    """)
+
+    %{resolution | middleware: resolution.middleware ++ [{__MODULE__, {:finish, path}}]}
   end
+
   def call(resolution, {:finish, path}) do
-    IO.puts """
+    IO.puts("""
     completed: #{path}
-    value: #{inspect resolution.value}
+    value: #{inspect(resolution.value)}
     ======================\
-    """
+    """)
+
     resolution
   end
 end

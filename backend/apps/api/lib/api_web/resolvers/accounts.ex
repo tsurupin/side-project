@@ -18,13 +18,13 @@ defmodule ApiWeb.Resolvers.Accounts do
   # end
 
   def test(_, _, resolution) do
-
     case resolution.context do
-      %{current_user: user} -> {:ok, %{uid: user.uid}}
+      %{current_user: user} ->
+        {:ok, %{uid: user.uid}}
+
       _ ->
         IO.inspect("errorrrrr")
         {:error, "error"}
     end
-
   end
 end
