@@ -54,6 +54,11 @@ owner = Repo.insert!(
 )
 
 
+Repo.insert!(
+%Users.Photo{user_id: owner.id,
+  is_main: true,
+  image_url: %Plug.Upload{content_type: "image/jpeg", filename: "user1.jpg", path: "priv/repo/images/seeds/user1.jpg"}
+})
 
 Projects.Project |> Repo.delete_all
 Projects.Photo |> Repo.delete_all

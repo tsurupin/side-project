@@ -11,7 +11,8 @@ defmodule Db.MixProject do
       lockfile: "../../mix.lock",
       elixir: "~> 1.6",
       start_permanent: Mix.env() == :prod,
-      deps: deps()
+      deps: deps(),
+      aliases: aliases()
     ]
   end
 
@@ -26,6 +27,8 @@ defmodule Db.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
+      {:phoenix, "~> 1.3.0"},
+      {:phoenix_ecto, "~> 3.2"},
       {:postgrex, "~> 0.13.0"},
       {:ecto, "~> 2.1.1"},
       {:ecto_enum, "~> 1.0"},
@@ -37,4 +40,16 @@ defmodule Db.MixProject do
       {:sweet_xml, "~> 0.6"}
     ]
   end
+
+  defp aliases do
+    [
+      "ecto.setup": [
+        "ecto.drop",
+        "ecto.create",
+        "ecto.migrate",
+        "run priv/repo/seeds.exs"
+      ]
+    ]
+  end
+
 end

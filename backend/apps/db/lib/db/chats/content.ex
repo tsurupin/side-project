@@ -3,7 +3,7 @@ defmodule Db.Chats.Content do
   use Arc.Ecto.Schema
   import Ecto.Changeset
   alias Db.Chats.{Chat}
-  alias Db.Uploaders.ChatImageUploader
+  alias Db.ChatImageUploader
   alias __MODULE__
 
   @type t :: %Content{}

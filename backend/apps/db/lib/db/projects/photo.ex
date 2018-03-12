@@ -3,7 +3,7 @@ defmodule Db.Projects.Photo do
   use Arc.Ecto.Schema
   import Ecto.Changeset
   alias Db.Projects.Project
-  alias Db.Uploaders.ProjectPhotoUploader
+  alias Db.ProjectPhotoUploader
 
   alias __MODULE__
 

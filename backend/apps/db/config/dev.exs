@@ -9,4 +9,10 @@ config :db, Db.Repo,
   hostname: "localhost",
   pool_size: 10
 
-config :arc, storage: Arc.Storage.Local
+#config :arc, storage: Arc.Storage.Local
+# TODO: local storage is not working for umbrella app
+config :arc, storage: Arc.Storage.S3, bucket: {:system, "S3_BUCKET"}
+config :ex_aws,
+  access_key_id: [{:system, "S3_KEY"}, :instance_role],
+  secret_access_key: [{:system, "S3_SECRET"}, :instance_role],
+  region: {:system, "S3_REGION"}
