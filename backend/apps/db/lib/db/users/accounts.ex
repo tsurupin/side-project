@@ -24,8 +24,7 @@ defmodule Db.Users.Accounts do
   end
 
   def create_user(attrs \\ %{}) do
-    %User{}
-    |> User.changeset(attrs)
+    User.changeset(attrs)
     |> Repo.insert()
   end
 end

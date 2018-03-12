@@ -5,12 +5,12 @@ defmodule Db.Countries.Country do
   use Ecto.Schema
   import Ecto.Changeset
   alias Db.Users.User
-  alias Db.Users.Project
+  alias Db.Projects.Project
   alias __MODULE__
 
   @type t :: %Country{}
 
-  schema "coubntries" do
+  schema "countries" do
     field(:name, :string, null: false)
     timestamps(type: :utc_datetime)
 

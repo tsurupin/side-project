@@ -5,6 +5,7 @@ defmodule Db.Genres.Genre do
   use Ecto.Schema
   import Ecto.Changeset
   alias Db.Users.User
+  alias Db.Projects.Project
   alias __MODULE__
 
   @type t :: %Genre{}

@@ -93,7 +93,7 @@ defmodule Db.Repo.Migrations.CreateInitialTables do
     end
 
     create unique_index(:projects, [:owner_id, :name], name: "projects_owner_id_and_name_index")
-    create constraint(:projects, "valid project constraints", check: "(status = 0) OR (status = 1 AND name IS NOT NULL)")
+    create constraint(:projects, "valid_project_status", check: "(status = 0) OR (status = 1 AND name IS NOT NULL)")
 
     create table(:project_skills) do
       add :skill_id, references(:skills), null: false
@@ -166,7 +166,7 @@ defmodule Db.Repo.Migrations.CreateInitialTables do
       timestamps()
     end
     create unique_index(:chat_contents, [:chat_id, :source_id, :source_type], name: "chat_contents_unique_index")
-    create constraint(:chat_contents, "valid chat contents", check: "message IS NOT NULL OR image_url IS NOT NULL")
+    create constraint(:chat_contents, "valid_chat_content", check: "message IS NOT NULL OR image_url IS NOT NULL")
 
     create table(:chat_members) do
       add :chat_id, references(:chats), null: false

@@ -27,5 +27,7 @@ defmodule Db.Chats.Content do
     |> cast(attrs, permitted_attrs)
     |> validate_required(attrs, required_attrs)
     |> unique_constraint(:chat_id, name: "chat_contents_unique_index")
+    |> check_constraint(:image_url, name: "valid_chat_content")
+    |> check_constraint(:message, name: "valid_chat_content")
   end
 end

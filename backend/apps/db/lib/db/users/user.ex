@@ -7,6 +7,7 @@ defmodule Db.Users.User do
   alias Db.Projects.Project
   alias Db.Skills.Skill
   alias Db.Chats.Chat
+  alias Db.Genres.Genre
 
   alias __MODULE__
 
@@ -25,10 +26,11 @@ defmodule Db.Users.User do
     field(:longitude, :float)
     field(:last_activated_at, :utc_datetime, null: false)
     field(:area_name, :string)
-
-    has_many(:photos, Photo)
     belongs_to(:occupation_type, OccupationType)
     belongs_to(:country, Country)
+    belongs_to(:genre, Genre)
+
+    has_many(:photos, Photo)
     many_to_many(:skills, Skill, join_through: "user_skills")
     many_to_many(:projects, Project, join_through: "project_members")
     many_to_many(:chats, Chat, join_through: "chat_members")
@@ -38,11 +40,14 @@ defmodule Db.Users.User do
 
   @spec changeset(map()) :: Ecto.Changeset.t()
   def changeset(attrs) do
-    permitted_attributes = ~w(uid provider_id display_name email)a
+    permitted_attributes =
+      ~w(uid provider_id display_name email occupation company_name school_name status latitude longitude area_name occupation_type_id country_id genre_id)a
+
     required_attributes = ~w(uid provider_id)a
 
     %User{}
     |> cast(attrs, permitted_attributes)
     |> validate_required(attrs, required_attributes)
+    |> check_constraint(:status, name: "valid_user_status")
   end
 end
