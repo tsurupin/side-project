@@ -19,7 +19,7 @@ defmodule Db.Uploaders.UserPhotoUploader do
 
   # Override the storage directory:
   def storage_dir(_version, {_file, scope}) do
-    "priv/uploads/user_photos/#{scope.id}"
+    "uploads/user_photos/#{scope.id}"
   end
 
   def default_url(:thumb) do
