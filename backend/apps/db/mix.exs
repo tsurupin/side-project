@@ -11,6 +11,7 @@ defmodule Db.MixProject do
       lockfile: "../../mix.lock",
       elixir: "~> 1.6",
       start_permanent: Mix.env() == :prod,
+      elixirc_paths: elixirc_paths(Mix.env),
       deps: deps(),
       aliases: aliases()
     ]
@@ -24,6 +25,8 @@ defmodule Db.MixProject do
     ]
   end
 
+  defp elixirc_paths(:test), do: ["lib", "web", "test/support"]
+  defp elixirc_paths(_), do: ["lib", "web"]
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
@@ -37,7 +40,11 @@ defmodule Db.MixProject do
       {:ex_aws, "~> 1.1.3"},
       {:hackney, "~> 1.8.0", override: true},
       {:poison, "~> 3.1"},
-      {:sweet_xml, "~> 0.6"}
+      {:sweet_xml, "~> 0.6"},
+      {:ex_machina, "~> 2.1.0", only: [:test]},
+
+      {:faker, "~> 0.9.0", only: [:test]},
+      {:dialyxir, "~> 0.5.1", only: [:dev], runtime: false}
     ]
   end
 
@@ -48,7 +55,8 @@ defmodule Db.MixProject do
         "ecto.create",
         "ecto.migrate",
         "run priv/repo/seeds.exs"
-      ]
+      ],
+      #test: ["ecto.create --quiet", "ecto.migrate", "test"]
     ]
   end
 end

@@ -51,7 +51,11 @@ defmodule Api.Mixfile do
       {:httpoison, "~> 0.11"},
       {:poison, "~> 3.1"},
       {:cachex, "~> 3.0"},
-      {:briefly, "~> 0.3"}
+      {:briefly, "~> 0.3"},
+      {:ex_machina, "~> 2.1.0", only: [:test]},
+
+      {:faker, "~> 0.9.0", only: [:test]},
+      {:dialyxir, "~> 0.5.1", only: [:dev], runtime: false}
     ]
   end
 end

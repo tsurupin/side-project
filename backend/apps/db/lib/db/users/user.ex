@@ -47,6 +47,9 @@ defmodule Db.Users.User do
 
     %User{}
     |> cast(attrs, permitted_attributes)
+    |> assoc_constraint(:occupation_type)
+    |> assoc_constraint(:country)
+    |> assoc_constraint(:genre)
     |> validate_required(required_attributes)
     |> check_constraint(:status, name: "valid_user_status")
   end

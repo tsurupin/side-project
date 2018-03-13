@@ -45,13 +45,13 @@ defmodule Db.Repo.Migrations.CreateInitialTables do
       add :company_name, :string
       add :school_name, :string
       add :status, :integer, default: 0, null: false, comment: "0: not_completed, 1: completed, 2: unactive"
-      add :last_activated_at, :datetime, default: fragment("now()"), null: false
+      add :last_activated_at, :utc_datetime, default: fragment("now()"), null: false
       add :area_name, :string
       add :country_id, references(:countries)
       add :latitude, :float
       add :longitude, :float
 
-      add :deleted_at, :datetime
+      add :deleted_at, :utc_datetime
       timestamps()
     end
 
@@ -84,7 +84,7 @@ defmodule Db.Repo.Migrations.CreateInitialTables do
        add :source_user_id, references(:users, on_delete: :delete_all), null: false
        add :target_user_id, references(:users, on_delete: :delete_all), null: false
        add :status, :integer, default: 0, null: false, comment: "0: requested, 1: approved, 2: rejected, 3: withdrawed"
-       add :deleted_at, :datetime
+       add :deleted_at, :utc_datetime
        timestamps()
     end
 
@@ -94,7 +94,7 @@ defmodule Db.Repo.Migrations.CreateInitialTables do
       add :user_id, references(:users, on_delete: :delete_all), null: false
       add :target_id, :integer, null: false
       add :target_type, :string, null: false
-      add :deleted_at, :datetime
+      add :deleted_at, :utc_datetime
       timestamps()
     end
 
@@ -109,7 +109,7 @@ defmodule Db.Repo.Migrations.CreateInitialTables do
       add :motivation, :text
       add :requirement, :text
       add :owner_id, references(:users), null: false
-      add :deleted_at, :datetime
+      add :deleted_at, :utc_datetime
       timestamps()
     end
 
@@ -139,7 +139,7 @@ defmodule Db.Repo.Migrations.CreateInitialTables do
       add :project_id, references(:projects, on_delete: :delete_all), null: false
       add :user_id, references(:users), null: false
       add :status, :integer, default: 0, null: false, comment: "0: requested, 1: approved, 2: rejected, 3: withdrawed"
-      add :deleted_at, :datetime
+      add :deleted_at, :utc_datetime
       timestamps()
     end
 
@@ -148,7 +148,7 @@ defmodule Db.Repo.Migrations.CreateInitialTables do
     create table(:chat_groups) do
       add :source_id, :integer, null: false
       add :source_type, :string, null: false, comment: "source is either Project or UserLike"
-      add :deleted_at, :datetime
+      add :deleted_at, :utc_datetime
       timestamps()
     end
 
@@ -158,7 +158,7 @@ defmodule Db.Repo.Migrations.CreateInitialTables do
       add :chat_group_id, references(:chat_groups, on_delete: :delete_all), null: false
       add :name, :string, null: false
       add :is_main, :boolean, default: false, null: false
-      add :deleted_at, :datetime
+      add :deleted_at, :utc_datetime
       timestamps()
     end
     create unique_index(:chats, [:chat_group_id, :is_main], where: "is_main = true", name: "chats_chat_group_id_and_is_main_index")
@@ -171,7 +171,7 @@ defmodule Db.Repo.Migrations.CreateInitialTables do
       add :source_type, :string, null: false
       add :message, :text
       add :image_url, :string
-      add :deleted_at, :datetime
+      add :deleted_at, :utc_datetime
       timestamps()
     end
 
@@ -180,7 +180,7 @@ defmodule Db.Repo.Migrations.CreateInitialTables do
     create table(:chat_members) do
       add :chat_id, references(:chats, on_delete: :delete_all), null: false
       add :user_id, references(:users, on_delete: :delete_all), null: false
-      add :deleted_at, :datetime
+      add :deleted_at, :utc_datetime
       timestamps()
     end
     create unique_index(:chat_members, [:chat_id, :user_id], name: "chat_members_chat_id_and_user_id_index")
