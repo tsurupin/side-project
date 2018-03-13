@@ -14,19 +14,20 @@ defmodule Db.Chats.Content do
     field(:message, :string)
     field(:image_url, ChatImageUploader.Type)
     field(:deleted_at, :utc_datetime)
-    belongs_to(:chat_id, Chat)
+    belongs_to(:chat, Chat)
     timestamps(type: :utc_datetime)
   end
 
   @spec changeset(map()) :: Ecto.Changeset.t()
   def changeset(attrs) do
-    permitted_attrs = ~w(source_id source_type chat_id message image_url)a
+    permitted_attrs = ~w(source_id source_type chat_id message)a
     required_attrs = ~w(chat_id source_id source_type)a
 
     %Content{}
     |> cast(attrs, permitted_attrs)
     |> validate_required(required_attrs)
-    |> unique_constraint(:chat_id, name: "chat_contents_unique_index")
+    |> assoc_constraint(:chat)
+    |> cast_attachments(attrs, [:image_url])
     |> check_constraint(:image_url, name: "valid_chat_content")
     |> check_constraint(:message, name: "valid_chat_content")
   end

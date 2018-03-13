@@ -9,7 +9,7 @@ defmodule Db.Chats.Member do
 
   schema "chat_members" do
     belongs_to(:chat, Chat)
-    belongs_to(:user_id, User)
+    belongs_to(:user, User)
     field(:deleted_at, :utc_datetime)
 
     timestamps(type: :utc_datetime)

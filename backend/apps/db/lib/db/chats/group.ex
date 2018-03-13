@@ -10,6 +10,7 @@ defmodule Db.Chats.Group do
   schema "chat_groups" do
     field(:source_id, :integer, null: false)
     field(:source_type, :string, null: false)
+    field(:deleted_at, :utc_datetime)
     timestamps(type: :utc_datetime)
 
     has_many(:chats, Chat)
@@ -23,6 +24,6 @@ defmodule Db.Chats.Group do
     %Group{}
     |> cast(attrs, permitted_attrs)
     |> validate_required(required_attrs)
-    |> unique_constraint(:name, name: "chat_groups_source_id_and_source_type_index")
+    |> unique_constraint(:source_id, name: "chat_groups_source_id_and_source_type_index")
   end
 end

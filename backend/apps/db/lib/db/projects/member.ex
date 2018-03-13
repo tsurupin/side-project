@@ -9,7 +9,7 @@ defmodule Db.Projects.Member do
 
   schema "project_members" do
     belongs_to(:project, Project)
-    belongs_to(:user_id, User)
+    belongs_to(:user, User)
     field(:deleted_at, :utc_datetime)
     field(:status, ProjectMemberStatusEnum, default: 0)
     timestamps(type: :utc_datetime)
@@ -18,7 +18,7 @@ defmodule Db.Projects.Member do
   @spec changeset(map()) :: Ecto.Changeset.t()
   def changeset(attrs) do
     permitted_attrs = ~w(project_id user_id status)a
-    required_attrs = ~w(project_id user_id status)a
+    required_attrs = ~w(project_id user_id)a
 
     %Member{}
     |> cast(attrs, permitted_attrs)

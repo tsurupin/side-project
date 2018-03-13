@@ -21,4 +21,8 @@ defmodule Db.Uploaders.ProjectPhotoUploader do
   def storage_dir(_version, {_file, scope}) do
     "uploads/project_photos/#{scope.id}"
   end
+
+  def default_url(:thumb) do
+    "https://placehold.it/100x100"
+  end
 end

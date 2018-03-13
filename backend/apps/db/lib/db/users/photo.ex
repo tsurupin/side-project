@@ -28,7 +28,6 @@ defmodule Db.Users.Photo do
     |> assoc_constraint(:user)
     |> cast_attachments(attrs, [:image_url])
     |> validate_required(required_attrs)
-    |> foreign_key_constraint(:user_id)
     |> unique_constraint(:user_id, name: "user_photos_user_id_and_is_main_index")
   end
 end

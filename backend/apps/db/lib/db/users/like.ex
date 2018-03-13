@@ -18,7 +18,7 @@ defmodule Db.Users.Like do
   @spec changeset(map()) :: Ecto.Changeset.t()
   def changeset(attrs) do
     permitted_attrs = ~w(source_user_id target_user_id status)a
-    required_attrs = ~w(source_user_id target_user_id status)a
+    required_attrs = ~w(source_user_id target_user_id)a
 
     %Like{}
     |> cast(attrs, permitted_attrs)

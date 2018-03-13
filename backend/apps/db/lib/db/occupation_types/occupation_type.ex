@@ -11,6 +11,7 @@ defmodule Db.OccupationTypes.OccupationType do
 
   schema "occupation_types" do
     field(:name, :string, null: false)
+    field(:deleted_at, :utc_datetime)
     timestamps(type: :utc_datetime)
 
     has_many(:users, User)

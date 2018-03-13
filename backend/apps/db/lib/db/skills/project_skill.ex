@@ -8,6 +8,7 @@ defmodule Db.Skills.ProjectSkill do
 
   schema "project_skills" do
     field(:rank, :integer, null: false, default: 0)
+    field(:deleted_at, :utc_datetime)
     belongs_to(:skill, Skill)
     belongs_to(:project, Project)
 
