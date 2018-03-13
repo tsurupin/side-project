@@ -12,7 +12,6 @@ defmodule Db.Uploaders.UserPhotoUploader do
     {:convert, "-strip -thumbnail x500^ -gravity center -extent x500"}
   end
 
-
   def filename(version, {_file, _scope}) do
     "#{version}"
   end

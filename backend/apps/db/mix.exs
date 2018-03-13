@@ -51,5 +51,4 @@ defmodule Db.MixProject do
       ]
     ]
   end
-
 end
