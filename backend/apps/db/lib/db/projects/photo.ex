@@ -3,7 +3,7 @@ defmodule Db.Projects.Photo do
   use Arc.Ecto.Schema
   import Ecto.Changeset
   alias Db.Projects.Project
-  alias Db.ProjectPhotoUploader
+  alias Db.Uploaders.ProjectPhotoUploader
 
   alias __MODULE__
 
@@ -23,7 +23,7 @@ defmodule Db.Projects.Photo do
 
     %Photo{}
     |> cast(attrs, permitted_attrs)
-    |> validate_required(attrs, required_attrs)
+    |> validate_required(required_attrs)
     |> unique_constraint(:user_id, name: "project_photos_project_id_and_is_main_index")
   end
 end

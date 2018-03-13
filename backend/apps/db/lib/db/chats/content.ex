@@ -3,7 +3,7 @@ defmodule Db.Chats.Content do
   use Arc.Ecto.Schema
   import Ecto.Changeset
   alias Db.Chats.{Chat}
-  alias Db.ChatImageUploader
+  alias Db.Uploaders.ChatImageUploader
   alias __MODULE__
 
   @type t :: %Content{}
@@ -25,7 +25,7 @@ defmodule Db.Chats.Content do
 
     %Content{}
     |> cast(attrs, permitted_attrs)
-    |> validate_required(attrs, required_attrs)
+    |> validate_required(required_attrs)
     |> unique_constraint(:chat_id, name: "chat_contents_unique_index")
     |> check_constraint(:image_url, name: "valid_chat_content")
     |> check_constraint(:message, name: "valid_chat_content")

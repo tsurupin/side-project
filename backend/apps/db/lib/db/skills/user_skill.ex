@@ -22,7 +22,7 @@ defmodule Db.Skills.UserSkill do
 
     %UserSkill{}
     |> cast(attrs, permitted_attrs)
-    |> validate_required(attrs, required_attrs)
+    |> validate_required(required_attrs)
     |> assoc_constraint(:skill)
     |> assoc_constraint(:user)
     |> unique_constraint(:skill_id, name: "user_skills_skill_id_and_user_id_index")

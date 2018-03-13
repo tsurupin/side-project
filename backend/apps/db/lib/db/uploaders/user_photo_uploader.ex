@@ -1,17 +1,17 @@
-defmodule Db.UserPhotoUploader do
+defmodule Db.Uploaders.UserPhotoUploader do
   use Arc.Definition
   use Arc.Ecto.Definition
 
-  @versions [:original]
+  @versions [:original, :thumb]
   @acl :public_read
   def validate({file, _}) do
     ~w(.jpg .jpeg .gif .png) |> Enum.member?(Path.extname(file.file_name))
   end
 
-  # def transform(:thumb, _) do
-  #   {:convert, "-strip -thumbnail x500^ -gravity center -extent x500"}
-  # end
-  #
+  def transform(:thumb, _) do
+    {:convert, "-strip -thumbnail x500^ -gravity center -extent x500"}
+  end
+
 
   def filename(version, {_file, _scope}) do
     "#{version}"
@@ -19,9 +19,10 @@ defmodule Db.UserPhotoUploader do
 
   # Override the storage directory:
   def storage_dir(_version, {_file, scope}) do
-    "uploads/images/1"
+    "priv/uploads/user_photos/#{scope.id}"
   end
-  # def default_url(:thumb) do
-  #   "https://placehold.it/100x100"
-  # end
+
+  def default_url(:thumb) do
+    "https://placehold.it/100x100"
+  end
 end

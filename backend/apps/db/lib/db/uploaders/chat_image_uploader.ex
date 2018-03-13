@@ -1,4 +1,4 @@
-defmodule Db.ChatImageUploader do
+defmodule Db.Uploaders.ChatImageUploader do
   use Arc.Definition
   use Arc.Ecto.Definition
 

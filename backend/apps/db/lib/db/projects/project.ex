@@ -32,7 +32,7 @@ defmodule Db.Projects.Project do
 
     %Project{}
     |> cast(attrs, permitted_attrs)
-    |> validate_required(attrs, required_attrs)
+    |> validate_required(required_attrs)
     |> assoc_constraint(:genre)
     |> assoc_constraint(:owner)
     |> unique_constraint(:name, name: "projects_name_and_is_main_index")

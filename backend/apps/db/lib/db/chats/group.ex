@@ -22,7 +22,7 @@ defmodule Db.Chats.Group do
 
     %Group{}
     |> cast(attrs, permitted_attrs)
-    |> validate_required(attrs, required_attrs)
+    |> validate_required(required_attrs)
     |> unique_constraint(:name, name: "chat_groups_source_id_and_source_type_index")
   end
 end

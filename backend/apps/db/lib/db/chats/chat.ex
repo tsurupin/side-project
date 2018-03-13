@@ -25,7 +25,7 @@ defmodule Db.Chats.Chat do
 
     %Chat{}
     |> cast(attrs, permitted_attrs)
-    |> validate_required(attrs, required_attrs)
+    |> validate_required(required_attrs)
     |> unique_constraint(:name, name: "chats_chat_group_id_and_name_index")
   end
 end

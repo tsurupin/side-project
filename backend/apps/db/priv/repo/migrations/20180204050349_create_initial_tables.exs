@@ -89,6 +89,7 @@ defmodule Db.Repo.Migrations.CreateInitialTables do
       add :motivation, :text
       add :requirement, :text
       add :owner_id, references(:users), null: false
+      add :deleted_at, :datetime
       timestamps()
     end
 

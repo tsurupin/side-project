@@ -47,7 +47,7 @@ defmodule Db.Users.User do
 
     %User{}
     |> cast(attrs, permitted_attributes)
-    |> validate_required(attrs, required_attributes)
+    |> validate_required(required_attributes)
     |> check_constraint(:status, name: "valid_user_status")
   end
 end

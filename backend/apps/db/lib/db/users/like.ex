@@ -22,7 +22,7 @@ defmodule Db.Users.Like do
 
     %Like{}
     |> cast(attrs, permitted_attrs)
-    |> validate_required(attrs, required_attrs)
+    |> validate_required(required_attrs)
     |> assoc_constraint(:source_user)
     |> assoc_constraint(:target_user)
     |> unique_constraint(:source_user_id, name: "user_likes_unique_index")

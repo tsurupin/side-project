@@ -22,7 +22,7 @@ defmodule Db.Projects.Member do
 
     %Member{}
     |> cast(attrs, permitted_attrs)
-    |> validate_required(attrs, required_attrs)
+    |> validate_required(required_attrs)
     |> assoc_constraint(:project)
     |> assoc_constraint(:user)
     |> unique_constraint(:project_id, name: "project_members_project_id_and_user_id_index")

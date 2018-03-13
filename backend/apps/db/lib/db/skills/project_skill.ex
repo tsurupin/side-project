@@ -21,7 +21,7 @@ defmodule Db.Skills.ProjectSkill do
 
     %ProjectSkill{}
     |> cast(attrs, permitted_attrs)
-    |> validate_required(attrs, required_attrs)
+    |> validate_required(required_attrs)
     |> assoc_constraint(:skill)
     |> assoc_constraint(:project)
     |> unique_constraint(:rank, name: "project_skills_project_id_and_rank_index")

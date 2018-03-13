@@ -22,7 +22,7 @@ defmodule Db.Chats.Member do
 
     %Member{}
     |> cast(attrs, permitted_attrs)
-    |> validate_required(attrs, required_attrs)
+    |> validate_required(required_attrs)
     |> assoc_constraint(:chat)
     |> assoc_constraint(:user)
     |> unique_constraint(:chat_id, name: "chat_members_chat_id_and_user_id_index")

@@ -1,4 +1,4 @@
-defmodule Db.ProjectPhotoUploader do
+defmodule Db.Uploaders.ProjectPhotoUploader do
   use Arc.Definition
   use Arc.Ecto.Definition
 
