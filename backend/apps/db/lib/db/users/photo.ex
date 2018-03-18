@@ -12,6 +12,7 @@ defmodule Db.Users.Photo do
   schema "user_photos" do
     field(:is_main, :boolean, default: false, null: false)
     field(:image_url, UserPhotoUploader.Type)
+    #field(:deleted_at, :utc_datetime)
     belongs_to(:user, User)
     timestamps(type: :utc_datetime)
   end

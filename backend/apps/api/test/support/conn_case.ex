@@ -18,6 +18,10 @@ defmodule ApiWeb.ConnCase do
   using do
     quote do
       # Import conveniences for testing with connections
+      alias Db.{
+        Factory,
+        Repo,
+      }
       use Phoenix.ConnTest
       import ApiWeb.Router.Helpers
 
@@ -26,7 +30,14 @@ defmodule ApiWeb.ConnCase do
     end
   end
 
-  setup _tags do
+  setup tags do
+    ok = Ecto.Adapters.SQL.Sandbox.checkout(Db.Repo)
+
+    unless tags[:async] do
+      Ecto.Adapters.SQL.Sandbox.mode(Db.Repo, {:shared, self()})
+    end
+
     {:ok, conn: Phoenix.ConnTest.build_conn()}
+
   end
 end

@@ -2,8 +2,8 @@ defmodule Db.Users.User do
   use Ecto.Schema
   import Ecto.Changeset
   alias Db.Users.Photo
-  alias Db.OccupationType
-  alias Db.Country
+  alias Db.OccupationTypes.OccupationType
+  alias Db.Countries.Country
   alias Db.Projects.Project
   alias Db.Skills.Skill
   alias Db.Chats.Chat
@@ -26,6 +26,7 @@ defmodule Db.Users.User do
     field(:longitude, :float)
     field(:last_activated_at, :utc_datetime, null: false)
     field(:area_name, :string)
+    #field(:deleted_at, :utc_datetime)
     belongs_to(:occupation_type, OccupationType)
     belongs_to(:country, Country)
     belongs_to(:genre, Genre)

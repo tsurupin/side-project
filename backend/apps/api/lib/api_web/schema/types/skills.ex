@@ -1,10 +1,9 @@
-defmodule ApiWeb.Schema.SkillTypes do
+defmodule ApiWeb.Schema.Types.Skills do
   use Absinthe.Schema.Notation
 
-  
+
   object :skills do
     field :skills, list_of(:skill)
-    ## Add auto complete
   end
 
   object :skill do

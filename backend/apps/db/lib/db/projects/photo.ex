@@ -12,8 +12,8 @@ defmodule Db.Projects.Photo do
   schema "project_photos" do
     field(:is_main, :boolean, default: false, null: false)
     field(:image_url, ProjectPhotoUploader.Type, null: false)
-    field(:deleted_at, :utc_datetime)
     belongs_to(:project, Project)
+    field(:deleted_at, :utc_datetime)
     timestamps(type: :utc_datetime)
   end
 

@@ -11,12 +11,12 @@ defmodule Db.Factory do
     Projects,
     Skills,
     Countries,
-    OccupationTypes,
+    OccupationTypes.OccupationType,
     Genres,
     Chats
   }
 
-  alias OccupationTypes.OccupationType
+
   alias Countries.Country
   alias Genres.Genre
   alias Users.User
@@ -61,9 +61,9 @@ defmodule Db.Factory do
       latitude: 37.772640,
       longitude: -122.409915,
       area_name: "San Francisco",
-      occupation_type_id: build(:occupation_type),
-      country_id: build(:country),
-      genre_id: build(:genre)
+      occupation_type: build(:occupation_type),
+      country: build(:country),
+      genre: build(:genre)
     }
   end
 end

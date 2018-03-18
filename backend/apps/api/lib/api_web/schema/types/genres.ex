@@ -1,7 +1,7 @@
-defmodule ApiWeb.Schema.CountryTypes do
+defmodule ApiWeb.Schema.Types.Genres do
   use Absinthe.Schema.Notation
 
-  object :country do
+  object :genre do
     field :id, :id
     field :name, :string
   end
