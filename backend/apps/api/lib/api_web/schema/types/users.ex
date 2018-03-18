@@ -1,4 +1,4 @@
-defmodule ApiWeb.Schema.UserTypes do
+defmodule ApiWeb.Schema.Types.Users do
   use Absinthe.Schema.Notation
 
 
@@ -17,6 +17,9 @@ defmodule ApiWeb.Schema.UserTypes do
     field :status, :status
     field :area_name, :string
     field :country, :country
+    field :skills, list_of(:skill)
+    #field :image_urls, list_of(:image_url)
   end
+
 
 end

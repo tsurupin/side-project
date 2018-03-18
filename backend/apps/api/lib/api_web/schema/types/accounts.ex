@@ -1,4 +1,4 @@
-defmodule ApiWeb.Schema.AccountsTypes do
+defmodule ApiWeb.Schema.Types.Accounts do
   use Absinthe.Schema.Notation
 
   object :user do

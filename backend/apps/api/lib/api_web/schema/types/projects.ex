@@ -1,4 +1,4 @@
-defmodule ApiWeb.Schema.ProjectTypes do
+defmodule ApiWeb.Schema.Types.Projects do
   use Absinthe.Schema.Notation
 
 

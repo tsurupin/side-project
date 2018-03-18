@@ -1,7 +1,7 @@
-defmodule ApiWeb.Schema.OccupationTypeTypes do
+defmodule ApiWeb.Schema.Types.Countries do
   use Absinthe.Schema.Notation
 
-  object :occupation_type do
+  object :country do
     field :id, :id
     field :name, :string
   end

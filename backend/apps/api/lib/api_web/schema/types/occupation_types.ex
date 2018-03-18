@@ -1,7 +1,7 @@
-defmodule ApiWeb.Schema.GenreTypes do
+defmodule ApiWeb.Schema.Types.OccupationTypes do
   use Absinthe.Schema.Notation
 
-  object :genre do
+  object :occupation_type do
     field :id, :id
     field :name, :string
   end
