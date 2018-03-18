@@ -5,6 +5,7 @@ defmodule Db.Repo.Migrations.CreateInitialTables do
 
     create table(:genres) do
       add :name, :string, null: false
+      add :deleted_at, :utc_datetime
       timestamps()
     end
 
@@ -13,6 +14,7 @@ defmodule Db.Repo.Migrations.CreateInitialTables do
 
     create table(:countries) do
       add :name, :string, null: false
+      add :deleted_at, :utc_datetime
       timestamps()
     end
 
@@ -20,6 +22,7 @@ defmodule Db.Repo.Migrations.CreateInitialTables do
 
     create table(:occupation_types) do
       add :name, :string, null: false
+      add :deleted_at, :utc_datetime
       timestamps()
     end
 
@@ -28,6 +31,7 @@ defmodule Db.Repo.Migrations.CreateInitialTables do
 
     create table(:skills) do
       add :name, :string, null: false
+      add :deleted_at, :utc_datetime
       timestamps()
     end
 
@@ -67,6 +71,7 @@ defmodule Db.Repo.Migrations.CreateInitialTables do
       add :image_url, :string, null: false
       add :is_main, :boolean, null: false, default: false
 
+      add :deleted_at, :utc_datetime
       timestamps()
     end
     create unique_index(:user_photos, [:user_id, :is_main], where: "is_main = true", name: "user_photos_user_id_and_is_main_index")
@@ -75,6 +80,7 @@ defmodule Db.Repo.Migrations.CreateInitialTables do
       add :skill_id, references(:skills, on_delete: :delete_all), null: false
       add :user_id, references(:users, on_delete: :delete_all), null: false
       add :rank, :integer, null: false, default: 0, comment: "ASC display order"
+      add :deleted_at, :utc_datetime
       timestamps()
     end
     create unique_index(:user_skills, [:skill_id, :user_id], name: "user_skills_skill_id_and_user_id_index")
@@ -120,6 +126,7 @@ defmodule Db.Repo.Migrations.CreateInitialTables do
       add :skill_id, references(:skills, on_delete: :delete_all), null: false
       add :project_id, references(:users, on_delete: :delete_all), null: false
       add :rank, :integer, null: false, default: 0, comment: "ASC display order"
+      add :deleted_at, :utc_datetime
       timestamps()
     end
     create unique_index(:project_skills, [:skill_id, :project_id], name: "project_skills_skill_id_and_project_id_index")
@@ -129,7 +136,7 @@ defmodule Db.Repo.Migrations.CreateInitialTables do
       add :project_id, references(:projects, on_delete: :delete_all), null: false
       add :image_url, :string, null: false
       add :is_main, :boolean, null: false, default: false
-
+      add :deleted_at, :utc_datetime
       timestamps()
     end
     create unique_index(:project_photos, [:project_id, :is_main], where: "is_main = true", name: "project_photos_user_id_and_is_main_index")

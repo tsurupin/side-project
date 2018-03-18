@@ -23,15 +23,16 @@ defmodule ApiWeb.Router do
     # Use the default browser stack
     pipe_through(:api)
 
-    # forward "/api", Absinthe.Plug,
-    #   schema: ApiWeb.Schema
-
     forward(
       "/graphiql",
       Absinthe.Plug.GraphiQL,
       socket: ApiWeb.UserSocket,
       schema: ApiWeb.Schema
     )
+
+    forward "/", Absinthe.Plug,
+      socket: ApiWeb.UserSocket,
+      schema: ApiWeb.Schema
   end
 
   # scope "/graphq" do

@@ -9,9 +9,10 @@ defmodule Db.Skills.UserSkill do
 
   schema "user_skills" do
     field(:rank, :integer, null: false, default: 0)
+    field(:deleted_at, :utc_datetime)
     belongs_to(:skill, Skill)
     belongs_to(:user, User)
-    field(:deleted_at, :utc_datetime)
+
 
     timestamps(type: :utc_datetime)
   end
