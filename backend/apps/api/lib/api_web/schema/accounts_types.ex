@@ -14,4 +14,13 @@ defmodule ApiWeb.Schema.AccountsTypes do
   object :test do
     field(:uid, :string)
   end
+
+
+  @desc ""
+  enum :order do
+    value :desc
+    value :asc
+  end
+
+
 end

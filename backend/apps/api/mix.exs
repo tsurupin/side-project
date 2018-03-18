@@ -52,6 +52,7 @@ defmodule Api.Mixfile do
       {:poison, "~> 3.1"},
       {:cachex, "~> 3.0"},
       {:briefly, "~> 0.3"},
+      {:dataloader, "~> 1.0.0"},
       {:ex_machina, "~> 2.1.0", only: [:test]},
 
       {:faker, "~> 0.9.0", only: [:test]},
