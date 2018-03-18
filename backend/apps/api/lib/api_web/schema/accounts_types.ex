@@ -15,12 +15,4 @@ defmodule ApiWeb.Schema.AccountsTypes do
     field(:uid, :string)
   end
 
-
-  @desc ""
-  enum :order do
-    value :desc
-    value :asc
-  end
-
-
 end
