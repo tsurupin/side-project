@@ -2,6 +2,7 @@ defmodule Db.Skills.UserSkill do
   use Ecto.Schema
   import Ecto.{Changeset, Query}
   alias Db.Skills.{Skill}
+  alias Db.Users.User
 
   alias __MODULE__
 

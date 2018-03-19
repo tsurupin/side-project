@@ -1,7 +1,8 @@
 defmodule Db.Skills.ProjectSkill do
   use Ecto.Schema
   import Ecto.{Changeset, Query}
-  alias Db.Skills.{Skill, Project}
+  alias Db.Skills.Skill
+  alias Db.Projects.Project
 
   alias __MODULE__
   @type t :: %ProjectSkill{}

@@ -13,7 +13,7 @@ defmodule ApiWeb.Schema.Types.Users do
     field :display_name, :string
     field :genre, :genre
     field :occupation_type, :occupation_type
-    field :schoold_name, :string
+    field :school_name, :string
     field :status, :status
     field :area_name, :string
     field :country, :country

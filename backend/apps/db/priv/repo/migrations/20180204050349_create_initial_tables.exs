@@ -55,7 +55,6 @@ defmodule Db.Repo.Migrations.CreateInitialTables do
       add :latitude, :float
       add :longitude, :float
 
-      add :deleted_at, :utc_datetime
       timestamps()
     end
 
@@ -87,14 +86,14 @@ defmodule Db.Repo.Migrations.CreateInitialTables do
     create unique_index(:user_skills, [:user_id, :rank], name: "user_skills_user_id_and_rank_index")
 
     create table(:user_likes) do
-       add :source_user_id, references(:users, on_delete: :delete_all), null: false
+       add :user_id, references(:users, on_delete: :delete_all), null: false
        add :target_user_id, references(:users, on_delete: :delete_all), null: false
        add :status, :integer, default: 0, null: false, comment: "0: requested, 1: approved, 2: rejected, 3: withdrawed"
        add :deleted_at, :utc_datetime
        timestamps()
     end
 
-    create unique_index(:user_likes, [:source_user_id, :target_user_id], name: "user_likes_unique_index")
+    create unique_index(:user_likes, [:user_id, :target_user_id], name: "user_likes_unique_index")
 
     create table(:user_favorites) do
       add :user_id, references(:users, on_delete: :delete_all), null: false

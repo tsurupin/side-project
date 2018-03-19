@@ -8,7 +8,7 @@ defmodule Db.Users.Like do
   @type t :: %Like{}
 
   schema "user_likes" do
-    belongs_to(:source_user, User)
+    belongs_to(:user, User)
     belongs_to(:target_user, User)
     field(:deleted_at, :utc_datetime)
     field(:status, UserLikeStatusEnum, default: 0)
@@ -17,14 +17,14 @@ defmodule Db.Users.Like do
 
   @spec changeset(map()) :: Ecto.Changeset.t()
   def changeset(attrs) do
-    permitted_attrs = ~w(source_user_id target_user_id status)a
-    required_attrs = ~w(source_user_id target_user_id)a
+    permitted_attrs = ~w(user_id target_user_id status)a
+    required_attrs = ~w(user_id target_user_id)a
 
     %Like{}
     |> cast(attrs, permitted_attrs)
     |> validate_required(required_attrs)
-    |> assoc_constraint(:source_user)
+    |> assoc_constraint(:user)
     |> assoc_constraint(:target_user)
-    |> unique_constraint(:source_user_id, name: "user_likes_unique_index")
+    |> unique_constraint(:user_id, name: "user_likes_unique_index")
   end
 end

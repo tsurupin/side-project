@@ -8,7 +8,7 @@ defmodule Db.Skills.Skill do
 
   schema "skills" do
     field(:name, :string, null: false)
-    #field(:deleted_at, :utc_datetime)
+    field(:deleted_at, :utc_datetime)
     timestamps(type: :utc_datetime)
 
     has_many(:user_skills, UserSkill)

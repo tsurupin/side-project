@@ -10,3 +10,5 @@ config :db, Db.Repo,
 config :logger,
   backends: [:console],
   compile_time_purge_level: :debug
+
+config :arc, storage: Arc.Storage.Local

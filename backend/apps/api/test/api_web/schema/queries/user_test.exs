@@ -4,7 +4,9 @@ defmodule ApiWeb.Schema.Queries.UserTest do
   describe "user query" do
     setup do
       user = Factory.insert(:user)
-
+      user_skill = Factory.insert(:user_skill, user: user)
+      user_photo = Factory.insert(:user_photo, user: user)
+      IO.inspect(user_photo)
       {:ok, user: user}
     end
 
@@ -13,6 +15,25 @@ defmodule ApiWeb.Schema.Queries.UserTest do
         user(id: $id) {
           id
           displayName
+          schoolName
+          genre {
+            id
+            name
+          }
+          occupationType {
+            id
+            name
+          }
+          status
+          areaName
+          country {
+            id
+            name
+          }
+          skills {
+            id
+            name
+          }
         }
       }
 
