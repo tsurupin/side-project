@@ -1,11 +1,12 @@
-defmodule ApiWeb.Resolvers.Skills do
+defmodule ApiWeb.Schema.Resolvers.Skills do
   alias Db.Skills.Skills
 
-  def search(_parent, %{term: term} = args, _resolver) do
+  def search(_parent, %{term: term}, _resolver) do
+    skills =
+      term
+      |> Skills.search
+      |> Skills.execute
 
-    case Skills.search(term) do
-      {:ok, skills} -> {:ok, skills}
-      {:error, reason} -> {:error, reason}
-    end
+    {:ok, skills}
   end
 end
