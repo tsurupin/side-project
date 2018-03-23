@@ -1,7 +1,7 @@
-defmodule ApiWeb.Schema.Queries.UserTest do
+defmodule ApiWeb.Schema.Queries.UsersTest do
   use ApiWeb.ConnCase, async: true
 
-  describe "user query" do
+  describe "users query" do
     setup do
       user = Factory.insert(:user)
       user_skill = Factory.insert(:user_skill, user: user)

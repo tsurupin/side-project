@@ -5,18 +5,17 @@ defmodule Db.Skills.Skills do
   alias Db.Skills.{UserSkill, ProjectSkill, Skill}
   alias __MODULE__
 
-  @spec search(charlist()) :: charlist()
+  @spec search(charlist()) :: list(Skill)
   def search(term), do: search(Skill, term)
 
-  @spec search(Ecto.Query, charlist()) :: charlist()
+  @spec search(Ecto.Query, charlist()) :: list(Skill)
   def search(query, term) when is_nil(term), do: query
   def search(query, term) do
-    from s in query,
-    where: ilike(s.name, ^"%#{term}%")
-  end
-
-  @spec execute(Ecto.Query) :: list(Skill)
-  def execute(query) do
+    query =
+      from(
+      s in query,
+      where: ilike(s.name, ^"%#{term}%")
+    )
     Repo.all(query)
   end
 

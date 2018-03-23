@@ -10,9 +10,11 @@ defmodule ApiWeb.Schema do
   import_types ApiWeb.Schema.Types.Skills
   import_types ApiWeb.Schema.Types.Users
   import_types ApiWeb.Schema.Queries.Users
+  import_types ApiWeb.Schema.Queries.Skills
   #
   query do
     import_fields :users_queries
+    import_fields :skills_queries
   end
 
   def middleware(middleware, field, object) do

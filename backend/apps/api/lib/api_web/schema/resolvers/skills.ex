@@ -5,7 +5,6 @@ defmodule ApiWeb.Schema.Resolvers.Skills do
     skills =
       term
       |> Skills.search
-      |> Skills.execute
 
     {:ok, skills}
   end
