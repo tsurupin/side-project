@@ -3,11 +3,23 @@ defmodule ApiWeb.Schema.Queries.UsersTest do
 
   describe "users query" do
     setup do
-      user = Factory.insert(:user)
-      user_skill = Factory.insert(:user_skill, user: user)
+      occupation_type = Factory.insert(:occupation_type)
+      country = Factory.insert(:country)
+      genre = Factory.insert(:genre)
+      user = Factory.insert(:user, genre: genre, country: country, occupation_type: occupation_type)
+      skill = Factory.insert(:skill)
+      user_skill = Factory.insert(:user_skill, user: user, skill: skill)
       user_photo = Factory.insert(:user_photo, user: user)
-      IO.inspect(user_photo)
-      {:ok, user: user}
+
+
+      {
+        :ok,
+        user: user,
+        skill: skill,
+        country: country,
+        genre: genre,
+        occupation_type: occupation_type
+      }
     end
 
     @query """
@@ -16,6 +28,8 @@ defmodule ApiWeb.Schema.Queries.UsersTest do
           id
           displayName
           schoolName
+          status
+          areaName
           genre {
             id
             name
@@ -24,8 +38,6 @@ defmodule ApiWeb.Schema.Queries.UsersTest do
             id
             name
           }
-          status
-          areaName
           country {
             id
             name
@@ -38,15 +50,27 @@ defmodule ApiWeb.Schema.Queries.UsersTest do
       }
 
     """
-    test "user fields return user", %{user: user} do
-      IO.inspect(user.id)
+    test "user fields return user", cxt do
+      %{user: user, skill: skill, genre: genre, country: country, occupation_type: occupation_type} = cxt
       conn = build_conn()
       conn = get(conn, "/api", %{query: @query, variables: %{id: user.id}})
-      IO.inspect(conn)
       response = json_response(conn, 200)
-      IO.inspect(response)
-      expected_result = %{}
-      assert response == expected_result
+
+      expected_result = %{
+        "user" => %{
+          "id" => "#{user.id}",
+          "displayName" => user.display_name,
+          "areaName" => user.area_name,
+          "schoolName" => user.school_name,
+          "status" => "COMPLETED",
+          "skills" => [%{"id" => "#{skill.id}", "name" => skill.name}],
+          "country" => %{"id" => "#{country.id}", "name" => country.name},
+          "genre" => %{"id" => "#{genre.id}", "name" => genre.name},
+          "occupationType" => %{"id" => "#{occupation_type.id}", "name" => occupation_type.name},
+
+        }
+      }
+      assert response["data"] == expected_result
     end
   end
 

@@ -6,7 +6,7 @@ defmodule ApiWeb.Schema.Queries.Users do
     @desc "Fetch user info"
     field :user, :user do
       arg :id, :id
-      resolve &Resolvers.User.call/3
+      resolve &Resolvers.Users.fetch_profile/3
     end
   end
 
