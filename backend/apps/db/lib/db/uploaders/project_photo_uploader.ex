@@ -18,7 +18,11 @@ defmodule Db.Uploaders.ProjectPhotoUploader do
 
   # Override the storage directory:
   def storage_dir(_version, {_file, scope}) do
-    "uploads/project_photos/#{scope.id}"
+    if Mix.env() == :test do
+      "uploads/project_photos"
+    else
+      "uploads/project_photos/#{scope.id}"
+    end
   end
 
   def default_url(:thumb) do

@@ -1,4 +1,4 @@
-defmodule Db.Users.Users do
+defmodule Db.Users.Projects do
   @moduledoc """
   The Accoutns context.
   """
@@ -6,13 +6,13 @@ defmodule Db.Users.Users do
   import Ecto.Query, warn: false
 
   alias Db.Repo
-  alias Db.Users.User
+  alias Db.Projects.Project
 
   @spec get_by(integer) :: map()
   def get_by(%{id: id}) do
-    case Repo.get_by(User, id: id) do
+    case Repo.get_by(Project, id: id) do
       nil -> {:error, :not_found}
-      user -> {:ok, user}
+      project -> {:ok, project}
     end
   end
 
