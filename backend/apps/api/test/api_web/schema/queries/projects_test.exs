@@ -55,7 +55,7 @@ defmodule ApiWeb.Schema.Queries.ProjectsTest do
       conn = build_conn()
       conn = get(conn, "/api", %{query: @query, variables: %{id: project.id}})
       response = json_response(conn, 200)
-
+      IO.inspect(project.updated_at)
       expected_result = %{
         "project" => %{
           "id" => "#{project.id}",
@@ -70,6 +70,7 @@ defmodule ApiWeb.Schema.Queries.ProjectsTest do
           "photos" => [%{"image_url" => photo_url}]
         }
       }
+      IO.inspect(expected_result["data"]["updated_at"])
 
       assert response["data"] == expected_result
     end

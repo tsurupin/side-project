@@ -40,15 +40,13 @@ defmodule ApiWeb.Schema.Types.Projects do
 
   scalar :native_datetime do
     parse fn input ->
-      case NaiveDateTime.to_iso8601(input.value) do
+      case DateTime.to_iso8601(input.value) do
         {:ok, datetime} -> {:ok, datetime}
         _ -> :error
       end
     end
 
-    serialize fn datetime ->
-      NaiveDateTime.to_iso8601(datetime)
-    end
+    serialize &(DateTime.to_iso8601(&1))
   end
 
 end
