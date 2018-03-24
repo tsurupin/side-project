@@ -8,6 +8,7 @@ defmodule Db.Users.Users do
   alias Db.Repo
   alias Db.Users.User
 
+  @spec get_by(integer) :: map()
   def get_by(%{id: id}) do
     case Repo.get_by(User, id: id) do
       nil -> {:error, :not_found}

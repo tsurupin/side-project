@@ -1,6 +1,6 @@
 defmodule ApiWeb.Schema.Queries.UsersTest do
   use ApiWeb.ConnCase, async: true
-
+  alias Db.Uploaders.UserPhotoUploader
   describe "users query" do
     setup do
       occupation_type = Factory.insert(:occupation_type)
@@ -8,8 +8,8 @@ defmodule ApiWeb.Schema.Queries.UsersTest do
       genre = Factory.insert(:genre)
       user = Factory.insert(:user, genre: genre, country: country, occupation_type: occupation_type)
       skill = Factory.insert(:skill)
-      user_skill = Factory.insert(:user_skill, user: user, skill: skill)
-      user_photo = Factory.insert(:user_photo, user: user)
+      Factory.insert(:user_skill, user: user, skill: skill)
+      photo = Factory.insert(:user_photo, user: user)
 
 
       {
@@ -18,7 +18,8 @@ defmodule ApiWeb.Schema.Queries.UsersTest do
         skill: skill,
         country: country,
         genre: genre,
-        occupation_type: occupation_type
+        occupation_type: occupation_type,
+        photo_url: UserPhotoUploader.url({photo.image_url, photo}, :thumb)
       }
     end
 
@@ -46,12 +47,15 @@ defmodule ApiWeb.Schema.Queries.UsersTest do
             id
             name
           }
+          photos {
+            image_url
+          }
         }
       }
 
     """
     test "user fields return user", cxt do
-      %{user: user, skill: skill, genre: genre, country: country, occupation_type: occupation_type} = cxt
+      %{user: user, skill: skill, genre: genre, country: country, occupation_type: occupation_type, photo_url: photo_url} = cxt
       conn = build_conn()
       conn = get(conn, "/api", %{query: @query, variables: %{id: user.id}})
       response = json_response(conn, 200)
@@ -67,7 +71,7 @@ defmodule ApiWeb.Schema.Queries.UsersTest do
           "country" => %{"id" => "#{country.id}", "name" => country.name},
           "genre" => %{"id" => "#{genre.id}", "name" => genre.name},
           "occupationType" => %{"id" => "#{occupation_type.id}", "name" => occupation_type.name},
-
+          "photos" => [%{"image_url" => photo_url}]
         }
       }
       assert response["data"] == expected_result
