@@ -57,7 +57,7 @@ defmodule Db.Factory do
   @spec user_factory :: User.t()
   def user_factory do
     %User{
-      uid: "uid2",
+      uid: sequence(:uid, &("uid#{&1}")),
       provider_id: "facebook",
       display_name: "user",
       email: sequence(:email, &("user#{&1}@gmail.com")),

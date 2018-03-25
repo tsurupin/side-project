@@ -17,6 +17,7 @@ defmodule Db.DataCase do
       import Ecto
       import Ecto.{Changeset, Query}
       alias Ecto.Changeset
+      alias Db.Factory
 
       import Db.DataCase
 
