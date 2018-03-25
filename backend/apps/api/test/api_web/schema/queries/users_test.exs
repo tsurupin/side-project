@@ -9,7 +9,7 @@ defmodule ApiWeb.Schema.Queries.UsersTest do
       user = Factory.insert(:user, genre: genre, country: country, occupation_type: occupation_type)
       skill = Factory.insert(:skill)
       Factory.insert(:user_skill, user: user, skill: skill)
-      photo = Factory.insert(:user_photo, user: user)
+      photo = Factory.insert(:user_photo, user: user, is_main: true)
 
 
       {
@@ -29,6 +29,8 @@ defmodule ApiWeb.Schema.Queries.UsersTest do
           id
           displayName
           schoolName
+          companyName
+          introduction
           status
           areaName
           genre {
@@ -66,6 +68,8 @@ defmodule ApiWeb.Schema.Queries.UsersTest do
           "displayName" => user.display_name,
           "areaName" => user.area_name,
           "schoolName" => user.school_name,
+          "companyName" => user.company_name,
+          "introduction" => user.introduction,
           "status" => "COMPLETED",
           "skills" => [%{"id" => "#{skill.id}", "name" => skill.name}],
           "country" => %{"id" => "#{country.id}", "name" => country.name},
@@ -74,6 +78,53 @@ defmodule ApiWeb.Schema.Queries.UsersTest do
           "photos" => [%{"image_url" => photo_url}]
         }
       }
+      assert response["data"] == expected_result
+    end
+
+
+    @query """
+      query users($occupationTypeId: Int, $genreId: Int, $distance: Int, $isActive: Boolean, $skillIds: [Int]) {
+        users(conditions: {occupationTypeId: $occupationTypeId, genreId: $genreId, distance: $distance, isActive: $isActive, skillIds: $skillIds }) {
+          id
+          displayName
+          schoolName
+          companyName
+          introduction
+          areaName
+          genre {
+            id
+            name
+          }
+          occupationType {
+            id
+            name
+          }
+          main_photo_url
+        }
+      }
+    """
+    test "users queries return users", cxt do
+      %{user: user, occupation_type: occupation_type, genre: genre, photo_url: photo_url} = cxt
+      conn = build_conn()
+      conn = get(conn, "/api", %{query: @query, variables: %{occupationTypeId: occupation_type.id, genreId: genre.id}})
+      response = json_response(conn, 200)
+
+      expected_result = %{
+        "users" => [
+          %{
+            "id" => "#{user.id}",
+            "displayName" => user.display_name,
+            "occupationType" => %{"id" => "#{occupation_type.id}", "name" => occupation_type.name},
+            "genre" => %{"id" => "#{genre.id}", "name" => genre.name},
+            "areaName" => user.area_name,
+            "introduction" => user.introduction,
+            "schoolName" => user.school_name,
+            "companyName" => user.company_name,
+            "main_photo_url" => photo_url
+          }
+        ]
+      }
+
       assert response["data"] == expected_result
     end
   end

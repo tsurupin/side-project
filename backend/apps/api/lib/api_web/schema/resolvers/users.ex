@@ -10,4 +10,18 @@ defmodule ApiWeb.Schema.Resolvers.Users do
         {:ok, user}
     end
   end
+
+  def search(ctx, %{conditions: conditions}, _) do
+    IO.inspect(ctx)
+    IO.inspect(conditions)
+
+    case Users.search(conditions) do
+      {:error, :not_found} ->
+        {:error, %{reason: "Not Found"}}
+      {:ok, users} ->
+        users = Users.preload(users, [:photos, :occupation_type, :genre])
+        {:ok, users}
+    end
+  end
+
 end

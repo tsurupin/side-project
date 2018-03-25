@@ -18,6 +18,7 @@ defmodule Db.Users.User do
     field(:provider_id, :string, null: false)
     field(:display_name, :string)
     field(:email, :string)
+    field(:introduction, :string)
     field(:occupation, :string)
     field(:company_name, :string)
     field(:school_name, :string)
@@ -26,7 +27,7 @@ defmodule Db.Users.User do
     field(:longitude, :float)
     field(:last_activated_at, :utc_datetime, null: false)
     field(:area_name, :string)
-  
+
     belongs_to(:occupation_type, OccupationType)
     belongs_to(:country, Country)
     belongs_to(:genre, Genre)
@@ -35,7 +36,6 @@ defmodule Db.Users.User do
     many_to_many(:skills, Skill, join_through: "user_skills")
     many_to_many(:projects, Project, join_through: "project_members")
     many_to_many(:chats, Chat, join_through: "chat_members")
-
     timestamps(type: :utc_datetime)
   end
 

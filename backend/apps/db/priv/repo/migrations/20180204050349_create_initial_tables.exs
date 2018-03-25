@@ -42,6 +42,7 @@ defmodule Db.Repo.Migrations.CreateInitialTables do
       add :provider_id, :string, null: false
       add :uid, :string, null: false
       add :display_name, :string
+      add :introduction, :string
       add :email, :string
       add :genre_id, references(:genres)
       add :occupation_type_id, references(:occupation_types)
