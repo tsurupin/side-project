@@ -180,7 +180,8 @@ defmodule Db.Factory do
   @spec chat_content_factory :: Chats.Content.t()
   def chat_content_factory() do
     %Chats.Content{
-      chat: build(:chat)
+      chat: build(:chat),
+      user: build(:user)
     }
   end
 end

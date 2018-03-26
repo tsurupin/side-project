@@ -1,4 +1,4 @@
-defmodule Db.Users.Projects do
+defmodule Db.Projects.Projects do
   @moduledoc """
   The Accoutns context.
   """
@@ -7,6 +7,7 @@ defmodule Db.Users.Projects do
 
   alias Db.Repo
   alias Db.Projects.Project
+  alias Db.Projects.Photo
 
   @spec get_by(integer) :: map()
   def get_by(%{id: id}) do
@@ -14,6 +15,14 @@ defmodule Db.Users.Projects do
       nil -> {:error, :not_found}
       project -> {:ok, project}
     end
+  end
+
+  @spec main_photo(Project.t()) :: Photo.t()
+  def main_photo(project) do
+    Repo.one(
+      from p in Photo,
+      where: p.project_id == ^project.id and p.is_main == true
+    )
   end
 
   #@spec preload(Ecto.Query, any): Repo

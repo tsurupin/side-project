@@ -5,6 +5,7 @@ defmodule Db.Projects.Project do
   alias Db.Genres.Genre
   alias Db.Projects.Photo
   alias Db.Skills.Skill
+  alias Db.Users.Favorite
   alias __MODULE__
 
   @type t :: %Project{}
@@ -20,6 +21,7 @@ defmodule Db.Projects.Project do
     belongs_to(:owner, User)
     belongs_to(:genre, Genre)
     has_many(:photos, Photo)
+    has_many(:favorites, Favorite)
     many_to_many(:skills, Skill, join_through: "project_skills")
 
     timestamps(type: :utc_datetime)

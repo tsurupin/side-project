@@ -2,16 +2,18 @@ defmodule Db.Users.Favorite do
   use Ecto.Schema
   import Ecto.Changeset
   alias Db.Users.User
+  alias Db.Projects.Project
 
   alias __MODULE__
 
   @type t :: %Favorite{}
 
   schema "user_favorites" do
-    field(:target_id, :integer, null: false)
-    field(:target_type, :string, null: false)
-    field(:deleted_at, :utc_datetime)
     belongs_to(:user, User)
+    belongs_to(:target_user, User)
+    belongs_to(:target_project, Project)
+
+    field(:deleted_at, :utc_datetime)
 
     timestamps(type: :utc_datetime)
   end
@@ -19,8 +21,8 @@ defmodule Db.Users.Favorite do
   @spec changeset(map()) :: Ecto.Changeset.t()
 
   def changeset(attrs) do
-    permitted_attrs = ~w(target_id target_type user_id)a
-    required_attrs = ~w(target_id target_type user_id)a
+    permitted_attrs = ~w(target_user_id target_project_id user_id)a
+    required_attrs = ~w(user_id)a
 
     %Favorite{}
     |> cast(attrs, permitted_attrs)

@@ -12,6 +12,7 @@ defmodule Db.Users.Users do
   alias Db.Genres.Genre
   alias Db.OccupationTypes.OccupationType
   alias Db.Users.Photo
+  alias Db.Users.Favorite
 
   @spec get_by(integer) :: map()
   def get_by(%{id: id}) do
@@ -31,6 +32,11 @@ defmodule Db.Users.Users do
   def search(query, conditions) do
     users = Repo.all(build_queries(query, conditions))
     {:ok, users}
+  end
+
+  @spec get_favorites(integer) :: map
+  def get_favorites(user_id) do
+    {:ok, Repo.all(Favorite, user_id: user_id)}
   end
 
   #@spec preload(Ecto.Query, any): Repo

@@ -75,7 +75,7 @@ defmodule ApiWeb.Schema.Queries.UsersTest do
           "country" => %{"id" => "#{country.id}", "name" => country.name},
           "genre" => %{"id" => "#{genre.id}", "name" => genre.name},
           "occupationType" => %{"id" => "#{occupation_type.id}", "name" => occupation_type.name},
-          "photos" => [%{"image_url" => photo_url}]
+          "photos" => [%{"imageUrl" => photo_url}]
         }
       }
       assert response["data"] == expected_result
@@ -99,7 +99,7 @@ defmodule ApiWeb.Schema.Queries.UsersTest do
             id
             name
           }
-          main_photo_url
+          mainPhotoUrl
         }
       }
     """
@@ -120,7 +120,7 @@ defmodule ApiWeb.Schema.Queries.UsersTest do
             "introduction" => user.introduction,
             "schoolName" => user.school_name,
             "companyName" => user.company_name,
-            "main_photo_url" => photo_url
+            "mainPhotoUrl" => photo_url
           }
         ]
       }

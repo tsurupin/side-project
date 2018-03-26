@@ -1,7 +1,7 @@
 defmodule Api.Accounts.Authentication do
   alias Db.Users.Accounts
 
-  def authenticate(%{provider_id: provider_id, uid: uid} = attrs) do
+  def authenticate(%{provider_id: _provider_id, uid: _uid} = attrs) do
     with {:ok, user} <- Accounts.get_or_create_user(attrs),
          {:ok, jwt} <- create_token(user) do
       {:ok, jwt}

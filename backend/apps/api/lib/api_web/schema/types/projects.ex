@@ -2,6 +2,7 @@ defmodule ApiWeb.Schema.Types.Projects do
   use Absinthe.Schema.Notation
   alias Db.Uploaders.ProjectPhotoUploader
   alias Db.Projects.Photo
+  alias Db.Projects.Projects
 
   object :project do
     field :id, :id
@@ -15,6 +16,13 @@ defmodule ApiWeb.Schema.Types.Projects do
     field :updated_at, :native_datetime
     field :skills, list_of(:skill)
     field :photos, list_of(:project_photo)
+    field :main_photo_url, :string, resolve: fn(_, %{source: project}) ->
+      case Projects.main_photo(project) do
+        %Photo{image_url: image_url} = photo ->
+          {:ok, ProjectPhotoUploader.url({image_url, photo}, :thumb)}
+        _ -> {:ok, nil}
+      end
+    end
   end
 
 
