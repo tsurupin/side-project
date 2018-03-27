@@ -5,7 +5,7 @@ defmodule Db.Chats.Chats do
 
   import Ecto.Query, only: [from: 1, from: 2, first: 1, limit: 2]
 
-  alias Db.Chats.{Chat, Content}
+  alias Db.Chats.{Chat, Content, Member}
   alias Db.Repo
 
   @spec get_by(map) :: no_return
@@ -23,4 +23,14 @@ defmodule Db.Chats.Chats do
       contents: from(c in Content, order_by: c.inserted_at)
     )
   end
+
+  @spec attended_chats(integer) :: [Chat.t]
+  def attended_chats(user_id) do
+    Repo.all(
+      from c in Chat,
+      join: m in Member,
+      where: m.chat_id == c.id and m.user_id == ^user_id
+    )
+  end
+
 end

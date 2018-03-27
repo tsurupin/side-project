@@ -12,18 +12,21 @@ defmodule ApiWeb.Schema do
   import_types ApiWeb.Schema.Types.Favorites
   import_types ApiWeb.Schema.Types.Projects
   import_types ApiWeb.Schema.Types.Chats
+  import_types ApiWeb.Schema.Types.Matches
   import_types ApiWeb.Schema.Queries.Users
   import_types ApiWeb.Schema.Queries.Skills
   import_types ApiWeb.Schema.Queries.Projects
   import_types ApiWeb.Schema.Queries.Favorites
   import_types ApiWeb.Schema.Queries.Chats
-  #
+  import_types ApiWeb.Schema.Queries.Matches
+  
   query do
     import_fields :users_queries
     import_fields :skills_queries
     import_fields :projects_queries
     import_fields :favorites_queries
     import_fields :chats_queries
+    import_fields :matches_queries
   end
 
   def middleware(middleware, field, object) do

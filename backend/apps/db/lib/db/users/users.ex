@@ -2,17 +2,15 @@ defmodule Db.Users.Users do
   @moduledoc """
   The Accoutns context.
   """
-
   import Ecto.Query, warn: false
   import Ecto.Query, only: [from: 1, from: 2, first: 1, limit: 2]
 
   alias Db.Repo
-  alias Db.Users.User
   alias Db.Skills.UserSkill
   alias Db.Genres.Genre
   alias Db.OccupationTypes.OccupationType
-  alias Db.Users.Photo
-  alias Db.Users.Favorite
+  alias Db.Users.{User, Photo, Favorite, Like}
+
 
   @spec get_by(map) :: map()
   def get_by(%{id: id}) do
@@ -20,6 +18,15 @@ defmodule Db.Users.Users do
       nil -> {:error, :not_found}
       user -> {:ok, user}
     end
+  end
+
+  @spec liked(integer) :: [User.t]
+  def liked(user_id) do
+    Repo.all(
+      from u in User,
+      join: l in Like,
+      where: l.user_id == u.id and l.target_user_id == ^user_id and l.status == 0
+    )
   end
 
   @spec search(map) :: map
