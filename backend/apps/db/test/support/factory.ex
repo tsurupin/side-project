@@ -113,7 +113,7 @@ defmodule Db.Factory do
       lead_sentence: sequence(:lead_sentence, &("lead_sentence #{&1} matching platform")),
       motivation: "I has been struggling with finding engineers",
       requirement: "we need backend engineers",
-      owner:  build(:user),
+      owner: build(:user),
       genre: build(:genre)
     }
   end
@@ -144,7 +144,7 @@ defmodule Db.Factory do
     }
   end
 
-  @spec chat_group_factory :: Projects::Member.t()
+  @spec project_member_factory :: Projects::Member.t()
   def project_member_factory() do
     %Projects.Member{
       user: build(:user),
@@ -177,11 +177,21 @@ defmodule Db.Factory do
      }
   end
 
-  @spec chat_content_factory :: Chats.Content.t()
-  def chat_content_factory() do
+  @spec chat_message_content_factory :: Chats.Content.t()
+  def chat_message_content_factory() do
     %Chats.Content{
       chat: build(:chat),
-      user: build(:user)
+      user: build(:user),
+      message: "message"
+    }
+  end
+
+  @spec chat_image_content_factory :: Chats.Content.t()
+  def chat_image_content_factory() do
+    %Chats.Content{
+      chat: build(:chat),
+      user: build(:user),
+      image_url: %Plug.Upload{content_type: "image/jpeg", filename: "project1.jpg", path: Path.join(__DIR__, "../../priv/repo/images/seeds/project1.jpg")}
     }
   end
 end

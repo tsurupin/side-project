@@ -11,7 +11,6 @@ defmodule ApiWeb.Schema.Queries.ProjectsTest do
       Factory.insert(:project_skill, project: project, skill: skill)
       photo = Factory.insert(:project_photo, project: project)
 
-
       {
         :ok,
         project: project,

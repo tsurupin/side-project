@@ -14,7 +14,7 @@ defmodule Db.Users.Users do
   alias Db.Users.Photo
   alias Db.Users.Favorite
 
-  @spec get_by(integer) :: map()
+  @spec get_by(map) :: map()
   def get_by(%{id: id}) do
     case Repo.get_by(User, id: id) do
       nil -> {:error, :not_found}

@@ -14,7 +14,7 @@ defmodule Db.Chats.Chat do
     field(:deleted_at, :utc_datetime)
     timestamps(type: :utc_datetime)
 
-    belongs_to(:chat_group, ChatGroup)
+    belongs_to(:chat_group, Group)
     has_many(:contents, Content)
     many_to_many(:users, User, join_through: "chat_members")
   end

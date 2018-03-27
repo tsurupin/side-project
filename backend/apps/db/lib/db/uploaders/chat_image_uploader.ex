@@ -18,10 +18,11 @@ defmodule Db.Uploaders.ChatImageUploader do
 
   # Override the storage directory:
   def storage_dir(_version, {_file, scope}) do
-    "uploads/chat_images/#{scope.id}"
+    if Mix.env() == :test do
+      "uploads/chat_images"
+    else
+      "uploads/chat_images/#{scope.id}"
+    end
   end
 
-  def default_url(:thumb) do
-    "https://placehold.it/100x100"
-  end
 end
