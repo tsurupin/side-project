@@ -1,5 +1,6 @@
 defmodule ApiWeb.Schema.Queries.UsersTest do
   use ApiWeb.ConnCase, async: true
+  import Mock
   alias Db.Uploaders.UserPhotoUploader
   describe "users query" do
     setup do
@@ -50,7 +51,7 @@ defmodule ApiWeb.Schema.Queries.UsersTest do
             name
           }
           photos {
-            image_url
+            imageUrl
           }
         }
       }
@@ -105,27 +106,32 @@ defmodule ApiWeb.Schema.Queries.UsersTest do
     """
     test "users queries return users", cxt do
       %{user: user, occupation_type: occupation_type, genre: genre, photo_url: photo_url} = cxt
-      conn = build_conn()
-      conn = get(conn, "/api", %{query: @query, variables: %{occupationTypeId: occupation_type.id, genreId: genre.id}})
-      response = json_response(conn, 200)
+      with_mock(Api.Accounts.Authentication, [verify: fn(user_id) -> {:ok, Db.Repo.get(Db.Users.User, user.id)} end]) do
+        conn =
+          build_conn()
+          |> put_req_header("authorization", "Bearer #{user.id}")
+          |> get("/api", %{query: @query, variables: %{occupationTypeId: occupation_type.id, genreId: genre.id}})
 
-      expected_result = %{
-        "users" => [
-          %{
-            "id" => "#{user.id}",
-            "displayName" => user.display_name,
-            "occupationType" => %{"id" => "#{occupation_type.id}", "name" => occupation_type.name},
-            "genre" => %{"id" => "#{genre.id}", "name" => genre.name},
-            "areaName" => user.area_name,
-            "introduction" => user.introduction,
-            "schoolName" => user.school_name,
-            "companyName" => user.company_name,
-            "mainPhotoUrl" => photo_url
-          }
-        ]
-      }
+        response = json_response(conn, 200)
 
-      assert response["data"] == expected_result
+        expected_result = %{
+          "users" => [
+            %{
+              "id" => "#{user.id}",
+              "displayName" => user.display_name,
+              "occupationType" => %{"id" => "#{occupation_type.id}", "name" => occupation_type.name},
+              "genre" => %{"id" => "#{genre.id}", "name" => genre.name},
+              "areaName" => user.area_name,
+              "introduction" => user.introduction,
+              "schoolName" => user.school_name,
+              "companyName" => user.company_name,
+              "mainPhotoUrl" => photo_url
+            }
+          ]
+        }
+
+        assert response["data"] == expected_result
+      end
     end
   end
 
