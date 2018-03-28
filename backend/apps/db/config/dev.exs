@@ -7,6 +7,7 @@ config :db, Db.Repo,
   database: "side_project_dev",
   username: System.get_env("DB_USER_NAME"),
   hostname: "localhost",
-  pool_size: 10
+  pool_size: 10,
+  types: Db.PostgresTypes
 
 config :arc, storage: Arc.Storage.Local

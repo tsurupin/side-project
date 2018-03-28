@@ -4,6 +4,7 @@ defmodule Db.Users.Users do
   """
   import Ecto.Query, warn: false
   import Ecto.Query, only: [from: 1, from: 2, first: 1, limit: 2]
+  import Geo.PostGIS
 
   alias Db.Repo
   alias Db.Skills.UserSkill
@@ -89,7 +90,8 @@ defmodule Db.Users.Users do
         from u in queries,
         join: us in UserSkill,
         where: us.user_id == u.id and us.skill_id in(^skill_ids)
-      # {:distance, distance} ->
+      {:distance, distance, :current_location, geom}, queries ->
+        from u in queries, where: st_distance(u.geom, distance)
       _, queries ->
         queries
     end)

@@ -27,6 +27,7 @@ defmodule Db.Users.User do
     field(:status, UserStatusEnum)
     field(:latitude, :float)
     field(:longitude, :float)
+    field(:geom, Geo.Geometry)
     field(:last_activated_at, :utc_datetime, null: false)
     field(:area_name, :string)
 

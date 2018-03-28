@@ -41,6 +41,8 @@ defmodule Db.MixProject do
       {:hackney, "~> 1.8.0", override: true},
       {:poison, "~> 3.1"},
       {:sweet_xml, "~> 0.6"},
+      {:geo, "~> 2.0"},
+      {:geo_postgis, "~> 1.1.0"},
       {:ex_machina, "~> 2.1.0", only: [:test]},
       {:timex, "~> 3.1"},
 

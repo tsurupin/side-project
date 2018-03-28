@@ -5,6 +5,7 @@ config :db, Db.Repo,
   database: "side_project_test",
   username: System.get_env("DB_USER_NAME"),
   hostname: "localhost",
+  types: Db.PostgresTypes,
   pool: Ecto.Adapters.SQL.Sandbox
 
 config :logger,
