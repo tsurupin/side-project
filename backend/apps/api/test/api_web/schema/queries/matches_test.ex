@@ -1,6 +1,7 @@
 defmodule ApiWeb.Schema.Queries.MatchesTest do
   use ApiWeb.ConnCase, async: true
   import Mock
+  alias Db.Uploaders.UserPhotoUploader
 
   describe "match query" do
     setup do
@@ -13,16 +14,19 @@ defmodule ApiWeb.Schema.Queries.MatchesTest do
       chat3 = Factory.insert(:chat)
       Factory.insert(:chat_member, chat: chat1, user: user)
       Factory.insert(:chat_member, chat: chat2, user: user)
-      Factory.insert(:chat_member, chat: chat3, user: user)
+      Factory.insert(:chat_member, chat: chat3)
       Factory.insert(:user_like, user: liked_user1, target_user: user, status: 0)
       Factory.insert(:user_like, user: liked_user2, target_user: user, status: 0)
       Factory.insert(:user_like, user: other_user, target_user: user, status: 1)
+
+      photo = Factory.insert(:user_photo, user: liked_user1, is_main: true)
 
       {
         :ok,
         user_id: user.id,
         liked_user1: liked_user1,
         liked_user2: liked_user2,
+        liked_user1_photo_url: UserPhotoUploader.url({photo.image_url, photo}, :thumb),
         chat1: chat1,
         chat2: chat2
       }
@@ -49,10 +53,11 @@ defmodule ApiWeb.Schema.Queries.MatchesTest do
         user_id: user_id,
         liked_user1: liked_user1,
         liked_user2: liked_user2,
+        liked_user1_photo_url: liked_user1_photo_url,
         chat1: chat1,
         chat2: chat2
       } = ctx
-      IO.inspect(user_id)
+
       with_mock(Api.Accounts.Authentication, [verify: fn(user_id) -> {:ok, Db.Repo.get(Db.Users.User, user_id)} end]) do
         conn =
           build_conn()
@@ -61,6 +66,28 @@ defmodule ApiWeb.Schema.Queries.MatchesTest do
 
         response = json_response(conn, 200)
         expected_result = %{
+          "matchList" => %{
+            "chatList" => [
+              %{
+                "id" => "#{chat1.id}",
+                "name" => chat1.name
+              },
+              %{
+                "id" => "#{chat2.id}",
+                "name" => chat2.name
+              }
+            ],
+            "likedUserList" => [
+              %{
+                "displayName" => liked_user1.display_name,
+                "mainPhotoUrl" => liked_user1_photo_url
+              },
+              %{
+                "displayName" => liked_user2.display_name,
+                "mainPhotoUrl" => nil
+              }
+            ]
+          }
 
         }
 
