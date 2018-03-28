@@ -1,5 +1,5 @@
 defmodule ApiWeb.Schema.Resolvers.Projects do
-  alias Db.Users.Projects
+  alias Db.Projects.Projects
 
   def fetch_profile(_, %{id: id}, _) do
     case Projects.get_by(%{id: id}) do
@@ -10,4 +10,15 @@ defmodule ApiWeb.Schema.Resolvers.Projects do
         {:ok, project}
     end
   end
+
+  def search(_, %{conditions: conditions}, _) do
+    case Projects.search(conditions) do
+      {:error, :not_found} ->
+        {:error, %{reason: "Not Found"}}
+      {:ok, projects} ->
+        projects = Projects.preload(projects, [:photos, :genre])
+        {:ok, projects}
+    end
+  end
+
 end

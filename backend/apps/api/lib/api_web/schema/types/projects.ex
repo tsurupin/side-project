@@ -26,11 +26,6 @@ defmodule ApiWeb.Schema.Types.Projects do
   end
 
 
-  object :projects do
-    field :projects, list_of(:project)
-  end
-
-
   enum :project_status do
     value :editing
     value :completed
@@ -46,15 +41,9 @@ defmodule ApiWeb.Schema.Types.Projects do
     end
   end
 
-  scalar :native_datetime do
-    parse fn input ->
-      case DateTime.to_iso8601(input.value) do
-        {:ok, datetime} -> {:ok, datetime}
-        _ -> :error
-      end
-    end
-
-    serialize &(DateTime.to_iso8601(&1))
+  input_object :project_search_conditions do
+    field :genre_id, :integer
+    field :skill_ids,  list_of(:integer)
   end
 
 end

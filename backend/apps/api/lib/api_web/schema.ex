@@ -4,6 +4,7 @@ defmodule ApiWeb.Schema do
   alias ApiWeb.Resolvers
   alias ApiWeb.Schema.Middleware
 
+  import_types ApiWeb.Schema.Types.Commons
   import_types ApiWeb.Schema.Types.Countries
   import_types ApiWeb.Schema.Types.Genres
   import_types ApiWeb.Schema.Types.OccupationTypes
@@ -19,7 +20,7 @@ defmodule ApiWeb.Schema do
   import_types ApiWeb.Schema.Queries.Favorites
   import_types ApiWeb.Schema.Queries.Chats
   import_types ApiWeb.Schema.Queries.Matches
-  
+
   query do
     import_fields :users_queries
     import_fields :skills_queries

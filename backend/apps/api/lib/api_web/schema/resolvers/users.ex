@@ -12,8 +12,6 @@ defmodule ApiWeb.Schema.Resolvers.Users do
   end
 
   def search(ctx, %{conditions: conditions}, _) do
-    IO.inspect(ctx)
-    IO.inspect(conditions)
 
     case Users.search(conditions) do
       {:error, :not_found} ->
