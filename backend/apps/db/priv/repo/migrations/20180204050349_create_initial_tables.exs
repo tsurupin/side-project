@@ -3,7 +3,7 @@ defmodule Db.Repo.Migrations.CreateInitialTables do
 
   def change do
 
-
+    execute "CREATE EXTENSION IF NOT EXISTS postgis"
 
     create table(:genres) do
       add :name, :string, null: false
@@ -55,16 +55,18 @@ defmodule Db.Repo.Migrations.CreateInitialTables do
       add :last_activated_at, :utc_datetime, default: fragment("now()"), null: false
       add :area_name, :string
       add :country_id, references(:countries)
-      add :geom, :geometry
 
       timestamps()
     end
 
-    create constraint(:users, "valid_user_status", check: "status = 0 OR (status = 1 AND display_name IS NOT NULL and occupation_type_id IS NOT NULL AND longitude IS NOT NULL AND latitude IS NOT NULL)")
+    execute("SELECT AddGeometryColumn ('users','geom',4326,'POINT',2);")
+
+    create constraint(:users, "valid_user_status", check: "status = 0 OR (status = 1 AND display_name IS NOT NULL and occupation_type_id IS NOT NULL AND geom IS NOT NULL)")
 
     create unique_index(:users, [:provider_id, :uid], name: "users_provider_id_and_uid_index")
     create unique_index(:users, [:email], name: "users_name_index")
     create index(:users, [:country_id])
+    create index(:users, [:geom], using: "gist")
 
 
     create table(:user_photos, comment: "always main photo is displayed first and the others are displayed in recent order") do
@@ -191,10 +193,6 @@ defmodule Db.Repo.Migrations.CreateInitialTables do
       timestamps()
     end
     create unique_index(:chat_members, [:chat_id, :user_id], name: "chat_members_chat_id_and_user_id_index")
-
-    execute("SELECT AddGeometryColumn ('users','lng_lat_point',4326,'POINT',2);")
-    execute "CREATE EXTENSION IF NOT EXISTS postgis"
-
 
   end
 end

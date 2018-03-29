@@ -91,7 +91,7 @@ defmodule Db.Users.Users do
         join: us in UserSkill,
         where: us.user_id == u.id and us.skill_id in(^skill_ids)
       {:distance, distance, :current_location, geom}, queries ->
-        from u in queries, where: st_distance(u.geom, distance)
+        from u in queries, where: st_distance(u.geom, ^distance)
       _, queries ->
         queries
     end)
