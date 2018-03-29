@@ -90,8 +90,8 @@ defmodule Db.Users.Users do
         from u in queries,
         join: us in UserSkill,
         where: us.user_id == u.id and us.skill_id in(^skill_ids)
-      {:distance, distance, :current_location, geom}, queries ->
-        from u in queries, where: st_distance(u.geom, ^distance)
+      {:distance, %{meter: meter, current_location: geom}}, queries ->
+        from u in queries, where: st_dwithin_in_meters(u.geom, ^geom, ^meter)
       _, queries ->
         queries
     end)

@@ -21,8 +21,19 @@ defmodule Db.UsersTest do
       genre1 = Factory.insert(:genre)
       genre2 = Factory.insert(:genre)
       datetime = Timex.now
-      user1 = Factory.insert(:user, genre: genre1, occupation_type: occupation_type1, last_activated_at: Timex.shift(datetime, days: -5))
-      user2 = Factory.insert(:user, genre: genre2, occupation_type: occupation_type2, last_activated_at: Timex.shift(datetime, days: -3))
+      user1 = Factory.insert(
+        :user,
+        genre: genre1,
+        occupation_type: occupation_type1,
+        last_activated_at: Timex.shift(datetime, days: -5),
+        geom:  %Geo.Point{coordinates: {29, -90}, srid: 4326}
+      )
+      user2 = Factory.insert(
+        :user,
+        genre: genre2,
+        occupation_type: occupation_type2,
+        last_activated_at: Timex.shift(datetime, days: -3)
+      )
       skill1 = Factory.insert(:skill)
       skill2 = Factory.insert(:skill)
       Factory.insert(:user_skill, user: user1, skill: skill1)
@@ -51,6 +62,14 @@ defmodule Db.UsersTest do
 
       assert Enum.map(users, &(&1.id)) == [user1.id, user2.id]
     end
+
+    test "returns users that are close to the current user", %{user1: user1} do
+      conditions = %{distance: %{meter: 10, current_location: %Geo.Point{coordinates: {30, -90}, srid: 4326}}}
+      {:ok, users} = Users.Users.search(conditions)
+
+      assert Enum.map(users, &(&1.id)) == [user1.id]
+    end
+
 
     test "returns users that has that genre, when genre_id is included", %{user1: user1, genre_id: genre_id} do
       conditions = %{genre_id: genre_id}
