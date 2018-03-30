@@ -6,6 +6,8 @@ defmodule ApiWeb.Schema.Types.Users do
 
   object :user do
     field :id, :id
+    field :uid, :string
+    field :token, :string
     field :display_name, :string
     field :genre, :genre
     field :occupation_type, :occupation_type
@@ -24,7 +26,6 @@ defmodule ApiWeb.Schema.Types.Users do
         _ -> {:ok, nil}
       end
     end
-
   end
 
   object :user_photo do
@@ -35,6 +36,10 @@ defmodule ApiWeb.Schema.Types.Users do
         {:ok, UserPhotoUploader.url({image_url, photo}, String.to_atom(format))}
       end
     end
+  end
+
+  object :token do
+    field(:token, :string)
   end
 
   enum :user_status do
