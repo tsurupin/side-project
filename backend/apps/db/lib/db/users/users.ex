@@ -30,6 +30,13 @@ defmodule Db.Users.Users do
     )
   end
 
+  #@spec edit(integer, map) :: [:ok, User.t] || [:error, ]
+  def edit(%User{} = user, user_input) do
+    user
+    |> User.edit_changeset(user_input)
+    |> Repo.update
+  end
+
   @spec search(map) :: map
   def search(conditions), do: search(User, conditions)
 

@@ -11,5 +11,12 @@ defmodule ApiWeb.Schema.Mutations.Users do
       resolve(&Resolvers.Users.signup/3)
     end
 
+    @desc "Edit user info"
+    field :edit_user, :boolean do
+      arg :user_input, :user_input
+      middleware Middleware.Authorize
+      resolve(&Resolvers.Users.edit/3)
+    end
+
   end
 end
