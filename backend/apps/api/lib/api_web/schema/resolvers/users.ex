@@ -10,6 +10,11 @@ defmodule ApiWeb.Schema.Resolvers.Users do
     end
   end
 
+  def edit(_, %{user_input: user_input},  %{context: %{current_user: current_user}}) do
+     IO.inspect(user_inut)
+     {:ok, "success"}
+  end
+
   def fetch_profile(_, %{id: id}, _) do
     case Users.get_by(%{id: id}) do
       {:error, :not_found} ->

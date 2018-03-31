@@ -56,4 +56,17 @@ defmodule ApiWeb.Schema.Types.Users do
     field :skill_ids,  list_of(:integer)
   end
 
+  input_object :user_inut do
+    field :dislay_name, :string
+    field :introduction, :string
+    field :occupation, :string
+    field :school_name, :string
+    field :company_name, :string
+    field :occupation_type_id, :integer
+    field :skill_ids, list_of(:integer)
+    field :genre_id, :integer
+    field :latitude, :float
+    field :longitude, :float
+  end
+
 end
