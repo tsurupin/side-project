@@ -61,8 +61,8 @@ defmodule ApiWeb.Schema.Mutations.UsersTest do
         assert response["data"]["editUser"] == true
         user = Repo.get(Db.Users.User, user_id)
         assert user.display_name == "hoge"
-        # TODO
-        # add multi upsert skill_ids
+        assert Enum.map(Repo.all(Db.Skills.UserSkill, user_id: user_id), &(&1.skill_id)) == skill_ids
+
       end
 
 

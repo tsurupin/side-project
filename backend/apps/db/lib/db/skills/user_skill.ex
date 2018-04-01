@@ -14,13 +14,12 @@ defmodule Db.Skills.UserSkill do
     belongs_to(:skill, Skill)
     belongs_to(:user, User)
 
-
     timestamps(type: :utc_datetime)
   end
 
   @spec changeset(map()) :: Ecto.Changeset.t()
   def changeset(attrs) do
-    permitted_attrs = ~w(skill_id user_id)a
+    permitted_attrs = ~w(skill_id user_id rank)a
     required_attrs = ~w(skill_id user_id)a
 
     %UserSkill{}

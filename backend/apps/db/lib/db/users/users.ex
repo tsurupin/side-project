@@ -5,6 +5,7 @@ defmodule Db.Users.Users do
   import Ecto.Query, warn: false
   import Ecto.Query, only: [from: 1, from: 2, first: 1, limit: 2]
   import Geo.PostGIS
+  alias Ecto.Multi
 
   alias Db.Repo
   alias Db.Skills.UserSkill
@@ -31,6 +32,13 @@ defmodule Db.Users.Users do
   end
 
   #@spec edit(integer, map) :: [:ok, User.t] || [:error, ]
+  def edit(%User{} = user, %{skill_ids: skill_ids} = user_input) do
+    Multi.new
+    |> Multi.update(:user, User.edit_changeset(user, user_input))
+    |> Db.Skills.Skills.bulk_upsert_user_skills(user.id, 0, skill_ids)
+    |> Repo.transaction
+  end
+
   def edit(%User{} = user, user_input) do
     user
     |> User.edit_changeset(user_input)
