@@ -64,8 +64,32 @@ defmodule ApiWeb.Schema.Mutations.UsersTest do
         assert Enum.map(Repo.all(Db.Skills.UserSkill, user_id: user_id), &(&1.skill_id)) == skill_ids
 
       end
+    end
+  end
+
+  describe "upload user image" do
+    @mutation """
+      mutation ($image: Upload!) {
+        uploadUserImage(image: $image)
+      }
+    """
+    test "uploads user image" do
 
 
     end
   end
+
+  describe "remove user image" do
+    @mutation """
+      mutation (&imageId: Int!) {
+        removeUserImage(imageId: $imageId)
+      }
+    """
+
+    test "removes user image" do
+
+    end
+  end
+
+
 end

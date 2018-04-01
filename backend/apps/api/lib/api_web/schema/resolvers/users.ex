@@ -10,8 +10,8 @@ defmodule ApiWeb.Schema.Resolvers.Users do
     end
   end
 
-  def edit(_, %{user_input: user_input},  %{context: %{current_user: current_user}}) do
-  
+  def edit(_, %{user_input: user_input}, %{context: %{current_user: current_user}}) do
+
      case Users.edit(current_user, user_input) do
        {:ok, _user} -> {:ok, true}
        {:error, reason} -> {:error, reason}
@@ -36,6 +36,20 @@ defmodule ApiWeb.Schema.Resolvers.Users do
       {:ok, users} ->
         users = Users.preload(users, [:photos, :occupation_type, :genre])
         {:ok, users}
+    end
+  end
+
+  def upload_image(_ctx, %{image: image, is_main: is_main}, %{context: %{current_user: current_user}}) do
+    case Users.upload_image(current_user, image, is_main) do
+      {:ok, true} -> {:ok, true}
+      {:error, reason} -> {:error, reason}
+    end
+  end
+
+  def remove_image(_ctx, %{image_id: image_id}, %{context: %{current_user: current_user}}) do
+    case Users.remove_image(current_user, image_id) do
+      {:ok, true} -> {:ok, true}
+      {:error, reason} -> {:error, reason}
     end
   end
 

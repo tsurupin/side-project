@@ -12,6 +12,7 @@ defmodule Db.Users.Users do
   alias Db.Genres.Genre
   alias Db.OccupationTypes.OccupationType
   alias Db.Users.{User, Photo, Favorite, Like}
+  alias Db.Uploaders.UserPhotoUploader
 
 
   @spec get_by(map) :: map()
@@ -111,6 +112,29 @@ defmodule Db.Users.Users do
         queries
     end)
     |> limit(@limit_num)
+  end
+
+  def upload_image(user, image, is_main // false) do
+    Photo.changeset(%{user_id: user.id, image: image, is_main: is_main})
+    |> Repo.insert
+  end
+
+  def delete_image(%User{} = user, photo_id) do
+    user_photo = Repo.get_by(Photo, user_id: user.id, photo_id: photo_id)
+    if user_photo do
+      if user_photo.is_main do
+        # promote other photo
+      end
+      Repo.delete(user_photo)
+      delete_image_file(user_photo)
+    end
+  end
+
+  defp delete_image_file(%Photo{image_url: image_url} = user_photo) do
+    UserPhotoUploader.url({image_url, user_photo})
+    |> String.split("?")
+    |> List.first
+    |> UserPhotoUploader.delete({path, user_photo})
   end
 
 end
