@@ -11,6 +11,7 @@ defmodule Db.Projects.Photo do
 
   schema "project_photos" do
     field(:is_main, :boolean, default: false, null: false)
+    field(:rank, :integer, null: false)
     field(:image_url, ProjectPhotoUploader.Type, null: false)
     belongs_to(:project, Project)
     field(:deleted_at, :utc_datetime)
@@ -27,6 +28,7 @@ defmodule Db.Projects.Photo do
     |> assoc_constraint(:project)
     |> cast_attachments(attrs, [:image_url])
     |> validate_required(required_attrs)
-    |> unique_constraint(:user_id, name: "project_photos_project_id_and_is_main_index")
+    |> unique_constraint(:project_id, name: "project_photos_project_id_and_is_main_index")
+    |> unique_constraint(:project_id, name: "project_photos_project_id_and_rank_index")
   end
 end

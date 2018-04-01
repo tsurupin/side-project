@@ -18,18 +18,18 @@ defmodule ApiWeb.Schema.Mutations.Users do
       resolve(&Resolvers.Users.edit/3)
     end
 
-    @desc "Upload user image"
-    field :upload_user_image, :boolean do
-      arg :image, non_null(:upload)
+    @desc "Upload user photo"
+    field :upload_user_photo, :boolean do
+      arg :user_upload_input, :user_upload_input
       middleware Middleware.Authorize
-      resolve(&Resolvers.Users.upload_image/3)
+      resolve(&Resolvers.Users.upload_photo/3)
     end
 
-    @desc "Delte user image"
-    field :delete_user_image, :boolean do
-      arg :image_id, non_null(:integer)
+    @desc "Delete user photo"
+    field :delete_user_photo, :boolean do
+      arg :photo_id, non_null(:integer)
       middleware Middleware.Authorize
-      resolve(&Resolvers.Users.delete_image/3)
+      resolve(&Resolvers.Users.delete_photo/3)
     end
 
   end

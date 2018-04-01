@@ -101,6 +101,7 @@ defmodule Db.Factory do
   def user_photo_factory() do
     %Users.Photo{
       user: build(:user),
+      rank: sequence(:rank, &(&1)),
       image_url: %Plug.Upload{content_type: "image/jpeg", filename: "project1.jpg", path: Path.join(__DIR__, "../../priv/repo/images/seeds/project1.jpg")}
     }
   end
@@ -121,6 +122,7 @@ defmodule Db.Factory do
   def project_photo_factory() do
     %Projects.Photo{
       project: build(:project),
+      rank: sequence(:rank, &(&1)),
       image_url: %Plug.Upload{content_type: "image/jpeg", filename: "project1.jpg", path: Path.join(__DIR__, "../../priv/repo/images/seeds/project1.jpg")}
     }
   end

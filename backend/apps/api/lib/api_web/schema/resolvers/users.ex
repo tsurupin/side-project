@@ -1,5 +1,5 @@
 defmodule ApiWeb.Schema.Resolvers.Users do
-  alias Db.Users.Users
+  alias Db.Users.{Users, Photos}
   alias Api.Accounts.Authentication
 
   def signup(_, %{provider_id: _provider_id, uid: _uid} = attrs, _) do
@@ -39,16 +39,16 @@ defmodule ApiWeb.Schema.Resolvers.Users do
     end
   end
 
-  def upload_image(_ctx, %{image: image, is_main: is_main}, %{context: %{current_user: current_user}}) do
-    case Users.upload_image(current_user, image, is_main) do
-      {:ok, true} -> {:ok, true}
+  def upload_photo(ctx, %{photo: _photo, is_main: _is_main, rank: _rank} = attrs, %{context: %{current_user: current_user}}) do
+    case Photos.upload_photo(current_user, attrs) do
+      {:ok, _repo} -> {:ok, true}
       {:error, reason} -> {:error, reason}
     end
   end
 
-  def remove_image(_ctx, %{image_id: image_id}, %{context: %{current_user: current_user}}) do
-    case Users.remove_image(current_user, image_id) do
-      {:ok, true} -> {:ok, true}
+  def delete_photo(_ctx, %{photo_id: photo_id}, %{context: %{current_user: current_user}}) do
+    case Photos.delete_photo(photo_id) do
+      {:ok, _multi} -> {:ok, true}
       {:error, reason} -> {:error, reason}
     end
   end
