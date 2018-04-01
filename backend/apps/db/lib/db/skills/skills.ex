@@ -20,6 +20,17 @@ defmodule Db.Skills.Skills do
     Repo.all(query)
   end
 
+  @spec get_by(map) :: Skill.t :: nil
+  def get_by(%{name: name}) do
+    Repo.get_by(Skill, name: name)
+  end
+
+  @spec create(String.t) :: {:ok, Skill.t} | {:error, any}
+  def create(name) do
+    Skill.changeset(%{name: name})
+    |> Repo.insert
+  end
+
   def bulk_upsert_user_skills(multi, _user_id, _rank, [])  do
     multi
   end
