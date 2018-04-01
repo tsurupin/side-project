@@ -25,6 +25,7 @@ defmodule ApiWeb.Schema do
   import_types ApiWeb.Schema.Queries.Matches
 
   import_types ApiWeb.Schema.Mutations.Users
+  import_types ApiWeb.Schema.Mutations.Skills
 
   query do
     import_fields :users_queries
@@ -37,6 +38,7 @@ defmodule ApiWeb.Schema do
 
   mutation do
     import_fields :users_mutations
+    import_fields :skills_mutations
   end
 
   def middleware(middleware, field, object) do
