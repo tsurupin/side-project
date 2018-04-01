@@ -1,5 +1,5 @@
 defmodule ApiWeb.Schema.Resolvers.Projects do
-  alias Db.Projects.Projects
+  alias Db.Projects.{Projects, Photos}
 
   def fetch_profile(_, %{id: id}, _) do
     case Projects.get_by(%{id: id}) do
@@ -20,5 +20,41 @@ defmodule ApiWeb.Schema.Resolvers.Projects do
         {:ok, projects}
     end
   end
+
+  def create(_, %{project_input: project_input}, %{context: %{current_user: current_user}}) do
+     case Projects.create(Map.put_new(project_input, :owner_id, current_user.id)) do
+       {:ok, project} -> {:ok, project}
+       {:error, reason} -> {:error, reason}
+     end
+  end
+
+  def change_status(_, %{project_id: project_id, status: status} = attrs, %{context: %{current_user: current_user}}) do
+    case Projects.change_status(current_user.id, attrs) do
+      {:ok, _project} -> {:ok, true}
+      {:error, reason} -> {:error, reason}
+    end
+  end
+
+  def edit(_, %{project_input: project_input}, %{context: %{current_user: current_user}}) do
+     case Projects.edit(current_user.id, project_input) do
+       {:ok, _project} -> {:ok, true}
+       {:error, reason} -> {:error, reason}
+     end
+  end
+
+  def upload_photo(ctx, %{project_id: _project_id, photo: _photo, is_main: _is_main, rank: _rank} = attrs, %{context: %{current_user: current_user}}) do
+    case Photos.upload_photo(current_user.id, attrs) do
+      {:ok, _repo} -> {:ok, true}
+      {:error, reason} -> {:error, reason}
+    end
+  end
+
+  def delete_photo(_ctx, %{photo_id: photo_id}, %{context: %{current_user: current_user}}) do
+    case Photos.delete_photo(current_user.id, photo_id) do
+      {:ok, _multi} -> {:ok, true}
+      {:error, reason} -> {:error, reason}
+    end
+  end
+
 
 end

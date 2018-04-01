@@ -37,7 +37,27 @@ defmodule Db.Projects.Project do
     |> validate_required(required_attrs)
     |> assoc_constraint(:genre)
     |> assoc_constraint(:owner)
-    |> unique_constraint(:name, name: "projects_name_and_is_main_index")
+    |> unique_constraint(:name, name: "projects_owner_id_name_index")
+    |> check_constraint(:status, name: "valid_project_status")
+  end
+
+  def edit_changeset(%__MODULE__{} = project, attrs) do
+    permitted_attrs = ~w(name lead_sentence why genre_id motivation requirement)a
+
+    project
+    |> cast(attrs, permitted_attrs)
+    |> assoc_constraint(:genre)
+    |> unique_constraint(:name, name: "projects_owner_id_name_index")
+    |> check_constraint(:status, name: "valid_project_status")
+  end
+
+  def change_status_changeset(%__MODULE__{} = project, attrs) do
+    permitted_attrs = ~w(status)a
+    required_attrs = ~w(status)a
+
+    project
+    |> cast(attrs, permitted_attrs)
+    |> validate_required(required_attrs)
     |> check_constraint(:status, name: "valid_project_status")
   end
 end
