@@ -4,6 +4,8 @@ defmodule ApiWeb.Schema do
   alias ApiWeb.Resolvers
   alias ApiWeb.Schema.Middleware
 
+  import_types Absinthe.Plug.Types
+
   import_types ApiWeb.Schema.Types.Commons
   import_types ApiWeb.Schema.Types.Countries
   import_types ApiWeb.Schema.Types.Genres

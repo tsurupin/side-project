@@ -12,6 +12,7 @@ defmodule Db.Users.Users do
   alias Db.Genres.Genre
   alias Db.OccupationTypes.OccupationType
   alias Db.Users.{User, Photo, Favorite, Like}
+  alias Db.Uploaders.UserPhotoUploader
 
 
   @spec get_by(map) :: map()
@@ -73,14 +74,6 @@ defmodule Db.Users.Users do
 
   def preload(query, associations) when is_list(associations) do
      Repo.preload(query, associations)
-  end
-
-  @spec main_photo(User.t()) :: Photo.t()
-  def main_photo(user) do
-    Repo.one(
-      from p in Photo,
-      where: p.user_id == ^user.id and p.is_main == true
-    )
   end
 
   @active_duration_days 3
