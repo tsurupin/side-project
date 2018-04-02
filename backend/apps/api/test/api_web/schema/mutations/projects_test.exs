@@ -139,20 +139,116 @@ defmodule ApiWeb.Schema.Mutations.ProjectsTest do
         assert message == "not_authorized"
       end
     end
+  end
 
-    # test "fails to create a new project becaue the project name exists", %{user: user} do
-    #   user_id = user.id
-    #   Factory.insert(:project, owner: user, name: "New Project")
-    #   attrs = %{name: "New Project", leadSentence: "aaa"}
-    #   with_mock(Api.Accounts.Authentication, [verify: fn(user_id) -> {:ok, Db.Repo.get(Db.Users.User, user_id)} end]) do
-    #     conn =
-    #       build_conn()
-    #       |> put_req_header("authorization", "Bearer #{user_id}")
-    #       |> post("/api", %{query: @mutation, variables: attrs})
-    #     %{"errors" => [%{"message" => message} | _tail]} = json_response(conn, 200)
-    #
-    #     refute is_nil(message)
-    #   end
-    # end
+  describe "Delete a project photo" do
+    setup do
+      user = Factory.insert(:user)
+      project = Factory.insert(:project, owner: user)
+      {
+        :ok,
+        user: user,
+        project: project
+      }
+    end
+
+    @mutation """
+      mutation ($photoId: Int!) {
+        deleteProjectPhoto(photoId: $photoId)
+      }
+    """
+
+    test "deletes project main photo", %{user: user, project: project} do
+      main_photo = Factory.insert(:project_photo, project: project, is_main: true, rank: 0)
+      other_photo = Factory.insert(:project_photo, project: project, is_main: false, rank: 2)
+      attrs = %{photoId: main_photo.id}
+      user_id = user.id
+
+      with_mock(Api.Accounts.Authentication, [verify: fn(user_id) -> {:ok, user} end]) do
+        conn =
+          build_conn()
+          |> put_req_header("authorization", "Bearer #{user_id}")
+          |> post("/api", %{query: @mutation, variables: attrs})
+        response = json_response(conn, 200)
+        assert response["data"]["deleteProjectPhoto"] == true
+
+        promoted_photo = Repo.get(Db.Projects.Photo, other_photo.id)
+
+        assert promoted_photo.rank == main_photo.rank
+        assert promoted_photo.is_main
+
+        main_photo = Repo.get(Db.Projects.Photo, main_photo.id)
+        assert is_nil(main_photo)
+      end
+    end
+
+    test "deletes project photo",  %{user: user, project: project}  do
+
+      photo = Factory.insert(:project_photo, project: project, is_main: false, rank: 1)
+      other_photo = Factory.insert(:project_photo, project: project, is_main: false, rank: 2)
+      attrs = %{photoId: photo.id}
+      user_id = user.id
+
+
+      with_mock(Api.Accounts.Authentication, [verify: fn(user_id) -> {:ok, user} end]) do
+        conn =
+          build_conn()
+          |> put_req_header("authorization", "Bearer #{user_id}")
+          |> post("/api", %{query: @mutation, variables: attrs})
+        response = json_response(conn, 200)
+        assert response["data"]["deleteProjectPhoto"] == true
+
+        promoted_photo = Repo.get(Db.Projects.Photo, other_photo.id)
+        assert promoted_photo.rank == photo.rank
+
+        photo = Repo.get(Db.Projects.Photo, photo.id)
+        assert is_nil(photo)
+      end
+    end
+
+    test "fails to delete photo because project owner is not current_user", %{user: user} do
+      other_project = Factory.insert(:project)
+      photo = Factory.insert(:project_photo, project: other_project, is_main: false, rank: 1)
+
+      attrs = %{photoId: photo.id}
+      user_id = user.id
+
+      with_mock(Api.Accounts.Authentication, [verify: fn(user_id) -> {:ok, user} end]) do
+        conn =
+          build_conn()
+          |> put_req_header("authorization", "Bearer #{user_id}")
+          |> post("/api", %{query: @mutation, variables: attrs})
+        response = json_response(conn, 200)
+        %{"errors" => [%{"message" => message} | _tail]} = json_response(conn, 200)
+
+        assert message == "unauthorized"
+      end
+    end
+
+    test "fails to delete photo because photo is not found", %{user: user} do
+
+      attrs = %{photoId: 1}
+      user_id = user.id
+
+      with_mock(Api.Accounts.Authentication, [verify: fn(user_id) -> {:ok, user} end]) do
+        conn =
+          build_conn()
+          |> put_req_header("authorization", "Bearer #{user_id}")
+          |> post("/api", %{query: @mutation, variables: attrs})
+        response = json_response(conn, 200)
+        %{"errors" => [%{"message" => message} | _tail]} = json_response(conn, 200)
+
+        assert message == "not_found"
+      end
+    end
+  end
+
+  describe "Change Project status" do
+    test "changes project status" do
+    end
+
+    test "fails to change project status because name is not present" do
+
+    end
   end
 end

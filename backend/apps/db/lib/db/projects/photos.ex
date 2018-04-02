@@ -13,7 +13,7 @@ defmodule Db.Projects.Photos do
   alias Db.Uploaders.ProjectPhotoUploader
 
   def upload_photo(user_id, %{project_id: project_id, image: image, is_main: is_main, rank: rank} = attrs) do
-    case Repo.get_by(Project, owner_id: user_id, project_id: project_id) do
+    case Repo.get_by(Project, owner_id: user_id, id: project_id) do
       nil -> {:error, :unauthorized}
       %Project{} = _project ->
         Photo.changeset(attrs)
@@ -25,7 +25,7 @@ defmodule Db.Projects.Photos do
     case Repo.get(Photo, photo_id) do
       nil -> {:error, :not_found}
       %Photo{} = photo ->
-        case Repo.get_by(Project, owner_id: user_id, project_id: photo.project_id) do
+        case Repo.get_by(Project, owner_id: user_id, id: photo.project_id) do
           nil -> {:error, :unauthorized}
           %Project{} = _project ->
             photos = Repo.all(from p in Photo, where: p.project_id == ^photo.project_id and p.rank > ^photo.rank)
