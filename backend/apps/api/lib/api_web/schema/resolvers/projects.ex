@@ -35,9 +35,10 @@ defmodule ApiWeb.Schema.Resolvers.Projects do
     end
   end
 
-  def edit(_, %{project_input: project_input}, %{context: %{current_user: current_user}}) do
-     case Projects.edit(current_user.id, project_input) do
-       {:ok, _project} -> {:ok, true}
+  def edit(_, %{id: project_id, project_input: project_input} = attrs, %{context: %{current_user: current_user}}) do
+    
+     case Projects.edit(current_user.id, Map.put_new(project_input, :project_id, project_id)) do
+       {:ok, project} -> {:ok, project}
        {:error, reason} -> {:error, reason}
      end
   end

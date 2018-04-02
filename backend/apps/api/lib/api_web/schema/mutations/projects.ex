@@ -14,6 +14,7 @@ defmodule ApiWeb.Schema.Mutations.Projects do
 
     @desc "Edit project"
     field :edit_project, :project do
+      arg(:id, non_null(:integer))
       arg(:project_input, :project_input)
       middleware Middleware.Authorize
       resolve(&Resolvers.Projects.edit/3)
