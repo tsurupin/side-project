@@ -31,12 +31,11 @@ defmodule ApiWeb.Schema.Resolvers.Projects do
   def change_status(_, %{project_id: project_id, status: status} = attrs, %{context: %{current_user: current_user}}) do
     case Projects.change_status(current_user.id, attrs) do
       {:ok, _project} -> {:ok, true}
-      {:error, reason} -> {:error, reason}
+      {:error, message} -> {:error, message}
     end
   end
 
   def edit(_, %{id: project_id, project_input: project_input} = attrs, %{context: %{current_user: current_user}}) do
-    
      case Projects.edit(current_user.id, Map.put_new(project_input, :project_id, project_id)) do
        {:ok, project} -> {:ok, project}
        {:error, reason} -> {:error, reason}

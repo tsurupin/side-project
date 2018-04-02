@@ -136,7 +136,7 @@ defmodule ApiWeb.Schema.Mutations.ProjectsTest do
           |> post("/api", %{query: @mutation, variables: attrs})
         %{"errors" => [%{"message" => message} | _tail]}  = json_response(conn, 200)
 
-        assert message == "not_authorized"
+        assert message == "unauthorized"
       end
     end
   end
@@ -244,11 +244,72 @@ defmodule ApiWeb.Schema.Mutations.ProjectsTest do
   end
 
   describe "Change Project status" do
-    test "changes project status" do
+    setup do
+      user = Factory.insert(:user)
+
+      {
+        :ok,
+        user: user
+      }
     end
 
-    test "fails to change project status because name is not present" do
+    @mutation """
+      mutation ($projectId: Int!, $status: Int!) {
+        changeProjectStatus(projectId: $projectId, status: $status)
+      }
+    """
+    test "changes project status", %{user: user} do
+      project = Factory.insert(:project, owner: user, status: 0)
+      attrs = %{projectId: project.id, status: 1}
+      user_id = user.id
 
+      with_mock(Api.Accounts.Authentication, [verify: fn(user_id) -> {:ok, user} end]) do
+        conn =
+          build_conn()
+          |> put_req_header("authorization", "Bearer #{user_id}")
+          |> post("/api", %{query: @mutation, variables: attrs})
+        response = json_response(conn, 200)
+        assert response["data"]["changeProjectStatus"] == true
+
+        project = Repo.get(Db.Projects.Project, project.id)
+        assert project.status == :completed
+      end
+    end
+
+    test "fails to change project status because name is not present", %{user: user} do
+      project = Factory.insert(:project, owner: user, name: nil, status: 0)
+      attrs = %{projectId: project.id, status: 1}
+      user_id = user.id
+
+      with_mock(Api.Accounts.Authentication, [verify: fn(user_id) -> {:ok, user} end]) do
+        conn =
+          build_conn()
+          |> put_req_header("authorization", "Bearer #{user_id}")
+          |> post("/api", %{query: @mutation, variables: attrs})
+        %{"errors" => [%{"message" => message} | _tail]} = json_response(conn, 200)
+
+        project = Repo.get(Db.Projects.Project, project.id)
+        assert project.status == :editing
+        assert message == "status: is invalid"
+      end
+    end
+
+    test "fails to change project status because project owner is not current user", %{user: user} do
+      other_project = Factory.insert(:project)
+
+      attrs = %{projectId: other_project.id, status: 1}
+      user_id = user.id
+
+      with_mock(Api.Accounts.Authentication, [verify: fn(user_id) -> {:ok, user} end]) do
+        conn =
+          build_conn()
+          |> put_req_header("authorization", "Bearer #{user_id}")
+          |> post("/api", %{query: @mutation, variables: attrs})
+        response = json_response(conn, 200)
+        %{"errors" => [%{"message" => message} | _tail]} = json_response(conn, 200)
+
+        assert message == "unauthorized"
+      end
     end
   end
 end

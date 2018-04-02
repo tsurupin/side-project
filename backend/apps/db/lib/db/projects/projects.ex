@@ -66,20 +66,22 @@ defmodule Db.Projects.Projects do
   #@spec edit(integer, map) :: [:ok, User.t] || [:error, ]
   def edit(user_id, %{project_id: project_id} = attrs) do
     case Repo.get_by(Project, owner_id: user_id, id: project_id) do
-      nil -> {:error, "not_authorized"}
+      nil -> {:error, :unauthorized}
       project -> edit(project, attrs)
     end
   end
 
   def change_status(%Project{}= project, attrs) do
-    Project.change_status_changeset(project, attrs)
-    |> Repo.update
+    case Repo.update(Project.change_status_changeset(project, attrs)) do
+      {:ok, project} -> {:ok, project}
+      {:error, changeset} -> {:error, Db.FullErrorMessage.message(changeset)}
+    end
   end
 
   def change_status(user_id, %{project_id: project_id, status: status} = attrs) do
     case Repo.get_by(Project, owner_id: user_id, id: project_id) do
-      nil -> {:error, :not_authorized}
-      project -> Projects.change_status(project, attrs)
+      nil -> {:error, :unauthorized}
+      project -> change_status(project, attrs)
     end
   end
 
