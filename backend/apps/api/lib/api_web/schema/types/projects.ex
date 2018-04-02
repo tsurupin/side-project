@@ -53,7 +53,6 @@ defmodule ApiWeb.Schema.Types.Projects do
     field :motivation, :string
     field :genre_id, :integer
     field :skill_ids, list_of(:integer)
-    field :genre_id, :integer
   end
 
   input_object :project_upload_input do

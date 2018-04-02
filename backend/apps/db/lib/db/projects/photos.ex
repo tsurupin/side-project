@@ -9,7 +9,7 @@ defmodule Db.Projects.Photos do
   alias Ecto.Multi
 
   alias Db.Repo
-  alias Db.Project.{Project, Photo}
+  alias Db.Projects.{Project, Photo}
   alias Db.Uploaders.ProjectPhotoUploader
 
   def upload_photo(user_id, %{project_id: project_id, image: image, is_main: is_main, rank: rank} = attrs) do
@@ -35,10 +35,10 @@ defmodule Db.Projects.Photos do
             |> promote_photos(photos, photo.rank, photo.is_main)
             |> Multi.run(:delete_image_file, fn %{deleted_photo: deleted_photo} -> delete_image_file(deleted_photo) end)
             |> Repo.transaction
-          end
         end
     end
   end
+
 
   defp promote_photos(multi, [], rank, is_main) do
     multi

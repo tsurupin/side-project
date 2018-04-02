@@ -2,12 +2,14 @@ defmodule ApiWeb.Schema.Mutations.Projects do
   use Absinthe.Schema.Notation
   alias ApiWeb.Schema.{Resolvers, Middleware}
 
-  object :projects_mutations do
+
+  object :projects_mutations  do
     @desc "Create project"
     field :create_project, :project do
-      arg(:project_input, :project_input)
+      arg(:project_input, non_null(:project_input))
       middleware Middleware.Authorize
       resolve(&Resolvers.Projects.create/3)
+
     end
 
     @desc "Edit project"

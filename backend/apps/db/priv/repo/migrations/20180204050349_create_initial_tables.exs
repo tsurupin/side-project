@@ -102,7 +102,7 @@ defmodule Db.Repo.Migrations.CreateInitialTables do
     create unique_index(:user_likes, [:user_id, :target_user_id], name: "user_likes_unique_index")
 
     create table(:projects) do
-      add :name, :string
+      add :name, :string, null: false
       add :status, :integer, default: 0, null: false, comment: "0: editing, 1: completed"
       add :genre_id, references(:genres)
       add :lead_sentence, :text

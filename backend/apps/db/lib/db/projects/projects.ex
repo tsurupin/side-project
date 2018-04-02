@@ -29,8 +29,10 @@ defmodule Db.Projects.Projects do
 
   #@spect create(map) :: {:ok, Project.t} | {:error, any}
   def create(attrs) do
-    Project.changeset(attrs)
-    |> Repo.insert
+    case Project.changeset(attrs) |> Repo.insert do
+      {:ok, project} -> {:ok, project}
+      {:error, changeset} -> {:error, Db.FullErrorMessage.message(changeset)}
+    end
   end
 
   def edit(%Project{} = project, %{skill_ids: skill_ids} = attrs) do
@@ -48,7 +50,7 @@ defmodule Db.Projects.Projects do
 
   #@spec edit(integer, map) :: [:ok, User.t] || [:error, ]
   def edit(user_id, %{project_id: project_id} = attrs) do
-    case Repo.get_by(Project, owner_id: user_id, project_id: project_id) do
+    case Repo.get_by(Project, owner_id: user_id, id: project_id) do
       nil -> {:error, :not_authorized}
       project -> Projects.edit(project, attrs)
     end
@@ -59,8 +61,8 @@ defmodule Db.Projects.Projects do
     |> Repo.update
   end
 
-  def change_status(user_id, %{project_id: poject_id, status: status} = attrs) do
-    case Repo.get_by(Project, owner_id: user_id, project_id: project_id) do
+  def change_status(user_id, %{project_id: project_id, status: status} = attrs) do
+    case Repo.get_by(Project, owner_id: user_id, id: project_id) do
       nil -> {:error, :not_authorized}
       project -> Projects.change_status(project, attrs)
     end
