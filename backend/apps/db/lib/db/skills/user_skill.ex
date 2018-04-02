@@ -9,7 +9,7 @@ defmodule Db.Skills.UserSkill do
   @type t :: %UserSkill{}
 
   schema "user_skills" do
-    field(:rank, :integer, null: false, default: 0)
+    field(:rank, :integer, null: false)
     field(:deleted_at, :utc_datetime)
     belongs_to(:skill, Skill)
     belongs_to(:user, User)
@@ -20,7 +20,7 @@ defmodule Db.Skills.UserSkill do
   @spec changeset(map()) :: Ecto.Changeset.t()
   def changeset(attrs) do
     permitted_attrs = ~w(skill_id user_id rank)a
-    required_attrs = ~w(skill_id user_id)a
+    required_attrs = ~w(skill_id user_id rank)a
 
     %UserSkill{}
     |> cast(attrs, permitted_attrs)

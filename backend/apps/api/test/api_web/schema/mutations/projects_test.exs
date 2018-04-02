@@ -36,6 +36,40 @@ defmodule ApiWeb.Schema.Mutations.ProjectsTest do
       end
     end
 
+    test "creates a new project with skills", %{user: user} do
+      user_id = user.id
+      skill1 = Factory.insert(:skill)
+      skill2 = Factory.insert(:skill)
+      attrs = %{name: "New Project", skillIds: [skill1.id, skill2.id], requirement: "rrequirement", motivation: "motivation"}
+      with_mock(Api.Accounts.Authentication, [verify: fn(user_id) -> {:ok, Db.Repo.get(Db.Users.User, user_id)} end]) do
+        conn =
+          build_conn()
+          |> put_req_header("authorization", "Bearer #{user_id}")
+          |> post("/api", %{query: @mutation, variables: attrs})
+        response = json_response(conn, 200)
+
+        assert Repo.get_by(Db.Skills.ProjectSkill, skill_id: skill1.id)
+        assert Repo.get_by(Db.Skills.ProjectSkill, skill_id: skill2.id)
+
+        assert response["data"]["createProject"]["name"] == "New Project"
+      end
+    end
+
+    test "fails to create a new project with skills because one of skills doesn't exist", %{user: user} do
+      user_id = user.id
+      attrs = %{name: "New Project", skillIds: [1], requirement: "rrequirement", motivation: "motivation"}
+      with_mock(Api.Accounts.Authentication, [verify: fn(user_id) -> {:ok, Db.Repo.get(Db.Users.User, user_id)} end]) do
+        conn =
+          build_conn()
+          |> put_req_header("authorization", "Bearer #{user_id}")
+          |> post("/api", %{query: @mutation, variables: attrs})
+        response = json_response(conn, 200)
+        %{"errors" => [%{"message" => message} | _tail]} = json_response(conn, 200)
+
+        assert message
+      end
+    end
+
     test "fails to create a new project becaue the project name exists", %{user: user} do
       user_id = user.id
       Factory.insert(:project, owner: user, name: "New Project")

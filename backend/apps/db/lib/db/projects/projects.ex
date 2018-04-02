@@ -4,7 +4,7 @@ defmodule Db.Projects.Projects do
   """
 
   import Ecto.Query, warn: false
-
+  alias Ecto.Multi
   alias Db.Repo
   alias Db.Projects.Project
   alias Db.Projects.Photo
@@ -29,13 +29,17 @@ defmodule Db.Projects.Projects do
 
   #@spect create(map) :: {:ok, Project.t} | {:error, String.t}
   def create(%{skill_ids: skill_ids} = attrs) do
-    Multi.new
-    |> Multi.insert(:project, Project.changeset(attrs))
-    |> Db.Skills.Skills.bulk_upsert_project_skills(project.id, 0, skill_ids)
-    |> Repo.transaction
-    case Project.changeset(attrs) |> Repo.insert do
-      {:ok, project} -> {:ok, project}
-      {:error, changeset} -> {:error, Db.FullErrorMessage.message(changeset)}
+    result =
+      Multi.new
+      |> Multi.insert(:project, Project.changeset(attrs))
+      |> Multi.run(:bulk_create_project_skills, fn %{project: project} ->
+         Db.Skills.Skills.bulk_create_project_skills(project.id, 0, skill_ids)
+      end)
+      |> Repo.transaction
+
+    case result do
+      {:ok, %{project: project}} -> {:ok, project}
+      {:error, _name, changeset, _prev} -> {:error, Db.FullErrorMessage.message(changeset)}
     end
   end
 
