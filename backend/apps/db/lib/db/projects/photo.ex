@@ -31,4 +31,15 @@ defmodule Db.Projects.Photo do
     |> unique_constraint(:project_id, name: "project_photos_project_id_and_is_main_index")
     |> unique_constraint(:project_id, name: "project_photos_project_id_and_rank_index")
   end
+
+  def promote_changeset(photo, attrs) do
+    permitted_attrs = ~w(is_main rank)a
+    required_attrs = ~w(is_main rank)a
+
+    photo
+    |> cast(attrs, permitted_attrs)
+    |> validate_required(required_attrs)
+    |> unique_constraint(:project_id, name: "project_photos_project_id_and_is_main_index")
+    |> unique_constraint(:project_id, name: "project_photos_project_id_and_rank_index")
+  end
 end

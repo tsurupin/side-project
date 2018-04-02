@@ -8,7 +8,7 @@ defmodule Db.Skills.ProjectSkill do
   @type t :: %ProjectSkill{}
 
   schema "project_skills" do
-    field(:rank, :integer, null: false, default: 0)
+    field(:rank, :integer, null: false)
     field(:deleted_at, :utc_datetime)
     belongs_to(:skill, Skill)
     belongs_to(:project, Project)
@@ -18,8 +18,8 @@ defmodule Db.Skills.ProjectSkill do
 
   @spec changeset(map()) :: Ecto.Changeset.t()
   def changeset(attrs) do
-    permitted_attrs = ~w(skill_id project_id)a
-    required_attrs = ~w(skill_id project_id)a
+    permitted_attrs = ~w(skill_id project_id rank)a
+    required_attrs = ~w(skill_id project_id rank)a
 
     %ProjectSkill{}
     |> cast(attrs, permitted_attrs)

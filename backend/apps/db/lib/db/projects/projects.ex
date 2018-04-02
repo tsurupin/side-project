@@ -4,7 +4,7 @@ defmodule Db.Projects.Projects do
   """
 
   import Ecto.Query, warn: false
-
+  alias Ecto.Multi
   alias Db.Repo
   alias Db.Projects.Project
   alias Db.Projects.Photo
@@ -25,6 +25,64 @@ defmodule Db.Projects.Projects do
   def search(query, conditions) do
     projects = Repo.all(build_queries(query, conditions))
     {:ok, projects}
+  end
+
+  #@spect create(map) :: {:ok, Project.t} | {:error, String.t}
+  def create(%{skill_ids: skill_ids} = attrs) do
+    result =
+      Multi.new
+      |> Multi.insert(:project, Project.changeset(attrs))
+      |> Multi.run(:bulk_create_project_skills, fn %{project: project} ->
+         Db.Skills.Skills.bulk_create_project_skills(project.id, 0, skill_ids)
+      end)
+      |> Repo.transaction
+
+    case result do
+      {:ok, %{project: project}} -> {:ok, project}
+      {:error, _name, changeset, _prev} -> {:error, Db.FullErrorMessage.message(changeset)}
+    end
+  end
+
+  def create(attrs) do
+    case Project.changeset(attrs) |> Repo.insert do
+      {:ok, project} -> {:ok, project}
+      {:error, changeset} -> {:error, Db.FullErrorMessage.message(changeset)}
+    end
+  end
+
+  def edit(%Project{} = project, %{skill_ids: skill_ids} = attrs) do
+    Multi.new
+    |> Multi.update(:project, Project.edit_changeset(project, attrs))
+    |> Db.Skills.Skills.bulk_upsert_project_skills(project.id, 0, skill_ids)
+    |> Repo.transaction
+  end
+
+  def edit(%Project{} = project, attrs) do
+    project
+    |> Project.edit_changeset(attrs)
+    |> Repo.update
+  end
+
+  #@spec edit(integer, map) :: [:ok, User.t] || [:error, ]
+  def edit(user_id, %{project_id: project_id} = attrs) do
+    case Repo.get_by(Project, owner_id: user_id, id: project_id) do
+      nil -> {:error, :unauthorized}
+      project -> edit(project, attrs)
+    end
+  end
+
+  def change_status(%Project{}= project, attrs) do
+    case Repo.update(Project.change_status_changeset(project, attrs)) do
+      {:ok, project} -> {:ok, project}
+      {:error, changeset} -> {:error, Db.FullErrorMessage.message(changeset)}
+    end
+  end
+
+  def change_status(user_id, %{project_id: project_id, status: status} = attrs) do
+    case Repo.get_by(Project, owner_id: user_id, id: project_id) do
+      nil -> {:error, :unauthorized}
+      project -> change_status(project, attrs)
+    end
   end
 
 

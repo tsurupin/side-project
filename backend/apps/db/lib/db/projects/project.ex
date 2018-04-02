@@ -11,7 +11,7 @@ defmodule Db.Projects.Project do
   @type t :: %Project{}
 
   schema "projects" do
-    field(:name, :string)
+    field(:name, :string, null: false)
     field(:lead_sentence, :string)
     field(:deleted_at, :utc_datetime)
     field(:status, ProjectStatusEnum)
@@ -29,15 +29,35 @@ defmodule Db.Projects.Project do
 
   @spec changeset(map()) :: Ecto.Changeset.t()
   def changeset(attrs) do
-    permitted_attrs = ~w(name lead_sentence why owner_id genre_id status motivation requirement)a
-    required_attrs = ~w(owner_id)a
+    permitted_attrs = ~w(name lead_sentence owner_id genre_id status motivation requirement)a
+    required_attrs = ~w(name owner_id)a
 
     %Project{}
     |> cast(attrs, permitted_attrs)
     |> validate_required(required_attrs)
     |> assoc_constraint(:genre)
     |> assoc_constraint(:owner)
-    |> unique_constraint(:name, name: "projects_name_and_is_main_index")
+    |> unique_constraint(:name, name: "projects_owner_id_and_name_index")
+    |> check_constraint(:status, name: "valid_project_status")
+  end
+
+  def edit_changeset(%__MODULE__{} = project, attrs) do
+    permitted_attrs = ~w(name lead_sentence genre_id motivation requirement)a
+
+    project
+    |> cast(attrs, permitted_attrs)
+    |> assoc_constraint(:genre)
+    |> unique_constraint(:name, name: "projects_owner_id_and_name_index")
+    |> check_constraint(:status, name: "valid_project_status")
+  end
+
+  def change_status_changeset(%__MODULE__{} = project, attrs) do
+    permitted_attrs = ~w(status)a
+    required_attrs = ~w(status)a
+
+    project
+    |> cast(attrs, permitted_attrs)
+    |> validate_required(required_attrs)
     |> check_constraint(:status, name: "valid_project_status")
   end
 end
