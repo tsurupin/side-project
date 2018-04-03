@@ -27,4 +27,14 @@ defmodule Db.Users.Like do
     |> assoc_constraint(:target_user)
     |> unique_constraint(:user_id, name: "user_likes_unique_index")
   end
+
+  def change_status_changeset(%__MODULE__{} = like, attrs) do
+    permitted_attrs = ~w(status)a
+    required_attrs = ~w(status)a
+
+    like
+    |> cast(attrs, permitted_attrs)
+    |> validate_required(required_attrs)
+    |> unique_constraint(:user_id, name: "user_likes_unique_index")
+  end
 end

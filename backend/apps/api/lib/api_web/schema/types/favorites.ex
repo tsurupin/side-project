@@ -16,4 +16,9 @@ defmodule ApiWeb.Schema.Types.Favorites do
     {:ok, "project"}
   end
 
+  # input_object :favorite_input do
+  #   field :target_id, non_null(:integer)
+  #   field :target_type, non_null(:string)
+  # end
+
 end
