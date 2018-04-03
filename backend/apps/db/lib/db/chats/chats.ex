@@ -16,6 +16,32 @@ defmodule Db.Chats.Chats do
     end
   end
 
+  @spec create_chat_group(integer) :: {:ok, any()} || {:error, Ecto.Multi.name(), any()}
+  def create_chat_group(%{like: like}) do
+    Multi.new
+    |> Multi.insert(:chat_group, Group.changeset(%{source_id: like.id, source_type: "Like"}))
+    |> Multi.run(:chat, fn {chat_group: chat_group} ->
+      Chat.changeset(%{chat_group_id: chat_group.id, is_main: true, name: "Private"})
+      |> Repo.insert
+    end)
+    |> Multi.run(:chat_member, fn {chat: chat} ->
+      bulk_create_members(chat.id, [like.user_id, like.target_user_id])
+    end)
+    |> Repo.transaction
+  end
+
+  @spec bulk_create_members(Ecto.Multi.t, integer, is_list(integer)) :: {:ok, any()} || {:error, Ecto.Multi.name(), any()}
+  def bulk_create_members(multi, _chat_id, []) do
+     multi
+     |> Repo.transaction
+  end
+
+  def bulk_create_members(multi, chat_id, [user_id | remaining] ) do
+     multi
+     |> Multi.insert("chat_member:#{user_id}", Member.changeset(%{chat_id: chat_id, user_id: user_id}))
+     |> bulk_create_members(chat_id, remaining)
+  end
+
   @spec with_contents(Chat.t) :: [Ecto.Schema.t]
   def with_contents(chat) do
     Repo.preload(
