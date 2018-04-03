@@ -3,24 +3,28 @@ defmodule ApiWeb.Schema.Mutations.Likes do
   alias ApiWeb.Schema.{Resolvers, Middleware}
 
   object :likes_mutations do
+    @desc "give like to target_user"
     field :like, :boolean do
-      arg(:target_user_id, :integer)
+      arg(:target_user_id, non_null(:integer))
       middleware Middleware.Authorize
       resolve(&Resolvers.Likes.like/3)
     end
 
+    @desc "withdraw given like"
     field :withdraw_like, :boolean do
       arg(:target_user_id, :integer)
       middleware Middleware.Authorize
       resolve(&Resolvers.Likes.withdraw_like/3)
     end
 
-    filed :accept_like, :boolean do
+    @desc "accept like"
+    field :accept_like, :boolean do
       arg(:like_id, :integer)
       middleware Middleware.Authorize
       resolve(&Resolvers.Likes.accept_like/3)
     end
 
+    @desc "reject like"
     field :reject_like, :boolean do
       arg(:like_id, :integer)
       middleware Middleware.Authorize

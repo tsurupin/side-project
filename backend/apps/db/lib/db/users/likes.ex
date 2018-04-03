@@ -21,22 +21,22 @@ defmodule Db.Users.Likes do
 
   def withdraw_like(%{target_user_id: target_user_id, user_id: user_id} = attrs) do
     case Repo.get_by(Like, attrs) do
-      %Like{status: 0} = like ->
+      %Like{status: :requested} = like ->
         case Repo.delete(like) do
-          {:ok, _} -> {:ok, _}
+          {:ok, _like} -> {:ok, _like}
           {:error, changeset} -> {:error, Db.FullErrorMessage.message(changeset)}
         end
        _ -> {:error, :bad_request}
     end
   end
 
-  def accept_like(%User{} = target_user, %{like_id: like_id}) do
-    case Repo.get_by(Like, id: like_id, target_user_id: current_user.id) do
+  def accept_like(%User{id: target_user_id}, %{like_id: like_id}) do
+    case Repo.get_by(Like, id: like_id, target_user_id: target_user_id) do
        nil -> {:error, :bad_request}
        %Like{} = like ->
          transaction =
            Multi.new
-           |> Multi.update(:accept_like, Like.change_status_changeset(%{like_id: like_id, status: 1}))
+           |> Multi.update(:accept_like, Like.change_status_changeset(%{like_id: like_id, status: :approved}))
            |> Multi.run(:create_chat, fn _ ->
              Chats.create_chat_group(%{like: like})
            end)
@@ -48,12 +48,12 @@ defmodule Db.Users.Likes do
     end
   end
 
-  def reject_like(%User{} = target_user, %{like_id: like_id}) do
-    case Repo.get_by(Like, id: like_id, target_user_id: current_user.id) do
+  def reject_like(%User{id: target_user_id}, %{like_id: like_id}) do
+    case Repo.get_by(Like, id: like_id, target_user_id: target_user_id) do
        nil -> {:error, :bad_request}
        %Like{} = like ->
          transaction =
-           Like.change_status_changeset(%{like_id: like_id, status: 2})
+           Like.change_status_changeset(%{like_id: like_id, status: :rejected})
            |> Repo.transaction
         case transaction do
           {:ok, chat} -> {:ok, chat}

@@ -1,5 +1,5 @@
 defmodule ApiWeb.Schema.Resolvers.Likes do
-  alias Db.Likes.Likes
+  alias Db.Users.Likes
 
   def like(_parent, %{target_user_id: target_user_id}, %{context: %{current_user: current_user}}) do
     case Likes.like(%{target_user_id: target_user_id, user_id: current_user.id}) do

@@ -4,11 +4,71 @@ defmodule ApiWeb.Schema.Mutations.LikessTest do
   import Mock
 
   describe "like" do
-    test "create like" do
+    setup do
+      user = Factory.insert(:user)
+      {
+        :ok,
+        user: user
+      }
+    end
+    @mutation """
+      mutation ($targetUserId: Int!) {
+        like(targetUserId: $targetUserId)
+      }
+    """
+    test "create like", %{user: user} do
+      user_id = user.id
+      target_user = Factory.insert(:user)
 
+      attrs = %{targetUserId: target_user.id}
+      with_mock(Api.Accounts.Authentication, [verify: fn(user_id) -> {:ok, Db.Repo.get(Db.Users.User, user_id)} end]) do
+        conn =
+          build_conn()
+          |> put_req_header("authorization", "Bearer #{user_id}")
+          |> post("/api", %{query: @mutation, variables: attrs})
+        response = json_response(conn, 200)
+
+        assert response["data"]["like"]
+        like = Repo.get_by(Db.Users.Like, user_id: user_id, target_user_id: target_user.id, status: :requested)
+        assert like
+      end
     end
 
-    test "fail to create like because the like exists" do
+    test "fail to create like because the like exists", %{user: user} do
+
+      user_id = user.id
+      target_user = Factory.insert(:user)
+      existing_like = Factory.insert(:user_like, target_user: target_user, user: user)
+
+      attrs = %{targetUserId: target_user.id}
+      with_mock(Api.Accounts.Authentication, [verify: fn(user_id) -> {:ok, Db.Repo.get(Db.Users.User, user_id)} end]) do
+        conn =
+          build_conn()
+          |> put_req_header("authorization", "Bearer #{user_id}")
+          |> post("/api", %{query: @mutation, variables: attrs})
+
+        %{"errors" => [%{"message" => message} | _tail]} = json_response(conn, 200)
+
+        assert message == "user_id: has already been taken"
+      end
+    end
+
+    test "fail to create like because the target_user doesn't exist", %{user: user} do
+
+      user_id = user.id
+
+      attrs = %{targetUserId: 10}
+      with_mock(Api.Accounts.Authentication, [verify: fn(user_id) -> {:ok, Db.Repo.get(Db.Users.User, user_id)} end]) do
+        conn =
+          build_conn()
+          |> put_req_header("authorization", "Bearer #{user_id}")
+          |> post("/api", %{query: @mutation, variables: attrs})
+
+        %{"errors" => [%{"message" => message} | _tail]} = json_response(conn, 200)
+
+        assert message == "target_user: does not exist"
+      end
+
     end
   end
 
