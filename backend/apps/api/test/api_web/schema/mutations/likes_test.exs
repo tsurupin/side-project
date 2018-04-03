@@ -190,7 +190,6 @@ defmodule ApiWeb.Schema.Mutations.LikessTest do
           build_conn()
           |> put_req_header("authorization", "Bearer #{user_id}")
           |> post("/api", %{query: @mutation, variables: attrs})
-        response = json_response(conn, 200)
 
         %{"errors" => [%{"message" => message} | _tail]} = json_response(conn, 200)
         assert message == "bad_request"
@@ -199,13 +198,51 @@ defmodule ApiWeb.Schema.Mutations.LikessTest do
   end
 
   describe "reject_like" do
-
-    test "mark like rejected" do
-
+    setup do
+      user = Factory.insert(:user)
+      {
+        :ok,
+        user: user
+      }
     end
 
-    test "fail to reject like because current_user is not liked user" do
+    @mutation """
+      mutation ($likeId: Int!) {
+        rejectLike(likeId: $likeId)
+      }
+    """
+    test "mark like rejected", %{user: user} do
+      user_id = user.id
+      like = Factory.insert(:user_like, target_user: user)
 
+      attrs = %{likeId: like.id}
+      with_mock(Api.Accounts.Authentication, [verify: fn(user_id) -> {:ok, Db.Repo.get(Db.Users.User, user_id)} end]) do
+        conn =
+          build_conn()
+          |> put_req_header("authorization", "Bearer #{user_id}")
+          |> post("/api", %{query: @mutation, variables: attrs})
+        response = json_response(conn, 200)
+        like = Repo.get(Db.Users.Like, like.id)
+        assert like.status == :rejected
+
+        assert response["data"]["rejectLike"]
+      end
+    end
+
+    test "fail to reject like because current_user is not liked user", %{user: user} do
+      user_id = user.id
+      like = Factory.insert(:user_like)
+
+      attrs = %{likeId: like.id}
+      with_mock(Api.Accounts.Authentication, [verify: fn(user_id) -> {:ok, Db.Repo.get(Db.Users.User, user_id)} end]) do
+        conn =
+          build_conn()
+          |> put_req_header("authorization", "Bearer #{user_id}")
+          |> post("/api", %{query: @mutation, variables: attrs})
+
+        %{"errors" => [%{"message" => message} | _tail]} = json_response(conn, 200)
+        assert message == "bad_request"
+      end
     end
   end
 end

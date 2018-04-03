@@ -41,7 +41,7 @@ defmodule Db.Users.Likes do
              Chats.create_chat_group(%{like: like})
            end)
            |> Repo.transaction
-           IO.inspect(transaction)
+
           case transaction do
             {:ok, %{create_chat: %{chat: chat}}} -> {:ok, chat}
             {:error, _name, changeset, _prev} -> {:error, Db.FullErrorMessage.message(changeset)}
@@ -52,15 +52,16 @@ defmodule Db.Users.Likes do
 
   def reject_like(%User{id: target_user_id}, %{like_id: like_id}) do
     case Repo.get_by(Like, id: like_id, target_user_id: target_user_id) do
-       nil -> {:error, :bad_request}
-       %Like{} = like ->
+
+       %Like{status: :requested} = like ->
          transaction =
            Like.change_status_changeset(like, %{status: :rejected})
-           |> Repo.transaction
+           |> Repo.update
         case transaction do
           {:ok, chat} -> {:ok, chat}
           {:error, changeset} -> {:error, Db.FullErrorMessage.message(changeset)}
         end
+       _ -> {:error, :bad_request}
     end
   end
 
