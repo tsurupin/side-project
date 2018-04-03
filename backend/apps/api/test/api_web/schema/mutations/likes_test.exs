@@ -73,27 +73,128 @@ defmodule ApiWeb.Schema.Mutations.LikessTest do
   end
 
   describe "withdraw_like" do
-    test "delete like" do
+    setup do
+      user = Factory.insert(:user)
+      {
+        :ok,
+        user: user
+      }
+    end
+    @mutation """
+      mutation ($targetUserId: Int!) {
+        withdrawLike(targetUserId: $targetUserId)
+      }
+    """
+    test "delete like", %{user: user} do
+      user_id = user.id
+      target_user = Factory.insert(:user)
+      like = Factory.insert(:user_like, target_user: target_user, user: user, status: :requested)
 
+      attrs = %{targetUserId: target_user.id}
+      with_mock(Api.Accounts.Authentication, [verify: fn(user_id) -> {:ok, Db.Repo.get(Db.Users.User, user_id)} end]) do
+        conn =
+          build_conn()
+          |> put_req_header("authorization", "Bearer #{user_id}")
+          |> post("/api", %{query: @mutation, variables: attrs})
+        response = json_response(conn, 200)
+        IO.inspect(response)
+
+        assert response["data"]["withdrawLike"]
+        like = Repo.get(Db.Users.Like, like.id)
+        assert is_nil(like)
+      end
     end
 
-    test "fail to delete like because like is rejected" do
+    test "fail to delete like because like is rejected", %{user: user} do
+      user_id = user.id
+      target_user = Factory.insert(:user)
+      like = Factory.insert(:user_like, target_user: target_user, user: user, status: :rejected)
 
+      attrs = %{targetUserId: target_user.id}
+      with_mock(Api.Accounts.Authentication, [verify: fn(user_id) -> {:ok, Db.Repo.get(Db.Users.User, user_id)} end]) do
+        conn =
+          build_conn()
+          |> put_req_header("authorization", "Bearer #{user_id}")
+          |> post("/api", %{query: @mutation, variables: attrs})
+        response = json_response(conn, 200)
+
+        %{"errors" => [%{"message" => message} | _tail]} = json_response(conn, 200)
+        assert message == "bad_request"
+      end
     end
 
-    test "fail to delete like because like is not found" do
+    test "fail to delete like because like is not found", %{user: user}  do
+      user_id = user.id
+      target_user = Factory.insert(:user)
 
+      attrs = %{targetUserId: target_user.id}
+      with_mock(Api.Accounts.Authentication, [verify: fn(user_id) -> {:ok, Db.Repo.get(Db.Users.User, user_id)} end]) do
+        conn =
+          build_conn()
+          |> put_req_header("authorization", "Bearer #{user_id}")
+          |> post("/api", %{query: @mutation, variables: attrs})
+        response = json_response(conn, 200)
+
+        %{"errors" => [%{"message" => message} | _tail]} = json_response(conn, 200)
+        assert message == "bad_request"
+      end
     end
   end
 
   describe "accept_like" do
+    setup do
+      user = Factory.insert(:user)
+      {
+        :ok,
+        user: user
+      }
+    end
+    @mutation """
+      mutation ($likeId: Int!) {
+        acceptLike(likeId: $likeId) {
+          id
+        }
+      }
+    """
 
-    test "mark like accepted and creates chat group" do
+    test "mark like accepted and creates chat group", %{user: user} do
+      user_id = user.id
+      like = Factory.insert(:user_like, target_user: user, status: :requested)
 
+      attrs = %{likeId: like.id}
+      with_mock(Api.Accounts.Authentication, [verify: fn(user_id) -> {:ok, Db.Repo.get(Db.Users.User, user_id)} end]) do
+        conn =
+          build_conn()
+          |> put_req_header("authorization", "Bearer #{user_id}")
+          |> post("/api", %{query: @mutation, variables: attrs})
+        response = json_response(conn, 200)
+        like = Repo.get(Db.Users.Like, like.id)
+        assert like.status == :approved
+        group = Repo.get_by(Db.Chats.Group, source_id: like.id, source_type: "Like")
+        assert group
+        chat = Repo.get_by(Db.Chats.Chat, chat_group_id: group.id)
+        assert chat
+        member_ids = Repo.all(Db.Chats.Member, chat_id: chat.id) |> Enum.map(&(&1.user_id))
+        assert member_ids == [like.user_id, like.target_user_id]
+        assert response["data"]["acceptLike"]["id"] == "#{chat.id}"
+      end
     end
 
-    test "fail to accept like because current_user is not liked user" do
+    test "fail to accept like because current_user is not liked user", %{user: user} do
+      user_id = user.id
+      like = Factory.insert(:user_like)
 
+      attrs = %{likeId: like.id}
+      with_mock(Api.Accounts.Authentication, [verify: fn(user_id) -> {:ok, Db.Repo.get(Db.Users.User, user_id)} end]) do
+        conn =
+          build_conn()
+          |> put_req_header("authorization", "Bearer #{user_id}")
+          |> post("/api", %{query: @mutation, variables: attrs})
+        response = json_response(conn, 200)
+
+        %{"errors" => [%{"message" => message} | _tail]} = json_response(conn, 200)
+        assert message == "bad_request"
+      end
     end
   end
 

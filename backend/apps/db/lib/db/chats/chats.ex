@@ -5,7 +5,7 @@ defmodule Db.Chats.Chats do
 
   import Ecto.Query, only: [from: 1, from: 2, first: 1, limit: 2]
   alias Ecto.Multi
-  alias Db.Chats.{Chat, Content, Member}
+  alias Db.Chats.{Chat, Content, Member, Group}
   alias Db.Repo
 
 
