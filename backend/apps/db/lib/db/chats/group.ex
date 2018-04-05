@@ -21,7 +21,7 @@ defmodule Db.Chats.Group do
     permitted_attrs = ~w(source_id source_type)a
     required_attrs = ~w(source_id source_type)a
 
-    %Group{}
+    %__MODULE__{}
     |> cast(attrs, permitted_attrs)
     |> validate_required(required_attrs)
     |> unique_constraint(:source_id, name: "chat_groups_source_id_and_source_type_index")

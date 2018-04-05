@@ -19,7 +19,7 @@ defmodule Db.Factory do
 
   alias Countries.Country
   alias Genres.Genre
-  alias Users.{User, Like, Favorite}
+  alias Users.{User, UserLike, ProjectLike, Favorite}
   alias Skills.{Skill, UserSkill, ProjectSkill}
 
   @spec occupation_type_factory :: OccupationType.t()
@@ -82,11 +82,19 @@ defmodule Db.Factory do
     }
   end
 
-  @spec user_like_factory :: Like.t()
+  @spec user_like_factory :: UserLike.t()
   def user_like_factory() do
-    %Like{
+    %UserLike{
       user: build(:user),
       target_user: build(:user)
+    }
+  end
+
+  @spec project_like_factory :: ProjectLike.t()
+  def project_like_factory() do
+    %ProjectLike{
+      user: build(:user),
+      project: build(:project)
     }
   end
 
