@@ -14,7 +14,7 @@ defmodule Db.Projects.Project do
     field(:name, :string, null: false)
     field(:lead_sentence, :string)
     field(:deleted_at, :utc_datetime)
-    field(:status, ProjectStatusEnum)
+    field(:status, ProjectStatusEnum, default: :editing)
     field(:motivation, :string)
     field(:requirement, :string)
 

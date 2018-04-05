@@ -116,6 +116,16 @@ defmodule Db.Repo.Migrations.CreateInitialTables do
     create unique_index(:projects, [:owner_id, :name], name: "projects_owner_id_and_name_index")
     create constraint(:projects, "valid_project_status", check: "(status = 0) OR (status = 1 AND name IS NOT NULL)")
 
+    create table(:project_likes) do
+       add :user_id, references(:users, on_delete: :delete_all), null: false
+       add :project_id, references(:projects, on_delete: :delete_all), null: false
+       add :status, :integer, default: 0, null: false, comment: "0: requested, 1: approved, 2: rejected, 3: withdrawed"
+       add :deleted_at, :utc_datetime
+       timestamps()
+    end
+
+    create unique_index(:project_likes, [:user_id, :project_id], name: "project_likes_unique_index")
+
     create table(:user_favorites) do
       add :user_id, references(:users, on_delete: :delete_all), null: false
       add :target_user_id, references(:users, on_delete: :delete_all)

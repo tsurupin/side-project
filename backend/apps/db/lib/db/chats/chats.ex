@@ -43,6 +43,23 @@ defmodule Db.Chats.Chats do
      |> bulk_create_members(chat_id, remaining)
   end
 
+  def add_member(%{chat_id: chat_id, user_id: user_id}) do
+    case Repo.get_by(Member, chat_id: chat_id, user_id: user_id) do
+      %Member{} = member ->
+        Member.update_changeset(member, %{deleted_at: nil})
+      nil ->
+        Member.changeset(%{chat_id: chat_id, user_id: user_id})
+    end
+    |> Repo.insert_or_update
+  end
+
+  #@spec remove_member_from_chats(map()) :: {:ok, any()} : {:error, Ecto.Multi.name(), any()}
+  def remove_member_from_chats(%{product_id: project_id, user_id: user_id} = attrs) do
+    Multi.new
+    |> remove_member_from_chat(attended_members_in_project(attrs))
+    |> Repo.transaction
+  end
+
   @spec with_contents(Chat.t) :: [Ecto.Schema.t]
   def with_contents(chat) do
     Repo.preload(
@@ -53,11 +70,40 @@ defmodule Db.Chats.Chats do
 
   @spec attended_chats(integer) :: [Chat.t]
   def attended_chats(user_id) do
-    Repo.all(
+    attended_chats_query(user_id)
+    |> Repo.all
+  end
+
+  def main_chat(%{source_id: source_id, source_type: source_type}) do
+    (
       from c in Chat,
-      join: m in Member,
-      where: m.chat_id == c.id and m.user_id == ^user_id
+      join: g in Group,
+      where: c.chat_group_id == g.id and c.is_main == true and g.source_id == ^source_id and g.source_type == ^source_type
     )
+    |> Repo.one
+  end
+
+ @spec attended_members_in_project(map()) :: [Chat.t]
+  defp attended_members_in_project(%{project_id: project_id, user_id: user_id}) do
+    (
+      from m in Member,
+      join: c in Chat,
+      join: g in Group,
+      where: m.chat_id == c.id and m.user_id == ^user_id and c.group_id == g.id and g.source_id == ^project_id and g.source_type == "Porject"
+    )
+    |> Repo.all
+  end
+
+  defp attended_chats_query(user_id) do
+    from c in Chat,
+    join: m in Member,
+    where: m.chat_id == c.id and m.user_id == ^user_id
+  end
+
+  defp remove_member_from_chat(multi, []), do: multi
+  defp remove_member_from_chat(multi, [%Member{}=member | remainings]) do
+     Multi.update(multi, "remove_member:#{member.id}", Member.delete_changeset(member, %{deleted_at: Timex.now}))
+     |> remove_member_from_chat(remainings)
   end
 
 end

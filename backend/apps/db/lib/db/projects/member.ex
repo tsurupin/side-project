@@ -11,7 +11,7 @@ defmodule Db.Projects.Member do
     belongs_to(:project, Project)
     belongs_to(:user, User)
     field(:deleted_at, :utc_datetime)
-    field(:status, ProjectMemberStatusEnum, default: 0)
+    field(:status, ProjectMemberStatusEnum, default: :requested)
     timestamps(type: :utc_datetime)
   end
 

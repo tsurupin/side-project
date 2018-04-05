@@ -1,9 +1,9 @@
-defmodule ApiWeb.Schema.Mutations.LikessTest do
+defmodule ApiWeb.Schema.Mutations.UserLikessTest do
   use ApiWeb.ConnCase, async: true
 
   import Mock
 
-  describe "like" do
+  describe "user_like" do
     setup do
       user = Factory.insert(:user)
       {
@@ -13,7 +13,7 @@ defmodule ApiWeb.Schema.Mutations.LikessTest do
     end
     @mutation """
       mutation ($targetUserId: Int!) {
-        like(targetUserId: $targetUserId)
+        likeUser(targetUserId: $targetUserId)
       }
     """
     test "create like", %{user: user} do
@@ -28,8 +28,8 @@ defmodule ApiWeb.Schema.Mutations.LikessTest do
           |> post("/api", %{query: @mutation, variables: attrs})
         response = json_response(conn, 200)
 
-        assert response["data"]["like"]
-        like = Repo.get_by(Db.Users.Like, user_id: user_id, target_user_id: target_user.id, status: :requested)
+        assert response["data"]["likeUser"]
+        like = Repo.get_by(Db.Users.UserLike, user_id: user_id, target_user_id: target_user.id, status: :requested)
         assert like
       end
     end
@@ -72,7 +72,7 @@ defmodule ApiWeb.Schema.Mutations.LikessTest do
     end
   end
 
-  describe "withdraw_like" do
+  describe "withdraw_user_like" do
     setup do
       user = Factory.insert(:user)
       {
@@ -82,7 +82,7 @@ defmodule ApiWeb.Schema.Mutations.LikessTest do
     end
     @mutation """
       mutation ($targetUserId: Int!) {
-        withdrawLike(targetUserId: $targetUserId)
+        withdrawUserLike(targetUserId: $targetUserId)
       }
     """
     test "delete like", %{user: user} do
@@ -99,8 +99,8 @@ defmodule ApiWeb.Schema.Mutations.LikessTest do
         response = json_response(conn, 200)
         IO.inspect(response)
 
-        assert response["data"]["withdrawLike"]
-        like = Repo.get(Db.Users.Like, like.id)
+        assert response["data"]["withdrawUserLike"]
+        like = Repo.get(Db.Users.UserLike, like.id)
         assert is_nil(like)
       end
     end
@@ -141,7 +141,7 @@ defmodule ApiWeb.Schema.Mutations.LikessTest do
     end
   end
 
-  describe "accept_like" do
+  describe "accept_user_like" do
     setup do
       user = Factory.insert(:user)
       {
@@ -151,7 +151,7 @@ defmodule ApiWeb.Schema.Mutations.LikessTest do
     end
     @mutation """
       mutation ($likeId: Int!) {
-        acceptLike(likeId: $likeId) {
+        acceptUserLike(likeId: $likeId) {
           id
         }
       }
@@ -168,7 +168,7 @@ defmodule ApiWeb.Schema.Mutations.LikessTest do
           |> put_req_header("authorization", "Bearer #{user_id}")
           |> post("/api", %{query: @mutation, variables: attrs})
         response = json_response(conn, 200)
-        like = Repo.get(Db.Users.Like, like.id)
+        like = Repo.get(Db.Users.UserLike, like.id)
         assert like.status == :approved
         group = Repo.get_by(Db.Chats.Group, source_id: like.id, source_type: "Like")
         assert group
@@ -176,7 +176,7 @@ defmodule ApiWeb.Schema.Mutations.LikessTest do
         assert chat
         member_ids = Repo.all(Db.Chats.Member, chat_id: chat.id) |> Enum.map(&(&1.user_id))
         assert member_ids == [like.user_id, like.target_user_id]
-        assert response["data"]["acceptLike"]["id"] == "#{chat.id}"
+        assert response["data"]["acceptUserLike"]["id"] == "#{chat.id}"
       end
     end
 
@@ -197,7 +197,7 @@ defmodule ApiWeb.Schema.Mutations.LikessTest do
     end
   end
 
-  describe "reject_like" do
+  describe "reject_user_like" do
     setup do
       user = Factory.insert(:user)
       {
@@ -208,7 +208,7 @@ defmodule ApiWeb.Schema.Mutations.LikessTest do
 
     @mutation """
       mutation ($likeId: Int!) {
-        rejectLike(likeId: $likeId)
+        rejectUserLike(likeId: $likeId)
       }
     """
     test "mark like rejected", %{user: user} do
@@ -222,10 +222,10 @@ defmodule ApiWeb.Schema.Mutations.LikessTest do
           |> put_req_header("authorization", "Bearer #{user_id}")
           |> post("/api", %{query: @mutation, variables: attrs})
         response = json_response(conn, 200)
-        like = Repo.get(Db.Users.Like, like.id)
+        like = Repo.get(Db.Users.UserLike, like.id)
         assert like.status == :rejected
 
-        assert response["data"]["rejectLike"]
+        assert response["data"]["rejectUserLike"]
       end
     end
 
