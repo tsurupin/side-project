@@ -188,16 +188,16 @@ defmodule Db.Repo.Migrations.CreateInitialTables do
     create unique_index(:chats, [:chat_group_id, :name], name: "chats_chat_group_id_and_name_index")
 
 
-    create table(:chat_contents) do
+    create table(:chat_messages) do
       add :chat_id, references(:chats, on_delete: :delete_all), null: false
       add :user_id, references(:users, on_delete: :delete_all), null: false
-      add :message, :text
+      add :comment, :text
       add :image_url, :string
       add :deleted_at, :utc_datetime
       timestamps()
     end
 
-    create constraint(:chat_contents, "valid_chat_content", check: "message IS NOT NULL OR image_url IS NOT NULL")
+    create constraint(:chat_messages, "valid_chat_message", check: "comment IS NOT NULL OR image_url IS NOT NULL")
 
     create table(:chat_members) do
       add :chat_id, references(:chats, on_delete: :delete_all), null: false

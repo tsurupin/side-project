@@ -7,16 +7,16 @@ defmodule ApiWeb.Schema.Queries.ChatsTest do
     setup do
       user = Factory.insert(:user)
       chat = Factory.insert(:chat)
-      content1 = Factory.insert(:chat_message_content, chat: chat)
-      content2 = Factory.insert(:chat_image_content, chat: chat)
+      message1 = Factory.insert(:chat_comment_message, chat: chat)
+      message2 = Factory.insert(:chat_image_message, chat: chat)
 
       {
         :ok,
         user_id: user.id,
         chat: chat,
-        content1: content1,
-        content2: content2,
-        content2_image_url: ChatImageUploader.url({content2.image_url, content2}, :thumb)
+        message1: message1,
+        message2: message2,
+        message2_image_url: ChatImageUploader.url({message2.image_url, message2}, :thumb)
       }
     end
 
@@ -25,9 +25,9 @@ defmodule ApiWeb.Schema.Queries.ChatsTest do
         chat(id: $id) {
           id
           name
-          contents {
+          messages {
             id
-            message
+            comment
             imageUrl
           }
         }
@@ -35,7 +35,7 @@ defmodule ApiWeb.Schema.Queries.ChatsTest do
 
     """
 
-    test "return chat with contents", %{user_id: user_id, chat: chat, content1: content1, content2: content2, content2_image_url: content2_image_url} do
+    test "return chat with messages", %{user_id: user_id, chat: chat, message1: message1, message2: message2, message2_image_url: message2_image_url} do
 
       with_mock(Api.Accounts.Authentication, [verify: fn(user_id) -> {:ok, Db.Repo.get(Db.Users.User, user_id)} end]) do
         conn =
@@ -47,16 +47,16 @@ defmodule ApiWeb.Schema.Queries.ChatsTest do
           "chat" => %{
             "id" => "#{chat.id}",
             "name" => chat.name,
-            "contents" => [
+            "messages" => [
               %{
-                "id" => "#{content1.id}",
-                "message" => content1.message,
+                "id" => "#{message1.id}",
+                "comment" => message1.comment,
                 "imageUrl" => nil
               },
               %{
-                "id" => "#{content2.id}",
-                "message" => nil,
-                "imageUrl" => content2_image_url
+                "id" => "#{message2.id}",
+                "comment" => nil,
+                "imageUrl" => message2_image_url
               }
             ]
           }

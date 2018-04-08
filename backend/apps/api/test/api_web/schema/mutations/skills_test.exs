@@ -14,7 +14,7 @@ defmodule ApiWeb.Schema.Mutations.SkillsTest do
     end
     @mutation """
       mutation ($name: String!) {
-        create_skill(name: $name) {
+        createSkill(name: $name) {
           id
         }
       }
@@ -28,7 +28,7 @@ defmodule ApiWeb.Schema.Mutations.SkillsTest do
           |> post("/api", %{query: @mutation, variables: %{name: "new_name"}})
         response = json_response(conn, 200)
 
-        assert response["data"]["create_skill"]["id"]
+        assert response["data"]["createSkill"]["id"]
         new_skill = Repo.get(Db.Skills.Skill, response["data"]["create_skill"]["id"])
         assert new_skill.name == "new_name"
       end
@@ -43,7 +43,7 @@ defmodule ApiWeb.Schema.Mutations.SkillsTest do
           |> post("/api", %{query: @mutation, variables: %{name: "existing_name"}})
         response = json_response(conn, 200)
 
-        assert response["data"]["create_skill"]["id"] == "#{existing_skill.id}"
+        assert response["data"]["createSkill"]["id"] == "#{existing_skill.id}"
       end
     end
   end

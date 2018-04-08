@@ -4,11 +4,11 @@ defmodule ApiWeb.Schema.Queries.Chats do
   alias ApiWeb.Schema.Middleware
 
   object :chats_queries do
-    @desc "Fetch chat content list"
+    @desc "Fetch chat messages"
     field :chat, :chat do
       arg :id, :id
       middleware Middleware.Authorize
-      resolve &Resolvers.Chats.fetch_chat_with_contents/3
+      resolve &Resolvers.Chats.fetch_chat_with_messages/3
     end
   end
 
