@@ -102,7 +102,7 @@ defmodule Db.Repo.Migrations.CreateInitialTables do
     create unique_index(:user_likes, [:user_id, :target_user_id], name: "user_likes_unique_index")
 
     create table(:projects) do
-      add :name, :string, null: false
+      add :name, :string, null: false, default: ""
       add :status, :integer, default: 0, null: false, comment: "0: editing, 1: completed"
       add :genre_id, references(:genres)
       add :lead_sentence, :text
@@ -114,7 +114,7 @@ defmodule Db.Repo.Migrations.CreateInitialTables do
     end
 
     create unique_index(:projects, [:owner_id, :name], name: "projects_owner_id_and_name_index")
-    create constraint(:projects, "valid_project_status", check: "(status = 0) OR (status = 1 AND name IS NOT NULL)")
+    create constraint(:projects, "valid_project_status", check: "(status = 0) OR (status = 1 AND lead_sentence IS NOT NULL)")
 
     create table(:project_likes) do
        add :user_id, references(:users, on_delete: :delete_all), null: false

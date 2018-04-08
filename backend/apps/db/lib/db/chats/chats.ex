@@ -20,13 +20,26 @@ defmodule Db.Chats.Chats do
   #@spec create_chat_group(integer) :: {:ok, any()} || {:error, Ecto.Multi.name(), any()}
   def create_chat_group(%{like: like}) do
     Multi.new
-    |> Multi.insert(:chat_group, Group.changeset(%{source_id: like.id, source_type: "Like"}))
+    |> Multi.insert(:chat_group, Group.changeset(%{source_id: like.id, source_type: "UserLike"}))
     |> Multi.run(:chat, fn %{chat_group: chat_group} ->
       Chat.changeset(%{chat_group_id: chat_group.id, is_main: true, name: "Private"})
       |> Repo.insert
     end)
     |> Multi.run(:chat_member, fn %{chat: chat} ->
       bulk_create_members(Multi.new, chat.id, [like.user_id, like.target_user_id])
+    end)
+    |> Repo.transaction
+  end
+
+  def create_chat_group(%{project: project}) do
+    Multi.new
+    |> Multi.insert(:chat_group, Group.changeset(%{source_id: project.id, source_type: "Project"}))
+    |> Multi.run(:chat, fn %{chat_group: chat_group} ->
+      Chat.changeset(%{chat_group_id: chat_group.id, is_main: true, name: project.name})
+      |> Repo.insert
+    end)
+    |> Multi.run(:chat_member, fn %{chat: chat} ->
+      bulk_create_members(Multi.new, chat.id, [project.owner_id])
     end)
     |> Repo.transaction
   end
