@@ -9,6 +9,7 @@ defmodule Db.Projects.Projects do
   alias Db.Projects.Project
   alias Db.Projects.Photo
   alias Db.Skills.ProjectSkill
+  alias Db.Chats.Chats
 
   @spec get_by(integer) :: map()
   def get_by(%{id: id}) do
@@ -71,6 +72,19 @@ defmodule Db.Projects.Projects do
     end
   end
 
+  def change_status(%Project{}= project, %{status: "completed"} = attrs) do
+    transaction =
+      Multi.new
+      |> Multi.update(:update_project, Project.change_status_changeset(project, attrs))
+      |> Multi.run(:create_chat, fn _ ->
+        Chats.create_chat_group(%{project: project})
+      end)
+      |> Repo.transaction
+    case transaction do
+      {:ok, %{update_project: project}} -> {:ok, project}
+      {:error, _name, changeset, _prev} -> {:error, Db.FullErrorMessage.message(changeset)}
+    end
+  end
   def change_status(%Project{}= project, attrs) do
     case Repo.update(Project.change_status_changeset(project, attrs)) do
       {:ok, project} -> {:ok, project}

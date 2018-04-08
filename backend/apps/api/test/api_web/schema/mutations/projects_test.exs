@@ -254,13 +254,13 @@ defmodule ApiWeb.Schema.Mutations.ProjectsTest do
     end
 
     @mutation """
-      mutation ($projectId: Int!, $status: Int!) {
+      mutation ($projectId: Int!, $status: String!) {
         changeProjectStatus(projectId: $projectId, status: $status)
       }
     """
     test "changes project status", %{user: user} do
-      project = Factory.insert(:project, owner: user, status: 0)
-      attrs = %{projectId: project.id, status: 1}
+      project = Factory.insert(:project, owner: user, status: :editing)
+      attrs = %{projectId: project.id, status: "completed"}
       user_id = user.id
 
       with_mock(Api.Accounts.Authentication, [verify: fn(user_id) -> {:ok, user} end]) do
@@ -273,12 +273,19 @@ defmodule ApiWeb.Schema.Mutations.ProjectsTest do
 
         project = Repo.get(Db.Projects.Project, project.id)
         assert project.status == :completed
+
+        group = Repo.get_by(Db.Chats.Group, source_id: project.id, source_type: "Project")
+        assert group
+        chat = Repo.get_by(Db.Chats.Chat, chat_group_id: group.id)
+        assert chat
+        chat_member = Repo.get_by(Db.Chats.Member, chat_id: chat.id, user_id: project.owner_id)
+        assert chat_member
       end
     end
 
-    test "fails to change project status because name is not present", %{user: user} do
-      project = Factory.insert(:project, owner: user, name: nil, status: 0)
-      attrs = %{projectId: project.id, status: 1}
+    test "fails to change project status because lead_sentence is not present", %{user: user} do
+      project = Factory.insert(:project, owner: user, lead_sentence: nil, status: :editing)
+      attrs = %{projectId: project.id, status: "completed"}
       user_id = user.id
 
       with_mock(Api.Accounts.Authentication, [verify: fn(user_id) -> {:ok, user} end]) do
@@ -297,7 +304,7 @@ defmodule ApiWeb.Schema.Mutations.ProjectsTest do
     test "fails to change project status because project owner is not current user", %{user: user} do
       other_project = Factory.insert(:project)
 
-      attrs = %{projectId: other_project.id, status: 1}
+      attrs = %{projectId: other_project.id, status: "completed"}
       user_id = user.id
 
       with_mock(Api.Accounts.Authentication, [verify: fn(user_id) -> {:ok, user} end]) do
