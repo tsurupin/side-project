@@ -5,7 +5,7 @@ defmodule Db.Chats.Chats do
 
   import Ecto.Query, only: [from: 1, from: 2, first: 1, limit: 2]
   alias Ecto.Multi
-  alias Db.Chats.{Chat, Content, Member, Group}
+  alias Db.Chats.{Chat, Message, Member, Group}
   alias Db.Repo
 
 
@@ -73,11 +73,18 @@ defmodule Db.Chats.Chats do
     |> Repo.transaction
   end
 
-  @spec with_contents(Chat.t) :: [Ecto.Schema.t]
-  def with_contents(chat) do
+  def create_message(attrs) do
+    case Repo.insert(Message.changeset(attrs)) do
+      {:ok, message} -> {:ok, message}
+      {:error, changeset} -> {:error,Db.FullErrorMessage.message(changeset)}
+    end
+  end
+
+  @spec with_messages(Chat.t) :: [Ecto.Schema.t]
+  def with_messages(chat) do
     Repo.preload(
       chat,
-      contents: from(c in Content, order_by: c.inserted_at)
+      messages: from(m in Message, order_by: m.inserted_at)
     )
   end
 
@@ -94,6 +101,10 @@ defmodule Db.Chats.Chats do
       where: c.chat_group_id == g.id and c.is_main == true and g.source_id == ^source_id and g.source_type == ^source_type
     )
     |> Repo.one
+  end
+
+  def preload(query, associations) when is_list(associations) do
+    Repo.preload(query, associations)
   end
 
  @spec attended_members_in_project(map()) :: [Chat.t]

@@ -2,7 +2,7 @@ defmodule Db.Chats.Chat do
   use Ecto.Schema
   import Ecto.Changeset
   alias Db.Users.User
-  alias Db.Chats.{Content, Member, Project, Group}
+  alias Db.Chats.{Message, Member, Project, Group}
 
   alias __MODULE__
 
@@ -15,7 +15,7 @@ defmodule Db.Chats.Chat do
     timestamps(type: :utc_datetime)
 
     belongs_to(:chat_group, Group)
-    has_many(:contents, Content)
+    has_many(:messages, Message)
     many_to_many(:users, User, join_through: "chat_members")
   end
 

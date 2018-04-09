@@ -186,18 +186,18 @@ defmodule Db.Factory do
      }
   end
 
-  @spec chat_message_content_factory :: Chats.Content.t()
-  def chat_message_content_factory() do
-    %Chats.Content{
+  @spec chat_comment_message_factory :: Chats.Message.t()
+  def chat_comment_message_factory() do
+    %Chats.Message{
       chat: build(:chat),
       user: build(:user),
-      message: "message"
+      comment: "comment"
     }
   end
 
-  @spec chat_image_content_factory :: Chats.Content.t()
-  def chat_image_content_factory() do
-    %Chats.Content{
+  @spec chat_image_message_factory :: Chats.Message.t()
+  def chat_image_message_factory() do
+    %Chats.Message{
       chat: build(:chat),
       user: build(:user),
       image_url: %Plug.Upload{content_type: "image/jpeg", filename: "project1.jpg", path: Path.join(__DIR__, "../../priv/repo/images/seeds/project1.jpg")}

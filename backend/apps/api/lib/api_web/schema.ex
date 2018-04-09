@@ -29,6 +29,9 @@ defmodule ApiWeb.Schema do
   import_types ApiWeb.Schema.Mutations.Projects
   import_types ApiWeb.Schema.Mutations.UserLikes
   import_types ApiWeb.Schema.Mutations.ProjectLikes
+  import_types ApiWeb.Schema.Mutations.Chats
+
+  import_types ApiWeb.Schema.Subscriptions.Chats
 
   query do
     import_fields :users_queries
@@ -45,6 +48,11 @@ defmodule ApiWeb.Schema do
     import_fields :projects_mutations
     import_fields :user_likes_mutations
     import_fields :project_likes_mutations
+    import_fields :chats_mutations
+  end
+
+  subscription do
+    import_fields :chats_subscriptions
   end
 
   def middleware(middleware, field, object) do
