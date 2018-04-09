@@ -28,6 +28,7 @@ defmodule ApiWeb.Schema.Mutations.UsersTest do
       occupation_type = Factory.insert(:occupation_type)
       skill1 = Factory.insert(:skill)
       skill2 = Factory.insert(:skill)
+
       {
         :ok,
         user_id: user.id,
@@ -50,19 +51,35 @@ defmodule ApiWeb.Schema.Mutations.UsersTest do
         occupation_type_id: occupation_type_id,
         skill_ids: skill_ids
       } = cxt
-      attrs = %{displayName: "hoge", introduction: "intro", occupation: "Designer", occupationTypeId: occupation_type_id, genreId: genre_id, skillIds: skill_ids, companyName: "company1", schoolName: "school1", latitude: 102.22, longitude: -120.11}
-      with_mock(Api.Accounts.Authentication, [verify: fn(user_id) -> {:ok, Db.Repo.get(Db.Users.User, user_id)} end]) do
+
+      attrs = %{
+        displayName: "hoge",
+        introduction: "intro",
+        occupation: "Designer",
+        occupationTypeId: occupation_type_id,
+        genreId: genre_id,
+        skillIds: skill_ids,
+        companyName: "company1",
+        schoolName: "school1",
+        latitude: 102.22,
+        longitude: -120.11
+      }
+
+      with_mock Api.Accounts.Authentication,
+        verify: fn user_id -> {:ok, Db.Repo.get(Db.Users.User, user_id)} end do
         conn =
           build_conn()
           |> put_req_header("authorization", "Bearer #{user_id}")
           |> post("/api", %{query: @mutation, variables: attrs})
+
         response = json_response(conn, 200)
 
         assert response["data"]["editUser"] == true
         user = Repo.get(Db.Users.User, user_id)
         assert user.display_name == "hoge"
-        assert Enum.map(Repo.all(Db.Skills.UserSkill, user_id: user_id), &(&1.skill_id)) == skill_ids
 
+        assert Enum.map(Repo.all(Db.Skills.UserSkill, user_id: user_id), & &1.skill_id) ==
+                 skill_ids
       end
     end
   end
@@ -106,6 +123,7 @@ defmodule ApiWeb.Schema.Mutations.UsersTest do
   describe "delete user photo" do
     setup do
       user = Factory.insert(:user)
+
       {
         :ok,
         user: user
@@ -124,11 +142,12 @@ defmodule ApiWeb.Schema.Mutations.UsersTest do
       attrs = %{photoId: main_photo.id}
       user_id = user.id
 
-      with_mock(Api.Accounts.Authentication, [verify: fn(user_id) -> {:ok, user} end]) do
+      with_mock Api.Accounts.Authentication, verify: fn user_id -> {:ok, user} end do
         conn =
           build_conn()
           |> put_req_header("authorization", "Bearer #{user_id}")
           |> post("/api", %{query: @mutation, variables: attrs})
+
         response = json_response(conn, 200)
         assert response["data"]["deleteUserPhoto"] == true
 
@@ -142,19 +161,18 @@ defmodule ApiWeb.Schema.Mutations.UsersTest do
       end
     end
 
-    test "deletes user photo",  %{user: user}  do
-
+    test "deletes user photo", %{user: user} do
       photo = Factory.insert(:user_photo, user: user, is_main: false, rank: 1)
       other_photo = Factory.insert(:user_photo, user: user, is_main: false, rank: 2)
       attrs = %{photoId: photo.id}
       user_id = user.id
 
-
-      with_mock(Api.Accounts.Authentication, [verify: fn(user_id) -> {:ok, user} end]) do
+      with_mock Api.Accounts.Authentication, verify: fn user_id -> {:ok, user} end do
         conn =
           build_conn()
           |> put_req_header("authorization", "Bearer #{user_id}")
           |> post("/api", %{query: @mutation, variables: attrs})
+
         response = json_response(conn, 200)
         assert response["data"]["deleteUserPhoto"] == true
 
@@ -166,6 +184,4 @@ defmodule ApiWeb.Schema.Mutations.UsersTest do
       end
     end
   end
-
-
 end

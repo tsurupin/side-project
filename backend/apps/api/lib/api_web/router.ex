@@ -30,9 +30,12 @@ defmodule ApiWeb.Router do
       schema: ApiWeb.Schema
     )
 
-    forward "/", Absinthe.Plug,
+    forward(
+      "/",
+      Absinthe.Plug,
       socket: ApiWeb.UserSocket,
       schema: ApiWeb.Schema
+    )
   end
 
   # scope "/graphq" do

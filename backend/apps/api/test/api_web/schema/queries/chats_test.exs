@@ -40,14 +40,24 @@ defmodule ApiWeb.Schema.Queries.ChatsTest do
 
     """
 
-    test "return chat with messages", %{user: user, chat: chat, message1: message1, message2: message2, message2_image_url: message2_image_url} do
+    test "return chat with messages", %{
+      user: user,
+      chat: chat,
+      message1: message1,
+      message2: message2,
+      message2_image_url: message2_image_url
+    } do
       user_id = user.id
-      with_mock(Api.Accounts.Authentication, [verify: fn(user_id) -> {:ok, Db.Repo.get(Db.Users.User, user_id)} end]) do
+
+      with_mock Api.Accounts.Authentication,
+        verify: fn user_id -> {:ok, Db.Repo.get(Db.Users.User, user_id)} end do
         conn =
           build_conn()
           |> put_req_header("authorization", "Bearer #{user_id}")
           |> get("/api", %{query: @query, variables: %{id: chat.id}})
+
         response = json_response(conn, 200)
+
         expected_result = %{
           "chat" => %{
             "id" => "#{chat.id}",

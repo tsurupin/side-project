@@ -22,22 +22,27 @@ defmodule ApiWeb.UserSocket do
   # See `Phoenix.Token` documentation for examples in
   # performing token verification on connect.
   def connect(%{"token" => token} = attrs, socket) do
-
     case Authentication.verify(token) do
       {:ok, user} ->
-        socket = Absinthe.Phoenix.Socket.put_opts(socket, context: %{
-          current_user: user
-        })
+        socket =
+          Absinthe.Phoenix.Socket.put_opts(
+            socket,
+            context: %{
+              current_user: user
+            }
+          )
+
         {:ok, socket}
+
       {:error, _} ->
         :error
-     end
+    end
+
     # absinthe_config = %{
     #   schema: ApiWeb.Schema
     # }
 
-
-    #{:ok, assign(socket, :absinthe, absinthe_config)}
+    # {:ok, assign(socket, :absinthe, absinthe_config)}
   end
 
   def connect(params, _socket) do

@@ -51,10 +51,11 @@ defmodule ApiWeb.Schema.Queries.ProjectsTest do
 
     """
     test "project fields return projects", cxt do
-      %{project: project, skill: skill, genre: genre, owner: owner,  photo_url: photo_url} = cxt
+      %{project: project, skill: skill, genre: genre, owner: owner, photo_url: photo_url} = cxt
       conn = build_conn()
       conn = get(conn, "/api", %{query: @query, variables: %{id: project.id}})
       response = json_response(conn, 200)
+
       expected_result = %{
         "project" => %{
           "id" => "#{project.id}",
@@ -73,7 +74,6 @@ defmodule ApiWeb.Schema.Queries.ProjectsTest do
       assert response["data"] == expected_result
     end
   end
-
 
   describe "project list query" do
     setup do
@@ -128,12 +128,17 @@ defmodule ApiWeb.Schema.Queries.ProjectsTest do
         genre1: genre1,
         genre2: genre2,
         photo1_url: photo1_url
-        } = cxt
-      with_mock(Api.Accounts.Authentication, [verify: fn(user_id) -> {:ok, Db.Repo.get(Db.Users.User, user_id)} end]) do
+      } = cxt
+
+      with_mock Api.Accounts.Authentication,
+        verify: fn user_id -> {:ok, Db.Repo.get(Db.Users.User, user_id)} end do
         conn =
           build_conn()
           |> put_req_header("authorization", "Bearer #{user_id}")
-          |> get("/api", %{query: @query, variables: %{genreId: genre2.id, skillIds: [skill1.id, skill2.id]}})
+          |> get("/api", %{
+            query: @query,
+            variables: %{genreId: genre2.id, skillIds: [skill1.id, skill2.id]}
+          })
 
         response = json_response(conn, 200)
 
@@ -160,5 +165,4 @@ defmodule ApiWeb.Schema.Queries.ProjectsTest do
       end
     end
   end
-
 end

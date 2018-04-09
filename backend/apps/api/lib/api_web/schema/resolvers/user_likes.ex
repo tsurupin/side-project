@@ -8,7 +8,9 @@ defmodule ApiWeb.Schema.Resolvers.UserLikes do
     end
   end
 
-  def withdraw_like(_parent, %{target_user_id: target_user_id}, %{context: %{current_user: current_user}}) do
+  def withdraw_like(_parent, %{target_user_id: target_user_id}, %{
+        context: %{current_user: current_user}
+      }) do
     case UserLikes.withdraw_like(%{target_user_id: target_user_id, user_id: current_user.id}) do
       {:ok, _} -> {:ok, true}
       {:error, reason} -> {:error, reason}

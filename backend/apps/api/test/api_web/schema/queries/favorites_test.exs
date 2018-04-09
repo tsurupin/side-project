@@ -6,7 +6,6 @@ defmodule ApiWeb.Schema.Queries.FavoritesTest do
 
   describe "favorites query" do
     setup do
-
       user = Factory.insert(:user)
       target_user = Factory.insert(:user)
       target_project = Factory.insert(:project)
@@ -14,7 +13,9 @@ defmodule ApiWeb.Schema.Queries.FavoritesTest do
       favorite1 = Factory.insert(:user_favorite, user: user, target_user_id: target_user.id)
       favorite2 = Factory.insert(:user_favorite, user: user, target_project_id: target_project.id)
       target_user_photo = Factory.insert(:user_photo, user: target_user, is_main: true)
-      target_project_photo = Factory.insert(:project_photo, project: target_project, is_main: true)
+
+      target_project_photo =
+        Factory.insert(:project_photo, project: target_project, is_main: true)
 
       {
         :ok,
@@ -23,8 +24,10 @@ defmodule ApiWeb.Schema.Queries.FavoritesTest do
         favorite2_id: favorite2.id,
         target_user: target_user,
         target_project: target_project,
-        target_user_photo_url: UserPhotoUploader.url({target_user_photo.image_url, target_user_photo}, :thumb),
-        target_project_photo_url: ProjectPhotoUploader.url({target_project_photo.image_url, target_project_photo}, :thumb)
+        target_user_photo_url:
+          UserPhotoUploader.url({target_user_photo.image_url, target_user_photo}, :thumb),
+        target_project_photo_url:
+          ProjectPhotoUploader.url({target_project_photo.image_url, target_project_photo}, :thumb)
       }
     end
 
@@ -57,11 +60,14 @@ defmodule ApiWeb.Schema.Queries.FavoritesTest do
         target_user_photo_url: target_user_photo_url,
         target_project_photo_url: target_project_photo_url
       } = ctx
-      with_mock(Api.Accounts.Authentication, [verify: fn(user_id) -> {:ok, Db.Repo.get(Db.Users.User, user_id)} end]) do
+
+      with_mock Api.Accounts.Authentication,
+        verify: fn user_id -> {:ok, Db.Repo.get(Db.Users.User, user_id)} end do
         conn =
           build_conn()
           |> put_req_header("authorization", "Bearer #{user_id}")
           |> get("/api", %{query: @query})
+
         response = json_response(conn, 200)
 
         expected_result = %{

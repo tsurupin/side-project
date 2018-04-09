@@ -6,9 +6,8 @@ defmodule ApiWeb.Schema.Queries.Favorites do
   object :favorites_queries do
     @desc "Fetch favorite list"
     field :favorite_list, list_of(:favorite) do
-      middleware Middleware.Authorize
-      resolve &Resolvers.Favorites.fetch/3
+      middleware(Middleware.Authorize)
+      resolve(&Resolvers.Favorites.fetch/3)
     end
   end
-
 end

@@ -33,8 +33,6 @@ defmodule Db.DataCase do
       }
 
       alias Users.User
-
-
     end
   end
 

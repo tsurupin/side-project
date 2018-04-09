@@ -11,17 +11,17 @@ defmodule ApiWeb.Schema.Resolvers.Users do
   end
 
   def edit(_, %{user_input: user_input}, %{context: %{current_user: current_user}}) do
-
-     case Users.edit(current_user, user_input) do
-       {:ok, _user} -> {:ok, true}
-       {:error, reason} -> {:error, reason}
-     end
+    case Users.edit(current_user, user_input) do
+      {:ok, _user} -> {:ok, true}
+      {:error, reason} -> {:error, reason}
+    end
   end
 
   def fetch_profile(_, %{id: id}, _) do
     case Users.get_by(%{id: id}) do
       {:error, :not_found} ->
         {:error, %{reason: "Not Found"}}
+
       {:ok, user} ->
         user = Users.preload(user, [:photos, :skills, :country, :genre, :occupation_type])
         {:ok, user}
@@ -29,17 +29,19 @@ defmodule ApiWeb.Schema.Resolvers.Users do
   end
 
   def search(_ctx, %{conditions: conditions}, _) do
-
     case Users.search(conditions) do
       {:error, :not_found} ->
         {:error, %{reason: "Not Found"}}
+
       {:ok, users} ->
         users = Users.preload(users, [:photos, :occupation_type, :genre])
         {:ok, users}
     end
   end
 
-  def upload_photo(ctx, %{photo: _photo, is_main: _is_main, rank: _rank} = attrs, %{context: %{current_user: current_user}}) do
+  def upload_photo(ctx, %{photo: _photo, is_main: _is_main, rank: _rank} = attrs, %{
+        context: %{current_user: current_user}
+      }) do
     case Photos.upload_photo(current_user, attrs) do
       {:ok, _repo} -> {:ok, true}
       {:error, reason} -> {:error, reason}
@@ -52,5 +54,4 @@ defmodule ApiWeb.Schema.Resolvers.Users do
       {:error, reason} -> {:error, reason}
     end
   end
-
 end

@@ -6,11 +6,13 @@ defmodule ApiWeb.Schema.Mutations.UserLikessTest do
   describe "user_like" do
     setup do
       user = Factory.insert(:user)
+
       {
         :ok,
         user: user
       }
     end
+
     @mutation """
       mutation ($targetUserId: Int!) {
         likeUser(targetUserId: $targetUserId)
@@ -21,27 +23,39 @@ defmodule ApiWeb.Schema.Mutations.UserLikessTest do
       target_user = Factory.insert(:user)
 
       attrs = %{targetUserId: target_user.id}
-      with_mock(Api.Accounts.Authentication, [verify: fn(user_id) -> {:ok, Db.Repo.get(Db.Users.User, user_id)} end]) do
+
+      with_mock Api.Accounts.Authentication,
+        verify: fn user_id -> {:ok, Db.Repo.get(Db.Users.User, user_id)} end do
         conn =
           build_conn()
           |> put_req_header("authorization", "Bearer #{user_id}")
           |> post("/api", %{query: @mutation, variables: attrs})
+
         response = json_response(conn, 200)
 
         assert response["data"]["likeUser"]
-        like = Repo.get_by(Db.Users.UserLike, user_id: user_id, target_user_id: target_user.id, status: :requested)
+
+        like =
+          Repo.get_by(
+            Db.Users.UserLike,
+            user_id: user_id,
+            target_user_id: target_user.id,
+            status: :requested
+          )
+
         assert like
       end
     end
 
     test "fail to create like because the like exists", %{user: user} do
-
       user_id = user.id
       target_user = Factory.insert(:user)
       existing_like = Factory.insert(:user_like, target_user: target_user, user: user)
 
       attrs = %{targetUserId: target_user.id}
-      with_mock(Api.Accounts.Authentication, [verify: fn(user_id) -> {:ok, Db.Repo.get(Db.Users.User, user_id)} end]) do
+
+      with_mock Api.Accounts.Authentication,
+        verify: fn user_id -> {:ok, Db.Repo.get(Db.Users.User, user_id)} end do
         conn =
           build_conn()
           |> put_req_header("authorization", "Bearer #{user_id}")
@@ -54,11 +68,12 @@ defmodule ApiWeb.Schema.Mutations.UserLikessTest do
     end
 
     test "fail to create like because the target_user doesn't exist", %{user: user} do
-
       user_id = user.id
 
       attrs = %{targetUserId: 10}
-      with_mock(Api.Accounts.Authentication, [verify: fn(user_id) -> {:ok, Db.Repo.get(Db.Users.User, user_id)} end]) do
+
+      with_mock Api.Accounts.Authentication,
+        verify: fn user_id -> {:ok, Db.Repo.get(Db.Users.User, user_id)} end do
         conn =
           build_conn()
           |> put_req_header("authorization", "Bearer #{user_id}")
@@ -68,18 +83,19 @@ defmodule ApiWeb.Schema.Mutations.UserLikessTest do
 
         assert message == "target_user: does not exist"
       end
-
     end
   end
 
   describe "withdraw_user_like" do
     setup do
       user = Factory.insert(:user)
+
       {
         :ok,
         user: user
       }
     end
+
     @mutation """
       mutation ($targetUserId: Int!) {
         withdrawUserLike(targetUserId: $targetUserId)
@@ -91,11 +107,14 @@ defmodule ApiWeb.Schema.Mutations.UserLikessTest do
       like = Factory.insert(:user_like, target_user: target_user, user: user, status: :requested)
 
       attrs = %{targetUserId: target_user.id}
-      with_mock(Api.Accounts.Authentication, [verify: fn(user_id) -> {:ok, Db.Repo.get(Db.Users.User, user_id)} end]) do
+
+      with_mock Api.Accounts.Authentication,
+        verify: fn user_id -> {:ok, Db.Repo.get(Db.Users.User, user_id)} end do
         conn =
           build_conn()
           |> put_req_header("authorization", "Bearer #{user_id}")
           |> post("/api", %{query: @mutation, variables: attrs})
+
         response = json_response(conn, 200)
         IO.inspect(response)
 
@@ -111,11 +130,14 @@ defmodule ApiWeb.Schema.Mutations.UserLikessTest do
       like = Factory.insert(:user_like, target_user: target_user, user: user, status: :rejected)
 
       attrs = %{targetUserId: target_user.id}
-      with_mock(Api.Accounts.Authentication, [verify: fn(user_id) -> {:ok, Db.Repo.get(Db.Users.User, user_id)} end]) do
+
+      with_mock Api.Accounts.Authentication,
+        verify: fn user_id -> {:ok, Db.Repo.get(Db.Users.User, user_id)} end do
         conn =
           build_conn()
           |> put_req_header("authorization", "Bearer #{user_id}")
           |> post("/api", %{query: @mutation, variables: attrs})
+
         response = json_response(conn, 200)
 
         %{"errors" => [%{"message" => message} | _tail]} = json_response(conn, 200)
@@ -123,16 +145,19 @@ defmodule ApiWeb.Schema.Mutations.UserLikessTest do
       end
     end
 
-    test "fail to delete like because like is not found", %{user: user}  do
+    test "fail to delete like because like is not found", %{user: user} do
       user_id = user.id
       target_user = Factory.insert(:user)
 
       attrs = %{targetUserId: target_user.id}
-      with_mock(Api.Accounts.Authentication, [verify: fn(user_id) -> {:ok, Db.Repo.get(Db.Users.User, user_id)} end]) do
+
+      with_mock Api.Accounts.Authentication,
+        verify: fn user_id -> {:ok, Db.Repo.get(Db.Users.User, user_id)} end do
         conn =
           build_conn()
           |> put_req_header("authorization", "Bearer #{user_id}")
           |> post("/api", %{query: @mutation, variables: attrs})
+
         response = json_response(conn, 200)
 
         %{"errors" => [%{"message" => message} | _tail]} = json_response(conn, 200)
@@ -144,11 +169,13 @@ defmodule ApiWeb.Schema.Mutations.UserLikessTest do
   describe "accept_user_like" do
     setup do
       user = Factory.insert(:user)
+
       {
         :ok,
         user: user
       }
     end
+
     @mutation """
       mutation ($likeId: Int!) {
         acceptUserLike(likeId: $likeId) {
@@ -162,11 +189,14 @@ defmodule ApiWeb.Schema.Mutations.UserLikessTest do
       like = Factory.insert(:user_like, target_user: user, status: :requested)
 
       attrs = %{likeId: like.id}
-      with_mock(Api.Accounts.Authentication, [verify: fn(user_id) -> {:ok, Db.Repo.get(Db.Users.User, user_id)} end]) do
+
+      with_mock Api.Accounts.Authentication,
+        verify: fn user_id -> {:ok, Db.Repo.get(Db.Users.User, user_id)} end do
         conn =
           build_conn()
           |> put_req_header("authorization", "Bearer #{user_id}")
           |> post("/api", %{query: @mutation, variables: attrs})
+
         response = json_response(conn, 200)
         like = Repo.get(Db.Users.UserLike, like.id)
         assert like.status == :approved
@@ -174,7 +204,7 @@ defmodule ApiWeb.Schema.Mutations.UserLikessTest do
         assert group
         chat = Repo.get_by(Db.Chats.Chat, chat_group_id: group.id)
         assert chat
-        member_ids = Repo.all(Db.Chats.Member, chat_id: chat.id) |> Enum.map(&(&1.user_id))
+        member_ids = Repo.all(Db.Chats.Member, chat_id: chat.id) |> Enum.map(& &1.user_id)
         assert member_ids == [like.user_id, like.target_user_id]
         assert response["data"]["acceptUserLike"]["id"] == "#{chat.id}"
       end
@@ -185,7 +215,9 @@ defmodule ApiWeb.Schema.Mutations.UserLikessTest do
       like = Factory.insert(:user_like)
 
       attrs = %{likeId: like.id}
-      with_mock(Api.Accounts.Authentication, [verify: fn(user_id) -> {:ok, Db.Repo.get(Db.Users.User, user_id)} end]) do
+
+      with_mock Api.Accounts.Authentication,
+        verify: fn user_id -> {:ok, Db.Repo.get(Db.Users.User, user_id)} end do
         conn =
           build_conn()
           |> put_req_header("authorization", "Bearer #{user_id}")
@@ -200,6 +232,7 @@ defmodule ApiWeb.Schema.Mutations.UserLikessTest do
   describe "reject_user_like" do
     setup do
       user = Factory.insert(:user)
+
       {
         :ok,
         user: user
@@ -216,11 +249,14 @@ defmodule ApiWeb.Schema.Mutations.UserLikessTest do
       like = Factory.insert(:user_like, target_user: user)
 
       attrs = %{likeId: like.id}
-      with_mock(Api.Accounts.Authentication, [verify: fn(user_id) -> {:ok, Db.Repo.get(Db.Users.User, user_id)} end]) do
+
+      with_mock Api.Accounts.Authentication,
+        verify: fn user_id -> {:ok, Db.Repo.get(Db.Users.User, user_id)} end do
         conn =
           build_conn()
           |> put_req_header("authorization", "Bearer #{user_id}")
           |> post("/api", %{query: @mutation, variables: attrs})
+
         response = json_response(conn, 200)
         like = Repo.get(Db.Users.UserLike, like.id)
         assert like.status == :rejected
@@ -234,7 +270,9 @@ defmodule ApiWeb.Schema.Mutations.UserLikessTest do
       like = Factory.insert(:user_like)
 
       attrs = %{likeId: like.id}
-      with_mock(Api.Accounts.Authentication, [verify: fn(user_id) -> {:ok, Db.Repo.get(Db.Users.User, user_id)} end]) do
+
+      with_mock Api.Accounts.Authentication,
+        verify: fn user_id -> {:ok, Db.Repo.get(Db.Users.User, user_id)} end do
         conn =
           build_conn()
           |> put_req_header("authorization", "Bearer #{user_id}")

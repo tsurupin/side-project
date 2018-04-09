@@ -6,9 +6,8 @@ defmodule ApiWeb.Schema.Queries.Matches do
   object :matches_queries do
     @desc "Fetch match list"
     field :match_list, :match_list do
-      middleware Middleware.Authorize
-      resolve &Resolvers.Matches.fetch/3
+      middleware(Middleware.Authorize)
+      resolve(&Resolvers.Matches.fetch/3)
     end
   end
-
 end

@@ -7,5 +7,4 @@ defmodule ApiWeb.Schema.Resolvers.Matches do
     chats = Chats.attended_chats(current_user.id)
     {:ok, %{liked_user_list: liked_users, chat_list: chats}}
   end
-
 end

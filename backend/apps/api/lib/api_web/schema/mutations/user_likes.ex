@@ -6,28 +6,28 @@ defmodule ApiWeb.Schema.Mutations.UserLikes do
     @desc "give like to target_user"
     field :like_user, :boolean do
       arg(:target_user_id, non_null(:integer))
-      middleware Middleware.Authorize
+      middleware(Middleware.Authorize)
       resolve(&Resolvers.UserLikes.like/3)
     end
 
     @desc "withdraw given like"
     field :withdraw_user_like, :boolean do
       arg(:target_user_id, :integer)
-      middleware Middleware.Authorize
+      middleware(Middleware.Authorize)
       resolve(&Resolvers.UserLikes.withdraw_like/3)
     end
 
     @desc "accept like"
     field :accept_user_like, :chat do
       arg(:like_id, :integer)
-      middleware Middleware.Authorize
+      middleware(Middleware.Authorize)
       resolve(&Resolvers.UserLikes.accept_like/3)
     end
 
     @desc "reject like"
     field :reject_user_like, :boolean do
       arg(:like_id, :integer)
-      middleware Middleware.Authorize
+      middleware(Middleware.Authorize)
       resolve(&Resolvers.UserLikes.reject_like/3)
     end
   end
