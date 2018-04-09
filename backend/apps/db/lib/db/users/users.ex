@@ -76,6 +76,14 @@ defmodule Db.Users.Users do
      Repo.preload(query, associations)
   end
 
+  @spec main_photo(User.t()) :: Photo.t()
+  def main_photo(user) do
+    Repo.one(
+      from p in Photo,
+      where: p.user_id == ^user.id and p.is_main == true
+    )
+  end
+
   @active_duration_days 3
   @limit_num 15
   @spec build_queries(Ecto.Query, map):: list(Ecto.Query)

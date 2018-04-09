@@ -29,7 +29,17 @@ defmodule Db.Chats.Message do
     |> cast_attachments(attrs, [:image_url])
     |> assoc_constraint(:chat)
     |> assoc_constraint(:user)
+    |> validate_chat_member
     |> check_constraint(:image_url, name: "valid_chat_message")
     |> check_constraint(:comment, name: "valid_chat_message")
+  end
+
+  defp validate_chat_member(changeset) do
+    user_id = get_field(changeset, :user_id)
+    chat_id = get_field(changeset, :chat_id)
+    case Db.Repo.get_by(Db.Chats.Member, chat_id: chat_id, user_id: user_id) do
+      nil -> add_error(changeset, :user_id, "user should be member of the chat")
+      _ -> changeset
+    end
   end
 end

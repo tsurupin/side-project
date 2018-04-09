@@ -2,6 +2,7 @@ defmodule ApiWeb.UserSocket do
   use Phoenix.Socket
 
   use Absinthe.Phoenix.Socket, schema: ApiWeb.Schema
+  alias Api.Accounts.Authentication
   ## Channels
   # channel "room:*", ApiWeb.RoomChannel
 
@@ -20,12 +21,27 @@ defmodule ApiWeb.UserSocket do
   #
   # See `Phoenix.Token` documentation for examples in
   # performing token verification on connect.
-  def connect(_params, socket) do
-    absinthe_config = %{
-      schema: ApiWeb.Schema
-    }
+  def connect(%{"token" => token} = attrs, socket) do
 
-    {:ok, assign(socket, :absinthe, absinthe_config)}
+    case Authentication.verify(token) do
+      {:ok, user} ->
+        socket = Absinthe.Phoenix.Socket.put_opts(socket, context: %{
+          current_user: user
+        })
+        {:ok, socket}
+      {:error, _} ->
+        :error
+     end
+    # absinthe_config = %{
+    #   schema: ApiWeb.Schema
+    # }
+
+
+    #{:ok, assign(socket, :absinthe, absinthe_config)}
+  end
+
+  def connect(params, _socket) do
+    :error
   end
 
   # Socket id's are topics that allow you to identify all sockets for a given user:

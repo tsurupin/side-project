@@ -13,7 +13,8 @@ defmodule ApiWeb.Schema.Resolvers.Chats do
 
   def create_message(_, %{message_input: message_input}, %{context: %{current_user: current_user}}) do
      case Chats.create_message(Map.put_new(message_input, :user_id, current_user.id)) do
-       {:ok, message} -> {:ok, message}
+       {:ok, message} ->
+         {:ok, Chats.preload(message, [:user])}
        {:error, error_message} -> {:error, error_message}
      end
   end

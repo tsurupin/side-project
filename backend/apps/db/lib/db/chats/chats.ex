@@ -103,6 +103,10 @@ defmodule Db.Chats.Chats do
     |> Repo.one
   end
 
+  def preload(query, associations) when is_list(associations) do
+    Repo.preload(query, associations)
+  end
+
  @spec attended_members_in_project(map()) :: [Chat.t]
   defp attended_members_in_project(%{project_id: project_id, user_id: user_id}) do
     (

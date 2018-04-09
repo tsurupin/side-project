@@ -9,7 +9,7 @@ defmodule ApiWeb.Schema.Mutations.ChatsTest do
       user = Factory.insert(:user)
       {
         :ok,
-        user_id: user.id
+        user: user
       }
     end
     @mutation """
@@ -24,8 +24,10 @@ defmodule ApiWeb.Schema.Mutations.ChatsTest do
         }
       }
     """
-    test "creates a new message", %{user_id: user_id} do
+    test "creates a new message", %{user: user} do
+      user_id = user.id
       chat = Factory.insert(:chat)
+      Factory.insert(:chat_member, chat: chat, user: user)
       attrs = %{chatId: chat.id, comment: "New Comment"}
       with_mock(Api.Accounts.Authentication, [verify: fn(user_id) -> {:ok, Db.Repo.get(Db.Users.User, user_id)} end]) do
         conn =
@@ -40,8 +42,10 @@ defmodule ApiWeb.Schema.Mutations.ChatsTest do
       end
     end
 
-    test "fails to create a message when no content is sent", %{user_id: user_id} do
+    test "fails to create a message when no content is sent", %{user: user} do
+      user_id = user.id
       chat = Factory.insert(:chat)
+      Factory.insert(:chat_member, chat: chat, user: user)
       attrs = %{chatId: chat.id}
       with_mock(Api.Accounts.Authentication, [verify: fn(user_id) -> {:ok, Db.Repo.get(Db.Users.User, user_id)} end]) do
         conn =
