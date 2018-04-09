@@ -20,8 +20,9 @@ defmodule ApiWeb.ConnCase do
       # Import conveniences for testing with connections
       alias Db.{
         Factory,
-        Repo,
+        Repo
       }
+
       use Phoenix.ConnTest
       import ApiWeb.Router.Helpers
 
@@ -38,6 +39,5 @@ defmodule ApiWeb.ConnCase do
     end
 
     {:ok, conn: Phoenix.ConnTest.build_conn()}
-
   end
 end

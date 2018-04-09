@@ -24,5 +24,4 @@ defmodule Db.Uploaders.ChatImageUploader do
       "uploads/chat_images/#{scope.id}"
     end
   end
-
 end

@@ -4,14 +4,15 @@ defmodule ApiWeb.Schema.Mutations.ChatsTest do
   import Mock
 
   describe "create" do
-
     setup do
       user = Factory.insert(:user)
+
       {
         :ok,
         user: user
       }
     end
+
     @mutation """
       mutation ($chatId: Int!, $comment: String, $image: Upload) {
         createMessage(messageInput: {chatId: $chatId, comment: $comment, image: $image}) {
@@ -29,11 +30,14 @@ defmodule ApiWeb.Schema.Mutations.ChatsTest do
       chat = Factory.insert(:chat)
       Factory.insert(:chat_member, chat: chat, user: user)
       attrs = %{chatId: chat.id, comment: "New Comment"}
-      with_mock(Api.Accounts.Authentication, [verify: fn(user_id) -> {:ok, Db.Repo.get(Db.Users.User, user_id)} end]) do
+
+      with_mock Api.Accounts.Authentication,
+        verify: fn user_id -> {:ok, Db.Repo.get(Db.Users.User, user_id)} end do
         conn =
           build_conn()
           |> put_req_header("authorization", "Bearer #{user_id}")
           |> post("/api", %{query: @mutation, variables: attrs})
+
         response = json_response(conn, 200)
 
         assert response["data"]["createMessage"]["comment"] == "New Comment"
@@ -47,16 +51,17 @@ defmodule ApiWeb.Schema.Mutations.ChatsTest do
       chat = Factory.insert(:chat)
       Factory.insert(:chat_member, chat: chat, user: user)
       attrs = %{chatId: chat.id}
-      with_mock(Api.Accounts.Authentication, [verify: fn(user_id) -> {:ok, Db.Repo.get(Db.Users.User, user_id)} end]) do
+
+      with_mock Api.Accounts.Authentication,
+        verify: fn user_id -> {:ok, Db.Repo.get(Db.Users.User, user_id)} end do
         conn =
           build_conn()
           |> put_req_header("authorization", "Bearer #{user_id}")
           |> post("/api", %{query: @mutation, variables: attrs})
 
-        %{"errors" => [%{"message" => message} | _tail]}  = json_response(conn, 200)
+        %{"errors" => [%{"message" => message} | _tail]} = json_response(conn, 200)
 
         assert message == "comment: is invalid"
-
       end
     end
   end

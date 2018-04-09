@@ -32,7 +32,6 @@ defmodule ApiWeb.Schema.Queries.MatchesTest do
       }
     end
 
-
     @query """
       query {
         matchList {
@@ -58,13 +57,15 @@ defmodule ApiWeb.Schema.Queries.MatchesTest do
         chat2: chat2
       } = ctx
 
-      with_mock(Api.Accounts.Authentication, [verify: fn(user_id) -> {:ok, Db.Repo.get(Db.Users.User, user_id)} end]) do
+      with_mock Api.Accounts.Authentication,
+        verify: fn user_id -> {:ok, Db.Repo.get(Db.Users.User, user_id)} end do
         conn =
           build_conn()
           |> put_req_header("authorization", "Bearer #{user_id}")
           |> get("/api", %{query: @query})
 
         response = json_response(conn, 200)
+
         expected_result = %{
           "matchList" => %{
             "chatList" => [
@@ -88,7 +89,6 @@ defmodule ApiWeb.Schema.Queries.MatchesTest do
               }
             ]
           }
-
         }
 
         assert response["data"] == expected_result

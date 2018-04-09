@@ -17,5 +17,4 @@ defmodule ApiWeb.Schema.Mutations.Favorites do
   #
   #
   # end
-
 end

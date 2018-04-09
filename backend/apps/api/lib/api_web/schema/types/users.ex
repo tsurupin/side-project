@@ -5,36 +5,45 @@ defmodule ApiWeb.Schema.Types.Users do
   alias Db.Users.Users
 
   object :user do
-    field :id, :id
-    field :uid, :string
-    field :token, :string
-    field :display_name, :string
-    field :genre, :genre
-    field :occupation_type, :occupation_type
-    field :school_name, :string
-    field :company_name, :string
-    field :introduction, :string
-    field :status, :user_status
-    field :area_name, :string
-    field :country, :country
-    field :skills, list_of(:skill)
-    field :photos, list_of(:user_photo)
-    field :main_photo_url, :string, resolve: fn(_, %{source: user}) ->
-      case Users.main_photo(user) do
-        %Photo{image_url: image_url} = photo ->
-          {:ok, UserPhotoUploader.url({image_url, photo}, :thumb)}
-        _ -> {:ok, nil}
+    field(:id, :id)
+    field(:uid, :string)
+    field(:token, :string)
+    field(:display_name, :string)
+    field(:genre, :genre)
+    field(:occupation_type, :occupation_type)
+    field(:school_name, :string)
+    field(:company_name, :string)
+    field(:introduction, :string)
+    field(:status, :user_status)
+    field(:area_name, :string)
+    field(:country, :country)
+    field(:skills, list_of(:skill))
+    field(:photos, list_of(:user_photo))
+
+    field(
+      :main_photo_url,
+      :string,
+      resolve: fn _, %{source: user} ->
+        case Users.main_photo(user) do
+          %Photo{image_url: image_url} = photo ->
+            {:ok, UserPhotoUploader.url({image_url, photo}, :thumb)}
+
+          _ ->
+            {:ok, nil}
+        end
       end
-    end
+    )
   end
 
   object :user_photo do
-    field :id, :id
+    field(:id, :id)
+
     field :image_url, :string do
-      arg :format, :string, default_value: "thumb"
-      resolve fn (%Photo{image_url: image_url} = photo, %{format: format}, _) ->
+      arg(:format, :string, default_value: "thumb")
+
+      resolve(fn %Photo{image_url: image_url} = photo, %{format: format}, _ ->
         {:ok, UserPhotoUploader.url({image_url, photo}, String.to_atom(format))}
-      end
+      end)
     end
   end
 
@@ -43,36 +52,35 @@ defmodule ApiWeb.Schema.Types.Users do
   end
 
   enum :user_status do
-    value :not_compeleted
-    value :completed
-    value :unactive
+    value(:not_compeleted)
+    value(:completed)
+    value(:unactive)
   end
 
   input_object :user_search_conditions do
-    field :occupation_type_id, :integer
-    field :distance, :integer
-    field :genre_id, :integer
-    field :is_active, :boolean
-    field :skill_ids,  list_of(:integer)
+    field(:occupation_type_id, :integer)
+    field(:distance, :integer)
+    field(:genre_id, :integer)
+    field(:is_active, :boolean)
+    field(:skill_ids, list_of(:integer))
   end
 
   input_object :user_input do
-    field :display_name, :string
-    field :introduction, :string
-    field :occupation, :string
-    field :school_name, :string
-    field :company_name, :string
-    field :occupation_type_id, :integer
-    field :skill_ids, list_of(:integer)
-    field :genre_id, :integer
-    field :latitude, :float
-    field :longitude, :float
+    field(:display_name, :string)
+    field(:introduction, :string)
+    field(:occupation, :string)
+    field(:school_name, :string)
+    field(:company_name, :string)
+    field(:occupation_type_id, :integer)
+    field(:skill_ids, list_of(:integer))
+    field(:genre_id, :integer)
+    field(:latitude, :float)
+    field(:longitude, :float)
   end
 
   input_object :user_upload_input do
-    field :photo, :upload
-    field :is_main, :boolean
-    field :rank, :integer
+    field(:photo, :upload)
+    field(:is_main, :boolean)
+    field(:rank, :integer)
   end
-
 end

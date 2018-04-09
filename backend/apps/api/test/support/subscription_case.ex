@@ -8,19 +8,16 @@ defmodule ApiWeb.SubscriptionCase do
 
   using do
     quote do
-
       alias Db.{
         Factory,
-        Repo,
+        Repo
       }
+
       # Import conveniences for testing with channels
       use ApiWeb.ChannelCase
-      use Absinthe.Phoenix.SubscriptionTest,
-        schema: ApiWeb.Schema
+      use Absinthe.Phoenix.SubscriptionTest, schema: ApiWeb.Schema
 
-      
-
-      #import unquote(__MODULE__), only: [menu_item: 1]
+      # import unquote(__MODULE__), only: [menu_item: 1]
     end
   end
 

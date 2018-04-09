@@ -18,9 +18,8 @@ defmodule ApiWeb.Schema.Queries.SkillsTest do
       }
 
     """
-    
-    test "return skills with term", %{ruby_skill: ruby_skill} do
 
+    test "return skills with term", %{ruby_skill: ruby_skill} do
       conn = build_conn()
       conn = get(conn, "/api", %{query: @query, variables: %{term: "Ruby"}})
       response = json_response(conn, 200)
@@ -29,5 +28,4 @@ defmodule ApiWeb.Schema.Queries.SkillsTest do
       assert response["data"] == expected_result
     end
   end
-
 end

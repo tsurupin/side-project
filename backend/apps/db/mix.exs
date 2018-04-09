@@ -11,7 +11,7 @@ defmodule Db.MixProject do
       lockfile: "../../mix.lock",
       elixir: "~> 1.6",
       start_permanent: Mix.env() == :prod,
-      elixirc_paths: elixirc_paths(Mix.env),
+      elixirc_paths: elixirc_paths(Mix.env()),
       deps: deps(),
       aliases: aliases()
     ]
@@ -45,7 +45,6 @@ defmodule Db.MixProject do
       {:geo_postgis, "~> 1.1.0"},
       {:ex_machina, "~> 2.1.0", only: [:test]},
       {:timex, "~> 3.1"},
-
       {:faker, "~> 0.9.0", only: [:test]},
       {:dialyxir, "~> 0.5.1", only: [:dev], runtime: false}
     ]
@@ -58,8 +57,8 @@ defmodule Db.MixProject do
         "ecto.create",
         "ecto.migrate",
         "run priv/repo/seeds.exs"
-      ],
-      #test: ["ecto.create --quiet", "ecto.migrate", "test"]
+      ]
+      # test: ["ecto.create --quiet", "ecto.migrate", "test"]
     ]
   end
 end

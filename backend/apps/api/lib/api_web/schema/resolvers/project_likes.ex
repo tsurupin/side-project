@@ -14,5 +14,4 @@ defmodule ApiWeb.Schema.Resolvers.ProjectLikes do
       {:error, reason} -> {:error, reason}
     end
   end
-
 end
