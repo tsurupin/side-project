@@ -9,7 +9,7 @@ defmodule Db.Chats.Chats do
   alias Db.Users.UserLike
   alias Db.Repo
 
-  @spec get_by(%{id: integer}) :: {:ok, :chat} || {:error, :not_found}
+  @spec get_by(%{id: integer}) :: {:ok, :chat} | {:error, :not_found}
    def get_by(%{id: id}) do
     case Repo.get_by(Chat, id: id) do
       %Chat{} = chat -> {:ok, chat}
@@ -17,7 +17,7 @@ defmodule Db.Chats.Chats do
     end
   end
 
-  @spec create_chat_group(%{like: UserLike.t}) :: {:ok, any()} || {:error, Ecto.Multi.name(), any()}
+  @spec create_chat_group(%{like: UserLike.t}) :: {:ok, any()} | {:error, Ecto.Multi.name(), any()}
   def create_chat_group(%{like: like}) do
     Multi.new()
     |> Multi.insert(:chat_group, Group.changeset(%{source_id: like.id, source_type: "UserLike"}))
@@ -31,7 +31,7 @@ defmodule Db.Chats.Chats do
     |> Repo.transaction()
   end
 
-  @spec create_chat_group(%{project_id: integer}) :: {:ok, any()} || {:error, Ecto.Multi.name(), any()}
+  @spec create_chat_group(%{project_id: integer}) :: {:ok, any()} | {:error, Ecto.Multi.name(), any()}
   def create_chat_group(%{project: project}) do
     Multi.new()
     |> Multi.insert(
@@ -48,7 +48,7 @@ defmodule Db.Chats.Chats do
     |> Repo.transaction()
   end
 
-  @spec bulk_create_members(multi :: Ecto.Multi.t, integer, []) :: {:ok, any()} || {:error, Ecto.Multi.name(), any()}
+  @spec bulk_create_members(multi :: Ecto.Multi.t, integer, []) :: {:ok, any()} | {:error, Ecto.Multi.name(), any()}
   def bulk_create_members(multi, _chat_id, []) do
     multi
     |> Repo.transaction()

@@ -19,7 +19,6 @@ defmodule Db.Users.Favorite do
   end
 
   @spec changeset(map()) :: Ecto.Changeset.t()
-
   def changeset(attrs) do
     permitted_attrs = ~w(target_user_id target_project_id user_id)a
     required_attrs = ~w(user_id)a
