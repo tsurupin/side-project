@@ -41,7 +41,7 @@ defmodule Db.Users.Users do
     |> Repo.transaction()
   end
 
-  @spec edit(User.t(), map()) :: {:ok, User.t()} | {:error, Ecto.Changeset.t()}
+  #@spec edit(User.t(), map()) :: {:ok, User.t()} | {:error, Ecto.Changeset.t()}
   def edit(%User{} = user, user_input) do
     user
     |> User.edit_changeset(user_input)
@@ -53,7 +53,7 @@ defmodule Db.Users.Users do
 
   # def search(condition) when is_bitstring(condtion), do: search(User, [condition])
 
-  @spec search(query :: Ecto.Query.t(), map) :: {:ok, [User.t()]} | {:ok, []}
+  @spec search(query :: Ecto.Queryable.t(), map) :: {:ok, [User.t()]} | {:ok, []}
   def search(query, conditions) do
     users = Repo.all(build_queries(query, conditions))
     {:ok, users}
@@ -64,17 +64,17 @@ defmodule Db.Users.Users do
     {:ok, Repo.all(Favorite, user_id: user_id)}
   end
 
-  @spec preload(Ecto.Query.t(), association) :: [Ecto.Schema.t()] when association: String.t()
+  @spec preload(Ecto.Queryable.t(), association) :: [Ecto.Schema.t()] when association: String.t()
   def preload(query, association) when is_binary(association) do
     Repo.preload(query, [String.to_atom(association)])
   end
 
-  @spec preload(Ecto.Query.t(), association) :: [Ecto.Schema.t()] when association: atom
+  @spec preload(Ecto.Queryable.t(), association) :: [Ecto.Schema.t()] when association: atom
   def preload(query, association) when is_atom(association) do
     Repo.preload(query, [association])
   end
 
-  @spec preload(Ecto.Query.t(), associations) :: [Ecto.Schema.t()] when associations: list(atom)
+  @spec preload(Ecto.Queryable.t(), associations) :: [Ecto.Schema.t()] when associations: list(atom)
   def preload(query, associations) when is_list(associations) do
     Repo.preload(query, associations)
   end
@@ -86,7 +86,7 @@ defmodule Db.Users.Users do
 
   @active_duration_days 3
   @limit_num 15
-  @spec build_queries(Ecto.Query.t(), map) :: list(Ecto.Query.t())
+  @spec build_queries(Ecto.Queryable.t(), map) :: Ecto.Queyable.t()
   defp build_queries(query, conditions) do
     # TODO:
     # 1. add distance search with postgis

@@ -20,11 +20,21 @@ defmodule Db.Projects.Member do
     permitted_attrs = ~w(project_id user_id status)a
     required_attrs = ~w(project_id user_id)a
 
-    %Member{}
+    %__MODULE__{}
     |> cast(attrs, permitted_attrs)
     |> validate_required(required_attrs)
     |> assoc_constraint(:project)
     |> assoc_constraint(:user)
     |> unique_constraint(:project_id, name: "project_members_project_id_and_user_id_index")
+  end
+
+  @spec delete_changeset(Member.t, %{deleted_at: any}) :: Ecto.Changeset.t()
+  def delete_changeset(%Member{} =  member, %{deleted_at: _deleted_at} = attrs) do
+    permitted_attrs = ~w(deleted_at)a
+    required_attrs = ~w(deleted_at)a
+
+    member
+    |> cast(attrs, permitted_attrs)
+    |> validate_required(required_attrs)
   end
 end

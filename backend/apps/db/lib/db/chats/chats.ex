@@ -79,12 +79,17 @@ defmodule Db.Chats.Chats do
     |> Repo.insert_or_update()
   end
 
-  @spec remove_member_from_chats(%{:product_id => integer, :user_id => integer, optional(atom) => any}) ::
-          {:ok, any()} | {:error, Ecto.Multi.name(), any()}
-  def remove_member_from_chats(%{product_id: _product_id, user_id: _user_id} = attrs) do
-    Multi.new()
-    |> remove_member_from_chat(attended_members_in_project(attrs))
-    |> Repo.transaction()
+  @spec remove_member_from_chats(%{:project_id => integer, :user_id => integer}) ::
+          {:ok, any()} | {:error, String.t}
+  def remove_member_from_chats(%{project_id: _project_id, user_id: _user_id} = attrs) do
+    transaction =
+      Multi.new()
+      |> remove_member_from_chat(attended_members_in_project(attrs))
+      |> Repo.transaction()
+    case transaction do
+      {:ok, _any} -> {:ok, _any}
+      {:error, _name, changeset, _prev} -> {:error, Db.FullErrorMessage.message(changeset)}
+    end
   end
 
   @spec create_message(map) :: {:ok, String.t()} | {:error, String.t()}
@@ -109,7 +114,7 @@ defmodule Db.Chats.Chats do
     |> Repo.all()
   end
 
-  @spec main_chat(%{source_id: integer, source_type: String.t()}) :: Chat.t()
+  @spec main_chat(%{source_id: integer, source_type: String.t()}) :: Chat.t() | nil
   def main_chat(%{source_id: source_id, source_type: source_type}) do
     from(
       c in Chat,

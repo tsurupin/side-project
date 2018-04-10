@@ -15,7 +15,7 @@ defmodule Db.Users.ProjectLikes do
   alias Db.Projects
 
   @spec like(%{project_id: integer, user_id: integer}) :: {:ok, Chat.t()} | {:error, String.t()}
-  def like(%{project_id: project_id, user_id: user_id} = attrs) do
+  def like(%{project_id: _project_id, user_id: _user_id} = attrs) do
     transaction =
       Multi.new()
       |> Multi.insert(:create_project_like, ProjectLike.changeset(attrs))
@@ -33,7 +33,6 @@ defmodule Db.Users.ProjectLikes do
   @spec withdraw_like(%{project_id: integer, user_id: integer}) ::
           {:ok, any}
           | {:error, String.t()}
-          | {:error, Ecto.Multi.name(), any()}
           | {:error, :bad_request}
   def withdraw_like(%{project_id: project_id, user_id: user_id} = attrs) do
     case Repo.get_by(ProjectLike, attrs) do
@@ -49,16 +48,15 @@ defmodule Db.Users.ProjectLikes do
           |> Multi.run(:delete_chat_member, fn _ ->
             Chats.remove_member_from_chats(%{project_id: project_id, user_id: user_id})
           end)
-          |> Multi.update(
-            :delete_project_member,
-            Projects.Member.update_changeset(%{
-              project_id: project_id,
-              user_id: user_id,
-              deleted_at: Timex.now()
-            })
-          )
+          |> Multi.run(:delete_project_member, fn _ ->
+              Projects.remove_member_from_project(%{project_id: project_id, user_id: user_id})
+          end)
           |> Multi.delete(:delete_project_like, like)
           |> Repo.transaction()
+        case transaction do
+          {:ok, _map} -> {:ok, _map}
+          {:error, _name, changeset, _prev} -> {:error, Db.FullErrorMessage.message(changeset)}
+        end
 
       _ ->
         {:error, :bad_request}
@@ -75,8 +73,8 @@ defmodule Db.Users.ProjectLikes do
     )
     |> Multi.run(:main_chat, fn _ ->
       case Chats.main_chat(%{source_id: project_id, source_type: "Project"}) do
+        %Chat{}= chat -> {:ok, chat}
         nil -> {:error, :not_found_main_chat}
-        chat -> {:ok, chat}
       end
     end)
     |> Multi.run(:add_member_to_main_chat, fn %{main_chat: main_chat} ->

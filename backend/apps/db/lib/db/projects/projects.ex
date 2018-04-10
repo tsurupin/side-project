@@ -6,7 +6,7 @@ defmodule Db.Projects.Projects do
   import Ecto.Query, warn: false
   alias Ecto.Multi
   alias Db.Repo
-  alias Db.Projects.Project
+  alias Db.Projects.{Project, Member}
   alias Db.Projects.Photo
   alias Db.Skills.ProjectSkill
   alias Db.Chats.Chats
@@ -104,28 +104,38 @@ defmodule Db.Projects.Projects do
     end
   end
 
+  @spec remove_member_from_project(%{project_id: integer, user_id: integer}) :: {:ok, Member.t} | {:error, any}
+  def remove_member_from_project(%{project_id: project_id, user_id: user_id}) do
+    case Repo.get_by(Member, project_id: project_id, user_id: user_id) do
+      %Member{} = member ->
+        Member.delete_changeset(member, %{deleted_at: Timex.now()})
+        |> Repo.update()
+      _ -> {:error, :not_found}
+    end
+  end
+
   @spec main_photo(Project.t()) :: Photo.t()
   def main_photo(project) do
     Repo.one(from(p in Photo, where: p.project_id == ^project.id and p.is_main == true))
   end
 
-  @spec preload(Ecto.Query.t, String.t) :: [Ecto.Schema.t()]
+  @spec preload(Ecto.Queryable.t, String.t) :: [Ecto.Schema.t()]
   def preload(query, association) when is_binary(association) do
     Repo.preload(query, [String.to_atom(association)])
   end
 
-  @spec preload(Ecto.Query.t, atom) :: [Ecto.Schema.t()]
+  @spec preload(Ecto.Queryable.t, atom) :: [Ecto.Schema.t()]
   def preload(query, association) when is_atom(association) do
     Repo.preload(query, [association])
   end
 
-  @spec preload(Ecto.Query.t, list(any)) :: [Ecto.Schema.t()]
+  @spec preload(Ecto.Queryable.t, list(any)) :: [Ecto.Schema.t()]
   def preload(query, associations) when is_list(associations) do
     Repo.preload(query, associations)
   end
 
   @limit_num 15
-  @spec build_queries(Ecto.Queryable.t, map) :: list(Ecto.Query)
+  @spec build_queries(Ecto.Queryable.t, map) :: Ecto.Queryable.t
   defp build_queries(query, conditions) do
     queries =
       Enum.reduce(conditions, query, fn
