@@ -25,7 +25,7 @@ defmodule ApiWeb.UserSocket do
     case Authentication.verify(token) do
       {:ok, user} ->
         socket =
-          Absinthe.Phoenix.Socket.put_opts(
+          Absinthe.Phoenix.Socket.put_options(
             socket,
             context: %{
               current_user: user

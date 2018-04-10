@@ -20,7 +20,7 @@ defmodule Db.Skills.Skill do
     permitted_attrs = ~w(name)a
     required_attrs = ~w(name)a
 
-    %Skill{}
+    %__MODULE__{}
     |> cast(attrs, permitted_attrs)
     |> validate_required(required_attrs)
     |> unique_constraint(:name, name: "skills_name_index")

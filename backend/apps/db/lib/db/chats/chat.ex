@@ -24,7 +24,7 @@ defmodule Db.Chats.Chat do
     permitted_attrs = ~w(name is_main chat_group_id)a
     required_attrs = ~w(name is_main chat_group_id)a
 
-    %Chat{}
+    %__MODULE__{}
     |> cast(attrs, permitted_attrs)
     |> assoc_constraint(:chat_group)
     |> validate_required(required_attrs)

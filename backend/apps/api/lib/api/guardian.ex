@@ -1,14 +1,12 @@
 defmodule Api.Guardian do
   use Guardian, otp_app: :api
 
-  def subject_for_token(resource, claims) do
+  @spec subject_for_token(map(), map()) :: {:ok, String.t}
+  def subject_for_token(_resource, claims) do
     {:ok, claims["sub"]}
   end
 
-  def subject_for_token(_, _) do
-    {:error, :reason_for_error}
-  end
-
+  @spec resource_from_claims(map()) :: {:error, atom}
   def resource_from_claims(_claims) do
     {:error, :reason_for_error}
   end

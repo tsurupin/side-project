@@ -38,6 +38,7 @@ defmodule Db.Users.Photo do
     |> unique_constraint(:user_id, name: "user_photos_user_id_and_rank_index")
   end
 
+  @spec promote_changeset(Photo.t(), map) :: Ecto.Changeset.t()
   def promote_changeset(photo, attrs) do
     permitted_attrs = ~w(is_main rank)a
     required_attrs = ~w(is_main rank)a

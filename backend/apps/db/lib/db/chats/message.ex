@@ -34,6 +34,7 @@ defmodule Db.Chats.Message do
     |> check_constraint(:comment, name: "valid_chat_message")
   end
 
+  @spec validate_chat_member(Ecto.Changeset.t()) :: Ecto.Changeset.t()
   defp validate_chat_member(changeset) do
     user_id = get_field(changeset, :user_id)
     chat_id = get_field(changeset, :chat_id)

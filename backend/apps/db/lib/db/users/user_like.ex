@@ -28,6 +28,7 @@ defmodule Db.Users.UserLike do
     |> unique_constraint(:user_id, name: "user_likes_unique_index")
   end
 
+  @spec change_status_changeset(UserLike.t(), map) :: Ecto.Changeset.t()
   def change_status_changeset(%__MODULE__{} = like, attrs) do
     permitted_attrs = ~w(status)a
     required_attrs = ~w(status)a

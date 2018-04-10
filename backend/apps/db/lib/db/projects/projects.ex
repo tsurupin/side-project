@@ -6,29 +6,28 @@ defmodule Db.Projects.Projects do
   import Ecto.Query, warn: false
   alias Ecto.Multi
   alias Db.Repo
-  alias Db.Projects.Project
+  alias Db.Projects.{Project, Member}
   alias Db.Projects.Photo
   alias Db.Skills.ProjectSkill
   alias Db.Chats.Chats
 
-  @spec get_by(integer) :: map()
+  @spec get_by(%{id: integer}) :: {:ok, Project.t} | {:error, :not_found}
   def get_by(%{id: id}) do
     case Repo.get_by(Project, id: id, status: 1) do
+      %Project{} = project -> {:ok, project}
       nil -> {:error, :not_found}
-      project -> {:ok, project}
     end
   end
 
-  @spec search(map) :: map
+  @spec search(map) :: {:ok, list(Project.t)}
   def search(conditions), do: search(Project, conditions)
 
-  @spec search(Ecto.Query, map) :: map()
+  @spec search(Ecto.Queryable.t,  map) :: {:ok, list(Project.t)}
   def search(query, conditions) do
     projects = Repo.all(build_queries(query, conditions))
     {:ok, projects}
   end
 
-  # @spect create(map) :: {:ok, Project.t} | {:error, String.t}
   def create(%{skill_ids: skill_ids} = attrs) do
     result =
       Multi.new()
@@ -44,6 +43,7 @@ defmodule Db.Projects.Projects do
     end
   end
 
+  @spec create(map) :: {:ok, Project.t} | {:error, String.t}
   def create(attrs) do
     case Project.changeset(attrs) |> Repo.insert() do
       {:ok, project} -> {:ok, project}
@@ -51,6 +51,7 @@ defmodule Db.Projects.Projects do
     end
   end
 
+  @spec edit(Project.t, %{:skill_ids => list(integer), optional(atom) => any}) :: {:ok, any()} | {:error, Ecto.Multi.name(), any()}
   def edit(%Project{} = project, %{skill_ids: skill_ids} = attrs) do
     Multi.new()
     |> Multi.update(:project, Project.edit_changeset(project, attrs))
@@ -64,14 +65,15 @@ defmodule Db.Projects.Projects do
     |> Repo.update()
   end
 
-  # @spec edit(integer, map) :: [:ok, User.t] || [:error, ]
+  @spec edit(integer, %{:project_id => integer, optional(atom) => any}) :: {:ok, any()} | {:error, Ecto.Multi.name(), any()} | {:error, :unauthorized}
   def edit(user_id, %{project_id: project_id} = attrs) do
     case Repo.get_by(Project, owner_id: user_id, id: project_id) do
+      %Project{} = project -> edit(project, attrs)
       nil -> {:error, :unauthorized}
-      project -> edit(project, attrs)
     end
   end
 
+  @spec change_status(Project.t, %{status: String.t}) :: {:ok, Project.t} | {:error, String.t}
   def change_status(%Project{} = project, %{status: "completed"} = attrs) do
     transaction =
       Multi.new()
@@ -94,10 +96,21 @@ defmodule Db.Projects.Projects do
     end
   end
 
-  def change_status(user_id, %{project_id: project_id, status: status} = attrs) do
+  @spec change_status(integer, %{project_id: integer, status: String.t}) :: {:ok, Project.t} | {:error, String.t}
+  def change_status(user_id, %{project_id: project_id, status: status}) do
     case Repo.get_by(Project, owner_id: user_id, id: project_id) do
+      %Project{} = project -> change_status(project, %{status: status})
       nil -> {:error, :unauthorized}
-      project -> change_status(project, attrs)
+    end
+  end
+
+  @spec remove_member_from_project(%{project_id: integer, user_id: integer}) :: {:ok, Member.t} | {:error, any}
+  def remove_member_from_project(%{project_id: project_id, user_id: user_id}) do
+    case Repo.get_by(Member, project_id: project_id, user_id: user_id) do
+      %Member{} = member ->
+        Member.delete_changeset(member, %{deleted_at: Timex.now()})
+        |> Repo.update()
+      _ -> {:error, :not_found}
     end
   end
 
@@ -106,21 +119,23 @@ defmodule Db.Projects.Projects do
     Repo.one(from(p in Photo, where: p.project_id == ^project.id and p.is_main == true))
   end
 
-  # @spec preload(Ecto.Query, any): Repo
+  @spec preload(Ecto.Queryable.t, String.t) :: [Ecto.Schema.t()]
   def preload(query, association) when is_binary(association) do
     Repo.preload(query, [String.to_atom(association)])
   end
 
+  @spec preload(Ecto.Queryable.t, atom) :: [Ecto.Schema.t()]
   def preload(query, association) when is_atom(association) do
     Repo.preload(query, [association])
   end
 
+  @spec preload(Ecto.Queryable.t, list(any)) :: [Ecto.Schema.t()]
   def preload(query, associations) when is_list(associations) do
     Repo.preload(query, associations)
   end
 
   @limit_num 15
-  @spec build_queries(Ecto.Query, map) :: list(Ecto.Query)
+  @spec build_queries(Ecto.Queryable.t, map) :: Ecto.Queryable.t
   defp build_queries(query, conditions) do
     queries =
       Enum.reduce(conditions, query, fn

@@ -59,6 +59,7 @@ defmodule Db.Users.User do
     |> check_constraint(:status, name: "valid_user_status")
   end
 
+  @spec edit_changeset(User.t(), map()) :: Ecto.Changeset.t()
   def edit_changeset(user, attrs) do
     permitted_attributes =
       ~w(display_name email occupation company_name school_name status area_name occupation_type_id genre_id longitude latitude)a
@@ -72,9 +73,9 @@ defmodule Db.Users.User do
   end
 
   @srid 4326
+  @spec convert_point_to_geometry(Ecto.Changeset.t()) :: Ecto.Changeset.t()
   defp convert_point_to_geometry(changeset) do
     longitude = get_change(changeset, :longitude)
-    IO.inspect(longitude)
     latitude = get_change(changeset, :latitude)
 
     if is_nil(longitude) or is_nil(latitude) do
