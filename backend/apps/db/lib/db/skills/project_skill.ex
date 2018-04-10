@@ -21,7 +21,7 @@ defmodule Db.Skills.ProjectSkill do
     permitted_attrs = ~w(skill_id project_id rank)a
     required_attrs = ~w(skill_id project_id rank)a
 
-    %ProjectSkill{}
+    %__MODULE__{}
     |> cast(attrs, permitted_attrs)
     |> validate_required(required_attrs)
     |> assoc_constraint(:skill)

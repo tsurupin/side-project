@@ -29,7 +29,7 @@ defmodule Db.Users.ProjectLike do
     |> unique_constraint(:user_id, name: "project_likes_unique_index")
   end
 
-  @spec approve_changeset(ProjectLike.t, map) :: Ecto.Changeset.t()
+  @spec approve_changeset(ProjectLike.t(), map) :: Ecto.Changeset.t()
   def approve_changeset(%__MODULE__{} = like, attrs) do
     permitted_attrs = ~w(status)a
     required_attrs = ~w(status)a

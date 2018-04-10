@@ -12,7 +12,8 @@ defmodule Db.Users.UserLikes do
   alias Db.Users.{User, UserLike}
   alias Db.Chats.{Chats, Chat}
 
-  @spec like(%{target_user_id: integer, user_id: integer}) :: {:ok, UserLike.t} | {:error, String.t}
+  @spec like(%{target_user_id: integer, user_id: integer}) ::
+          {:ok, UserLike.t()} | {:error, String.t()}
   def like(%{target_user_id: target_user_id, user_id: user_id} = attrs) do
     case UserLike.changeset(attrs) |> Repo.insert() do
       {:ok, like} -> {:ok, like}
@@ -20,7 +21,8 @@ defmodule Db.Users.UserLikes do
     end
   end
 
-  @spec withdraw_like(%{target_user_id: integer, user_id: integer}) :: {:ok, any} | {:error, String.t} | {:error, :bad_request}
+  @spec withdraw_like(%{target_user_id: integer, user_id: integer}) ::
+          {:ok, any} | {:error, String.t()} | {:error, :bad_request}
   def withdraw_like(%{target_user_id: target_user_id, user_id: user_id} = attrs) do
     case Repo.get_by(UserLike, attrs) do
       %UserLike{status: :requested} = like ->
@@ -34,7 +36,8 @@ defmodule Db.Users.UserLikes do
     end
   end
 
-  @spec accept_like(User.t, %{like_id: integer}) :: {:ok, Chat.t} | {:error, String.t} | {:error, :bad_request}
+  @spec accept_like(User.t(), %{like_id: integer}) ::
+          {:ok, Chat.t()} | {:error, String.t()} | {:error, :bad_request}
   def accept_like(%User{id: target_user_id}, %{like_id: like_id}) do
     case Repo.get_by(UserLike, id: like_id, target_user_id: target_user_id) do
       %UserLike{status: :requested} = like ->
@@ -59,7 +62,8 @@ defmodule Db.Users.UserLikes do
     end
   end
 
-  @spec reject_like(User.t, %{like_id: integer}) :: {:ok, Chat.t} | {:error, String.t} | {:error, :bad_request}
+  @spec reject_like(User.t(), %{like_id: integer}) ::
+          {:ok, Chat.t()} | {:error, String.t()} | {:error, :bad_request}
   def reject_like(%User{id: target_user_id}, %{like_id: like_id}) do
     case Repo.get_by(UserLike, id: like_id, target_user_id: target_user_id) do
       %UserLike{status: :requested} = like ->

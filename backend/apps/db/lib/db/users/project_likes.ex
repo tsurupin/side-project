@@ -14,7 +14,7 @@ defmodule Db.Users.ProjectLikes do
   alias Db.Chats.{Chats, Chat}
   alias Db.Projects
 
-  @spec like(%{project_id: integer, user_id: integer}) :: {:ok, Chat.t} | {:error, String.t}
+  @spec like(%{project_id: integer, user_id: integer}) :: {:ok, Chat.t()} | {:error, String.t()}
   def like(%{project_id: project_id, user_id: user_id} = attrs) do
     transaction =
       Multi.new()
@@ -30,7 +30,11 @@ defmodule Db.Users.ProjectLikes do
     end
   end
 
-  @spec withdraw_like(%{project_id: integer, user_id: integer}) :: {:ok, any} | {:error, String.t} | {:error, Ecto.Multi.name(), any()} | {:error, :bad_request}
+  @spec withdraw_like(%{project_id: integer, user_id: integer}) ::
+          {:ok, any}
+          | {:error, String.t()}
+          | {:error, Ecto.Multi.name(), any()}
+          | {:error, :bad_request}
   def withdraw_like(%{project_id: project_id, user_id: user_id} = attrs) do
     case Repo.get_by(ProjectLike, attrs) do
       %ProjectLike{status: :requested} = like ->
@@ -61,7 +65,7 @@ defmodule Db.Users.ProjectLikes do
     end
   end
 
- @spec approve(ProjectLike.t) :: {:ok, any} | {:error, Ecto.Multi.name(), any()}
+  @spec approve(ProjectLike.t()) :: {:ok, any} | {:error, Ecto.Multi.name(), any()}
   defp approve(%ProjectLike{project_id: project_id, user_id: user_id} = project_like) do
     Multi.new()
     |> Multi.update(:approve, ProjectLike.approve_changeset(project_like, %{status: :approved}))
