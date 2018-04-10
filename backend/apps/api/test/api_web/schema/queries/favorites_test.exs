@@ -1,5 +1,5 @@
 defmodule ApiWeb.Schema.Queries.FavoritesTest do
-  use ApiWeb.ConnCase, async: true
+  use ApiWeb.ConnCase, async: false
   import Mock
   alias Db.Uploaders.UserPhotoUploader
   alias Db.Uploaders.ProjectPhotoUploader

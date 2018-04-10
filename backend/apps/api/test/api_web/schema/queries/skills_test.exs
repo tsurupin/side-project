@@ -1,5 +1,5 @@
 defmodule ApiWeb.Schema.Queries.SkillsTest do
-  use ApiWeb.ConnCase, async: true
+  use ApiWeb.ConnCase, async: false
 
   describe "skills query" do
     setup do

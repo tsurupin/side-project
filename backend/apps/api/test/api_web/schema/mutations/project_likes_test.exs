@@ -1,5 +1,5 @@
 defmodule ApiWeb.Schema.Mutations.ProjectLikesTest do
-  use ApiWeb.ConnCase, async: true
+  use ApiWeb.ConnCase, async: false
 
   import Mock
 

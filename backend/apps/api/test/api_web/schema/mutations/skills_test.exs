@@ -1,6 +1,6 @@
 defmodule ApiWeb.Schema.Mutations.SkillsTest do
-  use ApiWeb.ConnCase, async: true
-
+  use ApiWeb.ConnCase, async: false
+  
   import Mock
 
   describe "create" do

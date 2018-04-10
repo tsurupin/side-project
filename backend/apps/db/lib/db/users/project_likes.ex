@@ -10,7 +10,7 @@ defmodule Db.Users.ProjectLikes do
   alias Ecto.Multi
 
   alias Db.Repo
-  alias Db.Users.{User, Project, ProjectLike}
+  alias Db.Users.{User, ProjectLike}
   alias Db.Chats.{Chats, Chat}
   alias Db.Projects
 
@@ -49,7 +49,7 @@ defmodule Db.Users.ProjectLikes do
             Chats.remove_member_from_chats(%{project_id: project_id, user_id: user_id})
           end)
           |> Multi.run(:delete_project_member, fn _ ->
-              Projects.remove_member_from_project(%{project_id: project_id, user_id: user_id})
+              Projects.Projects.remove_member_from_project(%{project_id: project_id, user_id: user_id})
           end)
           |> Multi.delete(:delete_project_like, like)
           |> Repo.transaction()
@@ -69,7 +69,7 @@ defmodule Db.Users.ProjectLikes do
     |> Multi.update(:approve, ProjectLike.approve_changeset(project_like, %{status: :approved}))
     |> Multi.insert_or_update(
       :add_member_to_project,
-      Projects.Member.changeset(%{project_id: project_id, user_id: user_id})
+      Db.Projects.Member.changeset(%{project_id: project_id, user_id: user_id})
     )
     |> Multi.run(:main_chat, fn _ ->
       case Chats.main_chat(%{source_id: project_id, source_type: "Project"}) do

@@ -11,7 +11,7 @@ defmodule Db.Users.Users do
   alias Db.Skills.UserSkill
   alias Db.Genres.Genre
   alias Db.OccupationTypes.OccupationType
-  alias Db.Users.{User, Photo, Favorite, Like}
+  alias Db.Users.{User, Photo, Favorite, UserLike}
   alias Db.Uploaders.UserPhotoUploader
 
   @spec get_by(%{id: integer}) :: {:ok, User.t()} | {:error, :not_found}
@@ -27,7 +27,7 @@ defmodule Db.Users.Users do
     Repo.all(
       from(
         u in User,
-        join: l in Like,
+        join: l in UserLike,
         where: l.user_id == u.id and l.target_user_id == ^user_id and l.status == 0
       )
     )
