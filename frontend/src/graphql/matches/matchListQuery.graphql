@@ -1,0 +1,12 @@
+query {
+  matchList {
+    likedUserList {
+      displayName
+      mainPhotoUrl
+    }
+    chatList {
+      id
+      name
+    }
+  }
+}
