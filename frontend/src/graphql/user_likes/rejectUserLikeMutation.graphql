@@ -1,0 +1,3 @@
+mutation ($likeId: Int!) {
+  rejectUserLike(likeId: $likeId)
+}
