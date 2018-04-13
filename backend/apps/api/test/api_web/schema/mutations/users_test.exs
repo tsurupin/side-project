@@ -96,11 +96,11 @@ defmodule ApiWeb.Schema.Mutations.UsersTest do
   #     }
   #   end
   #
-  #   @mutation """
-  #     mutation ($photo: Upload!, $isMain: Boolean!, $rank: Int!) {
-  #       uploadUserPhoto(user_uload_input: {photo: $photo, isMain: $isMain, rank: $rank})
-  #     }
-  #   """
+    @mutation """
+      mutation ($photo: Upload!, $isMain: Boolean!, $rank: Int!) {
+        uploadUserPhoto(user_uload_input: {photo: $photo, isMain: $isMain, rank: $rank})
+      }
+    """
   #   test "uploads user photo", %{user_id: user_id, photo: photo} do
   #     attrs = %{userUploadInput: %{isMain: true, photo: photo.image_url, rank: 1}}
   #     IO.inspect(attrs)

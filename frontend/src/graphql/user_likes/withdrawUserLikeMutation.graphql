@@ -1,0 +1,3 @@
+mutation ($targetUserId: Int!) {
+  withdrawUserLike(targetUserId: $targetUserId)
+}

@@ -1,0 +1,7 @@
+#import "./projectFragments.graphql"
+
+mutation ($id: Int!, $name: String!, $leadSentence: String, $motivation: String, $requirement: String, $genreId: Int, $skillIds: [Int]) {
+  editProject(id: $id, projectInput: {name: $name, leadSentence: $leadSentence, motivation: $motivation, requirement: $requirement, genreId: $genreId, skillIds: $skillIds}) {
+    ...ProjectCore
+  }
+}

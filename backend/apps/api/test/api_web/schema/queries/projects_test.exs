@@ -48,7 +48,6 @@ defmodule ApiWeb.Schema.Queries.ProjectsTest do
           }
         }
       }
-
     """
     test "project fields return projects", cxt do
       %{project: project, skill: skill, genre: genre, owner: owner, photo_url: photo_url} = cxt

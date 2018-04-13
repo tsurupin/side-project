@@ -37,7 +37,6 @@ defmodule ApiWeb.Schema.Queries.ChatsTest do
           }
         }
       }
-
     """
 
     test "return chat with messages", %{

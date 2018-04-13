@@ -1,0 +1,4 @@
+fragment FeedSkill on Skill {
+  id
+  name
+}

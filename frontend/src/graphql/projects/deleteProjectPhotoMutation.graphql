@@ -1,0 +1,3 @@
+mutation ($photoId: Int!) {
+  deleteProjectPhoto(photoId: $photoId)
+}
