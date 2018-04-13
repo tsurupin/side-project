@@ -1,0 +1,40 @@
+fragment ProjectDetail on Project {
+  id
+  name
+  leadSentence
+  status
+  motivation
+  requirement
+  owner {
+    id
+    displayName
+  }
+  genre {
+    id
+    name
+  }
+  skills {
+    id
+    name
+  }
+  photos {
+    image_url
+  }
+}
+
+fragment ProjectOnList on Project {
+  id
+  name
+  leadSentence
+  mainPhotoUrl
+  genre {
+    id
+    name
+  }
+}
+
+fragment ProjectCore on Project {
+  id
+  name
+  status
+}

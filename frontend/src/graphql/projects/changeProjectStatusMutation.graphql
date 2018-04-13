@@ -1,0 +1,3 @@
+mutation ($projectId: Int!, $status: String!) {
+  changeProjectStatus(projectId: $projectId, status: $status)
+}

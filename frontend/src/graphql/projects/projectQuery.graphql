@@ -1,0 +1,7 @@
+#import "./projectFragments.graphql"
+
+query($id: ID!) {
+  project(id: $id) {
+    ...ProjectDetail
+  }
+}
