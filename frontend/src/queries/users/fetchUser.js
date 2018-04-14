@@ -1,7 +1,8 @@
+// @flow
 import { graphql } from "react-apollo";
 import type { OperationComponent } from "react-apollo";
 
-import USER_QUERY from '../../graphql/accounts/userQuery.graphql';
+import USER_QUERY from '../../graphql/users/userQuery.graphql';
 
 type Genre = {
   id: string,
@@ -24,16 +25,16 @@ type Photo = {
 
 type Response = {
   id: string,
-  displayName?: string,
-  schoolName?: string,
-  companyName?: string,
-  introduction?: string,
-  status?: string,
-  areaName?: string,
-  genre?: Genre,
-  occupationType?: OccupationType
-  skills: Array<Skill>
-  photos: Array<Photo>
+  displayName: ?string,
+  schoolName: ?string,
+  companyName: ?string,
+  introduction: ?string,
+  status: ?string,
+  areaName: ?string,
+  genre: ?Genre,
+  occupationType: ?OccupationType,
+  skills: ?Array<Skill>,
+  photos: ?Array<Photo>
 }
 
 type InputProps = {
