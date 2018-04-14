@@ -16,7 +16,7 @@ type Genre = {
 };
 
 type Skill = {
-  id: integer,
+  id: number,
   name: string
 };
 
