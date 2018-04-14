@@ -1,6 +1,6 @@
 #import "./userFragments.graphql"
 
-query users($occupationTypeId: Int, $genreId: Int, $distance: Int, $isActive: Boolean, $skillIds: [Int]) {
+query Users($occupationTypeId: Int, $genreId: Int, $distance: Int, $isActive: Boolean, $skillIds: [Int]) {
   users(conditions: {occupationTypeId: $occupationTypeId, genreId: $genreId, distance: $distance, isActive: $isActive, skillIds: $skillIds}) {
     ...UserOnList
   }

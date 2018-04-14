@@ -1,4 +1,4 @@
-query comments($repoName: String!) {
+query Comments($repoName: String!) {
   comments(repoName: $repoName) {
     id
     content

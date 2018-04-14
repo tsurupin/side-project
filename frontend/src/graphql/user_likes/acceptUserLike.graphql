@@ -1,4 +1,4 @@
-mutation ($likeId: Int!) {
+mutation AcceptUserLike($likeId: Int!) {
   acceptUserLike(likeId: $likeId) {
     id
   }

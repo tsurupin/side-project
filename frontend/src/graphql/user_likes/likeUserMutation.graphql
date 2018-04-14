@@ -1,3 +1,3 @@
-mutation ($targetUserId: Int!) {
+mutation LikeUser($targetUserId: Int!) {
   likeUser(targetUserId: $targetUserId)
 }

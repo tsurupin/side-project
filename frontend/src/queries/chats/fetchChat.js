@@ -5,25 +5,25 @@ import type { OperationComponent } from "react-apollo";
 import CHAT_QUERY from '../../graphql/chats/chatQuery.graphql';
 
 type Message = {
-  id: string,
+  id: number,
   comment: ?string,
   imageUrl: ?string
 }
 
 type User = {
-  id: string,
+  id: number,
   displayName: string,
   mainPhotoUrl: string
 }
 
 type Response = {
-  id: string,
+  id: number,
   name: string,
   messages: ?Array<Message>
 }
 
 type InputProps = {
-  id: string
+  id: number
 };
 
 const fetchChat: OperationComponent<Response, InputProps> = graphql(CHAT_QUERY,{

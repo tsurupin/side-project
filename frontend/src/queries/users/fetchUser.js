@@ -5,17 +5,17 @@ import type { OperationComponent } from "react-apollo";
 import USER_QUERY from '../../graphql/users/userQuery.graphql';
 
 type Genre = {
-  id: string,
+  id: number,
   name: string
 }
 
 type OccupationType = {
-  id: string,
+  id: number,
   name: string
 }
 
 type Skill = {
-  id: string,
+  id: number,
   name: string
 }
 
@@ -24,7 +24,7 @@ type Photo = {
 }
 
 type Response = {
-  id: string,
+  id: number,
   displayName: ?string,
   schoolName: ?string,
   companyName: ?string,
@@ -38,7 +38,7 @@ type Response = {
 }
 
 type InputProps = {
-  id: string
+  id: number
 };
 
 const fetchUserDetail: OperationComponent<Response, InputProps> = graphql(USER_QUERY,{

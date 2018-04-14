@@ -1,3 +1,3 @@
-mutation ($targetUserId: Int!) {
+mutation WithdrawUserLike($targetUserId: Int!) {
   withdrawUserLike(targetUserId: $targetUserId)
 }

@@ -1,7 +1,7 @@
 // @flow
 import { graphql } from "react-apollo";
 import type { OperationComponent } from "react-apollo";
-import CREATE_PROJECT from "../../graphql/projects/createProjectMutation.graphql";
+import CREATE_MESSAGE from "../../graphql/chats/createMessageMutation.graphql";
 
 type User = {
   id: number,
@@ -22,10 +22,12 @@ type InputProps = {
   image: ?any
 };
 
-const createMessage: OperationComponent<Response, InputProps> = graphql(CREATE_MESSAGE,{
-  name: 'createMessage',
+const createProject: OperationComponent<Response, InputProps> = graphql(CREATE_MESSAGE,{
+  name: 'createProject',
   options: props => ({
     variables: {
+      name: props.name,
+      
       chatId: props.chatId,
       comment: props.comment,
       image: props.image

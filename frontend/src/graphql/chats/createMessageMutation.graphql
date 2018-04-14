@@ -1,4 +1,4 @@
-mutation ($chatId: Int!, $comment: String, $image: Upload) {
+mutation CreateMessage($chatId: Int!, $comment: String, $image: Upload) {
   createMessage(messageInput: {chatId: $chatId, comment: $comment, image: $image}) {
     chatId
     comment

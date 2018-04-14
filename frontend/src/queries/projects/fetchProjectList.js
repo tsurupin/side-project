@@ -1,7 +1,7 @@
 // @flow
 import { graphql } from "react-apollo";
 import type { OperationComponent } from "react-apollo";
-import FETCH_PROJECT_LIST from "../../graphql/projects/projectQuery.graphql";
+import FETCH_PROJECT_LIST from "../../graphql/projects/projectsQuery.graphql";
 
 type Genre = {
   id: number,
