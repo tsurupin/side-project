@@ -44,7 +44,7 @@ defmodule ApiWeb.Schema.Queries.ProjectsTest do
             name
           }
           photos {
-            image_url
+            imageUrl
           }
         }
       }
@@ -66,7 +66,7 @@ defmodule ApiWeb.Schema.Queries.ProjectsTest do
           "skills" => [%{"id" => "#{skill.id}", "name" => skill.name}],
           "genre" => %{"id" => "#{genre.id}", "name" => genre.name},
           "owner" => %{"id" => "#{owner.id}", "displayName" => owner.display_name},
-          "photos" => [%{"image_url" => photo_url}]
+          "photos" => [%{"imageUrl" => photo_url}]
         }
       }
 

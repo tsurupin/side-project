@@ -1,4 +1,4 @@
-subscription ($chatId: Int!) {
+subscription NewMessage($chatId: Int!) {
   newMessage(chatId: $chatId) {
     id
     comment

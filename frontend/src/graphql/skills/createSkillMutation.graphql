@@ -1,4 +1,4 @@
-mutation ($name: String!) {
+mutation CreateSkill($name: String!) {
   createSkill(name: $name) {
     id
   }

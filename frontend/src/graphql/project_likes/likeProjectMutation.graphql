@@ -1,4 +1,4 @@
-mutation ($projectId: Int!) {
+mutation LikeProject($projectId: Int!) {
   likeProject(projectId: $projectId) {
     id
   }

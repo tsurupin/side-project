@@ -1,6 +1,6 @@
 #import "./projectFragments.graphql"
 
-query($id: ID!) {
+query Project($id: ID!) {
   project(id: $id) {
     ...ProjectDetail
   }

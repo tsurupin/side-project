@@ -1,4 +1,4 @@
-mutation submitComment($repoName: String!){
+mutation SubmitComment($repoName: String!){
    submitComment(repoName: $repoName){
     id
     content
