@@ -18,8 +18,8 @@ import {Socket as PhoenixSocket} from "phoenix";
 const uri = 'http://localhost:4000/api/graphiql';
 
 const httpLink = createHttpLink({
-  uri,
-  credentials: process.env.NODE_ENV === 'development' ? 'include' : 'same-origin'
+  uri
+  //credentials: process.env.NODE_ENV === 'development' ? 'include' : 'same-origin'
 });
 
 const absintheSocketLink = createAbsintheSocketLink(AbsintheSocket.create(
@@ -40,6 +40,7 @@ const authLink = setContext(async (_, context) => {
   }
 });
 
+const cache = new InMemoryCache();
 
 const stateLink = withClientState({
   cache,
@@ -58,14 +59,12 @@ const stateLink = withClientState({
 
 const link = split(
   ({query}) => {
-    const {kind, operation} = getMainDefinition(query);
-    return kind === 'OperationDefinition' && operation === 'subscription';
+    const definitionNode = getMainDefinition(query);
+    return definitionNode.kind === 'OperationDefinition' && definitionNode.operation === 'subscription';
   },
   absintheSocketLink,
   ApolloLink.from([stateLink, authLink, httpLink])
 );
-
-const cache = new InMemoryCache();
 
 const client = new ApolloClient({
   cache,

@@ -7,7 +7,6 @@ config.js
 # dependencies
 /node_modules
 /lib
-/flow-typed
 
 # misc
 .env.local
