@@ -4,22 +4,22 @@ import type { OperationComponent } from "react-apollo";
 import CREATE_MESSAGE from "../../graphql/chats/createMessageMutation.graphql";
 
 type User = {
-  id: string,
+  id: number,
   displayName: string,
   mainPhotoUrl: string
 }
 
 type Response = {
-  chatId: integer,
+  chatId: number,
   comment: ?string,
   imageUrl: ?string,
   user: User
 }
 
 type InputProps = {
-  chatId: integer,
+  chatId: number,
   comment: ?string,
-  image: ?Upload
+  image: ?any
 };
 
 const createMessage: OperationComponent<Response, InputProps> = graphql(CREATE_MESSAGE,{
