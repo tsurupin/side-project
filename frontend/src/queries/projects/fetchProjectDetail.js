@@ -1,7 +1,7 @@
 // @flow
 import { graphql } from "react-apollo";
 import type { OperationComponent } from "react-apollo";
-import FETCH_PROJECT from "../../graphql/projects/projectQuery.graphql";
+import FETCH_PROJECT_DETAIL from "../../graphql/projects/projectQuery.graphql";
 
 
 type User = {
@@ -42,8 +42,8 @@ type InputProps = {
 };
 
 
-const fetchProject: OperationComponent<Response, InputProps> = graphql(FETCH_PROJECT, {
-  name: "fetchProject",
+const fetchProjectDetail: OperationComponent<Response, InputProps> = graphql(FETCH_PROJECT_DETAIL, {
+  name: "fetchProjectDetail",
   options: props => ({
     variables: {
       id: props.id
@@ -51,4 +51,4 @@ const fetchProject: OperationComponent<Response, InputProps> = graphql(FETCH_PRO
   })
 });
 
-export default fetchProject;
+export default fetchProjectDetail;
