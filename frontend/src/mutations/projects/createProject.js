@@ -27,7 +27,7 @@ const createProject: OperationComponent<Response, InputProps> = graphql(CREATE_P
       motivation: props.motivation,
       requirement: props.requirement,
       genreId: props.genreId,
-      skillIds: props,skillIds
+      skillIds: props.skillIds
      }
   })
 });
