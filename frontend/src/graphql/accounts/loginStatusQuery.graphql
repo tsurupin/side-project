@@ -1,3 +1,5 @@
-{
-  logined @client
+query LoginStatus {
+  logingStatus {
+    logined @client
+  }
 }

@@ -1,7 +1,7 @@
 // @flow
 import { graphql } from "react-apollo";
 import type { OperationComponent } from "react-apollo";
-import CREATE_PROJECT from "../../graphql/projects/createProjectMutation.graphql";
+import CREATE_MESSAGE from "../../graphql/chats/createMessageMutation.graphql";
 
 type User = {
   id: number,

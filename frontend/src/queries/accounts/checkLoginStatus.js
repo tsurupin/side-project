@@ -7,7 +7,7 @@ import LOGIN_STATUS_QUERY from '../../graphql/accounts/loginStatusQuery.graphql'
 type Response = {
   logined: boolean
 }
-const checkLoginStatus: OperationComponent<Response> = graphql(LOGIN_STATUS_QUERY,
+const checkLoginStatus = graphql(LOGIN_STATUS_QUERY,
   {name: 'loginStatus'}
 );
 

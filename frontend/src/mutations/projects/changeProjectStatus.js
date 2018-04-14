@@ -1,7 +1,7 @@
 // @flow
-import { graphql } from "react-apollo";
-import type { OperationComponent } from "react-apollo";
-import CHANGE_PROJECT_STATUS from "../../graphql/projects/changeProjectStatusMutation.graphql";
+import { graphql } from 'react-apollo';
+import type { OperationComponent } from 'react-apollo';
+import CHANGE_PROJECT_STATUS from '../../graphql/projects/changeProjectStatusMutation.graphql';
 
 
 type InputProps = {

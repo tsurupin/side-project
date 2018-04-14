@@ -27,6 +27,7 @@
     "babel-plugin-inline-import-graphql-ast": "^2.3.6",
     "babel-preset-flow": "^6.23.0",
     "babel-preset-react-native-stage-0": "^1.0.1",
+    "babel-preset-react-native": "*",
     "firebase": "^4.12.1",
     "flow-bin": "^0.66.0",
     "graphql": "^0.12.3",
