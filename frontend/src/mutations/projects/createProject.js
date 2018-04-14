@@ -1,38 +1,35 @@
 // @flow
 import { graphql } from "react-apollo";
 import type { OperationComponent } from "react-apollo";
-import CREATE_MESSAGE from "../../graphql/chats/createMessageMutation.graphql";
-
-type User = {
-  id: number,
-  displayName: string,
-  mainPhotoUrl: string
-}
+import CREATE_PROJECT from "../../graphql/projects/createProjectMutation.graphql";
 
 type Response = {
-  chatId: number,
-  comment: ?string,
-  imageUrl: ?string,
-  user: User
+  id: number,
+  name: string,
+  status: string
 }
 
 type InputProps = {
-  chatId: number,
-  comment: ?string,
-  image: ?any
+  name: string,
+  leadSentence: ?string,
+  motivation: ?string,
+  requirement: ?string,
+  genreId: ?number,
+  skillIds: ?Array<number>
 };
 
-const createProject: OperationComponent<Response, InputProps> = graphql(CREATE_MESSAGE,{
+const createProject: OperationComponent<Response, InputProps> = graphql(CREATE_PROJECT,{
   name: 'createProject',
   options: props => ({
     variables: {
       name: props.name,
-      
-      chatId: props.chatId,
-      comment: props.comment,
-      image: props.image
+      leadSentence: props.leadSentence,
+      motivation: props.motivation,
+      requirement: props.requirement,
+      genreId: props.genreId,
+      skillIds: props,skillIds
      }
   })
 });
 
-export default createMessage;
+export default createProject;
