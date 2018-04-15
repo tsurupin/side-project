@@ -6,6 +6,7 @@
 config.js
 # dependencies
 /node_modules
+/build
 /lib
 
 # misc
