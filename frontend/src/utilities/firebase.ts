@@ -1,4 +1,4 @@
-import firebase from 'firebase';
+import * as firebase from 'firebase';
 import {
   AsyncStorage
 } from 'react-native';
@@ -7,7 +7,7 @@ import {
   FIREBASE_AUTH_DOMAIN,
   FIREBASE_DATABASE_URL,
   FIREBASE_PROJECT_ID
-} from '../../config';
+} from '../config';
 
 const firebaseConfig = {
   apiKey: FIREBASE_API_KEY,

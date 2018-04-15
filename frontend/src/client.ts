@@ -7,7 +7,7 @@ import { withClientState } from 'apollo-link-state';
 //import authentication from './src/graphql/resolvers/authentication';
 import { createHttpLink } from 'apollo-link-http';
 //import { onError } from 'apollo-link-error'
-import Retry from 'apollo-link-retry';
+//import Retry from 'apollo-link-retry';
 import { refreshTokenIfNecessary } from './utilities/firebase';
 import { getMainDefinition } from 'apollo-utilities';
 import * as AbsintheSocket from "@absinthe/socket";
@@ -58,9 +58,9 @@ const stateLink = withClientState({
 });
 
 const link = split(
-  ({query}) => {
-    const definitionNode = getMainDefinition(query);
-    return definitionNode.kind === 'OperationDefinition' && definitionNode.operation === 'subscription';
+  ({ query }: any) => {
+    const { kind, operation }:any = getMainDefinition(query);
+    return kind === 'OperationDefinition' && operation === 'subscription';
   },
   absintheSocketLink,
   ApolloLink.from([stateLink, authLink, httpLink])

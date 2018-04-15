@@ -1,5 +1,5 @@
 import { graphql, NamedProps, QueryProps } from 'react-apollo';
-import LOGIN_MUTATION from '../../graphql/accounts/loginMutation.graphql';
+import * as LOGIN_MUTATION from '../../graphql/accounts/loginMutation.graphql';
 
 type Response = {}
 type InputProps = {logined: boolean};

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import * as React from 'react';
 import { connect } from 'react-redux';
 import { graphql, compose } from 'react-apollo';
 import {
@@ -12,7 +12,12 @@ import  {
 }  from '../../queries/accounts';
 import { firebaseSignOut } from '../../utilities/firebase';
 
-class TopScreen extends Component {
+
+interface Props {
+  logout: () => any;
+}
+
+class TopScreen extends React.Component<Props> {
   constructor(props) {
     super(props);
   }

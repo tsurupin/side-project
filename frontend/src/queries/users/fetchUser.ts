@@ -1,5 +1,5 @@
 import { graphql, NamedProps, QueryProps } from 'react-apollo';
-import USER_QUERY from '../../graphql/users/userQuery.graphql';
+import * as USER_QUERY from '../../graphql/users/userQuery.graphql';
 
 type Genre = {
   id: number,
@@ -38,7 +38,12 @@ type InputProps = {
   id: number
 };
 
-const fetchUserDetail = graphql<Response, InputProps>(USER_QUERY,{
+type Variables = {
+  id: number
+};
+
+
+const fetchUserDetail = graphql<InputProps, Response, Variables, Response>(USER_QUERY,{
   name: 'fetchUserDetail',
   options: props => ({
     variables: { id: props.id }

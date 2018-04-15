@@ -1,17 +1,17 @@
 import { Provider } from 'react-redux';
 
 import { ApolloProvider } from 'react-apollo';
-import React, { Component } from 'react';
+import * as React from 'react';
 
 import client from './client';
 
 
-const apolloAndReduxProviderHOC = (WrappedComponent, store) => {
+const apolloAndReduxProviderHOC = (WrappedComponent) => {
 
   class Enhance extends React.Component {
     render () {
       return (
-        <Provider store={store}>
+        <Provider>
           <ApolloProvider client={client}>
             <WrappedComponent {...this.props} />
           </ApolloProvider>

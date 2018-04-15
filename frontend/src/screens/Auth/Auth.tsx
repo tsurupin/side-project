@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import * as React from 'react';
 import { connect } from 'react-redux';
 import { graphql, compose } from 'react-apollo';
 import {
@@ -8,8 +8,8 @@ import {
   AsyncStorage
 } from 'react-native';
 
-import FBSDK, { LoginManager, AccessToken } from 'react-native-fbsdk';
-import firebase from '../../utilities/firebase';
+import { LoginManager, AccessToken } from 'react-native-fbsdk';
+import * as firebase from '../../utilities/firebase';
 
 
 import  {
@@ -30,7 +30,9 @@ const FACEBOOK = 'facebook';
 
 type Props = {
   subscribeToNewComments: ({repoName: string}) => void,
-  login: ({logined: boolean}) => void,
+  login: () => Promise<any>,
+  signup: ({variables: any}) => Promise<any>,
+  getIdQuery: () => void,
   comments: () => void,
   submit: () => void,
   signUp: () => void,
@@ -39,7 +41,7 @@ type Props = {
 type State = {
   isLoading: boolean
 }
-class AuthScreen extends Component<Props, State> {
+class AuthScreen extends React.Component<Props, State> {
   constructor(props) {
     super(props);
   }

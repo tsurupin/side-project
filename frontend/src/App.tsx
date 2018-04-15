@@ -32,23 +32,17 @@ import {
 
 import AuthScreen from './screens/Auth/Auth';
 import TopScreen from './screens/Top/Top';
-import configureStore from './store/configureStore';
-const store = configureStore();
-
-
 Navigation.registerComponent(
   AUTH_SCREEN,
   () => ApolloAndReduxProvider(
-    AuthScreen,
-    store
+    AuthScreen
   )
 );
 
 Navigation.registerComponent(
   TOP_SCREEN,
   () => ApolloAndReduxProvider(
-    TopScreen,
-    store
+    TopScreen
   )
 );
 

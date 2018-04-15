@@ -1,5 +1,5 @@
 import { graphql, NamedProps, QueryProps } from 'react-apollo';
-import SUBMIT_COMMENT from '../../graphql/comments/submitCommentMutation.graphql';
+import * as SUBMIT_COMMENT from '../../graphql/comments/submitCommentMutation.graphql';
 
 
 type Response = {
@@ -11,7 +11,11 @@ type InputProps = {
   repoName: string
 };
 
-const submitComment = graphql<Response, InputProps>(SUBMIT_COMMENT, {
+type Variables = {
+  repoName: string
+};
+
+const submitComment = graphql<InputProps, Response, Variables, Response>(SUBMIT_COMMENT, {
   name: 'submit',
   options: (props) => ({
     variables: {

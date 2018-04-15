@@ -1,5 +1,5 @@
 import { graphql, NamedProps, QueryProps } from 'react-apollo';
-import FETCH_PROJECT_LIST from "../../graphql/projects/projectsQuery.graphql";
+import * as FETCH_PROJECT_LIST from "../../graphql/projects/projectsQuery.graphql";
 
 type Genre = {
   id: number,
@@ -19,8 +19,14 @@ type InputProps = {
   skillIds: number[]
 };
 
+type Variables = {
+  genreId: number,
+  skillIds: number[]
+};
 
-const fetchProjectList = graphql<Response, InputProps>(FETCH_PROJECT_LIST, {
+
+
+const fetchProjectList = graphql<InputProps, Response, Variables, Response>(FETCH_PROJECT_LIST, {
   name: "fetchProjectList",
   options: props => ({
     variables: {

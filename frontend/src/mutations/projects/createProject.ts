@@ -1,5 +1,5 @@
 import { graphql, NamedProps, QueryProps } from 'react-apollo';
-import CREATE_PROJECT from "../../graphql/projects/createProjectMutation.graphql";
+import * as CREATE_PROJECT from "../../graphql/projects/createProjectMutation.graphql";
 
 type Response = {
   id: number,
@@ -16,8 +16,17 @@ type InputProps = {
   skillIds: number[]
 };
 
+type Variables = {
+  name: string,
+  leadSentence: string | null,
+  motivation: string | null,
+  requirement: string | null,
+  genreId: number | null,
+  skillIds: number[]
+};
 
-const createProject = graphql<Response, InputProps>(CREATE_PROJECT,{
+
+const createProject = graphql<InputProps, Response, Variables, Response>(CREATE_PROJECT,{
   name: 'createProject',
   options: props => ({
     variables: {
@@ -33,7 +42,7 @@ const createProject = graphql<Response, InputProps>(CREATE_PROJECT,{
     return {
       id: createProject.id,
       name: createProject.name,
-      status: createProject.satus
+      status: createProject.status
     };
   }
 });

@@ -1,6 +1,6 @@
 import { graphql, NamedProps, QueryProps } from 'react-apollo';
-import COMMENT_SUBSCRIPTION from '../../graphql/comments/commentAddedSubscription.graphql';
-import COMMENT_QUERY from '../../graphql/comments/commentsQuery.graphql';
+import * as COMMENT_SUBSCRIPTION from '../../graphql/comments/commentAddedSubscription.graphql';
+import * as COMMENT_QUERY from '../../graphql/comments/commentsQuery.graphql';
 
 
 type Comment = {
@@ -16,7 +16,12 @@ type InputProps = {
   repoName: string
 };
 
-const fetchComments = graphql<Response, InputProps>(COMMENT_QUERY, {
+
+type Variables = {
+    repoName: string
+};
+
+const fetchComments = graphql<InputProps, Response, Variables, Response>(COMMENT_QUERY, {
   name: 'comments',
   options: (props: any) => ({
       variables: {

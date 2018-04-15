@@ -1,5 +1,5 @@
 import { graphql, NamedProps, QueryProps } from 'react-apollo';
-import CHANGE_PROJECT_STATUS from '../../graphql/projects/changeProjectStatusMutation.graphql';
+import * as CHANGE_PROJECT_STATUS from '../../graphql/projects/changeProjectStatusMutation.graphql';
 
 
 type InputProps = {
@@ -7,9 +7,13 @@ type InputProps = {
   status: string
 };
 
+type Variables = {
+  projectId: number,
+  status: string
+};
 type Response = {};
 
-const changeProjectStatus = graphql<Response, InputProps>(CHANGE_PROJECT_STATUS, {
+const changeProjectStatus = graphql<InputProps, Response, Variables, Response>(CHANGE_PROJECT_STATUS, {
   name: "changeProjectStatus",
   options: props => ({
     variables: {

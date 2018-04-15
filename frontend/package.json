@@ -19,6 +19,7 @@
     "apollo-link-error": "^1.0.9",
     "apollo-link-http": "^1.5.4",
     "apollo-link-retry": "^2.2.3",
+    "apollo-link-state": "^0.4.1",
     "babel-preset-react-native-stage-0": "^1.0.1",
     "eslint": "^4.19.1",
     "firebase": "^4.12.1",
@@ -56,7 +57,7 @@
       "ts",
       "tsx",
       "js",
-      "jsx"
+      "jsx"   
     ],
     "preset": "jest-expo",
     "testMatch": [
@@ -69,7 +70,7 @@
   },
   "dependencies": {
     "expo": "26.0.0",
-    "react": "16.3.1",
+    "react": "^16.3.1",
     "react-native": "0.55.2",
     "update": "^0.7.4"
   },

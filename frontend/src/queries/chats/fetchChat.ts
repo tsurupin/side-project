@@ -1,5 +1,5 @@
 import { graphql, NamedProps, QueryProps } from 'react-apollo';
-import CHAT_QUERY from '../../graphql/chats/chatQuery.graphql';
+import * as CHAT_QUERY from '../../graphql/chats/chatQuery.graphql';
 
 type Message = {
   id: number,
@@ -23,7 +23,11 @@ type InputProps = {
   id: number
 };
 
-const fetchChat = graphql<Response, InputProps>(CHAT_QUERY,{
+type Variables = {
+  id: number
+};
+
+const fetchChat = graphql<InputProps, Response, Variables, Response>(CHAT_QUERY,{
   name: 'fetchChat',
   options: props => ({
     variables: { id: props.id }
