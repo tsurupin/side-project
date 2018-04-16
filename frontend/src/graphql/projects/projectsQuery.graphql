@@ -1,7 +1,0 @@
-#import "./projectFragments.graphql"
-
-query Projects($genreId: Int, $skillIds: [Int]) {
-  projects(conditions: {genreId: $genreId, skillIds: $skillIds}) {
-    ...ProjectOnList
-  }
-}

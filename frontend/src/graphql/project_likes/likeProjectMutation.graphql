@@ -1,5 +1,0 @@
-mutation LikeProject($projectId: Int!) {
-  likeProject(projectId: $projectId) {
-    id
-  }
-}

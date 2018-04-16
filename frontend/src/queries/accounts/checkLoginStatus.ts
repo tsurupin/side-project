@@ -1,5 +1,5 @@
 import { graphql, NamedProps, QueryProps } from 'react-apollo';
-import * as LOGIN_STATUS_QUERY from '../../graphql/accounts/loginStatusQuery.graphql';
+import { LOGIN_STATUS_QUERY } from '../../graphql/accounts';
 
 type Response = {
   logined: boolean

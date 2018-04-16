@@ -1,5 +1,5 @@
 import { graphql, NamedProps, QueryProps } from 'react-apollo';
-import * as DELETE_PROJECT_PHOTO from "../../graphql/projects/deleteProjectPhotoMutation.graphql";
+import { DELTE_PROJECT_PHOTO_MUTATION } from '../../graphql/projects';
 
 
 type InputProps = {
@@ -13,7 +13,7 @@ type Variables = {
 
 type Response = {};
 
-const deleteProjectPhoto = graphql<InputProps, Response, Variables, Response>(DELETE_PROJECT_PHOTO, {
+const deleteProjectPhoto = graphql<InputProps, Response, Variables, Response>(DELTE_PROJECT_PHOTO_MUTATION, {
   name: "deleteProjectPhoto",
   options: props => ({
     variables: {

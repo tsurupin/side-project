@@ -1,5 +1,5 @@
 import { graphql, NamedProps, QueryProps } from 'react-apollo';
-import * as USER_QUERY from '../../graphql/users/userQuery.graphql';
+import { USER_QUERY } from '../../graphql/users';
 
 type Genre = {
   id: number,

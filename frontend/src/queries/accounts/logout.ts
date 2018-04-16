@@ -1,5 +1,5 @@
 import { graphql, NamedProps, QueryProps } from 'react-apollo';
-import * as LOGOUT_MUTATION from '../../graphql/accounts/logoutMutation.graphql';
+import { LOGOUT_MUTATION } from '../../graphql/accounts';
 
 
 type Response = {};

@@ -1,5 +1,5 @@
 import { graphql, NamedProps, QueryProps } from 'react-apollo';
-import * as CHAT_QUERY from '../../graphql/chats/chatQuery.graphql';
+import { CHAT_QUERY } from '../../graphql/chats';
 
 type Message = {
   id: number,

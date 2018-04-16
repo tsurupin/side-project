@@ -20,6 +20,7 @@
     "apollo-link-http": "^1.5.4",
     "apollo-link-retry": "^2.2.3",
     "apollo-link-state": "^0.4.1",
+    "babel-plugin-inline-import-graphql-ast": "^2.3.6",
     "babel-preset-react-native-stage-0": "^1.0.1",
     "eslint": "^4.19.1",
     "firebase": "^4.12.1",
@@ -57,7 +58,7 @@
       "ts",
       "tsx",
       "js",
-      "jsx"   
+      "jsx"
     ],
     "preset": "jest-expo",
     "testMatch": [

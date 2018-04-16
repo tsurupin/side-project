@@ -1,5 +1,5 @@
 import { graphql, NamedProps, QueryProps } from 'react-apollo';
-import * as CREATE_MESSAGE from "../../graphql/chats/createMessageMutation.graphql";
+import { CREATE_MESSAGE_MUTATION } from "../../graphql/chats";
 
 type User = {
   id: number,
@@ -26,7 +26,7 @@ type Variables = {
   image: any | null
 };
 
-const createMessage = graphql<InputProps, Response, Variables, Response>(CREATE_MESSAGE,{
+const createMessage = graphql<InputProps, Response, Variables, Response>(CREATE_MESSAGE_MUTATION,{
   name: 'createMessage',
   options: ({chatId, comment, image}) => ({
     variables: {

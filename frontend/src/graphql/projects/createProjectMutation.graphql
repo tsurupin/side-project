@@ -1,7 +1,0 @@
-#import "./projectFragments.graphql"
-
-mutation CreateProject($name: String!, $leadSentence: String, $motivation: String, $requirement: String, $genreId: Int, $skillIds: [Int]) {
-  createProject(projectInput: {name: $name, leadSentence: $leadSentence, motivation: $motivation, requirement: $requirement, genreId: $genreId, skillIds: $skillIds}) {
-    ...ProjectCore
-  }
-}

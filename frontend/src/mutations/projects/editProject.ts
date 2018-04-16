@@ -1,5 +1,5 @@
 import { graphql, NamedProps, QueryProps } from 'react-apollo';
-import * as EDIT_PROJECT from "../../graphql/projects/editProjectMutation.graphql";
+import { EDIT_PROJECT_MUTATION } from "../../graphql/projects";
 
 type Response = {
   id: number,
@@ -27,7 +27,7 @@ type Variables = {
   skillIds: number[]
 };
 
-const editProject = graphql<InputProps, Response, Variables, Response>(EDIT_PROJECT,{
+const editProject = graphql<InputProps, Response, Variables, Response>(EDIT_PROJECT_MUTATION,{
   name: 'editProject',
   options: props => ({
     variables: {

@@ -1,0 +1,10 @@
+import gql from "graphql-tag";
+import { PROJECT_FRAGMENTS } from "./projectFragments";
+
+export const PROJECT_QUERY = gql`
+query Project($id: ID!) {
+  project(id: $id) {
+    ...ProjectDetails
+  }
+  ${PROJECT_FRAGMENTS.projectDetails}
+}`;

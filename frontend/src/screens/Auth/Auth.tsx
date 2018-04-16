@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { connect } from 'react-redux';
+
 import { graphql, compose } from 'react-apollo';
 import {
   View,
@@ -129,11 +129,11 @@ class AuthScreen extends React.Component<Props, State> {
   }
 };
 
-const mapStateToProps = state => {
-  return {
-    isLoading: true,
-  }
-}
+// const mapStateToProps = state => {
+//   return {
+//     isLoading: true,
+//   }
+// }
 export default compose(
   fetchComments,
   submitComment,
@@ -149,5 +149,4 @@ export default compose(
   //     fetchPolicy: 'network-only',
   //   }
   // }),
-  connect(mapStateToProps)
 )(AuthScreen);

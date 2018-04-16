@@ -1,5 +1,0 @@
-query LoginStatus {
-  logingStatus {
-    logined @client
-  }
-}

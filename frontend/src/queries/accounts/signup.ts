@@ -1,5 +1,5 @@
 import { graphql, NamedProps, QueryProps } from 'react-apollo';
-import * as SIGNUP_MUTATION from '../../graphql/accounts/signUpMutation.graphql';
+import { SIGNUP_MUTATION } from '../../graphql/accounts';
 
 type Response = {
   uid: string,

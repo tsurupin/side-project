@@ -1,5 +1,0 @@
-mutation Signup($providerId: String!, $uid: String!) {
-  signup(providerId: $providerId, uid: $uid) {
-    token
-  }
-}

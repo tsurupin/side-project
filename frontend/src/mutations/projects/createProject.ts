@@ -1,5 +1,5 @@
 import { graphql, NamedProps, QueryProps } from 'react-apollo';
-import * as CREATE_PROJECT from "../../graphql/projects/createProjectMutation.graphql";
+import { CREATE_PROJECT_MUTATION } from "../../graphql/projects";
 
 type Response = {
   id: number,
@@ -26,7 +26,7 @@ type Variables = {
 };
 
 
-const createProject = graphql<InputProps, Response, Variables, Response>(CREATE_PROJECT,{
+const createProject = graphql<InputProps, Response, Variables, Response>(CREATE_PROJECT_MUTATION,{
   name: 'createProject',
   options: props => ({
     variables: {

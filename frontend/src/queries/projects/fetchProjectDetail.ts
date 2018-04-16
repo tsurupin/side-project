@@ -1,5 +1,5 @@
 import { graphql, NamedProps, QueryProps } from 'react-apollo';
-import * as FETCH_PROJECT_DETAIL from "../../graphql/projects/projectQuery.graphql";
+import { PROJECT_QUERY } from "../../graphql/projects";
 
 
 type User = {
@@ -43,7 +43,7 @@ type Variables = {
   id: number
 };
 
-const fetchProjectDetail = graphql<InputProps, Response, Variables, Response>(FETCH_PROJECT_DETAIL, {
+const fetchProjectDetail = graphql<InputProps, Response, Variables, Response>(PROJECT_QUERY, {
   name: "fetchProjectDetail",
   options: props => ({
     variables: {

@@ -1,3 +1,0 @@
-mutation logout($logined: Boolean!) {
-  changeLoginStatus(logined: $logined) @client
-}
