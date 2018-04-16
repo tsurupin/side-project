@@ -20,7 +20,9 @@
     "apollo-link-http": "^1.5.4",
     "apollo-link-retry": "^2.2.3",
     "apollo-link-state": "^0.4.1",
+    "babel-jest": "^22.4.3",
     "babel-plugin-inline-import-graphql-ast": "^2.3.6",
+    "babel-preset-react-native": "^4.0.0",
     "babel-preset-react-native-stage-0": "^1.0.1",
     "eslint": "^4.19.1",
     "firebase": "^4.12.1",
@@ -35,7 +37,7 @@
     "react-native-scripts-ts": "1.13.0",
     "react-native-typescript-transformer": "^1.2.3",
     "react-test-renderer": "16.3.1",
-    "ts-jest": "^22.4.2",
+    "ts-jest": "^22.4.3",
     "tslib": "^1.9.0",
     "tslint": "^5.9.1",
     "tslint-config-airbnb": "^5.8.0",
@@ -46,30 +48,28 @@
     "start": "react-native start",
     "android": "react-native run-android",
     "ios": "npm run build:watch && react-native run-ios",
-    "test": "jest",
+    "test": "jest --verbose --color",
     "build": "tsc",
     "build:watch": "tsc --watch",
     "lint": "tslint 'src/**/*.ts{,x}'"
   },
   "jest": {
-    "globals": {
-      "ts-jest": {
-        "useBabelrc": true
-      }
+    "preset": "react-native",
+    "transform": {
+      "^.+\\.jsx?$": "<rootDir>/node_modules/babel-jest",
+      "^.+\\.tsx?$": "ts-jest"
     },
+    "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
     "moduleFileExtensions": [
       "ts",
       "tsx",
       "js",
       "jsx"
     ],
-    "preset": "jest-expo",
-    "testMatch": [
-      "**/__tests__/**/*.[tj]s?(x)",
-      "**/?(*.)(spec|test).[tj]s?(x)"
-    ],
-    "transform": {
-      "^.+\\.tsx?$": "ts-jest"
+    "globals": {
+      "ts-jest": {
+        "useBabelrc": true
+      }
     }
   },
   "dependencies": {

@@ -31,8 +31,7 @@
   "exclude": [
     "index.js",
     "node_modules",
-    "build",
-    "src/__test__"
+    "build"
   ],
   "compileOnSave": true
 }
