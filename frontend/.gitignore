@@ -8,6 +8,7 @@ config.js
 /node_modules
 /build
 /lib
+/coverage
 
 # misc
 .env.local
