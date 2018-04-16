@@ -40,7 +40,8 @@ type Props = {
 
 type State = {
   isLoading: boolean
-}
+};
+
 class AuthScreen extends React.Component<Props, State> {
   constructor(props) {
     super(props);
@@ -52,7 +53,6 @@ class AuthScreen extends React.Component<Props, State> {
     this.props.subscribeToNewComments({
         repoName: 'test'
     });
-
 
       //startMainTab();
       // move to next screen;

@@ -37,16 +37,19 @@
     "react-test-renderer": "16.3.1",
     "ts-jest": "^22.4.2",
     "tslib": "^1.9.0",
+    "tslint": "^5.9.1",
+    "tslint-config-airbnb": "^5.8.0",
     "typescript": "^2.8.1"
   },
   "main": "./node_modules/react-native-scripts-ts/build/bin/crna-entry.js",
   "scripts": {
     "start": "react-native start",
     "android": "react-native run-android",
-    "ios": "react-native run-ios",
+    "ios": "npm run build:watch && react-native run-ios",
     "test": "jest",
     "build": "tsc",
-    "build:watch": "tsc --watch"
+    "build:watch": "tsc --watch",
+    "lint": "tslint 'src/**/*.ts{,x}'"
   },
   "jest": {
     "globals": {
