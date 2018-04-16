@@ -23,10 +23,11 @@ const mocks = [
  
   
 describe('CheckLoginStatusQuery', () => {
-    it("checkLoginStatus", () => {
+    it("checkLoginStatus", done => {
       class Container extends React.Component<any, any, any> {
           componentWillReceiveProps(nextProps) {
-            expect(nextProps.loginStatus.loading).toBeFalsy
+            expect(nextProps.loginStatus.loading).toBeFalsy;
+            done();
           }
       
           render() {
