@@ -6,6 +6,5 @@ erl_crash.dump
 *.beam
 *.env
 *.DS_store
-/frontend/node_modules
 
 /.idea

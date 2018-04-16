@@ -1,7 +1,0 @@
-#import "./chatFragments.graphql"
-
-query Chat($id: ID!) {
-  chat(id: $id) {
-    ...ChatDetail
-  }
-}

@@ -1,5 +1,0 @@
-mutation AcceptUserLike($likeId: Int!) {
-  acceptUserLike(likeId: $likeId) {
-    id
-  }
-}

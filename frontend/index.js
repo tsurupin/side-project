@@ -1,3 +1,3 @@
 import { AppRegistry } from 'react-native';
-import App from './App';
-AppRegistry.registerComponent('SideProject', () => App);
+import * as App from './build/App';
+AppRegistry.registerComponent('myapp', () => App);

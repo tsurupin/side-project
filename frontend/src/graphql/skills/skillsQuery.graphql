@@ -1,7 +1,0 @@
-#import "./skillFragments.graphql"
-
-query Skills($term: String!) {
-  skills(term: $term) {
-    ...FeedSkill
-  }
-}

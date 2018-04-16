@@ -1,3 +1,0 @@
-mutation UploadUserPhoto($photo: Upload!, $isMain: Boolean!, $rank: Int!) {
-  uploadUserPhoto(userUploadInput: {photo: $photo, isMain: $isMain, rank: $rank})
-}

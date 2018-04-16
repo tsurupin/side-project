@@ -1,3 +1,0 @@
-mutation ChangeProjectStatus($projectId: Int!, $status: String!) {
-  changeProjectStatus(projectId: $projectId, status: $status)
-}
