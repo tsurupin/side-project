@@ -15,6 +15,9 @@
     "strict": true,
     "noImplicitReturns": true, */
     // "noEmit": true,
+    "noImplicitReturns": true,
+    "strictNullChecks": true,
+    "noImplicitThis": true,
     "pretty": true,
     "removeComments": true,
     "skipLibCheck": true,
