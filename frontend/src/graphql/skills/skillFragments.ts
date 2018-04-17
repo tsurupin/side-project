@@ -1,10 +1,7 @@
 import gql from "graphql-tag";
+import { parseFragment } from '../utilities/parseFragment';
 
-function inlineFragment(parsedDoc) {
-  return parsedDoc.loc.source.body.replace(/fragment [_A-Za-z][_0-9A-Za-z]*/, '...');
-};
-
-export const SKILL_FRAGMENTS = inlineFragment(gql`
+export const SKILL_FRAGMENTS = parseFragment(gql`
   fragment FeedSkill on Skill {
     id
     name
