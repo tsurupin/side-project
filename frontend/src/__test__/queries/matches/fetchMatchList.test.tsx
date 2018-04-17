@@ -23,8 +23,12 @@ const mocks = [
               chatList: [
                   {
                       id: 1,
-                      name: "name"
-                  }
+                      name: "name1"
+                  },
+                  {
+                    id: 2,
+                    name: "name2"
+                }
               ]
           }
         }
@@ -35,13 +39,21 @@ const mocks = [
 describe('fetchMatchList', () => {
     it("succeeds to fetch match list", done => {
       class Container extends React.Component<any, any, any> {
-          componentWillReceiveProps(nextProps) {
-              console.log(nextProps)
-            expect(nextProps.matchList.likedUserList).toBeFalsy;
+          componentWillReceiveProps({matchList}) {
+            const userList = matchList.likedUserList;
+            const chatList = matchList.chatList;
+            
+            expect(userList.length).toBe(1);
+            expect(userList[0].displayName).toEqual("name");
+            expect(userList[0].mainPhotoUrl).toEqual("image_url");
+
+            expect(chatList.length).toBe(2);
+          
             done();
           }
       
           render() {
+
             return null;
           }
         }
