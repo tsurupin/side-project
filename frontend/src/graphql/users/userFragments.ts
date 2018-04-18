@@ -1,7 +1,8 @@
 import gql from "graphql-tag";
+import { parseFragment } from '../utilities/parseFragment';
 
 export const USER_FRAGMENTS = {
-  userDetails: gql`
+  userDetails: parseFragment(gql`
   fragment UserDetail on User {
     id
     displayName
@@ -29,8 +30,8 @@ export const USER_FRAGMENTS = {
     photos {
       imageUrl
     }
-  }`,
-  userOnList: gql`
+  }`),
+  userOnList: parseFragment(gql`
   fragment UserOnList on User {
     id
     displayName
@@ -48,5 +49,5 @@ export const USER_FRAGMENTS = {
     }
     mainPhotoUrl
   }  
-  `
+  `)
 };

@@ -1,7 +1,8 @@
 import gql from "graphql-tag";
+import { parseFragment } from '../utilities/parseFragment';
 
 export const CHAT_FRAGMENTS = {
-  messageDetail: gql`
+  messageDetail: parseFragment(gql`
   fragment MessageDetail on Message {
     id
     comment
@@ -12,8 +13,8 @@ export const CHAT_FRAGMENTS = {
       mainPhotoUrl
     }
   }
-  `,
-  chatDetail: gql`
+  `),
+  chatDetail: parseFragment(gql`
   fragment ChatDetail on Chat {
     id
     name
@@ -21,7 +22,7 @@ export const CHAT_FRAGMENTS = {
       ...MessageDetail
     }
   }
-  `,
+  `),
 };
 
 
