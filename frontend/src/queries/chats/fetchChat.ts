@@ -32,13 +32,14 @@ const fetchChat = graphql<InputProps, Response, Variables, Response>(CHAT_QUERY,
   options: props => ({
     variables: { id: props.id }
   }),
-  props: ({fetchChat}: NamedProps<{fetchChat: QueryProps & Response}, InputProps>): any => {
-    return(
+  props: (props: any) => {
+    return{
+      ...props,
       subscribeToNewComments: params => {
-          return fetchChat.subscribeToMore({
+          return props.fetchChat.subscribeToMore({
               document: NEW_MESSAGE_SUBSCRIPTION,
               variables: {
-                  chatId: fetchChat.id,
+                  chatId: props.fetchChat.id,
               },
               updateQuery: (prev: any, {subscriptionData}) => {
                   console.log(prev);
@@ -55,7 +56,7 @@ const fetchChat = graphql<InputProps, Response, Variables, Response>(CHAT_QUERY,
               }
           });
         }
-      )
+      }
   }
 });
 
