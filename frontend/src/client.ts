@@ -26,17 +26,19 @@ const absintheSocketLink = createAbsintheSocketLink(AbsintheSocket.create(
   new PhoenixSocket("ws://localhost:4000/socket")
 ));
 
-const authLink = setContext(async (_, context) => {
+const authLink = setContext((_, context) => {
 
   if (context.needAuth) {
-    const token = await refreshTokenIfNecessary();
-
-    return {
-      headers: {
-        ...context.headers,
-        authorization: token ? `Bearer ${token}` : "",
+    refreshTokenIfNecessary().then(token => {
+      return {
+        headers: {
+          ...context.headers,
+          authorization: token ? `Bearer ${token}` : "",
+        }
       }
-    }
+    }).catch(error => {
+      return error;
+    });
   }
 });
 

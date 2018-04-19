@@ -48,7 +48,7 @@
   "scripts": {
     "start": "react-native start",
     "android": "react-native run-android",
-    "ios": "npm run build:watch && react-native run-ios",
+    "ios": "react-native run-ios && npm run build:watch",
     "test": "jest --verbose --color",
     "build": "tsc",
     "build:watch": "tsc --watch",

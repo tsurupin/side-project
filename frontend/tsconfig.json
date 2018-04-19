@@ -16,7 +16,7 @@
     "noImplicitReturns": true, */
     // "noEmit": true,
     "noImplicitReturns": true,
-    "strictNullChecks": true,
+    //"strictNullChecks": true,
     "noImplicitThis": true,
     "pretty": true,
     "removeComments": true,
@@ -31,7 +31,8 @@
   "exclude": [
     "index.js",
     "node_modules",
-    "build"
+    "build",
+    "./src/__test__/*",
   ],
   "compileOnSave": true
 }

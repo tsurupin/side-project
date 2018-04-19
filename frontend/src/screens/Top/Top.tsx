@@ -9,7 +9,7 @@ import {
 
 import  {
   logout
-}  from '../../queries/accounts';
+}  from '../../mutations/accounts';
 import { firebaseSignOut } from '../../utilities/firebase';
 
 

@@ -20,6 +20,9 @@ import  {
 import  {
   login,
   signup,
+}  from '../../mutations/accounts';
+
+import  {
   checkLoginStatus
 }  from '../../queries/accounts';
 
@@ -122,7 +125,7 @@ class AuthScreen extends React.Component<Props, State> {
           <Text> Auth Id</Text>
         </TouchableOpacity>
         <TouchableOpacity onPress={this.submitTest}>
-          <Text> Test</Text>
+          <Text> Test22345</Text>
         </TouchableOpacity>
       </View>
     )
