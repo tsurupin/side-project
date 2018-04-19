@@ -1,5 +1,5 @@
 import { graphql, NamedProps, QueryProps } from 'react-apollo';
-import { CHAT_QUERY } from '../../graphql/chats';
+import { CHAT_QUERY, NEW_MESSAGE_SUBSCRIPTION } from '../../graphql/chats';
 
 type Message = {
   id: number,
@@ -32,8 +32,31 @@ const fetchChat = graphql<InputProps, Response, Variables, Response>(CHAT_QUERY,
   options: props => ({
     variables: { id: props.id }
   }),
-  props: ({fetchChat}: NamedProps<{fetchChat: QueryProps & Response}, InputProps>): Response => {
-    return fetchChat;
+  props: (props: any) => {
+    return{
+      ...props,
+      subscribeToNewComments: params => {
+          return props.fetchChat.subscribeToMore({
+              document: NEW_MESSAGE_SUBSCRIPTION,
+              variables: {
+                  chatId: props.fetchChat.id,
+              },
+              updateQuery: (prev: any, {subscriptionData}) => {
+                  console.log(prev);
+                  console.log(subscriptionData);
+                  if (!subscriptionData.data) {
+                      return prev;
+                  }
+  
+                  const newMessage = subscriptionData.data.newMessage;
+  
+                  return Object.assign({}, prev, {
+                      messages: [newMessage, ...prev.fetchChat]
+                  });
+              }
+          });
+        }
+      }
   }
 });
 
