@@ -44,15 +44,14 @@ const fetchChat = graphql<InputProps, Response, Variables, Response>(CHAT_QUERY,
               updateQuery: (prev: any, {subscriptionData}) => {
                   console.log(prev);
                   console.log(subscriptionData);
-                  if (!subscriptionData.data) {
-                      return prev;
-                  }
+                  if (!subscriptionData.data) { return prev; }
   
                   const newMessage = subscriptionData.data.newMessage;
   
-                  return Object.assign({}, prev, {
-                      messages: [newMessage, ...prev.fetchChat]
-                  });
+                  return {
+                    ...prev, 
+                    messages: [newMessage, ...prev.fetchChat]
+                  };
               }
           });
         }

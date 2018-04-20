@@ -41,15 +41,14 @@ const fetchComments = graphql<InputProps, Response, Variables, Response>(COMMENT
                   updateQuery: (prev: any, {subscriptionData}) => {
                       console.log(prev);
                       console.log(subscriptionData);
-                      if (!subscriptionData.data) {
-                          return prev;
-                      }
+                      if (!subscriptionData.data) { return prev; }    
 
                       const newFeedItem = subscriptionData.data.commentAdded;
 
-                      return Object.assign({}, prev, {
+                      return {
+                          ...prev, 
                           comments: [newFeedItem, ...prev.comments]
-                      });
+                        }
                   }
               });
           }
