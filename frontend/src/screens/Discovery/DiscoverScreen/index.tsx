@@ -1,5 +1,4 @@
 import * as React from 'react';
-
 import { graphql, compose } from 'react-apollo';
 import {
   View,
@@ -12,12 +11,14 @@ import {
 import {
   UserCard,
   Header
-} from '../../components/Discovery';
-import styles from './styles';
+} from '../../../components/Discovery/DiscoveryScreen';
+
 
 import {
   fetchUserList
-} from '../../queries/users';
+} from '../../../queries/users';
+
+import styles from './styles';
 
 type User = {
 
@@ -33,9 +34,7 @@ type SearchConditions = {
 type Props = {
   fetchUserList: ({variables: any}) => Promise<any>,
   users: User[],
-  navigation: {
-    state?: SearchConditions
-  }
+  searchCondistions?: any
 
 };
 
@@ -47,21 +46,29 @@ type State = {
 class DiscoveryScreen extends React.Component<Props, State> {
   constructor(props) {
     super(props);
+    this.state = {
+      users: props.users
+    };
+  }
+
+  static defaultProps = {
+    users: [],
+    searchConditions: {}
   }
 
   componentWillMount() {
 
-    this.props.fetchUserList({
-      variables: this.searchConditions()
-    }).then (users => {
-      this.setState({users});
-    })
+    // this.props.fetchUserList({
+    //   variables: this.searchConditions()
+    // }).then (users => {
+    //   this.setState({users});
+    // })
 
   }
 
   searchConditions = () => {
-    const {state}  = this.props.navigation;
-    const { occupationTypeId, genreId, isActive, skillIds } = state;
+    console.log(this.props);
+    const { occupationTypeId, genreId, isActive, skillIds } = this.props.searchCondistions;
     return {
       occupationTypeId, 
       genreId, 
@@ -71,24 +78,32 @@ class DiscoveryScreen extends React.Component<Props, State> {
   }
 
   renderUserCards = () => {
+    console.log(this.state)
+    
     if (this.state.users.length == 0) {
       return (
-        <View>No Users Found</View>
+        <View>
+          <Text>No Users Found</Text>
+        </View>
       )
     }
     return (
-      {this.state.users.map(user => {
-      return <UserCard user={user} />
-    })})
+      <View style={styles.cardListContainer}>
+        {this.state.users.map(user => {
+          this.renderUserCard(user)
+        })}
+      </View>
+    );
   }
 
-  
-
+  renderUserCard = (user) => {
+    return <UserCard user={user} />
+  }
 
   render() {
     return (
       <View style={styles.container}>
-        <Header searchCondition={this.props.navigation.state}/>
+        <Header />
         <ScrollView>
           {this.renderUserCards()}
         </ScrollView>

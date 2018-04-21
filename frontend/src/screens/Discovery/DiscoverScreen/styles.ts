@@ -2,7 +2,8 @@ import { StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
 
-    container: {}
+    container: {},
+    cardListContainer: {}
 });
 
 export default styles;

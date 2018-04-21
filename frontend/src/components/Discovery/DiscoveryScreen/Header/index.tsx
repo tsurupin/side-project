@@ -8,7 +8,7 @@ import {
 
 import {
     FILTER_FORM_SCREEN
-} from '../../constants/screens';
+} from '../../../../constants/screens';
 
 
 class Header extends React.Component<{}, {}> {
@@ -20,12 +20,7 @@ class Header extends React.Component<{}, {}> {
     render() {
         return(
             <View>
-                <Button 
-                    onPress={() => this.props.navigator.push({
-                        screen: FILTER_FORM_SCREEN,
-                    title: FILTER_FORM_SCREEN_TITLE
-                    })}
-                />
+    
                 <Text>Discovery</Text>
             </View>
         )
