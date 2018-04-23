@@ -27,7 +27,6 @@ import  {
 }  from '../../queries/accounts';
 
 import { firebaseSignIn } from '../../utilities/firebase';
-import startMainTab  from '../MainTabs/StartMainTab';
 
 const FACEBOOK = 'facebook';
 

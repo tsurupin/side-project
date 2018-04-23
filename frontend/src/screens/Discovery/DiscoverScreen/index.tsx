@@ -13,15 +13,22 @@ import {
   Header
 } from '../../../components/Discovery/DiscoveryScreen';
 
-
 import {
   fetchUserList
 } from '../../../queries/users';
 
+import {
+  FILTER_FORM_SCREEN
+} from '../../../constants/screens';
 import styles from './styles';
 
 type User = {
-
+  id: number,
+  displayName: string,
+  areaName?: string,
+  genreName?: string,
+  mainPhotoUrl: string,
+  leadSentence?: string
 };
 
 type SearchConditions = {
@@ -34,7 +41,8 @@ type SearchConditions = {
 type Props = {
   fetchUserList: ({variables: any}) => Promise<any>,
   users: User[],
-  searchCondistions?: any
+  searchCondistions?: any,
+  navigator: any
 
 };
 
@@ -49,14 +57,34 @@ class DiscoveryScreen extends React.Component<Props, State> {
     this.state = {
       users: props.users
     };
+
+    this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
   }
 
   static defaultProps = {
-    users: [],
+    users: [
+      {
+        id: 1,
+        displayName: "Tomoaki",
+        areaName: "San Francisco",
+        genreName: "Engineer",
+        mainPhotoUrl: "https://images.pexels.com/photos/407035/model-face-beautiful-black-and-white-407035.jpeg",
+        leadSentence: "I'm Ruby and React Software enginner. I like to work on ambiscious project"
+      },
+      {
+        id: 2,
+        displayName: "Tomoaki",
+        areaName: "San Francisco",
+        genreName: "Software Engineer",
+        mainPhotoUrl: "https://images.pexels.com/photos/407035/model-face-beautiful-black-and-white-407035.jpeg",
+        leadSentence: "I'm Ruby and React Software enginner. I like to work on ambiscious project"
+      }
+    ],
     searchConditions: {}
   }
 
   componentWillMount() {
+    console.log('hohoh')
 
     // this.props.fetchUserList({
     //   variables: this.searchConditions()
@@ -64,6 +92,20 @@ class DiscoveryScreen extends React.Component<Props, State> {
     //   this.setState({users});
     // })
 
+  }
+
+  onNavigatorEvent = (e) => {
+    console.log(e, e.event, e.id)
+    if (e.type !== 'NavBarButtonPress') { return;}
+    switch (e.id) {
+      case "FilterButton":
+        this.props.navigator.push({
+          screen: FILTER_FORM_SCREEN,
+          passProps: {
+            id: 1
+          }
+        })
+    }
   }
 
   searchConditions = () => {
@@ -82,7 +124,7 @@ class DiscoveryScreen extends React.Component<Props, State> {
     
     if (this.state.users.length == 0) {
       return (
-        <View>
+        <View key={0}>
           <Text>No Users Found</Text>
         </View>
       )
@@ -90,21 +132,23 @@ class DiscoveryScreen extends React.Component<Props, State> {
     return (
       <View style={styles.cardListContainer}>
         {this.state.users.map(user => {
-          this.renderUserCard(user)
+          return this.renderUserCard(user)
         })}
       </View>
     );
   }
 
   renderUserCard = (user) => {
-    return <UserCard user={user} />
+    return <UserCard key={user.id} user={user} />
   }
 
   render() {
     return (
       <View style={styles.container}>
-        <Header />
-        <ScrollView>
+        <ScrollView 
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          >
           {this.renderUserCards()}
         </ScrollView>
       </View>
