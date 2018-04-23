@@ -1,10 +1,17 @@
 import * as React from 'react';
 import {
     View,
-    Image,
-    Text
+    Image
 } from 'react-native';
-  
+
+import { 
+    Card,
+    Text,
+    Divider,
+    Badge
+} from 'react-native-elements';
+
+
 import styles from './styles';
 
 type Props = {
@@ -15,7 +22,8 @@ type User = {
     displayName: string,
     mainPhotoUrl: string,
     areaName: string,
-    leadSentence: string
+    leadSentence: string,
+    genreName: string
 };
 class UserCard extends React.Component<Props, {}> {
 
@@ -25,15 +33,31 @@ class UserCard extends React.Component<Props, {}> {
 
     render() {
         const { user } = this.props;
+        const { mainPhotoUrl, areaName, displayName, leadSentence, genreName } = user;
         return (
-            <View style={styles.container}>
-                <View style={styles.innerContainer}>
-                    <View style={styles.titleSection}>
-                        <Text style={styles.title}>{user.displayName}</Text>
-                        <Text style={styles.area}>{user.areaName}</Text>
+            <View style={[styles.container]}>
+                <Card
+                    image={{uri: mainPhotoUrl}}
+                    imageStyle={styles.imageBox}
+                >
+                    <View style={styles.titleBox}>
+                        <Text style={styles.mainText}>
+                            {displayName}
+                        </Text>
+                        <Badge
+                            value={genreName}
+                            containerStyle={styles.badgeContainer}
+                            textStyle={styles.badgeText}
+                        />
                     </View>
-                </View>
-
+                    <Text style={styles.mainText}>
+                            {areaName}
+                    </Text>
+                    <Divider style={styles.divider} />
+                    <Text style={styles.leadSentence}>
+                        {leadSentence}
+                    </Text>
+                </Card>
 
             </View>
         )
