@@ -4,12 +4,17 @@ import {
   AUTH_SCREEN,
   TOP_SCREEN,
   DISCOVERY_SCREEN,
-  FILTER_FORM_SCREEN
+  FILTER_FORM_SCREEN,
+  SKILL_SEARCH_FORM_SCREEN
 } from './constants/screens';
 import { } from './constants/screens'
 import AuthScreen from './screens/Auth/Auth';
 import TopScreen from './screens/Top/Top';
-import { DiscoveryScreen, FilterFormScreen } from './screens/Discovery';
+import { 
+  DiscoveryScreen, 
+  FilterFormScreen,
+  SkillSearchFormScreen 
+} from './screens/Discovery';
 import launchMainTab from './screens/launchMainTab'
 
 const registerComponents = () => {
@@ -38,6 +43,12 @@ const registerComponents = () => {
     FILTER_FORM_SCREEN,
     () => ApolloAndReduxProvider(
       FilterFormScreen
+    )
+  );
+  Navigation.registerComponent(
+    SKILL_SEARCH_FORM_SCREEN,
+    () => ApolloAndReduxProvider(
+      SkillSearchFormScreen
     )
   )
 }
