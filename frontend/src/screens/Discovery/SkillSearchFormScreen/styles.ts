@@ -4,6 +4,12 @@ import {
 
 
 const styles = StyleSheet.create({
+    container: {},
+    inputContainer: {},
+    listContainer: {},
+    listItemContainer: {},
+    errorMessage: {}
+
 
 });
 
