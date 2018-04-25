@@ -2,7 +2,7 @@ import { setContext } from 'apollo-link-context';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 
 import { ApolloLink, split } from 'apollo-link';
-import { ApolloClient } from 'apollo-client';
+import ApolloClient  from 'apollo-boost';
 import { withClientState } from 'apollo-link-state';
 //import authentication from './src/graphql/resolvers/authentication';
 import { createHttpLink } from 'apollo-link-http';
@@ -18,7 +18,8 @@ import {Socket as PhoenixSocket} from "phoenix";
 const uri = 'http://localhost:4000/api/graphiql';
 
 const httpLink = createHttpLink({
-  uri
+  uri,
+  credentials: 'include'
   //credentials: process.env.NODE_ENV === 'development' ? 'include' : 'same-origin'
 });
 

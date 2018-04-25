@@ -1,10 +1,11 @@
 import * as React from 'react';
-import { compose } from 'react-apollo';
-import { View } from 'react-native';
+import { compose, Query } from 'react-apollo';
+import { View, Text } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { ListItem, Input } from 'react-native-elements';
 import { FILTER_FORM_SCREEN } from '../../../constants/screens';
 
+import { SKILLS_QUERY } from "../../../graphql/skills";
 import  {
     fetchSkills
 }  from '../../../queries/skills';
@@ -24,9 +25,7 @@ type Skill = {
 
 type Props = {
     navigator?: any,
-    skills: Skill[],
-    fetchSkills: ({variables: {term: string}}) => any,
-    createSkill: ({variables: {name: string}}) => any
+    skills: Skill[]
 };
 
 type State = {
@@ -34,6 +33,7 @@ type State = {
     errorMessage?: string
 
 };
+
 class SkillSearchFormScreen extends React.Component<Props, State> {
 
     static defaultProps = {
@@ -87,10 +87,10 @@ class SkillSearchFormScreen extends React.Component<Props, State> {
 
     }
 
-    renderCandidateSkills = () => {
+    renderCandidateSkills = (skills: Skill[]) => {
         return (
             <View style={styles.listContainer}>
-                {this.props.skills.map(skill => {
+                {skills.map(skill => {
                     return this.renderSkill(skill)
                 })}
             </View>
@@ -108,6 +108,29 @@ class SkillSearchFormScreen extends React.Component<Props, State> {
         )
     }
 
+    renderSkillList = () => {
+        return (
+            <Query
+                query={SKILLS_QUERY}
+                variables={{name: this.state.name}}
+                skip={!this.state.name}
+                notifyOnNetworkStatusChange
+            >
+                {({ loading, error, data, refetch, networkStatus }) => {
+                    console.log("query--")
+                    console.log(loading, data, networkStatus)
+
+                    if (networkStatus == 4) return <Text>Refetching</Text>;
+                    if (loading) return <Text>{loading} </Text>;
+                    if (error) return <Text>{error.message}</Text>;
+                    console.log(data)    
+                    return this.renderCandidateSkills(data)
+                    
+                }}
+            </Query>
+        )
+    }
+
     render() {
         return(
             <View style={styles.container}>
@@ -115,19 +138,29 @@ class SkillSearchFormScreen extends React.Component<Props, State> {
                     placeholder='Skill(ex: Ruby)'
                     containerStyle={styles.inputContainer}
                     value={this.state.name}
-                    onChange={this.searchSkills}
-                    onChangeText={() => console.log("changetex")}
+                    onChangeText={(name) => this.setState({name})}
                     onKeyPress={this.submitSkill}
                     errorStyle={styles.errorMessage}
                     errorMessage={this.state.errorMessage}
                 />
-                {this.renderCandidateSkills()}
+                {this.renderSkillList()}
             </View>
         )
     }
 }
 
-export default compose(
-    fetchSkills,
-    createSkill
-  )(SkillSearchFormScreen);
+
+export default SkillSearchFormScreen;
+
+// const PresentationalComponent = ({ myCustomProp }) => {
+// // render some UI based on the data passed into myCustomProp
+// }
+// const DataFetchingComponent = () => (
+//   <Query query={MY_QUERY}>
+//     {({ loading, error, data }) => {
+//       if (loading) return <Loading/>
+//       if (error) return <Error/>
+//       return <PresentationalComponent myCustomProp={data} />
+//     }}
+//   </Query>
+// );
