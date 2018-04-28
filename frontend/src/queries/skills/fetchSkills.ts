@@ -12,10 +12,10 @@ type Response = {
 }
 
 type InputProps = {
-    term: string
+    name: string
 };
 type Variables = {
-    term: string
+    name: string
 };
 
 
