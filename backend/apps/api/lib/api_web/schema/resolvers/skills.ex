@@ -2,7 +2,10 @@ defmodule ApiWeb.Schema.Resolvers.Skills do
   alias Db.Skills.Skills
 
   def search(_parent, %{term: term}, _resolver) do
-    skills = Skills.search(term)
+    IO.puts(term)
+    #skills = Skills.search(term)
+    
+    skills = [%Db.Skills.Skill{id: 1, name: "hoge"}]
 
     {:ok, skills}
   end

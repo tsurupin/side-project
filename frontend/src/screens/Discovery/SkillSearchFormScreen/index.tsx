@@ -118,11 +118,14 @@ class SkillSearchFormScreen extends React.Component<Props, State> {
             >
                 {({ loading, error, data, refetch, networkStatus }) => {
                     console.log("query--")
-                    console.log(loading, data, networkStatus)
+                    console.log(loading, error, data, networkStatus)
 
                     if (networkStatus == 4) return <Text>Refetching</Text>;
                     if (loading) return <Text>{loading} </Text>;
-                    if (error) return <Text>{error.message}</Text>;
+                    if (error) {
+                        console.log(error) 
+                        return <Text>{error.message}</Text>;
+                    }
                     console.log(data)    
                     return this.renderCandidateSkills(data)
                     

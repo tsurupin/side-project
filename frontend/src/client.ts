@@ -6,7 +6,7 @@ import { ApolloClient } from 'apollo-client';
 import { withClientState } from 'apollo-link-state';
 //import authentication from './src/graphql/resolvers/authentication';
 import { createHttpLink } from 'apollo-link-http';
-//import { onError } from 'apollo-link-error'
+import { onError } from "apollo-link-error";
 //import Retry from 'apollo-link-retry';
 import { refreshTokenIfNecessary } from './utilities/firebase';
 import { getMainDefinition } from 'apollo-utilities';
@@ -27,9 +27,14 @@ const absintheSocketLink = createAbsintheSocketLink(AbsintheSocket.create(
   new PhoenixSocket("ws://localhost:4000/socket")
 ));
 
+const errorLink = onError(err => {
+  console.log('apollo-link-error, err', err);
+});
+
 const authLink = setContext((_, context) => {
 
   if (context.needAuth) {
+    console.log('hoho')
     refreshTokenIfNecessary().then(token => {
       return {
         headers: {
@@ -66,7 +71,7 @@ const link = split(
     return kind === 'OperationDefinition' && operation === 'subscription';
   },
   absintheSocketLink,
-  ApolloLink.from([stateLink, authLink, httpLink])
+  ApolloLink.from([stateLink, errorLink, authLink, httpLink])
 );
 
 const client = new ApolloClient({

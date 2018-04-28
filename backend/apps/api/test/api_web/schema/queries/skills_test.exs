@@ -10,10 +10,12 @@ defmodule ApiWeb.Schema.Queries.SkillsTest do
     end
 
     @query """
-      query($term: String!) {
+      query Skills($term: String!) {
         skills(term: $term) {
-          id
-          name
+         ... on Skill {
+            id
+            name
+          }
         }
       }
 
