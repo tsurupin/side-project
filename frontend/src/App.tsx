@@ -15,41 +15,31 @@ import {
   FilterFormScreen,
   SkillSearchFormScreen 
 } from './screens/Discovery';
+
 import launchMainTab from './screens/launchMainTab'
 
 const registerComponents = () => {
   Navigation.registerComponent(
     AUTH_SCREEN,
-    () => ApolloApp(
-      AuthScreen
-    )
+    () => ApolloApp(AuthScreen)
   );
   
   Navigation.registerComponent(
     TOP_SCREEN,
-    () => ApolloApp(
-      TopScreen
-    )
+    () => ApolloApp(TopScreen)
   );
-  
   
   Navigation.registerComponent(
     DISCOVERY_SCREEN,
-    () => ApolloApp(
-      DiscoveryScreen
-    )
+    () => ApolloApp(DiscoveryScreen)
   );
   Navigation.registerComponent(
     FILTER_FORM_SCREEN,
-    () => ApolloApp(
-      FilterFormScreen
-    )
+    () => ApolloApp(FilterFormScreen)
   );
   Navigation.registerComponent(
     SKILL_SEARCH_FORM_SCREEN,
-    () => ApolloApp(
-      SkillSearchFormScreen
-    )
+    () => ApolloApp(SkillSearchFormScreen)
   )
 }
 

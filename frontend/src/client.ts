@@ -2,7 +2,7 @@ import { setContext } from 'apollo-link-context';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 
 import { ApolloLink, split } from 'apollo-link';
-import ApolloClient  from 'apollo-boost';
+import { ApolloClient } from 'apollo-client';
 import { withClientState } from 'apollo-link-state';
 //import authentication from './src/graphql/resolvers/authentication';
 import { createHttpLink } from 'apollo-link-http';
