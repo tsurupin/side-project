@@ -1,11 +1,11 @@
 import * as React from 'react';
-import { compose, Query } from 'react-apollo';
+import { compose, Query, Mutation } from 'react-apollo';
 import { View, Text } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { ListItem, Input } from 'react-native-elements';
 import { FILTER_FORM_SCREEN } from '../../../constants/screens';
 
-import { SKILLS_QUERY } from "../../../graphql/skills";
+import { SKILLS_QUERY, CREATE_SKILL_MUTATION } from "../../../graphql/skills";
 import  {
     fetchSkills
 }  from '../../../queries/skills';
@@ -66,31 +66,10 @@ class SkillSearchFormScreen extends React.Component<Props, State> {
         return null;
     }
 
-    searchSkills = async (event) => {
-        console.log("search", event, this.props)
-        // try {
-        //     const { skills } = await this.props.fetchSkills({variables: {term: event.value}});
-        //     this.setState(skills)
-        // } catch(e) {
-        //     this.setState({errorMessage: e.message});
-        // }
-    }
-
-    submitSkill = async (event) => {
-        console.log("submit", event)
-        // try {
-        //     const { skill } = await this.props.createSkill({variables: {name: event.value}});
-        //     this.moveBack(skill)
-        // } catch(e) {
-        //     this.setState({errorMessage: e.message});
-        // }
-
-    }
-
     renderCandidateSkills = (skills: Skill[]) => {
         return (
             <View style={styles.listContainer}>
-                {skills.map(skill => {
+                {skills.map((skill: Skill) => {
                     return this.renderSkill(skill)
                 })}
             </View>
@@ -103,49 +82,69 @@ class SkillSearchFormScreen extends React.Component<Props, State> {
                 key={skill.id}
                 containerStyle={styles.listItemContainer}
                 title={skill.name}
-                onPress={this.onPressSkill(skill)}
+                onPress={() => this.onPressSkill(skill)}
             />
         )
     }
 
     renderSkillList = () => {
+        const { name } = this.state;
         return (
             <Query
                 query={SKILLS_QUERY}
-                variables={{name: this.state.name}}
+                variables={{name}}
                 skip={!this.state.name}
                 notifyOnNetworkStatusChange
             >
                 {({ loading, error, data, refetch, networkStatus }) => {
-                    console.log("query--")
-                    console.log(loading, error, data, networkStatus)
-
+            
                     if (networkStatus == 4) return <Text>Refetching</Text>;
                     if (loading) return <Text>{loading} </Text>;
                     if (error) {
                         console.log(error) 
                         return <Text>{error.message}</Text>;
                     }
-                    console.log(data)    
-                    return this.renderCandidateSkills(data)
-                    
+                    return this.renderCandidateSkills(data["skills"])            
                 }}
             </Query>
         )
     }
 
+    renderTextForm = () => {
+    
+    
+        return (
+            <Mutation mutation={CREATE_SKILL_MUTATION}>
+                {(createSkillMutation, { data, error, loading}) => {
+                    console.log(data);
+                    console.log(error);
+                    let errorMessage;
+                    if (error) { errorMessage = error.message;}
+                    if (data && data["createSkill"]) { return this.moveBack(data["createSkill"]) }
+                         
+                    return(
+                        <Input
+                            placeholder='Skill(ex: Ruby)'
+                            containerStyle={styles.inputContainer}
+                            value={this.state.name}
+                            onChangeText={(name) => this.setState({name})}
+                            onSubmitEditing={() => {
+                                createSkillMutation({variables: { name: this.state.name }});
+                            }}
+                            errorStyle={styles.errorMessage}
+                            errorMessage={errorMessage}
+                        />
+                    )
+                }}
+            </Mutation>
+        );
+
+    }
+
     render() {
         return(
             <View style={styles.container}>
-                <Input
-                    placeholder='Skill(ex: Ruby)'
-                    containerStyle={styles.inputContainer}
-                    value={this.state.name}
-                    onChangeText={(name) => this.setState({name})}
-                    onKeyPress={this.submitSkill}
-                    errorStyle={styles.errorMessage}
-                    errorMessage={this.state.errorMessage}
-                />
+                {this.renderTextForm()}
                 {this.renderSkillList()}
             </View>
         )
