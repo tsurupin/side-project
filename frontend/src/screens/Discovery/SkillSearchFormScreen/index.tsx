@@ -4,7 +4,8 @@ import { View, Text } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { ListItem, Input } from 'react-native-elements';
 import { FILTER_FORM_SCREEN } from '../../../constants/screens';
-
+import SkillList from '../../../components/Discovery/SkillSearchFormScreen/SkillList';
+import SkillsQuery  from '../../../queries/skills/skillsQuery';
 import { SKILLS_QUERY, CREATE_SKILL_MUTATION } from "../../../graphql/skills";
 import  {
     fetchSkills
@@ -66,53 +67,13 @@ class SkillSearchFormScreen extends React.Component<Props, State> {
         return null;
     }
 
-    renderCandidateSkills = (skills: Skill[]) => {
-        return (
-            <View style={styles.listContainer}>
-                {skills.map((skill: Skill) => {
-                    return this.renderSkill(skill)
-                })}
-            </View>
-        );
-    }
-
-    renderSkill = (skill: Skill) => {
-        return (
-            <ListItem
-                key={skill.id}
-                containerStyle={styles.listItemContainer}
-                title={skill.name}
-                onPress={() => this.onPressSkill(skill)}
-            />
-        )
-    }
 
     renderSkillList = () => {
         const { name } = this.state;
-        return (
-            <Query
-                query={SKILLS_QUERY}
-                variables={{name}}
-                skip={!this.state.name}
-                notifyOnNetworkStatusChange
-            >
-                {({ loading, error, data, refetch, networkStatus }) => {
-            
-                    if (networkStatus == 4) return <Text>Refetching</Text>;
-                    if (loading) return <Text>{loading} </Text>;
-                    if (error) {
-                        console.log(error) 
-                        return <Text>{error.message}</Text>;
-                    }
-                    return this.renderCandidateSkills(data["skills"])            
-                }}
-            </Query>
-        )
+        return SkillsQuery({name}, {onPressSkill: this.onPressSkill}, SkillList)
     }
 
     renderTextForm = () => {
-    
-    
         return (
             <Mutation mutation={CREATE_SKILL_MUTATION}>
                 {(createSkillMutation, { data, error, loading}) => {
@@ -153,16 +114,3 @@ class SkillSearchFormScreen extends React.Component<Props, State> {
 
 
 export default SkillSearchFormScreen;
-
-// const PresentationalComponent = ({ myCustomProp }) => {
-// // render some UI based on the data passed into myCustomProp
-// }
-// const DataFetchingComponent = () => (
-//   <Query query={MY_QUERY}>
-//     {({ loading, error, data }) => {
-//       if (loading) return <Loading/>
-//       if (error) return <Error/>
-//       return <PresentationalComponent myCustomProp={data} />
-//     }}
-//   </Query>
-// );
