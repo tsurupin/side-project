@@ -1,16 +1,15 @@
-import { ApolloProvider } from 'react-apollo';
 import * as React from 'react';
-
+import { ApolloProvider } from 'react-apollo';
 import client from './client';
 
 
-const apolloAndReduxProviderHOC = (WrappedComponent) => {
+const ApolloApp = AppComponent => {
 
   class Enhance extends React.Component {
     render () {
       return (
         <ApolloProvider client={client}>
-          <WrappedComponent {...this.props} />
+          <AppComponent {...this.props} />
         </ApolloProvider>
       )
     }
@@ -18,4 +17,4 @@ const apolloAndReduxProviderHOC = (WrappedComponent) => {
   return Enhance
 };
 
-export default apolloAndReduxProviderHOC;
+export default ApolloApp;

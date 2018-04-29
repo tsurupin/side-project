@@ -57,6 +57,7 @@ class DiscoveryScreen extends React.Component<Props, State> {
     this.state = {
       users: props.users
     };
+    console.log(this.props)
 
     this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
   }
@@ -156,7 +157,4 @@ class DiscoveryScreen extends React.Component<Props, State> {
   }
 };
 
-export default compose(
-  fetchUserList
-)(DiscoveryScreen);
-
+export default DiscoveryScreen;

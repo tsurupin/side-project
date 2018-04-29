@@ -11,6 +11,7 @@
     "@types/react-native-fbsdk": "*",
     "@types/react-native-navigation": "*",
     "@types/react-test-renderer": "^16.0.0",
+    "apollo-boost": "^0.1.4",
     "apollo-cache-inmemory": "^1.1.12",
     "apollo-client": "^2.2.8",
     "apollo-client-preset": "^1.0.8",
@@ -78,7 +79,7 @@
     "native-base": "^2.4.2",
     "react": "^16.3.1",
     "react-native": "0.55.2",
-    "react-native-elements": "^0.19.1",
+    "react-native-elements": "^1.0.0-beta",
     "update": "^0.7.4"
   },
   "description": "This project was bootstrapped with [Create React Native App](https://github.com/react-community/create-react-native-app).",

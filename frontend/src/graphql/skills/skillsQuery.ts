@@ -2,8 +2,8 @@ import gql from "graphql-tag";
 import { SKILL_FRAGMENTS } from './skillFragments';
 
 export const SKILLS_QUERY = gql`
-query Skills($term: String!) {
-  skills(term: $term) {
+query Skills($name: String!) {
+  skills(name: $name) {
     ${SKILL_FRAGMENTS}
   }
 }`;

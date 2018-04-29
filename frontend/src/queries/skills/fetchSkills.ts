@@ -12,17 +12,19 @@ type Response = {
 }
 
 type InputProps = {
-    term: string
+    name: string
 };
 type Variables = {
-    term: string
+    name: string
 };
 
 
 const fetchSkills = graphql<InputProps, Response, Variables, Response>(SKILLS_QUERY, {
     name: 'fetchSkills',
     options: props => ({
-        variables: {term: props.term}
+        variables: {term: props.term},
+        context: {needAuth: false},
+        delay: true
     }),
     props: ({fetchSkills}: NamedProps<{fetchSkills: QueryProps & Response}, InputProps>): Response => {
         return fetchSkills;

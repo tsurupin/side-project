@@ -57,8 +57,7 @@ defmodule ApiWeb.Schema do
 
   def middleware(middleware, field, object) do
     middleware
-    # |> apply(:errors, field, object)
-    # |> apply(:debug, field, object)
+    |> apply(:debug, field, object)
   end
 
   # #

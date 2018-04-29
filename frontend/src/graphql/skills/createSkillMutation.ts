@@ -4,5 +4,6 @@ export const CREATE_SKILL_MUTATION = gql`
 mutation CreateSkill($name: String!) {
   createSkill(name: $name) {
     id
+    name
   }
 }`;

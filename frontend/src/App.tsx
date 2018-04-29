@@ -1,5 +1,5 @@
 import { Navigation } from 'react-native-navigation';
-import ApolloAndReduxProvider from './apollo-and-redux-provider';
+import ApolloApp from './apolloApp';
 import {
   AUTH_SCREEN,
   TOP_SCREEN,
@@ -15,41 +15,31 @@ import {
   FilterFormScreen,
   SkillSearchFormScreen 
 } from './screens/Discovery';
+
 import launchMainTab from './screens/launchMainTab'
 
 const registerComponents = () => {
   Navigation.registerComponent(
     AUTH_SCREEN,
-    () => ApolloAndReduxProvider(
-      AuthScreen
-    )
+    () => ApolloApp(AuthScreen)
   );
   
   Navigation.registerComponent(
     TOP_SCREEN,
-    () => ApolloAndReduxProvider(
-      TopScreen
-    )
+    () => ApolloApp(TopScreen)
   );
-  
   
   Navigation.registerComponent(
     DISCOVERY_SCREEN,
-    () => ApolloAndReduxProvider(
-      DiscoveryScreen
-    )
+    () => ApolloApp(DiscoveryScreen)
   );
   Navigation.registerComponent(
     FILTER_FORM_SCREEN,
-    () => ApolloAndReduxProvider(
-      FilterFormScreen
-    )
+    () => ApolloApp(FilterFormScreen)
   );
   Navigation.registerComponent(
     SKILL_SEARCH_FORM_SCREEN,
-    () => ApolloAndReduxProvider(
-      SkillSearchFormScreen
-    )
+    () => ApolloApp(SkillSearchFormScreen)
   )
 }
 

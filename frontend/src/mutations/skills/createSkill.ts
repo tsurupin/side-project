@@ -10,16 +10,21 @@ type Variables = {
 };
 
 type Response = {
-    id: number
+    id: number,
+    name: string
 };
 
 const createSkill = graphql<InputProps, Response, Variables, Response>(CREATE_SKILL_MUTATION, {
     name: 'createSkill',
-    options: props => ({
-        variables: {name: props.name}
+    options: ({name}) => ({
+        variables: {name: name},
+        context: {needAuth: false},
     }),
     props: ({createSkill}: NamedProps<{createSkill: QueryProps & Response}, InputProps>): Response => {
-        return {id: createSkill.id};
+        return {
+            id: createSkill.id,
+            name: createSkill.name
+        };
     }
 });
 
