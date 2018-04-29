@@ -1,20 +1,11 @@
 import * as React from 'react';
-import { compose, Query, Mutation } from 'react-apollo';
 import { View, Text } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { ListItem, Input } from 'react-native-elements';
 import { FILTER_FORM_SCREEN } from '../../../constants/screens';
-import SkillList from '../../../components/Discovery/SkillSearchFormScreen/SkillList';
-import SkillsQuery  from '../../../queries/skills/skillsQuery';
-import { SKILLS_QUERY, CREATE_SKILL_MUTATION } from "../../../graphql/skills";
-import  {
-    fetchSkills
-}  from '../../../queries/skills';
-  
-import  {
-    createSkill
-}  from '../../../mutations/skills';
-  
+import { SkillInput, SkillList } from '../../../components/Discovery/SkillSearchFormScreen';
+import { SkillsQuery }  from '../../../queries/skills';
+import { CreateSkillMutation }  from '../../../mutations/skills';
 
 
 import styles from './styles';
@@ -49,14 +40,12 @@ class SkillSearchFormScreen extends React.Component<Props, State> {
         console.log(props)
     }
 
-    componentWillMount() {
-        console.log(this.props)
-        console.log("sa")
-    }
-
-
     onPressSkill = (skill: Skill): null => {
         return this.moveBack(skill);
+    }
+
+    onChangeText = (name: string) => {
+        this.setState({name});
     }
 
     moveBack = (skill: Skill | null): null => {
@@ -74,32 +63,8 @@ class SkillSearchFormScreen extends React.Component<Props, State> {
     }
 
     renderTextForm = () => {
-        return (
-            <Mutation mutation={CREATE_SKILL_MUTATION}>
-                {(createSkillMutation, { data, error, loading}) => {
-                    console.log(data);
-                    console.log(error);
-                    let errorMessage;
-                    if (error) { errorMessage = error.message;}
-                    if (data && data["createSkill"]) { return this.moveBack(data["createSkill"]) }
-                         
-                    return(
-                        <Input
-                            placeholder='Skill(ex: Ruby)'
-                            containerStyle={styles.inputContainer}
-                            value={this.state.name}
-                            onChangeText={(name) => this.setState({name})}
-                            onSubmitEditing={() => {
-                                createSkillMutation({variables: { name: this.state.name }});
-                            }}
-                            errorStyle={styles.errorMessage}
-                            errorMessage={errorMessage}
-                        />
-                    )
-                }}
-            </Mutation>
-        );
-
+        const { name } = this.state;
+        return CreateSkillMutation({name}, {onChangeText: this.onChangeText, moveBack: this.moveBack}, SkillInput)
     }
 
     render() {
