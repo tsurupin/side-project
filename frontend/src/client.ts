@@ -62,6 +62,15 @@ const stateLink = withClientState({
   },
   defaults: {
     logined: false,
+    selectedSkills: [],
+    userFilterCondition: {
+      genreId: null,
+      selectedSkills: {},
+      interestId: null,
+      distance: null,
+      isActive: null,
+      __typename: "UserFilterCondition"
+    }
   }
 });
 

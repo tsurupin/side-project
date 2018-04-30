@@ -12,6 +12,9 @@ import {
   UserCard,
   Header
 } from '../../../components/Discovery/DiscoveryScreen';
+import {
+  USER_FILTER_CONDITION_CLIENT_QUERY
+} from '../../../graphql/users';
 
 import {
   fetchUserList
@@ -100,11 +103,25 @@ class DiscoveryScreen extends React.Component<Props, State> {
     if (e.type !== 'NavBarButtonPress') { return;}
     switch (e.id) {
       case "FilterButton":
-        this.props.navigator.push({
+        this.props.navigator.showModal({
           screen: FILTER_FORM_SCREEN,
-          passProps: {
-            id: 1
+          navigatorButtons: {
+            leftButtons: [
+              {
+                //icon: sources[1],
+                title: "Back",
+                id: "CancelFilterButton"
+              }
+            ],
+            rightButtons: [
+              {
+                title: "Submit",
+                id: "SubmitFilterButton"
+              }
+
+            ]
           }
+         
         })
     }
   }

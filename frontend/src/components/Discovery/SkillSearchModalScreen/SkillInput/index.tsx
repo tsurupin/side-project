@@ -30,6 +30,7 @@ class SkillInput extends React.Component<Props> {
     }
 
     private onSubmitEditing = () => {
+        // TODO: we should not allow user to create new skills. Instead we should create them beforehands.
         this.props.createSkill({variables: { name: this.props.name }})
     }
 
@@ -41,14 +42,14 @@ class SkillInput extends React.Component<Props> {
         const { name, errorMessage } = this.props;
         return(
             <Input
-            placeholder='Skill(ex: Ruby)'
-            containerStyle={styles.inputContainer}
-            value={name}
-            onChangeText={(name) => this.onChangeText(name)}
-            onSubmitEditing={() => this.onSubmitEditing()}
-            errorStyle={styles.errorMessage}
-            errorMessage={errorMessage}
-        />
+                placeholder='Skill(ex: Ruby)'
+                containerStyle={styles.inputContainer}
+                value={name}
+                onChangeText={(changedName) => this.onChangeText(changedName)}
+                onSubmitEditing={() => this.onSubmitEditing()}
+                errorStyle={styles.errorMessage}
+                errorMessage={errorMessage}
+            />
         )
     }
 

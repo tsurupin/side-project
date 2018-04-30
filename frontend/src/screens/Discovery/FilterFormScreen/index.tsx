@@ -3,8 +3,15 @@ import * as React from 'react';
 import { View,Text } from 'react-native';
 import {
     DISCOVER_SCREEN,
-    SKILL_SEARCH_FORM_SCREEN
+    SKILL_SEARCH_MODAL_SCREEN
 } from '../../../constants/screens';
+
+import {
+    SELECTED_SKILLS_CLIENT_QUERY
+} from '../../../graphql/skills'
+import {
+    USER_FILTER_CONDITION_CLIENT_QUERY
+} from '../../../graphql/users';
 
 import {
     TouchableOpacity,
@@ -25,8 +32,14 @@ import {
     Form 
 } from "native-base";
 
+import { ApolloConsumer } from 'react-apollo';
+
 import styles from './styles';
 
+type Skill = {
+    id: number,
+    name: string
+}
 type Props = {
     navigator: any,
     genreId: number,
@@ -36,7 +49,9 @@ type Props = {
     skillIds?: number[],
     distances: any[],
     interests: any[],
-    activeness: any[]
+    activeness: any[],
+    skills: Skill[],
+    client: any
 };
 
 type State = {
@@ -46,7 +61,8 @@ type State = {
     isActive?: boolean | null,
     skillIds?: number[]
 }
-class FilterFormScreen extends React.Component<Props, State> {
+
+class FormScreen extends React.Component<Props, State> {
     static defaultProps = {
         genreId: 1,
         distance: null,
@@ -106,14 +122,14 @@ class FilterFormScreen extends React.Component<Props, State> {
                 name: "Not Active",
                 value: false
             }
-        ]
+        ],
+        skills: []
 
     }
 
     constructor(props) {
         super(props);
-        console.log(props);
-        console.log("filterform")
+     
         this.state = {
             genreId: props.genreId,
             distance: props.distance,
@@ -122,41 +138,92 @@ class FilterFormScreen extends React.Component<Props, State> {
             skillIds: props.skillIds
         }
 
-        this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
+        this.props.navigator.setOnNavigatorEvent(this.onNavigationEvent);
+    }
+
+    componentWillReceiveProps(nextProps) {
+        console.log("will receive", nextProps);
+
     }
 
     onNavigationEvent = (e) => {
         if (e.type !== 'NavBarButtonPress') { return;}
         switch (e.id) {
-          case "SubmitButton":
-            this.props.navigator.push({
-              screen: DISCOVER_SCREEN,
-              passProps: {
-                id: 1
-              }
-            })
+          case "SubmitFilterButton":
+            this.updateFilterCondition();
+            this.props.navigator.dismissModal();
             break;
-        case "CancelButton":
-            this.props.navigator.push({
-                screen: DISCOVER_SCREEN,
-                passProps: {
-
-                }
-            })    
+        case "CancelFilterButton":
+            this.props.navigator.dismissModal();    
             break;
         }
-
     }
+
     onPressSkillButton = () => {
-        console.log("onPressSkillButton")
-        console.log(this.props.navigator,  SKILL_SEARCH_FORM_SCREEN)
-        this.props.navigator.push({
-            screen: SKILL_SEARCH_FORM_SCREEN,
-            passProps: {}
+        this.props.navigator.showModal({
+            screen: SKILL_SEARCH_MODAL_SCREEN,
+            title: SKILL_SEARCH_MODAL_SCREEN,
+            animationType: 'slide-up',
+            passProps: this.state
         })
     }
+    
+
+    onValueChange = (key: string, value: string | number | boolean) => {
+        let changeAttr = {};
+        changeAttr[key] = value;
+        console.log(changeAttr);
+        console.log("onValuChange")
+        this.setState(changeAttr);
+    }
+
+    updateFilterCondition = () => {
+        const { genreId, interestId, distance, isActive } = this.state;
+        const query = SELECTED_SKILLS_CLIENT_QUERY;
+        const data = this.props.client.readQuery({ query });
+
+        this.props.client.writeQuery({
+            query: USER_FILTER_CONDITION_CLIENT_QUERY,
+            data: {
+                userFilterCondition: {
+                    genreId,
+                    interestId,
+                    distance,
+                    isActive,
+                    selectedSkills: data.selectedSkills,
+                    __typename: "UserFilterCondition"
+                }
+            }
+        });
+        this.props.client.readQuery({ query: USER_FILTER_CONDITION_CLIENT_QUERY });
+    }
+
+    getSelectedSkills = (): Skill[] => {
+        const query = SELECTED_SKILLS_CLIENT_QUERY;
+        const data = this.props.client.readQuery({ query }); 
+        return data.selectedSkills;
+        // Add skill list 
+    }
+
+    // renderSkillList = () => {
+    //     <Query query={SELECTED_SKILLS_QUERY}>
+    //       {data => {
+    //           <
+    //       }}
+    //     </Query>
+    // }
+
 
     render() {
+        console.log(this.props.client);
+        console.log(this.props.skills)
+        const { 
+            genreId, 
+            interestId,
+            distance,
+            isActive,
+        } = this.state;
+        console.log(genreId)
         return (
             <Container>
                 <Content>
@@ -168,8 +235,10 @@ class FilterFormScreen extends React.Component<Props, State> {
                             placeholderStyle={{ color: "#bfc6ea" }}
                             placeholderIconColor="#007aff"
                             style={styles.pickerContainer}
-                            selectedValue={this.state.genreId}
-                            onValueChange={(e) => this.setState({genreId: e.value}) }
+                            selectedValue={genreId}
+                            onValueChange={(value) => {
+                                this.onValueChange("genreId", value)
+                            }}
                         >
                             {this.props.genres.map(genre => {
                                 return <Picker.Item label={genre.name} value={genre.id} />
@@ -183,8 +252,8 @@ class FilterFormScreen extends React.Component<Props, State> {
                             placeholderStyle={{ color: "#bfc6ea" }}
                             placeholderIconColor="#007aff"
                             style={styles.pickerContainer}
-                            selectedValue={this.state.distance}
-                            onValueChange={(e) => this.setState({distance: e.value}) }
+                            selectedValue={distance}
+                            onValueChange={(value) => this.onValueChange("distance", value) }
                         >
                             {this.props.distances.map(distance => {
                                 return <Picker.Item label={distance.name} value={distance.value} />
@@ -198,8 +267,8 @@ class FilterFormScreen extends React.Component<Props, State> {
                             placeholderStyle={{ color: "#bfc6ea" }}
                             placeholderIconColor="#007aff"
                             style={styles.pickerContainer}
-                            selectedValue={this.state.interestId}
-                            onValueChange={(e) => this.setState({interestId: e.value}) }
+                            selectedValue={interestId}
+                            onValueChange={(value) => this.onValueChange("interestId", value) }
                         >
                             {this.props.interests.map(interest => {
                                 return <Picker.Item label={interest.name} value={interest.id} />
@@ -214,8 +283,8 @@ class FilterFormScreen extends React.Component<Props, State> {
                             placeholderStyle={{ color: "#bfc6ea" }}
                             placeholderIconColor="#007aff"
                             style={styles.pickerContainer}
-                            selectedValue={this.state.interestId}
-                            onValueChange={(e) => this.setState({isActive: e.value}) }
+                            selectedValue={isActive}
+                            onValueChange={(value) =>this.onValueChange("isActive", value) }
                         >
                             {this.props.activeness.map(active => {
                                 return <Picker.Item label={active.name} value={active.value} />
@@ -236,4 +305,11 @@ class FilterFormScreen extends React.Component<Props, State> {
 
 }
 
+const FilterFormScreen = (props) => (
+<ApolloConsumer>
+    {client => (
+        <FormScreen {...props} client={client} />    
+    )}
+</ApolloConsumer>
+)
 export default FilterFormScreen;

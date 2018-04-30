@@ -1,9 +1,9 @@
 import DiscoveryScreen from './DiscoverScreen';
 import FilterFormScreen from './FilterFormScreen';
-import SkillSearchFormScreen from './SkillSearchFormScreen';
+import SkillSearchModalScreen from './SkillSearchModalScreen';
 
 export {
     DiscoveryScreen,
     FilterFormScreen,
-    SkillSearchFormScreen
+    SkillSearchModalScreen
 };
