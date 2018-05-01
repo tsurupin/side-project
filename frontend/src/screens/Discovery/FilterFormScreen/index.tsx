@@ -32,7 +32,7 @@ import {
     Form 
 } from "native-base";
 
-import { ApolloConsumer } from 'react-apollo';
+import { ApolloConsumer, Query } from 'react-apollo';
 
 import styles from './styles';
 
@@ -172,9 +172,11 @@ class FormScreen extends React.Component<Props, State> {
     onValueChange = (key: string, value: string | number | boolean) => {
         let changeAttr = {};
         changeAttr[key] = value;
-        console.log(changeAttr);
-        console.log("onValuChange")
         this.setState(changeAttr);
+    }
+
+    deleteSkill = (id: number) => {
+        // remove skill from query
     }
 
     updateFilterCondition = () => {
@@ -198,20 +200,24 @@ class FormScreen extends React.Component<Props, State> {
         this.props.client.readQuery({ query: USER_FILTER_CONDITION_CLIENT_QUERY });
     }
 
-    getSelectedSkills = (): Skill[] => {
-        const query = SELECTED_SKILLS_CLIENT_QUERY;
-        const data = this.props.client.readQuery({ query }); 
-        return data.selectedSkills;
-        // Add skill list 
-    }
 
-    // renderSkillList = () => {
-    //     <Query query={SELECTED_SKILLS_QUERY}>
-    //       {data => {
-    //           <
-    //       }}
-    //     </Query>
-    // }
+    renderSkillList = () => {
+        return (
+            <Query query={SELECTED_SKILLS_CLIENT_QUERY}>
+            {data => {
+                <Content>
+                    {data.selectedSkills.map(skill => {
+                        return(
+                            <Button rounded onPress={this.deleteSkill(skill.id)}>
+                                <Text>{skill.name}</Text>
+                            </Button>
+                        )
+                    })}
+                </Content>
+            }}
+            </Query>
+        )
+    }
 
 
     render() {
