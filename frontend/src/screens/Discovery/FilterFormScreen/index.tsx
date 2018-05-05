@@ -167,7 +167,6 @@ class FormScreen extends React.Component<Props, State> {
             passProps: this.state
         })
     }
-    
 
     onValueChange = (key: string, value: string | number | boolean) => {
         let changeAttr = {};
