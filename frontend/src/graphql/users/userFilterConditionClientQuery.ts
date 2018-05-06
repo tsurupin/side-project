@@ -6,9 +6,7 @@ export const USER_FILTER_CONDITION_CLIENT_QUERY = gql`
     genreId
     interestId
     distance
-    selectedSkills @client {
-        id
-    }
+    skillIds
     isActive
   }
 }`;

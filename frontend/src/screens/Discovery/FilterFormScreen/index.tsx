@@ -175,14 +175,22 @@ class FormScreen extends React.Component<Props, State> {
     }
 
     deleteSkill = (id: number) => {
-        // remove skill from query
+        const query = SELECTED_SKILLS_CLIENT_QUERY;
+    
+        const data = this.props.client.readQuery({ query });
+        const selectedSkills = data.selectedSkills.filter(currentSkill => currentSkill.id !== id);
+        
+        this.props.client.writeQuery({
+            query,
+            data: {selectedSkills}
+        });
     }
 
     updateFilterCondition = () => {
         const { genreId, interestId, distance, isActive } = this.state;
         const query = SELECTED_SKILLS_CLIENT_QUERY;
         const data = this.props.client.readQuery({ query });
-
+    
         this.props.client.writeQuery({
             query: USER_FILTER_CONDITION_CLIENT_QUERY,
             data: {
@@ -191,33 +199,34 @@ class FormScreen extends React.Component<Props, State> {
                     interestId,
                     distance,
                     isActive,
-                    selectedSkills: data.selectedSkills,
+                    skillIds: data.selectedSkills.map(skill => skill.id),
                     __typename: "UserFilterCondition"
                 }
             }
         });
-        this.props.client.readQuery({ query: USER_FILTER_CONDITION_CLIENT_QUERY });
+        const result = this.props.client.readQuery({ query: USER_FILTER_CONDITION_CLIENT_QUERY });
+        console.log(result);
     }
 
 
     renderSkillList = () => {
         return (
             <Query query={SELECTED_SKILLS_CLIENT_QUERY}>
-            {data => {
-                <Content>
-                    {data.selectedSkills.map(skill => {
+            {(data) => {
+                return(<Content>
+                    {data.data["selectedSkills"].map(skill => {
                         return(
-                            <Button rounded onPress={this.deleteSkill(skill.id)}>
+                            <Button key={skill.id} rounded onPress={() => this.deleteSkill(skill.id)}>
                                 <Text>{skill.name}</Text>
                             </Button>
                         )
                     })}
                 </Content>
+                )
             }}
             </Query>
         )
     }
-
 
     render() {
         console.log(this.props.client);
@@ -301,6 +310,7 @@ class FormScreen extends React.Component<Props, State> {
                             <Button iconLeft primary onPress={this.onPressSkillButton}>
                                 <Icon name='beer' />
                             </Button>
+                            {this.renderSkillList()}
                         </View>
                         </Form>
                 </Content>
