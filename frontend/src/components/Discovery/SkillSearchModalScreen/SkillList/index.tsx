@@ -43,7 +43,7 @@ class SkillList extends React.Component<Props> {
             console.log(error) 
             return <Text>{error.message}</Text>;
         }
-        console.log(data);
+        
         const skills = data["skills"];
         return (
             <View style={styles.listContainer}>

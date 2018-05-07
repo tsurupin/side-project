@@ -2,6 +2,7 @@ import {
     Dimensions
 } from 'react-native';
 const width = Math.trunc(Dimensions.get('window').width * 0.95);
+
 const styles = {
     container: {
         width,

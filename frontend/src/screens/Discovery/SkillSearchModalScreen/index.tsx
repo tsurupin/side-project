@@ -6,9 +6,8 @@ import { FILTER_FORM_SCREEN } from '../../../constants/screens';
 import { SkillInput, SkillList } from '../../../components/Discovery/SkillSearchModalScreen';
 import { SkillsQuery }  from '../../../queries/skills';
 import { CreateSkillMutation }  from '../../../mutations/skills';
-import { ApolloConsumer } from 'react-apollo';
 import styles from './styles';
-import { SELECTED_SKILLS_CLIENT_QUERY } from '../../../graphql/skills';
+;
 
 type Skill = {
     id: number,
@@ -19,6 +18,7 @@ type Props = {
     navigator?: any,
     skills: Skill[],
     client: any,
+    updateSkills: (skill: Skill) => void,
 };
 
 type State = {
@@ -27,14 +27,13 @@ type State = {
 
 };
 
-class SearchModalScreen extends React.Component<Props, State> {
+class SkillSearchModalScreen extends React.Component<Props, State> {
 
     static defaultProps = {
         skills: []
     }
     constructor(props) {
         super(props);
-        console.log(props);
         this.state = {
             name: ''
         }
@@ -43,33 +42,12 @@ class SearchModalScreen extends React.Component<Props, State> {
     }
 
     onPressSkill = (skill: Skill) => {
-        const selectedSkills = this.getSelectedSkills();
-        this.updateSelectedSkills(skill, selectedSkills);
+        this.props.updateSkills(skill);
         this.props.navigator.dismissModal();
     }
 
     onChangeText = (name: string) => {
         this.setState({name});
-    }
-
-    getSelectedSkills = (): Skill[] => {
-        const query = SELECTED_SKILLS_CLIENT_QUERY;
-        const data = this.props.client.readQuery({ query });
-        return data.selectedSkills;
-    }
-
-    updateSelectedSkills = (newSkill: Skill, currentSkills: Skill[]) => {
-        const query = SELECTED_SKILLS_CLIENT_QUERY;
-        let selectedSkills;
-        if (currentSkills.some(currentSkill => currentSkill.id === newSkill.id)) {
-            selectedSkills = currentSkills;
-        } else {
-            selectedSkills = [...currentSkills, newSkill];
-        }
-        this.props.client.writeQuery({
-            query,
-            data: {selectedSkills}
-        });
     }
 
     moveBack = () => {
@@ -98,12 +76,4 @@ class SearchModalScreen extends React.Component<Props, State> {
 }
 
 
-
-const SkillSearchModalScreen = (props) => (
-    <ApolloConsumer>
-        {client => (
-            <SearchModalScreen {...props} client={client} />    
-        )}
-    </ApolloConsumer>
-)
 export default SkillSearchModalScreen;

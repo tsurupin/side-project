@@ -1,19 +1,12 @@
 import * as React from 'react';
 
-import { View,Text } from 'react-native';
 import {
-    DISCOVER_SCREEN,
+    DISCOVERY_SCREEN,
     SKILL_SEARCH_MODAL_SCREEN
 } from '../../../constants/screens';
 
 import {
-    SELECTED_SKILLS_CLIENT_QUERY
-} from '../../../graphql/skills'
-import {
-    USER_FILTER_CONDITION_CLIENT_QUERY
-} from '../../../graphql/users';
-
-import {
+    View,
     TouchableOpacity,
     Text
 } from 'react-native';
@@ -32,18 +25,24 @@ import {
     Form 
 } from "native-base";
 
-import { ApolloConsumer, Query } from 'react-apollo';
-
 import styles from './styles';
 
 type Skill = {
     id: number,
     name: string
 }
+
+type Conditions = {
+    genreId: number,
+    occupationTypeId: number | null,
+    distance: number | null,
+    isActive: boolean | null,
+    skillId: number[],
+}
 type Props = {
     navigator: any,
     genreId: number,
-    interestId?: number | null,
+    occupationTypeId?: number | null,
     distance?: number | null,
     isActive?: boolean | null,
     skillIds?: number[],
@@ -51,25 +50,27 @@ type Props = {
     interests: any[],
     activeness: any[],
     skills: Skill[],
-    client: any
+    client: any,
+    updateFilterConditions: (Conditions) => void
 };
 
 type State = {
     genreId: number,
-    interestId?: number | null,
+    occupationTypeId?: number | null,
     distance?: number | null,
     isActive?: boolean | null,
-    skillIds?: number[]
+    skillIds?: number[],
+    skills: Skill[],
 }
 
-class FormScreen extends React.Component<Props, State> {
+class FilterFormScreen extends React.Component<Props, State> {
     static defaultProps = {
         genreId: 1,
         distance: null,
-        interestId: null,
+        occupationTypeId: 1,
         isActive: null,
         skillIds: null,
-        genres: [
+        occupationTypes: [
             {
                 id: 1,
                 name: "Engineer"
@@ -103,14 +104,14 @@ class FormScreen extends React.Component<Props, State> {
                 value: null
             }
         ],
-        interests: [
+        genres: [
             {
                 name: "Education",
-                value: 1
+                id: 1
             },
             {
                 name: "Finance",
-                value: 2
+                id: 2
             }
         ],
         activeness: [
@@ -133,9 +134,10 @@ class FormScreen extends React.Component<Props, State> {
         this.state = {
             genreId: props.genreId,
             distance: props.distance,
-            interestId: props.interestId,
+            occupationTypeId: props.occupationTypeId,
             isActive: props.isActive,
-            skillIds: props.skillIds
+            skillIds: props.skillIds,
+            skills: props.skills
         }
 
         this.props.navigator.setOnNavigatorEvent(this.onNavigationEvent);
@@ -150,7 +152,13 @@ class FormScreen extends React.Component<Props, State> {
         if (e.type !== 'NavBarButtonPress') { return;}
         switch (e.id) {
           case "SubmitFilterButton":
-            this.updateFilterCondition();
+          this.props.updateFilterConditions({
+                genreId: this.state.genreId,
+                occupationTypeId: this.state.occupationTypeId,
+                distance: this.state.distance,
+                isActive: this.state.isActive,
+                skillIds: this.state.skills.map(skill => skill.id)
+            });
             this.props.navigator.dismissModal();
             break;
         case "CancelFilterButton":
@@ -164,7 +172,7 @@ class FormScreen extends React.Component<Props, State> {
             screen: SKILL_SEARCH_MODAL_SCREEN,
             title: SKILL_SEARCH_MODAL_SCREEN,
             animationType: 'slide-up',
-            passProps: this.state
+            passProps: {updateSkills: this.updateSkills}
         })
     }
 
@@ -174,70 +182,40 @@ class FormScreen extends React.Component<Props, State> {
         this.setState(changeAttr);
     }
 
+    updateSkills = (skill:Skill) => {
+        const skills = Array.from(new Set(this.state.skills.concat(skill)));
+        this.setState({skills});
+    }
+
     deleteSkill = (id: number) => {
-        const query = SELECTED_SKILLS_CLIENT_QUERY;
-    
-        const data = this.props.client.readQuery({ query });
-        const selectedSkills = data.selectedSkills.filter(currentSkill => currentSkill.id !== id);
-        
-        this.props.client.writeQuery({
-            query,
-            data: {selectedSkills}
-        });
+        const skills = this.state.skills.filter(skill => skill.id !== id);
+        this.setState({skills});
     }
-
-    updateFilterCondition = () => {
-        const { genreId, interestId, distance, isActive } = this.state;
-        const query = SELECTED_SKILLS_CLIENT_QUERY;
-        const data = this.props.client.readQuery({ query });
-    
-        this.props.client.writeQuery({
-            query: USER_FILTER_CONDITION_CLIENT_QUERY,
-            data: {
-                userFilterCondition: {
-                    genreId,
-                    interestId,
-                    distance,
-                    isActive,
-                    skillIds: data.selectedSkills.map(skill => skill.id),
-                    __typename: "UserFilterCondition"
-                }
-            }
-        });
-        const result = this.props.client.readQuery({ query: USER_FILTER_CONDITION_CLIENT_QUERY });
-        console.log(result);
-    }
-
 
     renderSkillList = () => {
         return (
-            <Query query={SELECTED_SKILLS_CLIENT_QUERY}>
-            {(data) => {
-                return(<Content>
-                    {data.data["selectedSkills"].map(skill => {
-                        return(
-                            <Button key={skill.id} rounded onPress={() => this.deleteSkill(skill.id)}>
-                                <Text>{skill.name}</Text>
-                            </Button>
-                        )
-                    })}
-                </Content>
-                )
-            }}
-            </Query>
+            <Content>
+            {this.state.skills.map(skill => {
+                return(
+                    <Button key={skill.id} rounded onPress={() => this.deleteSkill(skill.id)}>
+                        <Text>{skill.name}</Text>
+                    </Button>
+                    )
+            })}
+            </Content>
         )
     }
 
     render() {
-        console.log(this.props.client);
-        console.log(this.props.skills)
+    
         const { 
             genreId, 
-            interestId,
+            occupationTypeId,
             distance,
             isActive,
+            skills
         } = this.state;
-        console.log(genreId)
+       
         return (
             <Container>
                 <Content>
@@ -254,8 +232,8 @@ class FormScreen extends React.Component<Props, State> {
                                 this.onValueChange("genreId", value)
                             }}
                         >
-                            {this.props.genres.map(genre => {
-                                return <Picker.Item label={genre.name} value={genre.id} />
+                            {this.props.occupationTypes.map(occupationType => {
+                                return <Picker.Item key={occupationType.id} label={occupationType.name} value={occupationType.id} />
                             })}
                             
                         </Picker>
@@ -269,8 +247,8 @@ class FormScreen extends React.Component<Props, State> {
                             selectedValue={distance}
                             onValueChange={(value) => this.onValueChange("distance", value) }
                         >
-                            {this.props.distances.map(distance => {
-                                return <Picker.Item label={distance.name} value={distance.value} />
+                            {this.props.distances.map((distance, i) => {
+                                return <Picker.Item key={i} label={distance.name} value={distance.value} />
                             })}
                             
                         </Picker>
@@ -281,11 +259,11 @@ class FormScreen extends React.Component<Props, State> {
                             placeholderStyle={{ color: "#bfc6ea" }}
                             placeholderIconColor="#007aff"
                             style={styles.pickerContainer}
-                            selectedValue={interestId}
+                            selectedValue={genreId}
                             onValueChange={(value) => this.onValueChange("interestId", value) }
                         >
-                            {this.props.interests.map(interest => {
-                                return <Picker.Item label={interest.name} value={interest.id} />
+                            {this.props.genres.map(genre => {
+                                return <Picker.Item key={genre.id} label={genre.name} value={genre.id} />
                             })}
                             
                         </Picker>
@@ -300,8 +278,8 @@ class FormScreen extends React.Component<Props, State> {
                             selectedValue={isActive}
                             onValueChange={(value) =>this.onValueChange("isActive", value) }
                         >
-                            {this.props.activeness.map(active => {
-                                return <Picker.Item label={active.name} value={active.value} />
+                            {this.props.activeness.map((active, i) => {
+                                return <Picker.Item key={i} label={active.name} value={active.value} />
                             })}
                             
                         </Picker>
@@ -320,11 +298,4 @@ class FormScreen extends React.Component<Props, State> {
 
 }
 
-const FilterFormScreen = (props) => (
-<ApolloConsumer>
-    {client => (
-        <FormScreen {...props} client={client} />    
-    )}
-</ApolloConsumer>
-)
 export default FilterFormScreen;

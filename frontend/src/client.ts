@@ -66,7 +66,7 @@ const stateLink = withClientState({
     userFilterCondition: {
       genreId: null,
       skillIds: [],
-      interestId: null,
+      occupationTypeId: null,
       distance: null,
       isActive: null,
       __typename: "UserFilterCondition"

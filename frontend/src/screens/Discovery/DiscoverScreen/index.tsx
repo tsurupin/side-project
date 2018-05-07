@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { graphql, compose } from 'react-apollo';
 import {
   View,
   Text,
@@ -9,58 +8,62 @@ import {
 } from 'react-native';
 
 import {
-  UserCard,
   Header
 } from '../../../components/Discovery/DiscoveryScreen';
-import {
-  USER_FILTER_CONDITION_CLIENT_QUERY
-} from '../../../graphql/users';
 
 import {
-  fetchUserList
-} from '../../../queries/users';
-
-import {
-  FILTER_FORM_SCREEN
+  FILTER_FORM_SCREEN,
+  USER_DETAILS_SCREEN
 } from '../../../constants/screens';
+import UserList  from '../../../components/Discovery/DiscoveryScreen/UserList';
+import { UsersQuery }  from '../../../queries/users';
 import styles from './styles';
 
 type User = {
   id: number,
   displayName: string,
   areaName?: string,
+  occupationTypeName?: string,
   genreName?: string,
   mainPhotoUrl: string,
   leadSentence?: string
 };
 
-type SearchConditions = {
-  occupationTypeId?: number, 
-  genreId?: number, 
-  isActive?: boolean, 
-  skillIds?: number[]
+type Conditions = {
+  occupationTypeId: number | null, 
+  genreId: number | null, 
+  isActive: boolean | null, 
+  distance: number | null,
+  skillIds: number[]
 }
 
 type Props = {
   fetchUserList: ({variables: any}) => Promise<any>,
   users: User[],
   searchCondistions?: any,
-  navigator: any
+  navigator: any,
+  client: any
 
 };
 
 type State = {
-  users: User[]
-  
+  users: User[],
+  conditions: Conditions
 };
 
 class DiscoveryScreen extends React.Component<Props, State> {
   constructor(props) {
     super(props);
     this.state = {
-      users: props.users
+      users: props.users,
+      conditions: {
+        occupationTypeId: null,
+        genreId: null,
+        isActive: null,
+        distance: null,
+        skillIds: []
+      }
     };
-    console.log(this.props)
 
     this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
   }
@@ -71,7 +74,8 @@ class DiscoveryScreen extends React.Component<Props, State> {
         id: 1,
         displayName: "Tomoaki",
         areaName: "San Francisco",
-        genreName: "Engineer",
+        occupationTypeName: "Engineer",
+        genreName: "Education",
         mainPhotoUrl: "https://images.pexels.com/photos/407035/model-face-beautiful-black-and-white-407035.jpeg",
         leadSentence: "I'm Ruby and React Software enginner. I like to work on ambiscious project"
       },
@@ -79,7 +83,8 @@ class DiscoveryScreen extends React.Component<Props, State> {
         id: 2,
         displayName: "Tomoaki",
         areaName: "San Francisco",
-        genreName: "Software Engineer",
+        occupationTypeName: "Software Engineer",
+        genreName: "NPO",
         mainPhotoUrl: "https://images.pexels.com/photos/407035/model-face-beautiful-black-and-white-407035.jpeg",
         leadSentence: "I'm Ruby and React Software enginner. I like to work on ambiscious project"
       }
@@ -89,22 +94,23 @@ class DiscoveryScreen extends React.Component<Props, State> {
 
   componentWillMount() {
     console.log('hohoh')
+  }
 
-    // this.props.fetchUserList({
-    //   variables: this.searchConditions()
-    // }).then (users => {
-    //   this.setState({users});
-    // })
+  componentWillReceiveProps(newProps) {
+    console.log("will receive ")
+  }
 
+  updateFilterConditions = (conditions: Conditions) => {
+    this.setState({conditions});
   }
 
   onNavigatorEvent = (e) => {
-    console.log(e, e.event, e.id)
     if (e.type !== 'NavBarButtonPress') { return;}
     switch (e.id) {
       case "FilterButton":
         this.props.navigator.showModal({
           screen: FILTER_FORM_SCREEN,
+          passProps: {updateFilterConditions: this.updateFilterConditions},
           navigatorButtons: {
             leftButtons: [
               {
@@ -126,46 +132,25 @@ class DiscoveryScreen extends React.Component<Props, State> {
     }
   }
 
-  searchConditions = () => {
-    console.log(this.props);
-    const { occupationTypeId, genreId, isActive, skillIds } = this.props.searchCondistions;
-    return {
-      occupationTypeId, 
-      genreId, 
-      isActive, 
-      skillIds
-    };
+  onPressUserCard = (user: User) => {
+    this.props.navigator.push({
+      screen: USER_DETAILS_SCREEN,
+      passProps: {user: user}
+    })
   }
+
 
   renderUserCards = () => {
-    console.log(this.state)
-    
-    if (this.state.users.length == 0) {
-      return (
-        <View key={0}>
-          <Text>No Users Found</Text>
-        </View>
-      )
-    }
-    return (
-      <View style={styles.cardListContainer}>
-        {this.state.users.map(user => {
-          return this.renderUserCard(user)
-        })}
-      </View>
-    );
-  }
-
-  renderUserCard = (user) => {
-    return <UserCard key={user.id} user={user} />
+    return UsersQuery(this.state.conditions, {onPressUserCard: this.onPressUserCard}, UserList);
   }
 
   render() {
+    console.log("render hoge")
     return (
       <View style={styles.container}>
         <ScrollView 
-          horizontal
-          showsHorizontalScrollIndicator={false}
+        horizontal
+        showsHorizontalScrollIndicator={false}
           >
           {this.renderUserCards()}
         </ScrollView>

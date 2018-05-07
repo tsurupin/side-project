@@ -4,7 +4,7 @@ export const USER_FILTER_CONDITION_CLIENT_QUERY = gql`
 {
   userFilterCondition @client {
     genreId
-    interestId
+    occupationTypeId
     distance
     skillIds
     isActive

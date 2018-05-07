@@ -14,9 +14,7 @@ import {
 
 import styles from './styles';
 
-type Props = {
-    user: User
-}
+
 type User = {
     id: number,
     displayName: string,
@@ -25,6 +23,12 @@ type User = {
     leadSentence: string,
     genreName: string
 };
+
+type Props = {
+    user: User,
+    onPressUserCard?: (user: User) => void
+}
+
 class UserCard extends React.Component<Props, {}> {
 
     constructor(props) {
