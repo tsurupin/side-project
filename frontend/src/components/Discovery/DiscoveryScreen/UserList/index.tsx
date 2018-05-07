@@ -44,8 +44,10 @@ class UserList extends React.Component<Props, {}> {
             console.log(error) 
             return <Text>{error.message}</Text>;
         }
-        
+        if (!data) { return <View><Text>blank</Text></View>}
+    
         const users = data["users"];
+        console.log(users)
         if (users.length == 0) {
             return (
               <View key={0}>

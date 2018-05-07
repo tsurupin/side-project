@@ -13,7 +13,7 @@ defmodule ApiWeb.Schema.Queries.Users do
     @desc "Fetch displayed users info"
     field :users, list_of(:user) do
       arg(:conditions, :user_search_conditions)
-      middleware(Middleware.Authorize)
+      #middleware(Middleware.Authorize)
       resolve(&Resolvers.Users.search/3)
     end
   end

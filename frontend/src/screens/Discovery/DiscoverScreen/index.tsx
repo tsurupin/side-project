@@ -30,11 +30,11 @@ type User = {
 };
 
 type Conditions = {
-  occupationTypeId: number | null, 
-  genreId: number | null, 
-  isActive: boolean | null, 
-  distance: number | null,
-  skillIds: number[]
+  occupationTypeId?: number, 
+  genreId?: number, 
+  isActive?: boolean, 
+  distance?: number,
+  skillIds?: number[]
 }
 
 type Props = {
@@ -141,7 +141,13 @@ class DiscoveryScreen extends React.Component<Props, State> {
 
 
   renderUserCards = () => {
-    return UsersQuery(this.state.conditions, {onPressUserCard: this.onPressUserCard}, UserList);
+    let conditions = {};
+    for (let key in this.state.conditions) {
+      if (this.state.conditions[key] !== 'undefined' && this.state.conditions[key] !== null && this.state.conditions[key].length !== 0) {
+        conditions[key] = this.state.conditions[key];
+      }
+    }
+    return UsersQuery(conditions, {onPressUserCard: this.onPressUserCard}, UserList);
   }
 
   render() {
