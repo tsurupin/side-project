@@ -8,20 +8,20 @@ type Condition = {
     skillIds?: number[],
     isActive?: boolean,
     distance?: number
-
 }
+
 const UsersQuery = (variables: Condition, parentProps, ChildComponent) => {
-    console.log(variables);
     return(
-    <Query 
-        query={USERS_QUERY}
-        variables={variables}
-        notifyOnNetworkStatusChange
-    >
-      {(data) => {
-          return <ChildComponent data={data} parentProps={parentProps} /> 
-      }}
-    </Query>
+        <Query 
+            query={USERS_QUERY}
+            variables={variables}
+            notifyOnNetworkStatusChange
+            context={{needAuth: true}}
+        >
+        {(data) => {
+            return <ChildComponent data={data} parentProps={parentProps} /> 
+        }}
+        </Query>
     )
 };
 

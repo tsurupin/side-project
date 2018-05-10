@@ -34,7 +34,7 @@ const errorLink = onError(err => {
 const authLink = setContext((_, context) => {
 
   if (context.needAuth) {
-    console.log('hoho')
+    console.log('authorization')
     refreshTokenIfNecessary().then(token => {
       return {
         headers: {
