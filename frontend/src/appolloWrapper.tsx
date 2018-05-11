@@ -3,7 +3,7 @@ import { ApolloProvider } from 'react-apollo';
 import client from './client';
 
 
-const ApolloApp = AppComponent => {
+const ApolloWrapper = AppComponent => {
 
   class Enhance extends React.Component {
     render () {
@@ -17,4 +17,4 @@ const ApolloApp = AppComponent => {
   return Enhance
 };
 
-export default ApolloApp;
+export default ApolloWrapper;

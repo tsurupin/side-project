@@ -4,9 +4,9 @@ import {
   AUTH_SCREEN,
   TOP_SCREEN,
   DISCOVERY_SCREEN
-} from '../constants/screens';
+} from '../../constants/screens';
 
-const launchMainTab = () => {
+const MainTab = () => {
   Promise.all([
     Icon.getImageSource('md-map', 30),
     Icon.getImageSource('filter-outline', 30),
@@ -70,4 +70,4 @@ const launchMainTab = () => {
 }
 
 
-export default launchMainTab;
+export default MainTab;

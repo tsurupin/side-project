@@ -63,7 +63,7 @@ type State = {
     skills: Skill[],
 }
 
-class FilterFormScreen extends React.Component<Props, State> {
+class SearchFormScreen extends React.Component<Props, State> {
     static defaultProps = {
         genreId: 1,
         distance: null,
@@ -298,4 +298,4 @@ class FilterFormScreen extends React.Component<Props, State> {
 
 }
 
-export default FilterFormScreen;
+export default SearchFormScreen;

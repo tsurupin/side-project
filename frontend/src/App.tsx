@@ -1,5 +1,5 @@
 import { Navigation } from 'react-native-navigation';
-import ApolloApp from './apolloApp';
+import ApolloWrapper from './appolloWrapper';
 import {
   AUTH_SCREEN,
   TOP_SCREEN,
@@ -8,43 +8,43 @@ import {
   SKILL_SEARCH_MODAL_SCREEN
 } from './constants/screens';
 import { } from './constants/screens'
-import AuthScreen from './screens/Auth/Auth';
-import TopScreen from './screens/Top/Top';
+import AuthScreen from './screens/Auth';
+import TopScreen from './screens/Top';
 import { 
   DiscoveryScreen, 
-  FilterFormScreen,
+  SearchFormScreen,
   SkillSearchModalScreen 
 } from './screens/Discovery';
 
-import launchMainTab from './screens/launchMainTab'
+import MainTab from './screens/MainTab'
 
 const registerComponents = () => {
   Navigation.registerComponent(
     AUTH_SCREEN,
-    () => ApolloApp(AuthScreen)
+    () => ApolloWrapper(AuthScreen)
   );
   
   Navigation.registerComponent(
     TOP_SCREEN,
-    () => ApolloApp(TopScreen)
+    () => ApolloWrapper(TopScreen)
   );
   
   Navigation.registerComponent(
     DISCOVERY_SCREEN,
-    () => ApolloApp(DiscoveryScreen)
+    () => ApolloWrapper(DiscoveryScreen)
   );
   Navigation.registerComponent(
     FILTER_FORM_SCREEN,
-    () => ApolloApp(FilterFormScreen)
+    () => ApolloWrapper(SearchFormScreen)
   );
   Navigation.registerComponent(
     SKILL_SEARCH_MODAL_SCREEN,
-    () => ApolloApp(SkillSearchModalScreen)
+    () => ApolloWrapper(SkillSearchModalScreen)
   )
 }
 
 registerComponents();
-launchMainTab();
+MainTab();
 
 
 
