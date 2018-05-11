@@ -61,16 +61,7 @@ const stateLink = withClientState({
     },
   },
   defaults: {
-    logined: false,
-    selectedSkills: [],
-    userFilterCondition: {
-      genreId: null,
-      skillIds: [],
-      occupationTypeId: null,
-      distance: null,
-      isActive: null,
-      __typename: "UserFilterCondition"
-    }
+    logined: false
   }
 });
 

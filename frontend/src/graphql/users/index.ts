@@ -4,7 +4,6 @@ import { SIGNUP_MUTATION } from './signupMutation';
 import { UPLOAD_USER_PHOTO_MUTATION } from './uploadUserPhotoMutation';
 import { USER_QUERY } from './userQuery';
 import { USERS_QUERY } from './usersQuery';
-import { USER_FILTER_CONDITION_CLIENT_QUERY } from './userFilterConditionClientQuery';
 
 export {
   DELETE_USER_PHOTO__MUTATION,
@@ -12,6 +11,5 @@ export {
   SIGNUP_MUTATION,
   UPLOAD_USER_PHOTO_MUTATION,
   USER_QUERY,
-  USERS_QUERY,
-  USER_FILTER_CONDITION_CLIENT_QUERY,
+  USERS_QUERY
 };
