@@ -20,8 +20,8 @@ defmodule Db.Projects.Photo do
 
   @spec changeset(map()) :: Ecto.Changeset.t()
   def changeset(attrs) do
-    permitted_attrs = ~w(is_main project_id)a
-    required_attrs = ~w(is_main image_url project_id)a
+    permitted_attrs = ~w(is_main project_id rank)a
+    required_attrs = ~w(is_main image_url project_id rank)a
 
     %Photo{}
     |> cast(attrs, permitted_attrs)

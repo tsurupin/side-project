@@ -24,7 +24,7 @@ class Header extends React.Component<{}, {}> {
                     <Left>
                         <Button transparent>
                             <Icon name='arrow-back' />
-                            </Button>
+                        </Button>
                     </Left>
                     <Body>
                         <Title>Header</Title>

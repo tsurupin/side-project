@@ -31,19 +31,19 @@ education = Repo.insert!(
 
 Users.User |> Repo.delete_all
 Users.Photo |> Repo.delete_all
-Users.Like |> Repo.delete_all
-Users.Favorite |> Repo.delete_all
+Users.UserLike |> Repo.delete_all
+Users.ProjectLike |> Repo.delete_all
 
 owner = Repo.insert!(
   %Users.User{
-    uid: "uid1",
+    uid: "10211077112591399",
     provider_id: "facebook",
     display_name: "owner",
     email: "owner@gmail.com",
     occupation: "software engineer",
     company_name: "GoBay",
     school_name: "Stonford",
-    status: 1,
+    status: 0,
     geom: %Geo.Point{ coordinates: {37.773972, -122.431297}, srid: 4326 },
     area_name: "San Francisco",
     occupation_type_id: software_engineer.id,
@@ -61,7 +61,7 @@ user = Repo.insert!(
     occupation: "software engineer",
     company_name: "GoBay",
     school_name: "Stonford",
-    status: 1,
+    status: 0,
     latitude: 37.772640,
     longitude: -122.409915,
     area_name: "San Francisco",
@@ -72,22 +72,23 @@ user = Repo.insert!(
 )
 
 Repo.insert!(
-  %Users.Like{
-    source_user_id: user.id,
+  %Users.UserLike{
+    user_id: user.id,
     target_user_id: owner.id
   }
 )
 
-Repo.insert!(
-  %Users.Favorite{
-    user_id: user.id,
-    target_id: owner.id,
-    target_type: "User"
-  }
-)
+# Repo.insert!(
+#   %Users.Favorite{
+#     user_id: user.id,
+#     target_id: owner.id,
+#     target_type: "User"
+#   }
+# )
 user_photo_changeset = %{
   user_id: owner.id,
   is_main: true,
+  rank: 1,
   image_url: %Plug.Upload{content_type: "image/jpeg", filename: "user1.jpg", path: Path.join(__DIR__, "images/seeds/user1.jpg")}
 }
 
@@ -111,9 +112,17 @@ project = Repo.insert!(
   }
 )
 
+Repo.insert!(
+  %Users.ProjectLike{
+    user_id: owner.id,
+    project_id: project.id
+  }
+)
+
 project_photo_changeset = %{
   project_id: project.id,
   is_main: true,
+  rank: 2,
   image_url: %Plug.Upload{content_type: "image/jpeg", filename: "project1.jpg", path: Path.join(__DIR__, "images/seeds/project1.jpg")}
 }
 
@@ -186,7 +195,7 @@ Repo.insert!(
 
 Chats.Group |> Repo.delete_all
 Chats.Chat |> Repo.delete_all
-Chats.Content |> Repo.delete_all
+Chats.Message |> Repo.delete_all
 Chats.Member |> Repo.delete_all
 
 chat_group = Repo.insert!(
@@ -220,19 +229,17 @@ Repo.insert!(
 )
 
 Repo.insert!(
-  %Chats.Content{
+  %Chats.Message{
     chat_id: chat.id,
-    source_id: user.id,
-    source_type: "User",
-    message: "Hello World!"
+    user_id: user.id,
+    comment: "Hello World!"
   }
 )
 
 chat_image_changeset = %{
   chat_id: chat.id,
-  source_id: user.id,
-  source_type: "User",
+  user_id: user.id,
   image_url: %Plug.Upload{content_type: "image/jpeg", filename: "project1.jpg", path: Path.join(__DIR__, "images/seeds/project1.jpg")}
 }
 
-Chats.Content.changeset(chat_image_changeset) |> Repo.insert!
+Chats.Message.changeset(chat_image_changeset) |> Repo.insert!
