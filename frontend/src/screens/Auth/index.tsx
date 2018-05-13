@@ -10,7 +10,7 @@ import {
 import { LoginManager, AccessToken } from 'react-native-fbsdk';
 import * as firebase from '../../utilities/firebase';
 import {
-  SignupMutation,
+  SignUpMutation,
   LoginMutation
 } from '../../mutations/accounts';
 
@@ -36,7 +36,7 @@ class AuthScreen extends React.Component<Props, State> {
     super(props);
   }
 
-  fbLoginHandler = (signupMutation: any) : void => {
+  fbLoginHandler = (signUpMutation: any) : void => {
     LoginManager.logInWithReadPermissions(['public_profile', 'email']).then(result => {
 
       if (result.isCancelled) { return console.log("Login is cancelled") }
@@ -44,7 +44,7 @@ class AuthScreen extends React.Component<Props, State> {
       AccessToken.getCurrentAccessToken()
       .then(accessTokenData => {
         console.log("accessData", accessTokenData)
-        signupMutation({variables: {providerId: FACEBOOK, uid: accessTokenData.userID}});
+        signUpMutation({variables: {providerId: FACEBOOK, uid: accessTokenData.userID}});
       }).catch(error => console.log("getcurrentaccesserror", error))
 
     }).catch(error => console.log("loginError", error))
@@ -80,20 +80,20 @@ class AuthScreen extends React.Component<Props, State> {
           };
           return(
             <View>
-              <SignupMutation>
-                {({signupMutation, loginMutation, loading, error, data}) => {
+              <SignUpMutation>
+                {({signUpMutation, loginMutation, loading, error, data}) => {
                 
-                  if(data && data.signup) {
-                    this.loginFirebase(data.signup.token, loginMutation);
+                  if(data && data.signUp) {
+                    this.loginFirebase(data.signUp.token, loginMutation);
                   } 
 
                   return(
-                    <TouchableOpacity onPress={() => this.fbLoginHandler(signupMutation)}>
+                    <TouchableOpacity onPress={() => this.fbLoginHandler(signUpMutation)}>
                       <Text> Facebook SignIn </Text>
                     </TouchableOpacity>
                   )
                 }}
-              </SignupMutation>
+              </SignUpMutation>
             </View>
           )
         }}

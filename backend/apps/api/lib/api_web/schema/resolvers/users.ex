@@ -2,7 +2,7 @@ defmodule ApiWeb.Schema.Resolvers.Users do
   alias Db.Users.{Users, Photos}
   alias Api.Accounts.Authentication
 
-  def signup(_, %{provider_id: _provider_id, uid: _uid} = attrs, _) do
+  def sign_up(_, %{provider_id: _provider_id, uid: _uid} = attrs, _) do
     IO.inspect(attrs)
     case Authentication.authenticate(attrs) do
       {:ok, token} -> {:ok, %{token: token}}

@@ -5,10 +5,10 @@ defmodule ApiWeb.Schema.Mutations.Users do
 
   object :users_mutations do
     @desc "User Signup"
-    field :signup, :user do
+    field :sign_up, :user do
       arg(:provider_id, non_null(:string))
       arg(:uid, non_null(:string))
-      resolve(&Resolvers.Users.signup/3)
+      resolve(&Resolvers.Users.sign_up/3)
     end
 
     @desc "Edit user info"

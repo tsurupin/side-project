@@ -1,8 +1,8 @@
 import gql from "graphql-tag";
 
-export const SIGNUP_MUTATION = gql`
+export const SIGN_UP_MUTATION = gql`
 mutation ($providerId: String!, $uid: String!) {
-  signup(providerId: $providerId, uid: $uid) {
+  signUp(providerId: $providerId, uid: $uid) {
     uid
     token
   }
