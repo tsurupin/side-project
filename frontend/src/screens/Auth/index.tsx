@@ -11,9 +11,9 @@ import { LoginManager, AccessToken } from 'react-native-fbsdk';
 import * as firebase from '../../utilities/firebase';
 import {
   SignupMutation,
-  LoginMutation,
-  LogoutMutation
+  LoginMutation
 } from '../../mutations/accounts';
+
 import {
   LoginStatusQuery
 } from '../../queries/accounts';
@@ -89,7 +89,7 @@ class AuthScreen extends React.Component<Props, State> {
 
                   return(
                     <TouchableOpacity onPress={() => this.fbLoginHandler(signupMutation)}>
-                      <Text> Auth Id</Text>
+                      <Text> Facebook SignIn </Text>
                     </TouchableOpacity>
                   )
                 }}
