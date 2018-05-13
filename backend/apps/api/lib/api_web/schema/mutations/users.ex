@@ -5,7 +5,7 @@ defmodule ApiWeb.Schema.Mutations.Users do
 
   object :users_mutations do
     @desc "User Signup"
-    field :sign_up, :user do
+    field :signup, :user do
       arg(:provider_id, non_null(:string))
       arg(:uid, non_null(:string))
       resolve(&Resolvers.Users.signup/3)

@@ -1,23 +1,32 @@
 import * as React from 'react';
 import { Mutation } from 'react-apollo';
-import { SIGNUP_MUTATION } from "../../graphql/accounts";
+import { SIGNUP_MUTATION, LOGIN_MUTATION } from "../../graphql/accounts";
+import LoginMutation from "./loginMutation";
 
-type parentProps = {
-    updateFirebase: (string) => any,
-    updateErrorMessage: (string) => any
-};
 
-const SignupMutation = (variables: {providerId: string, uid: string}, parentProps: parentProps) => {
+const SignupMutation = (props: {children: any})=> {
+    const {children } = props;
+
    return( 
-    <Mutation mutation={SIGNUP_MUTATION}>
-            {(signupMutation, { data, error, loading}) => {
-                console.log(data);
-                console.log(error);    
-                if (error) { return parentProps.updateErrorMessage(error) }
-                if (data && data["signupMutation"]) {
-                    return parentProps.updateFirebase(data["signupMutation"]["token"]);
-                }        
-                signupMutation({variables});
+        <Mutation mutation={SIGNUP_MUTATION}>
+            {(signupMutation, {loading, error, data}) => {
+                
+            
+                if (loading) { return children({loading}); }
+                if (error) { console.error("signUpMutation", error); return children({error}); }
+    
+                return(<Mutation mutation={LOGIN_MUTATION}>
+                    {(loginMutation, { error, loading}) => {
+        
+                        console.log(error);
+                        if (loading) { return children({loading})}
+                        if (error) { console.error("loginMutation", error);  return children({error})}
+                        return children({signupMutation, loginMutation, data});
+                    }}
+                </Mutation>
+                )
+                
+               
             }}
         </Mutation>
    );
