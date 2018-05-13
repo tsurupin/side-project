@@ -15,8 +15,9 @@ const UsersQuery = (variables: Condition, parentProps, ChildComponent) => {
         <Query 
             query={USERS_QUERY}
             variables={variables}
-            notifyOnNetworkStatusChange
             context={{needAuth: true}}
+            notifyOnNetworkStatusChange
+           
         >
         {(data) => {
             return <ChildComponent data={data} parentProps={parentProps} /> 

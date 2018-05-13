@@ -1,5 +1,5 @@
-import checkLoginStatus from './checkLoginStatus';
+import LoginStatusQuery from './loginStatusQuery';
 
 export {
-  checkLoginStatus
+  LoginStatusQuery
 };

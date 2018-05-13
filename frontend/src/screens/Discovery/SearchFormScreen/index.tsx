@@ -39,10 +39,20 @@ type Conditions = {
     isActive: boolean | null,
     skillId: number[],
 }
+
+type Genre = {
+    id: number,
+    name: string
+}
+
+type OccupationType = {
+    id: number,
+    name: string
+}
 type Props = {
     navigator: any,
-    genreId: number,
-    occupationTypeId?: number | null,
+    genres: Genre[],
+    occupationTypes: OccupationType[],
     distance?: number | null,
     isActive?: boolean | null,
     skillIds?: number[],

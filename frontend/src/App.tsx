@@ -44,14 +44,14 @@ const registerComponents = () => {
 }
 
 registerComponents();
-MainTab();
+// MainTab();
 
 
 
 
-// Navigation.startSingleScreenApp({
-//   screen: {
-//     screen: DISCOVERY_SCREEN,
-//     title: "Login"
-//   }
-// })
+Navigation.startSingleScreenApp({
+  screen: {
+    screen: AUTH_SCREEN,
+    title: "Login"
+  }
+})

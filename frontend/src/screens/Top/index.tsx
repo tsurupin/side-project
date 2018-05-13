@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 
 import  {
-  logout
+  LogoutMutation
 }  from '../../mutations/accounts';
 import { firebaseSignOut } from '../../utilities/firebase';
 
@@ -24,9 +24,9 @@ class TopScreen extends React.Component<Props> {
 
   logout = () => {
     firebaseSignOut().then(() => {
-      this.props.logout()
-      .then(() => console.log('logout succeeded'))
-      .catch(error => console.log(error))
+      // this.props.logout()
+      // .then(() => console.log('logout succeeded'))
+      // .catch(error => console.log(error))
     })
   }
 
@@ -41,7 +41,7 @@ class TopScreen extends React.Component<Props> {
   }
 };
 
-
-export default compose(
-  logout
-)(TopScreen);
+export default TopScreen;
+// export default compose(
+//   logout
+// )(TopScreen);
