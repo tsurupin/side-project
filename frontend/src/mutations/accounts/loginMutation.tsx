@@ -2,10 +2,7 @@ import * as React from 'react';
 import { Mutation } from 'react-apollo';
 import { LOGIN_MUTATION } from "../../graphql/accounts";
 
-type parentProps = {
-    openMainTab: () => any,
-    updateErrorMessage: (string) => void
-};
+
 
 const LoginMutation = (props: any) => {
     const { children } = props;

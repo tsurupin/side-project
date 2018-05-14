@@ -1,9 +1,9 @@
-import fetchUserDetail from './fetchUserDetail';
-import fetchUserList from './fetchUserList';
-import UsersQuery from './usersQuery';
+// import fetchUserDetail from './fetchUserDetail';
+// import fetchUserList from './fetchUserList';
+import UserDetailsQuery from './userDetailsQuery';
+import UserListQuery from './userListQuery';
 
 export {
-    fetchUserDetail,
-    fetchUserList,
-    UsersQuery
+    UserDetailsQuery,
+    UserListQuery
 };

@@ -22,22 +22,27 @@ type Props = {
 };
 
 type State = {
+    loading: boolean,
     name: string,
-    errorMessage?: string
+    errorMessage: string
 
 };
 
 class SkillSearchModalScreen extends React.Component<Props, State> {
 
+    state = {
+        loading: false,
+        name: '',
+        errorMessage: ''
+    }
+
     static defaultProps = {
         skills: []
     }
+    
     constructor(props) {
         super(props);
-        this.state = {
-            name: ''
-        }
-        
+     
         console.log(props)
     }
 
@@ -57,7 +62,15 @@ class SkillSearchModalScreen extends React.Component<Props, State> {
 
     renderSkillList = () => {
         const { name } = this.state;
-        return SkillsQuery({name}, {onPressSkill: this.onPressSkill}, SkillList)
+        return(
+            <SkillsQuery variables={{name}}>
+                {({data, error, loading}) => {
+                    if (loading) { return this.setState({loading}); }
+                    if (error) { return this.setState({errorMessage: error}); }
+                    return <SkillList skills={data.skills} onPressSkill={this.onPressSkill} />
+                }}
+            </SkillsQuery>
+        );
     }
 
     renderTextForm = () => {

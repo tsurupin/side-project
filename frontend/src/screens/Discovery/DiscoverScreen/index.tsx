@@ -16,7 +16,7 @@ import {
   USER_DETAILS_SCREEN
 } from '../../../constants/screens';
 import UserList  from '../../../components/Discovery/DiscoveryScreen/UserList';
-import { UsersQuery }  from '../../../queries/users';
+import { UserListQuery }  from '../../../queries/users';
 import styles from './styles';
 
 type User = {
@@ -47,7 +47,9 @@ type Props = {
 };
 
 type State = {
+  loading: boolean | null, 
   users: User[],
+  errorMessage: string
   conditions: Conditions
 };
 
@@ -55,6 +57,8 @@ class DiscoveryScreen extends React.Component<Props, State> {
   constructor(props) {
     super(props);
     this.state = {
+      loading: false,
+      errorMessage: '',
       users: props.users,
       conditions: {
         occupationTypeId: null,
@@ -135,19 +139,33 @@ class DiscoveryScreen extends React.Component<Props, State> {
   onPressUserCard = (user: User) => {
     this.props.navigator.push({
       screen: USER_DETAILS_SCREEN,
-      passProps: {user: user}
+      passProps: {id: user.id}
     })
   }
 
-
-  renderUserCards = () => {
+  buildConditions = () : Conditions => {
     let conditions = {};
     for (let key in this.state.conditions) {
       if (this.state.conditions[key] !== 'undefined' && this.state.conditions[key] !== null && this.state.conditions[key].length !== 0) {
         conditions[key] = this.state.conditions[key];
       }
     }
-    return UsersQuery(conditions, {onPressUserCard: this.onPressUserCard}, UserList);
+    return conditions
+  }
+
+
+  renderUserCards = () => {
+    const conditions = this.buildConditions();
+    return(
+      <UserListQuery variables={conditions}>
+        {({loading, error, data}) => {
+          if (loading) { return this.setState({loading}) }
+          if (error) { return this.setState({errorMessage: error}) }
+          return <UserList users={data.users} onPressUserCard={this.onPressUserCard} />
+        }}
+      </UserListQuery>
+    )
+
   }
 
   render() {

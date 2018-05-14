@@ -5,7 +5,8 @@ import {
   TOP_SCREEN,
   DISCOVERY_SCREEN,
   FILTER_FORM_SCREEN,
-  SKILL_SEARCH_MODAL_SCREEN
+  SKILL_SEARCH_MODAL_SCREEN,
+  USER_DETAILS_SCREEN
 } from './constants/screens';
 import { } from './constants/screens'
 import AuthScreen from './screens/Auth';
@@ -13,7 +14,8 @@ import TopScreen from './screens/Top';
 import { 
   DiscoveryScreen, 
   SearchFormScreen,
-  SkillSearchModalScreen 
+  SkillSearchModalScreen,
+  UserDetailsScreen
 } from './screens/Discovery';
 
 import MainTab from './screens/MainTab'
@@ -40,6 +42,10 @@ const registerComponents = () => {
   Navigation.registerComponent(
     SKILL_SEARCH_MODAL_SCREEN,
     () => ApolloWrapper(SkillSearchModalScreen)
+  );
+  Navigation.registerComponent(
+    USER_DETAILS_SCREEN,
+    () => ApolloWrapper(UserDetailsScreen)
   )
 }
 

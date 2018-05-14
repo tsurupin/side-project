@@ -2,7 +2,14 @@ import * as React from 'react';
 import { Query } from 'react-apollo';
 import { SKILLS_QUERY } from "../../graphql/skills";
 
-const SkillsQuery = (variables: {name: string}, parentProps, ChildComponent) => {
+type Props = {
+  variables: {name: string},
+  children: any
+};
+
+
+const SkillsQuery = (props: Props) => {
+  const {variables, children } = props;
     return(
       <Query 
         query={SKILLS_QUERY}
@@ -10,9 +17,7 @@ const SkillsQuery = (variables: {name: string}, parentProps, ChildComponent) => 
         skip={!variables.name}
         notifyOnNetworkStatusChange
       >
-        {(data) => {
-            return <ChildComponent data={data} parentProps={parentProps} /> 
-        }}
+        {(data) =>  children({...data})}
       </Query>
     )
   };
