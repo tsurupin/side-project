@@ -17,11 +17,12 @@ type Props = {
 
 const UserListQuery = (props: Props) => {
     const { variables, children } = props;
+
     return(
         <Query 
             query={USER_LIST_QUERY}
             variables={variables}
-            context={{needAuth: true}}
+            context={{needAuth: false}}
             notifyOnNetworkStatusChange  
         >
             {({error, loading, data})  => {

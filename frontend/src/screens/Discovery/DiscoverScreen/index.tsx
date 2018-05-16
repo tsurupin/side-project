@@ -159,9 +159,21 @@ class DiscoveryScreen extends React.Component<Props, State> {
     return(
       <UserListQuery variables={conditions}>
         {({loading, error, data}) => {
-          if (loading) { return this.setState({loading}) }
-          if (error) { return this.setState({errorMessage: error}) }
-          return <UserList users={data.users} onPressUserCard={this.onPressUserCard} />
+          console.log("UserListQuery", loading, error, data)
+          if (loading) { 
+            return <View><Text>Loading</Text></View>
+            //return this.setState({loading}) 
+          }
+          if (error) { 
+            return <View><Text>Error</Text></View>
+            //return this.setState({errorMessage: error}) 
+          }
+          if (data && data.users) {
+            return <UserList users={data.users} onPressUserCard={this.onPressUserCard} />
+          } else {
+            return <View><Text>No data</Text></View>
+          }
+          
         }}
       </UserListQuery>
     )

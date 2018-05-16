@@ -29,7 +29,7 @@ defmodule ApiWeb.Schema.Types.Users do
             {:ok, UserPhotoUploader.url({image_url, photo}, :thumb)}
 
           _ ->
-            {:ok, nil}
+            {:ok, UserPhotoUploader.missing_url(:thumb)}
         end
       end
     )

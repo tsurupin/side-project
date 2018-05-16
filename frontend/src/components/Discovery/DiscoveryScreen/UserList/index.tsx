@@ -30,6 +30,7 @@ class UserList extends React.Component<Props, {}> {
     }
     
     render() {
+        console.log("UserList", this.props);
     
         // const { networkStatus, loading, error, data} = this.props.data;
         // if (networkStatus == 4) return <Text>Refetching</Text>;
