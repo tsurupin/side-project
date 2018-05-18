@@ -28,8 +28,6 @@ class UserDetailsScreen extends React.Component<Props, State> {
         super(props);
     }
 
-
-
     onPressUserLike = (likeUserMutation) => {
         const { id } = this.props;
         likeUserMutation({variables: {id}});

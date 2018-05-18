@@ -18,39 +18,24 @@ import {
 import UserList  from '../../../components/Discovery/DiscoveryScreen/UserList';
 import { UserListQuery }  from '../../../queries/users';
 import styles from './styles';
-
-type User = {
-  id: number,
-  displayName: string,
-  areaName?: string,
-  occupationTypeName?: string,
-  genreName?: string,
-  mainPhotoUrl: string,
-  leadSentence?: string
-};
-
-type Conditions = {
-  occupationTypeId?: number, 
-  genreId?: number, 
-  isActive?: boolean, 
-  distance?: number,
-  skillIds?: number[]
-}
+import { 
+  UserDetails,
+  UserSearchParams 
+} from '../../../interfaces';
 
 type Props = {
   fetchUserList: ({variables: any}) => Promise<any>,
-  users: User[],
+  users: UserDetails[],
   searchCondistions?: any,
   navigator: any,
   client: any
-
 };
 
 type State = {
   loading: boolean | null, 
-  users: User[],
+  users: UserDetails[],
   errorMessage: string
-  conditions: Conditions
+  conditions: UserSearchParams
 };
 
 class DiscoveryScreen extends React.Component<Props, State> {
@@ -104,7 +89,7 @@ class DiscoveryScreen extends React.Component<Props, State> {
     console.log("will receive ")
   }
 
-  updateFilterConditions = (conditions: Conditions) => {
+  updateFilterConditions = (conditions: UserSearchParams) => {
     this.setState({conditions});
   }
 
@@ -136,14 +121,14 @@ class DiscoveryScreen extends React.Component<Props, State> {
     }
   }
 
-  onPressUserCard = (user: User) => {
+  onPressUserCard = (user: UserDetails) => {
     this.props.navigator.push({
       screen: USER_DETAILS_SCREEN,
       passProps: {id: user.id}
     })
   }
 
-  buildConditions = () : Conditions => {
+  buildConditions = () : UserSearchParams => {
     let conditions = {};
     for (let key in this.state.conditions) {
       if (this.state.conditions[key] !== 'undefined' && this.state.conditions[key] !== null && this.state.conditions[key].length !== 0) {
@@ -161,11 +146,11 @@ class DiscoveryScreen extends React.Component<Props, State> {
         {({loading, error, data}) => {
           console.log("UserListQuery", loading, error, data)
           if (loading) { 
-            return <View><Text>Loading</Text></View>
+            return <View><Text>Loading</Text></View>;
             //return this.setState({loading}) 
           }
           if (error) { 
-            return <View><Text>Error</Text></View>
+            return <View><Text>Error</Text></View>;
             //return this.setState({errorMessage: error}) 
           }
           if (data && data.users) {

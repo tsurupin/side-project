@@ -7,7 +7,6 @@ type Props = {
   children: any
 };
 
-
 const SkillsQuery = (props: Props) => {
   const {variables, children } = props;
     return(
@@ -17,7 +16,9 @@ const SkillsQuery = (props: Props) => {
         skip={!variables.name}
         notifyOnNetworkStatusChange
       >
-        {(data) =>  children({...data})}
+        {({error, loading, data})  =>  {
+          return children({data, error, loading})
+        }}
       </Query>
     )
   };

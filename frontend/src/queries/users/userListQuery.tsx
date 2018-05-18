@@ -1,17 +1,10 @@
 import * as React from 'react';
 import { Query } from 'react-apollo';
 import { USER_LIST_QUERY } from "../../graphql/users";
-
-type Condition = {
-    genreId?: number,
-    occupationTypeId?: number,
-    skillIds?: number[],
-    isActive?: boolean,
-    distance?: number
-}
+import { UserSearchParams } from "../../interfaces";
 
 type Props = {
-    variables: Condition,
+    variables: UserSearchParams,
     children: any
 };
 

@@ -2,7 +2,12 @@ import * as React from 'react';
 import { Query } from 'react-apollo';
 import { USER_DETAILS_QUERY } from "../../graphql/users";
 
-const UserDetailsQuery = (props: { variables: {id: number}, children: any}) => {
+type Props = {
+    variables: {id: number},
+    children: any
+};
+
+const UserDetailsQuery = (props: Props) => {
     const { variables, children } = props;
     return(
         <Query 
