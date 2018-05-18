@@ -1,5 +1,5 @@
-import UserDetailsQuery from './userDetailsQuery';
-import UserListQuery from './userListQuery';
+import UserDetailsQuery from './UserDetailsQuery';
+import UserListQuery from './UserListQuery';
 
 export {
     UserDetailsQuery,

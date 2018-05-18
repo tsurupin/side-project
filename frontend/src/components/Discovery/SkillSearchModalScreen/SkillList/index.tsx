@@ -3,10 +3,8 @@ import { View, Text } from 'react-native';
 import { ListItem } from 'react-native-elements';
 import styles from './styles';
 
-type Skill = {
-    id: number,
-    name: string
-}
+import { Skill } from '../../../../interfaces';
+
 type Props = {
     // data?: {
     //     networkStatus: number | null,
@@ -24,7 +22,7 @@ class SkillList extends React.Component<Props> {
         super(props);
     }
 
-    renderSkill = (skill: Skill) => {
+    private renderSkill = (skill: Skill) => {
         return (
             <ListItem
                 key={skill.id}

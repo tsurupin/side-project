@@ -17,7 +17,7 @@ const CreateSkillMutation = (variables: {name: string}, parentProps, ChildCompon
                     errorMessage={errorMessage}
                     loading={loading}
                     createSkill={createSkillMutation}
-                    moveBack={parentProps.moveBack}
+                    onDismissModal={parentProps.moveBack}
                     onChangeText={parentProps.onChangeText}
                     skill={skill}
                 />

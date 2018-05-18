@@ -1,4 +1,4 @@
-import SkillsQuery from './skillsQuery';
+import SkillsQuery from './SkillsQuery';
 
 export {
     SkillsQuery

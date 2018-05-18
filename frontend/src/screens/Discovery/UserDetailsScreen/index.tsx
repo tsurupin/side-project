@@ -10,8 +10,11 @@ import {
     Text,
     Button
 } from 'react-native';
+import {
+    ErrorMessage
+} from '../../../components/Commons';
 import { UserDetailsQuery }  from '../../../queries/users';
-import { LikeUserMutation } from '../../../mutations/user_likes';
+import { LikeUserMutation } from '../../../mutations/userLikes';
 
 import styles from './styles';
 
@@ -28,16 +31,16 @@ class UserDetailsScreen extends React.Component<Props, State> {
         super(props);
     }
 
-    onPressUserLike = (likeUserMutation) => {
+    private handleUserLikePress = (likeUserMutation) => {
         const { id } = this.props;
         likeUserMutation({variables: {id}});
     } 
 
-    renderLoadingIndicator = () => {
+    private renderLoadingIndicator = () => {
         return <View><Text>Indicator</Text></View>
     }
 
-    renderErrorMessage = (error: string) => {
+    private renderErrorMessage = (error: string) => {
         return <View><Text>{error}</Text></View>
     } 
 
@@ -48,7 +51,7 @@ class UserDetailsScreen extends React.Component<Props, State> {
             <UserDetailsQuery variables={{id}}>
             {({data, loading, error}) => {
                 if (loading) return <View><Text> Text</Text></View>
-                if (error) return <View><Text>{error}</Text></View>
+                if (error) return <ErrorMessage message={error} />
                 console.log(data)
                 const { userDetails } = data;
                 return(
@@ -62,7 +65,7 @@ class UserDetailsScreen extends React.Component<Props, State> {
                                     //TODO: move back to disscovery screen
                                 }
                                 return(
-                                    <TouchableOpacity onPress={() => this.onPressUserLike(likeUserMutation)}>
+                                    <TouchableOpacity onPress={() => this.handleUserLikePress(likeUserMutation)}>
                                         <Text> UserLike </Text>
                                     </TouchableOpacity>
                                 )

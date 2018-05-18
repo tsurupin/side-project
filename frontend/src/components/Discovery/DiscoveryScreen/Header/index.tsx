@@ -1,14 +1,9 @@
 import * as React from 'react';
 import { Navigator } from 'react-native-navigation'
 import { 
-    View, 
-  
+    View
  } from 'react-native';
  import { Container, Header as InnerHeader, Left, Body, Right, Button, Icon, Title } from 'native-base';
-
-import {
-    FILTER_FORM_SCREEN
-} from '../../../../constants/screens';
 
 
 class Header extends React.Component<{}, {}> {
