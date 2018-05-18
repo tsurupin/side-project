@@ -13,6 +13,7 @@ import {
 
 
 import styles from './styles';
+import { lexicographicSortSchema } from 'graphql';
 
 
 type User = {
@@ -37,7 +38,9 @@ class UserCard extends React.Component<Props, {}> {
 
     render() {
         const { user } = this.props;
+        console.log("USerCard", user);
         const { mainPhotoUrl, areaName, displayName, leadSentence, genreName } = user;
+        console.log("USerCard", mainPhotoUrl, areaName, displayName, leadSentence, genreName);
         return (
             <View style={[styles.container]}>
                 <Card

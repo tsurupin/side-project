@@ -25,30 +25,36 @@ import {
     Form 
 } from "native-base";
 
+import { 
+    Skill,
+    Genre,
+    OccupationType,
+    UserSearchParams 
+} from '../../../interfaces';
 import styles from './styles';
 
-type Skill = {
-    id: number,
-    name: string
-}
+// type Skill = {
+//     id: number,
+//     name: string
+// }
 
-type Conditions = {
-    genreId: number,
-    occupationTypeId: number | null,
-    distance: number | null,
-    isActive: boolean | null,
-    skillId: number[],
-}
+// type Conditions = {
+//     genreId: number,
+//     occupationTypeId: number | null,
+//     distance: number | null,
+//     isActive: boolean | null,
+//     skillId: number[],
+// }
 
-type Genre = {
-    id: number,
-    name: string
-}
+// type Genre = {
+//     id: number,
+//     name: string
+// }
 
-type OccupationType = {
-    id: number,
-    name: string
-}
+// type OccupationType = {
+//     id: number,
+//     name: string
+// }
 type Props = {
     navigator: any,
     genres: Genre[],

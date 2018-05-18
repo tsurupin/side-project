@@ -6,6 +6,7 @@ const USER_DETAILS_SCREEN = `${APP_NAME}.UserDetailsScreen`;
 const FILTER_FORM_SCREEN = `${APP_NAME}.FilterFormScreen`;
 const AUTH_SCREEN = `${APP_NAME}.AuthScreen`;
 const SKILL_SEARCH_MODAL_SCREEN = `${APP_NAME}.SkillSearchModalScreen`;
+
 export {
     DISCOVERY_SCREEN,
     FILTER_FORM_SCREEN,

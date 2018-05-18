@@ -6,13 +6,8 @@ import { FILTER_FORM_SCREEN } from '../../../constants/screens';
 import { SkillInput, SkillList } from '../../../components/Discovery/SkillSearchModalScreen';
 import { SkillsQuery }  from '../../../queries/skills';
 import { CreateSkillMutation }  from '../../../mutations/skills';
+import { Skill } from '../../../interfaces';
 import styles from './styles';
-;
-
-type Skill = {
-    id: number,
-    name: string
-};
 
 type Props = {
     navigator?: any,
@@ -22,23 +17,25 @@ type Props = {
 };
 
 type State = {
+    loading: boolean,
     name: string,
-    errorMessage?: string
-
+    errorMessage: string
 };
 
 class SkillSearchModalScreen extends React.Component<Props, State> {
 
+    state = {
+        loading: false,
+        name: '',
+        errorMessage: ''
+    }
+
     static defaultProps = {
         skills: []
     }
+    
     constructor(props) {
         super(props);
-        this.state = {
-            name: ''
-        }
-        
-        console.log(props)
     }
 
     onPressSkill = (skill: Skill) => {
@@ -57,7 +54,21 @@ class SkillSearchModalScreen extends React.Component<Props, State> {
 
     renderSkillList = () => {
         const { name } = this.state;
-        return SkillsQuery({name}, {onPressSkill: this.onPressSkill}, SkillList)
+        return(
+            <SkillsQuery variables={{name}}>
+                {({data, error, loading}) => {
+                    if (loading) { 
+                        //return this.setState({loading}); 
+                        return <View><Text>Loading</Text></View>;
+                    }
+                    if (error) { 
+                        return <View><Text>{error}</Text></View>;
+                        //return this.setState({errorMessage: error}); 
+                    }
+                    return <SkillList skills={data.skills} onPressSkill={this.onPressSkill} />
+                }}
+            </SkillsQuery>
+        );
     }
 
     renderTextForm = () => {

@@ -16,15 +16,8 @@ type User = {
 }
 
 type Props = {
-    data?: {
-        networkStatus: number | null,
-        loading: boolean | null,
-        error: any | null,
-        data: any | null,
-    },
-    parentProps: {
-        onPressUserCard: (user: User) => void
-    }
+    users: User[]
+    onPressUserCard: (user: User) => void
 }
 class UserList extends React.Component<Props, {}> {
     constructor(props) {
@@ -33,22 +26,21 @@ class UserList extends React.Component<Props, {}> {
 
     
     renderUserCard = (user) => {
-        return <UserCard key={user.id} user={user} onPressUserCard={this.props.parentProps.onPressUserCard} />
+        return <UserCard key={user.id} user={user} onPressUserCard={this.props.onPressUserCard} />
     }
     
     render() {
-        const { networkStatus, loading, error, data} = this.props.data;
-        if (networkStatus == 4) return <Text>Refetching</Text>;
-        if (loading) return <Text>{loading} </Text>;
-        if (error) {
-            console.log(error) 
-            return <Text>{error.message}</Text>;
-        }
-        if (!data) { return <View><Text>blank</Text></View>}
+        console.log("UserList", this.props);
     
-        const users = data["users"];
-        console.log(users)
-        if (users.length == 0) {
+        // const { networkStatus, loading, error, data} = this.props.data;
+        // if (networkStatus == 4) return <Text>Refetching</Text>;
+        // if (loading) return <Text>{loading} </Text>;
+        // if (error) {
+        //     console.log(error) 
+        //     return <Text>{error.message}</Text>;
+        // }
+    
+        if (this.props.users.length == 0) {
             return (
               <View key={0}>
                 <Text>No Users Found</Text>
@@ -57,7 +49,7 @@ class UserList extends React.Component<Props, {}> {
           }
         return(
             <View>
-                {users.map(user => {
+                {this.props.users.map(user => {
                     return this.renderUserCard(user)
                 })}
             </View>
