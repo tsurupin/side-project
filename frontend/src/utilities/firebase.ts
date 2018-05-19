@@ -17,21 +17,25 @@ const firebaseConfig = {
 }
 firebase.initializeApp(firebaseConfig);
 
-export const firebaseSignIn = (token) => {
+export const firebaseSignIn = (firebaseToken) => {
   return new Promise((resolve, reject) => {
-    firebase.auth().signInWithCustomToken(token)
+    firebase.auth().signInWithCustomToken(firebaseToken)
     .then(result => {
-      result.getIdToken(false).then(async (idToken) => {
-        console.log(token);
-        await AsyncStorage.setItem("token", idToken);
+      const { user } = result;
+      console.log("afterSignIn", result);
+
+      user.getIdToken(false).then(async (userToken) => {
+        console.log(firebaseToken, userToken);
+        await AsyncStorage.setItem("token", userToken);
         const currentTimeInUnix = Math.floor(Date.now() / 1000);
         const expiredAtInUnix = `${3600 + currentTimeInUnix}`;
-        await AsyncStorage.setItem("refreshToken", result.refreshToken);
+        await AsyncStorage.setItem("refreshToken", user.refreshToken);
         await AsyncStorage.setItem("expiredAtInUnix", expiredAtInUnix);
+        console.log("before resolving")
         resolve();
       })
     }).catch(error => {
-      console.log(error)
+      console.log("signInError", error)
       reject();
     })
   })
@@ -57,7 +61,6 @@ export const refreshTokenIfNecessary = async () => {
   const expiredAtInUnix = await AsyncStorage.getItem('expiredAtInUnix');
 
   const currentTimeInUnix = Math.floor(Date.now() / 1000);
-  console.log(currentToken)
 
   if (!expiredAtInUnix || parseInt(expiredAtInUnix) > currentTimeInUnix) { return currentToken };
   if (!refreshToken) { return };

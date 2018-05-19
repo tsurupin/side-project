@@ -15,7 +15,7 @@ const UserListQuery = (props: Props) => {
         <Query 
             query={USER_LIST_QUERY}
             variables={variables}
-            context={{needAuth: false}}
+            context={{needAuth: true}}
             notifyOnNetworkStatusChange  
         >
             {({error, loading, data})  => {

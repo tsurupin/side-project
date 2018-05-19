@@ -31,20 +31,22 @@ const errorLink = onError(err => {
   console.log('apollo-link-error, err', err);
 });
 
-const authLink = setContext((_, context) => {
+const authLink = setContext(async (_, context) => {
+  if (!context.needAuth) return;
+  
+  console.log('authorization')
+  try {
+    const token  = await refreshTokenIfNecessary();
 
-  if (context.needAuth) {
-    console.log('authorization')
-    refreshTokenIfNecessary().then(token => {
-      return {
-        headers: {
-          ...context.headers,
-          authorization: token ? `Bearer ${token}` : "",
-        }
+    return {
+      headers: {
+        ...context.headers,
+        authorization: token ? `Bearer ${token}` : "",
       }
-    }).catch(error => {
-      return error;
-    });
+    };
+  } catch(e) {
+    console.log("error raised", e)
+    return e;
   }
 });
 
