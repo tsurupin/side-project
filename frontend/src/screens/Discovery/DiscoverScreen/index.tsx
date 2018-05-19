@@ -20,8 +20,8 @@ import {
 } from "../../../constants/buttons";
 import UserList from "../../../components/Discovery/DiscoveryScreen/UserList";
 import { UserListQuery } from "../../../queries/users";
-import styles from "./styles";
 import { UserDetails, UserSearchParams } from "../../../interfaces";
+import styles from "./styles";
 
 type Props = {
   users: UserDetails[];

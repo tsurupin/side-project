@@ -1,17 +1,10 @@
 import * as React from "react";
-
-import { View, Text, TouchableOpacity, AsyncStorage } from "react-native";
-
-import { LoginManager, AccessToken } from "react-native-fbsdk";
-import * as firebase from "../../utilities/firebase";
-import { SignUpMutation, LoginMutation } from "../../mutations/accounts";
-
+import { Text, TouchableOpacity, View } from "react-native";
+import { AccessToken, LoginManager } from "react-native-fbsdk";
+import { SignUpMutation } from "../../mutations/accounts";
 import { LoginStatusQuery } from "../../queries/accounts";
-
 import MainTab from "../../screens/MainTab";
-
 import { firebaseSignIn } from "../../utilities/firebase";
-import { access } from "fs";
 
 const FACEBOOK = "facebook";
 
@@ -61,30 +54,12 @@ class AuthScreen extends React.Component<Props, State> {
   render() {
     return (
       <LoginStatusQuery>
-        {({ loading, error, logined }) => {
-          if (loading) {
-            return (
-              <View>
-                <Text>loading</Text>
-              </View>
-            );
-          }
-          if (error) {
-            return (
-              <View>
-                <Text>{error}</Text>
-              </View>
-            );
-          }
-          if (logined) {
-            console.log("logined!!!!!!");
+        {({ data }) => {
+          if (data && data.logined) {
             this.openMainTab();
-            return (
-              <View>
-                <Text>Moving</Text>
-              </View>
-            );
+            return <View />;
           }
+
           return (
             <View>
               <SignUpMutation>

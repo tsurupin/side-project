@@ -6,11 +6,16 @@ import {
   USER_DISCOVERY_SCREEN,
   USER_SEARCH_MODAL_SCREEN,
   SKILL_SEARCH_MODAL_SCREEN,
-  USER_DETAILS_SCREEN
+  USER_DETAILS_SCREEN,
+  MATCH_SCREEN
 } from "./constants/screens";
-import {} from "./constants/screens";
 import AuthScreen from "./screens/Auth";
 import TopScreen from "./screens/Top";
+
+import {
+  MatchScreen
+} from "./screens/Match";
+
 import {
   DiscoveryScreen,
   SearchFormScreen,
@@ -37,14 +42,17 @@ const registerComponents = () => {
   Navigation.registerComponent(USER_DETAILS_SCREEN, () =>
     ApolloWrapper(UserDetailsScreen)
   );
+  Navigation.registerComponent(MATCH_SCREEN, () =>
+    ApolloWrapper(MatchScreen)
+  );
 };
 
 registerComponents();
-MainTab();
+//MainTab();
 
-// Navigation.startSingleScreenApp({
-//   screen: {
-//     screen: AUTH_SCREEN,
-//     title: "Login"
-//   }
-// })
+Navigation.startSingleScreenApp({
+  screen: {
+    screen: AUTH_SCREEN,
+    title: "Login"
+  }
+})

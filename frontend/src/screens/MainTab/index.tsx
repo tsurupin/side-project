@@ -3,6 +3,7 @@ import Icon from "react-native-vector-icons/Ionicons";
 import {
   AUTH_SCREEN,
   TOP_SCREEN,
+  MATCH_SCREEN,
   USER_DISCOVERY_SCREEN
 } from "../../constants/screens";
 import { USER_SEARCH_BUTTON } from "../../constants/buttons";
@@ -31,19 +32,10 @@ const MainTab = () => {
           }
         },
         {
-          screen: TOP_SCREEN,
-          label: "Top",
-          title: "Top",
-          icon: sources[1],
-          navigatorButtons: {
-            leftButtons: [
-              {
-                icon: sources[2],
-                title: "Menu",
-                id: "sideDrawerToggle"
-              }
-            ]
-          }
+          screen: MATCH_SCREEN,
+          label: "Match",
+          title: "Match",
+          icon: sources[1]
         },
         {
           screen: TOP_SCREEN,
