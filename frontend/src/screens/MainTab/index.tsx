@@ -5,7 +5,7 @@ import {
   TOP_SCREEN,
   USER_DISCOVERY_SCREEN
 } from "../../constants/screens";
-
+import { USER_SEARCH_BUTTON } from "../../constants/buttons";
 const MainTab = () => {
   Promise.all([
     Icon.getImageSource("md-map", 30),
@@ -25,7 +25,7 @@ const MainTab = () => {
               {
                 icon: sources[1],
                 title: "Search",
-                id: "UserSearchButton"
+                id: USER_SEARCH_BUTTON
               }
             ]
           }

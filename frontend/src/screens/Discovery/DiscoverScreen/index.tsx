@@ -13,6 +13,11 @@ import {
   USER_SEARCH_MODAL_SCREEN,
   USER_DETAILS_SCREEN
 } from "../../../constants/screens";
+import {
+  USER_SEARCH_BUTTON,
+  CANCEL_USER_SEARCH_BUTTON,
+  SUBMIT_USER_SEARCH_BUTTON
+} from "../../../constants/buttons";
 import UserList from "../../../components/Discovery/DiscoveryScreen/UserList";
 import { UserListQuery } from "../../../queries/users";
 import styles from "./styles";
@@ -47,7 +52,7 @@ class DiscoveryScreen extends React.Component<Props, State> {
       }
     };
 
-    this.props.navigator.setOnNavigatorEvent(this.handleNavigatorEvent);
+    this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
   }
 
   static defaultProps = {
@@ -78,24 +83,22 @@ class DiscoveryScreen extends React.Component<Props, State> {
     searchParams: {}
   };
 
-  componentWillMount() {
+  componentWillMount() {}
 
-  }
-
-  componentWillReceiveProps(newProps) {
-
-  }
+  componentWillReceiveProps(newProps) {}
 
   protected handleUpdateSearchParams = (searchParams: UserSearchParams) => {
     this.setState({ searchParams });
   };
 
-  protected handleNavigatorEvent = e => {
+  onNavigatorEvent = e => {
+    console.log(e);
     if (e.type !== "NavBarButtonPress") {
       return;
     }
+    console.log(e);
     switch (e.id) {
-      case "FilterButton":
+      case USER_SEARCH_BUTTON:
         this.props.navigator.showModal({
           screen: USER_SEARCH_MODAL_SCREEN,
           passProps: { onSubmit: this.handleUpdateSearchParams },
@@ -104,13 +107,13 @@ class DiscoveryScreen extends React.Component<Props, State> {
               {
                 //icon: sources[1],
                 title: "Back",
-                id: "CancelUserSearchButton"
+                id: CANCEL_USER_SEARCH_BUTTON
               }
             ],
             rightButtons: [
               {
                 title: "Submit",
-                id: "SubmitUserSearchButton"
+                id: SUBMIT_USER_SEARCH_BUTTON
               }
             ]
           }
