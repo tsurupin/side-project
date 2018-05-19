@@ -40,6 +40,7 @@ defmodule ApiWeb.Schema.Subscriptions.ChatsTest do
       chat1 = Factory.insert(:chat)
       chat2 = Factory.insert(:chat)
       user = Factory.insert(:user)
+      Factory.insert(:chat_member, chat: chat1, user: user)
 
       with_mock Api.Accounts.Authentication,
         verify: fn user_id -> {:ok, Db.Repo.get(Db.Users.User, user_id)} end do
@@ -60,7 +61,9 @@ defmodule ApiWeb.Schema.Subscriptions.ChatsTest do
         assert_reply(ref, :ok, reply)
 
         message = Repo.get_by(Db.Chats.Message, chat_id: chat1.id)
-        assert_push("subscription:data", push)
+        channel_name = "new_message:#{chat1.id}"
+
+        assert_push(channel_name, push)
 
         expected = %{
           result: %{
@@ -72,7 +75,7 @@ defmodule ApiWeb.Schema.Subscriptions.ChatsTest do
                 "user" => %{
                   "id" => "#{user.id}",
                   "displayName" => user.display_name,
-                  "mainPhotoUrl" => nil
+                  "mainPhotoUrl" => "https://placehold.it/100x100"
                 }
               }
             }

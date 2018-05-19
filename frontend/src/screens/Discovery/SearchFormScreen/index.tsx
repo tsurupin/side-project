@@ -1,7 +1,6 @@
 import * as React from 'react';
 
 import {
-    DISCOVERY_SCREEN,
     SKILL_SEARCH_MODAL_SCREEN
 } from '../../../constants/screens';
 

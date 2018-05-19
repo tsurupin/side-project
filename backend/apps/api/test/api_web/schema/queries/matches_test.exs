@@ -85,7 +85,7 @@ defmodule ApiWeb.Schema.Queries.MatchesTest do
               },
               %{
                 "displayName" => liked_user2.display_name,
-                "mainPhotoUrl" => nil
+                "mainPhotoUrl" => "https://placehold.it/100x100"
               }
             ]
           }

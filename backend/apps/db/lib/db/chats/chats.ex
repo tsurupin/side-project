@@ -104,7 +104,7 @@ defmodule Db.Chats.Chats do
   def with_messages(chat) do
     Repo.preload(
       chat,
-      messages: from(m in Message, order_by: m.inserted_at)
+      messages: from(m in Message, order_by: m.inserted_at, preload: :user)
     )
   end
 

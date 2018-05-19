@@ -121,10 +121,11 @@ class DiscoveryScreen extends React.Component<Props, State> {
     }
   }
 
-  protected handlePressUserCard = (user: UserDetails) => {
+  protected handlePressUserCard = (id: number) => {
+    console.log("handlePressUser")
     this.props.navigator.push({
       screen: USER_DETAILS_SCREEN,
-      passProps: {id: user.id}
+      passProps: {id}
     })
   }
 

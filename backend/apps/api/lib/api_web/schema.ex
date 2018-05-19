@@ -66,7 +66,7 @@ defmodule ApiWeb.Schema do
   # end
   # #
   defp apply(middleware, :debug, _field, _object) do
-    if System.get_env("DEBUG") do
+    if System.get_env("DEBUG") && Mix.env === "dev" do
       [{Middleware.Debug, :start}] ++ middleware
     else
       middleware

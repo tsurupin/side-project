@@ -14,12 +14,13 @@ defmodule ApiWeb.Schema.Resolvers.SkillsTest do
     end
 
     test "returns empty list", _context do
-      {:ok, skills} = Skills.search(nil, %{term: "hoge"}, nil)
+      {:ok, skills} = Skills.search(nil, %{name: "hoge"}, nil)
+
       assert Enum.empty?(skills)
     end
 
     test "returns skill list", context do
-      {:ok, skills} = Skills.search(nil, %{term: "rub"}, nil)
+      {:ok, skills} = Skills.search(nil, %{name: "rub"}, nil)
       skill_ids = Enum.map(skills, & &1.id)
       assert skill_ids == [context[:skill2].id]
     end

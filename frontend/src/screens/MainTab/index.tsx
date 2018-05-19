@@ -3,7 +3,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import {
   AUTH_SCREEN,
   TOP_SCREEN,
-  DISCOVERY_SCREEN
+  USER_DISCOVERY_SCREEN
 } from '../../constants/screens';
 
 const MainTab = () => {
@@ -17,7 +17,7 @@ const MainTab = () => {
     Navigation.startTabBasedApp({
       tabs: [
         {
-          screen: DISCOVERY_SCREEN,
+          screen: USER_DISCOVERY_SCREEN,
           label: "Discovery",
           title: "Discovery",
           icon: sources[0],
@@ -25,8 +25,8 @@ const MainTab = () => {
             leftButtons: [
               {
                 icon: sources[1],
-                title: "SearchFilter",
-                id: "FilterButton"
+                title: "Search",
+                id: "UserSearchButton"
               }
             ]
           }

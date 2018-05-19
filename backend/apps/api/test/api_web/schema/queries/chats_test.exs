@@ -57,6 +57,7 @@ defmodule ApiWeb.Schema.Queries.ChatsTest do
 
         response = json_response(conn, 200)
 
+        missing_image_url = "https://placehold.it/100x100"
         expected_result = %{
           "chat" => %{
             "id" => "#{chat.id}",
@@ -69,7 +70,7 @@ defmodule ApiWeb.Schema.Queries.ChatsTest do
                 "user" => %{
                   "id" => "#{user.id}",
                   "displayName" => user.display_name,
-                  "mainPhotoUrl" => nil
+                  "mainPhotoUrl" => missing_image_url
                 }
               },
               %{
@@ -79,7 +80,7 @@ defmodule ApiWeb.Schema.Queries.ChatsTest do
                 "user" => %{
                   "id" => "#{user.id}",
                   "displayName" => user.display_name,
-                  "mainPhotoUrl" => nil
+                  "mainPhotoUrl" => missing_image_url
                 }
               }
             ]

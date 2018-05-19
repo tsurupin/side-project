@@ -1,9 +1,4 @@
 import * as React from 'react';
-
-import {
-    DISCOVERY_SCREEN
-} from '../../../constants/screens';
-
 import {
     View,
     TouchableOpacity,
@@ -13,13 +8,17 @@ import {
 import {
     ErrorMessage
 } from '../../../components/Commons';
+import {
+    USER_DISCOVERY_SCREEN
+  } from '../../../constants/screens';
 import { UserDetailsQuery }  from '../../../queries/users';
 import { LikeUserMutation } from '../../../mutations/userLikes';
 
 import styles from './styles';
 
 type Props = {
-    id: number
+    id: number,
+    navigator: any
 }
 
 type State = {
@@ -50,8 +49,9 @@ class UserDetailsScreen extends React.Component<Props, State> {
         return(
             <UserDetailsQuery variables={{id}}>
             {({data, loading, error}) => {
+                console.log(error)
                 if (loading) return <View><Text> Text</Text></View>
-                if (error) return <ErrorMessage message={error} />
+                if (error) return <View><Text> Error</Text></View>
                 console.log(data)
                 const { userDetails } = data;
                 return(
@@ -62,6 +62,9 @@ class UserDetailsScreen extends React.Component<Props, State> {
                                 if (error) { return this.renderErrorMessage(error) }
                                 if (data) {
                                     console.log(data)
+                                    this.props.navigator.push({
+                                        screen: USER_DISCOVERY_SCREEN
+                                      })
                                     //TODO: move back to disscovery screen
                                 }
                                 return(
