@@ -14,7 +14,7 @@ defmodule ApiWeb.Schema.Mutations.UserLikessTest do
     end
 
     @mutation """
-      mutation ($targetUserId: Int!) {
+      mutation ($targetUserId: ID!) {
         likeUser(targetUserId: $targetUserId)
       }
     """
@@ -97,7 +97,7 @@ defmodule ApiWeb.Schema.Mutations.UserLikessTest do
     end
 
     @mutation """
-      mutation ($targetUserId: Int!) {
+      mutation ($targetUserId: ID!) {
         withdrawUserLike(targetUserId: $targetUserId)
       }
     """
@@ -177,7 +177,7 @@ defmodule ApiWeb.Schema.Mutations.UserLikessTest do
     end
 
     @mutation """
-      mutation ($likeId: Int!) {
+      mutation ($likeId: ID!) {
         acceptUserLike(likeId: $likeId) {
           id
         }
@@ -240,7 +240,7 @@ defmodule ApiWeb.Schema.Mutations.UserLikessTest do
     end
 
     @mutation """
-      mutation ($likeId: Int!) {
+      mutation ($likeId: ID!) {
         rejectUserLike(likeId: $likeId)
       }
     """

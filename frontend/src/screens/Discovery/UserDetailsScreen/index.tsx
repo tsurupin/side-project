@@ -32,15 +32,16 @@ class UserDetailsScreen extends React.Component<Props, State> {
 
     private handleUserLikePress = (likeUserMutation) => {
         const { id } = this.props;
-        likeUserMutation({variables: {id}});
+        likeUserMutation({variables: {targetUserId: id}});
     } 
 
     private renderLoadingIndicator = () => {
         return <View><Text>Indicator</Text></View>
     }
 
-    private renderErrorMessage = (error: string) => {
-        return <View><Text>{error}</Text></View>
+    private renderErrorMessage = (error) => {
+        console.log(error)
+        return <View><Text>ERROR</Text></View>
     } 
 
 
@@ -58,7 +59,7 @@ class UserDetailsScreen extends React.Component<Props, State> {
                     <View>
                         <LikeUserMutation>
                             {({likeUserMutation, data, loading, error}) => {
-                                if (loading) { return this.renderLoadingIndicator}
+                                if (loading) { return this.renderLoadingIndicator() }
                                 if (error) { return this.renderErrorMessage(error) }
                                 if (data) {
                                     console.log(data)
