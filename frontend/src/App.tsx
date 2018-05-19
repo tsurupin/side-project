@@ -1,5 +1,5 @@
-import { Navigation } from 'react-native-navigation';
-import ApolloWrapper from './appolloWrapper';
+import { Navigation } from "react-native-navigation";
+import ApolloWrapper from "./appolloWrapper";
 import {
   AUTH_SCREEN,
   TOP_SCREEN,
@@ -7,53 +7,40 @@ import {
   USER_SEARCH_MODAL_SCREEN,
   SKILL_SEARCH_MODAL_SCREEN,
   USER_DETAILS_SCREEN
-} from './constants/screens';
-import { } from './constants/screens'
-import AuthScreen from './screens/Auth';
-import TopScreen from './screens/Top';
-import { 
-  DiscoveryScreen, 
+} from "./constants/screens";
+import {} from "./constants/screens";
+import AuthScreen from "./screens/Auth";
+import TopScreen from "./screens/Top";
+import {
+  DiscoveryScreen,
   SearchFormScreen,
   SkillSearchModalScreen,
   UserDetailsScreen
-} from './screens/Discovery';
+} from "./screens/Discovery";
 
-import MainTab from './screens/MainTab'
+import MainTab from "./screens/MainTab";
 
 const registerComponents = () => {
-  Navigation.registerComponent(
-    AUTH_SCREEN,
-    () => ApolloWrapper(AuthScreen)
+  Navigation.registerComponent(AUTH_SCREEN, () => ApolloWrapper(AuthScreen));
+
+  Navigation.registerComponent(TOP_SCREEN, () => ApolloWrapper(TopScreen));
+
+  Navigation.registerComponent(USER_DISCOVERY_SCREEN, () =>
+    ApolloWrapper(DiscoveryScreen)
   );
-  
-  Navigation.registerComponent(
-    TOP_SCREEN,
-    () => ApolloWrapper(TopScreen)
+  Navigation.registerComponent(USER_SEARCH_MODAL_SCREEN, () =>
+    ApolloWrapper(SearchFormScreen)
   );
-  
-  Navigation.registerComponent(
-    USER_DISCOVERY_SCREEN,
-    () => ApolloWrapper(DiscoveryScreen)
+  Navigation.registerComponent(SKILL_SEARCH_MODAL_SCREEN, () =>
+    ApolloWrapper(SkillSearchModalScreen)
   );
-  Navigation.registerComponent(
-    USER_SEARCH_MODAL_SCREEN,
-    () => ApolloWrapper(SearchFormScreen)
+  Navigation.registerComponent(USER_DETAILS_SCREEN, () =>
+    ApolloWrapper(UserDetailsScreen)
   );
-  Navigation.registerComponent(
-    SKILL_SEARCH_MODAL_SCREEN,
-    () => ApolloWrapper(SkillSearchModalScreen)
-  );
-  Navigation.registerComponent(
-    USER_DETAILS_SCREEN,
-    () => ApolloWrapper(UserDetailsScreen)
-  )
-}
+};
 
 registerComponents();
 MainTab();
-
-
-
 
 // Navigation.startSingleScreenApp({
 //   screen: {

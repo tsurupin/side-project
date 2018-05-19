@@ -2,4 +2,5 @@
     "git.ignoreLimitWarning": true,
     "files.autoSave": "afterDelay",
     "files.autoSaveDelay": 1000,
+    "editor.tabSize": 2
 }

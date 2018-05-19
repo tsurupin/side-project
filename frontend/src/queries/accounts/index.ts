@@ -1,5 +1,3 @@
-import LoginStatusQuery from './loginStatusQuery';
+import LoginStatusQuery from "./loginStatusQuery";
 
-export {
-  LoginStatusQuery
-};
+export { LoginStatusQuery };

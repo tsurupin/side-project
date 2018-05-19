@@ -1,5 +1,3 @@
-import { LIKE_PROJECT_MUTATION } from './likeProjectMutation';
+import { LIKE_PROJECT_MUTATION } from "./likeProjectMutation";
 
-export {
-  LIKE_PROJECT_MUTATION,
-};
+export { LIKE_PROJECT_MUTATION };

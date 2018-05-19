@@ -1,6 +1,3 @@
-import likeProject from './likeProject';
+import likeProject from "./likeProject";
 
-
-export {
-    likeProject
-};
+export { likeProject };

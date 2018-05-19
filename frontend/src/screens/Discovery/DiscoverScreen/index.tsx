@@ -1,41 +1,36 @@
-import * as React from 'react';
+import * as React from "react";
 import {
   View,
   Text,
   TouchableOpacity,
   AsyncStorage,
   ScrollView
-} from 'react-native';
+} from "react-native";
 
-import {
-  Header
-} from '../../../components/Discovery/DiscoveryScreen';
+import { Header } from "../../../components/Discovery/DiscoveryScreen";
 
 import {
   USER_SEARCH_MODAL_SCREEN,
   USER_DETAILS_SCREEN
-} from '../../../constants/screens';
-import UserList  from '../../../components/Discovery/DiscoveryScreen/UserList';
-import { UserListQuery }  from '../../../queries/users';
-import styles from './styles';
-import { 
-  UserDetails,
-  UserSearchParams 
-} from '../../../interfaces';
+} from "../../../constants/screens";
+import UserList from "../../../components/Discovery/DiscoveryScreen/UserList";
+import { UserListQuery } from "../../../queries/users";
+import styles from "./styles";
+import { UserDetails, UserSearchParams } from "../../../interfaces";
 
 type Props = {
-  fetchUserList: ({variables: any}) => Promise<any>,
-  users: UserDetails[],
-  searchCondistions?: any,
-  navigator: any,
-  client: any
+  fetchUserList: ({ variables: any }) => Promise<any>;
+  users: UserDetails[];
+  searchCondistions?: any;
+  navigator: any;
+  client: any;
 };
 
 type State = {
-  loading: boolean | null, 
-  users: UserDetails[],
-  errorMessage: string
-  searchParams: UserSearchParams
+  loading: boolean | null;
+  users: UserDetails[];
+  errorMessage: string;
+  searchParams: UserSearchParams;
 };
 
 class DiscoveryScreen extends React.Component<Props, State> {
@@ -43,7 +38,7 @@ class DiscoveryScreen extends React.Component<Props, State> {
     super(props);
     this.state = {
       loading: false,
-      errorMessage: '',
+      errorMessage: "",
       users: props.users,
       searchParams: {
         occupationTypeId: null,
@@ -65,8 +60,10 @@ class DiscoveryScreen extends React.Component<Props, State> {
         areaName: "San Francisco",
         occupationTypeName: "Engineer",
         genreName: "Education",
-        mainPhotoUrl: "https://images.pexels.com/photos/407035/model-face-beautiful-black-and-white-407035.jpeg",
-        leadSentence: "I'm Ruby and React Software enginner. I like to work on ambiscious project"
+        mainPhotoUrl:
+          "https://images.pexels.com/photos/407035/model-face-beautiful-black-and-white-407035.jpeg",
+        leadSentence:
+          "I'm Ruby and React Software enginner. I like to work on ambiscious project"
       },
       {
         id: 2,
@@ -74,32 +71,36 @@ class DiscoveryScreen extends React.Component<Props, State> {
         areaName: "San Francisco",
         occupationTypeName: "Software Engineer",
         genreName: "NPO",
-        mainPhotoUrl: "https://images.pexels.com/photos/407035/model-face-beautiful-black-and-white-407035.jpeg",
-        leadSentence: "I'm Ruby and React Software enginner. I like to work on ambiscious project"
+        mainPhotoUrl:
+          "https://images.pexels.com/photos/407035/model-face-beautiful-black-and-white-407035.jpeg",
+        leadSentence:
+          "I'm Ruby and React Software enginner. I like to work on ambiscious project"
       }
     ],
     searchParams: {}
-  }
+  };
 
   componentWillMount() {
-    console.log('hohoh')
+    console.log("hohoh");
   }
 
   componentWillReceiveProps(newProps) {
-    console.log("will receive ")
+    console.log("will receive ");
   }
 
   protected handleUpdateSearchParams = (searchParams: UserSearchParams) => {
-    this.setState({searchParams});
-  }
+    this.setState({ searchParams });
+  };
 
-  protected handleNavigatorEvent = (e) => {
-    if (e.type !== 'NavBarButtonPress') { return;}
+  protected handleNavigatorEvent = e => {
+    if (e.type !== "NavBarButtonPress") {
+      return;
+    }
     switch (e.id) {
       case "FilterButton":
         this.props.navigator.showModal({
           screen: USER_SEARCH_MODAL_SCREEN,
-          passProps: {onSubmit: this.handleUpdateSearchParams},
+          passProps: { onSubmit: this.handleUpdateSearchParams },
           navigatorButtons: {
             leftButtons: [
               {
@@ -113,72 +114,85 @@ class DiscoveryScreen extends React.Component<Props, State> {
                 title: "Submit",
                 id: "SubmitUserSearchButton"
               }
-
             ]
           }
-         
-        })
+        });
     }
-  }
+  };
 
   protected handlePressUserCard = (id: number) => {
-    console.log("handlePressUser")
+    console.log("handlePressUser");
     this.props.navigator.push({
       screen: USER_DETAILS_SCREEN,
-      passProps: {id}
-    })
-  }
+      passProps: { id }
+    });
+  };
 
-  private buildSearchParams = () : UserSearchParams => {
+  private buildSearchParams = (): UserSearchParams => {
     let conditions = {};
     for (let key in this.state.searchParams) {
-      if (this.state.searchParams[key] !== 'undefined' && this.state.searchParams[key] !== null && this.state.searchParams[key].length !== 0) {
+      if (
+        this.state.searchParams[key] !== "undefined" &&
+        this.state.searchParams[key] !== null &&
+        this.state.searchParams[key].length !== 0
+      ) {
         conditions[key] = this.state.searchParams[key];
       }
     }
-    return conditions
-  }
-
+    return conditions;
+  };
 
   private renderUserCards = () => {
     const conditions = this.buildSearchParams();
-    return(
+    return (
       <UserListQuery variables={conditions}>
-        {({loading, error, data}) => {
-          console.log("UserListQuery", loading, error, data)
-          if (loading) { 
-            return <View><Text>Loading</Text></View>;
-            //return this.setState({loading}) 
+        {({ loading, error, data }) => {
+          console.log("UserListQuery", loading, error, data);
+          if (loading) {
+            return (
+              <View>
+                <Text>Loading</Text>
+              </View>
+            );
+            //return this.setState({loading})
           }
-          if (error) { 
-            return <View><Text>Error</Text></View>;
-            //return this.setState({errorMessage: error}) 
+          if (error) {
+            return (
+              <View>
+                <Text>Error</Text>
+              </View>
+            );
+            //return this.setState({errorMessage: error})
           }
           if (data && data.users) {
-            return <UserList users={data.users} onPressUserCard={this.handlePressUserCard} />
+            return (
+              <UserList
+                users={data.users}
+                onPressUserCard={this.handlePressUserCard}
+              />
+            );
           } else {
-            return <View><Text>No data</Text></View>
+            return (
+              <View>
+                <Text>No data</Text>
+              </View>
+            );
           }
-          
         }}
       </UserListQuery>
-    )
-
-  }
+    );
+  };
 
   render() {
-    console.log("render hoge")
+    console.log("render hoge");
     return (
       <View style={styles.container}>
-        <ScrollView 
-        horizontal
-        showsHorizontalScrollIndicator={false}
-          >
+        <ScrollView horizontal showsHorizontalScrollIndicator={false}>
           {this.renderUserCards()}
         </ScrollView>
       </View>
-    )
+    );
   }
-};
+}
 
 export default DiscoveryScreen;

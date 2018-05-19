@@ -1,5 +1,5 @@
 import gql from "graphql-tag";
-import { USER_FRAGMENTS } from './userFragments';
+import { USER_FRAGMENTS } from "./userFragments";
 
 export const USER_LIST_QUERY = gql`
 query Users($occupationTypeId: Int, $genreId: Int, $distance: Int, $isActive: Boolean, $skillIds: [Int]) {

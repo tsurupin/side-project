@@ -1,6 +1,6 @@
 const styles = {
-    inputContainer: {},
-    errorMessage: {}
-}
+  inputContainer: {},
+  errorMessage: {}
+};
 
 export default styles;

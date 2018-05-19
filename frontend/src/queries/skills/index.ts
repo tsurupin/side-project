@@ -1,5 +1,3 @@
-import SkillsQuery from './SkillsQuery';
+import SkillsQuery from "./SkillsQuery";
 
-export {
-    SkillsQuery
-};
+export { SkillsQuery };

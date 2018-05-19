@@ -1,5 +1,3 @@
-import fetchMatchList from './fetchMatchList';
+import fetchMatchList from "./fetchMatchList";
 
-export {
-  fetchMatchList
-};
+export { fetchMatchList };

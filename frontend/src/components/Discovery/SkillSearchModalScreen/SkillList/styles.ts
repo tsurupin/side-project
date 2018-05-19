@@ -1,6 +1,6 @@
 const styles = {
-    listContainer: {},
-    listItemContainer: {}
-}
+  listContainer: {},
+  listItemContainer: {}
+};
 
 export default styles;

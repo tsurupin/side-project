@@ -1,5 +1,3 @@
-import { MATCH_LIST_QUERY } from './matchListQuery';
+import { MATCH_LIST_QUERY } from "./matchListQuery";
 
-export {
-  MATCH_LIST_QUERY,
-};
+export { MATCH_LIST_QUERY };

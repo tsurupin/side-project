@@ -1,59 +1,66 @@
-import { graphql, NamedProps, QueryProps } from 'react-apollo';
-import { COMMENTS_QUERY, COMMENT_ADDED_SUBSCRIPTION } from '../../graphql/comments';
+import { graphql, NamedProps, QueryProps } from "react-apollo";
+import {
+  COMMENTS_QUERY,
+  COMMENT_ADDED_SUBSCRIPTION
+} from "../../graphql/comments";
 
 type Comment = {
-  id: string,
-  content: string,
-  repoName?: string
+  id: string;
+  content: string;
+  repoName?: string;
 };
 type Response = {
-  comments: Array<Comment>
+  comments: Array<Comment>;
 };
 
 type InputProps = {
-  repoName: string
+  repoName: string;
 };
-
 
 type Variables = {
-    repoName: string
+  repoName: string;
 };
 
-const fetchComments = graphql<InputProps, Response, Variables, Response>(COMMENTS_QUERY, {
-  name: 'comments',
-  options: (props: any) => ({
+const fetchComments = graphql<InputProps, Response, Variables, Response>(
+  COMMENTS_QUERY,
+  {
+    name: "comments",
+    options: (props: any) => ({
       variables: {
-        repoName: 'test'
+        repoName: "test"
       },
       context: {
         needAuth: false
-      },
-  }),
-  props: (props: any) => {
+      }
+    }),
+    props: (props: any) => {
       return {
-         ...props,
-          subscribeToNewComments: params => {
-              return props.comments.subscribeToMore({
-                  document: COMMENT_ADDED_SUBSCRIPTION,
-                  variables: {
-                      repoName: 'test',
-                  },
-                  updateQuery: (prev: any, {subscriptionData}) => {
-                      console.log(prev);
-                      console.log(subscriptionData);
-                      if (!subscriptionData.data) { return prev; }    
+        ...props,
+        subscribeToNewComments: params => {
+          return props.comments.subscribeToMore({
+            document: COMMENT_ADDED_SUBSCRIPTION,
+            variables: {
+              repoName: "test"
+            },
+            updateQuery: (prev: any, { subscriptionData }) => {
+              console.log(prev);
+              console.log(subscriptionData);
+              if (!subscriptionData.data) {
+                return prev;
+              }
 
-                      const newFeedItem = subscriptionData.data.commentAdded;
+              const newFeedItem = subscriptionData.data.commentAdded;
 
-                      return {
-                          ...prev, 
-                          comments: [newFeedItem, ...prev.comments]
-                        }
-                  }
-              });
-          }
+              return {
+                ...prev,
+                comments: [newFeedItem, ...prev.comments]
+              };
+            }
+          });
+        }
       };
+    }
   }
-});
+);
 
 export default fetchComments;

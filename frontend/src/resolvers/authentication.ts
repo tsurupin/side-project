@@ -5,14 +5,14 @@ const authentication = {
         console.log("this is authentication resolver!!");
         console.log(cache);
         console.log(logined);
-        cache.writeData({  data: { logined } });
+        cache.writeData({ data: { logined } });
         return null;
-      },
-    },
+      }
+    }
   },
   defaults: {
-    logined: false,
-  },
+    logined: false
+  }
 };
 
 export default authentication;

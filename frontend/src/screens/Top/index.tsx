@@ -1,17 +1,10 @@
-import * as React from 'react';
+import * as React from "react";
 
-import { graphql, compose } from 'react-apollo';
-import {
-  View,
-  Text,
-  TouchableOpacity
-} from 'react-native';
+import { graphql, compose } from "react-apollo";
+import { View, Text, TouchableOpacity } from "react-native";
 
-import  {
-  LogoutMutation
-}  from '../../mutations/accounts';
-import { firebaseSignOut } from '../../utilities/firebase';
-
+import { LogoutMutation } from "../../mutations/accounts";
+import { firebaseSignOut } from "../../utilities/firebase";
 
 interface Props {
   logout: () => any;
@@ -27,8 +20,8 @@ class TopScreen extends React.Component<Props> {
       // this.props.logout()
       // .then(() => console.log('logout succeeded'))
       // .catch(error => console.log(error))
-    })
-  }
+    });
+  };
 
   render() {
     return (
@@ -37,9 +30,9 @@ class TopScreen extends React.Component<Props> {
           <Text> Top Screen</Text>
         </TouchableOpacity>
       </View>
-    )
+    );
   }
-};
+}
 
 export default TopScreen;
 // export default compose(
