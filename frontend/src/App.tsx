@@ -3,8 +3,8 @@ import ApolloWrapper from './appolloWrapper';
 import {
   AUTH_SCREEN,
   TOP_SCREEN,
-  DISCOVERY_SCREEN,
-  FILTER_FORM_SCREEN,
+  USER_DISCOVERY_SCREEN,
+  USER_SEARCH_MODAL_SCREEN,
   SKILL_SEARCH_MODAL_SCREEN,
   USER_DETAILS_SCREEN
 } from './constants/screens';
@@ -32,11 +32,11 @@ const registerComponents = () => {
   );
   
   Navigation.registerComponent(
-    DISCOVERY_SCREEN,
+    USER_DISCOVERY_SCREEN,
     () => ApolloWrapper(DiscoveryScreen)
   );
   Navigation.registerComponent(
-    FILTER_FORM_SCREEN,
+    USER_SEARCH_MODAL_SCREEN,
     () => ApolloWrapper(SearchFormScreen)
   );
   Navigation.registerComponent(

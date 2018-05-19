@@ -3,20 +3,11 @@ import { View, Text } from 'react-native';
 import { ListItem } from 'react-native-elements';
 import styles from './styles';
 
-type Skill = {
-    id: number,
-    name: string
-}
+import { Skill } from '../../../../interfaces';
+
 type Props = {
-    // data?: {
-    //     networkStatus: number | null,
-    //     loading: boolean | null,
-    //     error: any | null,
-    //     data: any | null,
-    // },
     skills: Skill[],
     onPressSkill: (skill: Skill) => void
-    
 }
 
 class SkillList extends React.Component<Props> {
@@ -24,7 +15,7 @@ class SkillList extends React.Component<Props> {
         super(props);
     }
 
-    renderSkill = (skill: Skill) => {
+    private renderSkill = (skill: Skill) => {
         return (
             <ListItem
                 key={skill.id}
@@ -36,15 +27,6 @@ class SkillList extends React.Component<Props> {
     }
 
     render() {
-        // const { networkStatus, loading, error, data} = this.props.data;
-        // if (networkStatus == 4) return <Text>Refetching</Text>;
-        // if (loading) return <Text>{loading} </Text>;
-        // if (error) {
-        //     console.log(error) 
-        //     return <Text>{error.message}</Text>;
-        // }
-        
-       
         return (
             <View style={styles.listContainer}>
                 {this.props.skills.map((skill: Skill) => {

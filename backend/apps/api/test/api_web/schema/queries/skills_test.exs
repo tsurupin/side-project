@@ -11,7 +11,7 @@ defmodule ApiWeb.Schema.Queries.SkillsTest do
 
     @query """
       query Skills($name: String!) {
-        skills(name: $term) {
+        skills(name: $name) {
          ... on Skill {
             id
             name
@@ -23,7 +23,7 @@ defmodule ApiWeb.Schema.Queries.SkillsTest do
 
     test "return skills with term", %{ruby_skill: ruby_skill} do
       conn = build_conn()
-      conn = get(conn, "/api", %{query: @query, variables: %{term: "Ruby"}})
+      conn = get(conn, "/api", %{query: @query, variables: %{name: "Ruby"}})
       response = json_response(conn, 200)
       expected_result = %{"skills" => [%{"id" => "#{ruby_skill.id}", "name" => ruby_skill.name}]}
 

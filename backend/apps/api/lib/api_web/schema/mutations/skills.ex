@@ -6,7 +6,7 @@ defmodule ApiWeb.Schema.Mutations.Skills do
     @desc "create a new skill"
     field :create_skill, :skill do
       arg(:name, non_null(:string))
-      #middleware(Middleware.Authorize)
+      middleware(Middleware.Authorize)
       resolve(&Resolvers.Skills.create/3)
     end
   end

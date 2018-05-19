@@ -1,7 +1,6 @@
 import * as React from 'react';
 
 import {
-    DISCOVERY_SCREEN,
     SKILL_SEARCH_MODAL_SCREEN
 } from '../../../constants/screens';
 
@@ -33,28 +32,6 @@ import {
 } from '../../../interfaces';
 import styles from './styles';
 
-// type Skill = {
-//     id: number,
-//     name: string
-// }
-
-// type Conditions = {
-//     genreId: number,
-//     occupationTypeId: number | null,
-//     distance: number | null,
-//     isActive: boolean | null,
-//     skillId: number[],
-// }
-
-// type Genre = {
-//     id: number,
-//     name: string
-// }
-
-// type OccupationType = {
-//     id: number,
-//     name: string
-// }
 type Props = {
     navigator: any,
     genres: Genre[],
@@ -67,7 +44,7 @@ type Props = {
     activeness: any[],
     skills: Skill[],
     client: any,
-    updateFilterConditions: (Conditions) => void
+    onSubmit: (searchParams: UserSearchParams) => void
 };
 
 type State = {
@@ -156,7 +133,7 @@ class SearchFormScreen extends React.Component<Props, State> {
             skills: props.skills
         }
 
-        this.props.navigator.setOnNavigatorEvent(this.onNavigationEvent);
+        this.props.navigator.setOnNavigatorEvent(this.handleNavigationEvent);
     }
 
     componentWillReceiveProps(nextProps) {
@@ -164,11 +141,11 @@ class SearchFormScreen extends React.Component<Props, State> {
 
     }
 
-    onNavigationEvent = (e) => {
+    protected handleNavigationEvent = (e) => {
         if (e.type !== 'NavBarButtonPress') { return;}
         switch (e.id) {
-          case "SubmitFilterButton":
-          this.props.updateFilterConditions({
+          case "SubmitUserSarchButton":
+          this.props.onSubmit({
                 genreId: this.state.genreId,
                 occupationTypeId: this.state.occupationTypeId,
                 distance: this.state.distance,
@@ -177,47 +154,47 @@ class SearchFormScreen extends React.Component<Props, State> {
             });
             this.props.navigator.dismissModal();
             break;
-        case "CancelFilterButton":
+        case "CancelUserSearchButton":
             this.props.navigator.dismissModal();    
             break;
         }
     }
 
-    onPressSkillButton = () => {
+    protected handleSkillSearchShowModal = () => {
         this.props.navigator.showModal({
             screen: SKILL_SEARCH_MODAL_SCREEN,
             title: SKILL_SEARCH_MODAL_SCREEN,
             animationType: 'slide-up',
-            passProps: {updateSkills: this.updateSkills}
+            passProps: {onPressSkill: this.handleAddSkill}
         })
     }
 
-    onValueChange = (key: string, value: string | number | boolean) => {
+    protected handleValueChange = (key: string, value: string | number | boolean) => {
         let changeAttr = {};
         changeAttr[key] = value;
         this.setState(changeAttr);
     }
 
-    updateSkills = (skill:Skill) => {
+    protected handleAddSkill = (skill:Skill) => {
         const skills = Array.from(new Set(this.state.skills.concat(skill)));
         this.setState({skills});
     }
 
-    deleteSkill = (id: number) => {
+    protected handleDeleteSkill = (id: number) => {
         const skills = this.state.skills.filter(skill => skill.id !== id);
         this.setState({skills});
     }
 
-    renderSkillList = () => {
+    private renderSkillList = () => {
         return (
             <Content>
-            {this.state.skills.map(skill => {
-                return(
-                    <Button key={skill.id} rounded onPress={() => this.deleteSkill(skill.id)}>
-                        <Text>{skill.name}</Text>
-                    </Button>
+                {this.state.skills.map(skill => {
+                    return(
+                        <Button key={skill.id} rounded onPress={() => this.handleDeleteSkill(skill.id)}>
+                            <Text>{skill.name}</Text>
+                        </Button>
                     )
-            })}
+                })}
             </Content>
         )
     }
@@ -245,7 +222,7 @@ class SearchFormScreen extends React.Component<Props, State> {
                             style={styles.pickerContainer}
                             selectedValue={genreId}
                             onValueChange={(value) => {
-                                this.onValueChange("genreId", value)
+                                this.handleValueChange("genreId", value)
                             }}
                         >
                             {this.props.occupationTypes.map(occupationType => {
@@ -261,7 +238,7 @@ class SearchFormScreen extends React.Component<Props, State> {
                             placeholderIconColor="#007aff"
                             style={styles.pickerContainer}
                             selectedValue={distance}
-                            onValueChange={(value) => this.onValueChange("distance", value) }
+                            onValueChange={(value) => this.handleValueChange("distance", value) }
                         >
                             {this.props.distances.map((distance, i) => {
                                 return <Picker.Item key={i} label={distance.name} value={distance.value} />
@@ -276,7 +253,7 @@ class SearchFormScreen extends React.Component<Props, State> {
                             placeholderIconColor="#007aff"
                             style={styles.pickerContainer}
                             selectedValue={genreId}
-                            onValueChange={(value) => this.onValueChange("interestId", value) }
+                            onValueChange={(value) => this.handleValueChange("interestId", value) }
                         >
                             {this.props.genres.map(genre => {
                                 return <Picker.Item key={genre.id} label={genre.name} value={genre.id} />
@@ -292,7 +269,7 @@ class SearchFormScreen extends React.Component<Props, State> {
                             placeholderIconColor="#007aff"
                             style={styles.pickerContainer}
                             selectedValue={isActive}
-                            onValueChange={(value) =>this.onValueChange("isActive", value) }
+                            onValueChange={(value) =>this.handleValueChange("isActive", value) }
                         >
                             {this.props.activeness.map((active, i) => {
                                 return <Picker.Item key={i} label={active.name} value={active.value} />
@@ -301,7 +278,7 @@ class SearchFormScreen extends React.Component<Props, State> {
                         </Picker>
                         <View style={styles.buttonFormBox}>
                             <Text style={styles.textLabel}>Skill</Text>
-                            <Button iconLeft primary onPress={this.onPressSkillButton}>
+                            <Button iconLeft primary onPress={this.handleSkillSearchShowModal}>
                                 <Icon name='beer' />
                             </Button>
                             {this.renderSkillList()}

@@ -14,7 +14,7 @@ defmodule ApiWeb.Schema.Mutations.UserLikessTest do
     end
 
     @mutation """
-      mutation ($targetUserId: Int!) {
+      mutation ($targetUserId: ID!) {
         likeUser(targetUserId: $targetUserId)
       }
     """
@@ -97,7 +97,7 @@ defmodule ApiWeb.Schema.Mutations.UserLikessTest do
     end
 
     @mutation """
-      mutation ($targetUserId: Int!) {
+      mutation ($targetUserId: ID!) {
         withdrawUserLike(targetUserId: $targetUserId)
       }
     """
@@ -177,7 +177,7 @@ defmodule ApiWeb.Schema.Mutations.UserLikessTest do
     end
 
     @mutation """
-      mutation ($likeId: Int!) {
+      mutation ($likeId: ID!) {
         acceptUserLike(likeId: $likeId) {
           id
         }
@@ -200,7 +200,7 @@ defmodule ApiWeb.Schema.Mutations.UserLikessTest do
         response = json_response(conn, 200)
         like = Repo.get(Db.Users.UserLike, like.id)
         assert like.status == :approved
-        group = Repo.get_by(Db.Chats.Group, source_id: like.id, source_type: "Like")
+        group = Repo.get_by(Db.Chats.Group, source_id: like.id, source_type: "UserLike")
         assert group
         chat = Repo.get_by(Db.Chats.Chat, chat_group_id: group.id)
         assert chat
@@ -240,7 +240,7 @@ defmodule ApiWeb.Schema.Mutations.UserLikessTest do
     end
 
     @mutation """
-      mutation ($likeId: Int!) {
+      mutation ($likeId: ID!) {
         rejectUserLike(likeId: $likeId)
       }
     """

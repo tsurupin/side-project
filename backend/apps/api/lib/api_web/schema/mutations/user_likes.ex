@@ -5,7 +5,7 @@ defmodule ApiWeb.Schema.Mutations.UserLikes do
   object :user_likes_mutations do
     @desc "give like to target_user"
     field :like_user, :boolean do
-      arg(:target_user_id, non_null(:integer))
+      arg(:target_user_id, non_null(:id))
       middleware(Middleware.Authorize)
       resolve(&Resolvers.UserLikes.like/3)
     end

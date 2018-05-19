@@ -2,7 +2,6 @@ defmodule ApiWeb.Schema.Middleware.ChangesetErrors do
   @behaviour Absinthe.Middleware
 
   def call(res, _) do
-    IO.inspect(res)
     with %{errors: [%Ecto.Changeset{} = changeset]} <- res do
       %{res | value: %{errors: transform_errors(changeset)}, errors: []}
     end

@@ -12,7 +12,7 @@ import {
 } from '../../../components/Discovery/DiscoveryScreen';
 
 import {
-  FILTER_FORM_SCREEN,
+  USER_SEARCH_MODAL_SCREEN,
   USER_DETAILS_SCREEN
 } from '../../../constants/screens';
 import UserList  from '../../../components/Discovery/DiscoveryScreen/UserList';
@@ -35,7 +35,7 @@ type State = {
   loading: boolean | null, 
   users: UserDetails[],
   errorMessage: string
-  conditions: UserSearchParams
+  searchParams: UserSearchParams
 };
 
 class DiscoveryScreen extends React.Component<Props, State> {
@@ -45,7 +45,7 @@ class DiscoveryScreen extends React.Component<Props, State> {
       loading: false,
       errorMessage: '',
       users: props.users,
-      conditions: {
+      searchParams: {
         occupationTypeId: null,
         genreId: null,
         isActive: null,
@@ -54,7 +54,7 @@ class DiscoveryScreen extends React.Component<Props, State> {
       }
     };
 
-    this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
+    this.props.navigator.setOnNavigatorEvent(this.handleNavigatorEvent);
   }
 
   static defaultProps = {
@@ -78,7 +78,7 @@ class DiscoveryScreen extends React.Component<Props, State> {
         leadSentence: "I'm Ruby and React Software enginner. I like to work on ambiscious project"
       }
     ],
-    searchConditions: {}
+    searchParams: {}
   }
 
   componentWillMount() {
@@ -89,29 +89,29 @@ class DiscoveryScreen extends React.Component<Props, State> {
     console.log("will receive ")
   }
 
-  updateFilterConditions = (conditions: UserSearchParams) => {
-    this.setState({conditions});
+  protected handleUpdateSearchParams = (searchParams: UserSearchParams) => {
+    this.setState({searchParams});
   }
 
-  onNavigatorEvent = (e) => {
+  protected handleNavigatorEvent = (e) => {
     if (e.type !== 'NavBarButtonPress') { return;}
     switch (e.id) {
       case "FilterButton":
         this.props.navigator.showModal({
-          screen: FILTER_FORM_SCREEN,
-          passProps: {updateFilterConditions: this.updateFilterConditions},
+          screen: USER_SEARCH_MODAL_SCREEN,
+          passProps: {onSubmit: this.handleUpdateSearchParams},
           navigatorButtons: {
             leftButtons: [
               {
                 //icon: sources[1],
                 title: "Back",
-                id: "CancelFilterButton"
+                id: "CancelUserSearchButton"
               }
             ],
             rightButtons: [
               {
                 title: "Submit",
-                id: "SubmitFilterButton"
+                id: "SubmitUserSearchButton"
               }
 
             ]
@@ -121,26 +121,27 @@ class DiscoveryScreen extends React.Component<Props, State> {
     }
   }
 
-  onPressUserCard = (user: UserDetails) => {
+  protected handlePressUserCard = (id: number) => {
+    console.log("handlePressUser")
     this.props.navigator.push({
       screen: USER_DETAILS_SCREEN,
-      passProps: {id: user.id}
+      passProps: {id}
     })
   }
 
-  buildConditions = () : UserSearchParams => {
+  private buildSearchParams = () : UserSearchParams => {
     let conditions = {};
-    for (let key in this.state.conditions) {
-      if (this.state.conditions[key] !== 'undefined' && this.state.conditions[key] !== null && this.state.conditions[key].length !== 0) {
-        conditions[key] = this.state.conditions[key];
+    for (let key in this.state.searchParams) {
+      if (this.state.searchParams[key] !== 'undefined' && this.state.searchParams[key] !== null && this.state.searchParams[key].length !== 0) {
+        conditions[key] = this.state.searchParams[key];
       }
     }
     return conditions
   }
 
 
-  renderUserCards = () => {
-    const conditions = this.buildConditions();
+  private renderUserCards = () => {
+    const conditions = this.buildSearchParams();
     return(
       <UserListQuery variables={conditions}>
         {({loading, error, data}) => {
@@ -154,7 +155,7 @@ class DiscoveryScreen extends React.Component<Props, State> {
             //return this.setState({errorMessage: error}) 
           }
           if (data && data.users) {
-            return <UserList users={data.users} onPressUserCard={this.onPressUserCard} />
+            return <UserList users={data.users} onPressUserCard={this.handlePressUserCard} />
           } else {
             return <View><Text>No data</Text></View>
           }

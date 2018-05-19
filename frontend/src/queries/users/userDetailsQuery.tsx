@@ -16,7 +16,7 @@ const UserDetailsQuery = (props: Props) => {
             context={{needAuth: true}}
             notifyOnNetworkStatusChange  
         >
-        {(data) => children({...data})}
+        {({data, loading, error}) => children({data, loading, error})}
     </Query>
     )
 };
