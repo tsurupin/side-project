@@ -19,9 +19,7 @@ import styles from "./styles";
 import { UserDetails, UserSearchParams } from "../../../interfaces";
 
 type Props = {
-  fetchUserList: ({ variables: any }) => Promise<any>;
   users: UserDetails[];
-  searchCondistions?: any;
   navigator: any;
   client: any;
 };
@@ -81,11 +79,11 @@ class DiscoveryScreen extends React.Component<Props, State> {
   };
 
   componentWillMount() {
-    console.log("hohoh");
+
   }
 
   componentWillReceiveProps(newProps) {
-    console.log("will receive ");
+
   }
 
   protected handleUpdateSearchParams = (searchParams: UserSearchParams) => {
@@ -121,7 +119,6 @@ class DiscoveryScreen extends React.Component<Props, State> {
   };
 
   protected handlePressUserCard = (id: number) => {
-    console.log("handlePressUser");
     this.props.navigator.push({
       screen: USER_DETAILS_SCREEN,
       passProps: { id }
