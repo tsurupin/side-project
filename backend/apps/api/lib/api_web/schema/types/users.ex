@@ -52,6 +52,7 @@ defmodule ApiWeb.Schema.Types.Users do
   end
 
   enum :user_status do
+    value(:editing)
     value(:not_compeleted)
     value(:completed)
     value(:unactive)

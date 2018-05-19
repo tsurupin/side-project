@@ -7,6 +7,7 @@ defmodule ApiWeb.Schema.Queries.Users do
     @desc "Fetch user info"
     field :user, :user do
       arg(:id, :id)
+      #middleware(Middleware.Authorize)
       resolve(&Resolvers.Users.fetch_profile/3)
     end
 
