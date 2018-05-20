@@ -51,7 +51,8 @@ class UserDetailsScreen extends React.Component<Props, State> {
     );
   };
 
-  private renderActionButton = (mutation, data, loading, error) => {
+  private renderActionButton = (mutation, data, loading, error, name) => {
+    console.log("passed action", mutation, data)
     if (loading) {
       return this.renderLoadingIndicator();
     }
@@ -59,7 +60,7 @@ class UserDetailsScreen extends React.Component<Props, State> {
       return this.renderErrorMessage(error);
     }
     if (data) {
-      console.log(data);
+      console.log("loading data", data);
       if (data.acceptUserLike) {
         this.props.navigator.push({
           screen: CHAT_SCREEN,
@@ -73,7 +74,7 @@ class UserDetailsScreen extends React.Component<Props, State> {
     }
     return (
       <TouchableOpacity onPress={() => this.handlePress(mutation)}>
-        <Text> UserLike </Text>
+        <Text>{name}</Text>
       </TouchableOpacity>
     );
   };
@@ -83,22 +84,26 @@ class UserDetailsScreen extends React.Component<Props, State> {
       return (
         <View>
           <RejectUserLikeMutation>
-            {({ rejectUserLikeMutation, data, loading, error }) => {
+            {({ rejectUserLikeMutation, data, loading, error, name }) => {
+              console.log("RejectUserLike", rejectUserLikeMutation, data, loading, error)
               return this.renderActionButton(
                 rejectUserLikeMutation,
                 data,
                 loading,
-                error
+                error,
+                name
               );
             }}
           </RejectUserLikeMutation>
           <AcceptUserLikeMutation>
-            {({ acceptUserLikeMutation, data, loading, error }) => {
+            {({ acceptUserLikeMutation, data, loading, error, name }) => {
+              console.log("AcceptUserLike", acceptUserLikeMutation, data, loading, error)
               return this.renderActionButton(
                 acceptUserLikeMutation,
                 data,
                 loading,
-                error
+                error,
+                name
               );
             }}
           </AcceptUserLikeMutation>
@@ -108,12 +113,13 @@ class UserDetailsScreen extends React.Component<Props, State> {
       return (
         <View>
           <LikeUserMutation>
-            {({ likeUserMutation, data, loading, error }) => {
+            {({ likeUserMutation, data, loading, error, name }) => {
               return this.renderActionButton(
                 likeUserMutation,
                 data,
                 loading,
-                error
+                error,
+                name
               );
             }}
           </LikeUserMutation>

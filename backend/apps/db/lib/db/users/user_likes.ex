@@ -14,20 +14,20 @@ defmodule Db.Users.UserLikes do
 
   @spec like(%{target_user_id: integer, user_id: integer}) ::
           {:ok, UserLike.t()} | {:error, String.t()}
-  def like(%{target_user_id: target_user_id, user_id: user_id} = attrs) do
+  def like(%{target_user_id: _target_user_id, user_id: _user_id} = attrs) do
     case UserLike.changeset(attrs) |> Repo.insert() do
-      {:ok, like} -> {:ok, like}
+      {:ok, _user_like} -> {:ok, true}
       {:error, changeset} -> {:error, Db.FullErrorMessage.message(changeset)}
     end
   end
 
   @spec withdraw_like(%{target_user_id: integer, user_id: integer}) ::
           {:ok, any} | {:error, String.t()} | {:error, :bad_request}
-  def withdraw_like(%{target_user_id: target_user_id, user_id: user_id} = attrs) do
+  def withdraw_like(%{target_user_id: _target_user_id, user_id: _user_id} = attrs) do
     case Repo.get_by(UserLike, attrs) do
       %UserLike{status: :requested} = like ->
         case Repo.delete(like) do
-          {:ok, _like} -> {:ok, _like}
+          {:ok, _user_like} -> {:ok, true}
           {:error, changeset} -> {:error, Db.FullErrorMessage.message(changeset)}
         end
 
@@ -63,7 +63,7 @@ defmodule Db.Users.UserLikes do
   end
 
   @spec reject_like(User.t(), %{user_id: integer}) ::
-          {:ok, Chat.t()} | {:error, String.t()} | {:error, :bad_request}
+          {:ok, true} | {:error, String.t()} | {:error, :bad_request}
   def reject_like(%User{id: target_user_id}, %{user_id: user_id}) do
     case Repo.get_by(UserLike, user_id: user_id, target_user_id: target_user_id) do
       %UserLike{status: :requested} = like ->
@@ -72,7 +72,7 @@ defmodule Db.Users.UserLikes do
           |> Repo.update()
 
         case transaction do
-          {:ok, chat} -> {:ok, chat}
+          {:ok, _user_like} -> {:ok, true}
           {:error, changeset} -> {:error, Db.FullErrorMessage.message(changeset)}
         end
 

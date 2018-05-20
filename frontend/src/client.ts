@@ -13,7 +13,7 @@ import { getMainDefinition } from "apollo-utilities";
 import * as AbsintheSocket from "@absinthe/socket";
 import { createAbsintheSocketLink } from "@absinthe/socket-apollo-link";
 import { Socket as PhoenixSocket } from "phoenix";
-
+import { MATCH_LIST_QUERY } from "./graphql/matches";
 const uri = "http://localhost:4000/api/graphiql";
 
 const httpLink = createHttpLink({
@@ -57,6 +57,18 @@ const stateLink = withClientState({
     Mutation: {
       changeLoginStatus: (_, { logined }, { cache }) => {
         cache.writeData({ data: { logined } });
+        return null;
+      },
+      acceptUserLike: (_, {userId},{ cache } ) => {
+        const data = cache.readQuery({ query: MATCH_LIST_QUERY });
+        console.log(data);
+
+
+        return null;
+      },
+      rejectUserLike: (_, {userId},{ cache } ) => {
+        const data = cache.readQuery({ query: MATCH_LIST_QUERY });
+        console.log(data);
         return null;
       }
     }

@@ -25,6 +25,14 @@ class MatchScreen extends React.Component<Props, State> {
     super(props);
   }
 
+  componentWillMount() {
+    console.log("MatchScreen componentWillMount")
+  }
+
+  componentDidMount() {
+    console.log("MatchScreen componentDidmount")
+  }
+
   protected handleChatPress = (chatId: number): void => {
     this.props.navigator.push({
       screen: CHAT_SCREEN,

@@ -12,7 +12,7 @@ const RejectUserLikeMutation = (props: Props) => {
   return (
     <Mutation mutation={REJECT_USER_LIKE_MUTATION} context={{ needAuth: true }}>
       {(rejectUserLikeMutation, { loading, error, data }) => {
-        return children({ rejectUserLikeMutation, loading, error, data });
+        return children({ rejectUserLikeMutation, loading, error, data, name: "rejectUserLike"  });
       }}
     </Mutation>
   );

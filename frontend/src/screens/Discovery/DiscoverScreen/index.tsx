@@ -184,6 +184,8 @@ class DiscoveryScreen extends React.Component<Props, State> {
   };
 
   render() {
+    //const isVisible = this.props.navigator.screenIsCurrentlyVisible().then(r => console.log("rendered", r))
+   
     console.log("render hoge");
     return (
       <View style={styles.container}>
