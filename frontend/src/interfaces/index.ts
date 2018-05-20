@@ -29,3 +29,8 @@ export interface UserSearchParams {
   distance?: number | null;
   skillIds?: number[];
 }
+
+export interface Chat {
+  id: number;
+  name: string;
+}

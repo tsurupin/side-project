@@ -52,7 +52,7 @@ class DiscoveryScreen extends React.Component<Props, State> {
       }
     };
 
-    this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
+    this.props.navigator.setOnNavigatorEvent(this.handleNavigatorEvent);
   }
 
   static defaultProps = {
@@ -91,7 +91,7 @@ class DiscoveryScreen extends React.Component<Props, State> {
     this.setState({ searchParams });
   };
 
-  onNavigatorEvent = e => {
+  protected handleNavigatorEvent = e => {
     console.log(e);
     if (e.type !== "NavBarButtonPress") {
       return;

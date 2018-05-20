@@ -155,7 +155,7 @@ class SearchFormScreen extends React.Component<Props, State> {
   protected handleSkillSearchShowModal = () => {
     this.props.navigator.showModal({
       screen: SKILL_SEARCH_MODAL_SCREEN,
-      title: SKILL_SEARCH_MODAL_SCREEN,
+      title: "Skill Search",
       animationType: "slide-up",
       passProps: { onPressSkill: this.handleAddSkill }
     });

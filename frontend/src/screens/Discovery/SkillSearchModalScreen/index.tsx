@@ -14,7 +14,6 @@ import styles from "./styles";
 type Props = {
   navigator?: any;
   skills: Skill[];
-  client: any;
   onPressSkill: (skill: Skill) => void;
 };
 
@@ -25,18 +24,18 @@ type State = {
 };
 
 class SkillSearchModalScreen extends React.Component<Props, State> {
-  state = {
-    loading: false,
-    name: "",
-    errorMessage: ""
-  };
-
   static defaultProps = {
     skills: []
   };
 
   constructor(props) {
     super(props);
+
+    this.state = {
+      loading: false,
+      name: "",
+      errorMessage: ""
+    };
   }
 
   protected onPressSkill = (skill: Skill) => {
@@ -82,6 +81,8 @@ class SkillSearchModalScreen extends React.Component<Props, State> {
   };
 
   private renderTextForm = () => {
+    const { name } = this.state;
+    console.log(name);
     return <SkillInput name={name} onChangeText={this.handleChangeText} />;
   };
 

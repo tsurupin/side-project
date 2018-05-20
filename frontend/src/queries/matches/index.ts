@@ -1,3 +1,3 @@
-import fetchMatchList from "./fetchMatchList";
+import MatchListQuery from "./MatchListQuery";
 
-export { fetchMatchList };
+export { MatchListQuery };

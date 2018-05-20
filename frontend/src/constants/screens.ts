@@ -7,6 +7,7 @@ const AUTH_SCREEN = `${APP_NAME}.AuthScreen`;
 const SKILL_SEARCH_MODAL_SCREEN = `${APP_NAME}.SkillSearchModalScreen`;
 
 const MATCH_SCREEN = `${APP_NAME}.MatchScreen`;
+const CHAT_SCREEN = `${APP_NAME}.ChatScreen`;
 
 export {
   USER_DISCOVERY_SCREEN,
@@ -15,5 +16,7 @@ export {
   TOP_SCREEN,
   AUTH_SCREEN,
   USER_DETAILS_SCREEN,
-  MATCH_SCREEN
+  
+  MATCH_SCREEN,
+  CHAT_SCREEN
 };

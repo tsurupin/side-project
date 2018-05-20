@@ -6,6 +6,7 @@ defmodule ApiWeb.Schema.Queries.Skills do
     @desc "seach skills"
     field :skills, list_of(:skill) do
       arg(:name, non_null(:string))
+      middleware(Middleware.Authorize)
       resolve(&Resolvers.Skills.search/3)
     end
   end

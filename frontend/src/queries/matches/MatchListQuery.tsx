@@ -1,19 +1,17 @@
 import * as React from "react";
 import { Query } from "react-apollo";
-import { SKILLS_QUERY } from "../../graphql/skills";
+import { MATCH_LIST_QUERY } from "../../graphql/matches";
 
 type Props = {
-  variables: { name: string };
   children: any;
 };
 
-const SkillsQuery = (props: Props) => {
-  const { variables, children } = props;
+const MatchListQuery = (props: Props) => {
+  const { children } = props;
+
   return (
     <Query
-      query={SKILLS_QUERY}
-      variables={variables}
-      skip={!variables.name}
+      query={MATCH_LIST_QUERY}
       context={{ needAuth: true }}
       notifyOnNetworkStatusChange
     >
@@ -24,4 +22,4 @@ const SkillsQuery = (props: Props) => {
   );
 };
 
-export default SkillsQuery;
+export default MatchListQuery;
