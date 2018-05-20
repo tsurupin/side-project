@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Text, TouchableOpacity, View } from "react-native";
 import { AccessToken, LoginManager } from "react-native-fbsdk";
-import { SignUpMutation } from "../../mutations/accounts";
+import { SignUpMutation, LoginMutation } from "../../mutations/accounts";
 import { LoginStatusQuery } from "../../queries/accounts";
 import MainTab from "../../screens/MainTab";
 import { firebaseSignIn } from "../../utilities/firebase";
@@ -10,11 +10,15 @@ const FACEBOOK = "facebook";
 
 type Props = {};
 
-type State = {};
+type State = {
+  
+};
 
 class AuthScreen extends React.Component<Props, State> {
   constructor(props) {
     super(props);
+
+  
   }
 
   fbLoginHandler = (signUpMutation: any): void => {
@@ -51,25 +55,30 @@ class AuthScreen extends React.Component<Props, State> {
     MainTab();
   };
 
+
   render() {
     return (
       <LoginStatusQuery>
         {({ data }) => {
           // if (data && data.logined) {
           //   this.openMainTab();
-          //   return <View />;
           // }
 
           return (
             <View>
               <SignUpMutation>
-                {({ signUpMutation, loginMutation, loading, error, data }) => {
-                  console.log(data)
-                  if (data && data.login) {
+                {({ signUpMutation, loginMutation, loading, error, signUpData, loginData }) => {
+                  console.log("SignUpMutation", signUpData, error, loginData)
+                  if (loading) { return <View>Loading</View> }
+                  if (error) { return <View>Error</View> }
+                  if (loginData) {
+                    console.log(loginData)
+                    console.log("logined!!!!!!!!!!")
                     this.openMainTab();
                   }
-                  if (data && data.signUp) {
-                    this.loginFirebase(data.signUp.token, loginMutation);
+
+                  if (signUpData && signUpData.signUp) {        
+                    this.loginFirebase(signUpData.signUp.token, loginMutation);
                   }
 
                   return (

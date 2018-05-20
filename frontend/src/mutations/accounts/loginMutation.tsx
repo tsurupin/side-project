@@ -7,15 +7,8 @@ const LoginMutation = (props: any) => {
   console.log(children);
   return (
     <Mutation mutation={LOGIN_MUTATION}>
-      {(loginMutation, { data, error, loading }) => {
-      
-        if (loading) {
-          return children({ loading });
-        }
-        if (error) {
-          return children({ error });
-        }
-        return children({ ...props, loginMutation: loginMutation });
+      {(loginMutation, { data, error }) => {
+        return children({ loginMutation, error, data });
       }}
     </Mutation>
   );

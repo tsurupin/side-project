@@ -26,16 +26,14 @@ export const firebaseSignIn = firebaseToken => {
       .signInWithCustomToken(firebaseToken)
       .then(result => {
         const { user } = result;
-        console.log("afterSignIn", result);
-
+ 
         user.getIdToken(false).then(async userToken => {
-          console.log(firebaseToken, userToken);
+    
           await AsyncStorage.setItem(TOKEN, userToken);
           const currentTimeInUnix = Math.floor(Date.now() / 1000);
           const expiredAtInUnix = `${3600 + currentTimeInUnix}`;
           await AsyncStorage.setItem(REFRESH_TOKEN, user.refreshToken);
           await AsyncStorage.setItem(EXPIRED_AT_IN_UNIX, expiredAtInUnix);
-          console.log("before resolving");
           resolve();
         });
       })

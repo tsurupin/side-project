@@ -26,7 +26,7 @@ defmodule ApiWeb.Schema.Resolvers.UserLikes do
 
   def reject_like(_parent, %{user_id: user_id}, %{context: %{current_user: current_user}}) do
     case UserLikes.reject_like(current_user, %{user_id: user_id}) do
-      {:ok, _} -> {:ok, true}
+      {:ok, _} -> {:ok, user_id}
       {:error, reason} -> {:error, reason}
     end
   end

@@ -8,27 +8,16 @@ const SignUpMutation = (props: { children: any }) => {
 
   return (
     <Mutation mutation={SIGN_UP_MUTATION}>
-      {(signUpMutation, { loading, error, data }) => {
-        if (loading) {
-          return children({ loading });
-        }
-        if (error) {
-     
-          return children({ error });
-        }
-
+      {(signUpMutation, signUpData) => {
+        console.log("signupMutation", signUpData)
+        
         return (
           <Mutation mutation={LOGIN_MUTATION}>
-            {(loginMutation, { error, loading }) => {
-              console.log(error);
-              if (loading) {
-                return children({ loading });
-              }
-              if (error) {
-               
-                return children({ error });
-              }
-              return children({ signUpMutation, loginMutation, data });
+            {(loginMutation, loginData) => {
+              console.log("loginMutation", loginData);
+              const error = signUpData.error || loginData.error;
+              const loading = signUpData.loading;
+              return children({ signUpMutation, loginMutation, loading, error, signUpData: signUpData.data, loginData: loginData.data });
             }}
           </Mutation>
         );

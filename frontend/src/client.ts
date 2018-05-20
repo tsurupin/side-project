@@ -62,7 +62,7 @@ const stateLink = withClientState({
     },
     Mutation: {
       changeLoginStatus: (_, { logined }, { cache }) => {
-        console.log("change login")
+        console.warn("changeLoginStatus")
         cache.writeData({ data: { logined } });
         return null;
       },
