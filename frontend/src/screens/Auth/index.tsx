@@ -41,7 +41,7 @@ class AuthScreen extends React.Component<Props, State> {
       await firebaseSignIn(token);
 
       loginMutation({ variables: { logined: true } });
-      this.openMainTab();
+   
     } catch (e) {
       console.log(e);
     }
@@ -55,15 +55,19 @@ class AuthScreen extends React.Component<Props, State> {
     return (
       <LoginStatusQuery>
         {({ data }) => {
-          if (data && data.logined) {
-            this.openMainTab();
-            return <View />;
-          }
+          // if (data && data.logined) {
+          //   this.openMainTab();
+          //   return <View />;
+          // }
 
           return (
             <View>
               <SignUpMutation>
                 {({ signUpMutation, loginMutation, loading, error, data }) => {
+                  console.log(data)
+                  if (data && data.login) {
+                    this.openMainTab();
+                  }
                   if (data && data.signUp) {
                     this.loginFirebase(data.signUp.token, loginMutation);
                   }

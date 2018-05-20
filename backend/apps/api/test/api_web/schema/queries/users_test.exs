@@ -70,28 +70,37 @@ defmodule ApiWeb.Schema.Queries.UsersTest do
         photo_url: photo_url
       } = cxt
 
-      conn = build_conn()
-      conn = get(conn, "/api", %{query: @query, variables: %{id: user.id}})
-      response = json_response(conn, 200)
+      with_mock Api.Accounts.Authentication,
+        verify: fn user_id -> {:ok, Db.Repo.get(Db.Users.User, user.id)} end do
+        conn =
+          build_conn()
+          |> put_req_header("authorization", "Bearer #{user.id}")
+          |> get("/api", %{
+            query: @query,
+            variables: %{id: user.id}
+          })
 
-      expected_result = %{
-        "user" => %{
-          "id" => "#{user.id}",
-          "displayName" => user.display_name,
-          "areaName" => user.area_name,
-          "schoolName" => user.school_name,
-          "companyName" => user.company_name,
-          "introduction" => user.introduction,
-          "status" => "COMPLETED",
-          "skills" => [%{"id" => "#{skill.id}", "name" => skill.name}],
-          "country" => %{"id" => "#{country.id}", "name" => country.name},
-          "genre" => %{"id" => "#{genre.id}", "name" => genre.name},
-          "occupationType" => %{"id" => "#{occupation_type.id}", "name" => occupation_type.name},
-          "photos" => [%{"imageUrl" => photo_url}]
+        response = json_response(conn, 200)
+
+        expected_result = %{
+          "user" => %{
+            "id" => "#{user.id}",
+            "displayName" => user.display_name,
+            "areaName" => user.area_name,
+            "schoolName" => user.school_name,
+            "companyName" => user.company_name,
+            "introduction" => user.introduction,
+            "status" => "COMPLETED",
+            "skills" => [%{"id" => "#{skill.id}", "name" => skill.name}],
+            "country" => %{"id" => "#{country.id}", "name" => country.name},
+            "genre" => %{"id" => "#{genre.id}", "name" => genre.name},
+            "occupationType" => %{"id" => "#{occupation_type.id}", "name" => occupation_type.name},
+            "photos" => [%{"imageUrl" => photo_url}]
+          }
         }
-      }
 
-      assert response["data"] == expected_result
+        assert response["data"] == expected_result
+      end
     end
 
     @query """

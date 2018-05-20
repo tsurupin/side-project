@@ -5,7 +5,7 @@ defmodule ApiWeb.Schema.Mutations.UsersTest do
 
   describe "signup" do
     @mutation """
-      mutation ($providerId: String!, $uid: String!) {
+      mutation SignUp($providerId: String!, $uid: String!) {
         signUp(providerId: $providerId, uid: $uid) {
           token
         }

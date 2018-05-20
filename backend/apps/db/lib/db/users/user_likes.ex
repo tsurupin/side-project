@@ -79,5 +79,6 @@ defmodule Db.Users.UserLikes do
       _ ->
         {:error, :bad_request}
     end
+    #{:ok, true}
   end
 end

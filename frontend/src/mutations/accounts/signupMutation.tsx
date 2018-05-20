@@ -13,7 +13,7 @@ const SignUpMutation = (props: { children: any }) => {
           return children({ loading });
         }
         if (error) {
-          console.error("signUpMutation", error);
+     
           return children({ error });
         }
 
@@ -25,7 +25,7 @@ const SignUpMutation = (props: { children: any }) => {
                 return children({ loading });
               }
               if (error) {
-                console.error("loginMutation", error);
+               
                 return children({ error });
               }
               return children({ signUpMutation, loginMutation, data });

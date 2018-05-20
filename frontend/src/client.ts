@@ -54,21 +54,28 @@ const cache = new InMemoryCache();
 const stateLink = withClientState({
   cache,
   resolvers: {
+    Query: {
+      users: (hoge1, hoge2, _) => {
+        console.warn("user resolvers")
+
+      }
+    },
     Mutation: {
       changeLoginStatus: (_, { logined }, { cache }) => {
+        console.log("change login")
         cache.writeData({ data: { logined } });
         return null;
       },
-      acceptUserLike: (_, {userId},{ cache } ) => {
-        const data = cache.readQuery({ query: MATCH_LIST_QUERY });
-        console.log(data);
+      // acceptUserLike: (_, {userId},{ cache } ) => {
+      //   const data = cache.readQuery({ query: MATCH_LIST_QUERY });
+      //   console.warn(data);
 
 
-        return null;
-      },
-      rejectUserLike: (_, {userId},{ cache } ) => {
+      //   return null;
+      // },
+      rejectUserLike: (_, hoge,{ cache } ) => {
         const data = cache.readQuery({ query: MATCH_LIST_QUERY });
-        console.log(data);
+        console.warn("rejectlike", data);
         return null;
       }
     }

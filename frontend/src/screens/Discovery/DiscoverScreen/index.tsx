@@ -147,7 +147,6 @@ class DiscoveryScreen extends React.Component<Props, State> {
     return (
       <UserListQuery variables={conditions}>
         {({ loading, error, data }) => {
-          console.log("UserListQuery", loading, error, data);
           if (loading) {
             return (
               <View>

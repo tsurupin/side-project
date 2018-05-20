@@ -1,7 +1,7 @@
 import gql from "graphql-tag";
 
 export const LOGOUT_MUTATION = gql`
-  mutation logout($logined: Boolean!) {
+  mutation Logout($logined: Boolean!) {
     changeLoginStatus(logined: $logined) @client
   }
 `;

@@ -8,8 +8,7 @@ const LoginMutation = (props: any) => {
   return (
     <Mutation mutation={LOGIN_MUTATION}>
       {(loginMutation, { data, error, loading }) => {
-        console.log(data);
-        console.log(error);
+      
         if (loading) {
           return children({ loading });
         }
