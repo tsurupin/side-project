@@ -60,9 +60,9 @@ class AuthScreen extends React.Component<Props, State> {
     return (
       <LoginStatusQuery>
         {({ data }) => {
-          // if (data && data.logined) {
-          //   this.openMainTab();
-          // }
+          if (data && data.logined) {
+            this.openMainTab();
+          }
 
           return (
             <View>

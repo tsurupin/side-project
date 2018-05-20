@@ -1,26 +1,32 @@
 import gql from "graphql-tag";
 import { parseFragment } from "../utilities/parseFragment";
 
-export const CHAT_FRAGMENTS = {
-  messageDetail: parseFragment(gql`
-    fragment MessageDetail on Message {
-      id
-      comment
-      imageUrl
-      user {
-        id
-        displayName
-        mainPhotoUrl
-      }
-    }
-  `),
-  chatDetail: parseFragment(gql`
+const MESSAGE_DETAIL_FRAGMENT = parseFragment(gql`
+fragment MessageDetail on Message {
+  id
+  comment
+  imageUrl
+  user {
+    id
+    displayName
+    mainPhotoUrl
+  }
+}
+`)
+
+const CHAT_DETAIL_FRAGMENT = parseFragment(gql`
     fragment ChatDetail on Chat {
       id
       name
       messages {
-        ...MessageDetail
+        ${MESSAGE_DETAIL_FRAGMENT}
       }
     }
-  `)
-};
+  `
+);
+
+export {
+  MESSAGE_DETAIL_FRAGMENT,
+  CHAT_DETAIL_FRAGMENT
+}
+

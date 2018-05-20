@@ -7,13 +7,15 @@ import {
   USER_SEARCH_MODAL_SCREEN,
   SKILL_SEARCH_MODAL_SCREEN,
   USER_DETAILS_SCREEN,
-  MATCH_SCREEN
+  MATCH_SCREEN,
+  CHAT_SCREEN,
 } from "./constants/screens";
 import AuthScreen from "./screens/Auth";
 import TopScreen from "./screens/Top";
 
 import {
-  MatchScreen
+  MatchScreen,
+  ChatScreen,
 } from "./screens/Match";
 
 import {
@@ -45,6 +47,9 @@ const registerComponents = () => {
   Navigation.registerComponent(MATCH_SCREEN, () =>
     ApolloWrapper(MatchScreen)
   );
+  Navigation.registerComponent(CHAT_SCREEN, () =>
+  ApolloWrapper(ChatScreen)
+);
 };
 
 registerComponents();

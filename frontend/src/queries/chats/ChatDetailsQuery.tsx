@@ -1,3 +1,4 @@
+import * as React from "react";
 import { Query } from "react-apollo";
 import { CHAT_QUERY, NEW_MESSAGE_SUBSCRIPTION } from "../../graphql/chats";
 
@@ -14,6 +15,7 @@ const ChatDetailsQuery = (props: any) => {
       query={CHAT_QUERY}
       variables={variables}
       context={{needAuth: true}}
+      fetchPolicy="network-only"
       notifyOnNetworkStatusChange
     >
     {({subscribeToMore, ...result}) => {
