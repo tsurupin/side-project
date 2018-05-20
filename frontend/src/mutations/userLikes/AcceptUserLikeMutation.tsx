@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Mutation } from "react-apollo";
-import { ACCEPT_USER_LIKE_MUTATION } from "../../graphql/user_likes";
+import { ACCEPT_USER_LIKE_MUTATION } from "../../graphql/userLikes";
 
 type Props = {
   children: any;

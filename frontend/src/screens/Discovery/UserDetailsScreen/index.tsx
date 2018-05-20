@@ -1,33 +1,37 @@
 import * as React from "react";
 import { View, TouchableOpacity, Text, Button } from "react-native";
 import { ErrorMessage } from "../../../components/Commons";
-import { USER_DISCOVERY_SCREEN } from "../../../constants/screens";
+import { USER_DISCOVERY_SCREEN, CHAT_SCREEN } from "../../../constants/screens";
 import { UserDetailsQuery } from "../../../queries/users";
-import { LikeUserMutation, AcceptUserLikeMutation, RejectUserLikeMutation } from "../../../mutations/userLikes";
+import {
+  LikeUserMutation,
+  AcceptUserLikeMutation,
+  RejectUserLikeMutation
+} from "../../../mutations/userLikes";
 
 import styles from "./styles";
 
 type Props = {
   id: number;
-  likeId?: number;
+  liked: boolean;
   navigator: any;
 };
 
 type State = {};
 class UserDetailsScreen extends React.Component<Props, State> {
- 
+  static defaultProps = {
+    liked: false
+  };
+
   constructor(props) {
     super(props);
   }
 
-  private handleUserLikePress = likeUserMutation => {
-    const { id } = this.props;
-    likeUserMutation({ variables: { targetUserId: id } });
-  };
+  private handlePress = mutation => {
+    const { id, liked } = this.props;
+    const variables = liked ? { userId: id } : { targetUserId: id };
 
-  private handlerejectLikePress = rejectLikeUserMutation => {
-    const { id } = this.props;
-    rejectLikeUserMutation({ variables: { targetUserId: id } });
+    mutation({ variables });
   };
 
   private renderLoadingIndicator = () => {
@@ -46,63 +50,77 @@ class UserDetailsScreen extends React.Component<Props, State> {
       </View>
     );
   };
-  
 
-  private renderLikeUserMutation = () => {
+  private renderActionButton = (mutation, data, loading, error) => {
+    if (loading) {
+      return this.renderLoadingIndicator();
+    }
+    if (error) {
+      return this.renderErrorMessage(error);
+    }
+    if (data) {
+      console.log(data);
+      if (data.acceptUserLike) {
+        this.props.navigator.push({
+          screen: CHAT_SCREEN,
+          passProps: { id: data.acceptUserLike.id }
+        });
+      } else {
+        this.props.navigator.push({
+          screen: USER_DISCOVERY_SCREEN
+        });
+      }
+    }
     return (
-      <LikeUserMutation>
-      {({ likeUserMutation, data, loading, error }) => {
-        if (loading) {
-          return this.renderLoadingIndicator();
-        }
-        if (error) {
-          return this.renderErrorMessage(error);
-        }
-        if (data) {
-          console.log(data);
-          this.props.navigator.push({
-            screen: USER_DISCOVERY_SCREEN
-          });
-        }
-        return (
-          <TouchableOpacity
-            onPress={() => this.handleUserLikePress(likeUserMutation)}
-          >
-            <Text> UserLike </Text>
-          </TouchableOpacity>
-        );
-      }}
-    </LikeUserMutation>
-    )
-  }
+      <TouchableOpacity onPress={() => this.handlePress(mutation)}>
+        <Text> UserLike </Text>
+      </TouchableOpacity>
+    );
+  };
 
-  private rejectUserLikeMutation = () => {
-    return (
-      <RejectUserLikeMutation>
-      {({ rejectUserlikeMutation, data, loading, error }) => {
-        if (loading) {
-          return this.renderLoadingIndicator();
-        }
-        if (error) {
-          return this.renderErrorMessage(error);
-        }
-        if (data) {
-          console.log(data);
-          this.props.navigator.push({
-            screen: USER_DISCOVERY_SCREEN
-          });
-        }
-        return (
-          <TouchableOpacity
-            onPress={() => this.handleUserLikePress(rejectUserLikeMutation)}
-          >
-            <Text> UserLike </Text>
-          </TouchableOpacity>
-        );
-      }}
-     <RejectUserLikeMutation>
-    )
-  }
+  private renderMutationButtons = () => {
+    if (this.props.liked) {
+      return (
+        <View>
+          <RejectUserLikeMutation>
+            {({ rejectUserLikeMutation, data, loading, error }) => {
+              return this.renderActionButton(
+                rejectUserLikeMutation,
+                data,
+                loading,
+                error
+              );
+            }}
+          </RejectUserLikeMutation>
+          <AcceptUserLikeMutation>
+            {({ acceptUserLikeMutation, data, loading, error }) => {
+              return this.renderActionButton(
+                acceptUserLikeMutation,
+                data,
+                loading,
+                error
+              );
+            }}
+          </AcceptUserLikeMutation>
+        </View>
+      );
+    } else {
+      return (
+        <View>
+          <LikeUserMutation>
+            {({ likeUserMutation, data, loading, error }) => {
+              return this.renderActionButton(
+                likeUserMutation,
+                data,
+                loading,
+                error
+              );
+            }}
+          </LikeUserMutation>
+        </View>
+      );
+    }
+  };
 
   render() {
     const { id } = this.props;
@@ -124,33 +142,7 @@ class UserDetailsScreen extends React.Component<Props, State> {
             );
           console.log(data);
           const { userDetails } = data;
-          return (
-            <View>
-              <LikeUserMutation>
-                {({ likeUserMutation, data, loading, error }) => {
-                  if (loading) {
-                    return this.renderLoadingIndicator();
-                  }
-                  if (error) {
-                    return this.renderErrorMessage(error);
-                  }
-                  if (data) {
-                    console.log(data);
-                    this.props.navigator.push({
-                      screen: USER_DISCOVERY_SCREEN
-                    });
-                  }
-                  return (
-                    <TouchableOpacity
-                      onPress={() => this.handleUserLikePress(likeUserMutation)}
-                    >
-                      <Text> UserLike </Text>
-                    </TouchableOpacity>
-                  );
-                }}
-              </LikeUserMutation>
-            </View>
-          );
+          return <View>{this.renderMutationButtons()}</View>;
         }}
       </UserDetailsQuery>
     );
