@@ -6,18 +6,18 @@ import {
   AsyncStorage,
   ScrollView
 } from "react-native";
-import { MatchListQuery } from "../../../queries/matches";
-import { CHAT_SCREEN, USER_DETAILS_SCREEN } from "../../../constants/screens";
+import { ChatDetailsQuery } from "../../../queries/chats";
+import { CHAT_SCREEN } from "../../../constants/screens";
 import {
-  MatchQueueList,
-  ChatList
-} from "../../../components/Match/MatchScreen";
+  CommentList,
+  CommentForm
+} from "../../../components/Match/ChatScreen";
 import styles from "./styles";
 
 
 type Props = {
-
-
+  id: string,
+  navigator: any;
 }
 
 type State = {
@@ -29,7 +29,17 @@ class ChatScreen extends React.Component<Props, State> {
   }
 
   render() {
-    return(<View/>)
+
+    const id = this.props.id
+    return(
+    <View>
+      <ChatDetailsQuery variables={id}>
+        {({subscribeComments}) => {
+            <CommentList subscribeComments={subscribeComments} />
+        }}
+      </ChatDetailsQuery>
+    </View>
+    )
   }
   
 }
