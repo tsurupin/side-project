@@ -27,15 +27,15 @@ class MatchScreen extends React.Component<Props, State> {
 
   protected handleChatPress = (chatId: number): void => {
     this.props.navigator.push({
-      CHAT_SCREEN,
+      screen: CHAT_SCREEN,
       passProps: { id: chatId }
     });
   };
 
   protected handleUserPress = (userId: number): void => {
     this.props.navigator.push({
-      USER_DETAILS_SCREEN,
-      passProps: { id: userId }
+      screen: USER_DETAILS_SCREEN,
+      passProps: { id: userId, liked: true }
     });
   };
 

@@ -177,8 +177,8 @@ defmodule ApiWeb.Schema.Mutations.UserLikessTest do
     end
 
     @mutation """
-      mutation ($likeId: ID!) {
-        acceptUserLike(likeId: $likeId) {
+      mutation ($userId: ID!) {
+        acceptUserLike(userId: $userId) {
           id
         }
       }
@@ -188,7 +188,7 @@ defmodule ApiWeb.Schema.Mutations.UserLikessTest do
       user_id = user.id
       like = Factory.insert(:user_like, target_user: user, status: :requested)
 
-      attrs = %{likeId: like.id}
+      attrs = %{userId: like.user_id}
 
       with_mock Api.Accounts.Authentication,
         verify: fn user_id -> {:ok, Db.Repo.get(Db.Users.User, user_id)} end do
@@ -214,7 +214,7 @@ defmodule ApiWeb.Schema.Mutations.UserLikessTest do
       user_id = user.id
       like = Factory.insert(:user_like)
 
-      attrs = %{likeId: like.id}
+      attrs = %{userId: like.user_id}
 
       with_mock Api.Accounts.Authentication,
         verify: fn user_id -> {:ok, Db.Repo.get(Db.Users.User, user_id)} end do
@@ -240,15 +240,15 @@ defmodule ApiWeb.Schema.Mutations.UserLikessTest do
     end
 
     @mutation """
-      mutation ($likeId: ID!) {
-        rejectUserLike(likeId: $likeId)
+      mutation ($userId: ID!) {
+        rejectUserLike(userId: $userId)
       }
     """
     test "mark like rejected", %{user: user} do
       user_id = user.id
       like = Factory.insert(:user_like, target_user: user)
 
-      attrs = %{likeId: like.id}
+      attrs = %{userId: like.user_id}
 
       with_mock Api.Accounts.Authentication,
         verify: fn user_id -> {:ok, Db.Repo.get(Db.Users.User, user_id)} end do
@@ -269,7 +269,7 @@ defmodule ApiWeb.Schema.Mutations.UserLikessTest do
       user_id = user.id
       like = Factory.insert(:user_like)
 
-      attrs = %{likeId: like.id}
+      attrs = %{userId: like.user_id}
 
       with_mock Api.Accounts.Authentication,
         verify: fn user_id -> {:ok, Db.Repo.get(Db.Users.User, user_id)} end do

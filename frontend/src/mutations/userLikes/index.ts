@@ -1,6 +1,5 @@
-import acceptUserLike from "./acceptUserLike";
-import rejectUserLike from "./rejectUserLike";
-import withdrawUserLike from "./withdrawUserLike";
+import AcceptUserLikeMutation from "./AcceptUserLikeMutation";
+import RejectUserLikeMutation from "./RejectUserLikeMutation";
 import LikeUserMutation from "./LikeUserMutation";
 
-export { acceptUserLike, rejectUserLike, withdrawUserLike, LikeUserMutation };
+export { AcceptUserLikeMutation, RejectUserLikeMutation, LikeUserMutation };

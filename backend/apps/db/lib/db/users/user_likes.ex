@@ -36,10 +36,10 @@ defmodule Db.Users.UserLikes do
     end
   end
 
-  @spec accept_like(User.t(), %{like_id: integer}) ::
+  @spec accept_like(User.t(), %{user_id: integer}) ::
           {:ok, Chat.t()} | {:error, String.t()} | {:error, :bad_request}
-  def accept_like(%User{id: target_user_id}, %{like_id: like_id}) do
-    case Repo.get_by(UserLike, id: like_id, target_user_id: target_user_id) do
+  def accept_like(%User{id: target_user_id}, %{user_id: user_id}) do
+    case Repo.get_by(UserLike, user_id: user_id, target_user_id: target_user_id) do
       %UserLike{status: :requested} = like ->
         transaction =
           Multi.new()
@@ -62,10 +62,10 @@ defmodule Db.Users.UserLikes do
     end
   end
 
-  @spec reject_like(User.t(), %{like_id: integer}) ::
+  @spec reject_like(User.t(), %{user_id: integer}) ::
           {:ok, Chat.t()} | {:error, String.t()} | {:error, :bad_request}
-  def reject_like(%User{id: target_user_id}, %{like_id: like_id}) do
-    case Repo.get_by(UserLike, id: like_id, target_user_id: target_user_id) do
+  def reject_like(%User{id: target_user_id}, %{user_id: user_id}) do
+    case Repo.get_by(UserLike, user_id: user_id, target_user_id: target_user_id) do
       %UserLike{status: :requested} = like ->
         transaction =
           UserLike.change_status_changeset(like, %{status: :rejected})
