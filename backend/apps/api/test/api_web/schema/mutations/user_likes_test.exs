@@ -180,6 +180,7 @@ defmodule ApiWeb.Schema.Mutations.UserLikessTest do
       mutation ($userId: ID!) {
         acceptUserLike(userId: $userId) {
           id
+          name
         }
       }
     """
@@ -207,6 +208,7 @@ defmodule ApiWeb.Schema.Mutations.UserLikessTest do
         member_ids = Repo.all(Db.Chats.Member, chat_id: chat.id) |> Enum.map(& &1.user_id)
         assert member_ids == [like.user_id, like.target_user_id]
         assert response["data"]["acceptUserLike"]["id"] == "#{chat.id}"
+          assert response["data"]["acceptUserLike"]["name"] == "#{chat.name}"
       end
     end
 
@@ -261,7 +263,7 @@ defmodule ApiWeb.Schema.Mutations.UserLikessTest do
         like = Repo.get(Db.Users.UserLike, like.id)
         assert like.status == :rejected
 
-        assert response["data"]["rejectUserLike"]
+        assert response["data"]["rejectUserLike"] == "#{user_id}"
       end
     end
 
