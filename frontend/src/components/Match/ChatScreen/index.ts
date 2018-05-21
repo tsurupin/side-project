@@ -1,7 +1,8 @@
-import CommentForm from "./CommentForm";
-import CommentList from "./CommentList";
-
+import MessageForm from "./MessageForm";
+import MessageList from "./MessageList";
+import MessageDetails from "./MessageDetails";
 export {
-  CommentForm,
-  CommentList
+  MessageForm,
+  MessageList,
+  MessageDetails,
 };

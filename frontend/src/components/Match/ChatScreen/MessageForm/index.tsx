@@ -12,7 +12,7 @@ type State = {
 
 }
 
-class CommentForm extends React.Component<Props, State> {
+class MessageForm extends React.Component<Props, State> {
   constructor(props) {
     super(props);
   }
@@ -22,4 +22,4 @@ class CommentForm extends React.Component<Props, State> {
   }
 }
 
-export default CommentForm;
+export default MessageForm;

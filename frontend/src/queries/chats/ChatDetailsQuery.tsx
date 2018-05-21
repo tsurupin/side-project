@@ -19,7 +19,7 @@ const ChatDetailsQuery = (props: any) => {
       notifyOnNetworkStatusChange
     >
     {({subscribeToMore, error, data, loading}) => {
-      const subscribeComments = () => subscribeToMore({
+      const subscribeMessages = () => subscribeToMore({
         document: NEW_MESSAGE_SUBSCRIPTION,
         variables: { chatId: variables.id },
         updateQuery: (prev, { subscriptionData }) => {
@@ -37,7 +37,7 @@ const ChatDetailsQuery = (props: any) => {
         error,
         data,
         loading,
-        subscribeComments
+        subscribeMessages
       })}
     }
   </Query>
