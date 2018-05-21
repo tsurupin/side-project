@@ -11,7 +11,6 @@ export interface UserDetails extends UserCore {
   leadSentence?: string;
 }
 
-
 export interface Skill {
   id: number;
   name: string;
@@ -44,4 +43,10 @@ export interface Message {
   comment?: string,
   imageUrl?: string,
   user: UserCore
+}
+
+export interface MessageParams {
+  chatId: string,
+  comment?: string,
+  image?: string
 }

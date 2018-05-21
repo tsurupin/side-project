@@ -11,6 +11,7 @@ import { CreateMessageMutation } from "../../../mutations/chats";
 import { CHAT_SCREEN } from "../../../constants/screens";
 import { MessageList, MessageForm } from "../../../components/Match/ChatScreen";
 import styles from "./styles";
+import createMessage from "../../../mutations/chats/createMessage";
 
 type Props = {
   id: string;
@@ -43,7 +44,18 @@ class ChatScreen extends React.Component<Props, State> {
                 messages={messages}
               />
               <CreateMessageMutation>
-              </CreateMessageMutation> 
+                {({ createMessageMutation, loading, error, data }) => {
+                  if (loading) return <View>MessageCreationLoading</View>;
+                  if (error) {
+                    console.log("messageCreationError", error);
+                    return <View>MessageCreationError</View>;
+                  }
+                  console.log("MessageCreationData", data);
+                  return (
+                    <MessageForm onPress={createMessageMutation} chatId={chat.id} />
+                  );
+                }}
+              </CreateMessageMutation>
             </View>
           );
         }}
