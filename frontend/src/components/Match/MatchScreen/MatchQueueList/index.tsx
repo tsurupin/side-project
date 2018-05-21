@@ -3,12 +3,10 @@ import { View, Text } from 'react-native';
 import { ListItem } from 'react-native-elements'
 import styles from "./styles";
 
-type User = {
-  id: number,
-  displayName: string
-}
+import { UserCore } from "../../../../interfaces";
+
 type Props = {
-  likedUserList: User[],
+  likedUserList: UserCore[],
   onPress: (number) => void,
 }
 

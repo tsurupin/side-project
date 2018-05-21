@@ -1,12 +1,16 @@
-export interface UserDetails {
+export interface UserCore {
   id: number;
   displayName: string;
+  mainPhotoUrl: string;
+}
+
+export interface UserDetails extends UserCore {
   areaName?: string;
   occupationTypeName?: string;
   genreName?: string;
-  mainPhotoUrl: string;
   leadSentence?: string;
 }
+
 
 export interface Skill {
   id: number;
@@ -33,4 +37,11 @@ export interface UserSearchParams {
 export interface Chat {
   id: number;
   name: string;
+}
+
+export interface Message {
+  id: string,
+  comment?: string,
+  imageUrl?: string,
+  user: UserCore
 }

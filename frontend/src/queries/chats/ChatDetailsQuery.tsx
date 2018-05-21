@@ -18,7 +18,7 @@ const ChatDetailsQuery = (props: any) => {
       fetchPolicy="network-only"
       notifyOnNetworkStatusChange
     >
-    {({subscribeToMore, ...result}) => {
+    {({subscribeToMore, error, data, loading}) => {
       const subscribeComments = () => subscribeToMore({
         document: NEW_MESSAGE_SUBSCRIPTION,
         variables: { chatId: variables.id },
@@ -32,10 +32,11 @@ const ChatDetailsQuery = (props: any) => {
     
         }
       })
-      console.log("result", result);
-    
+     
       return children({
-        ...result,
+        error,
+        data,
+        loading,
         subscribeComments
       })}
     }

@@ -32,13 +32,25 @@ class ChatScreen extends React.Component<Props, State> {
 
     const id = this.props.id
     return(
-    <View>
+ 
       <ChatDetailsQuery variables={{id}}>
-        {({subscribeComments}) => {
-            return <CommentList subscribeComments={subscribeComments} />
+        {({subscribeComments, error, data, loading}) => {
+          if (loading) return <View>Loading</View>
+          if(error) {
+            console.log("ChatDetailsQuery", error)
+            return <View>Error</View>
+          }
+          const { chat, messages } = data;
+          
+          return(
+            <View>
+              <Text>{chat.name}</Text>
+              <CommentList subscribeComments={subscribeComments} messages={messages} />
+            </View>
+          )
         }}
       </ChatDetailsQuery>
-    </View>
+   
     )
   }
   
