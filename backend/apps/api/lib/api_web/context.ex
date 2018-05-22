@@ -11,6 +11,7 @@ defmodule ApiWeb.Context do
   end
 
   defp build_context(conn) do
+    IO.inspect(conn)
 
     with ["Bearer " <> token] <- get_req_header(conn, "authorization"),
          {:ok, user} <- Authentication.verify(token) do

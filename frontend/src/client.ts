@@ -23,9 +23,23 @@ const httpLink = createHttpLink({
 });
 
 const absintheSocketLink = createAbsintheSocketLink(
-  AbsintheSocket.create(new PhoenixSocket("ws://localhost:4000/socket"))
+  AbsintheSocket.create(new PhoenixSocket("ws://localhost:4000/api/socket")),
+  console.log('socket created')
 );
 
+const logEvent = eventName => (...args) => console.log(eventName, ...args);
+
+// const notifier = AbsintheSocket.send(absintheSocket, {
+//   operation,
+//   variables: {userId: 10}
+// });
+
+// const updatedNotifier = AbsintheSocket.observe(absintheSocketLink, notifier, {
+//   onAbort: logEvent("abort"),
+//   onError: logEvent("error"),
+//   onStart: logEvent("open"),
+//   onResult: logEvent("result")
+// });
 const errorLink = onError(err => {
   console.log("apollo-link-error, err", err);
 });
@@ -65,18 +79,6 @@ const stateLink = withClientState({
         console.warn("changeLoginStatus")
         cache.writeData({ data: { logined } });
         return null;
-      },
-      // acceptUserLike: (_, {userId},{ cache } ) => {
-      //   const data = cache.readQuery({ query: MATCH_LIST_QUERY });
-      //   console.warn(data);
-
-
-      //   return null;
-      // },
-      rejectUserLike: (_, hoge,{ cache } ) => {
-        const data = cache.readQuery({ query: MATCH_LIST_QUERY });
-        console.warn("rejectlike", data);
-        return null;
       }
     }
   },
@@ -88,12 +90,13 @@ const stateLink = withClientState({
 const link = split(
   ({ query }: any) => {
     const { kind, operation }: any = getMainDefinition(query);
+    console.log(kind, operation)
     return kind === "OperationDefinition" && operation === "subscription";
   },
   absintheSocketLink,
   ApolloLink.from([stateLink, errorLink, authLink, httpLink])
 );
-
+console.log("link", link)
 const client = new ApolloClient({
   cache,
   link

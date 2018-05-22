@@ -53,6 +53,30 @@ defmodule ApiWeb.Schema do
 
   subscription do
     import_fields(:chats_subscriptions)
+
+    field :comment_added, :string do
+      arg(:chat_id, non_null(:string))
+
+
+      config(fn args, _ ->
+        {:ok, topic: "repo"}
+      end)
+
+      # this tells Absinthe to run any subscriptions with this field every time
+      # the :submit_comment mutation happens.
+      # It also has a topic function used to find what subscriptions care about
+      # this particular comment
+
+      trigger(:submit_comment, topic: fn comment -> [comment.repo_name] end)
+
+      resolve(fn _, _, _ ->
+        #IO.inspect(comment)
+        IO.inspect('resolving')
+
+
+        {:ok, "gotcha"}
+      end)
+    end
   end
 
   def middleware(middleware, field, object) do

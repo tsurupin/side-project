@@ -1,21 +1,20 @@
 import * as React from "react";
 import {
-  View
+  View,
+  Text
 } from "react-native"
 
 
 type Props = {
-
+  id: string,
+  comment?: string,
+  imageUrl?: string
 }
 
-type State = {
-
-}
-
-const MessageDetails = (props: any) =>  {
+const MessageDetails = (props: Props) =>  {
   
   return(
-    <View />
+    <View><Text>{props.id}</Text></View>
   )
 }
 

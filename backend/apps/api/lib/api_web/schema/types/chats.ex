@@ -28,7 +28,7 @@ defmodule ApiWeb.Schema.Types.Chats do
   end
 
   input_object :message_input do
-    field(:chat_id, :integer)
+    field(:chat_id, :id)
     field(:comment, :string)
     field(:image, :upload)
   end

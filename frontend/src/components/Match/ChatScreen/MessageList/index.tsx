@@ -7,7 +7,7 @@ import { Message } from "../../../../interfaces";
 
 type Props = {
   messages: Message[]
-  subscribeMessages: () => void
+  subscribeMessages?: () => void
 }
 
 type State = {
@@ -20,15 +20,15 @@ class MessageList extends React.Component<Props, State> {
   }
 
   componentDidMount() {
-    this.props.subscribeMessages();
+    //this.props.subscribeMessages();
   } 
 
   render() {
     const { messages } = this.props;
     return(
       <View>
-        {messages.map(message => {
-          return <MessageDetails message={message} />
+        {messages.slice(1,2).map(message => {
+          return <MessageDetails key={message.id} {...message} />
         })}
       </View>
     )
