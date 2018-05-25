@@ -8,7 +8,6 @@ defmodule ApiWeb.Schema.Subscriptions.Chats do
       arg(:chat_id, non_null(:id))
 
       config(fn args, _info ->
-        IO.inspect(args)
         {:ok, topic: "chat:#{args.chat_id}"}
       end)
 

@@ -19,8 +19,12 @@ class MessageList extends React.Component<Props, State> {
     super(props);
   }
 
-  componentDidMount() {
-    //this.props.subscribeMessages();
+  // componentWillReceiveProps(props) {
+  //   this.props.subscribeMessages();
+  // }
+
+  componentWillMount() {
+    this.props.subscribeMessages();
   } 
 
   render() {

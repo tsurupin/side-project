@@ -42,16 +42,10 @@ class ChatScreen extends React.Component<Props, State> {
             <View>
               <Text>{chat.name}</Text>
               <MessageList
-                // subscribeMessages={subscribeMessages}
+                subscribeMessages={subscribeMessages}
                 messages={chat.messages}
               />
-              <Subscription subscription={NEW_MESSAGE_SUBSCRIPTION} variables={{chatId: "1"}}>
-              {({data, loading, error}) => {
-                console.log("Subscription", data, loading, error)
-                return <View />
-              }}
-              </Subscription>
-
+              
               <CreateMessageMutation>
                 {({ createMessageMutation, loading, error, data }) => {
                   if (loading) return <View>MessageCreationLoading</View>;
@@ -61,7 +55,7 @@ class ChatScreen extends React.Component<Props, State> {
                   }
                   if (data) {
                     console.log("updated", data)
-                    subscribeMessages();
+                
                   }
                   console.log("MessageCreationData", data);
                   return (

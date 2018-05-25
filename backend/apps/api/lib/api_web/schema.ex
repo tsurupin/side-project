@@ -55,11 +55,11 @@ defmodule ApiWeb.Schema do
     import_fields(:chats_subscriptions)
 
     field :comment_added, :string do
-      arg(:chat_id, non_null(:string))
+      arg(:repo_name, non_null(:string))
 
 
       config(fn args, _ ->
-        {:ok, topic: "repo"}
+        {:ok, topic: "test"}
       end)
 
       # this tells Absinthe to run any subscriptions with this field every time

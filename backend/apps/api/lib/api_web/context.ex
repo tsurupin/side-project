@@ -11,8 +11,6 @@ defmodule ApiWeb.Context do
   end
 
   defp build_context(conn) do
-    IO.inspect(conn)
-
     with ["Bearer " <> token] <- get_req_header(conn, "authorization"),
          {:ok, user} <- Authentication.verify(token) do
            IO.inspect("authentication is done!!")
@@ -21,7 +19,8 @@ defmodule ApiWeb.Context do
     else
       {:error, :token_expired} -> %{error: :token_expired}
       _ ->
-        IO.inspect("unknwon")
+        IO.inspect("unknwon authentication")
+        IO.inspect(conn)
         %{}
     end
   end

@@ -10,7 +10,7 @@ import { onError } from "apollo-link-error";
 //import Retry from 'apollo-link-retry';
 import { refreshTokenIfNecessary } from "./utilities/firebase";
 import { getMainDefinition } from "apollo-utilities";
-import * as AbsintheSocket from "@absinthe/socket";
+import { observe, notifier, create } from "@absinthe/socket";
 import { createAbsintheSocketLink } from "@absinthe/socket-apollo-link";
 import { Socket as PhoenixSocket } from "phoenix";
 import { MATCH_LIST_QUERY } from "./graphql/matches";
@@ -21,25 +21,12 @@ const httpLink = createHttpLink({
   credentials: "include"
   //credentials: process.env.NODE_ENV === 'development' ? 'include' : 'same-origin'
 });
+//https://medium.com/nuu-engineering/how-to-integrate-elixir-absinthe-graphql-with-react-apollo-without-dying-in-the-attempt-2b5c1cc59577
+const absintheSocket = create(new PhoenixSocket("ws://localhost:4000/socket/websocket?vsn=2.0.0",{params: { token: 'my-token' }}));
+// how to params asynchronouslly
+const absintheSocketLink = createAbsintheSocketLink(absintheSocket);
 
-const absintheSocketLink = createAbsintheSocketLink(
-  AbsintheSocket.create(new PhoenixSocket("ws://localhost:4000/api/socket")),
-  console.log('socket created')
-);
 
-const logEvent = eventName => (...args) => console.log(eventName, ...args);
-
-// const notifier = AbsintheSocket.send(absintheSocket, {
-//   operation,
-//   variables: {userId: 10}
-// });
-
-// const updatedNotifier = AbsintheSocket.observe(absintheSocketLink, notifier, {
-//   onAbort: logEvent("abort"),
-//   onError: logEvent("error"),
-//   onStart: logEvent("open"),
-//   onResult: logEvent("result")
-// });
 const errorLink = onError(err => {
   console.log("apollo-link-error, err", err);
 });
@@ -91,6 +78,7 @@ const link = split(
   ({ query }: any) => {
     const { kind, operation }: any = getMainDefinition(query);
     console.log(kind, operation)
+    console.log(query)
     return kind === "OperationDefinition" && operation === "subscription";
   },
   absintheSocketLink,

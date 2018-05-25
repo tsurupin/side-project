@@ -21,7 +21,8 @@ defmodule ApiWeb.UserSocket do
   #
   # See `Phoenix.Token` documentation for examples in
   # performing token verification on connect.
-  def connect(%{"token" => token} = attrs, socket) do
+  def connect(%{"token" => token}, socket) do
+
     case Authentication.verify(token) do
       {:ok, user} ->
         socket =
@@ -46,6 +47,7 @@ defmodule ApiWeb.UserSocket do
   end
 
   def connect(params, _socket) do
+    IO.inspect(params)
     :error
   end
 
