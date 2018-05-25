@@ -1,6 +1,6 @@
 import * as React from "react";
 import { View } from "react-native";
-import { Input } from 'react-native-elements';
+import { Input, Button } from 'react-native-elements';
 import { MessageParams } from "../../../../interfaces";
 
 import styles from "./styles";
@@ -24,16 +24,24 @@ class MessageForm extends React.Component<Props, State> {
     }
   }
 
+  private onPress = () => {
+    const { comment, image } = this.state;
+    const { chatId, onPress } = this.props;
+    this.props.onPress({variables: {chatId, comment, image}})
+  }
+
   render() {
     const { comment, image }= this.state;
     const { chatId, onPress } = this.props;
     return (
-      <Input
-        placeholder="Add New Message"
-        value={comment}
-        onChangeText={(v) => this.setState({comment: v})}
-        onKeyPress={() => onPress({chatId, comment: comment, image: image})}
-      />
+      <View>
+        <Input
+          placeholder="Add New Message"
+          value={comment}
+          onChangeText={(v) => this.setState({comment: v})}
+          onSubmitEditing={this.onPress}
+        />
+      </View>
     )
   }
 }

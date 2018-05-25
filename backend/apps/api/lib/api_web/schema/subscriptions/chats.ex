@@ -5,22 +5,28 @@ defmodule ApiWeb.Schema.Subscriptions.Chats do
   object :chats_subscriptions do
     @desc "scubscribe new message"
     field :new_message, :message do
-      arg(:chat_id, non_null(:integer))
+      arg(:chat_id, non_null(:id))
 
       config(fn args, _info ->
-        {:ok, topic: "new_message:#{args.chat_id}"}
+        {:ok, topic: "chat:#{args.chat_id}"}
       end)
 
       trigger(
         :create_message,
         topic: fn
           %Message{} = message ->
-            ["new_message:#{message.chat_id}"]
-
+            IO.inspect("message: #{message.id}, #{message.chat_id}")
+            ["chat:#{message.chat_id}"]
           _ ->
+            IO.inspect("no name")
             []
         end
       )
+
+      resolve fn root, _, _ ->
+        IO.inspect("root:#{root}")
+        {:ok, root}
+      end
     end
   end
 end

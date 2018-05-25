@@ -12,6 +12,8 @@ import { CHAT_SCREEN } from "../../../constants/screens";
 import { MessageList, MessageForm } from "../../../components/Match/ChatScreen";
 import styles from "./styles";
 import createMessage from "../../../mutations/chats/createMessage";
+import { Subscription } from "react-apollo";
+import { CHAT_QUERY, NEW_MESSAGE_SUBSCRIPTION } from "../../../graphql/chats";
 
 type Props = {
   id: string;
@@ -34,21 +36,26 @@ class ChatScreen extends React.Component<Props, State> {
             console.log("ChatDetailsQuery", error);
             return <View>Error</View>;
           }
-          const { chat, messages } = data;
-
+          const { chat } = data;
+         
           return (
             <View>
               <Text>{chat.name}</Text>
               <MessageList
                 subscribeMessages={subscribeMessages}
-                messages={messages}
+                messages={chat.messages}
               />
+              
               <CreateMessageMutation>
                 {({ createMessageMutation, loading, error, data }) => {
                   if (loading) return <View>MessageCreationLoading</View>;
                   if (error) {
                     console.log("messageCreationError", error);
                     return <View>MessageCreationError</View>;
+                  }
+                  if (data) {
+                    console.log("updated", data)
+                
                   }
                   console.log("MessageCreationData", data);
                   return (

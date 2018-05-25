@@ -1,6 +1,7 @@
 import * as React from "react";
 import { Query } from "react-apollo";
 import { CHAT_QUERY, NEW_MESSAGE_SUBSCRIPTION } from "../../graphql/chats";
+import { COMMENT_ADDED_SUBSCRIPTION } from "../../graphql/comments";
 
 type Props = {
   children: any,
@@ -15,31 +16,51 @@ const ChatDetailsQuery = (props: any) => {
       query={CHAT_QUERY}
       variables={variables}
       context={{needAuth: true}}
-      fetchPolicy="network-only"
       notifyOnNetworkStatusChange
     >
-    {({subscribeToMore, error, data, loading}) => {
-      const subscribeMessages = () => subscribeToMore({
-        document: NEW_MESSAGE_SUBSCRIPTION,
-        variables: { chatId: variables.id },
-        updateQuery: (prev, { subscriptionData }) => {
-          console.log("prev", prev)
-          console.log("SubscriptioNData:", subscriptionData);
-          if (!subscriptionData.data) return prev;
-          const newMessage = subscriptionData.data.newMessage;
-    
-          return {...prev, chat: {messages: [newMessage]}};
-    
-        }
-      })
+    {({ subscribeToMore, error, data, loading}) => {
+       function subscribeMessages() {
+         console.log("subscribeMessages fired!", variables)
+         
+         return subscribeToMore({
+          document: NEW_MESSAGE_SUBSCRIPTION,
+          variables: { chatId: variables.id },
+          updateQuery: (prev, { subscriptionData }) => {
+            console.log("prev", prev)
+            console.log("SubscriptioNData:", subscriptionData);
+            if (!subscriptionData.data) return prev;
+            const newMessage = subscriptionData.data.newMessage;
+      
+            return {...prev, chat: {messages: [newMessage]}};
+      
+          },
+          onError: (err) => console.error("subscriptionError", err)
+        })
+      }
+      console.log(subscribeMessages)
+      console.log(subscribeToMore)
      
       return children({
         error,
         data,
         loading,
         subscribeMessages
-      })}
-    }
+      //   subscribeMessages: () => subscribeToMore({
+      //   document: NEW_MESSAGE_SUBSCRIPTION,
+      //   variables: { chatId: variables.id },
+      //   updateQuery: (prev, { subscriptionData }) => {
+      //     console.log("prev", prev)
+      //     console.log("SubscriptioNData:", subscriptionData);
+      //     if (!subscriptionData.data) return prev;
+      //     const newMessage = subscriptionData.data.newMessage;
+    
+      //     return {...prev, chat: {messages: [newMessage]}};
+    
+      //   },
+      //   onError: (err) => console.error("subscriptionError", err)
+      // })
+      })
+    }}
   </Query>
   )
   

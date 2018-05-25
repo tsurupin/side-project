@@ -9,7 +9,6 @@ defmodule ApiWeb.Schema.Resolvers.Chats do
 
       {:ok, chat} ->
         chat = Chats.with_messages(chat)
-        IO.inspect(chat)
         {:ok, chat}
     end
   end
