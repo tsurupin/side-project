@@ -92,10 +92,8 @@ class DiscoveryScreen extends React.Component<Props, State> {
   };
 
   protected handleNavigatorEvent = e => {
-    console.log(e);
-    if (e.type !== "NavBarButtonPress") {
-      return;
-    }
+    if (e.type !== "NavBarButtonPress") return;
+
     console.log(e);
     switch (e.id) {
       case USER_SEARCH_BUTTON:
@@ -184,7 +182,7 @@ class DiscoveryScreen extends React.Component<Props, State> {
 
   render() {
     //const isVisible = this.props.navigator.screenIsCurrentlyVisible().then(r => console.log("rendered", r))
-   
+
     console.log("render hoge");
     return (
       <View style={styles.container}>

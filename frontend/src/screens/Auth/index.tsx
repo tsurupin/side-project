@@ -7,22 +7,19 @@ import MainTab from "../../screens/MainTab";
 import { firebaseSignIn } from "../../utilities/firebase";
 
 const FACEBOOK = "facebook";
+const FB_READ_PERMISSIONS = ["public_profile", "email"];
 
 type Props = {};
 
-type State = {
-  
-};
+type State = {};
 
 class AuthScreen extends React.Component<Props, State> {
   constructor(props) {
     super(props);
-
-  
   }
 
-  fbLoginHandler = (signUpMutation: any): void => {
-    LoginManager.logInWithReadPermissions(["public_profile", "email"])
+  private handleFbLogin = (signUpMutation: any): void => {
+    LoginManager.logInWithReadPermissions(FB_READ_PERMISSIONS)
       .then(result => {
         if (result.isCancelled) {
           return console.log("Login is cancelled");
@@ -45,7 +42,6 @@ class AuthScreen extends React.Component<Props, State> {
       await firebaseSignIn(token);
 
       loginMutation({ variables: { logined: true } });
-   
     } catch (e) {
       console.log(e);
     }
@@ -54,7 +50,6 @@ class AuthScreen extends React.Component<Props, State> {
   openMainTab = () => {
     MainTab();
   };
-
 
   render() {
     return (
@@ -67,23 +62,30 @@ class AuthScreen extends React.Component<Props, State> {
           return (
             <View>
               <SignUpMutation>
-                {({ signUpMutation, loginMutation, loading, error, signUpData, loginData }) => {
-                  console.log("SignUpMutation", signUpData, error, loginData)
-                  if (loading) { return <View>Loading</View> }
-                  if (error) { return <View>Error</View> }
-                  if (loginData) {
-                    console.log(loginData)
-                    console.log("logined!!!!!!!!!!")
-                    this.openMainTab();
+                {({
+                  signUpMutation,
+                  loginMutation,
+                  loading,
+                  error,
+                  signUpData,
+                  loginData
+                }) => {
+                  console.log("SignUpMutation", signUpData, error, loginData);
+                  if (loading) {
+                    return <View>Loading</View>;
+                  }
+                  if (error) {
+                    return <View>Error</View>;
                   }
 
-                  if (signUpData && signUpData.signUp) {        
+                  if (signUpData && signUpData.signUp) {
+                    console.log("loginFirebase")
                     this.loginFirebase(signUpData.signUp.token, loginMutation);
                   }
 
                   return (
                     <TouchableOpacity
-                      onPress={() => this.fbLoginHandler(signUpMutation)}
+                      onPress={() => this.handleFbLogin(signUpMutation)}
                     >
                       <Text> Facebook SignIn </Text>
                     </TouchableOpacity>

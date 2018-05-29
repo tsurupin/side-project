@@ -6,7 +6,9 @@ const LoginMutation = (props: any) => {
   const { children } = props;
   console.log(children);
   return (
-    <Mutation mutation={LOGIN_MUTATION}>
+    <Mutation 
+      mutation={LOGIN_MUTATION}
+    >
       {(loginMutation, { data, error }) => {
         return children({ loginMutation, error, data });
       }}

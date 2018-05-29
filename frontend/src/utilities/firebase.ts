@@ -6,6 +6,7 @@ import {
   FIREBASE_DATABASE_URL,
   FIREBASE_PROJECT_ID
 } from "../config";
+import TokenManager from "./tokenManager";
 
 const firebaseConfig = {
   apiKey: FIREBASE_API_KEY,
@@ -26,14 +27,10 @@ export const firebaseSignIn = firebaseToken => {
       .signInWithCustomToken(firebaseToken)
       .then(result => {
         const { user } = result;
- 
+
         user.getIdToken(false).then(async userToken => {
-    
-          await AsyncStorage.setItem(TOKEN, userToken);
-          const currentTimeInUnix = Math.floor(Date.now() / 1000);
-          const expiredAtInUnix = `${3600 + currentTimeInUnix}`;
-          await AsyncStorage.setItem(REFRESH_TOKEN, user.refreshToken);
-          await AsyncStorage.setItem(EXPIRED_AT_IN_UNIX, expiredAtInUnix);
+
+          await TokenManager.setToken(userToken, user.refreshToken);
           resolve();
         });
       })
@@ -50,9 +47,7 @@ export const firebaseSignOut = () => {
       .auth()
       .signOut()
       .then(async () => {
-        await AsyncStorage.removeItem(TOKEN);
-        await AsyncStorage.removeItem(REFRESH_TOKEN);
-        await AsyncStorage.removeItem(EXPIRED_AT_IN_UNIX);
+        await TokenManager.removeToken();
         resolve();
       })
       .catch(error => {
@@ -62,32 +57,10 @@ export const firebaseSignOut = () => {
   });
 };
 
-const activeToken = async (): Promise<string | undefined> => {
-  const currentToken = await AsyncStorage.getItem(TOKEN);
-  const expiredAtInUnix = await AsyncStorage.getItem(EXPIRED_AT_IN_UNIX);
+export const firebaseRefreshToken = async () => {
+ 
+  const refreshToken = await TokenManager.getRefreshToken();
   
-  const currentTimeInUnix = Math.floor(Date.now() / 1000);
-
-  if (expiredAtInUnix && parseInt(expiredAtInUnix) > currentTimeInUnix) {
-    return currentToken;
-  }
-  return undefined;
-};
-
-export const hasActiveToken = async () => {
-  const token = await activeToken();
-  return token ? true : false;
-};
-
-export const refreshTokenIfNecessary = async () => {
-  const token = await activeToken();
-  if (token) {
-    return token;
-  }
-
-  const refreshToken = await AsyncStorage.getItem(REFRESH_TOKEN);
-  const currentTimeInUnix = Math.floor(Date.now() / 1000);
-
   if (!refreshToken) {
     return;
   }
@@ -111,12 +84,8 @@ export const refreshTokenIfNecessary = async () => {
     .then(result => result.json())
     .then(async result => {
       const token = result.id_token;
-      console.log("refreshed");
-      await AsyncStorage.setItem(TOKEN, token);
-      await AsyncStorage.setItem(REFRESH_TOKEN, result.refresh_token);
-      const nextExpiredAtInUnix = `${parseInt(result.expires_in) +
-        currentTimeInUnix}`;
-      await AsyncStorage.setItem(EXPIRED_AT_IN_UNIX, nextExpiredAtInUnix);
+      await TokenManager.setToken(token, result.refresh_token, parseInt(result.expires_in))
+      
       return token;
     })
     .catch(error => console.log(error));

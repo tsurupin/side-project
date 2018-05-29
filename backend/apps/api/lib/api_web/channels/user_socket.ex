@@ -22,9 +22,11 @@ defmodule ApiWeb.UserSocket do
   # See `Phoenix.Token` documentation for examples in
   # performing token verification on connect.
   def connect(%{"token" => token}, socket) do
+    IO.inspect(token)
 
     case Authentication.verify(token) do
       {:ok, user} ->
+        IO.inspect("passed")
         socket =
           Absinthe.Phoenix.Socket.put_options(
             socket,
@@ -36,6 +38,7 @@ defmodule ApiWeb.UserSocket do
         {:ok, socket}
 
       {:error, _} ->
+        IO.inspect("error")
         :error
     end
 
