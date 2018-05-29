@@ -5,10 +5,12 @@ const TOKEN = "TOKEN";
 
 class TokenManager {
   token: string | undefined;
+  expiredAtInUnix: number | undefined;
   observers: any[];
 
   constructor() {
     this.token = undefined;
+    this.expiredAtInUnix = undefined;
     this.observers = [];
   }
 
@@ -26,6 +28,7 @@ class TokenManager {
     await AsyncStorage.removeItem(EXPIRED_AT_IN_UNIX);
 
     this.observers.forEach(observer => observer.watchToken(undefined));
+    this.expiredAtInUnix = undefined;
     this.token = undefined;
   
   };
@@ -35,25 +38,51 @@ class TokenManager {
     refreshToken: string,
     validTimeInUnix: number = 3600
   ) => {
-    const currentTimeInUnix = Math.floor(Date.now() / 1000);
-    const expiredAtInUnix = `${validTimeInUnix + currentTimeInUnix}`;
+    if (this.token && this.token === token){ return; }
+
+    const expiredAtInUnix = validTimeInUnix + this.getCurrentTimeInUnix();
     await AsyncStorage.setItem(TOKEN, token);
     await AsyncStorage.setItem(REFRESH_TOKEN, refreshToken);
-    await AsyncStorage.setItem(EXPIRED_AT_IN_UNIX, expiredAtInUnix);
+    await AsyncStorage.setItem(EXPIRED_AT_IN_UNIX, `${expiredAtInUnix}`);
     this.observers.forEach(observer => {
-      console.log("setToken", observer)
+      console.log("setToken", observer, observer.randomId)
       observer.watchToken(token)
     });
+    
+    this.expiredAtInUnix = expiredAtInUnix;
     this.token = token;
   };
+
+  private getCurrentTimeInUnix = () : number => {
+    return Math.floor(Date.now() / 1000);
+  } 
+
+  public getCachedToken = (): (string | undefined) => {
+    console.log("getCached")
+    if (!this.token) return undefined;
+    console.log(this.token, this.expiredAtInUnix);
+   
+    if (this.expiredAtInUnix && this.expiredAtInUnix > this.getCurrentTimeInUnix()) {
+      return this.token;
+    } else {
+      return undefined;
+    }
+  }
 
   public getToken = async (): Promise<string | undefined> => {
     const currentToken = await AsyncStorage.getItem(TOKEN);
     const expiredAtInUnix = await AsyncStorage.getItem(EXPIRED_AT_IN_UNIX);
 
-    const currentTimeInUnix = Math.floor(Date.now() / 1000);
-
-    if (expiredAtInUnix && parseInt(expiredAtInUnix) > currentTimeInUnix) {
+    if (expiredAtInUnix && parseInt(expiredAtInUnix) > this.getCurrentTimeInUnix()) {
+      if (!this.token) {
+        this.token = currentToken;
+        this.expiredAtInUnix = parseInt(expiredAtInUnix);
+        this.observers.forEach(observer => {
+          console.log("setToken", observer, observer.randomId)
+          observer.watchToken(this.token)
+        });
+        
+      }
       return currentToken;
     }
     return undefined;

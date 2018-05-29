@@ -34,7 +34,7 @@ const ChatDetailsQuery = (props: any) => {
             return {...prev, chat: {messages: [newMessage]}};
       
           },
-          onError: (err) => console.info("subscriptionError", err)
+          onError: (err) => console.error(err)
         })
       }
      
