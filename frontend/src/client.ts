@@ -12,9 +12,15 @@ import TokenManager from "./utilities/tokenManager";
 import absintheSocketLink from "./utilities/absintheSocketLink";
 import { firebaseRefreshToken } from "./utilities/firebase";
 import { getMainDefinition } from "apollo-utilities";
-
+import { observe, notifier, create } from "@absinthe/socket";
+import { createAbsintheSocketLink } from "@absinthe/socket-apollo-link";
+import { Socket as PhoenixSocket } from "phoenix";
 import { MATCH_LIST_QUERY } from "./graphql/matches";
 const uri = "http://localhost:4000/api/graphiql";
+
+const absintheSocket = create(new PhoenixSocket("ws://localhost:4000/socket/websocket?vsn=2.0.0",{params: { token: 'my-token' }}));
+// how to params asynchronouslly
+const bsintheSocketLink = createAbsintheSocketLink(absintheSocket);
 
 const httpLink = createHttpLink({
   uri,
@@ -72,6 +78,8 @@ const stateLink = withClientState({
 });
 
 
+console.log("infoooo", absintheSocketLink.link, bsintheSocketLink, bsintheSocketLink.link);
+console.log("socket", absintheSocketLink.socket, absintheSocket)
 const link = split(
   ({ query }: any) => {
     const { kind, operation }: any = getMainDefinition(query);

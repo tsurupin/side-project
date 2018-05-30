@@ -23,10 +23,10 @@ defmodule ApiWeb.Schema.Subscriptions.Chats do
         end
       )
 
-      resolve fn root, _, _ ->
-        IO.inspect("root:#{root}")
-        {:ok, root}
-      end
+      # resolve fn root, _, _ ->
+      #
+      #   {:ok, root}
+      # end
     end
   end
 end

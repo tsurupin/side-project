@@ -27,7 +27,10 @@ class TokenManager {
     await AsyncStorage.removeItem(REFRESH_TOKEN);
     await AsyncStorage.removeItem(EXPIRED_AT_IN_UNIX);
 
-    this.observers.forEach(observer => observer.watchToken(undefined));
+    this.observers.forEach(observer => {
+      console.log("removeToken", observer, observer.randomId)
+      observer.watchToken(undefined)
+    });
     this.expiredAtInUnix = undefined;
     this.token = undefined;
   

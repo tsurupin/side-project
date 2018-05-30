@@ -19,7 +19,7 @@ const ChatDetailsQuery = (props: any) => {
       notifyOnNetworkStatusChange
     >
     {({ subscribeToMore, error, data, loading}) => {
-       function subscribeMessages() {
+       const subscribeMessages = () => {
          console.log("subscribeMessages fired!", variables)
          
          return subscribeToMore({
@@ -34,7 +34,7 @@ const ChatDetailsQuery = (props: any) => {
             return {...prev, chat: {messages: [newMessage]}};
       
           },
-          onError: (err) => console.error(err)
+          onError: (err) => console.info(err, data, loading)
         })
       }
      
