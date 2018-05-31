@@ -1,6 +1,7 @@
 import * as React from "react";
 import {
-  View
+  View,
+  ScrollView
 } from "react-native"
 import MessageDetails from "../MessageDetails"
 import { Message } from "../../../../interfaces";
@@ -19,21 +20,21 @@ class MessageList extends React.Component<Props, State> {
     super(props);
   }
 
-  // componentWillReceiveProps(props) {
-  //   this.props.subscribeMessages();
-  // }
-
   componentWillMount() {
     this.props.subscribeMessages();
   } 
 
   render() {
+
     const { messages } = this.props;
+    console.log("MessageList", messages)
     return(
       <View>
-        {messages.slice(1,2).map(message => {
-          return <MessageDetails key={message.id} {...message} />
-        })}
+         <ScrollView>
+          {messages.map(message => {
+            return <MessageDetails key={message.id} {...message} />
+          })}
+        </ScrollView>
       </View>
     )
   }

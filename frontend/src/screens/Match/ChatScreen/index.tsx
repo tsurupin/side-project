@@ -11,7 +11,6 @@ import { CreateMessageMutation } from "../../../mutations/chats";
 import { CHAT_SCREEN } from "../../../constants/screens";
 import { MessageList, MessageForm } from "../../../components/Match/ChatScreen";
 import styles from "./styles";
-import createMessage from "../../../mutations/chats/createMessage";
 import { Subscription } from "react-apollo";
 import { CHAT_QUERY, NEW_MESSAGE_SUBSCRIPTION } from "../../../graphql/chats";
 
@@ -41,10 +40,6 @@ class ChatScreen extends React.Component<Props, State> {
           return (
             <View>
               <Text>{chat.name}</Text>
-              <MessageList
-                subscribeMessages={subscribeMessages}
-                messages={chat.messages}
-              />
               
               <CreateMessageMutation>
                 {({ createMessageMutation, loading, error, data }) => {
@@ -63,6 +58,11 @@ class ChatScreen extends React.Component<Props, State> {
                   );
                 }}
               </CreateMessageMutation>
+              <MessageList
+                subscribeMessages={subscribeMessages}
+                messages={chat.messages}
+              />
+              
             </View>
           );
         }}

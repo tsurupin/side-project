@@ -1,7 +1,6 @@
 import * as React from "react";
 import { Query } from "react-apollo";
 import { CHAT_QUERY, NEW_MESSAGE_SUBSCRIPTION } from "../../graphql/chats";
-import { COMMENT_ADDED_SUBSCRIPTION } from "../../graphql/comments";
 
 type Props = {
   children: any,
@@ -19,22 +18,22 @@ const ChatDetailsQuery = (props: any) => {
       notifyOnNetworkStatusChange
     >
     {({ subscribeToMore, error, data, loading}) => {
-       function subscribeMessages() {
-         console.log("subscribeMessages fired!", variables)
+       const subscribeMessages = () => {
          
          return subscribeToMore({
           document: NEW_MESSAGE_SUBSCRIPTION,
           variables: { chatId: variables.id },
-          updateQuery: (prev, { subscriptionData }) => {
+          updateQuery: (prev: any, { subscriptionData }) => {
             console.log("prev", prev)
             console.log("SubscriptioNData:", subscriptionData);
             if (!subscriptionData.data) return prev;
             const newMessage = subscriptionData.data.newMessage;
+            const chat = {...prev.chat, messages: [...prev.chat.messages, newMessage]};
       
-            return {...prev, chat: {messages: [newMessage]}};
+            return {...prev, chat };
       
           },
-          onError: (err) => console.info("subscriptionError", err)
+          onError: (err) => console.info(err, data, loading)
         })
       }
      
@@ -43,20 +42,6 @@ const ChatDetailsQuery = (props: any) => {
         data,
         loading,
         subscribeMessages
-      //   subscribeMessages: () => subscribeToMore({
-      //   document: NEW_MESSAGE_SUBSCRIPTION,
-      //   variables: { chatId: variables.id },
-      //   updateQuery: (prev, { subscriptionData }) => {
-      //     console.log("prev", prev)
-      //     console.log("SubscriptioNData:", subscriptionData);
-      //     if (!subscriptionData.data) return prev;
-      //     const newMessage = subscriptionData.data.newMessage;
-    
-      //     return {...prev, chat: {messages: [newMessage]}};
-    
-      //   },
-      //   onError: (err) => console.error("subscriptionError", err)
-      // })
       })
     }}
   </Query>

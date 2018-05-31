@@ -3,6 +3,7 @@ import { parseFragment } from "../utilities/parseFragment";
 
 const MESSAGE_DETAIL_FRAGMENT = parseFragment(gql`
 fragment MessageDetail on Message {
+  __typename
   id
   comment
   imageUrl
@@ -16,6 +17,7 @@ fragment MessageDetail on Message {
 
 const CHAT_DETAIL_FRAGMENT = parseFragment(gql`
     fragment ChatDetail on Chat {
+      __typename
       id
       name
       messages {

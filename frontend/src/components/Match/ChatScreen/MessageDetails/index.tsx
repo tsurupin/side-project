@@ -14,7 +14,7 @@ type Props = {
 const MessageDetails = (props: Props) =>  {
   
   return(
-    <View><Text>{props.id}</Text></View>
+    <View><Text>{props.comment}</Text></View>
   )
 }
 
