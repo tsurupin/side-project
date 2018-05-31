@@ -19,6 +19,7 @@ firebase.initializeApp(firebaseConfig);
 const REFRESH_TOKEN = "REFRESH_TOKEN";
 const EXPIRED_AT_IN_UNIX = "EXPIRED_AT_IN_UNIX";
 const TOKEN = "TOKEN";
+const FIREBASE_TOKEN_URL = "https://securetoken.googleapis.com/v1/token";
 
 export const firebaseSignIn = firebaseToken => {
   return new Promise((resolve, reject) => {
@@ -29,7 +30,6 @@ export const firebaseSignIn = firebaseToken => {
         const { user } = result;
 
         user.getIdToken(false).then(async userToken => {
-
           await TokenManager.setToken(userToken, user.refreshToken);
           resolve();
         });
@@ -58,9 +58,8 @@ export const firebaseSignOut = () => {
 };
 
 export const firebaseRefreshToken = async () => {
- 
   const refreshToken = await TokenManager.getRefreshToken();
-  
+
   if (!refreshToken) {
     return;
   }
@@ -78,14 +77,18 @@ export const firebaseRefreshToken = async () => {
   };
 
   const result = await fetch(
-    `https://securetoken.googleapis.com/v1/token?key=${FIREBASE_API_KEY}`,
+    `${FIREBASE_TOKEN_URL}?key=${FIREBASE_API_KEY}`,
     config
   )
     .then(result => result.json())
     .then(async result => {
       const token = result.id_token;
-      await TokenManager.setToken(token, result.refresh_token, parseInt(result.expires_in))
-      
+      await TokenManager.setToken(
+        token,
+        result.refresh_token,
+        parseInt(result.expires_in)
+      );
+
       return token;
     })
     .catch(error => console.log(error));

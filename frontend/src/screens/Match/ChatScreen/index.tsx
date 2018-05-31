@@ -11,8 +11,6 @@ import { CreateMessageMutation } from "../../../mutations/chats";
 import { CHAT_SCREEN } from "../../../constants/screens";
 import { MessageList, MessageForm } from "../../../components/Match/ChatScreen";
 import styles from "./styles";
-import { Subscription } from "react-apollo";
-import { CHAT_QUERY, NEW_MESSAGE_SUBSCRIPTION } from "../../../graphql/chats";
 
 type Props = {
   id: string;
@@ -48,11 +46,7 @@ class ChatScreen extends React.Component<Props, State> {
                     console.log("messageCreationError", error);
                     return <View>MessageCreationError</View>;
                   }
-                  if (data) {
-                    console.log("updated", data)
-                
-                  }
-                  console.log("MessageCreationData", data);
+                  
                   return (
                     <MessageForm onPress={createMessageMutation} chatId={chat.id} />
                   );

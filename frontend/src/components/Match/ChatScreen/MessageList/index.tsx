@@ -1,19 +1,14 @@
 import * as React from "react";
-import {
-  View,
-  ScrollView
-} from "react-native"
-import MessageDetails from "../MessageDetails"
+import { View, ScrollView } from "react-native";
+import MessageDetails from "../MessageDetails";
 import { Message } from "../../../../interfaces";
 
 type Props = {
-  messages: Message[]
-  subscribeMessages?: () => void
-}
+  messages: Message[];
+  subscribeMessages?: () => void;
+};
 
-type State = {
-
-}
+type State = {};
 
 class MessageList extends React.Component<Props, State> {
   constructor(props) {
@@ -22,21 +17,20 @@ class MessageList extends React.Component<Props, State> {
 
   componentWillMount() {
     this.props.subscribeMessages();
-  } 
+  }
 
   render() {
-
     const { messages } = this.props;
-    console.log("MessageList", messages)
-    return(
+    console.log("MessageList", messages);
+    return (
       <View>
-         <ScrollView>
+        <ScrollView>
           {messages.map(message => {
-            return <MessageDetails key={message.id} {...message} />
+            return <MessageDetails key={message.id} {...message} />;
           })}
         </ScrollView>
       </View>
-    )
+    );
   }
 }
 

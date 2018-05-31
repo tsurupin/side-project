@@ -18,22 +18,16 @@ class TokenManager {
     this.observers.push(observer);
   };
 
-  // public removeObserver = (observer: any) => {
-  //   this.observers = this.observers.filter(tempObserver => observer != tempObserver);
-  // }
-
   public removeToken = async () => {
     await AsyncStorage.removeItem(TOKEN);
     await AsyncStorage.removeItem(REFRESH_TOKEN);
     await AsyncStorage.removeItem(EXPIRED_AT_IN_UNIX);
 
     this.observers.forEach(observer => {
-      console.log("removeToken", observer, observer.randomId)
-      observer.watchToken(undefined)
+      observer.watchToken(undefined);
     });
     this.expiredAtInUnix = undefined;
     this.token = undefined;
-  
   };
 
   public setToken = async (
@@ -41,50 +35,53 @@ class TokenManager {
     refreshToken: string,
     validTimeInUnix: number = 3600
   ) => {
-    if (this.token && this.token === token){ return; }
+    if (this.token && this.token === token) {
+      return;
+    }
 
     const expiredAtInUnix = validTimeInUnix + this.getCurrentTimeInUnix();
     await AsyncStorage.setItem(TOKEN, token);
     await AsyncStorage.setItem(REFRESH_TOKEN, refreshToken);
     await AsyncStorage.setItem(EXPIRED_AT_IN_UNIX, `${expiredAtInUnix}`);
     this.observers.forEach(observer => {
-      console.log("setToken", observer, observer.randomId)
-      observer.watchToken(token)
+      observer.watchToken(token);
     });
-    
+
     this.expiredAtInUnix = expiredAtInUnix;
     this.token = token;
   };
 
-  private getCurrentTimeInUnix = () : number => {
+  private getCurrentTimeInUnix = (): number => {
     return Math.floor(Date.now() / 1000);
-  } 
+  };
 
-  public getCachedToken = (): (string | undefined) => {
-    console.log("getCached")
+  public getCachedToken = (): string | undefined => {
     if (!this.token) return undefined;
-    console.log(this.token, this.expiredAtInUnix);
-   
-    if (this.expiredAtInUnix && this.expiredAtInUnix > this.getCurrentTimeInUnix()) {
+
+    if (
+      this.expiredAtInUnix &&
+      this.expiredAtInUnix > this.getCurrentTimeInUnix()
+    ) {
       return this.token;
     } else {
       return undefined;
     }
-  }
+  };
 
   public getToken = async (): Promise<string | undefined> => {
     const currentToken = await AsyncStorage.getItem(TOKEN);
     const expiredAtInUnix = await AsyncStorage.getItem(EXPIRED_AT_IN_UNIX);
 
-    if (expiredAtInUnix && parseInt(expiredAtInUnix) > this.getCurrentTimeInUnix()) {
+    if (
+      expiredAtInUnix &&
+      parseInt(expiredAtInUnix) > this.getCurrentTimeInUnix()
+    ) {
       if (!this.token) {
         this.token = currentToken;
         this.expiredAtInUnix = parseInt(expiredAtInUnix);
         this.observers.forEach(observer => {
-          console.log("setToken", observer, observer.randomId)
-          observer.watchToken(this.token)
+          observer.watchToken(this.token);
         });
-        
       }
       return currentToken;
     }

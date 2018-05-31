@@ -184,6 +184,7 @@ class DiscoveryScreen extends React.Component<Props, State> {
     //const isVisible = this.props.navigator.screenIsCurrentlyVisible().then(r => console.log("rendered", r))
 
     console.log("render hoge");
+
     return (
       <View style={styles.container}>
         <ScrollView horizontal showsHorizontalScrollIndicator={false}>
