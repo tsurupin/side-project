@@ -28,6 +28,7 @@ export const USER_FRAGMENTS = {
         name
       }
       photos {
+        id
         imageUrl
       }
     }
