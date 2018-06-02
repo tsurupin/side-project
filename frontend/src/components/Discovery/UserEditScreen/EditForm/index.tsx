@@ -1,28 +1,78 @@
 import * as React from "react";
+import { View } from "react-native";
+import { UserDetails, UserEditParams } from "../../../../interfaces";
+import { Input } from "react-native-elements";
 import {
-  View
-} from "react-native";
+  SUBMIT_USER_EDIT_BUTTON,
+  CANCEL_USER_EDIT_BUTTON
+} from "../../../../constants/buttons";
+
+import styles from "./styles";
 
 type Props = {
-  user: UserDetail,
-  onChange: (key: string, value: string) => void
+  user: UserDetails;
+  navigator: any;
+  loading: boolean;
+  onChange: (key: string, value: string) => void;
+  onSubmit: (userEditParams: UserEditParams) => void;
 };
 
-type State = {
+class EditForm extends React.Component<Props, UserEditParams> {
+  static defaultProps = {
+    loading: false
+  };
 
-};
-class EditForm extends React.Component<Props, State> {
   constructor(props) {
     super(props);
+    const { user } = this.props;
+    this.state = {
+      displayName: user.displayName,
+      introduction: user.introduction,
+      occupation: user.occupation,
+      occupationTypeId: user.occupationTypeId,
+      genreId: user.genreId,
+      skillIds: user.skillIds,
+      companyName: user.companyName,
+      schoolName: user.schoolName
+    };
+
+    this.props.navigator.setOnNavigatorEvent(this.handleNavigatorEvent);
   }
 
+  private handleNavigatorEvent = e => {
+    if (e.type !== "NavBarButtonPress") return;
+
+    console.log(e);
+    switch (e.id) {
+      case SUBMIT_USER_EDIT_BUTTON:
+        this.props.onSubmit(this.state);
+      case CANCEL_USER_EDIT_BUTTON:
+        this.props.navigator.pop({
+          animated: true
+        });
+    }
+  };
+
   render() {
-    return(
+    const { displayName, occupation } = this.state;
+
+    return (
       <View>
-        <InputText key="" onChange={this.props.onChange}/>
-        <InputText key="" onChange={this.props.onChange}/>
+        <Input
+          placeholder="Display Name"
+          containerStyle={styles.inputContainer}
+          value={displayName}
+          onChangeText={e => this.setState({displayName: e})}
+        />
+
+        <Input
+          placeholder="Display Name"
+          containerStyle={styles.inputContainer}
+          value={occupation}
+          onChangeText={e => this.setState({occupation: e})}
+        />
       </View>
-    )
+    );
   }
 }
 

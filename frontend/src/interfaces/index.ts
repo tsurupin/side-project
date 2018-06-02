@@ -33,6 +33,18 @@ export interface UserSearchParams {
   skillIds?: number[];
 }
 
+export interface UserEditParams {
+  displayName: string;
+  introduction?: string;
+  occupation?: string;
+  occupationTypeId?: number;
+  genreId?: number;
+  skillIds?: number[];
+  companyName?: string;
+  schoolName?: string;
+}
+
+
 export interface Chat {
   id: number;
   name: string;
