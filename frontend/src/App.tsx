@@ -27,6 +27,7 @@ import {
   UserDetailsScreen
 } from "./screens/Discovery";
 
+
 import {
   UserEditScreen,
   MyProfileScreen
@@ -51,7 +52,7 @@ const registerComponents = () => {
   Navigation.registerComponent(USER_DETAILS_SCREEN, () =>
     ApolloWrapper(UserDetailsScreen)
   );
-  Navigation.registerComponent(USER_EDIT_SCREEN, () =>
+  Navigation.registerComponent(MY_PROFILE_SCREEN, () =>
     ApolloWrapper(MyProfileScreen)
   );
   Navigation.registerComponent(USER_EDIT_SCREEN, () =>

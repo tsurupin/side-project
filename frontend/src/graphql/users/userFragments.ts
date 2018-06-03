@@ -1,4 +1,5 @@
 import gql from "graphql-tag";
+import { parseFragment } from "../utilities/parseFragment";
 
 export const USER_FRAGMENTS = {
   userDetails: gql`

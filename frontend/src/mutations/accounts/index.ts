@@ -1,5 +1,5 @@
-import LoginMutation from "./loginMutation";
-import LogoutMutation from "./logoutMutation";
-import SignUpMutation from "./signUpMutation";
+import LoginMutation from "./LoginMutation";
+import LogoutMutation from "./LogoutMutation";
+import SignUpMutation from "./SignUpMutation";
 
 export { LogoutMutation, SignUpMutation, LoginMutation };

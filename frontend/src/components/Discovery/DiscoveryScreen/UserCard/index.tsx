@@ -25,7 +25,7 @@ class UserCard extends React.Component<Props, {}> {
       areaName,
       displayName,
       leadSentence,
-      genreName
+      genre
     } = user;
     console.log(
       "USerCard",
@@ -33,7 +33,7 @@ class UserCard extends React.Component<Props, {}> {
       areaName,
       displayName,
       leadSentence,
-      genreName
+      genre
     );
     return (
       <TouchableOpacity onPress={() => this.props.onPressUserCard(user.id)}>
@@ -42,7 +42,7 @@ class UserCard extends React.Component<Props, {}> {
             <View style={styles.titleBox}>
               <Text style={styles.mainText}>{displayName}</Text>
               <Badge
-                value={genreName}
+                value={genre.name}
                 containerStyle={styles.badgeContainer}
                 textStyle={styles.badgeText}
               />

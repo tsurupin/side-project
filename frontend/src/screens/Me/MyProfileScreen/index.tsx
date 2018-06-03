@@ -27,12 +27,11 @@ class MyProfileScreen extends React.Component<Props, State> {
       case USER_EDIT_BUTTON:
         this.props.navigator.showModal({
           screen: USER_EDIT_SCREEN
-        })
+        });
     }
   };
 
   render() {
-
     return (
       <MyUserQuery>
         {({ data, loading, error }) => {
@@ -51,6 +50,7 @@ class MyProfileScreen extends React.Component<Props, State> {
             );
 
           const myUser: UserDetails = data.myUser;
+
           return <UserDetailsView user={myUser} />;
         }}
       </MyUserQuery>

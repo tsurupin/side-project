@@ -8,3 +8,4 @@ export const DELETE_USER_PHOTO_MUTATION = gql`
     }
   }
 `;
+

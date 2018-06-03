@@ -38,7 +38,7 @@ defmodule ApiWeb.Schema.Types.Users do
   object :user_photo do
     field(:id, :id)
     field(:user_id, :id)
-    field(:rank, :number)
+    field(:rank, :integer)
 
     field :image_url, :string do
       arg(:format, :string, default_value: "thumb")

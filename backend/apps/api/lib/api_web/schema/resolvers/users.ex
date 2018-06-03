@@ -28,6 +28,11 @@ defmodule ApiWeb.Schema.Resolvers.Users do
     end
   end
 
+  def fetch_current_user(_, _, %{context: %{current_user: current_user}}) do
+    user = Users.preload(current_user, [:photos, :skills, :country, :genre, :occupation_type])
+    {:ok, user}
+  end
+
   def search(_ctx, %{conditions: conditions}, _) do
     case Users.search(conditions) do
       {:error, :not_found} ->
