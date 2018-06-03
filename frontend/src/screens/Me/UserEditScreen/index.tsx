@@ -1,7 +1,7 @@
 import * as React from "react";
 import { View, TouchableOpacity, Text, Button } from "react-native";
 import { ErrorMessage } from "../../../components/Commons";
-import { EditForm } from "../../../components/Discovery/UserEditScreen";
+import { EditForm } from "../../../components/Me/UserEditScreen";
 import {
   USER_DISCOVERY_SCREEN,
   CHAT_SCREEN,
@@ -49,7 +49,7 @@ class UserEditScreen extends React.Component<Props, UserEditParams> {
               </View>
             );
 
-          const { myUser: UserDetails } = data;
+          const { myUser } = data;
           return (
             <View>
               <EditUserMutation>
@@ -66,6 +66,7 @@ class UserEditScreen extends React.Component<Props, UserEditParams> {
                       }
                       loading={loading}
                       error={error}
+                      navigator={this.props.navigator}
                     />
                   );
                 }}

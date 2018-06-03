@@ -13,7 +13,7 @@ type Props = {
   user: UserDetails;
   navigator: any;
   loading: boolean;
-  onChange: (key: string, value: string) => void;
+  error: any;
   onSubmit: (userEditParams: UserEditParams) => void;
 };
 
@@ -28,10 +28,9 @@ class EditForm extends React.Component<Props, UserEditParams> {
     this.state = {
       displayName: user.displayName,
       introduction: user.introduction,
-      occupation: user.occupation,
-      occupationTypeId: user.occupationTypeId,
-      genreId: user.genreId,
-      skillIds: user.skillIds,
+      occupationTypeId: user.occupationType ? user.occupationType.id : undefined,
+      genreId: user.genre ? user.genre.id : undefined,
+      skillIds: user.skills.map(skill => skill.id),
       companyName: user.companyName,
       schoolName: user.schoolName
     };

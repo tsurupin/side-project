@@ -6,7 +6,7 @@ type Props = {
   children: any;
 };
 
-const DeleteUserPhotoMutation = (props: Props) => {
+const UploadUserPhotoMutation = (props: Props) => {
   const { children } = props;
 
   return (
@@ -14,23 +14,25 @@ const DeleteUserPhotoMutation = (props: Props) => {
     <Mutation
       mutation={UPLOAD_USER_PHOTO_MUTATION}
       context={{ needAuth: true }}
-      update={(cache, { data: { deletUserPhoto } }) => {
+      update={(cache, { data: { uploadUserPhoto } }) => {
         const { user } = cache.readFragment({ 
-          id: editUser.id,
+          id: uploadUserPhoto.userId,
           fragment: USER_FRAGMENTS.userDetails 
         });
+
+        const photos = [...user.photos, uploadUserPhoto.photo].sort(photo => photo.rank)
 
         cache.writeFragment({ 
           id: user.id,
           fragment: USER_FRAGMENTS.userDetails,
-          date: {user: {...user, editUser }} 
+          data: {user: {...user, photos}} 
         });
       }}
 
     >
-      {(deleteUserPhotoMutation, { loading, error, data }) => {
+      {(uploadUserPhotoMutation, { loading, error, data }) => {
         return children({
-          deleteUserPhotoMutation,
+          uploadUserPhotoMutation,
           loading,
           error,
           data
@@ -40,4 +42,4 @@ const DeleteUserPhotoMutation = (props: Props) => {
   );
 };
 
-export default DeleteUserPhotoMutation;
+export default UploadUserPhotoMutation;

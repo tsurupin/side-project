@@ -1,4 +1,7 @@
 import gql from "graphql-tag";
+import { USER_FRAGMENTS } from "./userFragments";
+import { parseFragment } from "../utilities/parseFragment";
+
 
 export const EDIT_USER_MUTATION = gql`
   mutation EditUser(
@@ -25,6 +28,8 @@ export const EDIT_USER_MUTATION = gql`
         schoolName: $schoolName
         latitude: $latitude
         longitude: $longitude
+      } {
+        ${parseFragment(USER_FRAGMENTS.userDetails)}
       }
     )
   }

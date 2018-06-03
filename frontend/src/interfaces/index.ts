@@ -6,9 +6,13 @@ export interface UserCore {
 
 export interface UserDetails extends UserCore {
   areaName?: string;
-  occupationTypeName?: string;
-  genreName?: string;
   leadSentence?: string;
+  introduction?: string;
+  genre?: Genre;
+  occupationType?: OccupationType;
+  skills?: Skill[];
+  companyName?: string;
+  schoolName?: string;
 }
 
 export interface Skill {
@@ -44,21 +48,20 @@ export interface UserEditParams {
   schoolName?: string;
 }
 
-
 export interface Chat {
   id: number;
   name: string;
 }
 
 export interface Message {
-  id: string,
-  comment?: string,
-  imageUrl?: string,
-  user: UserCore
+  id: string;
+  comment?: string;
+  imageUrl?: string;
+  user: UserCore;
 }
 
 export interface MessageParams {
-  chatId: string,
-  comment?: string,
-  image?: string
+  chatId: string;
+  comment?: string;
+  image?: string;
 }

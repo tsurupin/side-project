@@ -22,7 +22,7 @@ const EditUserMutation = (props: Props) => {
         cache.writeFragment({
           id: user.id,
           fragment: USER_FRAGMENTS.userDetails,
-          date: { user: { ...user, editUser } }
+          data: { user: { ...user, editUser } }
         });
       }}
     >
