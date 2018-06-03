@@ -4,9 +4,10 @@ import {
   AUTH_SCREEN,
   TOP_SCREEN,
   MATCH_SCREEN,
-  USER_DISCOVERY_SCREEN
+  USER_DISCOVERY_SCREEN,
+  MY_PROFILE_SCREEN
 } from "../../constants/screens";
-import { USER_SEARCH_BUTTON } from "../../constants/buttons";
+import { USER_SEARCH_BUTTON, USER_EDIT_BUTTON } from "../../constants/buttons";
 const MainTab = () => {
   Promise.all([
     Icon.getImageSource("md-map", 30),
@@ -38,16 +39,16 @@ const MainTab = () => {
           icon: sources[1]
         },
         {
-          screen: TOP_SCREEN,
-          label: "Top",
-          title: "Top",
+          screen: MY_PROFILE_SCREEN,
+          label: "MyProfile",
+          title: "MyProfile",
           icon: sources[2],
           navigatorButtons: {
-            leftButtons: [
+            rightButtons: [
               {
                 icon: sources[2],
-                title: "Menu",
-                id: "sideDrawerToggle"
+                title: "Edit",
+                id: USER_EDIT_BUTTON
               }
             ]
           }

@@ -37,6 +37,8 @@ defmodule ApiWeb.Schema.Types.Users do
 
   object :user_photo do
     field(:id, :id)
+    field(:user_id, :id)
+    field(:rank, :integer)
 
     field :image_url, :string do
       arg(:format, :string, default_value: "thumb")
@@ -69,12 +71,11 @@ defmodule ApiWeb.Schema.Types.Users do
   input_object :user_input do
     field(:display_name, :string)
     field(:introduction, :string)
-    field(:occupation, :string)
     field(:school_name, :string)
     field(:company_name, :string)
-    field(:occupation_type_id, :integer)
-    field(:skill_ids, list_of(:integer))
-    field(:genre_id, :integer)
+    field(:occupation_type_id, :string)
+    field(:skill_ids, list_of(:string))
+    field(:genre_id, :string)
     field(:latitude, :float)
     field(:longitude, :float)
   end

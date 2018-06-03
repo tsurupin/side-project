@@ -1,5 +1,5 @@
-import deleteUserPhoto from "./deleteUserPhoto";
-import editUser from "./editUser";
-import uploadUserPhoto from "./uploadUserPhoto";
+import DeleteUserPhotoMutation from "./DeleteUserPhotoMutation";
+import EditUserMutation from "./EditUserMutation";
+import UploadUserPhotoMutation from "./UploadUserPhotoMutation";
 
-export { deleteUserPhoto, editUser, uploadUserPhoto };
+export { DeleteUserPhotoMutation, EditUserMutation, UploadUserPhotoMutation };

@@ -9,6 +9,8 @@ import {
 import { ChatDetailsQuery } from "../../../queries/chats";
 import { CreateMessageMutation } from "../../../mutations/chats";
 import { CHAT_SCREEN } from "../../../constants/screens";
+import { MessageParams } from "../../../interfaces";
+
 import { MessageList, MessageForm } from "../../../components/Match/ChatScreen";
 import styles from "./styles";
 
@@ -23,6 +25,10 @@ class ChatScreen extends React.Component<Props, State> {
     super(props);
   }
 
+  handlePress = (variables: MessageParams, mutation) => {
+    mutation({ variables });
+  };
+
   render() {
     const id = this.props.id;
     return (
@@ -34,11 +40,11 @@ class ChatScreen extends React.Component<Props, State> {
             return <View>Error</View>;
           }
           const { chat } = data;
-         
+
           return (
             <View>
               <Text>{chat.name}</Text>
-              
+
               <CreateMessageMutation>
                 {({ createMessageMutation, loading, error, data }) => {
                   if (loading) return <View>MessageCreationLoading</View>;
@@ -46,9 +52,14 @@ class ChatScreen extends React.Component<Props, State> {
                     console.log("messageCreationError", error);
                     return <View>MessageCreationError</View>;
                   }
-                  
+
                   return (
-                    <MessageForm onPress={createMessageMutation} chatId={chat.id} />
+                    <MessageForm
+                      onPress={variables =>
+                        this.handlePress(variables, createMessageMutation)
+                      }
+                      chatId={chat.id}
+                    />
                   );
                 }}
               </CreateMessageMutation>
@@ -56,7 +67,6 @@ class ChatScreen extends React.Component<Props, State> {
                 subscribeMessages={subscribeMessages}
                 messages={chat.messages}
               />
-              
             </View>
           );
         }}

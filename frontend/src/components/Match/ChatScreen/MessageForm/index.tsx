@@ -6,7 +6,7 @@ import { MessageParams } from "../../../../interfaces";
 import styles from "./styles";
 
 type Props = {
-  onPress: (MessageParams) => void;
+  onPress: (variables: MessageParams) => void;
   chatId: string;
 };
 
@@ -27,7 +27,7 @@ class MessageForm extends React.Component<Props, State> {
   private onPress = () => {
     const { comment, image } = this.state;
     const { chatId, onPress } = this.props;
-    this.props.onPress({variables: {chatId, comment, image}})
+    this.props.onPress({chatId, comment, image})
   }
 
   render() {

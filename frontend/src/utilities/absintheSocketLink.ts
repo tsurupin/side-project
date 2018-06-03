@@ -5,9 +5,10 @@ import { ApolloLink } from "apollo-link";
 import TokenManager from "./tokenManager";
 
 const PHOENIX_SOCKET_URL = "ws://localhost:4000/socket/websocket?vsn=2.0.0";
+const SOCKET_VERSION = "2.0.0";
 
 const socketParams = (token: string | null) => {
-  const defaultParams = { vsn: "2.0.0" };
+  const defaultParams = { vsn: SOCKET_VERSION };
   return token ? { ...defaultParams, token } : defaultParams;
 };
 
