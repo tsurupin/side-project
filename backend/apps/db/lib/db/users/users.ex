@@ -33,7 +33,7 @@ defmodule Db.Users.Users do
     )
   end
 
-  @spec edit(User.t(), %{skill_ids: [integer]}) :: {:ok, any} | {:error, Ecto.Multi.name(), any()}
+  @spec edit(User.t(), %{skill_ids: [String.t]}) :: {:ok, any} | {:error, Ecto.Multi.name(), any()}
   def edit(%User{} = user, %{skill_ids: skill_ids} = user_input) do
     Multi.new()
     |> Multi.update(:user, User.edit_changeset(user, user_input))
