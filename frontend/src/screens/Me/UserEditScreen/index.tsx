@@ -26,8 +26,8 @@ class UserEditScreen extends React.Component<Props, UserEditParams> {
     super(props);
   }
 
-  handleSubmit = (userEditParams: UserEditParams, editUserMutation: any) => {
-    editUserMutation({ variables: userEditParams });
+  handleSubmit = (variables: UserEditParams, editUserMutation: any) => {
+    editUserMutation({ variables });
   };
 
   render() {
@@ -53,7 +53,7 @@ class UserEditScreen extends React.Component<Props, UserEditParams> {
           return (
             <View>
               <EditUserMutation>
-                {(editUserMutation, loading, error, data) => {
+              {({ editUserMutation, loading, error, data }) => {
                   if (data) {
                     this.props.navigator.pop({ animated: true });
                     return <View />;
