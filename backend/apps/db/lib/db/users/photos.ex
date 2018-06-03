@@ -14,8 +14,9 @@ defmodule Db.Users.Photos do
 
   @spec upload_photo(User.t(), %{image: any, is_main: boolean, rank: integer}) ::
           {:ok, Photo.t()} | {:error, Ecto.Changeset.t()}
-  def upload_photo(%User{} = user, %{image: image, is_main: is_main, rank: rank} = attrs) do
-    Photo.changeset(Map.put_new(attrs, :user_id, user.id))
+  def upload_photo(%User{} = user, %{photo: image, rank: rank} = attrs) do
+    is_main = rank == 1
+    Photo.changeset(%{image: image, user_id: user.id, is_main: is_main, rank: rank})
     |> Repo.insert()
   end
 

@@ -6,6 +6,7 @@ export const UPLOAD_USER_PHOTO_MUTATION = gql`
       userUploadInput: { photo: $photo, rank: $rank }
     ) {
       id
+      rank
       userId
       imageUrl
     }

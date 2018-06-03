@@ -51,8 +51,9 @@ class UserPhotoEditScreen extends React.Component<Props, State> {
         })
 
         console.log(photo, mutation);
-        const variables : UserUploadParams = {photo, rank: 1} 
+        const variables : UserUploadParams = {photo: photo, rank: 11} 
 
+        console.log(variables)
         mutation({variables})
         
         

@@ -24,12 +24,16 @@ const uri = "http://localhost:4000/api/graphiql";
 // // how to params asynchronouslly
 // const bsintheSocketLink = createAbsintheSocketLink(absintheSocket);
 
-const httpLink = createHttpLink({
+// const httpLink = createHttpLink({
+//   uri,
+//   credentials: "include"
+//   //credentials: process.env.NODE_ENV === 'development' ? 'include' : 'same-origin'
+// });
+
+const uploadLink = createUploadLink({
   uri,
   credentials: "include"
-  //credentials: process.env.NODE_ENV === 'development' ? 'include' : 'same-origin'
-});
-
+})
 // const client = new ApolloClient({
 //   link: createLink({
 //       uri: "/graphql"
@@ -92,7 +96,7 @@ const link = split(
     return kind === "OperationDefinition" && operation === "subscription";
   },
   AbsintheSocketLink,
-  ApolloLink.from([stateLink, errorLink, authLink, httpLink])
+  ApolloLink.from([stateLink, errorLink, authLink, uploadLink])
 );
 
 const client = new ApolloClient({
