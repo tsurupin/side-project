@@ -82,7 +82,6 @@ defmodule ApiWeb.Schema.Types.Users do
 
   input_object :user_upload_input do
     field(:photo, :upload)
-    field(:is_main, :boolean)
     field(:rank, :integer)
   end
 end

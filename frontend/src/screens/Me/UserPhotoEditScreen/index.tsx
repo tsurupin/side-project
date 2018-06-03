@@ -7,148 +7,82 @@ import {
   UploadUserPhotoMutation,
   DeleteUserPhotoMutation
 } from "../../../mutations/users";
-
+import { UserUploadParams } from "../../../interfaces";
+import * as ImagePicker from "react-native-image-picker";
+import { ReactNativeFile } from '@richeterre/apollo-upload-client';
 import styles from "./styles";
 
+// var options = {
+//   title: 'Select Avatar',
+//   customButtons: [
+//     {name: 'fb', title: 'Choose Photo from Facebook'},
+//   ],
+//   storageOptions: {
+//     skipBackup: true,
+//     path: 'images'
+//   }
+// };
+
 type Props = {
-  id: number;
-  liked: boolean;
-  navigator: any;
+  
 };
 
 type State = {};
 class UserPhotoEditScreen extends React.Component<Props, State> {
-  static defaultProps = {
-    liked: false
-  };
-
   constructor(props) {
     super(props);
   }
 
-  // private handlePress = mutation => {
-  //   const { id, liked } = this.props;
-  //   const variables = liked ? { userId: id } : { targetUserId: id };
+  handlePress = (mutation) => {
+    ImagePicker.showImagePicker({}, response => {
+      console.log("Response = ", response);
 
-  //   mutation({ variables });
-  // };
+      if (response.didCancel) {
+        console.log("User cancelled image picker");
+      } else if (response.error) {
+        console.log("ImagePicker Error: ", response.error);
+      } else if (response.customButton) {
+        console.log("User tapped custom button: ", response.customButton);
+      } else {
+        const photo = new ReactNativeFile({
+          uri: response.uri,
+          type: 'image/jpeg',
+          name: 'photo.jpg'
+        })
 
-  // private renderLoadingIndicator = () => {
-  //   return (
-  //     <View>
-  //       <Text>Indicator</Text>
-  //     </View>
-  //   );
-  // };
+        console.log(photo, mutation);
+        const variables : UserUploadParams = {photo, rank: 1} 
 
-  // private renderErrorMessage = error => {
-  //   console.log(error);
-  //   return (
-  //     <View>
-  //       <Text>ERROR</Text>
-  //     </View>
-  //   );
-  // };
+        mutation({variables})
+        
+        
+        
 
-  // private renderActionButton = (mutation, data, loading, error, name) => {
-  //   if (loading) {
-  //     return this.renderLoadingIndicator();
-  //   }
-  //   if (error) {
-  //     return this.renderErrorMessage(error);
-  //   }
-  //   if (data) {
-  //     if (data.acceptUserLike) {
-  //       this.props.navigator.push({
-  //         screen: CHAT_SCREEN,
-  //         passProps: { id: data.acceptUserLike.id }
-  //       });
-  //     } else {
-  //       this.props.navigator.push({
-  //         screen: USER_DISCOVERY_SCREEN
-  //       });
-  //     }
-  //   }
-  //   return (
-  //     <TouchableOpacity onPress={() => this.handlePress(mutation)}>
-  //       <Text>{name}</Text>
-  //     </TouchableOpacity>
-  //   );
-  // };
+        // You can also display the image using data:
+        // let source = { uri: 'data:image/jpeg;base64,' + response.data };
 
-  // private renderMutationButtons = () => {
-  //   if (this.props.liked) {
-  //     return (
-  //       <View>
-  //         <RejectUserLikeMutation>
-  //           {({ rejectUserLikeMutation, data, loading, error, name }) => {
-  //             return this.renderActionButton(
-  //               rejectUserLikeMutation,
-  //               data,
-  //               loading,
-  //               error,
-  //               name
-  //             );
-  //           }}
-  //         </RejectUserLikeMutation>
-  //         <AcceptUserLikeMutation>
-  //           {({ acceptUserLikeMutation, data, loading, error, name }) => {
-  //             return this.renderActionButton(
-  //               acceptUserLikeMutation,
-  //               data,
-  //               loading,
-  //               error,
-  //               name
-  //             );
-  //           }}
-  //         </AcceptUserLikeMutation>
-  //       </View>
-  //     );
-  //   } else {
-  //     return (
-  //       <View>
-  //         <LikeUserMutation>
-  //           {({ likeUserMutation, data, loading, error, name }) => {
-  //             return this.renderActionButton(
-  //               likeUserMutation,
-  //               data,
-  //               loading,
-  //               error,
-  //               name
-  //             );
-  //           }}
-  //         </LikeUserMutation>
-  //       </View>
-  //     );
-  //   }
-  // };
+        // this.setState({
+        //   avatarSource: source
+        // });
+      }
+    });
+  }
 
   render() {
-    return <View />
-    // const { id } = this.props;
-    // return (
-    //   <UserDetailsQuery variables={{ id }}>
-    //     {({ data, loading, error }) => {
-    //       console.log(error);
-    //       if (loading)
-    //         return (
-    //           <View>
-    //             <Text> Text</Text>
-    //           </View>
-    //         );
-    //       if (error)
-    //         return (
-    //           <View>
-    //             <Text> Error</Text>
-    //           </View>
-    //         );
-
-    //       const { userDetails } = data;
-    //       return <View>{this.renderMutationButtons()}</View>;
-    //     }}
-    //   </UserDetailsQuery>
-    // );
+    return(
+      <View>
+        <UploadUserPhotoMutation>
+          {({uploadUserPhotoMutation, data, loading, error}) => {
+            console.log("upload user photo", data, loading, error)
+            return(
+              <Button title="button" onPress={() => this.handlePress(uploadUserPhotoMutation)} /> 
+            )
+          }}
+        </UploadUserPhotoMutation>
+      </View>
+    );
   }
+
 }
 
 export default UserPhotoEditScreen;

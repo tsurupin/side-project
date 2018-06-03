@@ -48,6 +48,11 @@ export interface UserEditParams {
   schoolName?: string;
 }
 
+export interface UserUploadParams {
+  photo: string;
+  rank: number;
+}
+
 export interface Chat {
   id: number;
   name: string;

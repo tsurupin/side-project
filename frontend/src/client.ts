@@ -6,6 +6,8 @@ import { ApolloClient } from "apollo-client";
 import { withClientState } from "apollo-link-state";
 //import authentication from './src/graphql/resolvers/authentication';
 import { createHttpLink } from "apollo-link-http";
+import { createUploadLink } from '@richeterre/apollo-upload-client'
+
 import { onError } from "apollo-link-error";
 //import Retry from 'apollo-link-retry';
 import TokenManager from "./utilities/tokenManager";
@@ -27,6 +29,13 @@ const httpLink = createHttpLink({
   credentials: "include"
   //credentials: process.env.NODE_ENV === 'development' ? 'include' : 'same-origin'
 });
+
+// const client = new ApolloClient({
+//   link: createLink({
+//       uri: "/graphql"
+//   }),
+//   headers,
+// });
 
 const errorLink = onError(err => {
   console.log("apollo-link-error, err", err);

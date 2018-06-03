@@ -4,6 +4,7 @@
   "private": true,
   "devDependencies": {
     "@absinthe/socket-apollo-link": "^0.1.11",
+    "@richeterre/apollo-upload-client": "^8.0.0",
     "@types/graphql": "^0.13.1",
     "@types/jest": "^22.2.2",
     "@types/react": "^16.3.14",
