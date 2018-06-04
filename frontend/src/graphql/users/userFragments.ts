@@ -30,6 +30,7 @@ export const USER_FRAGMENTS = {
       photos {
         id
         imageUrl
+        rank
       }
     }
   `,

@@ -1,153 +1,143 @@
 import * as React from "react";
-import { View, TouchableOpacity, Text, Button } from "react-native";
+import { View, Alert, TouchableOpacity, Text, Button } from "react-native";
 import { ErrorMessage } from "../../../components/Commons";
+import { Photo } from "../../../components/Me/UserPhotoEditScreen";
 import { USER_DISCOVERY_SCREEN, CHAT_SCREEN } from "../../../constants/screens";
 import { UserDetailsQuery } from "../../../queries/users";
 import {
   UploadUserPhotoMutation,
   DeleteUserPhotoMutation
 } from "../../../mutations/users";
-
+import { MyUserQuery } from "../../../queries/users";
+import { UserUploadParams } from "../../../interfaces";
+import * as ImagePicker from "react-native-image-picker";
+import ImageResizer from "react-native-image-resizer";
+import { ReactNativeFile } from "@richeterre/apollo-upload-client";
 import styles from "./styles";
 
-type Props = {
-  id: number;
-  liked: boolean;
-  navigator: any;
-};
+// var options = {
+//   title: 'Select Avatar',
+//   customButtons: [
+//     {name: 'fb', title: 'Choose Photo from Facebook'},
+//   ],
+//   storageOptions: {
+//     skipBackup: true,
+//     path: 'images'
+//   }
+// };
+
+type Props = {};
 
 type State = {};
 class UserPhotoEditScreen extends React.Component<Props, State> {
-  static defaultProps = {
-    liked: false
-  };
-
   constructor(props) {
     super(props);
   }
 
-  // private handlePress = mutation => {
-  //   const { id, liked } = this.props;
-  //   const variables = liked ? { userId: id } : { targetUserId: id };
+  handlePress = mutation => {
+    ImagePicker.showImagePicker({}, async response => {
+      console.log("Response = ", response);
 
-  //   mutation({ variables });
-  // };
+      if (response.didCancel) {
+        console.log("User cancelled image picker");
+      } else if (response.error) {
+        console.log("ImagePicker Error: ", response.error);
+      } else if (response.customButton) {
+        console.log("User tapped custom button: ", response.customButton);
+      } else {
+        try {
+          const uri = await ImageResizer.createResizedImage(
+            response.uri,
+            600,
+            600,
+            "JPEG",
+            100
+          );
+          const photo = new ReactNativeFile({
+            uri,
+            type: "image/jpeg",
+            name: "photo.jpg"
+          });
 
-  // private renderLoadingIndicator = () => {
-  //   return (
-  //     <View>
-  //       <Text>Indicator</Text>
-  //     </View>
-  //   );
-  // };
+          console.log(photo, mutation);
+          const variables: UserUploadParams = { photo: photo, rank: 252 };
 
-  // private renderErrorMessage = error => {
-  //   console.log(error);
-  //   return (
-  //     <View>
-  //       <Text>ERROR</Text>
-  //     </View>
-  //   );
-  // };
+          console.log(variables);
+          mutation({ variables });
+        } catch (err) {
+          console.log(err);
+          return Alert.alert(
+            "Unable to resize the photo",
+            "Check the console for full the error message"
+          );
+        }
+      }
+    });
+  };
 
-  // private renderActionButton = (mutation, data, loading, error, name) => {
-  //   if (loading) {
-  //     return this.renderLoadingIndicator();
-  //   }
-  //   if (error) {
-  //     return this.renderErrorMessage(error);
-  //   }
-  //   if (data) {
-  //     if (data.acceptUserLike) {
-  //       this.props.navigator.push({
-  //         screen: CHAT_SCREEN,
-  //         passProps: { id: data.acceptUserLike.id }
-  //       });
-  //     } else {
-  //       this.props.navigator.push({
-  //         screen: USER_DISCOVERY_SCREEN
-  //       });
-  //     }
-  //   }
-  //   return (
-  //     <TouchableOpacity onPress={() => this.handlePress(mutation)}>
-  //       <Text>{name}</Text>
-  //     </TouchableOpacity>
-  //   );
-  // };
+  handlePressDeletion = (mutation, photoId: string) => {
+    mutation({ variables: { photoId } });
+  };
 
-  // private renderMutationButtons = () => {
-  //   if (this.props.liked) {
-  //     return (
-  //       <View>
-  //         <RejectUserLikeMutation>
-  //           {({ rejectUserLikeMutation, data, loading, error, name }) => {
-  //             return this.renderActionButton(
-  //               rejectUserLikeMutation,
-  //               data,
-  //               loading,
-  //               error,
-  //               name
-  //             );
-  //           }}
-  //         </RejectUserLikeMutation>
-  //         <AcceptUserLikeMutation>
-  //           {({ acceptUserLikeMutation, data, loading, error, name }) => {
-  //             return this.renderActionButton(
-  //               acceptUserLikeMutation,
-  //               data,
-  //               loading,
-  //               error,
-  //               name
-  //             );
-  //           }}
-  //         </AcceptUserLikeMutation>
-  //       </View>
-  //     );
-  //   } else {
-  //     return (
-  //       <View>
-  //         <LikeUserMutation>
-  //           {({ likeUserMutation, data, loading, error, name }) => {
-  //             return this.renderActionButton(
-  //               likeUserMutation,
-  //               data,
-  //               loading,
-  //               error,
-  //               name
-  //             );
-  //           }}
-  //         </LikeUserMutation>
-  //       </View>
-  //     );
-  //   }
-  // };
+  renderPhotos = (mutation, photos) => {
+    return photos.map(photo => {
+      return (
+        <Photo
+          key={photo.id}
+          photo={photo}
+          onPress={(id: string) => this.handlePressDeletion(mutation, id)}
+        />
+      );
+    });
+  };
 
   render() {
-    return <View />
-    // const { id } = this.props;
-    // return (
-    //   <UserDetailsQuery variables={{ id }}>
-    //     {({ data, loading, error }) => {
-    //       console.log(error);
-    //       if (loading)
-    //         return (
-    //           <View>
-    //             <Text> Text</Text>
-    //           </View>
-    //         );
-    //       if (error)
-    //         return (
-    //           <View>
-    //             <Text> Error</Text>
-    //           </View>
-    //         );
+    return (
+      <MyUserQuery>
+        {({ data, loading, error }) => {
+          console.log("myUser", error, data, loading);
+          if (loading)
+            return (
+              <View>
+                <Text> Text</Text>
+              </View>
+            );
+          if (error)
+            return (
+              <View>
+                <Text> Error</Text>
+              </View>
+            );
 
-    //       const { userDetails } = data;
-    //       return <View>{this.renderMutationButtons()}</View>;
-    //     }}
-    //   </UserDetailsQuery>
-    // );
+          const { myUser } = data;
+          console.log(myUser);
+          return (
+            <View>
+              <DeleteUserPhotoMutation>
+                {({ deleteUserPhotoMutation, data, loading, error }) => {
+                  console.log("delete user photo", data, loading, error);
+                  return this.renderPhotos(
+                    deleteUserPhotoMutation,
+                    myUser.photos
+                  );
+                }}
+              </DeleteUserPhotoMutation>;
+              <UploadUserPhotoMutation>
+                {({ uploadUserPhotoMutation, data, loading, error }) => {
+                  console.log("upload user photo", data, loading, error);
+                  return (
+                    <Button
+                      title="button"
+                      onPress={() => this.handlePress(uploadUserPhotoMutation)}
+                    />
+                  );
+                }}
+              </UploadUserPhotoMutation>;
+            </View>
+          );
+        }}
+      </MyUserQuery>
+    );
   }
 }
 

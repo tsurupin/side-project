@@ -31,6 +31,7 @@ defmodule ApiWeb.Endpoint do
     Plug.Parsers,
     parsers: [:urlencoded, :multipart, :json],
     pass: ["*/*"],
+    length: 100_000_000,
     json_decoder: Poison
   )
 

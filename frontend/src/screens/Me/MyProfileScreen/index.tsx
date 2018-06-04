@@ -1,7 +1,7 @@
 import * as React from "react";
 import { View, TouchableOpacity, Text, Button } from "react-native";
 import { ErrorMessage, UserDetailsView } from "../../../components/Commons";
-import { USER_EDIT_SCREEN } from "../../../constants/screens";
+import { USER_EDIT_SCREEN, USER_PHOTO_EDIT_SCREEN } from "../../../constants/screens";
 import { MyUserQuery } from "../../../queries/users";
 import { UserDetails } from "../../../interfaces";
 import { USER_EDIT_BUTTON, CANCEL_USER_EDIT_BUTTON, SUBMIT_USER_EDIT_BUTTON } from "../../../constants/buttons";
@@ -26,7 +26,7 @@ class MyProfileScreen extends React.Component<Props, State> {
     switch (e.id) {
       case USER_EDIT_BUTTON:
         this.props.navigator.showModal({
-          screen: USER_EDIT_SCREEN,
+          screen: USER_PHOTO_EDIT_SCREEN,
           navigatorButtons: {
             leftButtons: [
               {

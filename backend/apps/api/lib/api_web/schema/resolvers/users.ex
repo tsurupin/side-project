@@ -44,11 +44,11 @@ defmodule ApiWeb.Schema.Resolvers.Users do
     end
   end
 
-  def upload_photo(ctx, %{photo: _photo, is_main: _is_main, rank: _rank} = attrs, %{
+  def upload_photo(ctx, %{user_upload_input: attrs}, %{
         context: %{current_user: current_user}
       }) do
     case Photos.upload_photo(current_user, attrs) do
-      {:ok, _repo} -> {:ok, true}
+      {:ok, photo} -> {:ok, photo}
       {:error, reason} -> {:error, reason}
     end
   end

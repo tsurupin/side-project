@@ -27,7 +27,7 @@ defmodule ApiWeb.Schema.Mutations.Users do
 
     @desc "Delete user photo"
     field :delete_user_photo, :user_photo do
-      arg(:photo_id, non_null(:integer))
+      arg(:photo_id, non_null(:id))
       middleware(Middleware.Authorize)
       resolve(&Resolvers.Users.delete_photo/3)
     end
