@@ -4,6 +4,13 @@ export interface UserCore {
   mainPhotoUrl: string;
 }
 
+export interface UserPhoto {
+  id: string;
+  imageUrl: string;
+  rank: number;
+  userId?: string;
+}
+
 export interface UserDetails extends UserCore {
   areaName?: string;
   leadSentence?: string;
@@ -13,6 +20,7 @@ export interface UserDetails extends UserCore {
   skills?: Skill[];
   companyName?: string;
   schoolName?: string;
+  photos?: UserPhoto[];
 }
 
 export interface Skill {

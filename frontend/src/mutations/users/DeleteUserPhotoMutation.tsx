@@ -1,6 +1,7 @@
 import * as React from "react";
 import { Mutation } from "react-apollo";
 import { DELETE_USER_PHOTO_MUTATION, USER_FRAGMENTS } from "../../graphql/users";
+import { UserDetails } from "../../interfaces";
 
 type Props = {
   children: any;
@@ -15,16 +16,17 @@ const DeleteUserPhotoMutation = (props: Props) => {
       mutation={DELETE_USER_PHOTO_MUTATION}
       context={{ needAuth: true }}
       update={(cache, { data: { deletUserPhoto } }) => {
-        const { user } = cache.readFragment({ 
-          id: deletUserPhoto.userId,
+        
+        const user: any = cache.readFragment({ 
+          id: `User:${deletUserPhoto.userId}`,
           fragment: USER_FRAGMENTS.userDetails 
         });
-
         const photos = user.photos.filter(photo => photo.id != deletUserPhoto.id)
+        
         cache.writeFragment({ 
-          id: user.id,
+          id: `User:${user.id}`,
           fragment: USER_FRAGMENTS.userDetails,
-          data: {user: {...user, photos}} 
+          data: {...user, photos} 
         });
       }}
 
