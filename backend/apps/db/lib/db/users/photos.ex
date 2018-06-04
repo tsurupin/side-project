@@ -15,8 +15,7 @@ defmodule Db.Users.Photos do
   @spec upload_photo(User.t(), %{image: any, is_main: boolean, rank: integer}) ::
           {:ok, Photo.t()} | {:error, Ecto.Changeset.t()}
   def upload_photo(%User{} = user, %{photo: image, rank: rank} = attrs) do
-    is_main = rank == 1
-    Photo.changeset(%{image: image, user_id: user.id, is_main: is_main, rank: rank})
+    Photo.changeset(%{image: image, user_id: user.id, rank: rank})
     |> Repo.insert()
   end
 
@@ -33,7 +32,7 @@ defmodule Db.Users.Photos do
 
         Multi.new()
         |> Multi.delete(:deleted_photo, photo)
-        |> promote_photos(photos, photo.rank, photo.is_main)
+        |> promote_photos(photos, photo.rank)
         |> Multi.run(:delete_image_file, fn %{deleted_photo: deleted_photo} ->
           delete_image_file(deleted_photo)
         end)
@@ -41,17 +40,17 @@ defmodule Db.Users.Photos do
     end
   end
 
-  #@spec promote_photos(Ecto.Multi.t(), [], integer, boolean) :: Ecto.Multi.t()
-  defp promote_photos(multi, [], _rank, _is_main), do: multi
+  #@spec promote_photos(Ecto.Multi.t(), [], integer) :: Ecto.Multi.t()
+  defp promote_photos(multi, [], _rank), do: multi
 
-  @spec promote_photos(Ecto.Multi.t(), [Photo.t], integer, boolean) :: Ecto.Multi.t()
-  defp promote_photos(multi, [photo | remaining], rank, is_main) do
+  @spec promote_photos(Ecto.Multi.t(), [Photo.t], integer) :: Ecto.Multi.t()
+  defp promote_photos(multi, [photo | remaining], rank) do
     multi
     |> Multi.update(
       "promote_photos:#{photo.id}",
-      Photo.promote_changeset(photo, %{is_main: is_main, rank: rank})
+      Photo.promote_changeset(photo, %{rank: rank})
     )
-    |> promote_photos(remaining, false, rank + 1)
+    |> promote_photos(remaining, rank + 1)
   end
 
   @spec delete_image_file(Photo.t()) :: {:ok, Photo.t()}
