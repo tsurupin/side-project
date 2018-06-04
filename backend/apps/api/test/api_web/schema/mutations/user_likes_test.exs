@@ -263,7 +263,7 @@ defmodule ApiWeb.Schema.Mutations.UserLikessTest do
         like = Repo.get(Db.Users.UserLike, like.id)
         assert like.status == :rejected
 
-        assert response["data"]["rejectUserLike"] == "#{user_id}"
+        assert response["data"]["rejectUserLike"] == "#{like.user_id}"
       end
     end
 

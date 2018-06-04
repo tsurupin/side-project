@@ -65,20 +65,20 @@ defmodule Db.Users.UserLikes do
   @spec reject_like(User.t(), %{user_id: integer}) ::
           {:ok, true} | {:error, String.t()} | {:error, :bad_request}
   def reject_like(%User{id: target_user_id}, %{user_id: user_id}) do
-    # case Repo.get_by(UserLike, user_id: user_id, target_user_id: target_user_id) do
-    #   %UserLike{status: :requested} = like ->
-    #     transaction =
-    #       UserLike.change_status_changeset(like, %{status: :rejected})
-    #       |> Repo.update()
-    #
-    #     case transaction do
-    #       {:ok, _user_like} -> {:ok, true}
-    #       {:error, changeset} -> {:error, Db.FullErrorMessage.message(changeset)}
-    #     end
-    #
-    #   _ ->
-    #     {:error, :bad_request}
-    # end
-    {:ok, true}
+    case Repo.get_by(UserLike, user_id: user_id, target_user_id: target_user_id) do
+      %UserLike{status: :requested} = like ->
+        transaction =
+          UserLike.change_status_changeset(like, %{status: :rejected})
+          |> Repo.update()
+
+        case transaction do
+          {:ok, _user_like} -> {:ok, true}
+          {:error, changeset} -> {:error, Db.FullErrorMessage.message(changeset)}
+        end
+
+      _ ->
+        {:error, :bad_request}
+    end
+    #{:ok, true}
   end
 end
