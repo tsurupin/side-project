@@ -19,7 +19,7 @@ defmodule ApiWeb.Schema.Queries.MatchesTest do
       Factory.insert(:user_like, user: liked_user2, target_user: user, status: 0)
       Factory.insert(:user_like, user: other_user, target_user: user, status: 1)
 
-      photo = Factory.insert(:user_photo, user: liked_user1, is_main: true)
+      photo = Factory.insert(:user_photo, user: liked_user1, rank: 0)
 
       {
         :ok,

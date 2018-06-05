@@ -81,7 +81,7 @@ defmodule Db.Users.Users do
 
   @spec main_photo(User.t()) :: Photo.t() | nil
   def main_photo(user) do
-    Repo.one(from(p in Photo, where: p.user_id == ^user.id and p.is_main == true))
+    Repo.one(from(p in Photo, where: p.user_id == ^user.id and p.rank == 0))
   end
 
   @active_duration_days 3

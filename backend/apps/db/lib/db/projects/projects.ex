@@ -116,7 +116,7 @@ defmodule Db.Projects.Projects do
 
   @spec main_photo(Project.t()) :: Photo.t()
   def main_photo(project) do
-    Repo.one(from(p in Photo, where: p.project_id == ^project.id and p.is_main == true))
+    Repo.one(from(p in Photo, where: p.project_id == ^project.id and p.rank == 0))
   end
 
   @spec preload(Ecto.Queryable.t, String.t) :: [Ecto.Schema.t()]

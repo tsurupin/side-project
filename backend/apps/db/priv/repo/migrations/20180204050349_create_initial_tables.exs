@@ -73,13 +73,12 @@ defmodule Db.Repo.Migrations.CreateInitialTables do
       add :user_id, references(:users, on_delete: :delete_all), null: false
       add :image_url, :string, null: false
       add :rank, :integer, null: false, default: 0
-      add :is_main, :boolean, null: false, default: false
 
       add :deleted_at, :utc_datetime
       timestamps()
     end
-    create unique_index(:user_photos, [:user_id, :is_main], where: "is_main = true", name: "user_photos_user_id_and_is_main_index")
     create unique_index(:user_photos, [:user_id, :rank], name: "user_photos_user_id_and_rank_index")
+    create constraint(:user_photos, "valid_user_photo_rank", check: "rank >= 0 ")
 
     create table(:user_skills) do
       add :skill_id, references(:skills, on_delete: :delete_all), null: false
@@ -151,12 +150,11 @@ defmodule Db.Repo.Migrations.CreateInitialTables do
       add :project_id, references(:projects, on_delete: :delete_all), null: false
       add :image_url, :string, null: false
       add :rank, :integer, null: false
-      add :is_main, :boolean, null: false, default: false
       add :deleted_at, :utc_datetime
       timestamps()
     end
-    create unique_index(:project_photos, [:project_id, :is_main], where: "is_main = true", name: "project_photos_user_id_and_is_main_index")
     create unique_index(:project_photos, [:project_id, :rank], name: "project_photos_project_id_and_rank_index")
+    create constraint(:project_photos, "valid_project_photo_rank", check: "rank >= 0 ")
 
     create table(:project_members) do
       add :project_id, references(:projects, on_delete: :delete_all), null: false

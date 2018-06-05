@@ -14,7 +14,7 @@ defmodule ApiWeb.Schema.Queries.UsersTest do
 
       skill = Factory.insert(:skill)
       Factory.insert(:user_skill, user: user, skill: skill)
-      photo = Factory.insert(:user_photo, user: user, is_main: true)
+      photo = Factory.insert(:user_photo, user: user, rank: 0)
 
       {
         :ok,

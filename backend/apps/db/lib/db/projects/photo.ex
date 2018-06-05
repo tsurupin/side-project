@@ -10,7 +10,6 @@ defmodule Db.Projects.Photo do
   @type t :: %Photo{}
 
   schema "project_photos" do
-    field(:is_main, :boolean, default: false, null: false)
     field(:rank, :integer, null: false)
     field(:image_url, ProjectPhotoUploader.Type, null: false)
     belongs_to(:project, Project)
@@ -20,27 +19,27 @@ defmodule Db.Projects.Photo do
 
   @spec changeset(map()) :: Ecto.Changeset.t()
   def changeset(attrs) do
-    permitted_attrs = ~w(is_main project_id rank)a
-    required_attrs = ~w(is_main image_url project_id rank)a
+    permitted_attrs = ~w(project_id rank)a
+    required_attrs = ~w(image_url project_id rank)a
 
     %Photo{}
     |> cast(attrs, permitted_attrs)
     |> assoc_constraint(:project)
     |> cast_attachments(attrs, [:image_url])
     |> validate_required(required_attrs)
-    |> unique_constraint(:project_id, name: "project_photos_project_id_and_is_main_index")
     |> unique_constraint(:project_id, name: "project_photos_project_id_and_rank_index")
+    |> check_constraint(:rank, name: "valid_project_photo_rank")
   end
 
   @spec promote_changeset(Photo.t(), map) :: Ecto.Changeset.t()
   def promote_changeset(photo, attrs) do
-    permitted_attrs = ~w(is_main rank)a
-    required_attrs = ~w(is_main rank)a
+    permitted_attrs = ~w(rank)a
+    required_attrs = ~w(rank)a
 
     photo
     |> cast(attrs, permitted_attrs)
     |> validate_required(required_attrs)
-    |> unique_constraint(:project_id, name: "project_photos_project_id_and_is_main_index")
     |> unique_constraint(:project_id, name: "project_photos_project_id_and_rank_index")
+    |> check_constraint(:rank, name: "valid_project_photo_rank")
   end
 end

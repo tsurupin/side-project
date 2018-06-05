@@ -12,10 +12,10 @@ defmodule ApiWeb.Schema.Queries.FavoritesTest do
 
       favorite1 = Factory.insert(:user_favorite, user: user, target_user_id: target_user.id)
       favorite2 = Factory.insert(:user_favorite, user: user, target_project_id: target_project.id)
-      target_user_photo = Factory.insert(:user_photo, user: target_user, is_main: true)
+      target_user_photo = Factory.insert(:user_photo, user: target_user, rank: 0)
 
       target_project_photo =
-        Factory.insert(:project_photo, project: target_project, is_main: true)
+        Factory.insert(:project_photo, project: target_project, rank: 0)
 
       {
         :ok,

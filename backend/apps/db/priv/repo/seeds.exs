@@ -87,7 +87,6 @@ Repo.insert!(
 # )
 user_photo_changeset = %{
   user_id: owner.id,
-  is_main: true,
   rank: 1,
   image_url: %Plug.Upload{content_type: "image/jpeg", filename: "user1.jpg", path: Path.join(__DIR__, "images/seeds/user1.jpg")}
 }
@@ -121,7 +120,6 @@ Repo.insert!(
 
 project_photo_changeset = %{
   project_id: project.id,
-  is_main: true,
   rank: 2,
   image_url: %Plug.Upload{content_type: "image/jpeg", filename: "project1.jpg", path: Path.join(__DIR__, "images/seeds/project1.jpg")}
 }

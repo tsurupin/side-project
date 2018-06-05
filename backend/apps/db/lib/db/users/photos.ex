@@ -12,7 +12,7 @@ defmodule Db.Users.Photos do
   alias Db.Users.{User, Photo}
   alias Db.Uploaders.UserPhotoUploader
 
-  @spec upload_photo(User.t(), %{image: any, is_main: boolean, rank: integer}) ::
+  @spec upload_photo(User.t(), %{image: any, rank: integer}) ::
           {:ok, Photo.t()} | {:error, Ecto.Changeset.t()}
   def upload_photo(%User{} = user, %{photo: image, rank: rank} = attrs) do
     Photo.changeset(%{image: image, user_id: user.id, rank: rank})
@@ -50,7 +50,7 @@ defmodule Db.Users.Photos do
       "promote_photos:#{photo.id}",
       Photo.promote_changeset(photo, %{rank: rank})
     )
-    |> promote_photos(remaining, rank + 1)
+    |> promote_photos(remaining, rank - 1)
   end
 
   @spec delete_image_file(Photo.t()) :: {:ok, Photo.t()}

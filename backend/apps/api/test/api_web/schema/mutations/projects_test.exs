@@ -196,8 +196,8 @@ defmodule ApiWeb.Schema.Mutations.ProjectsTest do
     """
 
     test "deletes project main photo", %{user: user, project: project} do
-      main_photo = Factory.insert(:project_photo, project: project, is_main: true, rank: 0)
-      other_photo = Factory.insert(:project_photo, project: project, is_main: false, rank: 2)
+      main_photo = Factory.insert(:project_photo, project: project, rank: 0)
+      other_photo = Factory.insert(:project_photo, project: project, rank: 2)
       attrs = %{photoId: main_photo.id}
       user_id = user.id
 
@@ -213,7 +213,6 @@ defmodule ApiWeb.Schema.Mutations.ProjectsTest do
         promoted_photo = Repo.get(Db.Projects.Photo, other_photo.id)
 
         assert promoted_photo.rank == main_photo.rank
-        assert promoted_photo.is_main
 
         main_photo = Repo.get(Db.Projects.Photo, main_photo.id)
         assert is_nil(main_photo)
@@ -221,8 +220,8 @@ defmodule ApiWeb.Schema.Mutations.ProjectsTest do
     end
 
     test "deletes project photo", %{user: user, project: project} do
-      photo = Factory.insert(:project_photo, project: project, is_main: false, rank: 1)
-      other_photo = Factory.insert(:project_photo, project: project, is_main: false, rank: 2)
+      photo = Factory.insert(:project_photo, project: project, rank: 1)
+      other_photo = Factory.insert(:project_photo, project: project, rank: 2)
       attrs = %{photoId: photo.id}
       user_id = user.id
 
@@ -245,7 +244,7 @@ defmodule ApiWeb.Schema.Mutations.ProjectsTest do
 
     test "fails to delete photo because project owner is not current_user", %{user: user} do
       other_project = Factory.insert(:project)
-      photo = Factory.insert(:project_photo, project: other_project, is_main: false, rank: 1)
+      photo = Factory.insert(:project_photo, project: other_project, rank: 1)
 
       attrs = %{photoId: photo.id}
       user_id = user.id
