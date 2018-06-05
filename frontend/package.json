@@ -83,6 +83,7 @@
     "react": "16.3.1",
     "react-native": "0.55.4",
     "react-native-elements": "^1.0.0-beta5",
+    "react-native-segmented-control-tab": "^3.2.2",
     "update": "^0.7.4"
   },
   "description": "This project was bootstrapped with [Create React Native App](https://github.com/react-community/create-react-native-app).",
