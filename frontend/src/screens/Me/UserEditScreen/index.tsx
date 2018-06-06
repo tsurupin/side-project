@@ -1,5 +1,5 @@
 import * as React from "react";
-import { View, TouchableOpacity, Text, Button } from "react-native";
+import { View, TouchableOpacity, Text, Button, Alert } from "react-native";
 import { ErrorMessage } from "../../../components/Commons";
 import { EditForm } from "../../../components/Me/UserEditScreen";
 import {
@@ -9,25 +9,87 @@ import {
 } from "../../../constants/screens";
 import { MyUserQuery } from "../../../queries/users";
 import { EditUserMutation } from "../../../mutations/users";
-import { UserDetails, UserEditParams } from "../../../interfaces";
+import { UserEditParams, UserUploadParams } from "../../../interfaces";
+import { Photo } from "../../../components/Me/UserPhotoEditScreen";
+import {
+  UploadUserPhotoMutation,
+  DeleteUserPhotoMutation
+} from "../../../mutations/users";
+import * as ImagePicker from "react-native-image-picker";
+import ImageResizer from "react-native-image-resizer";
+import { ReactNativeFile } from "@richeterre/apollo-upload-client";
+
 import styles from "./styles";
-import { User } from "firebase";
 
 type Props = {
   id: number;
   navigator: any;
 };
 
-// add segmented controls by combining this repo
-// https://github.com/wix/react-native-custom-segmented-control
-
 class UserEditScreen extends React.Component<Props, UserEditParams> {
   constructor(props) {
     super(props);
   }
 
+  handlePress = mutation => {
+    ImagePicker.showImagePicker({}, async response => {
+      console.log("Response = ", response);
+
+      if (response.didCancel) {
+        console.log("User cancelled image picker");
+      } else if (response.error) {
+        console.log("ImagePicker Error: ", response.error);
+      } else if (response.customButton) {
+        console.log("User tapped custom button: ", response.customButton);
+      } else {
+        try {
+          const uri = await ImageResizer.createResizedImage(
+            response.uri,
+            600,
+            600,
+            "JPEG",
+            100
+          );
+          const photo = new ReactNativeFile({
+            uri,
+            type: "image/jpeg",
+            name: "photo.jpg"
+          });
+
+          console.log(photo, mutation);
+          const variables: UserUploadParams = { photo: photo, rank: 252 };
+
+          console.log(variables);
+          mutation({ variables });
+        } catch (err) {
+          console.log(err);
+          return Alert.alert(
+            "Unable to resize the photo",
+            "Check the console for full the error message"
+          );
+        }
+      }
+    });
+  };
+
+  handlePressDeletion = (deleteUserPhotoMutation, photoId: string) => {
+    deleteUserPhotoMutation({ variables: { photoId } });
+  };
+
   handleSubmit = (variables: UserEditParams, editUserMutation: any) => {
     editUserMutation({ variables });
+  };
+
+  renderPhotos = (mutation, photos) => {
+    return photos.map(photo => {
+      return (
+        <Photo
+          key={photo.id}
+          photo={photo}
+          onPress={(id: string) => this.handlePressDeletion(mutation, id)}
+        />
+      );
+    });
   };
 
   render() {
@@ -52,6 +114,26 @@ class UserEditScreen extends React.Component<Props, UserEditParams> {
           const { myUser } = data;
           return (
             <View>
+               <DeleteUserPhotoMutation>
+                {({ deleteUserPhotoMutation, data, loading, error }) => {
+                  console.log("delete user photo", data, loading, error);
+                  return this.renderPhotos(
+                    deleteUserPhotoMutation,
+                    myUser.photos
+                  );
+                }}
+              </DeleteUserPhotoMutation>;
+              <UploadUserPhotoMutation>
+                {({ uploadUserPhotoMutation, data, loading, error }) => {
+                  console.log("upload user photo", data, loading, error);
+                  return (
+                    <Button
+                      title="button"
+                      onPress={() => this.handlePress(uploadUserPhotoMutation)}
+                    />
+                  );
+                }}
+              </UploadUserPhotoMutation>;
               <EditUserMutation>
               {({ editUserMutation, loading, error, data }) => {
                   if (data) {

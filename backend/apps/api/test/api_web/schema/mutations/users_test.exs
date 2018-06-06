@@ -102,7 +102,7 @@ defmodule ApiWeb.Schema.Mutations.UsersTest do
 
         response = json_response(conn, 200)
         result = response["data"]["editUser"]
-      
+
         assert result["displayName"] == "hoge"
         user = Repo.get(Db.Users.User, user_id)
         assert user.display_name == "hoge"
@@ -161,7 +161,10 @@ defmodule ApiWeb.Schema.Mutations.UsersTest do
 
     @mutation """
       mutation DeleteUserPhoto($photoId: ID!) {
-        deleteUserPhoto(photoId: $photoId)
+        deleteUserPhoto(photoId: $photoId) {
+          id
+          userId
+        }
       }
     """
 
@@ -178,7 +181,8 @@ defmodule ApiWeb.Schema.Mutations.UsersTest do
           |> post("/api", %{query: @mutation, variables: attrs})
 
         response = json_response(conn, 200)
-        assert response["data"]["deleteUserPhoto"] == true
+        assert response["data"]["deleteUserPhoto"] == %{"id" => "#{main_photo.id}", "userId" => "#{user.id}"}
+
 
         promoted_photo = Repo.get(Db.Users.Photo, other_photo.id)
 

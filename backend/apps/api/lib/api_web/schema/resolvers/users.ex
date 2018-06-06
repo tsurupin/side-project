@@ -57,7 +57,7 @@ defmodule ApiWeb.Schema.Resolvers.Users do
 
   def delete_photo(_ctx, %{photo_id: photo_id}, %{context: %{current_user: current_user}}) do
     case Photos.delete_photo(photo_id) do
-      {:ok, _multi} -> {:ok, true}
+      {:ok, %{deleted_photo: photo}} -> {:ok, photo}
       {:error, reason} -> {:error, reason}
     end
   end

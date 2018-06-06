@@ -8,7 +8,6 @@ import {
   SKILL_SEARCH_MODAL_SCREEN,
   USER_DETAILS_SCREEN,
   USER_EDIT_SCREEN,
-  USER_PHOTO_EDIT_SCREEN,
   MY_PROFILE_SCREEN,
   MATCH_SCREEN,
   CHAT_SCREEN,
@@ -32,7 +31,6 @@ import {
 import {
   UserEditScreen,
   MyProfileScreen,
-  UserPhotoEditScreen
 } from "./screens/Me";
 
 import MainTab from "./screens/MainTab";
@@ -60,9 +58,7 @@ const registerComponents = () => {
   Navigation.registerComponent(USER_EDIT_SCREEN, () =>
     ApolloWrapper(UserEditScreen)
   );
-  Navigation.registerComponent(USER_PHOTO_EDIT_SCREEN, () =>
-    ApolloWrapper(UserPhotoEditScreen)
-  );
+
   Navigation.registerComponent(MATCH_SCREEN, () =>
     ApolloWrapper(MatchScreen)
   );
