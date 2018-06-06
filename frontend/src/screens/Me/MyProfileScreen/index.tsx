@@ -26,7 +26,7 @@ class MyProfileScreen extends React.Component<Props, State> {
     switch (e.id) {
       case USER_EDIT_BUTTON:
         this.props.navigator.showModal({
-          screen: USER_PHOTO_EDIT_SCREEN,
+          screen: USER_EDIT_SCREEN,
           navigatorButtons: {
             leftButtons: [
               {
