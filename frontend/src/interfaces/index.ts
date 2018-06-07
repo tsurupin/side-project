@@ -61,6 +61,30 @@ export interface UserUploadParams {
   rank: number;
 }
 
+export interface ProjectCore {
+  id: string;
+  title: string,
+  mainPhotoUrl: string;
+}
+
+export interface ProjectPhoto {
+  id: string;
+  imageUrl: string;
+  rank: number;
+  projectId?: string;
+}
+
+export interface ProjectDetails extends ProjectCore {
+  leadSentence: string;
+  status: string;
+  motivation: string | null;
+  requirement: string | null;
+  owner: UserCore;
+  genre: Genre;
+  skills: Skill[];
+  photos: ProjectPhoto[];
+}
+
 export interface ProjectSearchParams {
   genreId?: number;
   distance?: number | null;
@@ -68,7 +92,7 @@ export interface ProjectSearchParams {
 }
 
 export interface ProjectEditParams {
-  title: string;
+  title?: string;
   leadSentene?: string;
   motivation?: string;
   requirement?: number;
