@@ -2,7 +2,7 @@ import gql from "graphql-tag";
 import { parseFragment } from "../utilities/parseFragment";
 
 export const PROJECT_FRAGMENTS = {
-  projectDetails: parseFragment(gql`
+  projectDetails: gql`
     fragment ProjectDetail on Project {
       id
       name
@@ -27,8 +27,8 @@ export const PROJECT_FRAGMENTS = {
         image_url
       }
     }
-  `),
-  projectOnList: parseFragment(gql`
+  `,
+  projectOnList: gql`
     fragment ProjectOnList on Project {
       id
       name
@@ -39,12 +39,12 @@ export const PROJECT_FRAGMENTS = {
         name
       }
     }
-  `),
-  projectCore: parseFragment(gql`
+  `,
+  projectCore: gql`
     fragment ProjectCore on Project {
       id
       name
       status
     }
-  `)
+  `
 };

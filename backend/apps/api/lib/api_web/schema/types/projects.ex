@@ -64,9 +64,8 @@ defmodule ApiWeb.Schema.Types.Projects do
   end
 
   input_object :project_upload_input do
-    field(:project_id, :integer)
+    field(:project_id, :string)
     field(:photo, :upload)
-    field(:is_main, :boolean)
     field(:rank, :integer)
   end
 end
