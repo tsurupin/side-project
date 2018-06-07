@@ -16,5 +16,11 @@ defmodule ApiWeb.Schema.Queries.Projects do
       middleware(Middleware.Authorize)
       resolve(&Resolvers.Projects.search/3)
     end
+
+    @desc "Show my projects"
+    field :my_projects, list_of(:project) do
+      middleware(Middleware.Authorize)
+      resolve(&Resolvers.Projects.search/3)
+    end
   end
 end

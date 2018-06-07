@@ -1,16 +1,16 @@
 import * as React from "react";
 import { Query } from "react-apollo";
-import { PROJECT_LIST_QUERY } from "../../graphql/projects";
+import { MY_PROJECT_LIST_QUERY } from "../../graphql/projects";
 
 type Props = {
    children: any;
 };
 
-const ProjectListQuery = (props: Props) => {
+const MyProjectListQuery = (props: Props) => {
   const { children } = props;
   return (
     <Query
-      query={PROJECT_LIST_QUERY}
+      query={MY_PROJECT_LIST_QUERY}
       context={{ needAuth: true }}
       notifyOnNetworkStatusChange
     >
@@ -19,4 +19,4 @@ const ProjectListQuery = (props: Props) => {
   );
 };
 
-export default ProjectListQuery;
+export default MyProjectListQuery;

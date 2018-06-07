@@ -1,6 +1,7 @@
 import * as React from "react";
 import { Query } from "react-apollo";
 import { PROJECT_DETAILS_QUERY } from "../../graphql/projects";
+import { ProjectSearchParams } from "../../interfaces";
 
 type Props = {
   variables: { id: string };
