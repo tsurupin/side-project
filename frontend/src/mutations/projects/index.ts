@@ -1,11 +1,13 @@
-import createProject from "./createProject";
-import editProject from "./editProject";
-import deleteProjectPhoto from "./deleteProjectPhoto"
-import changeProjectStatus from "./changeProjectStatus";
+import CreateProjectMutation from "./CreateProjectMutation";
+import EditProjectMutation from "./EditProjectMutation";
+import DeleteProjectPhotoMutation from "./DeleteProjectPhotoMutation"
+import UploadProjectPhotoMutation from "./UploadProjectPhotoMutation"
+import ChangeProjectStatusMutation from "./ChangeProjectStatusMutation";
 
 export {
-  createProject,
-  editProject,
-  deleteProjectPhoto,
-  changeProjectStatus
+ CreateProjectMutation,
+ EditProjectMutation,
+ DeleteProjectPhotoMutation,
+ UploadProjectPhotoMutation,
+ ChangeProjectStatusMutation
 };
