@@ -61,6 +61,26 @@ export interface UserUploadParams {
   rank: number;
 }
 
+export interface ProjectSearchParams {
+  genreId?: number;
+  distance?: number | null;
+  skillIds?: number[];
+}
+
+export interface ProjectEditParams {
+  title: string;
+  leadSentene?: string;
+  motivation?: string;
+  requirement?: number;
+  genreId?: number;
+  skillIds?: number[];
+}
+
+export interface ProjectUploadParams {
+  photo: string;
+  rank: number;
+}
+
 export interface Chat {
   id: number;
   name: string;

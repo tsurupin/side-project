@@ -23,6 +23,7 @@ export const PROJECT_FRAGMENTS = {
         name
       }
       photos {
+        id
         image_url
       }
     }
