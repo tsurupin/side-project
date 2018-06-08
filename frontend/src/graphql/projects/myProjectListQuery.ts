@@ -4,7 +4,7 @@ import { parseFragment } from "../utilities/parseFragment";
 
 export const MY_PROJECT_LIST_QUERY = gql`
 query MyProjects {
-  myProjects() {
+  myProjects {
     ${parseFragment(PROJECT_FRAGMENTS.projectOnList)}
   }
 }`;
