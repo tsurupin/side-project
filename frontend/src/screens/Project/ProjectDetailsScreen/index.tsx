@@ -10,6 +10,9 @@ type Props = {
 };
 
 type State = {};
+// ADD action sheet when clicking right nav buttons
+// edit(author), withdrawlike
+// add like button for newcomer
 class ProjectDetailsScreen extends React.Component<Props, State> {
   
   constructor(props) {

@@ -9,7 +9,6 @@ import { PROJECT_DETAILS_SCREEN } from "../../../constants/screens";
 import styles from "./styles";
 
 type Props = {
-  id: string;
   navigator: any;
 };
 
