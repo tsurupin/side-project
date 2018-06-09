@@ -22,9 +22,10 @@ type State = {};
 const CANCEL_INDEX = 0;
 const PROJECT_EDIT_INDEX = 1;
 const WITHDRAW_PROJECT_LIKE_INDEX = 2;
+// handle options dynamically
 const ACTION_SHEET_OPTIONS = ["Cancel", "Edit group", "Leave project"];
 
-class ProjectDetailsScreen extends React.Component<Props, State> {
+class LikedProjectDetailsScreen extends React.Component<Props, State> {
   public refs = {
     actionSheet: ActionSheet
   };
@@ -130,4 +131,4 @@ class ProjectDetailsScreen extends React.Component<Props, State> {
   }
 }
 
-export default ProjectDetailsScreen;
+export default LikedProjectDetailsScreen;

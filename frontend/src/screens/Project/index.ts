@@ -1,10 +1,10 @@
-import ProjectDetailsScreen from "./ProjectDetailsScreen";
+import LikedProjectDetailsScreen from "./LikedProjectDetailsScreen";
 import ProjectEditScreen from "./ProjectEditScreen";
 import MyProjectListScreen from "./MyProjectListScreen";
 import ProjectNewScreen from "./ProjectNewScreen";
 
 export {
-  ProjectDetailsScreen,
+  LikedProjectDetailsScreen,
   ProjectEditScreen,
   ProjectNewScreen,
   MyProjectListScreen

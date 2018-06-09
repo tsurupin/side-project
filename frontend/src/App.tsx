@@ -7,11 +7,12 @@ import {
   USER_SEARCH_MODAL_SCREEN,
   SKILL_SEARCH_MODAL_SCREEN,
   USER_DETAILS_SCREEN,
+  PROJECT_DETAILS_SCREEN,
   USER_EDIT_SCREEN,
   MY_PROFILE_SCREEN,
   MATCH_SCREEN,
   CHAT_SCREEN,
-  PROJECT_DETAILS_SCREEN,
+  LIKED_PROJECT_DETAILS_SCREEN,
   PROJECT_EDIT_SCREEN,
   MY_PROJECT_LIST_SCREEN,
   PROJECT_NEW_SCREEN,
@@ -25,13 +26,14 @@ import {
   DiscoveryScreen,
   SearchFormScreen,
   SkillSearchModalScreen,
-  UserDetailsScreen
+  UserDetailsScreen,
+  ProjectDetailsScreen
 } from "./screens/Discovery";
 
 import { UserEditScreen, MyProfileScreen } from "./screens/Me";
 
 import {
-  ProjectDetailsScreen,
+  LikedProjectDetailsScreen,
   MyProjectListScreen,
   ProjectEditScreen,
   ProjectNewScreen
@@ -65,6 +67,9 @@ const registerComponents = () => {
 
   Navigation.registerComponent(MATCH_SCREEN, () => ApolloWrapper(MatchScreen));
   Navigation.registerComponent(CHAT_SCREEN, () => ApolloWrapper(ChatScreen));
+  Navigation.registerComponent(PROJECT_DETAILS_SCREEN, () =>
+    ApolloWrapper(ProjectDetailsScreen)
+  );
   Navigation.registerComponent(PROJECT_EDIT_SCREEN, () =>
     ApolloWrapper(ProjectEditScreen)
   );
@@ -72,8 +77,8 @@ const registerComponents = () => {
     ApolloWrapper(ProjectNewScreen)
   );
 
-  Navigation.registerComponent(PROJECT_DETAILS_SCREEN, () =>
-    ApolloWrapper(ProjectDetailsScreen)
+  Navigation.registerComponent(LIKED_PROJECT_DETAILS_SCREEN, () =>
+    ApolloWrapper(LikedProjectDetailsScreen)
   );
   Navigation.registerComponent(MY_PROJECT_LIST_SCREEN, () =>
     ApolloWrapper(MyProjectListScreen)

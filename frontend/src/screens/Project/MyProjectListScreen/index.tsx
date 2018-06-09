@@ -3,7 +3,7 @@ import { View, Text } from "react-native";
 import { MyProjectListQuery } from "../../../queries/projects";
 import { ProjectCore } from "../../../interfaces";
 import { ProjectRow } from "../../../components/Project/MyProjectListScreen";
-import { PROJECT_DETAILS_SCREEN } from "../../../constants/screens";
+import { LIKED_PROJECT_DETAILS_SCREEN } from "../../../constants/screens";
 import { PROJECT_NEW_BUTTON, CANCEL_PROJECT_NEW_BUTTON, SUBMIT_PROJECT_NEW_BUTTON } from "../../../constants/buttons";
 import { PROJECT_NEW_SCREEN } from "../../../constants/screens";
 
@@ -46,7 +46,7 @@ class MyProjectListScreen extends React.Component<Props> {
 
   handlePress = (id: string) => {
     this.props.navigator.push({
-      screen: PROJECT_DETAILS_SCREEN,
+      screen: LIKED_PROJECT_DETAILS_SCREEN,
       passProps: { id }
     });
   };
