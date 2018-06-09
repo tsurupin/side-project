@@ -10,7 +10,7 @@ import {
 import styles from "./styles";
 
 type Props = {
-  project: ProjectDetails;
+  project?: ProjectDetails;
   navigator: any;
   loading: boolean;
   error: any;

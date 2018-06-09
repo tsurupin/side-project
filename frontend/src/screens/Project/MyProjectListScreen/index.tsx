@@ -2,7 +2,7 @@ import * as React from "react";
 import { View, Text } from "react-native";
 import { MyProjectListQuery } from "../../../queries/projects";
 import { ProjectCore } from "../../../interfaces";
-import { ProjectRow } from "../../../components/Project/ProjectListScreen";
+import { ProjectRow } from "../../../components/Project/MyProjectListScreen";
 import { PROJECT_DETAILS_SCREEN } from "../../../constants/screens";
 
 type Props = {
