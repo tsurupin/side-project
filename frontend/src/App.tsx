@@ -11,14 +11,14 @@ import {
   MY_PROFILE_SCREEN,
   MATCH_SCREEN,
   CHAT_SCREEN,
+  PROJECT_DETAILS_SCREEN,
+  PROJECT_EDIT_SCREEN,
+  PROJECT_LIST_SCREEN
 } from "./constants/screens";
 import AuthScreen from "./screens/Auth";
 import TopScreen from "./screens/Top";
 
-import {
-  MatchScreen,
-  ChatScreen,
-} from "./screens/Match";
+import { MatchScreen, ChatScreen } from "./screens/Match";
 
 import {
   DiscoveryScreen,
@@ -27,11 +27,13 @@ import {
   UserDetailsScreen
 } from "./screens/Discovery";
 
+import { UserEditScreen, MyProfileScreen } from "./screens/Me";
 
 import {
-  UserEditScreen,
-  MyProfileScreen,
-} from "./screens/Me";
+  ProjectDetailsScreen,
+  ProjectListScreen,
+  ProjectEditScreen
+} from "./screens/Project";
 
 import MainTab from "./screens/MainTab";
 
@@ -59,12 +61,18 @@ const registerComponents = () => {
     ApolloWrapper(UserEditScreen)
   );
 
-  Navigation.registerComponent(MATCH_SCREEN, () =>
-    ApolloWrapper(MatchScreen)
+  Navigation.registerComponent(MATCH_SCREEN, () => ApolloWrapper(MatchScreen));
+  Navigation.registerComponent(CHAT_SCREEN, () => ApolloWrapper(ChatScreen));
+  Navigation.registerComponent(PROJECT_EDIT_SCREEN, () =>
+    ApolloWrapper(ProjectEditScreen)
   );
-  Navigation.registerComponent(CHAT_SCREEN, () =>
-  ApolloWrapper(ChatScreen)
-);
+
+  Navigation.registerComponent(PROJECT_DETAILS_SCREEN, () =>
+    ApolloWrapper(ProjectDetailsScreen)
+  );
+  Navigation.registerComponent(PROJECT_LIST_SCREEN, () =>
+    ApolloWrapper(ProjectListScreen)
+  );
 };
 
 registerComponents();
@@ -75,4 +83,4 @@ Navigation.startSingleScreenApp({
     screen: AUTH_SCREEN,
     title: "Login"
   }
-})
+});
