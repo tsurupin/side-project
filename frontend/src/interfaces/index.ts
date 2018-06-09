@@ -61,6 +61,50 @@ export interface UserUploadParams {
   rank: number;
 }
 
+export interface ProjectCore {
+  id: string;
+  title: string,
+  mainPhotoUrl: string;
+}
+
+export interface ProjectPhoto {
+  id: string;
+  imageUrl: string;
+  rank: number;
+  projectId?: string;
+}
+
+export interface ProjectDetails extends ProjectCore {
+  leadSentence: string;
+  status: string;
+  motivation: string | null;
+  requirement: string | null;
+  owner: UserCore;
+  genre: Genre;
+  skills: Skill[];
+  photos: ProjectPhoto[];
+}
+
+export interface ProjectSearchParams {
+  genreId?: number;
+  distance?: number | null;
+  skillIds?: number[];
+}
+
+export interface ProjectEditParams {
+  title?: string;
+  leadSentence?: string;
+  motivation?: string;
+  requirement?: string;
+  genreId?: number;
+  skillIds?: number[];
+}
+
+export interface ProjectUploadParams {
+  photo: string;
+  rank: number;
+}
+
 export interface Chat {
   id: number;
   name: string;

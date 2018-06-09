@@ -12,8 +12,20 @@ defmodule ApiWeb.Schema.Resolvers.Projects do
     end
   end
 
+
   def search(_, %{conditions: conditions}, _) do
     case Projects.search(conditions) do
+      {:error, :not_found} ->
+        {:error, %{reason: "Not Found"}}
+
+      {:ok, projects} ->
+        projects = Projects.preload(projects, [:photos, :genre])
+        {:ok, projects}
+    end
+  end
+
+  def search(_, _, _) do
+    case Projects.search(%{}) do
       {:error, :not_found} ->
         {:error, %{reason: "Not Found"}}
 
@@ -50,7 +62,7 @@ defmodule ApiWeb.Schema.Resolvers.Projects do
 
   def upload_photo(
         ctx,
-        %{project_id: _project_id, photo: _photo, is_main: _is_main, rank: _rank} = attrs,
+        %{project_id: _project_id, photo: _photo, rank: _rank} = attrs,
         %{context: %{current_user: current_user}}
       ) do
     case Photos.upload_photo(current_user.id, attrs) do
