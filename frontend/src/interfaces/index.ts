@@ -93,9 +93,9 @@ export interface ProjectSearchParams {
 
 export interface ProjectEditParams {
   title?: string;
-  leadSentene?: string;
+  leadSentence?: string;
   motivation?: string;
-  requirement?: number;
+  requirement?: string;
   genreId?: number;
   skillIds?: number[];
 }
