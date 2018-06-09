@@ -20,7 +20,7 @@ defmodule ApiWeb.Schema.Queries.Projects do
     @desc "Show my projects"
     field :my_projects, list_of(:project) do
       middleware(Middleware.Authorize)
-      resolve(&Resolvers.Projects.search/3)
+      resolve(&Resolvers.Projects.liked_by/3)
     end
   end
 end

@@ -14,7 +14,7 @@ import {
   PROJECT_DETAILS_SCREEN,
   PROJECT_EDIT_SCREEN,
   MY_PROJECT_LIST_SCREEN,
-  PROJECT_CREATE_SCREEN,
+  PROJECT_NEW_SCREEN,
 } from "./constants/screens";
 import AuthScreen from "./screens/Auth";
 import TopScreen from "./screens/Top";
@@ -34,7 +34,7 @@ import {
   ProjectDetailsScreen,
   MyProjectListScreen,
   ProjectEditScreen,
-  ProjectCreateScreen
+  ProjectNewScreen
 } from "./screens/Project";
 
 import MainTab from "./screens/MainTab";
@@ -68,8 +68,8 @@ const registerComponents = () => {
   Navigation.registerComponent(PROJECT_EDIT_SCREEN, () =>
     ApolloWrapper(ProjectEditScreen)
   );
-  Navigation.registerComponent(PROJECT_CREATE_SCREEN, () =>
-    ApolloWrapper(ProjectCreateScreen)
+  Navigation.registerComponent(PROJECT_NEW_SCREEN, () =>
+    ApolloWrapper(ProjectNewScreen)
   );
 
   Navigation.registerComponent(PROJECT_DETAILS_SCREEN, () =>

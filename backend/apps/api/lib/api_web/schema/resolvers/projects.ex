@@ -24,11 +24,8 @@ defmodule ApiWeb.Schema.Resolvers.Projects do
     end
   end
 
-  def search(_, _, _) do
-    case Projects.search(%{}) do
-      {:error, :not_found} ->
-        {:error, %{reason: "Not Found"}}
-
+  def liked_by(_, _, %{context: %{current_user: current_user}}) do
+    case Projects.liked_by(current_user.id) do
       {:ok, projects} ->
         projects = Projects.preload(projects, [:photos, :genre])
         {:ok, projects}
