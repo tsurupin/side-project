@@ -2,7 +2,6 @@ import * as React from "react";
 import { View, TouchableOpacity, Text, Button, Alert } from "react-native";
 import { ErrorMessage } from "../../../components/Commons";
 import { EditForm } from "../../../components/Project/ProjectEditScreen";
-import { PROJECT_DETAILS_SCREEN } from "../../../constants/screens";
 import { ProjectDetailsQuery } from "../../../queries/projects";
 import {
   ProjectDetails,

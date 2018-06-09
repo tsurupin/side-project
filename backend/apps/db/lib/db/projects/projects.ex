@@ -7,6 +7,7 @@ defmodule Db.Projects.Projects do
   alias Ecto.Multi
   alias Db.Repo
   alias Db.Projects.{Project, Member}
+  alias Db.Users.{ProjectLike}
   alias Db.Projects.Photo
   alias Db.Skills.ProjectSkill
   alias Db.Chats.Chats
@@ -25,6 +26,19 @@ defmodule Db.Projects.Projects do
   @spec search(Ecto.Queryable.t,  map) :: {:ok, list(Project.t)}
   def search(query, conditions) do
     projects = Repo.all(build_queries(query, conditions))
+    {:ok, projects}
+  end
+
+  @spec liked_by(String.t() | integer) :: {:ok, list(Project.t)}
+  def liked_by(user_id) do
+    query = Repo.all(
+      from(
+        p in Project,
+        join: pl in Projectike,
+        where: pl.user_id == ^user_id and p.status == 1
+      )
+    )
+    projects = Repo.all(query)
     {:ok, projects}
   end
 

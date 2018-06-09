@@ -8,7 +8,7 @@ import {
   MY_PROFILE_SCREEN,
   MY_PROJECT_LIST_SCREEN
 } from "../../constants/screens";
-import { USER_SEARCH_BUTTON, USER_EDIT_BUTTON } from "../../constants/buttons";
+import { USER_SEARCH_BUTTON, USER_EDIT_BUTTON, PROJECT_NEW_BUTTON } from "../../constants/buttons";
 const MainTab = () => {
   Promise.all([
     Icon.getImageSource("md-map", 30),
@@ -53,9 +53,8 @@ const MainTab = () => {
           navigatorButtons: {
             rightButtons: [
               {
-                icon: sources[2],
-                title: "Edit",
-                id: USER_EDIT_BUTTON
+                title: "Create",
+                id: PROJECT_NEW_BUTTON
               }
             ]
           }

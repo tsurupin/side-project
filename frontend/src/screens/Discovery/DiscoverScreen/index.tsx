@@ -91,7 +91,7 @@ class DiscoveryScreen extends React.Component<Props, State> {
     this.setState({ searchParams });
   };
 
-  protected handleNavigatorEvent = e => {
+  private handleNavigatorEvent = e => {
     if (e.type !== "NavBarButtonPress") return;
 
     console.log(e);

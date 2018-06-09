@@ -12,7 +12,7 @@ type Props = {
   navigator: any;
 };
 
-class ProjectEditScreen extends React.Component<Props> {
+class ProjectNewScreen extends React.Component<Props> {
   constructor(props) {
     super(props);
   }
@@ -61,4 +61,4 @@ class ProjectEditScreen extends React.Component<Props> {
   }
 }
 
-export default ProjectEditScreen;
+export default ProjectNewScreen;
