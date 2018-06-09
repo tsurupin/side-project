@@ -1,5 +1,5 @@
 import ProjectDetailsScreen from "./ProjectDetailsScreen";
 import ProjectEditScreen from "./ProjectEditScreen";
-import ProjectListScreen from "./ProjectListScreen";
+import MyProjectListScreen from "./MyProjectListScreen";
 
-export { ProjectDetailsScreen, ProjectEditScreen, ProjectListScreen };
+export { ProjectDetailsScreen, ProjectEditScreen, MyProjectListScreen };

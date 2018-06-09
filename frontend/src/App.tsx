@@ -13,7 +13,7 @@ import {
   CHAT_SCREEN,
   PROJECT_DETAILS_SCREEN,
   PROJECT_EDIT_SCREEN,
-  PROJECT_LIST_SCREEN
+  MY_PROJECT_LIST_SCREEN
 } from "./constants/screens";
 import AuthScreen from "./screens/Auth";
 import TopScreen from "./screens/Top";
@@ -31,7 +31,7 @@ import { UserEditScreen, MyProfileScreen } from "./screens/Me";
 
 import {
   ProjectDetailsScreen,
-  ProjectListScreen,
+  MyProjectListScreen,
   ProjectEditScreen
 } from "./screens/Project";
 
@@ -70,8 +70,8 @@ const registerComponents = () => {
   Navigation.registerComponent(PROJECT_DETAILS_SCREEN, () =>
     ApolloWrapper(ProjectDetailsScreen)
   );
-  Navigation.registerComponent(PROJECT_LIST_SCREEN, () =>
-    ApolloWrapper(ProjectListScreen)
+  Navigation.registerComponent(MY_PROJECT_LIST_SCREEN, () =>
+    ApolloWrapper(MyProjectListScreen)
   );
 };
 

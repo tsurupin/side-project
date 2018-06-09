@@ -5,7 +5,8 @@ import {
   TOP_SCREEN,
   MATCH_SCREEN,
   USER_DISCOVERY_SCREEN,
-  MY_PROFILE_SCREEN
+  MY_PROFILE_SCREEN,
+  MY_PROJECT_LIST_SCREEN
 } from "../../constants/screens";
 import { USER_SEARCH_BUTTON, USER_EDIT_BUTTON } from "../../constants/buttons";
 const MainTab = () => {
@@ -37,6 +38,12 @@ const MainTab = () => {
           label: "Match",
           title: "Match",
           icon: sources[1]
+        },
+        {
+          screen: MY_PROJECT_LIST_SCREEN,
+          label: "MyProjectList",
+          title: "MyProjectList",
+          icon: sources[2],
         },
         {
           screen: MY_PROFILE_SCREEN,

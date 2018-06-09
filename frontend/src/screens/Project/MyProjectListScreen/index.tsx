@@ -9,7 +9,7 @@ type Props = {
   navigator: any;
 };
 
-class ProjectListScreen extends React.Component<Props> {
+class MyProjectListScreen extends React.Component<Props> {
   constructor(props) {
     super(props);
   }
@@ -58,4 +58,4 @@ class ProjectListScreen extends React.Component<Props> {
   }
 }
 
-export default ProjectListScreen;
+export default MyProjectListScreen;
