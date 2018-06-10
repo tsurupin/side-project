@@ -1,21 +1,10 @@
-defmodule ApiWeb.Schema.Types.Countries do
+defmodule ApiWeb.Schema.Types.Cities do
   use Absinthe.Schema.Notation
 
-  object :country do
+  object :city do
     field(:id, :id)
     field(:name, :string)
-    field(
-      :country_name,
-      :string,
-      resolve: fn _, %{source: user} ->
-        case Users.main_photo(user) do
-          %Photo{image_url: image_url} = photo ->
-            {:ok, UserPhotoUploader.url({image_url, photo}, :thumb)}
-
-          _ ->
-            {:ok, UserPhotoUploader.missing_url(:thumb)}
-        end
-      end
-    )
+    field(:state_name, :string)
+    field(:state_abbreviation, :string)
   end
 end

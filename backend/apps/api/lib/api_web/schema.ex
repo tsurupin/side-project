@@ -7,7 +7,7 @@ defmodule ApiWeb.Schema do
   import_types(Absinthe.Plug.Types)
 
   import_types(ApiWeb.Schema.Types.Commons)
-  import_types(ApiWeb.Schema.Types.Countries)
+  import_types(ApiWeb.Schema.Types.Cities)
   import_types(ApiWeb.Schema.Types.Genres)
   import_types(ApiWeb.Schema.Types.OccupationTypes)
   import_types(ApiWeb.Schema.Types.Skills)
