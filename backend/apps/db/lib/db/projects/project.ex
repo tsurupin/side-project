@@ -5,6 +5,7 @@ defmodule Db.Projects.Project do
   alias Db.Genres.Genre
   alias Db.Projects.Photo
   alias Db.Skills.Skill
+  alias Db.Locations.City
   alias Db.Users.Favorite
   alias __MODULE__
 
@@ -17,10 +18,11 @@ defmodule Db.Projects.Project do
     field(:status, ProjectStatusEnum, default: :editing)
     field(:motivation, :string)
     field(:requirement, :string)
-    field(:area_name, :string)
+    field(:zip_code, :string)
 
     belongs_to(:owner, User)
     belongs_to(:genre, Genre)
+    belongs_to(:genre, City)
     has_many(:photos, Photo)
     has_many(:favorites, Favorite)
     many_to_many(:skills, Skill, join_through: "project_skills")
@@ -30,7 +32,7 @@ defmodule Db.Projects.Project do
 
   @spec changeset(map()) :: Ecto.Changeset.t()
   def changeset(attrs) do
-    permitted_attrs = ~w(name lead_sentence owner_id genre_id status motivation requirement area_name)a
+    permitted_attrs = ~w(name lead_sentence owner_id genre_id status motivation requirement city_id zip_code)a
     required_attrs = ~w(name owner_id)a
 
     %Project{}
@@ -43,7 +45,7 @@ defmodule Db.Projects.Project do
   end
 
   def edit_changeset(%__MODULE__{} = project, attrs) do
-    permitted_attrs = ~w(name lead_sentence genre_id motivation requirement area_name)a
+    permitted_attrs = ~w(name lead_sentence genre_id motivation requirement city_id zip_code)a
 
     project
     |> cast(attrs, permitted_attrs)

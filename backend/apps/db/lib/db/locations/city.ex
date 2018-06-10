@@ -1,32 +1,30 @@
-defmodule Db.Countries.Country do
+defmodule Db.Locations.City do
   @moduledoc """
 
   """
   use Ecto.Schema
   import Ecto.Changeset
-  alias Db.Users.User
-  alias Db.Projects.Project
+  alias Db.Locations.Country
   alias __MODULE__
 
-  @type t :: %Country{}
+  @type t :: %City{}
 
-  schema "countries" do
+  schema "cities" do
     field(:name, :string, null: false)
     field(:deleted_at, :utc_datetime)
     timestamps(type: :utc_datetime)
 
-    has_many(:users, User)
-    has_many(:projects, Project)
+    belongs_to(:country, Country)
   end
 
   @spec changeset(map()) :: Ecto.Changeset.t()
   def changeset(attrs) do
-    permitted_attrs = ~w(name)a
+    permitted_attrs = ~w(name country_id)a
     required_attrs = ~w(name)a
 
-    %Country{}
+    %__MODULE__{}
     |> cast(attrs, permitted_attrs)
     |> validate_required(required_attrs)
-    |> unique_constraint(:name, name: "countries_name_index")
+    |> unique_constraint(:name, name: "cities_name_and_country_id_index")
   end
 end

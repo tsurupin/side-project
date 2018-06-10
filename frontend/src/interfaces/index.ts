@@ -4,7 +4,6 @@ export interface UserCore {
   mainPhotoUrl: string;
   leadSentence?: string;
   genre?: Genre,
-  areaName? :string
 }
 
 export interface UserPhoto {
@@ -15,7 +14,7 @@ export interface UserPhoto {
 }
 
 export interface UserDetails extends UserCore {
-  areaName?: string;
+  cityName?: string;
   introduction?: string;
   occupationType?: OccupationType;
   skills?: Skill[];
@@ -68,7 +67,7 @@ export interface ProjectCore {
   leadSentence?: string,
   genre?: Genre,
   mainPhotoUrl: string;
-  areaName?: string
+  cityName?: string
 }
 
 export interface ProjectPhoto {
@@ -91,7 +90,7 @@ export interface ProjectDetails extends ProjectCore {
 
 export interface ProjectSearchParams {
   genreId?: number;
-  distance?: number | null;
+  cityName?: string | null;
   skillIds?: number[];
 }
 

@@ -15,6 +15,14 @@ usa = Repo.insert!(
 }
 )
 
+City |> Repo.delete_all
+san_francisco = Repo.insert!(
+%City{
+  name: "San Francisco",
+  country_id: usa.id
+}
+)
+
 OccupationType |> Repo.delete_all
 software_engineer = Repo.insert!(
 %OccupationType{
@@ -45,7 +53,7 @@ owner = Repo.insert!(
     school_name: "Stonford",
     status: 0,
     geom: %Geo.Point{ coordinates: {37.773972, -122.431297}, srid: 4326 },
-    area_name: "San Francisco",
+    city_id: san_francisco.id,
     occupation_type_id: software_engineer.id,
     country_id: usa.id,
     genre_id: education.id
@@ -64,7 +72,7 @@ user = Repo.insert!(
     status: 0,
     latitude: 37.772640,
     longitude: -122.409915,
-    area_name: "San Francisco",
+    city_id: san_francisco.id,
     occupation_type_id: software_engineer.id,
     country_id: usa.id,
     genre_id: education.id

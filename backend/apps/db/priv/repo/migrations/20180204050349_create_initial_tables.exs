@@ -22,6 +22,26 @@ defmodule Db.Repo.Migrations.CreateInitialTables do
 
     create unique_index(:countries, [:name], name: "countries_name_index")
 
+
+    create table(:cities) do
+      add :country_id, references(:countries), null: false
+      add :name, :string, null: false
+      add :zip_code, :string
+      add :deleted_at, :utc_datetime
+      timestamps()
+    end
+
+    create unique_index(:cities, [:name, :country_id], name: "cities_name_and_country_id_index")
+
+    create table(:zip_codes) do
+      add :zip_code, :string, null: false
+      add :city_id, references(:cities)
+      add :deleted_at, :utc_datetime
+      timestamps()
+    end
+
+    create unique_index(:zip_codes, [zip_code], name: "zip_codes_code_index")
+
     create table(:occupation_types) do
       add :name, :string, null: false
       add :deleted_at, :utc_datetime
@@ -53,8 +73,8 @@ defmodule Db.Repo.Migrations.CreateInitialTables do
       add :school_name, :string
       add :status, :integer, default: 0, null: false, comment: "0: not_completed, 1: completed, 2: unactive"
       add :last_activated_at, :utc_datetime, default: fragment("now()"), null: false
-      add :area_name, :string
-      add :country_id, references(:countries)
+      add :zip_code, :string
+      add :city_id, references(:cities)
 
       timestamps()
     end
@@ -65,7 +85,7 @@ defmodule Db.Repo.Migrations.CreateInitialTables do
 
     create unique_index(:users, [:provider_id, :uid], name: "users_provider_id_and_uid_index")
     create unique_index(:users, [:email], name: "users_name_index")
-    create index(:users, [:country_id])
+    create index(:users, [:city_id])
     create index(:users, [:geom], using: "gist")
 
 
@@ -107,7 +127,8 @@ defmodule Db.Repo.Migrations.CreateInitialTables do
       add :lead_sentence, :text
       add :motivation, :text
       add :requirement, :text
-      add :area_name :string
+      add :zip_code, :string
+      add :city_id, references(:cities)
       add :owner_id, references(:users), null: false
       add :deleted_at, :utc_datetime
       timestamps()

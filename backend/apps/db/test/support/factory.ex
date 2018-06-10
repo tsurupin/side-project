@@ -10,13 +10,13 @@ defmodule Db.Factory do
     Users,
     Projects,
     Skills,
-    Countries,
+    Locations,
     OccupationTypes.OccupationType,
     Genres,
     Chats
   }
 
-  alias Countries.Country
+  alias Locations.{C}ountry, City, ZipCode}
   alias Genres.Genre
   alias Users.{User, UserLike, ProjectLike, Favorite}
   alias Skills.{Skill, UserSkill, ProjectSkill}
@@ -34,6 +34,23 @@ defmodule Db.Factory do
       name: sequence(:name, &"country:#{&1}")
     }
   end
+
+  @spec city_factory :: City.t()
+  def city_factory() do
+    %City{
+      name: sequence(:name, &"city:#{&1}")
+      country: build(:country)
+    }
+  end
+
+  @spec zip_code_factory :: ZipCode.t()
+  def zip_code_factory() do
+    %ZipCode{
+      zip_code: sequence(:name, &"#{&1}")
+      city: build(:city)
+    }
+  end
+
 
   @spec genre_factory :: Genre.t()
   def genre_factory() do
@@ -64,9 +81,8 @@ defmodule Db.Factory do
       school_name: "Stonford",
       status: 1,
       geom: %Geo.Point{coordinates: {37.773972, -122.431297}, srid: 4326},
-      area_name: "San Francisco",
+      city: build(:city),
       occupation_type: build(:occupation_type),
-      country: build(:country),
       genre: build(:genre)
     }
   end
@@ -125,7 +141,7 @@ defmodule Db.Factory do
       requirement: "we need backend engineers",
       owner: build(:user),
       genre: build(:genre),
-      area_name: "San Francisco"
+      city: build(:city)
     }
   end
 
