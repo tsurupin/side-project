@@ -26,12 +26,14 @@ defmodule Db.Repo.Migrations.CreateInitialTables do
     create table(:cities) do
       add :country_id, references(:countries), null: false
       add :name, :string, null: false
+      add :state_name, :string, null: false
+      add :state_abbreviation, :string
       add :zip_code, :string
       add :deleted_at, :utc_datetime
       timestamps()
     end
 
-    create unique_index(:cities, [:name, :country_id], name: "cities_name_and_country_id_index")
+    create unique_index(:cities, [:name, :state_name, :country_id], name: "cities_name_and_state_name_and_country_id_index")
 
     create table(:zip_codes) do
       add :zip_code, :string, null: false

@@ -39,6 +39,7 @@ defmodule Db.Factory do
   def city_factory() do
     %City{
       name: sequence(:name, &"city:#{&1}")
+      state_name: sequence(:state_name, &"state:#{&1}")
       country: build(:country)
     }
   end
@@ -46,7 +47,7 @@ defmodule Db.Factory do
   @spec zip_code_factory :: ZipCode.t()
   def zip_code_factory() do
     %ZipCode{
-      zip_code: sequence(:name, &"#{&1}")
+      zip_code: sequence(:zip_code, &"#{&1}")
       city: build(:city)
     }
   end

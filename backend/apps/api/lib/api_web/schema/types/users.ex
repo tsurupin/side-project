@@ -16,8 +16,7 @@ defmodule ApiWeb.Schema.Types.Users do
     field(:company_name, :string)
     field(:introduction, :string)
     field(:status, :user_status)
-    field(:area_name, :string)
-    field(:country, :country)
+    field(:city, :city)
     field(:skills, list_of(:skill))
     field(:photos, list_of(:user_photo))
 
