@@ -1,4 +1,3 @@
-import Header from "./Header";
-import UserCard from "./UserCard";
+import ItemList from "./ItemList";
 
-export { Header, UserCard };
+export { ItemList };

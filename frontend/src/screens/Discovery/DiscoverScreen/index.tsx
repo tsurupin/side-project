@@ -7,20 +7,26 @@ import {
   ScrollView
 } from "react-native";
 
-import { Header } from "../../../components/Discovery/DiscoveryScreen";
-
 import {
   USER_SEARCH_MODAL_SCREEN,
+  PROJECT_SEARCH_MODAL_SCREEN,
+  PROJECT_DETAILS_SCREEN,
   USER_DETAILS_SCREEN
 } from "../../../constants/screens";
 import {
-  USER_SEARCH_BUTTON,
-  CANCEL_USER_SEARCH_BUTTON,
-  SUBMIT_USER_SEARCH_BUTTON
+  BACK_BUTTON,
+  SUBMIT_BUTTON,
+  SEARCH_BUTTON
 } from "../../../constants/buttons";
-import UserList from "../../../components/Discovery/DiscoveryScreen/UserList";
+import ItemList from "../../../components/Discovery/DiscoveryScreen/ItemList";
 import { UserListQuery } from "../../../queries/users";
-import { UserDetails, UserSearchParams } from "../../../interfaces";
+import { ProjectListQuery } from "../../../queries/projects";
+import {
+  UserDetails,
+  UserSearchParams,
+  ProjectSearchParams
+} from "../../../interfaces";
+import SegmentedControlTab from "react-native-segmented-control-tab";
 import styles from "./styles";
 
 type Props = {
@@ -33,8 +39,13 @@ type State = {
   loading: boolean | null;
   users: UserDetails[];
   errorMessage: string;
-  searchParams: UserSearchParams;
+  userSearchParams: UserSearchParams;
+  projectSearchParams: ProjectSearchParams;
+  selectedIndex: number;
 };
+
+const USER_INDEX = 0;
+const PROJECT_INDEX = 1;
 
 class DiscoveryScreen extends React.Component<Props, State> {
   constructor(props) {
@@ -43,13 +54,19 @@ class DiscoveryScreen extends React.Component<Props, State> {
       loading: false,
       errorMessage: "",
       users: props.users,
-      searchParams: {
+      userSearchParams: {
         occupationTypeId: null,
         genreId: null,
         isActive: null,
         distance: null,
         skillIds: []
-      }
+      },
+      projectSearchParams: {
+        genreId: null,
+        distance: null,
+        skillIds: []
+      },
+      selectedIndex: USER_INDEX
     };
 
     this.props.navigator.setOnNavigatorEvent(this.handleNavigatorEvent);
@@ -79,16 +96,21 @@ class DiscoveryScreen extends React.Component<Props, State> {
         leadSentence:
           "I'm Ruby and React Software enginner. I like to work on ambiscious project"
       }
-    ],
-    searchParams: {}
+    ]
   };
 
-  componentWillMount() {}
+  private isUserOriented = (): boolean => {
+    return this.state.selectedIndex === USER_INDEX;
+  };
 
-  componentWillReceiveProps(newProps) {}
-
-  protected handleUpdateSearchParams = (searchParams: UserSearchParams) => {
-    this.setState({ searchParams });
+  private handleUpdateSearchParams = (
+    searchParams: UserSearchParams | ProjectSearchParams
+  ) => {
+    if (this.isUserOriented()) {
+      this.setState({ userSearchParams: searchParams });
+    } else {
+      this.setState({ projectSearchParams: searchParams });
+    }
   };
 
   private handleNavigatorEvent = e => {
@@ -96,22 +118,24 @@ class DiscoveryScreen extends React.Component<Props, State> {
 
     console.log(e);
     switch (e.id) {
-      case USER_SEARCH_BUTTON:
+      case SEARCH_BUTTON:
         this.props.navigator.showModal({
-          screen: USER_SEARCH_MODAL_SCREEN,
+          screen: this.isUserOriented()
+            ? USER_SEARCH_MODAL_SCREEN
+            : PROJECT_SEARCH_MODAL_SCREEN,
           passProps: { onSubmit: this.handleUpdateSearchParams },
           navigatorButtons: {
             leftButtons: [
               {
                 //icon: sources[1],
                 title: "Back",
-                id: CANCEL_USER_SEARCH_BUTTON
+                id: BACK_BUTTON
               }
             ],
             rightButtons: [
               {
                 title: "Submit",
-                id: SUBMIT_USER_SEARCH_BUTTON
+                id: SUBMIT_BUTTON
               }
             ]
           }
@@ -119,25 +143,51 @@ class DiscoveryScreen extends React.Component<Props, State> {
     }
   };
 
-  protected handlePressUserCard = (id: number) => {
+  protected handlePressCard = (id: string) => {
     this.props.navigator.push({
-      screen: USER_DETAILS_SCREEN,
-      passProps: { id }
+      screen: this.isUserOriented()
+        ? USER_DETAILS_SCREEN
+        : PROJECT_DETAILS_SCREEN,
+      passProps: { id },
+      navigatorButtons: {
+        leftButtons: [
+          {
+            //icon: sources[1],
+            title: "Back",
+            id: BACK_BUTTON
+          }
+        ]
+      }
     });
   };
 
-  private buildSearchParams = (): UserSearchParams => {
+  private buildSearchParams = (): UserSearchParams | ProjectSearchParams => {
+    let searchParams: UserSearchParams | ProjectSearchParams;
+    if (this.isUserOriented()) {
+      searchParams = this.state.userSearchParams;
+    } else {
+      searchParams = this.state.projectSearchParams;
+    }
     let conditions = {};
-    for (let key in this.state.searchParams) {
+    for (let key in searchParams) {
       if (
-        this.state.searchParams[key] !== "undefined" &&
-        this.state.searchParams[key] !== null &&
-        this.state.searchParams[key].length !== 0
+        searchParams[key] !== "undefined" &&
+        searchParams[key] !== null &&
+        searchParams[key].length !== 0
       ) {
-        conditions[key] = this.state.searchParams[key];
+        conditions[key] = searchParams[key];
       }
     }
     return conditions;
+  };
+
+  handleIndexChange = (selectedIndex: number): void => {
+    this.setState({ selectedIndex });
+  };
+
+  private renderCards = () => {
+    if (this.isUserOriented()) return this.renderUserCards();
+    return this.renderProjectCards();
   };
 
   private renderUserCards = () => {
@@ -163,10 +213,7 @@ class DiscoveryScreen extends React.Component<Props, State> {
           }
           if (data && data.users) {
             return (
-              <UserList
-                users={data.users}
-                onPressUserCard={this.handlePressUserCard}
-              />
+              <ItemList items={data.users} onPressCard={this.handlePressCard} />
             );
           } else {
             return (
@@ -180,6 +227,46 @@ class DiscoveryScreen extends React.Component<Props, State> {
     );
   };
 
+  private renderProjectCards = () => {
+    const conditions = this.buildSearchParams();
+    return (
+      <ProjectListQuery variables={conditions}>
+        {({ loading, error, data }) => {
+          if (loading) {
+            return (
+              <View>
+                <Text>Loading</Text>
+              </View>
+            );
+            //return this.setState({loading})
+          }
+          if (error) {
+            return (
+              <View>
+                <Text>Error</Text>
+              </View>
+            );
+            //return this.setState({errorMessage: error})
+          }
+          if (data && data.projects) {
+            return (
+              <ItemList
+                items={data.projects}
+                onPressCard={this.handlePressCard}
+              />
+            );
+          } else {
+            return (
+              <View>
+                <Text>No data</Text>
+              </View>
+            );
+          }
+        }}
+      </ProjectListQuery>
+    );
+  };
+
   render() {
     //const isVisible = this.props.navigator.screenIsCurrentlyVisible().then(r => console.log("rendered", r))
 
@@ -187,8 +274,13 @@ class DiscoveryScreen extends React.Component<Props, State> {
 
     return (
       <View style={styles.container}>
+        <SegmentedControlTab
+          values={["Photos", "Details"]}
+          selectedIndex={this.state.selectedIndex}
+          onTabPress={this.handleIndexChange}
+        />
         <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-          {this.renderUserCards()}
+          {this.renderCards()}
         </ScrollView>
       </View>
     );

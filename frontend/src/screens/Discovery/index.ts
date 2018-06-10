@@ -1,12 +1,13 @@
 import DiscoveryScreen from "./DiscoverScreen";
-import SearchFormScreen from "./SearchFormScreen";
+import UserSearchModalScreen from "./UserSearchModalScreen";
 import SkillSearchModalScreen from "./SkillSearchModalScreen";
 import UserDetailsScreen from "./UserDetailsScreen";
 import ProjectDetailsScreen from "./ProjectDetailsScreen";
-
+import ProjectSearchModalScreen from "./ProjectSearchModalScreen";
 export {
   DiscoveryScreen,
-  SearchFormScreen,
+  UserSearchModalScreen,
+  ProjectSearchModalScreen,
   SkillSearchModalScreen,
   UserDetailsScreen,
   ProjectDetailsScreen

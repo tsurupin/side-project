@@ -124,7 +124,8 @@ defmodule Db.Factory do
       motivation: "I has been struggling with finding engineers",
       requirement: "we need backend engineers",
       owner: build(:user),
-      genre: build(:genre)
+      genre: build(:genre),
+      area_name: "San Francisco"
     }
   end
 

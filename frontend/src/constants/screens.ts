@@ -4,6 +4,7 @@ const USER_DISCOVERY_SCREEN = `${APP_NAME}.UserDisccoveryScreen`;
 const USER_DETAILS_SCREEN = `${APP_NAME}.UserDetailsScreen`;
 
 const USER_SEARCH_MODAL_SCREEN = `${APP_NAME}.UserSearchModalScreen`;
+const PROJECT_SEARCH_MODAL_SCREEN = `${APP_NAME}.ProjectSearchModalScreen`;
 const AUTH_SCREEN = `${APP_NAME}.AuthScreen`;
 const SKILL_SEARCH_MODAL_SCREEN = `${APP_NAME}.SkillSearchModalScreen`;
 
@@ -22,13 +23,13 @@ const MY_PROJECT_LIST_SCREEN = `${APP_NAME}.MyProjectListScreen`;
 const PROJECT_NEW_SCREEN = `${APP_NAME}.ProjectNewScreen`;
 const PROJECT_EDIT_SCREEN = `${APP_NAME}.ProjectEditScreen`;
 const PROJECT_DISCOVERY_SCREEN = `${APP_NAME}.ProjectDiscoveryScreen`;
-const PROJECT_SEARCH_MODAL_SCREEN = `${APP_NAME}.ProjectSearchModalScreen`;
 
 const SETTINGS_LIST_SCREEN = `${APP_NAME}.SettingsListScreen`;
 
 export {
   USER_DISCOVERY_SCREEN,
   USER_SEARCH_MODAL_SCREEN,
+  PROJECT_SEARCH_MODAL_SCREEN,
   SKILL_SEARCH_MODAL_SCREEN,
   TOP_SCREEN,
   AUTH_SCREEN,
@@ -46,7 +47,6 @@ export {
   PROJECT_NEW_SCREEN,
   MY_PROJECT_LIST_SCREEN,
   PROJECT_DISCOVERY_SCREEN,
-  PROJECT_SEARCH_MODAL_SCREEN,
   SETTINGS_LIST_SCREEN,
 
 };

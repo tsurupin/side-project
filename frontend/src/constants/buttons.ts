@@ -16,6 +16,8 @@ const SUBMIT_PROJECT_NEW_BUTTON = "SubmitProjectNewButton";
 
 const PROJECT_ACTION_SHEET_BUTTON = "ProjectActionSheetButton";
 const BACK_BUTTON = "BackButton";
+const SUBMIT_BUTTON = "SubmitButton";
+const SEARCH_BUTTON = "SearchButton";
 
 export {
   USER_SEARCH_BUTTON,
@@ -33,5 +35,7 @@ export {
   SUBMIT_PROJECT_NEW_BUTTON,
   CANCEL_PROJECT_NEW_BUTTON,
   PROJECT_ACTION_SHEET_BUTTON,
-  BACK_BUTTON
+  BACK_BUTTON,
+  SUBMIT_BUTTON,
+  SEARCH_BUTTON
 };

@@ -107,6 +107,7 @@ defmodule Db.Repo.Migrations.CreateInitialTables do
       add :lead_sentence, :text
       add :motivation, :text
       add :requirement, :text
+      add :area_name :string
       add :owner_id, references(:users), null: false
       add :deleted_at, :utc_datetime
       timestamps()

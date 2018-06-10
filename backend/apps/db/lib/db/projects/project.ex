@@ -17,6 +17,7 @@ defmodule Db.Projects.Project do
     field(:status, ProjectStatusEnum, default: :editing)
     field(:motivation, :string)
     field(:requirement, :string)
+    field(:area_name, :string)
 
     belongs_to(:owner, User)
     belongs_to(:genre, Genre)
@@ -29,7 +30,7 @@ defmodule Db.Projects.Project do
 
   @spec changeset(map()) :: Ecto.Changeset.t()
   def changeset(attrs) do
-    permitted_attrs = ~w(name lead_sentence owner_id genre_id status motivation requirement)a
+    permitted_attrs = ~w(name lead_sentence owner_id genre_id status motivation requirement area_name)a
     required_attrs = ~w(name owner_id)a
 
     %Project{}
@@ -42,7 +43,7 @@ defmodule Db.Projects.Project do
   end
 
   def edit_changeset(%__MODULE__{} = project, attrs) do
-    permitted_attrs = ~w(name lead_sentence genre_id motivation requirement)a
+    permitted_attrs = ~w(name lead_sentence genre_id motivation requirement area_name)a
 
     project
     |> cast(attrs, permitted_attrs)

@@ -1,7 +1,10 @@
 export interface UserCore {
-  id: number;
+  id: string;
   displayName: string;
   mainPhotoUrl: string;
+  leadSentence?: string;
+  genre?: Genre,
+  areaName? :string
 }
 
 export interface UserPhoto {
@@ -13,9 +16,7 @@ export interface UserPhoto {
 
 export interface UserDetails extends UserCore {
   areaName?: string;
-  leadSentence?: string;
   introduction?: string;
-  genre?: Genre;
   occupationType?: OccupationType;
   skills?: Skill[];
   companyName?: string;
@@ -64,7 +65,10 @@ export interface UserUploadParams {
 export interface ProjectCore {
   id: string;
   title: string,
+  leadSentence?: string,
+  genre?: Genre,
   mainPhotoUrl: string;
+  areaName?: string
 }
 
 export interface ProjectPhoto {
