@@ -63,7 +63,7 @@ class DiscoveryScreen extends React.Component<Props, State> {
       },
       projectSearchParams: {
         genreId: null,
-        distance: null,
+        cityId: null,
         skillIds: []
       },
       selectedIndex: USER_INDEX

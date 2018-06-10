@@ -29,7 +29,8 @@ import styles from "./styles";
 type Props = {
   navigator: any;
   genreId: number;
-  distance: number | null;
+  cityId: number;
+  zipCode: string;
   skillIds: number[];
   skills: Skill[];
   genres: Genre[];
@@ -39,7 +40,8 @@ type Props = {
 
 type State = {
   genreId: number;
-  distance: number | null;
+  cityId: number | null;
+  zipCode: string | null;
   skillIds: number[];
   skills: Skill[];
 };
@@ -47,26 +49,7 @@ type State = {
 class ProjectSearchFormScreen extends React.Component<Props, State> {
   static defaultProps = {
     genreId: 1,
-    distance: null,
     skillIds: [],
-    areaName: [
-      {
-        name: "5 miles",
-        value: 5
-      },
-      {
-        name: "10 miles",
-        value: 10
-      },
-      {
-        name: "20 miles",
-        value: 20
-      },
-      {
-        name: "doesn't care",
-        value: null
-      }
-    ],
     genres: [
       {
         name: "Education",
@@ -86,7 +69,8 @@ class ProjectSearchFormScreen extends React.Component<Props, State> {
 
     this.state = {
       genreId: props.genreId,
-      areaName: props.areaName,
+      cityId: props.cityId,
+      zipCode: props.zipCode,
       skillIds: props.skillIds,
       skills: props.skills
     };
@@ -102,7 +86,7 @@ class ProjectSearchFormScreen extends React.Component<Props, State> {
       case SUBMIT_BUTTON:
         this.props.onSubmit({
           genreId: this.state.genreId,
-          distance: this.state.distance,
+          cityId: this.state.cityId,
           skillIds: this.state.skills.map(skill => skill.id)
         });
         this.props.navigator.dismissModal();
@@ -162,7 +146,8 @@ class ProjectSearchFormScreen extends React.Component<Props, State> {
   render() {
     const {
       genreId,
-      distance
+      zipCode,
+      cityId
     } = this.state;
 
     return (
@@ -191,26 +176,7 @@ class ProjectSearchFormScreen extends React.Component<Props, State> {
                 );
               })}
             </Picker>
-            <Picker
-              mode="dropdown"
-              iosIcon={<Icon name="ios-arrow-down-outline" />}
-              placeholder="Select distance"
-              placeholderStyle={{ color: "#bfc6ea" }}
-              placeholderIconColor="#007aff"
-              style={styles.pickerContainer}
-              selectedValue={distance}
-              onValueChange={value => this.handleValueChange("distance", value)}
-            >
-              {this.props.distances.map((distance, i) => {
-                return (
-                  <Picker.Item
-                    key={i}
-                    label={distance.name}
-                    value={distance.value}
-                  />
-                );
-              })}
-            </Picker>
+            
             <View style={styles.buttonFormBox}>
               <Text style={styles.textLabel}>Skill</Text>
               <Button
