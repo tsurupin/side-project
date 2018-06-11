@@ -15,7 +15,7 @@ defmodule Api.Accounts.Authentication do
 
   @aud "https://identitytoolkit.googleapis.com/google.identity.identitytoolkit.v1.IdentityToolkit"
   @one_hour_in_unix 60 * 60
-  @spec create_token(User.t) :: {:ok, String.t} | {:error, String.t}
+  @spec create_token(User.t()) :: {:ok, String.t()} | {:error, String.t()}
   def create_token(user) do
     current_time = DateTime.to_unix(DateTime.utc_now())
     one_hour_later = current_time + @one_hour_in_unix
@@ -35,8 +35,7 @@ defmodule Api.Accounts.Authentication do
     end
   end
 
-
-  @spec verify(String.t) :: {:ok, User.t} | {:error, :atom}
+  @spec verify(String.t()) :: {:ok, User.t()} | {:error, :atom}
   def verify(token) do
     with {:ok, public_key} <- get_public_key(token),
          {:ok, claims} = Api.Guardian.decode_and_verify(token, %{}, secret: public_key) do
@@ -49,7 +48,7 @@ defmodule Api.Accounts.Authentication do
     end
   end
 
-  @spec get_public_key(String.t) :: {:ok, String.t} | {:ok, :no_public_key} | {:ok, :no_kid}
+  @spec get_public_key(String.t()) :: {:ok, String.t()} | {:ok, :no_public_key} | {:ok, :no_kid}
   defp get_public_key(token) do
     ## NOTE: cache public_key
     with %{headers: %{"kid" => kid}} <- Api.Guardian.peek(token),
@@ -61,7 +60,7 @@ defmodule Api.Accounts.Authentication do
     end
   end
 
-  @spec get_secret(String.t) :: {:ok, any()} | {:error, String.t}
+  @spec get_secret(String.t()) :: {:ok, any()} | {:error, String.t()}
   defp get_secret(kid) do
     with {:ok, cert} <- get_google_cert(kid),
          {:ok, path} <- Briefly.create(extname: ".pem") do
@@ -75,7 +74,7 @@ defmodule Api.Accounts.Authentication do
   end
 
   @google_cert_url "https://www.googleapis.com/robot/v1/metadata/x509/securetoken@system.gserviceaccount.com"
-  @spec get_google_cert(String.t) :: {:ok, any} | {:error, String.t}
+  @spec get_google_cert(String.t()) :: {:ok, any} | {:error, String.t()}
   defp get_google_cert(kid) do
     with {:ok, http} <- HTTPoison.get(@google_cert_url),
          {:ok, data} <- Poison.decode(http.body),

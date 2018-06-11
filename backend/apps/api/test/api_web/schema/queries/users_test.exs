@@ -6,11 +6,13 @@ defmodule ApiWeb.Schema.Queries.UsersTest do
   describe "users query" do
     setup do
       occupation_type = Factory.insert(:occupation_type)
-      country = Factory.insert(:country)
+
+      san_francisco = Factory.insert(:city, name: "San Francisco", state_name: "California", state_abbreviation: "CA")
+
       genre = Factory.insert(:genre)
 
       user =
-        Factory.insert(:user, genre: genre, country: country, occupation_type: occupation_type)
+        Factory.insert(:user, genre: genre, city: san_francisco, occupation_type: occupation_type)
 
       skill = Factory.insert(:skill)
       Factory.insert(:user_skill, user: user, skill: skill)
@@ -20,7 +22,7 @@ defmodule ApiWeb.Schema.Queries.UsersTest do
         :ok,
         user: user,
         skill: skill,
-        country: country,
+        city: san_francisco,
         genre: genre,
         occupation_type: occupation_type,
         photo_url: UserPhotoUploader.url({photo.image_url, photo}, :thumb)
@@ -36,7 +38,6 @@ defmodule ApiWeb.Schema.Queries.UsersTest do
           companyName
           introduction
           status
-          areaName
           genre {
             id
             name
@@ -45,9 +46,9 @@ defmodule ApiWeb.Schema.Queries.UsersTest do
             id
             name
           }
-          country {
+          city {
             id
-            name
+            fullName
           }
           skills {
             id
@@ -65,7 +66,7 @@ defmodule ApiWeb.Schema.Queries.UsersTest do
         user: user,
         skill: skill,
         genre: genre,
-        country: country,
+        city: city,
         occupation_type: occupation_type,
         photo_url: photo_url
       } = cxt
@@ -86,13 +87,12 @@ defmodule ApiWeb.Schema.Queries.UsersTest do
           "user" => %{
             "id" => "#{user.id}",
             "displayName" => user.display_name,
-            "areaName" => user.area_name,
             "schoolName" => user.school_name,
             "companyName" => user.company_name,
             "introduction" => user.introduction,
             "status" => "COMPLETED",
             "skills" => [%{"id" => "#{skill.id}", "name" => skill.name}],
-            "country" => %{"id" => "#{country.id}", "name" => country.name},
+            "city" => %{"id" => "#{city.id}", "fullName" => "#{city.name}, #{city.state_abbreviation}"},
             "genre" => %{"id" => "#{genre.id}", "name" => genre.name},
             "occupationType" => %{"id" => "#{occupation_type.id}", "name" => occupation_type.name},
             "photos" => [%{"imageUrl" => photo_url}]
@@ -111,7 +111,10 @@ defmodule ApiWeb.Schema.Queries.UsersTest do
           schoolName
           companyName
           introduction
-          areaName
+          city {
+            id
+            fullName
+          }
           genre {
             id
             name
@@ -125,7 +128,7 @@ defmodule ApiWeb.Schema.Queries.UsersTest do
       }
     """
     test "users queries return users", cxt do
-      %{user: user, occupation_type: occupation_type, genre: genre, photo_url: photo_url} = cxt
+      %{user: user, occupation_type: occupation_type, city: city, genre: genre, photo_url: photo_url} = cxt
 
       with_mock Api.Accounts.Authentication,
         verify: fn user_id -> {:ok, Db.Repo.get(Db.Users.User, user.id)} end do
@@ -149,7 +152,7 @@ defmodule ApiWeb.Schema.Queries.UsersTest do
                 "name" => occupation_type.name
               },
               "genre" => %{"id" => "#{genre.id}", "name" => genre.name},
-              "areaName" => user.area_name,
+              "city" => %{"id" => "#{city.id}", "fullName" => "#{city.name}, #{city.state_abbreviation}"},
               "introduction" => user.introduction,
               "schoolName" => user.school_name,
               "companyName" => user.company_name,

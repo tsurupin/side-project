@@ -1,11 +1,10 @@
-defmodule Db.Countries.Country do
+defmodule Db.Locations.Country do
   @moduledoc """
 
   """
   use Ecto.Schema
   import Ecto.Changeset
-  alias Db.Users.User
-  alias Db.Projects.Project
+  alias Db.Locations.City
   alias __MODULE__
 
   @type t :: %Country{}
@@ -15,8 +14,7 @@ defmodule Db.Countries.Country do
     field(:deleted_at, :utc_datetime)
     timestamps(type: :utc_datetime)
 
-    has_many(:users, User)
-    has_many(:projects, Project)
+    has_many(:cities, City)
   end
 
   @spec changeset(map()) :: Ecto.Changeset.t()
@@ -24,7 +22,7 @@ defmodule Db.Countries.Country do
     permitted_attrs = ~w(name)a
     required_attrs = ~w(name)a
 
-    %Country{}
+    %__MODULE__{}
     |> cast(attrs, permitted_attrs)
     |> validate_required(required_attrs)
     |> unique_constraint(:name, name: "countries_name_index")

@@ -1,5 +1,5 @@
 alias Db.Chats
-alias Db.Countries.Country
+alias Db.Locations.{Country, City, ZipCode}
 alias Db.Genres.Genre
 alias Db.OccupationTypes.OccupationType
 alias Db.Skills
@@ -12,6 +12,23 @@ Country |> Repo.delete_all
 usa = Repo.insert!(
 %Country{
   name: "United States"
+}
+)
+
+City |> Repo.delete_all
+san_francisco = Repo.insert!(
+%City{
+  name: "San Francisco",
+  state_name: "CA",
+  country_id: usa.id
+}
+)
+
+ZipCode |> Repo.delete_all
+san_francisco_zip = Repo.insert!(
+%ZipCode{
+  zip_code: "94103",
+  city_id: san_francisco.id
 }
 )
 
@@ -45,9 +62,8 @@ owner = Repo.insert!(
     school_name: "Stonford",
     status: 0,
     geom: %Geo.Point{ coordinates: {37.773972, -122.431297}, srid: 4326 },
-    area_name: "San Francisco",
+    city_id: san_francisco.id,
     occupation_type_id: software_engineer.id,
-    country_id: usa.id,
     genre_id: education.id
   }
 )
@@ -64,9 +80,8 @@ user = Repo.insert!(
     status: 0,
     latitude: 37.772640,
     longitude: -122.409915,
-    area_name: "San Francisco",
+    city_id: san_francisco.id,
     occupation_type_id: software_engineer.id,
-    country_id: usa.id,
     genre_id: education.id
   }
 )

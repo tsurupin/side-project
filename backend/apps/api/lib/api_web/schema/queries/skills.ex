@@ -2,7 +2,6 @@ defmodule ApiWeb.Schema.Queries.Skills do
   use Absinthe.Schema.Notation
   alias ApiWeb.Schema.{Resolvers, Middleware}
 
-
   object :skills_queries do
     @desc "seach skills"
     field :skills, list_of(:skill) do

@@ -1,7 +1,7 @@
 defmodule Api.Guardian do
   use Guardian, otp_app: :api
 
-  @spec subject_for_token(map(), map()) :: {:ok, String.t}
+  @spec subject_for_token(map(), map()) :: {:ok, String.t()}
   def subject_for_token(_resource, claims) do
     {:ok, claims["sub"]}
   end

@@ -7,8 +7,11 @@ defmodule ApiWeb.Schema.Queries.ProjectsTest do
     setup do
       owner = Factory.insert(:user)
       genre = Factory.insert(:genre)
-      project = Factory.insert(:project, genre: genre, owner: owner, status: 1)
+      san_francisco = Factory.insert(:city, name: "San Francisco", state_name: "California", state_abbreviation: "CA")
+
+      project = Factory.insert(:project, genre: genre, city: san_francisco, owner: owner, status: 1)
       skill = Factory.insert(:skill)
+
       Factory.insert(:project_skill, project: project, skill: skill)
       photo = Factory.insert(:project_photo, project: project)
 
@@ -18,6 +21,7 @@ defmodule ApiWeb.Schema.Queries.ProjectsTest do
         skill: skill,
         owner: owner,
         genre: genre,
+        city: san_francisco,
         photo_url: ProjectPhotoUploader.url({photo.image_url, photo}, :thumb)
       }
     end
@@ -43,6 +47,10 @@ defmodule ApiWeb.Schema.Queries.ProjectsTest do
             id
             name
           }
+          city {
+            id
+            fullName
+          }
           photos {
             imageUrl
           }
@@ -50,7 +58,7 @@ defmodule ApiWeb.Schema.Queries.ProjectsTest do
       }
     """
     test "project fields return projects", cxt do
-      %{project: project, skill: skill, genre: genre, owner: owner, photo_url: photo_url} = cxt
+      %{project: project, skill: skill, genre: genre, owner: owner, city: city, photo_url: photo_url} = cxt
       conn = build_conn()
       conn = get(conn, "/api", %{query: @query, variables: %{id: project.id}})
       response = json_response(conn, 200)
@@ -66,6 +74,7 @@ defmodule ApiWeb.Schema.Queries.ProjectsTest do
           "skills" => [%{"id" => "#{skill.id}", "name" => skill.name}],
           "genre" => %{"id" => "#{genre.id}", "name" => genre.name},
           "owner" => %{"id" => "#{owner.id}", "displayName" => owner.display_name},
+          "city" => %{"id" => "#{city.id}", "fullName" => "#{city.name}, #{city.state_abbreviation}"},
           "photos" => [%{"imageUrl" => photo_url}]
         }
       }

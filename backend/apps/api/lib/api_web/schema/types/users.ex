@@ -16,8 +16,7 @@ defmodule ApiWeb.Schema.Types.Users do
     field(:company_name, :string)
     field(:introduction, :string)
     field(:status, :user_status)
-    field(:area_name, :string)
-    field(:country, :country)
+    field(:city, :city)
     field(:skills, list_of(:skill))
     field(:photos, list_of(:user_photo))
 
@@ -78,8 +77,10 @@ defmodule ApiWeb.Schema.Types.Users do
     field(:occupation_type_id, :id)
     field(:skill_ids, list_of(:id))
     field(:genre_id, :id)
-    # field(:latitude, :float)
-    # field(:longitude, :float)
+    field(:zip_code, :string)
+    field(:city_id, :id)
+    field(:latitude, :float)
+    field(:longitude, :float)
   end
 
   input_object :user_upload_input do

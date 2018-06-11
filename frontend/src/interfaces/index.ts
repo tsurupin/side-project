@@ -1,10 +1,17 @@
+export interface City {
+  id: string;
+  name: string;
+  stateName: string;
+  stateAbbreviation: string | null;
+}
+
 export interface UserCore {
   id: string;
   displayName: string;
   mainPhotoUrl: string;
   leadSentence?: string;
-  genre?: Genre,
-  areaName? :string
+  genre?: Genre;
+  city?: City;
 }
 
 export interface UserPhoto {
@@ -15,7 +22,7 @@ export interface UserPhoto {
 }
 
 export interface UserDetails extends UserCore {
-  areaName?: string;
+  cityName?: string;
   introduction?: string;
   occupationType?: OccupationType;
   skills?: Skill[];
@@ -55,6 +62,8 @@ export interface UserEditParams {
   skillIds?: number[];
   companyName?: string;
   schoolName?: string;
+  zipCode?: string;
+  cityId?: number;
 }
 
 export interface UserUploadParams {
@@ -68,7 +77,7 @@ export interface ProjectCore {
   leadSentence?: string,
   genre?: Genre,
   mainPhotoUrl: string;
-  areaName?: string
+  city?: City
 }
 
 export interface ProjectPhoto {
@@ -91,7 +100,7 @@ export interface ProjectDetails extends ProjectCore {
 
 export interface ProjectSearchParams {
   genreId?: number;
-  distance?: number | null;
+  cityId?: number;
   skillIds?: number[];
 }
 
@@ -101,6 +110,8 @@ export interface ProjectEditParams {
   motivation?: string;
   requirement?: string;
   genreId?: number;
+  cityId?: number;
+  zipCode?: string;
   skillIds?: number[];
 }
 

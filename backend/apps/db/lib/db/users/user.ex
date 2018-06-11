@@ -3,7 +3,7 @@ defmodule Db.Users.User do
   import Ecto.Changeset
   alias Db.Users.Photo
   alias Db.OccupationTypes.OccupationType
-  alias Db.Countries.Country
+  alias Db.Locations.City
   alias Db.Projects.Project
   alias Db.Skills.{Skill, UserSkill}
   alias Db.Chats.Chat
@@ -26,12 +26,12 @@ defmodule Db.Users.User do
     field(:status, UserStatusEnum, default: :editing)
     field(:geom, Geo.Geometry)
     field(:last_activated_at, :utc_datetime, null: false)
-    field(:area_name, :string)
+    field(:zip_code, :string)
     field(:longitude, :float, virtual: true)
     field(:latitude, :float, virtual: true)
 
     belongs_to(:occupation_type, OccupationType)
-    belongs_to(:country, Country)
+    belongs_to(:city, City)
     belongs_to(:genre, Genre)
 
     has_many(:photos, Photo)
@@ -46,14 +46,14 @@ defmodule Db.Users.User do
   @spec changeset(map()) :: Ecto.Changeset.t()
   def changeset(attrs) do
     permitted_attributes =
-      ~w(uid provider_id display_name email occupation company_name school_name status area_name occupation_type_id country_id genre_id)a
+      ~w(uid provider_id display_name email occupation company_name school_name status city_id zip_code occupation_type_id genre_id)a
 
     required_attributes = ~w(uid provider_id)a
 
     %User{}
     |> cast(attrs, permitted_attributes)
     |> assoc_constraint(:occupation_type)
-    |> assoc_constraint(:country)
+    |> assoc_constraint(:city)
     |> assoc_constraint(:genre)
     |> validate_required(required_attributes)
     |> check_constraint(:status, name: "valid_user_status")
@@ -62,7 +62,7 @@ defmodule Db.Users.User do
   @spec edit_changeset(User.t(), map()) :: Ecto.Changeset.t()
   def edit_changeset(user, attrs) do
     permitted_attributes =
-      ~w(display_name email occupation company_name school_name status area_name occupation_type_id genre_id longitude latitude)a
+      ~w(display_name email occupation company_name school_name status city_id zip_code occupation_type_id genre_id longitude latitude)a
 
     user
     |> cast(attrs, permitted_attributes)

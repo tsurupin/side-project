@@ -40,10 +40,10 @@ defmodule Db.Users.Photos do
     end
   end
 
-  #@spec promote_photos(Ecto.Multi.t(), [], integer) :: Ecto.Multi.t()
+  # @spec promote_photos(Ecto.Multi.t(), [], integer) :: Ecto.Multi.t()
   defp promote_photos(multi, [], _rank), do: multi
 
-  @spec promote_photos(Ecto.Multi.t(), [Photo.t], integer) :: Ecto.Multi.t()
+  @spec promote_photos(Ecto.Multi.t(), [Photo.t()], integer) :: Ecto.Multi.t()
   defp promote_photos(multi, [photo | remaining], rank) do
     multi
     |> Multi.update(

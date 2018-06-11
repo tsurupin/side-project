@@ -208,7 +208,7 @@ defmodule ApiWeb.Schema.Mutations.UserLikessTest do
         member_ids = Repo.all(Db.Chats.Member, chat_id: chat.id) |> Enum.map(& &1.user_id)
         assert member_ids == [like.user_id, like.target_user_id]
         assert response["data"]["acceptUserLike"]["id"] == "#{chat.id}"
-          assert response["data"]["acceptUserLike"]["name"] == "#{chat.name}"
+        assert response["data"]["acceptUserLike"]["name"] == "#{chat.name}"
       end
     end
 

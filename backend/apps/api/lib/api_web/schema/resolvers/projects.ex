@@ -7,11 +7,10 @@ defmodule ApiWeb.Schema.Resolvers.Projects do
         {:error, %{reason: "Not Found"}}
 
       {:ok, project} ->
-        project = Projects.preload(project, [:photos, :skills, :genre, :owner])
+        project = Projects.preload(project, [:photos, :skills, :city, :genre, :owner])
         {:ok, project}
     end
   end
-
 
   def search(_, %{conditions: conditions}, _) do
     case Projects.search(conditions) do
@@ -19,7 +18,7 @@ defmodule ApiWeb.Schema.Resolvers.Projects do
         {:error, %{reason: "Not Found"}}
 
       {:ok, projects} ->
-        projects = Projects.preload(projects, [:photos, :genre])
+        projects = Projects.preload(projects, [:photos, :genre, :city])
         {:ok, projects}
     end
   end
@@ -27,7 +26,7 @@ defmodule ApiWeb.Schema.Resolvers.Projects do
   def liked_by(_, _, %{context: %{current_user: current_user}}) do
     case Projects.liked_by(current_user.id) do
       {:ok, projects} ->
-        projects = Projects.preload(projects, [:photos, :genre])
+        projects = Projects.preload(projects, [:photos, :genre, :city])
         {:ok, projects}
     end
   end
@@ -57,11 +56,9 @@ defmodule ApiWeb.Schema.Resolvers.Projects do
     end
   end
 
-  def upload_photo(
-        ctx,
-        %{project_id: _project_id, photo: _photo, rank: _rank} = attrs,
-        %{context: %{current_user: current_user}}
-      ) do
+  def upload_photo(ctx, %{project_id: _project_id, photo: _photo, rank: _rank} = attrs, %{
+        context: %{current_user: current_user}
+      }) do
     case Photos.upload_photo(current_user.id, attrs) do
       {:ok, _repo} -> {:ok, true}
       {:error, reason} -> {:error, reason}

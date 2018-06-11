@@ -17,8 +17,7 @@ defmodule Db.Chats.Chats do
     end
   end
 
-  @spec create_chat_group(map) ::
-          {:ok, any()} | {:error, Ecto.Multi.name(), any()}
+  @spec create_chat_group(map) :: {:ok, any()} | {:error, Ecto.Multi.name(), any()}
   def create_chat_group(%{like: like}) do
     Multi.new()
     |> Multi.insert(:chat_group, Group.changeset(%{source_id: like.id, source_type: "UserLike"}))
@@ -80,12 +79,13 @@ defmodule Db.Chats.Chats do
   end
 
   @spec remove_member_from_chats(%{:project_id => integer, :user_id => integer}) ::
-          {:ok, any()} | {:error, String.t}
+          {:ok, any()} | {:error, String.t()}
   def remove_member_from_chats(%{project_id: _project_id, user_id: _user_id} = attrs) do
     transaction =
       Multi.new()
       |> remove_member_from_chat(attended_members_in_project(attrs))
       |> Repo.transaction()
+
     case transaction do
       {:ok, _any} -> {:ok, _any}
       {:error, _name, changeset, _prev} -> {:error, Db.FullErrorMessage.message(changeset)}
@@ -126,7 +126,7 @@ defmodule Db.Chats.Chats do
     |> Repo.one()
   end
 
-  @spec preload(Ecto.Queryable.t, list(atom)) :: [Ecto.Schema.t()]
+  @spec preload(Ecto.Queryable.t(), list(atom)) :: [Ecto.Schema.t()]
   def preload(query, associations) do
     Repo.preload(query, associations)
   end

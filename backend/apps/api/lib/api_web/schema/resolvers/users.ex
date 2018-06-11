@@ -13,9 +13,11 @@ defmodule ApiWeb.Schema.Resolvers.Users do
   def edit(_, %{user_input: user_input}, %{context: %{current_user: current_user}}) do
     case Users.edit(current_user, user_input) do
       {:ok, %{user: user}} ->
-        user = Users.preload(user, [:photos, :skills, :country, :genre, :occupation_type])
+        user = Users.preload(user, [:photos, :skills, :city, :genre, :occupation_type])
         {:ok, user}
-      {:error, reason} -> {:error, reason}
+
+      {:error, reason} ->
+        {:error, reason}
     end
   end
 
@@ -25,13 +27,13 @@ defmodule ApiWeb.Schema.Resolvers.Users do
         {:error, %{reason: "Not Found"}}
 
       {:ok, user} ->
-        user = Users.preload(user, [:photos, :skills, :country, :genre, :occupation_type])
+        user = Users.preload(user, [:photos, :skills, :city, :genre, :occupation_type])
         {:ok, user}
     end
   end
 
   def fetch_current_user(_, _, %{context: %{current_user: current_user}}) do
-    user = Users.preload(current_user, [:photos, :skills, :country, :genre, :occupation_type])
+    user = Users.preload(current_user, [:photos, :skills, :city, :genre, :occupation_type])
     {:ok, user}
   end
 
@@ -41,7 +43,7 @@ defmodule ApiWeb.Schema.Resolvers.Users do
         {:error, %{reason: "Not Found"}}
 
       {:ok, users} ->
-        users = Users.preload(users, [:photos, :occupation_type, :genre])
+        users = Users.preload(users, [:photos, :occupation_type, :city, :genre])
         {:ok, users}
     end
   end
