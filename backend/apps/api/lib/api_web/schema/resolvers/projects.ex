@@ -7,7 +7,7 @@ defmodule ApiWeb.Schema.Resolvers.Projects do
         {:error, %{reason: "Not Found"}}
 
       {:ok, project} ->
-        project = Projects.preload(project, [:photos, :skills, :genre, :owner])
+        project = Projects.preload(project, [:photos, :skills, :city, :genre, :owner])
         {:ok, project}
     end
   end
@@ -18,7 +18,7 @@ defmodule ApiWeb.Schema.Resolvers.Projects do
         {:error, %{reason: "Not Found"}}
 
       {:ok, projects} ->
-        projects = Projects.preload(projects, [:photos, :genre])
+        projects = Projects.preload(projects, [:photos, :genre, :city])
         {:ok, projects}
     end
   end
@@ -26,7 +26,7 @@ defmodule ApiWeb.Schema.Resolvers.Projects do
   def liked_by(_, _, %{context: %{current_user: current_user}}) do
     case Projects.liked_by(current_user.id) do
       {:ok, projects} ->
-        projects = Projects.preload(projects, [:photos, :genre])
+        projects = Projects.preload(projects, [:photos, :genre, :city])
         {:ok, projects}
     end
   end

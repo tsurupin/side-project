@@ -60,10 +60,6 @@ defmodule ApiWeb.Schema.Mutations.UsersTest do
             id
             name
           }
-          country {
-            id
-            name
-          }
           skills {
             id
             name
@@ -129,7 +125,7 @@ defmodule ApiWeb.Schema.Mutations.UsersTest do
   #   end
   #
   @mutation """
-    mutation ($photo: Upload!, $isMain: Boolean!, $rank: Int!) {
+    mutation UploadUserPhoto($photo: Upload!, $isMain: Boolean!, $rank: Int!) {
       uploadUserPhoto(user_uload_input: {photo: $photo, isMain: $isMain, rank: $rank})
     }
   """
