@@ -5,24 +5,25 @@ defmodule ApiWeb.Schema.Queries.CitiesTest do
 
   describe "cities query" do
     setup do
-      san_francisco =
-        Factory.insert(:city, name: "San Francisco", zip_code: "94103", state_name: "California")
+      san_francisco = Factory.insert(:city, name: "San Francisco", state_name: "California")
+      Factory.insert(:zip_code, zip_code: "94103", city_id: san_francisco.id)
 
       new_york =
         Factory.insert(
           :city,
           name: "New York",
-          zip_code: "94101",
           state_name: "New York",
           state_abbreviation: "NY"
         )
+
+      Factory.insert(:zip_code, zip_code: "941001", city_id: new_york.id)
 
       {:ok, san_francisco: san_francisco, new_york: new_york}
     end
 
     @query """
       query CityList($name: String, $zipCode: String) {
-        skills(name: $name, zipCode: $zipCode) {
+        cityList(name: $name, zipCode: $zipCode) {
          ... on City {
             id
             fullName
@@ -78,7 +79,7 @@ defmodule ApiWeb.Schema.Queries.CitiesTest do
         conn =
           build_conn()
           |> put_req_header("authorization", "Bearer #{user.id}")
-          |> get("/api", %{query: @query, variables: %{zip_code: "94101"}})
+          |> get("/api", %{query: @query, variables: %{zipCode: "941001"}})
 
         response = json_response(conn, 200)
 

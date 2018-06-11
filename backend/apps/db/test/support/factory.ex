@@ -47,8 +47,7 @@ defmodule Db.Factory do
   @spec zip_code_factory :: ZipCode.t()
   def zip_code_factory() do
     %ZipCode{
-      zip_code: sequence(:zip_code, &"#{&1}"),
-      city: build(:city)
+      zip_code: sequence(:zip_code, &"#{&1}")
     }
   end
 

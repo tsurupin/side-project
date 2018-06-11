@@ -14,7 +14,7 @@ defmodule ApiWeb.Schema.Mutations.SkillsTest do
     end
 
     @mutation """
-      mutation ($name: String!) {
+      mutation CreateSkill($name: String!) {
         createSkill(name: $name) {
           id
           name

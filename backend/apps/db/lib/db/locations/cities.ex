@@ -22,7 +22,8 @@ defmodule Db.Locations.Cities do
     query =
       from(
         c in City,
-        where: c.zip_code == ^zip_code
+        join: z in ZipCode,
+        where: z.city_id == c.id and z.zip_code == ^zip_code
       )
 
     Repo.all(query)

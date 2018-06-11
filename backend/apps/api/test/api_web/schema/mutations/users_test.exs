@@ -48,7 +48,10 @@ defmodule ApiWeb.Schema.Mutations.UsersTest do
           introduction
           occupation
           status
-          areaName
+          city {
+            id
+            fullName
+          }
           genre {
             id
             name

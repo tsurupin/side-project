@@ -26,7 +26,6 @@ defmodule Db.Users.User do
     field(:status, UserStatusEnum, default: :editing)
     field(:geom, Geo.Geometry)
     field(:last_activated_at, :utc_datetime, null: false)
-    field(:area_name, :string)
     field(:zip_code, :string)
     field(:longitude, :float, virtual: true)
     field(:latitude, :float, virtual: true)
@@ -47,7 +46,7 @@ defmodule Db.Users.User do
   @spec changeset(map()) :: Ecto.Changeset.t()
   def changeset(attrs) do
     permitted_attributes =
-      ~w(uid provider_id display_name email occupation company_name school_name status city_id zip_code occupation_type_id  genre_id)a
+      ~w(uid provider_id display_name email occupation company_name school_name status city_id zip_code occupation_type_id genre_id)a
 
     required_attributes = ~w(uid provider_id)a
 

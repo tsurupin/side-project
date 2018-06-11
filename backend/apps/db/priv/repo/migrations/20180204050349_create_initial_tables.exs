@@ -28,7 +28,7 @@ defmodule Db.Repo.Migrations.CreateInitialTables do
       add :name, :string, null: false
       add :state_name, :string, null: false
       add :state_abbreviation, :string
-      add :zip_code, :string
+
       add :deleted_at, :utc_datetime
       timestamps()
     end
