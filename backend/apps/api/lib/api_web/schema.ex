@@ -19,6 +19,7 @@ defmodule ApiWeb.Schema do
 
   import_types(ApiWeb.Schema.Queries.Users)
   import_types(ApiWeb.Schema.Queries.Skills)
+  import_types(ApiWeb.Schema.Queries.Cities)
   import_types(ApiWeb.Schema.Queries.Projects)
   import_types(ApiWeb.Schema.Queries.Favorites)
   import_types(ApiWeb.Schema.Queries.Chats)
@@ -39,6 +40,7 @@ defmodule ApiWeb.Schema do
     import_fields(:projects_queries)
     import_fields(:favorites_queries)
     import_fields(:chats_queries)
+    import_fields(:cities_queries)
     import_fields(:matches_queries)
   end
 
@@ -66,7 +68,7 @@ defmodule ApiWeb.Schema do
   # end
   # #
   defp apply(middleware, :debug, _field, _object) do
-    if System.get_env("DEBUG") && Mix.env === "dev" do
+    if System.get_env("DEBUG") && Mix.env() === "dev" do
       [{Middleware.Debug, :start}] ++ middleware
     else
       middleware
@@ -92,5 +94,4 @@ defmodule ApiWeb.Schema do
   #   ctx
   #   |> Map.put(:loader, dataloader())
   # end
-
 end

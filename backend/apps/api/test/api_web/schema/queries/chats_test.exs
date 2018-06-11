@@ -58,6 +58,7 @@ defmodule ApiWeb.Schema.Queries.ChatsTest do
         response = json_response(conn, 200)
 
         missing_image_url = "https://placehold.it/100x100"
+
         expected_result = %{
           "chat" => %{
             "id" => "#{chat.id}",

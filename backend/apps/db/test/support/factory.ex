@@ -16,7 +16,7 @@ defmodule Db.Factory do
     Chats
   }
 
-  alias Locations.{C}ountry, City, ZipCode}
+  alias Locations.{Country, City, ZipCode}
   alias Genres.Genre
   alias Users.{User, UserLike, ProjectLike, Favorite}
   alias Skills.{Skill, UserSkill, ProjectSkill}
@@ -38,8 +38,8 @@ defmodule Db.Factory do
   @spec city_factory :: City.t()
   def city_factory() do
     %City{
-      name: sequence(:name, &"city:#{&1}")
-      state_name: sequence(:state_name, &"state:#{&1}")
+      name: sequence(:name, &"city:#{&1}"),
+      state_name: sequence(:state_name, &"state:#{&1}"),
       country: build(:country)
     }
   end
@@ -47,11 +47,10 @@ defmodule Db.Factory do
   @spec zip_code_factory :: ZipCode.t()
   def zip_code_factory() do
     %ZipCode{
-      zip_code: sequence(:zip_code, &"#{&1}")
+      zip_code: sequence(:zip_code, &"#{&1}"),
       city: build(:city)
     }
   end
-
 
   @spec genre_factory :: Genre.t()
   def genre_factory() do

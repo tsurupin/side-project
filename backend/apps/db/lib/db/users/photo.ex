@@ -48,5 +48,4 @@ defmodule Db.Users.Photo do
     |> unique_constraint(:user_id, name: "user_photos_user_id_and_rank_index")
     |> check_constraint(:rank, name: "valid_user_photo_rank")
   end
-
 end

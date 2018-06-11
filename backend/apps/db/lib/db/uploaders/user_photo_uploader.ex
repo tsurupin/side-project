@@ -30,7 +30,6 @@ defmodule Db.Uploaders.UserPhotoUploader do
   end
 
   def missing_url(:thumb) do
-     "https://placehold.it/100x100"
+    "https://placehold.it/100x100"
   end
-
 end

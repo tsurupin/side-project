@@ -42,7 +42,7 @@ defmodule Db.Repo.Migrations.CreateInitialTables do
       timestamps()
     end
 
-    create unique_index(:zip_codes, [zip_code], name: "zip_codes_code_index")
+    create unique_index(:zip_codes, [:zip_code], name: "zip_codes_code_index")
 
     create table(:occupation_types) do
       add :name, :string, null: false

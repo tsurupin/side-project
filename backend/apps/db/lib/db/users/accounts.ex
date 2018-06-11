@@ -1,4 +1,4 @@
-    defmodule Db.Users.Accounts do
+defmodule Db.Users.Accounts do
   @moduledoc """
   The Accoutns context.
   """

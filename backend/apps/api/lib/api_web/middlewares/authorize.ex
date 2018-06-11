@@ -3,7 +3,6 @@ defmodule ApiWeb.Schema.Middleware.Authorize do
 
   def call(resolution, _config) do
     case resolution.context do
-  
       %{current_user: _current_user} ->
         IO.inspect("user is here")
         resolution

@@ -17,6 +17,7 @@ defmodule ApiWeb.Schema.Subscriptions.Chats do
           %Message{} = message ->
             IO.inspect("message: #{message.id}, #{message.chat_id}")
             ["chat:#{message.chat_id}"]
+
           _ ->
             IO.inspect("no name")
             []

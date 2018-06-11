@@ -15,7 +15,9 @@ defmodule ApiWeb.Schema.Resolvers.Users do
       {:ok, %{user: user}} ->
         user = Users.preload(user, [:photos, :skills, :country, :genre, :occupation_type])
         {:ok, user}
-      {:error, reason} -> {:error, reason}
+
+      {:error, reason} ->
+        {:error, reason}
     end
   end
 

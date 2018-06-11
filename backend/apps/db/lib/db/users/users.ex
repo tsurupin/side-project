@@ -33,7 +33,8 @@ defmodule Db.Users.Users do
     )
   end
 
-  @spec edit(User.t(), %{skill_ids: [String.t]}) :: {:ok, any} | {:error, Ecto.Multi.name(), any()}
+  @spec edit(User.t(), %{skill_ids: [String.t()]}) ::
+          {:ok, any} | {:error, Ecto.Multi.name(), any()}
   def edit(%User{} = user, %{skill_ids: skill_ids} = user_input) do
     Multi.new()
     |> Multi.update(:user, User.edit_changeset(user, user_input))
@@ -41,7 +42,7 @@ defmodule Db.Users.Users do
     |> Repo.transaction()
   end
 
-  #@spec edit(User.t(), map()) :: {:ok, User.t()} | {:error, Ecto.Changeset.t()}
+  # @spec edit(User.t(), map()) :: {:ok, User.t()} | {:error, Ecto.Changeset.t()}
   def edit(%User{} = user, user_input) do
     user
     |> User.edit_changeset(user_input)
@@ -74,7 +75,8 @@ defmodule Db.Users.Users do
     Repo.preload(query, [association])
   end
 
-  @spec preload(Ecto.Queryable.t(), associations) :: [Ecto.Schema.t()] when associations: list(atom)
+  @spec preload(Ecto.Queryable.t(), associations) :: [Ecto.Schema.t()]
+        when associations: list(atom)
   def preload(query, associations) when is_list(associations) do
     Repo.preload(query, associations)
   end

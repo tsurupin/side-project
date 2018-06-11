@@ -49,10 +49,14 @@ defmodule Db.Users.ProjectLikes do
             Chats.remove_member_from_chats(%{project_id: project_id, user_id: user_id})
           end)
           |> Multi.run(:delete_project_member, fn _ ->
-              Projects.Projects.remove_member_from_project(%{project_id: project_id, user_id: user_id})
+            Projects.Projects.remove_member_from_project(%{
+              project_id: project_id,
+              user_id: user_id
+            })
           end)
           |> Multi.delete(:delete_project_like, like)
           |> Repo.transaction()
+
         case transaction do
           {:ok, _map} -> {:ok, _map}
           {:error, _name, changeset, _prev} -> {:error, Db.FullErrorMessage.message(changeset)}
@@ -73,7 +77,7 @@ defmodule Db.Users.ProjectLikes do
     )
     |> Multi.run(:main_chat, fn _ ->
       case Chats.main_chat(%{source_id: project_id, source_type: "Project"}) do
-        %Chat{}= chat -> {:ok, chat}
+        %Chat{} = chat -> {:ok, chat}
         nil -> {:error, :not_found_main_chat}
       end
     end)

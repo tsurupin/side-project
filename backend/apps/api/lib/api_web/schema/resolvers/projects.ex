@@ -12,7 +12,6 @@ defmodule ApiWeb.Schema.Resolvers.Projects do
     end
   end
 
-
   def search(_, %{conditions: conditions}, _) do
     case Projects.search(conditions) do
       {:error, :not_found} ->
@@ -57,11 +56,9 @@ defmodule ApiWeb.Schema.Resolvers.Projects do
     end
   end
 
-  def upload_photo(
-        ctx,
-        %{project_id: _project_id, photo: _photo, rank: _rank} = attrs,
-        %{context: %{current_user: current_user}}
-      ) do
+  def upload_photo(ctx, %{project_id: _project_id, photo: _photo, rank: _rank} = attrs, %{
+        context: %{current_user: current_user}
+      }) do
     case Photos.upload_photo(current_user.id, attrs) do
       {:ok, _repo} -> {:ok, true}
       {:error, reason} -> {:error, reason}

@@ -22,7 +22,7 @@ defmodule Db.Projects.Project do
 
     belongs_to(:owner, User)
     belongs_to(:genre, Genre)
-    belongs_to(:genre, City)
+    belongs_to(:city, City)
     has_many(:photos, Photo)
     has_many(:favorites, Favorite)
     many_to_many(:skills, Skill, join_through: "project_skills")
@@ -32,7 +32,9 @@ defmodule Db.Projects.Project do
 
   @spec changeset(map()) :: Ecto.Changeset.t()
   def changeset(attrs) do
-    permitted_attrs = ~w(name lead_sentence owner_id genre_id status motivation requirement city_id zip_code)a
+    permitted_attrs =
+      ~w(name lead_sentence owner_id genre_id status motivation requirement city_id zip_code)a
+
     required_attrs = ~w(name owner_id)a
 
     %Project{}
@@ -40,6 +42,7 @@ defmodule Db.Projects.Project do
     |> validate_required(required_attrs)
     |> assoc_constraint(:genre)
     |> assoc_constraint(:owner)
+    |> assoc_constraint(:city)
     |> unique_constraint(:name, name: "projects_owner_id_and_name_index")
     |> check_constraint(:status, name: "valid_project_status")
   end
@@ -50,6 +53,7 @@ defmodule Db.Projects.Project do
     project
     |> cast(attrs, permitted_attrs)
     |> assoc_constraint(:genre)
+    |> assoc_constraint(:city)
     |> unique_constraint(:name, name: "projects_owner_id_and_name_index")
     |> check_constraint(:status, name: "valid_project_status")
   end

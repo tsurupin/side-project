@@ -107,7 +107,7 @@ defmodule ApiWeb.Schema.Mutations.UsersTest do
         user = Repo.get(Db.Users.User, user_id)
         assert user.display_name == "hoge"
 
-        assert Enum.map(Repo.all(Db.Skills.UserSkill, user_id: user_id), & "#{&1.skill_id}") ==
+        assert Enum.map(Repo.all(Db.Skills.UserSkill, user_id: user_id), &"#{&1.skill_id}") ==
                  skill_ids
       end
     end
@@ -125,11 +125,11 @@ defmodule ApiWeb.Schema.Mutations.UsersTest do
   #     }
   #   end
   #
-    @mutation """
-      mutation ($photo: Upload!, $isMain: Boolean!, $rank: Int!) {
-        uploadUserPhoto(user_uload_input: {photo: $photo, isMain: $isMain, rank: $rank})
-      }
-    """
+  @mutation """
+    mutation ($photo: Upload!, $isMain: Boolean!, $rank: Int!) {
+      uploadUserPhoto(user_uload_input: {photo: $photo, isMain: $isMain, rank: $rank})
+    }
+  """
   #   test "uploads user photo", %{user_id: user_id, photo: photo} do
   #     attrs = %{userUploadInput: %{isMain: true, photo: photo.image_url, rank: 1}}
   #     IO.inspect(attrs)
@@ -181,8 +181,11 @@ defmodule ApiWeb.Schema.Mutations.UsersTest do
           |> post("/api", %{query: @mutation, variables: attrs})
 
         response = json_response(conn, 200)
-        assert response["data"]["deleteUserPhoto"] == %{"id" => "#{main_photo.id}", "userId" => "#{user.id}"}
 
+        assert response["data"]["deleteUserPhoto"] == %{
+                 "id" => "#{main_photo.id}",
+                 "userId" => "#{user.id}"
+               }
 
         promoted_photo = Repo.get(Db.Users.Photo, other_photo.id)
 
