@@ -26,7 +26,7 @@ defmodule Db.DataCase do
         Users,
         Projects,
         Skills,
-        Countries,
+        Locations,
         OccupationTypes,
         Genres,
         Chats

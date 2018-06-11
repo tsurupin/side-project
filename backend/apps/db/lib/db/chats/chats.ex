@@ -9,7 +9,7 @@ defmodule Db.Chats.Chats do
   alias Db.Users.UserLike
   alias Db.Repo
 
-  @spec get_by(%{id: integer}) :: {:ok, :chat} | {:error, :not_found}
+  @spec get_by(%{id: integer | String.t()}) :: {:ok, :chat} | {:error, :not_found}
   def get_by(%{id: id}) do
     case Repo.get_by(Chat, id: id) do
       %Chat{} = chat -> {:ok, chat}
@@ -142,10 +142,11 @@ defmodule Db.Chats.Chats do
       join: c in Chat,
       join: g in Group,
       where:
-        m.chat_id == c.id and m.user_id == ^user_id and c.group_id == g.id and
-          g.source_id == ^project_id and g.source_type == "Porject"
+        m.chat_id == c.id and m.user_id == ^user_id and c.chat_group_id == g.id and
+          g.source_id == ^project_id and g.source_type == "Project"
     )
     |> Repo.all()
+
   end
 
   @spec attended_chats_query(integer) :: Ecto.Queryable.t()

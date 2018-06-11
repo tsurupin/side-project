@@ -43,6 +43,7 @@ defmodule Db.Users.ProjectLikes do
         end
 
       %ProjectLike{status: :approved} = like ->
+
         transaction =
           Multi.new()
           |> Multi.run(:delete_chat_member, fn _ ->
