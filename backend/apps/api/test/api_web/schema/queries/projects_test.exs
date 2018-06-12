@@ -27,7 +27,7 @@ defmodule ApiWeb.Schema.Queries.ProjectsTest do
     end
 
     @query """
-      query($id: ID!) {
+      query Project($id: ID!) {
         project(id: $id) {
           id
           name
@@ -80,7 +80,9 @@ defmodule ApiWeb.Schema.Queries.ProjectsTest do
       }
 
       assert response["data"] == expected_result
+
     end
+
   end
 
   describe "project list query" do
@@ -113,8 +115,8 @@ defmodule ApiWeb.Schema.Queries.ProjectsTest do
     end
 
     @query """
-      query projects($genreId: Int, $skillIds: [Int]) {
-        projects(conditions: {genreId: $genreId, skillIds: $skillIds}) {
+      query Projects($genreId: ID, $cityId: ID, $skillIds: [ID]) {
+        projects(conditions: {genreId: $genreId, cityID: $cityId, skillIds: $skillIds}) {
           id
           name
           leadSentence
@@ -173,4 +175,89 @@ defmodule ApiWeb.Schema.Queries.ProjectsTest do
       end
     end
   end
+
+
+  describe "my project list query" do
+    setup do
+      user = Factory.insert(:user)
+      genre1 = Factory.insert(:genre)
+      genre2 = Factory.insert(:genre)
+      project1 = Factory.insert(:project, genre: genre2, status: 1)
+      project2 = Factory.insert(:project, genre: genre2, status: 1)
+      project3 = Factory.insert(:project, genre: genre1, status: 1)
+      project4 = Factory.insert(:project, genre: genre2, status: 0)
+      Factory.insert(:project_like, project: project1, user: user)
+      Factory.insert(:project_like, project: project2, user: user)
+      photo = Factory.insert(:project_photo, project: project1, rank: 0)
+
+      {
+        :ok,
+        user_id: user.id,
+        project1: project1,
+        project2: project2,
+        genre1: genre1,
+        genre2: genre2,
+        photo1_url: ProjectPhotoUploader.url({photo.image_url, photo}, :thumb)
+      }
+    end
+
+    @query """
+      query MyProjects {
+        myProjects {
+          id
+          name
+          leadSentence
+          mainPhotoUrl
+          genre {
+            id
+            name
+          }
+        }
+      }
+    """
+    test "returns my projects", cxt do
+      %{
+        user_id: user_id,
+        project1: project1,
+        project2: project2,
+        genre1: genre1,
+        genre2: genre2,
+        photo1_url: photo1_url
+      } = cxt
+
+      with_mock Api.Accounts.Authentication,
+        verify: fn user_id -> {:ok, Db.Repo.get(Db.Users.User, user_id)} end do
+        conn =
+          build_conn()
+          |> put_req_header("authorization", "Bearer #{user_id}")
+          |> get("/api", %{
+            query: @query
+          })
+
+        response = json_response(conn, 200)
+
+        expected_result = %{
+          "myProjects" => [
+            %{
+              "id" => "#{project1.id}",
+              "name" => project1.name,
+              "leadSentence" => project1.lead_sentence,
+              "genre" => %{"id" => "#{genre2.id}", "name" => genre2.name},
+              "mainPhotoUrl" => photo1_url
+            },
+            %{
+              "id" => "#{project2.id}",
+              "name" => project2.name,
+              "leadSentence" => project2.lead_sentence,
+              "genre" => %{"id" => "#{genre2.id}", "name" => genre2.name},
+              "mainPhotoUrl" => nil
+            }
+          ]
+        }
+
+        assert response["data"] == expected_result
+      end
+    end
+  end
+
 end

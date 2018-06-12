@@ -51,9 +51,9 @@ defmodule ApiWeb.Schema.Types.Projects do
   end
 
   input_object :project_search_conditions do
-    field(:genre_id, :integer)
-    field(:city_id, :integer)
-    field(:skill_ids, list_of(:integer))
+    field(:genre_id, :id)
+    field(:city_id, :id)
+    field(:skill_ids, list_of(:id))
   end
 
   input_object :project_input do
@@ -61,10 +61,10 @@ defmodule ApiWeb.Schema.Types.Projects do
     field(:lead_sentence, :string)
     field(:requirement, :string)
     field(:motivation, :string)
-    field(:genre_id, :integer)
-    field(:city_id, :integer)
+    field(:genre_id, :id)
+    field(:city_id, :id)
     field(:zip_code, :string)
-    field(:skill_ids, list_of(:integer))
+    field(:skill_ids, list_of(:id))
   end
 
   input_object :project_upload_input do
