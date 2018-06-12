@@ -32,13 +32,12 @@ defmodule Db.Projects.Projects do
   @spec liked_by(String.t() | integer) :: {:ok, list(Project.t())}
   def liked_by(user_id) do
     projects =
-      Repo.all(
-        from(
-          p in Project,
-          join: pl in ProjectLike,
-          where: p.id == pl.project_id and pl.user_id == ^user_id and p.status == 1
-        )
+      from(
+        p in Project,
+        join: pl in ProjectLike,
+        where: p.id == pl.project_id and pl.user_id == ^user_id and p.status == 1
       )
+      |> Repo.all()
 
     {:ok, projects}
   end

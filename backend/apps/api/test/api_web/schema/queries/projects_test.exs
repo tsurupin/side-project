@@ -7,9 +7,18 @@ defmodule ApiWeb.Schema.Queries.ProjectsTest do
     setup do
       owner = Factory.insert(:user)
       genre = Factory.insert(:genre)
-      san_francisco = Factory.insert(:city, name: "San Francisco", state_name: "California", state_abbreviation: "CA")
 
-      project = Factory.insert(:project, genre: genre, city: san_francisco, owner: owner, status: 1)
+      san_francisco =
+        Factory.insert(
+          :city,
+          name: "San Francisco",
+          state_name: "California",
+          state_abbreviation: "CA"
+        )
+
+      project =
+        Factory.insert(:project, genre: genre, city: san_francisco, owner: owner, status: 1)
+
       skill = Factory.insert(:skill)
 
       Factory.insert(:project_skill, project: project, skill: skill)
@@ -58,7 +67,15 @@ defmodule ApiWeb.Schema.Queries.ProjectsTest do
       }
     """
     test "project fields return projects", cxt do
-      %{project: project, skill: skill, genre: genre, owner: owner, city: city, photo_url: photo_url} = cxt
+      %{
+        project: project,
+        skill: skill,
+        genre: genre,
+        owner: owner,
+        city: city,
+        photo_url: photo_url
+      } = cxt
+
       conn = build_conn()
       conn = get(conn, "/api", %{query: @query, variables: %{id: project.id}})
       response = json_response(conn, 200)
@@ -74,15 +91,16 @@ defmodule ApiWeb.Schema.Queries.ProjectsTest do
           "skills" => [%{"id" => "#{skill.id}", "name" => skill.name}],
           "genre" => %{"id" => "#{genre.id}", "name" => genre.name},
           "owner" => %{"id" => "#{owner.id}", "displayName" => owner.display_name},
-          "city" => %{"id" => "#{city.id}", "fullName" => "#{city.name}, #{city.state_abbreviation}"},
+          "city" => %{
+            "id" => "#{city.id}",
+            "fullName" => "#{city.name}, #{city.state_abbreviation}"
+          },
           "photos" => [%{"imageUrl" => photo_url}]
         }
       }
 
       assert response["data"] == expected_result
-
     end
-
   end
 
   describe "project list query" do
@@ -176,7 +194,6 @@ defmodule ApiWeb.Schema.Queries.ProjectsTest do
     end
   end
 
-
   describe "my project list query" do
     setup do
       user = Factory.insert(:user)
@@ -259,5 +276,4 @@ defmodule ApiWeb.Schema.Queries.ProjectsTest do
       end
     end
   end
-
 end

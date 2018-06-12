@@ -70,7 +70,6 @@ defmodule ApiWeb.Schema.Mutations.ProjectLikesTest do
 
       attrs = %{projectId: project.id}
 
-
       with_mock Api.Accounts.Authentication,
         verify: fn user_id -> {:ok, Db.Repo.get(Db.Users.User, user_id)} end do
         conn =

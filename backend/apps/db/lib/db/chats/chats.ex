@@ -146,7 +146,6 @@ defmodule Db.Chats.Chats do
           g.source_id == ^project_id and g.source_type == "Project"
     )
     |> Repo.all()
-
   end
 
   @spec attended_chats_query(integer) :: Ecto.Queryable.t()

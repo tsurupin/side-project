@@ -7,7 +7,13 @@ defmodule ApiWeb.Schema.Queries.UsersTest do
     setup do
       occupation_type = Factory.insert(:occupation_type)
 
-      san_francisco = Factory.insert(:city, name: "San Francisco", state_name: "California", state_abbreviation: "CA")
+      san_francisco =
+        Factory.insert(
+          :city,
+          name: "San Francisco",
+          state_name: "California",
+          state_abbreviation: "CA"
+        )
 
       genre = Factory.insert(:genre)
 
@@ -92,7 +98,10 @@ defmodule ApiWeb.Schema.Queries.UsersTest do
             "introduction" => user.introduction,
             "status" => "COMPLETED",
             "skills" => [%{"id" => "#{skill.id}", "name" => skill.name}],
-            "city" => %{"id" => "#{city.id}", "fullName" => "#{city.name}, #{city.state_abbreviation}"},
+            "city" => %{
+              "id" => "#{city.id}",
+              "fullName" => "#{city.name}, #{city.state_abbreviation}"
+            },
             "genre" => %{"id" => "#{genre.id}", "name" => genre.name},
             "occupationType" => %{"id" => "#{occupation_type.id}", "name" => occupation_type.name},
             "photos" => [%{"imageUrl" => photo_url}]
@@ -128,7 +137,13 @@ defmodule ApiWeb.Schema.Queries.UsersTest do
       }
     """
     test "users queries return users", cxt do
-      %{user: user, occupation_type: occupation_type, city: city, genre: genre, photo_url: photo_url} = cxt
+      %{
+        user: user,
+        occupation_type: occupation_type,
+        city: city,
+        genre: genre,
+        photo_url: photo_url
+      } = cxt
 
       with_mock Api.Accounts.Authentication,
         verify: fn user_id -> {:ok, Db.Repo.get(Db.Users.User, user.id)} end do
@@ -152,7 +167,10 @@ defmodule ApiWeb.Schema.Queries.UsersTest do
                 "name" => occupation_type.name
               },
               "genre" => %{"id" => "#{genre.id}", "name" => genre.name},
-              "city" => %{"id" => "#{city.id}", "fullName" => "#{city.name}, #{city.state_abbreviation}"},
+              "city" => %{
+                "id" => "#{city.id}",
+                "fullName" => "#{city.name}, #{city.state_abbreviation}"
+              },
               "introduction" => user.introduction,
               "schoolName" => user.school_name,
               "companyName" => user.company_name,
