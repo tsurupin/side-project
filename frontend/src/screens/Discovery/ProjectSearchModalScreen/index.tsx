@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { SKILL_SEARCH_MODAL_SCREEN } from "../../../constants/screens";
+import { SKILL_SEARCH_MODAL_SCREEN, CITY_SEARCH_MODAL_SCREEN } from "../../../constants/screens";
 
 import { View, TouchableOpacity, Text } from "react-native";
 import { SUBMIT_BUTTON, CANCEL_BUTTON} from "../../../constants/buttons";
@@ -28,10 +28,10 @@ import styles from "./styles";
 
 type Props = {
   navigator: any;
-  genreId: number;
-  cityId: number;
+  genreId: string;
+  cityId: string;
   zipCode: string;
-  skillIds: number[];
+  skillIds: string[];
   skills: Skill[];
   genres: Genre[];
   client: any;
@@ -39,10 +39,9 @@ type Props = {
 };
 
 type State = {
-  genreId: number;
-  cityId: number | null;
-  zipCode: string | null;
-  skillIds: number[];
+  genreId: string;
+  cityId: string | null;
+  skillIds: string[];
   skills: Skill[];
 };
 
@@ -106,6 +105,17 @@ class ProjectSearchFormScreen extends React.Component<Props, State> {
     });
   };
 
+
+
+  protected handleCitySearchShowModal = () => {
+    this.props.navigator.showModal({
+      screen: CITY_SEARCH_MODAL_SCREEN,
+      title: "City Search",
+      animationType: "slide-up",
+      passProps: { onPress: this.handleAddCity }
+    });
+  };
+
   protected handleValueChange = (
     key: string,
     value: string | number | boolean
@@ -114,6 +124,10 @@ class ProjectSearchFormScreen extends React.Component<Props, State> {
     changeAttr[key] = value;
     this.setState(changeAttr);
   };
+
+  private handleAddCity = (cityId: string) => {
+    this.setState({cityId});
+  }
 
   protected handleAddSkill = (skill: Skill) => {
     const skills = Array.from(new Set(this.state.skills.concat(skill)));
@@ -187,6 +201,16 @@ class ProjectSearchFormScreen extends React.Component<Props, State> {
                 <Icon name="beer" />
               </Button>
               {this.renderSkillList()}
+            </View>
+            <View style={styles.buttonFormBox}>
+              <Text style={styles.textLabel}>Skill</Text>
+              <Button
+                iconLeft
+                primary
+                onPress={this.handleCitySearchShowModal}
+              >
+                <Icon name="beer" />
+              </Button>
             </View>
           </Form>
         </Content>

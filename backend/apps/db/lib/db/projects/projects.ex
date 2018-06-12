@@ -169,6 +169,11 @@ defmodule Db.Projects.Projects do
             join: ps in ProjectSkill,
             where: ps.project_id == p.id and ps.skill_id in ^skill_ids
           )
+          {:city_id, city_id}, queries ->
+            from(
+              p in queries,
+              where: p.city_id == ^city_id
+            )
 
         _, queries ->
           queries

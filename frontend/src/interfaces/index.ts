@@ -1,8 +1,6 @@
 export interface City {
   id: string;
-  name: string;
-  stateName: string;
-  stateAbbreviation: string | null;
+  fullName: string;
 }
 
 export interface UserCore {
@@ -99,9 +97,9 @@ export interface ProjectDetails extends ProjectCore {
 }
 
 export interface ProjectSearchParams {
-  genreId?: number;
-  cityId?: number;
-  skillIds?: number[];
+  genreId?: string;
+  cityId?: string;
+  skillIds?: string[];
 }
 
 export interface ProjectEditParams {

@@ -7,7 +7,7 @@ const USER_SEARCH_MODAL_SCREEN = `${APP_NAME}.UserSearchModalScreen`;
 const PROJECT_SEARCH_MODAL_SCREEN = `${APP_NAME}.ProjectSearchModalScreen`;
 const AUTH_SCREEN = `${APP_NAME}.AuthScreen`;
 const SKILL_SEARCH_MODAL_SCREEN = `${APP_NAME}.SkillSearchModalScreen`;
-
+const CITY_SEARCH_MODAL_SCREEN = `${APP_NAME}.CitySearchModalScreen`;
 const MATCH_SCREEN = `${APP_NAME}.MatchScreen`;
 const CHAT_SCREEN = `${APP_NAME}.ChatScreen`;
 
@@ -31,6 +31,7 @@ export {
   USER_SEARCH_MODAL_SCREEN,
   PROJECT_SEARCH_MODAL_SCREEN,
   SKILL_SEARCH_MODAL_SCREEN,
+  CITY_SEARCH_MODAL_SCREEN,
   TOP_SCREEN,
   AUTH_SCREEN,
   USER_DETAILS_SCREEN,

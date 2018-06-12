@@ -6,6 +6,8 @@ import {
   USER_DISCOVERY_SCREEN,
   USER_SEARCH_MODAL_SCREEN,
   SKILL_SEARCH_MODAL_SCREEN,
+  CITY_SEARCH_MODAL_SCREEN,
+  PROJECT_SEARCH_MODAL_SCREEN,
   USER_DETAILS_SCREEN,
   PROJECT_DETAILS_SCREEN,
   USER_EDIT_SCREEN,
@@ -25,8 +27,10 @@ import { MatchScreen, ChatScreen } from "./screens/Match";
 
 import {
   DiscoveryScreen,
-  SearchFormScreen,
+  UserSearchModalScreen,
+  ProjectSearchModalScreen,
   SkillSearchModalScreen,
+  CitySearchModalScreen,
   UserDetailsScreen,
   ProjectDetailsScreen
 } from "./screens/Discovery";
@@ -51,11 +55,19 @@ const registerComponents = () => {
     ApolloWrapper(DiscoveryScreen)
   );
   Navigation.registerComponent(USER_SEARCH_MODAL_SCREEN, () =>
-    ApolloWrapper(SearchFormScreen)
+    ApolloWrapper(UserSearchModalScreen)
+  );
+
+  Navigation.registerComponent(PROJECT_SEARCH_MODAL_SCREEN, () =>
+    ApolloWrapper(ProjectSearchModalScreen)
   );
   Navigation.registerComponent(SKILL_SEARCH_MODAL_SCREEN, () =>
     ApolloWrapper(SkillSearchModalScreen)
   );
+
+  Navigation.registerComponent(CITY_SEARCH_MODAL_SCREEN, () =>
+  ApolloWrapper(CitySearchModalScreen)
+);
   Navigation.registerComponent(USER_DETAILS_SCREEN, () =>
     ApolloWrapper(UserDetailsScreen)
   );
