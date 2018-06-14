@@ -103,9 +103,7 @@ class DiscoveryScreen extends React.Component<Props, State> {
     return this.state.selectedIndex === USER_INDEX;
   };
 
-  private handleUpdateSearchParams = (
-    searchParams: UserSearchParams | ProjectSearchParams
-  ) => {
+  private handleUpdateSearchParams = searchParams => {
     if (this.isUserOriented()) {
       this.setState({ userSearchParams: searchParams });
     } else {
@@ -161,13 +159,17 @@ class DiscoveryScreen extends React.Component<Props, State> {
     });
   };
 
-  private buildSearchParams = (): UserSearchParams | ProjectSearchParams => {
-    let searchParams: UserSearchParams | ProjectSearchParams;
-    if (this.isUserOriented()) {
-      searchParams = this.state.userSearchParams;
-    } else {
-      searchParams = this.state.projectSearchParams;
-    }
+  private buildUserSearchParams = (): UserSearchParams => {
+    const searchParams: UserSearchParams = this.state.userSearchParams;
+    return this.cleanupParams(searchParams);
+  };
+
+  private buildProjectSearchParams = (): ProjectSearchParams => {
+    const searchParams: ProjectSearchParams = this.state.projectSearchParams;
+    return this.cleanupParams(searchParams);
+  };
+
+  private cleanupParams = (searchParams): any => {
     let conditions = {};
     for (let key in searchParams) {
       if (
@@ -181,7 +183,7 @@ class DiscoveryScreen extends React.Component<Props, State> {
     return conditions;
   };
 
-  handleIndexChange = (selectedIndex: number): void => {
+  private handleIndexChange = (selectedIndex: number): void => {
     this.setState({ selectedIndex });
   };
 
@@ -191,7 +193,7 @@ class DiscoveryScreen extends React.Component<Props, State> {
   };
 
   private renderUserCards = () => {
-    const conditions = this.buildSearchParams();
+    const conditions: UserSearchParams = this.buildUserSearchParams();
     return (
       <UserListQuery variables={conditions}>
         {({ loading, error, data }) => {
@@ -228,7 +230,7 @@ class DiscoveryScreen extends React.Component<Props, State> {
   };
 
   private renderProjectCards = () => {
-    const conditions = this.buildSearchParams();
+    const conditions: ProjectSearchParams = this.buildProjectSearchParams();
     return (
       <ProjectListQuery variables={conditions}>
         {({ loading, error, data }) => {

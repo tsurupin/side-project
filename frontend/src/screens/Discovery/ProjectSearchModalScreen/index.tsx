@@ -40,7 +40,7 @@ type Props = {
 
 type State = {
   genreId: string;
-  cityId: string | null;
+  cityId: string;
   skillIds: string[];
   skills: Skill[];
 };
@@ -69,7 +69,6 @@ class ProjectSearchFormScreen extends React.Component<Props, State> {
     this.state = {
       genreId: props.genreId,
       cityId: props.cityId,
-      zipCode: props.zipCode,
       skillIds: props.skillIds,
       skills: props.skills
     };
@@ -118,7 +117,7 @@ class ProjectSearchFormScreen extends React.Component<Props, State> {
 
   protected handleValueChange = (
     key: string,
-    value: string | number | boolean
+    value: string
   ) => {
     let changeAttr = {};
     changeAttr[key] = value;
@@ -134,7 +133,7 @@ class ProjectSearchFormScreen extends React.Component<Props, State> {
     this.setState({ skills });
   };
 
-  protected handleDeleteSkill = (id: number) => {
+  protected handleDeleteSkill = (id: string) => {
     const skills = this.state.skills.filter(skill => skill.id !== id);
     this.setState({ skills });
   };
@@ -159,9 +158,7 @@ class ProjectSearchFormScreen extends React.Component<Props, State> {
 
   render() {
     const {
-      genreId,
-      zipCode,
-      cityId
+      genreId
     } = this.state;
 
     return (
@@ -203,7 +200,7 @@ class ProjectSearchFormScreen extends React.Component<Props, State> {
               {this.renderSkillList()}
             </View>
             <View style={styles.buttonFormBox}>
-              <Text style={styles.textLabel}>Skill</Text>
+              <Text style={styles.textLabel}>City</Text>
               <Button
                 iconLeft
                 primary

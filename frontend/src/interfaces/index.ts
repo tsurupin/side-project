@@ -30,7 +30,7 @@ export interface UserDetails extends UserCore {
 }
 
 export interface Skill {
-  id: number;
+  id: string;
   name: string;
 }
 export interface Genre {
