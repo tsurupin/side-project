@@ -11,7 +11,15 @@ import { BACK_BUTTON } from "../../../constants/buttons";
 import { CityListQuery } from "../../../queries/cities";
 import { City } from "../../../interfaces";
 import styles from "./styles";
-
+// for project search
+//-> use only city name
+// for project edit and user edit
+// 1. add button to get city name by geolocation(reverse geocodint https://developers.google.com/maps/documentation/javascript/geocoding#ReverseGeocoding)
+//-> store gelolocation, zip code and city name
+// 2. allow inputting zip code and get city name by geolocation
+// -> store geolocaiton, zip code and city name
+// 3. allow city name by autocomplete
+// how to get all the city list and get geolocation from zip code
 type Props = {
   navigator?: any;
   onPress: (cityId: string) => void;
