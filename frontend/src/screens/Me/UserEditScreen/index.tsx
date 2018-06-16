@@ -1,7 +1,7 @@
 import * as React from "react";
 import { View, TouchableOpacity, Text, Button, Alert } from "react-native";
 import { ErrorMessage } from "../../../components/Commons";
-import { EditForm } from "../../../components/Me/UserEditScreen";
+import EditForm from "./EditForm";
 import {
   USER_DISCOVERY_SCREEN,
   CHAT_SCREEN,

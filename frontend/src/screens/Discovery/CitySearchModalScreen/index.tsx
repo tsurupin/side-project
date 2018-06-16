@@ -11,15 +11,16 @@ import { BACK_BUTTON } from "../../../constants/buttons";
 import { CityListQuery } from "../../../queries/cities";
 import { City } from "../../../interfaces";
 import styles from "./styles";
+// how to change data in screen level? async loading project is annoying
 // for project search
 //-> use only city name
 // for project edit and user edit
 // 1. add button to get city name by geolocation(reverse geocodint https://developers.google.com/maps/documentation/javascript/geocoding#ReverseGeocoding)
-//-> store gelolocation, zip code and city name
-// 2. allow inputting zip code and get city name by geolocation
-// -> store geolocaiton, zip code and city name
+//-> store gelolocation and city name
+// 2. allow inputting  get city name by addreaa
+// -> store geolocaiton,  city name
 // 3. allow city name by autocomplete
-// how to get all the city list and get geolocation from zip code
+// how to get all the city list -> create address with official data and improve it with google map api result
 type Props = {
   navigator?: any;
   onPress: (cityId: string) => void;
@@ -57,7 +58,7 @@ class CitySearchModalScreen extends React.Component<Props, State> {
   };
 
 
-  protected onPress = (cityId: string) => {
+  private onPress = (cityId: string) => {
     this.props.onPress(cityId);
     this.props.navigator.dismissModal();
   };

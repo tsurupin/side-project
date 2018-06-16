@@ -128,9 +128,6 @@ class UserSearchFormScreen extends React.Component<Props, State> {
     this.props.navigator.setOnNavigatorEvent(this.handleNavigationEvent);
   }
 
-  componentWillReceiveProps(nextProps) {
-    console.log("will receive", nextProps);
-  }
 
   protected handleNavigationEvent = e => {
     if (e.type !== "NavBarButtonPress") {

@@ -1,3 +1,5 @@
+import { NumberValue } from "apollo-utilities";
+
 export interface City {
   id: string;
   fullName: string;
@@ -26,6 +28,9 @@ export interface UserDetails extends UserCore {
   skills?: Skill[];
   companyName?: string;
   schoolName?: string;
+  lontitude?: number;
+  latitude?: number;
+  cityId?: string;
   photos?: UserPhoto[];
 }
 
@@ -58,10 +63,15 @@ export interface UserEditParams {
   occupationTypeId?: number;
   genreId?: number;
   skillIds?: number[];
+  skills?: Skill[];
   companyName?: string;
   schoolName?: string;
   zipCode?: string;
+  longitude?: number;
+  latitude?: number;
   cityId?: number;
+  cityName?: string;
+
 }
 
 export interface UserUploadParams {
