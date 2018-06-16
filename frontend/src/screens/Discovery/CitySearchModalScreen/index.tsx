@@ -13,6 +13,7 @@ import {
 import { BACK_BUTTON } from "../../../constants/buttons";
 import { CityListQuery } from "../../../queries/cities";
 import { City, CityEditParams } from "../../../interfaces";
+import { fetchAddress } from "../../../utilities/geocoder";
 import styles from "./styles";
 // how to change data in screen level? async loading project is annoying
 // for project search
@@ -74,8 +75,12 @@ class CitySearchModalScreen extends React.Component<Props, State> {
   };
 
   private handlePressCurrentLocation = ()=> {
-    navigator.geolocation.getCurrentPosition( position => {
+    navigator.geolocation.getCurrentPosition(position => {
       console.log("position--------", position);
+      // fetchAddress(position.latitude, position.lontitude)
+      // .then(() => console.log("success"))
+      // .catch((e) => console.log(e))
+
       //location = geolocation.get(porition);
       //const cityEditParams = {name: location.name, stateName: location.stateName, stateAbbreviation: location.stateAbbreviation}
       //if city exists, return id and the fullName. Otherwise, create the city with that data
