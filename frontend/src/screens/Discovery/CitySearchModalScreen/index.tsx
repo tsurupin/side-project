@@ -1,15 +1,18 @@
 import * as React from "react";
-import { View, Text } from "react-native";
+import { View, Text, Button } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { ListItem, Input } from "react-native-elements";
-import { USER_SEARCH_MODAL_SCREEN, PROJECT_SEARCH_MODAL_SCREEN } from "../../../constants/screens";
+import {
+  USER_SEARCH_MODAL_SCREEN,
+  PROJECT_SEARCH_MODAL_SCREEN
+} from "../../../constants/screens";
 import {
   CityList,
   CityInput
 } from "../../../components/Discovery/CitySearchModalScreen";
 import { BACK_BUTTON } from "../../../constants/buttons";
 import { CityListQuery } from "../../../queries/cities";
-import { City } from "../../../interfaces";
+import { City, CityDetails } from "../../../interfaces";
 import styles from "./styles";
 // how to change data in screen level? async loading project is annoying
 // for project search
@@ -21,9 +24,11 @@ import styles from "./styles";
 // -> store geolocaiton,  city name
 // 3. allow city name by autocomplete
 // how to get all the city list -> create address with official data and improve it with google map api result
+
 type Props = {
   navigator?: any;
-  onPress: (cityId: string) => void;
+  needLocationSearch: boolean;
+  onPress: (cityParams: CityDetails) => void;
 };
 
 type State = {
@@ -33,7 +38,9 @@ type State = {
 };
 
 class CitySearchModalScreen extends React.Component<Props, State> {
-  
+  static defaultProps = {
+    needLocationSearch: false
+  };
 
   constructor(props) {
     super(props);
@@ -57,9 +64,8 @@ class CitySearchModalScreen extends React.Component<Props, State> {
     }
   };
 
-
-  private onPress = (cityId: string) => {
-    this.props.onPress(cityId);
+  private onPress = (city: City) => {
+    this.props.onPress(city);
     this.props.navigator.dismissModal();
   };
 
@@ -67,6 +73,13 @@ class CitySearchModalScreen extends React.Component<Props, State> {
     this.setState({ name });
   };
 
+  private handlePressCurrentLocation = () => {
+    // get current location
+    // call google api
+    // fetch longitude, latitude, zipCode, address
+    // this.props.onPress(cityDetails)
+    // this.props.navigator.dismissModal();
+  };
 
   private renderCityList = () => {
     const { name } = this.state;
@@ -90,14 +103,21 @@ class CitySearchModalScreen extends React.Component<Props, State> {
             //return this.setState({errorMessage: error});
           }
           const { cityList } = data;
-          return (
-            <CityList cities={cityList} onPress={this.onPress} />
-          );
+          return <CityList cities={cityList} onPress={this.onPress} />;
         }}
       </CityListQuery>
     );
   };
 
+  private renderCurrentLocationButtton = () : undefined | JSX.Element => {
+    if (!this.props.needLocationSearch) return undefined;
+    return (
+      <Button
+        title="Current Location"
+        onPress={this.handlePressCurrentLocation}
+      />
+    );
+  };
   private renderTextForm = () => {
     const { name } = this.state;
     console.log(name);
@@ -108,6 +128,7 @@ class CitySearchModalScreen extends React.Component<Props, State> {
     return (
       <View style={styles.container}>
         {this.renderTextForm()}
+        {this.renderCurrentLocationButton()}
         {this.renderCityList()}
       </View>
     );

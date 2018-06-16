@@ -4,6 +4,13 @@ export interface City {
   id: string;
   fullName: string;
 }
+export interface CityDetails {
+  id: string;
+  fullName: string;
+  zipCode?: string;
+  latitude?: number;
+  longitude?: number;
+}
 
 export interface UserCore {
   id: string;

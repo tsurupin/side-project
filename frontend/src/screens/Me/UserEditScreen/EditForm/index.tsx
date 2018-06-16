@@ -1,11 +1,15 @@
 import * as React from "react";
 import { View } from "react-native";
-import { UserDetails, UserEditParams } from "../../../../interfaces";
+import { UserDetails, UserEditParams, Skill, City } from "../../../../interfaces";
 import { Input } from "react-native-elements";
 import {
   SUBMIT_USER_EDIT_BUTTON,
   CANCEL_USER_EDIT_BUTTON
 } from "../../../../constants/buttons";
+import {
+  SKILL_SEARCH_MODAL_SCREEN,
+  CITY_SEARCH_MODAL_SCREEN
+} from "../../../../constants/screens";
 
 import styles from "./styles";
 
@@ -15,7 +19,6 @@ type Props = {
   loading: boolean;
   error: any;
   onSubmit: (userEditParams: UserEditParams) => void;
-  onPressAddressForm: ()
 };
 
 type CityParams = {
@@ -85,11 +88,12 @@ class EditForm extends React.Component<Props, UserEditParams> {
   };
 
   protected handleCitySearchShowModal = () => {
+    const { longitutde, latitude, cityId, cityName } = this.state;
     this.props.navigator.showModal({
       screen: CITY_SEARCH_MODAL_SCREEN,
       title: "City Search",
       animationType: "slide-up",
-      passProps: { onPressSkill: this.handleUpdateCity }
+      passProps: { onSubmit: this.handleUpdateCity, longitude, latitude, cityId, cityName  }
     });
   };
   
