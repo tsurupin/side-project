@@ -12,7 +12,7 @@ import {
 } from "../../../components/Discovery/CitySearchModalScreen";
 import { BACK_BUTTON } from "../../../constants/buttons";
 import { CityListQuery } from "../../../queries/cities";
-import { City, CityDetails } from "../../../interfaces";
+import { City, CityEditParams } from "../../../interfaces";
 import styles from "./styles";
 // how to change data in screen level? async loading project is annoying
 // for project search
@@ -28,12 +28,12 @@ import styles from "./styles";
 type Props = {
   navigator?: any;
   needLocationSearch: boolean;
-  onPress: (cityParams: CityDetails) => void;
+  onPress: (city: City) => void;
 };
 
 type State = {
   loading: boolean;
-  name: string;
+  name: string | undefined;
   errorMessage: string;
 };
 
@@ -47,7 +47,7 @@ class CitySearchModalScreen extends React.Component<Props, State> {
 
     this.state = {
       loading: false,
-      name: "",
+      name: undefined,
       errorMessage: ""
     };
 
@@ -73,12 +73,20 @@ class CitySearchModalScreen extends React.Component<Props, State> {
     this.setState({ name });
   };
 
-  private handlePressCurrentLocation = () => {
-    // get current location
-    // call google api
-    // fetch longitude, latitude, zipCode, address
-    // this.props.onPress(cityDetails)
-    // this.props.navigator.dismissModal();
+  private handlePressCurrentLocation = ()=> {
+    navigator.geolocation.getCurrentPosition( position => {
+      console.log("position--------", position);
+      //location = geolocation.get(porition);
+      //const cityEditParams = {name: location.name, stateName: location.stateName, stateAbbreviation: location.stateAbbreviation}
+      //if city exists, return id and the fullName. Otherwise, create the city with that data
+      // this.props.onPress(city, position.longitude, position.latitude)
+      // his.props.navigator.dismissModal();
+  
+      
+    })
+    
+
+    
   };
 
   private renderCityList = () => {
@@ -128,7 +136,7 @@ class CitySearchModalScreen extends React.Component<Props, State> {
     return (
       <View style={styles.container}>
         {this.renderTextForm()}
-        {this.renderCurrentLocationButton()}
+        {this.renderCurrentLocationButtton()}
         {this.renderCityList()}
       </View>
     );

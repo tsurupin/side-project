@@ -4,12 +4,11 @@ export interface City {
   id: string;
   fullName: string;
 }
-export interface CityDetails {
-  id: string;
-  fullName: string;
-  zipCode?: string;
-  latitude?: number;
-  longitude?: number;
+
+export interface CityEditParams {
+  name: string;
+  stateName: string;
+  stateAbbreviation: string;
 }
 
 export interface UserCore {
@@ -29,15 +28,15 @@ export interface UserPhoto {
 }
 
 export interface UserDetails extends UserCore {
-  cityName?: string;
   introduction?: string;
+  occupation?: string;
   occupationType?: OccupationType;
   skills?: Skill[];
   companyName?: string;
   schoolName?: string;
-  lontitude?: number;
+  longitude?: number;
   latitude?: number;
-  cityId?: string;
+  city?: City;
   photos?: UserPhoto[];
 }
 
@@ -76,9 +75,7 @@ export interface UserEditParams {
   zipCode?: string;
   longitude?: number;
   latitude?: number;
-  cityId?: number;
-  cityName?: string;
-
+  city?: City;
 }
 
 export interface UserUploadParams {
@@ -125,8 +122,7 @@ export interface ProjectEditParams {
   motivation?: string;
   requirement?: string;
   genreId?: number;
-  cityId?: number;
-  zipCode?: string;
+  city?: City;
   skillIds?: number[];
 }
 

@@ -173,7 +173,7 @@ class UserSearchFormScreen extends React.Component<Props, State> {
     this.setState({ skills });
   };
 
-  protected handleDeleteSkill = (id: number) => {
+  protected handleDeleteSkill = (id: string) => {
     const skills = this.state.skills.filter(skill => skill.id !== id);
     this.setState({ skills });
   };

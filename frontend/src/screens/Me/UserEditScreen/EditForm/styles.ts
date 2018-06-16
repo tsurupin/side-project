@@ -1,5 +1,7 @@
 const styles = {
-  inputContainer: {}
+  inputContainer: {},
+  buttonFormBox: {},
+  textLabel: {}
 }
 
 export default styles;

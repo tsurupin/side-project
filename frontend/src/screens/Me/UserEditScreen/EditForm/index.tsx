@@ -1,5 +1,5 @@
 import * as React from "react";
-import { View } from "react-native";
+import { View, Button, Text } from "react-native";
 import { UserDetails, UserEditParams, Skill, City } from "../../../../interfaces";
 import { Input } from "react-native-elements";
 import {
@@ -21,12 +21,6 @@ type Props = {
   onSubmit: (userEditParams: UserEditParams) => void;
 };
 
-type CityParams = {
-  city: City;
-  longitude?: number;
-  latitude?: number;
-}
-
 class EditForm extends React.Component<Props, UserEditParams> {
   static defaultProps = {
     loading: false
@@ -39,17 +33,14 @@ class EditForm extends React.Component<Props, UserEditParams> {
       displayName: user.displayName,
       introduction: user.introduction,
       occupation: user.occupation,
-      occupationTypeId: user.occupationTypeId,
-      genreId: user.genreId,
+      occupationTypeId: user.occupationType.id,
+      genreId: user.genre.id,
       companyName: user.companyName,
       schoolName: user.schoolName,
+      city: user.city,
       longitude: user.longitude,
       latitude: user.latitude,
-      zipCode: "",
-      cityId: user.cityId,
-      skillIds: user.skills.map(skill => skill.id),
       skills: user.skills,
-      cityName: user.cityName 
     };
 
     this.props.navigator.setOnNavigatorEvent(this.handleNavigatorEvent);
@@ -69,16 +60,20 @@ class EditForm extends React.Component<Props, UserEditParams> {
     }
   };
 
-  protected handleAddSkill = (skill: Skill) => {
+  private handleAddSkill = (skill: Skill) => {
     const skills = Array.from(new Set(this.state.skills.concat(skill)));
     this.setState({ skills });
   };
 
-  protected handleUpdateCity = (cityParams: CityParams) => {
-    this.setState({ cityParams });
+  private handleUpdateLocation = (city: City, longitude: number = undefined, latitude: number = undefined) => {
+    if (longitude && latitude) {
+      this.setState({ city, longitude, latitude});
+    } else {
+      this.setState({city})
+    }    
   };
 
-  protected handleSkillSearchShowModal = () => {
+  private handleSkillSearchShowModal = () => {
     this.props.navigator.showModal({
       screen: SKILL_SEARCH_MODAL_SCREEN,
       title: "Skill Search",
@@ -87,36 +82,33 @@ class EditForm extends React.Component<Props, UserEditParams> {
     });
   };
 
-  protected handleCitySearchShowModal = () => {
-    const { longitutde, latitude, cityId, cityName } = this.state;
+  private handleCitySearchShowModal = () => {
     this.props.navigator.showModal({
       screen: CITY_SEARCH_MODAL_SCREEN,
       title: "City Search",
       animationType: "slide-up",
-      passProps: { onSubmit: this.handleUpdateCity, longitude, latitude, cityId, cityName  }
+      passProps: { onSubmit: this.handleUpdateLocation, needLocationSearch: true }
     });
   };
   
-  protected handleDeleteSkill = (id: number) => {
+  protected handleDeleteSkill = (id: string) => {
     const skills = this.state.skills.filter(skill => skill.id !== id);
     this.setState({ skills });
   };
 
   private renderSkillList = () => {
     return (
-      <Content>
+      <View>
         {this.state.skills.map(skill => {
           return (
             <Button
               key={skill.id}
-              rounded
+              title={skill.name}
               onPress={() => this.handleDeleteSkill(skill.id)}
-            >
-              <Text>{skill.name}</Text>
-            </Button>
+            />
           );
         })}
-      </Content>
+      </View>
     );
   };
 
@@ -141,24 +133,17 @@ class EditForm extends React.Component<Props, UserEditParams> {
         <View style={styles.buttonFormBox}>
           <Text style={styles.textLabel}>Skill</Text>
           <Button
-            iconLeft
-            primary
-            onPress={this.handleCitySearchModal}
-          >
-            <Icon name="beer" />
-          </Button>
-          
+            title="Search City"
+            onPress={() => this.handleCitySearchShowModal()}
+          />    
         </View>
 
         <View style={styles.buttonFormBox}>
           <Text style={styles.textLabel}>Skill</Text>
           <Button
-            iconLeft
-            primary
-            onPress={this.handleSkillSearchModal}
-          >
-            <Icon name="beer" />
-          </Button>
+            title="Search Skill"
+            onPress={() => this.handleSkillSearchShowModal()}
+          />  
           {this.renderSkillList()}
         </View>
       </View>
