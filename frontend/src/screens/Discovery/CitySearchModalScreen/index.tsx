@@ -70,7 +70,7 @@ class CitySearchModalScreen extends React.Component<Props, State> {
     this.setState({ name });
   };
 
-  private handlePressCurrentLocation = ()=> {
+  private handlePressCurrentLocation = () => {
     navigator.geolocation.getCurrentPosition(position => {
       console.log("position--------", position);
       // fetchAddress(position.latitude, position.lontitude)
@@ -82,16 +82,12 @@ class CitySearchModalScreen extends React.Component<Props, State> {
       //if city exists, return id and the fullName. Otherwise, create the city with that data
       // this.props.onPress(city, position.longitude, position.latitude)
       // his.props.navigator.dismissModal();
-  
-      
-    })
-    
-
-    
+    });
   };
 
   private renderCityList = () => {
     const { name } = this.state;
+    if (!name) return <View />;
     return (
       <CityListQuery variables={{ name }}>
         {({ data, error, loading }) => {
@@ -118,7 +114,7 @@ class CitySearchModalScreen extends React.Component<Props, State> {
     );
   };
 
-  private renderCurrentLocationButtton = () : undefined | JSX.Element => {
+  private renderCurrentLocationButtton = (): undefined | JSX.Element => {
     if (!this.props.needLocationSearch) return undefined;
     return (
       <Button

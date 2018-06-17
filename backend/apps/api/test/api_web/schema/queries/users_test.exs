@@ -182,5 +182,78 @@ defmodule ApiWeb.Schema.Queries.UsersTest do
         assert response["data"] == expected_result
       end
     end
+
+
+
+    @query """
+      query MyUser {
+        myUser {
+          id
+          displayName
+          schoolName
+          companyName
+          introduction
+          city {
+            id
+            fullName
+          }
+          genre {
+            id
+            name
+          }
+          occupationType {
+            id
+            name
+          }
+          mainPhotoUrl
+        }
+      }
+    """
+
+    test "myUser queries return users", cxt do
+      %{
+        user: user,
+        occupation_type: occupation_type,
+        city: city,
+        genre: genre,
+        photo_url: photo_url
+      } = cxt
+
+      with_mock Api.Accounts.Authentication,
+        verify: fn user_id -> {:ok, Db.Repo.get(Db.Users.User, user.id)} end do
+        conn =
+          build_conn()
+          |> put_req_header("authorization", "Bearer #{user.id}")
+          |> get("/api", %{
+            query: @query
+          })
+
+        response = json_response(conn, 200)
+
+        expected_result = %{
+          "myUser" =>
+            %{
+              "id" => "#{user.id}",
+              "displayName" => user.display_name,
+              "occupationType" => %{
+                "id" => "#{occupation_type.id}",
+                "name" => occupation_type.name
+              },
+              "genre" => %{"id" => "#{genre.id}", "name" => genre.name},
+              "city" => %{
+                "id" => "#{city.id}",
+                "fullName" => "#{city.name}, #{city.state_abbreviation}"
+              },
+              "introduction" => user.introduction,
+              "schoolName" => user.school_name,
+              "companyName" => user.company_name,
+              "mainPhotoUrl" => photo_url
+            }
+
+        }
+
+        assert response["data"] == expected_result
+      end
+    end
   end
 end
