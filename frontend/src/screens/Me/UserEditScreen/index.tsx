@@ -2,11 +2,7 @@ import * as React from "react";
 import { View, TouchableOpacity, Text, Button, Alert } from "react-native";
 import { ErrorMessage } from "../../../components/Commons";
 import EditForm from "./EditForm";
-import {
-  USER_DISCOVERY_SCREEN,
-  CHAT_SCREEN,
-  USER_DETAILS_SCREEN
-} from "../../../constants/screens";
+
 import { MyUserQuery } from "../../../queries/users";
 import { EditUserMutation } from "../../../mutations/users";
 import { UserEditParams, UserUploadParams } from "../../../interfaces";

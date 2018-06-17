@@ -1,11 +1,7 @@
 import * as React from "react";
 import { View, Text, Button } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
-import { ListItem, Input } from "react-native-elements";
-import {
-  USER_SEARCH_MODAL_SCREEN,
-  PROJECT_SEARCH_MODAL_SCREEN
-} from "../../../constants/screens";
+
 import {
   CityList,
   CityInput

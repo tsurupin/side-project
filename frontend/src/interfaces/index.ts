@@ -31,7 +31,7 @@ export interface UserDetails extends UserCore {
   introduction?: string;
   occupation?: string;
   occupationType?: OccupationType;
-  skills?: Skill[];
+  skills: Skill[];
   companyName?: string;
   schoolName?: string;
   longitude?: number;
@@ -45,31 +45,31 @@ export interface Skill {
   name: string;
 }
 export interface Genre {
-  id: number;
+  id: string;
   name: string;
 }
 
 export interface OccupationType {
-  id: number;
+  id: string;
   name: string;
 }
 
 export interface UserSearchParams {
-  occupationTypeId?: number | null;
-  genreId?: number;
-  isActive?: boolean | null;
-  distance?: number | null;
-  skillIds?: number[];
+  occupationTypeId: string | undefined;
+  genreId: string;
+  isActive: boolean | undefined;
+  distance: number | undefined;
+  skillIds: string[];
 }
 
 export interface UserEditParams {
   displayName: string;
   introduction?: string;
   occupation?: string;
-  occupationTypeId?: number;
-  genreId?: number;
-  skillIds?: number[];
-  skills?: Skill[];
+  occupationTypeId?: string;
+  genreId?: string;
+  skillIds?: string[];
+  skills: Skill[];
   companyName?: string;
   schoolName?: string;
   zipCode?: string;
@@ -102,8 +102,8 @@ export interface ProjectPhoto {
 export interface ProjectDetails extends ProjectCore {
   leadSentence: string;
   status: string;
-  motivation: string | null;
-  requirement: string | null;
+  motivation: string | undefined;
+  requirement: string | undefined;
   owner: UserCore;
   genre: Genre;
   skills: Skill[];
@@ -132,7 +132,7 @@ export interface ProjectUploadParams {
 }
 
 export interface Chat {
-  id: number;
+  id: string;
   name: string;
 }
 

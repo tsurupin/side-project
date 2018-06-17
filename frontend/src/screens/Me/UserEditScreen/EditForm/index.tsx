@@ -33,8 +33,8 @@ class EditForm extends React.Component<Props, UserEditParams> {
       displayName: user.displayName,
       introduction: user.introduction,
       occupation: user.occupation,
-      occupationTypeId: user.occupationType.id,
-      genreId: user.genre.id,
+      occupationTypeId: user.occupationType ? user.occupationType.id : undefined,
+      genreId: user.genre ? user.genre.id : undefined,
       companyName: user.companyName,
       schoolName: user.schoolName,
       city: user.city,
@@ -65,7 +65,7 @@ class EditForm extends React.Component<Props, UserEditParams> {
     this.setState({ skills });
   };
 
-  private handleUpdateLocation = (city: City, longitude: number = undefined, latitude: number = undefined) => {
+  private handleUpdateLocation = (city: City, longitude: number | undefined = undefined, latitude: number | undefined = undefined) => {
     if (longitude && latitude) {
       this.setState({ city, longitude, latitude});
     } else {

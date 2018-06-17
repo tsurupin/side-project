@@ -3,12 +3,12 @@ import { Input } from "react-native-elements";
 import styles from "./styles";
 
 type Props = {
-  name: string;
+  name: string | undefined;
   onChangeText: (string) => void;
 };
 
 type State = {
-  name: string;
+  name: string | undefined;
 };
 
 class CityInput extends React.Component<Props, State> {
