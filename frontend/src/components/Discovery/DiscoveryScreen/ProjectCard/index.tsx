@@ -4,17 +4,18 @@ import { View, Image, TouchableOpacity } from "react-native";
 import { Card, Text, Divider, Badge } from "react-native-elements";
 
 import styles from "./styles";
-import { UserCore, ProjectCore, Genre } from "../../../../interfaces";
+import { ProjectCore, Genre, City } from "../../../../interfaces";
 
 type Props = {
-  item: UserCore | ProjectCore;
+  project: ProjectCore;
   onPressCard: (id: string) => void;
 };
 
-const renderAreaName = (name: string) => {
-  return name ? <Text style={styles.mainText}>{name}</Text> : null;
+const renderCityName = (city: City | undefined) => {
+  return city ? <Text style={styles.mainText}>{city.fullName}</Text> : null;
 };
-const renderBadge = (genre: Genre) => {
+
+const renderBadge = (genre: Genre | undefined) => {
   if (!genre) return null;
   return (
     <Badge
@@ -26,20 +27,20 @@ const renderBadge = (genre: Genre) => {
 };
 
 const ItemCard = (props: Props) => {
-  const { item, onPressCard } = props;
+  const { project, onPressCard } = props;
 
-  const { id, mainPhotoUrl, leadSentence, genre, areaName } = item;
-  const name = item.displayName;
+  const { id, mainPhotoUrl, leadSentence, genre, city, title } = project;
+
 
   return (
     <TouchableOpacity onPress={() => onPressCard(id)}>
       <View style={[styles.container]}>
         <Card image={{ uri: mainPhotoUrl }} imageStyle={styles.imageBox}>
           <View style={styles.titleBox}>
-            <Text style={styles.mainText}>{name}</Text>
+            <Text style={styles.mainText}>{title}</Text>
             {renderBadge(genre)}
           </View>
-          {renderAreaName(areaName)}
+          {renderCityName(city)}
           <Divider style={styles.divider} />
           <Text style={styles.leadSentence}>{leadSentence}</Text>
         </Card>

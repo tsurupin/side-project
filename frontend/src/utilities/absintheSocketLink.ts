@@ -7,12 +7,12 @@ import TokenManager from "./tokenManager";
 const PHOENIX_SOCKET_URL = "ws://localhost:4000/socket/websocket?vsn=2.0.0";
 const SOCKET_VERSION = "2.0.0";
 
-const socketParams = (token: string | null) => {
+const socketParams = (token: string | undefined) => {
   const defaultParams = { vsn: SOCKET_VERSION };
   return token ? { ...defaultParams, token } : defaultParams;
 };
 
-const createAbsintheSocket = (token: string | null): PhoenixSocket => {
+const createAbsintheSocket = (token: string | undefined): PhoenixSocket => {
   return create(
     new PhoenixSocket(PHOENIX_SOCKET_URL, {
       params: socketParams(token)
@@ -43,7 +43,7 @@ class AbsintheSocketLink extends ApolloLink {
     return this.link.request(operation, forward);
   }
 
-  public watchToken = (token: string | null) => {
+  public watchToken = (token: string | undefined) => {
     if (this.token && this.token === token) {
       return;
     }

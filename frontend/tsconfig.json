@@ -15,24 +15,19 @@
     "strict": true,
     "noImplicitReturns": true, */
     // "noEmit": true,
-    "noImplicitReturns": true,
-    //"strictNullChecks": true,
+    "forceConsistentCasingInFileNames": true,
+    // "noImplicitReturns": true,
+    "noUnusedLocals": true,
+    //"strict": true,
+    "strictNullChecks": true,
     "noImplicitThis": true,
     "pretty": true,
     "removeComments": true,
     "skipLibCheck": true,
     "allowJs": true,
-    "moduleResolution": "node",
+    "moduleResolution": "node"
   },
-  "include": [
-    "./src/",
-    "./typings/*",
-  ],
-  "exclude": [
-    "index.js",
-    "node_modules",
-    "build",
-    "./src/__test__/*",
-  ],
+  "include": ["./src/", "./typings/*"],
+  "exclude": ["index.js", "node_modules", "build", "./src/__test__/*"],
   "compileOnSave": true
 }
