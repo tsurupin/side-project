@@ -28,4 +28,14 @@ defmodule Db.Locations.Cities do
 
     Repo.all(query)
   end
+
+  @get_by(%{name: Stiring.t(), state_name: String.t(), state_abbreviation: String.t(), country_name: String.t()}) :: {:ok, City.t()} | {:error, :not_found} | {:error, :country_not_found}
+  def get_by(%{name: name, state_name: state_name, country_name: country_name}) do
+
+  end
+
+  @create(%{name: Stiring.t(), state_name: String.t(), state_abbreviation: String.t(), country_id: integer}) :: {:ok, City.t()} | {:error, String.t()}
+  def create(%{name: name, state_name: state_name, state_abbreviation: state_abbreviation, country_id: country.id}) do
+    
+  end
 end
