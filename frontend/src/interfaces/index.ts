@@ -9,6 +9,7 @@ export interface CityEditParams {
   name: string;
   stateName: string;
   stateAbbreviation: string;
+  countryName: string;
 }
 
 export interface UserCore {

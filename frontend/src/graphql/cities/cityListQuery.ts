@@ -3,8 +3,8 @@ import { CITY_FRAGMENTS } from "./cityFragments";
 import { parseFragment } from "../utilities/parseFragment";
 
 export const CITY_LIST_QUERY = gql`
-query CityList($name: String, $zipCode: String) {
-  cityList(name: $name, zipCode: $zipCode) {
+query CityList($name: String) {
+  cityList(name: $name) {
     ${parseFragment(CITY_FRAGMENTS)}
   }
 }`;

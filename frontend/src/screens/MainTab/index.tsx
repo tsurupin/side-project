@@ -53,8 +53,8 @@ const MainTab = () => {
           navigatorButtons: {
             rightButtons: [
               {
-                title: "Create",
-                id: PROJECT_NEW_BUTTON
+                title: "Edit",
+                id: USER_EDIT_BUTTON
               }
             ]
           }

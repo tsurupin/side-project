@@ -8,6 +8,7 @@ import {
 } from "../../../components/Discovery/CitySearchModalScreen";
 import { BACK_BUTTON } from "../../../constants/buttons";
 import { CityListQuery } from "../../../queries/cities";
+import { CityMutation } from "../../../mutations/cities";
 import { City, CityEditParams } from "../../../interfaces";
 import { fetchAddress } from "../../../utilities/geocoder";
 import styles from "./styles";
@@ -71,9 +72,26 @@ class CitySearchModalScreen extends React.Component<Props, State> {
   };
 
   private handlePressCurrentLocation = () => {
-    navigator.geolocation.getCurrentPosition(position => {
-      console.log("position--------", position);
-      // fetchAddress(position.latitude, position.lontitude)
+    navigator.geolocation.getCurrentPosition(async ({ coords }) => {
+      const { latitude, longitude } = coords;
+
+      try {
+        const data = await fetchAddress(latitude, longitude);
+        if (data.address) {
+          const { address } = data;
+
+          const cityParams: CityEditParams = {
+            name: address.cityName,
+            stateName: address.stateName,
+            stateAbbreviation: address.stateAbbreviation,
+            countryName: address.countryName
+          };
+
+
+        }
+      } catch (e) {
+        console.log("geocode failed", e);
+      }
       // .then(() => console.log("success"))
       // .catch((e) => console.log(e))
 
