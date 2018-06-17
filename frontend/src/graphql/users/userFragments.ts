@@ -10,16 +10,15 @@ export const USER_FRAGMENTS = {
       companyName
       introduction
       status
-      areaName
+      city {
+        id
+        fullName
+      }
       genre {
         id
         name
       }
       occupationType {
-        id
-        name
-      }
-      country {
         id
         name
       }
@@ -41,7 +40,10 @@ export const USER_FRAGMENTS = {
       schoolName
       companyName
       introduction
-      areaName
+      city {
+        id
+        fullName
+      }
       genre {
         id
         name
