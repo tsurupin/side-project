@@ -64,19 +64,17 @@ export interface UserSearchParams {
 }
 
 export interface UserEditParams {
-  displayName: string;
+  displayName?: string;
   introduction?: string;
   occupation?: string;
   occupationTypeId?: string;
   genreId?: string;
   skillIds?: string[];
-  skills: Skill[];
   companyName?: string;
   schoolName?: string;
-  zipCode?: string;
   longitude?: number;
   latitude?: number;
-  city?: City;
+  cityId?: string;
 }
 
 export interface UserUploadParams {

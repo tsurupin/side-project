@@ -1,6 +1,6 @@
 import * as React from "react";
 import { View, Button, Text } from "react-native";
-import { UserDetails, UserEditParams, Skill, City } from "../../../../interfaces";
+import { UserDetails, UserEditParams, Skill, City, Genre, OccupationType } from "../../../../interfaces";
 import { Input } from "react-native-elements";
 import {
   SUBMIT_USER_EDIT_BUTTON,
@@ -12,6 +12,7 @@ import {
 } from "../../../../constants/screens";
 
 import styles from "./styles";
+import { assertInterfaceType } from "graphql";
 
 type Props = {
   user: UserDetails;
@@ -20,9 +21,20 @@ type Props = {
   error: any;
   onSubmit: (userEditParams: UserEditParams) => void;
 };
-// add city edit to project, too. check all the behavior. and update packages and try to add image on chat update
 
-class EditForm extends React.Component<Props, UserEditParams> {
+type State = {
+  displayName: string;
+  introduction: string | undefined;
+  occupation: string | undefined;
+  occupationType: OccupationType | undefined;
+  genre: Genre | undefined;
+  companyName: string | undefined;
+  schoolName: string | undefined;
+  city: City | undefined;
+  skills: Skill[];
+}
+
+class EditForm extends React.Component<Props, State> {
   static defaultProps = {
     loading: false
   };
@@ -34,17 +46,69 @@ class EditForm extends React.Component<Props, UserEditParams> {
       displayName: user.displayName,
       introduction: user.introduction,
       occupation: user.occupation,
-      occupationTypeId: user.occupationType ? user.occupationType.id : undefined,
-      genreId: user.genre ? user.genre.id : undefined,
+      occupationType: user.occupationType,
+      genre: user.genre,
       companyName: user.companyName,
       schoolName: user.schoolName,
       city: user.city,
-      longitude: user.longitude,
-      latitude: user.latitude,
       skills: user.skills
     };
 
     this.props.navigator.setOnNavigatorEvent(this.handleNavigatorEvent);
+  }
+
+  private buildUserEditParams = (): UserEditParams => {
+    const { user } = this.props;
+    let params = {};
+    const stringKeys = ["displayName", "introduction", "occupation", "companyName", "schoolName"];
+    const objectKeys = ["genre", "occupationType", "city"];
+    const arrayObjectKeys = ["skills"];
+    const statePrioritizedKeys = ["longitude", "latitude"];
+     stringKeys.forEach(key => {
+      let currentValue = this.state[key];
+      if (!currentValue === user[key]) {
+        params[key] = currentValue;
+      }
+    })
+    objectKeys.forEach(key => {
+      if (this.objectValueChanged(key)) {
+        params[key] = this.state[key] ? this.state[key].id : undefined;
+      }
+    })
+
+    arrayObjectKeys.forEach(key => {
+      if (this.arrayObjectValueChanged(key)) {
+        params[`${key}Ids`] = this.state[key].map(item => item.id);
+      }
+    });
+
+    statePrioritizedKeys.forEach(key => {
+      if (this.state[key]) {
+        params[key] = this.state[key];
+      }
+    })
+    return params;
+  }
+
+  private objectValueChanged = (key: string): boolean => {
+    const currentValue = this.state[key];
+    const previousValue = this.props.user[key]; 
+
+    if (currentValue && previousValue && currentValue.id === previousValue.id) {
+      return false;
+    } else if (!currentValue && !previousValue) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+  private arrayObjectValueChanged = (key: string): boolean => {
+    const currentObjectIds = this.state[key].map(item => item.id);
+    const previousObjectIds = this.props.user[key].map(item => item.id); 
+  
+    const intersectionCount = new Set([...currentObjectIds].filter(id => previousObjectIds.has(id))).size;
+    return previousObjectIds.size !== intersectionCount;
   }
 
   private handleNavigatorEvent = e => {
@@ -53,7 +117,7 @@ class EditForm extends React.Component<Props, UserEditParams> {
     console.log(e);
     switch (e.id) {
       case SUBMIT_USER_EDIT_BUTTON:
-        this.props.onSubmit(this.state);
+        this.props.onSubmit(this.buildUserEditParams());
       case CANCEL_USER_EDIT_BUTTON:
         this.props.navigator.pop({
           animated: true
