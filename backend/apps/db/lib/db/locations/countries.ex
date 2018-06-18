@@ -5,10 +5,10 @@ defmodule Db.Locations.Countries do
   alias Db.Locations.{Country}
   alias __MODULE__
 
-  @spec get_by(%{name: String.t()}) : {:ok, Country.t()} | {:error, :not_found}
+  @spec get_by(%{name: String.t()}) :: {:ok, Country.t()} | {:error, :not_found}
   def get_by(%{name: name}) do
     case Repo.get_by(Country, name: name) do
-      %Country = country -> {:ok, country}
+      %Country{} = country -> {:ok, country}
       _ -> {:error, :not_found}
     end
   end

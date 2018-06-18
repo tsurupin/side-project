@@ -31,6 +31,7 @@ defmodule ApiWeb.Schema do
   import_types(ApiWeb.Schema.Mutations.UserLikes)
   import_types(ApiWeb.Schema.Mutations.ProjectLikes)
   import_types(ApiWeb.Schema.Mutations.Chats)
+  import_types(ApiWeb.Schema.Mutations.Cities)
 
   import_types(ApiWeb.Schema.Subscriptions.Chats)
 
@@ -51,6 +52,7 @@ defmodule ApiWeb.Schema do
     import_fields(:user_likes_mutations)
     import_fields(:project_likes_mutations)
     import_fields(:chats_mutations)
+    import_fields(:cities_mutations)
   end
 
   subscription do

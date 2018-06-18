@@ -21,7 +21,7 @@ defmodule ApiWeb.Schema.Types.Cities do
     )
   end
 
-  object :city_input do
+  input_object :city_input do
     field(:name, :string)
     field(:state_name, :string)
     field(:state_abbreviation, :string)
