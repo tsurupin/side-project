@@ -76,7 +76,7 @@ class ProjectSearchFormScreen extends React.Component<Props, State> {
     this.props.navigator.setOnNavigatorEvent(this.handleNavigationEvent);
   }
 
-  protected handleNavigationEvent = e => {
+  private handleNavigationEvent = e => {
     if (e.type !== "NavBarButtonPress") {
       return;
     }

@@ -7,7 +7,7 @@ import { City } from "../../../../interfaces";
 
 type Props = {
   cities: City[];
-  onPress: (cityId: string) => void;
+  onPress: (city: City) => void;
 };
 
 const CityList = (props: Props) => {
@@ -19,7 +19,7 @@ const CityList = (props: Props) => {
             key={city.id}
             containerStyle={styles.listItemContainer}
             title={city.fullName}
-            onPress={() => props.onPress(city.id)}
+            onPress={() => props.onPress(city)}
           />
         );
       })}

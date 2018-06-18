@@ -36,7 +36,7 @@ type Props = {
 };
 
 type State = {
-  loading: boolean | null;
+  loading: boolean;
   users: UserDetails[];
   errorMessage: string;
   userSearchParams: UserSearchParams;
@@ -215,7 +215,11 @@ class DiscoveryScreen extends React.Component<Props, State> {
           }
           if (data && data.users) {
             return (
-              <ItemList items={data.users} onPressCard={this.handlePressCard} />
+              <ItemList
+                type="User"
+                items={data.users}
+                onPressCard={this.handlePressCard}
+              />
             );
           } else {
             return (
@@ -253,6 +257,7 @@ class DiscoveryScreen extends React.Component<Props, State> {
           if (data && data.projects) {
             return (
               <ItemList
+                type="Project"
                 items={data.projects}
                 onPressCard={this.handlePressCard}
               />
@@ -277,7 +282,7 @@ class DiscoveryScreen extends React.Component<Props, State> {
     return (
       <View style={styles.container}>
         <SegmentedControlTab
-          values={["Photos", "Details"]}
+          values={["People", "Projects"]}
           selectedIndex={this.state.selectedIndex}
           onTabPress={this.handleIndexChange}
         />

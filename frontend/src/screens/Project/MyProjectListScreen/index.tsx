@@ -70,8 +70,8 @@ class MyProjectListScreen extends React.Component<Props> {
                 </View>
               );
 
-            const projects: ProjectCore[] = data.projectList;
-
+            const projects: ProjectCore[] = data.myProjects;
+          
             return projects.map(project => {
               return (
                 <ProjectRow

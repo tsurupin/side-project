@@ -1,45 +1,43 @@
 import * as React from "react";
-import { View, Text } from "react-native";
+import { View, Text, Button } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
-import { ListItem, Input } from "react-native-elements";
-import { USER_SEARCH_MODAL_SCREEN, PROJECT_SEARCH_MODAL_SCREEN } from "../../../constants/screens";
+
 import {
   CityList,
   CityInput
 } from "../../../components/Discovery/CitySearchModalScreen";
 import { BACK_BUTTON } from "../../../constants/buttons";
 import { CityListQuery } from "../../../queries/cities";
-import { City } from "../../../interfaces";
+import { FindOrCreateCityMutation } from "../../../mutations/cities";
+import { City, CityEditParams } from "../../../interfaces";
+import { fetchAddress } from "../../../utilities/geocoder";
 import styles from "./styles";
-// for project search
-//-> use only city name
-// for project edit and user edit
-// 1. add button to get city name by geolocation(reverse geocodint https://developers.google.com/maps/documentation/javascript/geocoding#ReverseGeocoding)
-//-> store gelolocation, zip code and city name
-// 2. allow inputting zip code and get city name by geolocation
-// -> store geolocaiton, zip code and city name
-// 3. allow city name by autocomplete
-// how to get all the city list and get geolocation from zip code
+
 type Props = {
   navigator?: any;
-  onPress: (cityId: string) => void;
+  needLocationSearch: boolean;
+  onPress: (city: City, longtitude?: number, latitude?: number) => void;
 };
 
 type State = {
   loading: boolean;
-  name: string;
+  name: string | undefined;
+  longitude?: number | undefined;
+  latitude?: number | undefined;
   errorMessage: string;
 };
 
 class CitySearchModalScreen extends React.Component<Props, State> {
-  
+  static defaultProps = {
+    needLocationSearch: false
+  };
 
   constructor(props) {
     super(props);
 
     this.state = {
       loading: false,
-      name: "",
+      name: undefined,
       errorMessage: ""
     };
 
@@ -56,9 +54,8 @@ class CitySearchModalScreen extends React.Component<Props, State> {
     }
   };
 
-
-  protected onPress = (cityId: string) => {
-    this.props.onPress(cityId);
+  private onPress = (city: City) => {
+    this.props.onPress(city);
     this.props.navigator.dismissModal();
   };
 
@@ -66,9 +63,33 @@ class CitySearchModalScreen extends React.Component<Props, State> {
     this.setState({ name });
   };
 
+  private handlePressCurrentLocation = findOrCreateCityMutation => {
+    navigator.geolocation.getCurrentPosition(async ({ coords }) => {
+      const { latitude, longitude } = coords;
+
+      try {
+        const data = await fetchAddress(latitude, longitude);
+        if (data.address) {
+          const { address } = data;
+
+          const cityParams: CityEditParams = {
+            name: address.cityName,
+            stateName: address.stateName,
+            stateAbbreviation: address.stateAbbreviation,
+            countryName: address.countryName
+          };
+          this.setState({longitude: address.longitude, latitude: address.latitude});
+          findOrCreateCityMutation({ variables: cityParams });
+        }
+      } catch (e) {
+        console.log("geocode failed", e);
+      }
+    });
+  };
 
   private renderCityList = () => {
     const { name } = this.state;
+    if (!name) return <View />;
     return (
       <CityListQuery variables={{ name }}>
         {({ data, error, loading }) => {
@@ -89,14 +110,39 @@ class CitySearchModalScreen extends React.Component<Props, State> {
             //return this.setState({errorMessage: error});
           }
           const { cityList } = data;
-          return (
-            <CityList cities={cityList} onPress={this.onPress} />
-          );
+          return <CityList cities={cityList} onPress={this.onPress} />;
         }}
       </CityListQuery>
     );
   };
 
+  private renderCurrentLocationButtton = (): undefined | JSX.Element => {
+    if (!this.props.needLocationSearch) return undefined;
+    return (
+      <FindOrCreateCityMutation>
+        {({ findOrCreateCityMutation, data, loading, error }) => {
+          if (loading) return <View />;
+          if (error) {
+            console.log("FindOrCreateCityMutationError", error);
+            return <View />;
+          }
+          if (data) {
+            const city: City = data.findOrCreateCity;
+            this.props.onPress(city, this.state.longitude, this.state.latitude);
+            this.props.navigator.dismissModal();
+          }
+          return (
+            <Button
+              title="Current Location"
+              onPress={() =>
+                this.handlePressCurrentLocation(findOrCreateCityMutation)
+              }
+            />
+          );
+        }}
+      </FindOrCreateCityMutation>
+    );
+  };
   private renderTextForm = () => {
     const { name } = this.state;
     console.log(name);
@@ -107,6 +153,7 @@ class CitySearchModalScreen extends React.Component<Props, State> {
     return (
       <View style={styles.container}>
         {this.renderTextForm()}
+        {this.renderCurrentLocationButtton()}
         {this.renderCityList()}
       </View>
     );

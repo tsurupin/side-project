@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Text, TouchableOpacity, View } from "react-native";
 import { AccessToken, LoginManager } from "react-native-fbsdk";
-import { SignUpMutation, LoginMutation } from "../../mutations/accounts";
+import { SignUpMutation } from "../../mutations/accounts";
 import { LoginStatusQuery } from "../../queries/accounts";
 import MainTab from "../../screens/MainTab";
 import { firebaseSignIn } from "../../utilities/firebase";
@@ -28,6 +28,7 @@ class AuthScreen extends React.Component<Props, State> {
         AccessToken.getCurrentAccessToken()
           .then(accessTokenData => {
             console.log("accessData", accessTokenData);
+            if (!accessTokenData) { throw "No accessToken" }
             signUpMutation({
               variables: { providerId: FACEBOOK, uid: accessTokenData.userID }
             });

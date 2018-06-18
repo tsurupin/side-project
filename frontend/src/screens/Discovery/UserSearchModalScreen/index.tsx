@@ -3,7 +3,10 @@ import * as React from "react";
 import { SKILL_SEARCH_MODAL_SCREEN } from "../../../constants/screens";
 
 import { View, TouchableOpacity, Text } from "react-native";
-import { SUBMIT_USER_SEARCH_BUTTON, CANCEL_USER_SEARCH_BUTTON} from "../../../constants/buttons";
+import {
+  SUBMIT_USER_SEARCH_BUTTON,
+  CANCEL_USER_SEARCH_BUTTON
+} from "../../../constants/buttons";
 
 import {
   Container,
@@ -31,9 +34,9 @@ type Props = {
   navigator: any;
   genres: Genre[];
   occupationTypes: OccupationType[];
-  distance?: number | null;
-  isActive?: boolean | null;
-  skillIds?: number[];
+  distance?: number | undefined;
+  isActive?: boolean | undefined;
+  skillIds?: string[];
   distances: any[];
   interests: any[];
   activeness: any[];
@@ -43,11 +46,11 @@ type Props = {
 };
 
 type State = {
-  genreId: number;
-  occupationTypeId?: number | null;
-  distance?: number | null;
-  isActive?: boolean | null;
-  skillIds?: number[];
+  genreId: string;
+  occupationTypeId?: string | undefined;
+  distance?: number | undefined;
+  isActive?: boolean | undefined;
+  skillIds?: string[];
   skills: Skill[];
 };
 
@@ -128,22 +131,25 @@ class UserSearchFormScreen extends React.Component<Props, State> {
     this.props.navigator.setOnNavigatorEvent(this.handleNavigationEvent);
   }
 
-  componentWillReceiveProps(nextProps) {
-    console.log("will receive", nextProps);
-  }
-
   protected handleNavigationEvent = e => {
+    const {
+      genreId,
+      occupationTypeId,
+      distance,
+      isActive,
+      skills
+    } = this.state;
     if (e.type !== "NavBarButtonPress") {
       return;
     }
     switch (e.id) {
       case SUBMIT_USER_SEARCH_BUTTON:
         this.props.onSubmit({
-          genreId: this.state.genreId,
-          occupationTypeId: this.state.occupationTypeId,
-          distance: this.state.distance,
-          isActive: this.state.isActive,
-          skillIds: this.state.skills.map(skill => skill.id)
+          genreId: genreId,
+          occupationTypeId: occupationTypeId,
+          distance: distance,
+          isActive: isActive,
+          skillIds: skills.map(skill => skill.id)
         });
         this.props.navigator.dismissModal();
         break;
@@ -176,7 +182,7 @@ class UserSearchFormScreen extends React.Component<Props, State> {
     this.setState({ skills });
   };
 
-  protected handleDeleteSkill = (id: number) => {
+  protected handleDeleteSkill = (id: string) => {
     const skills = this.state.skills.filter(skill => skill.id !== id);
     this.setState({ skills });
   };

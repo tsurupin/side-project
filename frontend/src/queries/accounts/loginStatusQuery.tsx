@@ -7,7 +7,7 @@ const LoginStatusQuery = (props: {children: any }) => {
   const { children } = props;
   return (
     <Query query={LOGIN_STATUS_QUERY} fetchPolicy={"cache-only"}>
-      {({ client, data, refetch }) => {
+      {({ client, data }) => {
         if (data && !data.logned) {
           TokenManager.hasActiveToken().then(logined => {
             if (logined) {

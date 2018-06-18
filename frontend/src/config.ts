@@ -5,3 +5,4 @@ export const FIREBASE_AUTH_DOMAIN: string =
 export const FIREBASE_DATABASE_URL: string =
   "https://side-project-9448c.firebaseio.com";
 export const FIREBASE_PROJECT_ID: string = "side-project-9448c";
+export const GOOGLE_MAP_API_KEY: string = "AIzaSyD0p2Ox1SOMtBs29CZSHE692OFOjYp8K2Y";
