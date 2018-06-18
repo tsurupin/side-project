@@ -1,14 +1,17 @@
 import * as React from "react";
 import { View, Text } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
-import { ListItem, Input } from "react-native-elements";
+
 import { USER_SEARCH_MODAL_SCREEN } from "../../../constants/screens";
 import {
   SkillInput,
   SkillList
 } from "../../../components/Discovery/SkillSearchModalScreen";
+import { CANCEL_BUTTON } from "../../../constants/buttons";
 import { SkillsQuery } from "../../../queries/skills";
+
 import { Skill } from "../../../interfaces";
+
 import styles from "./styles";
 
 type Props = {
@@ -36,9 +39,23 @@ class SkillSearchModalScreen extends React.Component<Props, State> {
       name: "",
       errorMessage: ""
     };
+
+    this.props.navigator.setOnNavigatorEvent(this.handleNavigationEvent);
   }
 
-  protected onPressSkill = (skill: Skill) => {
+  private handleNavigationEvent = e => {
+    if (e.type !== "NavBarButtonPress") {
+      return;
+    }
+    switch (e.id) {
+      case CANCEL_BUTTON:
+        this.props.navigator.dismissModal();
+        break;
+    }
+  };
+
+
+  private onPressSkill = (skill: Skill) => {
     this.props.onPressSkill(skill);
     this.props.navigator.dismissModal();
   };
@@ -47,9 +64,7 @@ class SkillSearchModalScreen extends React.Component<Props, State> {
     this.setState({ name });
   };
 
-  private handleDismissModal = () => {
-    this.props.navigator.dismissModal();
-  };
+
 
   private renderSkillList = () => {
     const { name } = this.state;

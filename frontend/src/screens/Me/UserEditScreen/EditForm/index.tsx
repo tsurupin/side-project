@@ -20,6 +20,7 @@ type Props = {
   error: any;
   onSubmit: (userEditParams: UserEditParams) => void;
 };
+// add city edit to project, too. check all the behavior. and update packages and try to add image on chat update
 
 class EditForm extends React.Component<Props, UserEditParams> {
   static defaultProps = {
@@ -40,7 +41,7 @@ class EditForm extends React.Component<Props, UserEditParams> {
       city: user.city,
       longitude: user.longitude,
       latitude: user.latitude,
-      skills: user.skills,
+      skills: user.skills
     };
 
     this.props.navigator.setOnNavigatorEvent(this.handleNavigatorEvent);
