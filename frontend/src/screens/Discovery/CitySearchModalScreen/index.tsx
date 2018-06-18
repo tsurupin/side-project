@@ -71,6 +71,7 @@ class CitySearchModalScreen extends React.Component<Props, State> {
         const data = await fetchAddress(latitude, longitude);
         if (data.address) {
           const { address } = data;
+          console.log(address)
 
           const cityParams: CityEditParams = {
             name: address.cityName,
@@ -118,6 +119,7 @@ class CitySearchModalScreen extends React.Component<Props, State> {
 
   private renderCurrentLocationButtton = (): undefined | JSX.Element => {
     if (!this.props.needLocationSearch) return undefined;
+    const { onPress, navigator } = this.props;
     return (
       <FindOrCreateCityMutation>
         {({ findOrCreateCityMutation, data, loading, error }) => {
@@ -128,8 +130,9 @@ class CitySearchModalScreen extends React.Component<Props, State> {
           }
           if (data) {
             const city: City = data.findOrCreateCity;
-            this.props.onPress(city, this.state.longitude, this.state.latitude);
-            this.props.navigator.dismissModal();
+            const { longitude, latitude } = this.state;
+            onPress(city, longitude, latitude);
+            navigator.dismissModal();
           }
           return (
             <Button

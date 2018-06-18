@@ -173,7 +173,7 @@ class EditForm extends React.Component<Props, State> {
       title: "City Search",
       animationType: "slide-up",
       passProps: {
-        onSubmit: this.handleUpdateLocation,
+        onPress: this.handleUpdateLocation,
         needLocationSearch: true
       }
     });
@@ -201,7 +201,7 @@ class EditForm extends React.Component<Props, State> {
   };
 
   render() {
-    const { displayName, occupation } = this.state;
+    const { displayName, occupation, city } = this.state;
 
     return (
       <View>
@@ -219,7 +219,8 @@ class EditForm extends React.Component<Props, State> {
           onChangeText={e => this.setState({ occupation: e })}
         />
         <View style={styles.buttonFormBox}>
-          <Text style={styles.textLabel}>Skill</Text>
+          <Text style={styles.textLabel}>City</Text>
+          <Text style={styles.textLabel}>{city ? city.fullName : ''}</Text>
           <Button
             title="Search City"
             onPress={() => this.handleCitySearchShowModal()}

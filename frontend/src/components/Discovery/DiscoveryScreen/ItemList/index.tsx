@@ -12,7 +12,6 @@ type Props = {
   onPressCard: (id: string) => void;
 };
 
-
 const renderItem = (type: string, item: Item, fnc) => {
   if (type === "User") {
     const user = item as UserCore;

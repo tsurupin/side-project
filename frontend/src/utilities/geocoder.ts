@@ -1,5 +1,4 @@
 import { GOOGLE_MAP_API_KEY } from "../config";
-import { Address } from "cluster";
 const GOOGLE_MAP_REVERSE_GEOCIDING_API =
   "https://maps.googleapis.com/maps/api/geocode/json";
 
@@ -14,14 +13,14 @@ type AddressComponent = {
   short_name: string;
 };
 type Geometry = {
-  location: { lat: number; lon: number };
+  location: { lat: number; lng: number };
   location_type: string;
   viewport: Object;
 };
 type StreetAddress = {
   address_components: AddressComponent[];
   formatted_address: Object;
-  geometory: Geometry;
+  geometry: Geometry;
   place_id: string;
   types: string[];
 };
@@ -43,13 +42,12 @@ export const fetchAddress = async (
   const url = `${GOOGLE_MAP_REVERSE_GEOCIDING_API}?latlng=${latitude},${longitude}&key=${GOOGLE_MAP_API_KEY}`;
   try {
     const response = await fetch(url);
-    const responseJson = await response.json();
-    const streetAddress: StreetAddress = responseJson.filter(({ types }) =>
-      types.include(STREET_ADDRESS_TYPE)
+    const { results } = await response.json();
+ 
+    const streetAddress: StreetAddress = results.filter(({ types }) =>
+      types.includes(STREET_ADDRESS_TYPE)
     )[0];
-    console.log(response);
-    console.log(responseJson);
-
+    
     let postalCode;
     let stateName;
     let stateAbbreviation;
@@ -70,13 +68,13 @@ export const fetchAddress = async (
       }
     );
 
-    const { lat, lon } = streetAddress.geometory.location;
+    const { lat, lng } = streetAddress.geometry.location;
 
     return {
       result: true,
       address: {
         latitude: lat,
-        longitude: lon,
+        longitude: lng,
         postalCode,
         stateName,
         stateAbbreviation,

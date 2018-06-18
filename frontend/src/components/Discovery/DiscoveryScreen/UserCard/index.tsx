@@ -4,7 +4,7 @@ import { View, Image, TouchableOpacity } from "react-native";
 import { Card, Text, Divider, Badge } from "react-native-elements";
 
 import styles from "./styles";
-import { UserCore, ProjectCore, Genre, City } from "../../../../interfaces";
+import { UserCore, Genre, City } from "../../../../interfaces";
 
 type Props = {
   user: UserCore;
@@ -18,14 +18,14 @@ const renderBadge = (genre: Genre | undefined) => {
   if (!genre) return null;
   return (
     <Badge
-      value={name}
+      value={genre.name}
       containerStyle={styles.badgeContainer}
       textStyle={styles.badgeText}
     />
   );
 };
 
-const ItemCard = (props: Props) => {
+const UserCard = (props: Props) => {
   const { user, onPressCard } = props;
 
   const { id, mainPhotoUrl, leadSentence, genre, city, displayName } = user;
@@ -48,4 +48,4 @@ const ItemCard = (props: Props) => {
   );
 };
 
-export default ItemCard;
+export default UserCard;

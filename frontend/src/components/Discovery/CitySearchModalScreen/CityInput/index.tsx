@@ -19,6 +19,7 @@ class CityInput extends React.Component<Props, State> {
       name: props.name
     };
   }
+  
 
   render() {
     const { name } = this.state;
