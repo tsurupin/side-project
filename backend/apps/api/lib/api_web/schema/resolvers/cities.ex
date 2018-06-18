@@ -11,7 +11,7 @@ defmodule ApiWeb.Schema.Resolvers.Cities do
       case Cities.get_by(%{name: name, state_name: state_name, country_name: country_name}) do
         {:ok, city} -> {:ok, city}
         {:error, :country_not_found} -> {:error, "Country was not found"}
-        {:error, :not_found} ->
+        {:error, country, :not_found} ->
           case Cities.create(%{name: name, state_name: state_name, state_abbreviation: state_abbreviation, country_id: country.id}) do
             {:ok, city} -> {:ok, city}
             {:error, reason} -> {:error, reason}

@@ -4,7 +4,7 @@ defmodule ApiWeb.Schema.Mutations.Cities do
 
   object :cities_mutations do
     @desc "Find or create city"
-    field :find_or_create_city, :city do
+    field :find_or_create, :city do
       arg(:city_input, non_null(:city_input))
       middleware(Middleware.Authorize)
       resolve(&Resolvers.Cities.find_or_create/3)
