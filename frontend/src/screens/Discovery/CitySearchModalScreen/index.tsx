@@ -8,30 +8,22 @@ import {
 } from "../../../components/Discovery/CitySearchModalScreen";
 import { BACK_BUTTON } from "../../../constants/buttons";
 import { CityListQuery } from "../../../queries/cities";
-import { CityMutation } from "../../../mutations/cities";
+import { FindOrCreateCityMutation } from "../../../mutations/cities";
 import { City, CityEditParams } from "../../../interfaces";
 import { fetchAddress } from "../../../utilities/geocoder";
 import styles from "./styles";
-// how to change data in screen level? async loading project is annoying
-// for project search
-//-> use only city name
-// for project edit and user edit
-// 1. add button to get city name by geolocation(reverse geocodint https://developers.google.com/maps/documentation/javascript/geocoding#ReverseGeocoding)
-//-> store gelolocation and city name
-// 2. allow inputting  get city name by addreaa
-// -> store geolocaiton,  city name
-// 3. allow city name by autocomplete
-// how to get all the city list -> create address with official data and improve it with google map api result
 
 type Props = {
   navigator?: any;
   needLocationSearch: boolean;
-  onPress: (city: City) => void;
+  onPress: (city: City, longtitude?: number, latitude?: number) => void;
 };
 
 type State = {
   loading: boolean;
   name: string | undefined;
+  longitude?: number | undefined;
+  latitude?: number | undefined;
   errorMessage: string;
 };
 
@@ -71,7 +63,7 @@ class CitySearchModalScreen extends React.Component<Props, State> {
     this.setState({ name });
   };
 
-  private handlePressCurrentLocation = () => {
+  private handlePressCurrentLocation = findOrCreateCityMutation => {
     navigator.geolocation.getCurrentPosition(async ({ coords }) => {
       const { latitude, longitude } = coords;
 
@@ -86,20 +78,12 @@ class CitySearchModalScreen extends React.Component<Props, State> {
             stateAbbreviation: address.stateAbbreviation,
             countryName: address.countryName
           };
-
-
+          this.setState({longitude: address.longitude, latitude: address.latitude});
+          findOrCreateCityMutation({ variables: cityParams });
         }
       } catch (e) {
         console.log("geocode failed", e);
       }
-      // .then(() => console.log("success"))
-      // .catch((e) => console.log(e))
-
-      //location = geolocation.get(porition);
-      //const cityEditParams = {name: location.name, stateName: location.stateName, stateAbbreviation: location.stateAbbreviation}
-      //if city exists, return id and the fullName. Otherwise, create the city with that data
-      // this.props.onPress(city, position.longitude, position.latitude)
-      // his.props.navigator.dismissModal();
     });
   };
 
@@ -135,10 +119,28 @@ class CitySearchModalScreen extends React.Component<Props, State> {
   private renderCurrentLocationButtton = (): undefined | JSX.Element => {
     if (!this.props.needLocationSearch) return undefined;
     return (
-      <Button
-        title="Current Location"
-        onPress={this.handlePressCurrentLocation}
-      />
+      <FindOrCreateCityMutation>
+        {({ findOrCreateCityMutation, data, loading, error }) => {
+          if (loading) return <View />;
+          if (error) {
+            console.log("FindOrCreateCityMutationError", error);
+            return <View />;
+          }
+          if (data) {
+            const city: City = data.findOrCreateCity;
+            this.props.onPress(city, this.state.longitude, this.state.latitude);
+            this.props.navigator.dismissModal();
+          }
+          return (
+            <Button
+              title="Current Location"
+              onPress={() =>
+                this.handlePressCurrentLocation(findOrCreateCityMutation)
+              }
+            />
+          );
+        }}
+      </FindOrCreateCityMutation>
     );
   };
   private renderTextForm = () => {
