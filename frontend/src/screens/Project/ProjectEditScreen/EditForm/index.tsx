@@ -1,12 +1,11 @@
 import * as React from "react";
 import { View, Button, Text } from "react-native";
 import {
-  UserDetails,
-  UserEditParams,
+  ProjectDetails,
+  ProjectEditParams,
   Skill,
   City,
-  Genre,
-  OccupationType
+  Genre
 } from "../../../../interfaces";
 import { Input } from "react-native-elements";
 import {
@@ -21,25 +20,21 @@ import {
 import styles from "./styles";
 
 type Props = {
-  user: UserDetails;
+  project: ProjectDetails;
   navigator: any;
   loading: boolean;
   error: any;
-  onSubmit: (userEditParams: UserEditParams) => void;
+  onSubmit: (projectEditParams: ProjectEditParams) => void;
 };
 
 type State = {
-  displayName: string;
-  introduction: string | undefined;
-  occupation: string | undefined;
-  occupationType: OccupationType | undefined;
+  title: string | undefined;
+  leadSentence: string | undefined;
+  motivation: string | undefined;
+  requirement: string | undefined;
   genre: Genre | undefined;
-  companyName: string | undefined;
-  schoolName: string | undefined;
   city: City | undefined;
   skills: Skill[];
-  longitude?: number;
-  latitude?: number;
 };
 
 class EditForm extends React.Component<Props, State> {
@@ -49,38 +44,29 @@ class EditForm extends React.Component<Props, State> {
 
   constructor(props) {
     super(props);
-    const { user } = this.props;
+    const { project } = this.props;
     this.state = {
-      displayName: user.displayName,
-      introduction: user.introduction,
-      occupation: user.occupation,
-      occupationType: user.occupationType,
-      genre: user.genre,
-      companyName: user.companyName,
-      schoolName: user.schoolName,
-      city: user.city,
-      skills: user.skills
+      title: project.title,
+      leadSentence: project.leadSentence,
+      motivation: project.motivation,
+      requirement: project.requirement,
+      genre: project.genre,
+      city: project.city,
+      skills: project.skills
     };
 
     this.props.navigator.setOnNavigatorEvent(this.handleNavigatorEvent);
   }
 
-  private buildUserEditParams = (): UserEditParams => {
-    const { user } = this.props;
+  private buildProjectEditParams = (): ProjectEditParams => {
+    const { project } = this.props;
     let params = {};
-    const stringKeys = [
-      "displayName",
-      "introduction",
-      "occupation",
-      "companyName",
-      "schoolName"
-    ];
-    const objectKeys = ["genre", "occupationType", "city"];
+    const stringKeys = ["title", "leadSentence", "motivation", "requirement"];
+    const objectKeys = ["genre", "city"];
     const arrayObjectKeys = ["skills"];
-    const statePrioritizedKeys = ["longitude", "latitude"];
     stringKeys.forEach(key => {
       let currentValue = this.state[key];
-      if (!currentValue === user[key]) {
+      if (!currentValue === project[key]) {
         params[key] = currentValue;
       }
     });
@@ -96,17 +82,12 @@ class EditForm extends React.Component<Props, State> {
       }
     });
 
-    statePrioritizedKeys.forEach(key => {
-      if (this.state[key]) {
-        params[key] = this.state[key];
-      }
-    });
     return params;
   };
 
   private objectValueChanged = (key: string): boolean => {
     const currentValue = this.state[key];
-    const previousValue = this.props.user[key];
+    const previousValue = this.props.project[key];
 
     if (currentValue && previousValue && currentValue.id === previousValue.id) {
       return false;
@@ -119,7 +100,7 @@ class EditForm extends React.Component<Props, State> {
 
   private arrayObjectValueChanged = (key: string): boolean => {
     const currentObjectIds = this.state[key].map(item => item.id);
-    const previousObjectIds = this.props.user[key].map(item => item.id);
+    const previousObjectIds = this.props.project[key].map(item => item.id);
 
     const intersectionCount = new Set(
       [...currentObjectIds].filter(id => previousObjectIds.has(id))
@@ -133,7 +114,7 @@ class EditForm extends React.Component<Props, State> {
     console.log(e);
     switch (e.id) {
       case SUBMIT_USER_EDIT_BUTTON:
-        this.props.onSubmit(this.buildUserEditParams());
+        this.props.onSubmit(this.buildProjectEditParams());
       case CANCEL_USER_EDIT_BUTTON:
         this.props.navigator.pop({
           animated: true
@@ -151,11 +132,7 @@ class EditForm extends React.Component<Props, State> {
     longitude: number | undefined = undefined,
     latitude: number | undefined = undefined
   ) => {
-    if (longitude && latitude) {
-      this.setState({ city, longitude, latitude });
-    } else {
-      this.setState({ city });
-    }
+    this.setState({ city });
   };
 
   private handleSkillSearchShowModal = () => {
@@ -201,22 +178,22 @@ class EditForm extends React.Component<Props, State> {
   };
 
   render() {
-    const { displayName, occupation } = this.state;
+    const { title, leadSentence } = this.state;
 
     return (
       <View>
         <Input
-          placeholder="Display Name"
+          placeholder="Title"
           containerStyle={styles.inputContainer}
-          value={displayName}
-          onChangeText={e => this.setState({ displayName: e })}
+          value={title}
+          onChangeText={e => this.setState({ title: e })}
         />
 
         <Input
-          placeholder="Occupation"
+          placeholder="Lead Sentence"
           containerStyle={styles.inputContainer}
-          value={occupation}
-          onChangeText={e => this.setState({ occupation: e })}
+          value={leadSentence}
+          onChangeText={e => this.setState({ leadSentence: e })}
         />
         <View style={styles.buttonFormBox}>
           <Text style={styles.textLabel}>Skill</Text>

@@ -120,9 +120,9 @@ export interface ProjectEditParams {
   leadSentence?: string;
   motivation?: string;
   requirement?: string;
-  genreId?: number;
-  city?: City;
-  skillIds?: number[];
+  genreId?: string;
+  cityId?: string;
+  skillIds?: string[];
 }
 
 export interface ProjectUploadParams {
