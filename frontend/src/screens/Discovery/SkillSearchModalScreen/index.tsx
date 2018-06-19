@@ -17,7 +17,7 @@ import styles from "./styles";
 type Props = {
   navigator?: any;
   skills: Skill[];
-  onPressSkill: (skill: Skill) => void;
+  onPress: (skill: Skill) => void;
 };
 
 type State = {
@@ -56,7 +56,7 @@ class SkillSearchModalScreen extends React.Component<Props, State> {
 
 
   private onPressSkill = (skill: Skill) => {
-    this.props.onPressSkill(skill);
+    this.props.onPress(skill);
     this.props.navigator.dismissModal();
   };
 

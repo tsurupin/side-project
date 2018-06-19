@@ -164,7 +164,7 @@ class UserSearchFormScreen extends React.Component<Props, State> {
       screen: SKILL_SEARCH_MODAL_SCREEN,
       title: "Skill Search",
       animationType: "slide-up",
-      passProps: { onPressSkill: this.handleAddSkill }
+      passProps: { onPress: this.handleAddSkill }
     });
   };
 

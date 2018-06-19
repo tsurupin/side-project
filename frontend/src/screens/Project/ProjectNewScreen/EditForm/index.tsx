@@ -1,17 +1,8 @@
 import * as React from "react";
 import { View, Button, Text } from "react-native";
-import {
-  ProjectDetails,
-  ProjectEditParams,
-  Skill,
-  City,
-  Genre
-} from "../../../../interfaces";
+import { ProjectEditParams, Skill, City, Genre } from "../../../../interfaces";
 import { Input } from "react-native-elements";
-import {
-  SUBMIT_BUTTON,
-  CANCEL_BUTTON
-} from "../../../../constants/buttons";
+import { CANCEL_BUTTON, SUBMIT_BUTTON } from "../../../../constants/buttons";
 import {
   SKILL_SEARCH_MODAL_SCREEN,
   CITY_SEARCH_MODAL_SCREEN
@@ -20,7 +11,6 @@ import {
 import styles from "./styles";
 
 type Props = {
-  project: ProjectDetails;
   navigator: any;
   loading: boolean;
   error: any;
@@ -44,68 +34,37 @@ class EditForm extends React.Component<Props, State> {
 
   constructor(props) {
     super(props);
-    const { project } = this.props;
+
     this.state = {
-      title: project.title,
-      leadSentence: project.leadSentence,
-      motivation: project.motivation,
-      requirement: project.requirement,
-      genre: project.genre,
-      city: project.city,
-      skills: project.skills
+      title: undefined,
+      leadSentence: undefined,
+      motivation: undefined,
+      requirement: undefined,
+      genre: undefined,
+      city: undefined,
+      skills: []
     };
 
     this.props.navigator.setOnNavigatorEvent(this.handleNavigatorEvent);
   }
 
   private buildProjectEditParams = (): ProjectEditParams => {
-    const { project } = this.props;
     let params = {};
     const stringKeys = ["title", "leadSentence", "motivation", "requirement"];
     const objectKeys = ["genre", "city"];
     const arrayObjectKeys = ["skills"];
-    stringKeys.forEach(key => {
-      let currentValue = this.state[key];
-      if (!currentValue === project[key]) {
-        params[key] = currentValue;
-      }
-    });
+    stringKeys.forEach(key => (params[key] = this.state[key]));
     objectKeys.forEach(key => {
-      if (this.objectValueChanged(key)) {
+      if (this.state[key]) {
         params[key] = this.state[key] ? this.state[key].id : undefined;
       }
     });
 
     arrayObjectKeys.forEach(key => {
-      if (this.arrayObjectValueChanged(key)) {
-        params[`${key}Ids`] = this.state[key].map(item => item.id);
-      }
+      params[`${key}Ids`] = this.state[key].map(item => item.id);
     });
 
     return params;
-  };
-
-  private objectValueChanged = (key: string): boolean => {
-    const currentValue = this.state[key];
-    const previousValue = this.props.project[key];
-
-    if (currentValue && previousValue && currentValue.id === previousValue.id) {
-      return false;
-    } else if (!currentValue && !previousValue) {
-      return false;
-    } else {
-      return true;
-    }
-  };
-
-  private arrayObjectValueChanged = (key: string): boolean => {
-    const currentObjectIds = this.state[key].map(item => item.id);
-    const previousObjectIds = this.props.project[key].map(item => item.id);
-
-    const intersectionCount = new Set(
-      [...currentObjectIds].filter(id => previousObjectIds.has(id))
-    ).size;
-    return previousObjectIds.size !== intersectionCount;
   };
 
   private handleNavigatorEvent = e => {

@@ -44,6 +44,15 @@ const MainTab = () => {
           label: "MyProjectList",
           title: "MyProjectList",
           icon: sources[2],
+          navigatorButtons: {
+            rightButtons: [
+              {
+                title: "New",
+                id: PROJECT_NEW_BUTTON
+              }
+            ]
+          }
+
         },
         {
           screen: MY_PROFILE_SCREEN,
