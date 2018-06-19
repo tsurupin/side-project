@@ -91,6 +91,7 @@ class EditForm extends React.Component<Props, State> {
     longitude: number | undefined = undefined,
     latitude: number | undefined = undefined
   ) => {
+    console.log(city)
     this.setState({ city });
   };
 
@@ -155,7 +156,7 @@ class EditForm extends React.Component<Props, State> {
           onChangeText={e => this.setState({ leadSentence: e })}
         />
         <View style={styles.buttonFormBox}>
-          <Text style={styles.textLabel}>Skill</Text>
+          <Text style={styles.textLabel}>City</Text>
           <Button
             title="Search City"
             onPress={() => this.handleCitySearchShowModal()}
