@@ -8,7 +8,6 @@ import {
 } from "react-native";
 import { ChatDetailsQuery } from "../../../queries/chats";
 import { CreateMessageMutation } from "../../../mutations/chats";
-import { CHAT_SCREEN } from "../../../constants/screens";
 import { MessageParams } from "../../../interfaces";
 
 import { MessageList, MessageForm } from "../../../components/Match/ChatScreen";
