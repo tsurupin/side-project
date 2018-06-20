@@ -23,6 +23,13 @@ defmodule Db.Chats.Message do
     permitted_attrs = ~w(user_id chat_id comment)a
     required_attrs = ~w(chat_id user_id)a
 
+    attrs =
+      case attrs[:image] do
+        %Plug.Upload{} -> Map.merge(attrs, %{image_url: attrs[:image]})
+        _ -> attrs
+      end
+
+
     %__MODULE__{}
     |> cast(attrs, permitted_attrs)
     |> validate_required(required_attrs)
