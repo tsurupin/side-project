@@ -29,6 +29,7 @@ defmodule ApiWeb.Schema.Types.Users do
             {:ok, UserPhotoUploader.url({image_url, photo}, :thumb)}
 
           _ ->
+            IO.inspect("unknown")
             {:ok, UserPhotoUploader.missing_url(:thumb)}
         end
       end

@@ -75,6 +75,7 @@ class EditForm extends React.Component<Props, State> {
       case SUBMIT_BUTTON:
         this.props.onSubmit(this.buildProjectEditParams());
       case CANCEL_BUTTON:
+      console.log("popping")
         this.props.navigator.pop({
           animated: true
         });
