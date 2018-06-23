@@ -17,11 +17,11 @@ defmodule Db.Uploaders.ProjectPhotoUploader do
   end
 
   # Override the storage directory:
-  def storage_dir(_version, {_file, scope}) do
+  def storage_dir(_version, {file, scope}) do
     if Mix.env() == :test do
-      "uploads/project_photos"
+      "#{__DIR__}/../../../priv/uploads/project_photos"
     else
-      "uploads/project_photos/#{scope.id}"
+      "#{__DIR__}/../../../priv/uploads/project_photos/#{scope.uuid}"
     end
   end
 

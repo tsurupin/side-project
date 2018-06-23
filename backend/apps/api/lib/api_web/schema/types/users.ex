@@ -23,7 +23,7 @@ defmodule ApiWeb.Schema.Types.Users do
     field(
       :main_photo_url,
       :string,
-      resolve: fn _, %{source: user} ->
+      resolve: fn _, %{source: user}  ->
         case Users.main_photo(user) do
           %Photo{image_url: image_url} = photo ->
             {:ok, UserPhotoUploader.url({image_url, photo}, :thumb)}

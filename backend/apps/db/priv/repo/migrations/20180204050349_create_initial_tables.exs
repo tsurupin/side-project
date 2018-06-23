@@ -95,7 +95,7 @@ defmodule Db.Repo.Migrations.CreateInitialTables do
       add :user_id, references(:users, on_delete: :delete_all), null: false
       add :image_url, :string, null: false
       add :rank, :integer, null: false, default: 0
-
+      add :uuid, :string, null: false
       add :deleted_at, :utc_datetime
       timestamps()
     end
@@ -174,6 +174,7 @@ defmodule Db.Repo.Migrations.CreateInitialTables do
       add :project_id, references(:projects, on_delete: :delete_all), null: false
       add :image_url, :string, null: false
       add :rank, :integer, null: false
+      add :uuid, :string, null: false
       add :deleted_at, :utc_datetime
       timestamps()
     end
@@ -215,6 +216,7 @@ defmodule Db.Repo.Migrations.CreateInitialTables do
       add :user_id, references(:users, on_delete: :delete_all), null: false
       add :comment, :text
       add :image_url, :string
+      add :uuid, :string, null: false
       add :deleted_at, :utc_datetime
       timestamps()
     end

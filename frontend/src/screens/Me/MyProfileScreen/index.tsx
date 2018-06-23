@@ -65,6 +65,7 @@ class MyProfileScreen extends React.Component<Props, State> {
             );
 
           const myUser: UserDetails = data.myUser;
+          console.log("MyProfile", myUser)
 
           return <UserDetailsView user={myUser} />;
         }}
