@@ -133,7 +133,8 @@ class UserEditScreen extends React.Component<Props, UserEditParams> {
               <EditUserMutation>
               {({ editUserMutation, loading, error, data }) => {
                   if (data) {
-                    this.props.navigator.pop({ animated: true });
+                    this.props.navigator.dismissModal();
+          
                     return <View />;
                   }
                   return (

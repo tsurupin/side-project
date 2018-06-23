@@ -10,6 +10,9 @@ import {
 
 import styles from "./styles";
 
+// TODO: Fix screen moves
+// Check uploading images inclusing chat
+
 type Props = {
   navigator: any;
   loading: boolean;
