@@ -11,6 +11,7 @@ defmodule Db.Projects.Photo do
 
   schema "project_photos" do
     field(:rank, :integer, null: false)
+    field(:uuid, :string, null: false)
     field(:image_url, ProjectPhotoUploader.Type, null: false)
     belongs_to(:project, Project)
     field(:deleted_at, :utc_datetime)
@@ -19,11 +20,12 @@ defmodule Db.Projects.Photo do
 
   @spec changeset(map()) :: Ecto.Changeset.t()
   def changeset(attrs) do
-    permitted_attrs = ~w(project_id rank)a
+    permitted_attrs = ~w(project_id rank uuid)a
     required_attrs = ~w(image_url project_id rank)a
 
     %Photo{}
     |> cast(attrs, permitted_attrs)
+    |> set_uuid_if_nil
     |> assoc_constraint(:project)
     |> cast_attachments(attrs, [:image_url])
     |> validate_required(required_attrs)
@@ -41,5 +43,13 @@ defmodule Db.Projects.Photo do
     |> validate_required(required_attrs)
     |> unique_constraint(:project_id, name: "project_photos_project_id_and_rank_index")
     |> check_constraint(:rank, name: "valid_project_photo_rank")
+  end
+
+  defp set_uuid_if_nil(changeset) do
+    if get_field(changeset, :uuid) == nil do
+      force_change(changeset, :uuid, Ecto.UUID.generate)
+    else
+      changeset
+    end
   end
 end

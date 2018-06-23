@@ -11,6 +11,7 @@ defmodule Db.Chats.Message do
 
   schema "chat_messages" do
     field(:comment, :string)
+    field(:uuid, :string, null: false)
     field(:image_url, ChatImageUploader.Type)
     field(:deleted_at, :utc_datetime)
     belongs_to(:chat, Chat)
@@ -20,11 +21,19 @@ defmodule Db.Chats.Message do
 
   @spec changeset(map()) :: Ecto.Changeset.t()
   def changeset(attrs) do
-    permitted_attrs = ~w(user_id chat_id comment)a
+    permitted_attrs = ~w(user_id chat_id comment uuid)a
     required_attrs = ~w(chat_id user_id)a
+
+    attrs =
+      case attrs[:image] do
+        %Plug.Upload{} -> Map.merge(attrs, %{image_url: attrs[:image]})
+        _ -> attrs
+      end
+
 
     %__MODULE__{}
     |> cast(attrs, permitted_attrs)
+    |> set_uuid_if_nil
     |> validate_required(required_attrs)
     |> cast_attachments(attrs, [:image_url])
     |> assoc_constraint(:chat)
@@ -42,6 +51,14 @@ defmodule Db.Chats.Message do
     case Db.Repo.get_by(Db.Chats.Member, chat_id: chat_id, user_id: user_id) do
       nil -> add_error(changeset, :user_id, "user should be member of the chat")
       _ -> changeset
+    end
+  end
+
+  defp set_uuid_if_nil(changeset) do
+    if get_field(changeset, :uuid) == nil do
+      force_change(changeset, :uuid, Ecto.UUID.generate)
+    else
+      changeset
     end
   end
 end

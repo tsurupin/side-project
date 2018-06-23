@@ -57,7 +57,7 @@ export interface OccupationType {
 
 export interface UserSearchParams {
   occupationTypeId: string | undefined;
-  genreId: string;
+  genreId: string | undefined;
   isActive: boolean | undefined;
   distance: number | undefined;
   skillIds: string[];

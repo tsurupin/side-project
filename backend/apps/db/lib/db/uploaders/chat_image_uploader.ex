@@ -17,11 +17,11 @@ defmodule Db.Uploaders.ChatImageUploader do
   end
 
   # Override the storage directory:
-  def storage_dir(_version, {_file, scope}) do
+  def storage_dir(_version, {file, scope}) do
     if Mix.env() == :test do
-      "uploads/chat_images"
+      "#{__DIR__}/../../../priv/uploads/chat_images"
     else
-      "uploads/chat_images/#{scope.id}"
+      "#{__DIR__}/../../../priv/uploads/chat_images/#{scope.uuid}"
     end
   end
 end

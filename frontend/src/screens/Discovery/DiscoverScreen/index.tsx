@@ -23,6 +23,7 @@ import { UserListQuery } from "../../../queries/users";
 import { ProjectListQuery } from "../../../queries/projects";
 import {
   UserDetails,
+  ProjectDetails,
   UserSearchParams,
   ProjectSearchParams
 } from "../../../interfaces";
@@ -30,14 +31,12 @@ import SegmentedControlTab from "react-native-segmented-control-tab";
 import styles from "./styles";
 
 type Props = {
-  users: UserDetails[];
   navigator: any;
   client: any;
 };
 
 type State = {
   loading: boolean;
-  users: UserDetails[];
   errorMessage: string;
   userSearchParams: UserSearchParams;
   projectSearchParams: ProjectSearchParams;
@@ -53,17 +52,16 @@ class DiscoveryScreen extends React.Component<Props, State> {
     this.state = {
       loading: false,
       errorMessage: "",
-      users: props.users,
       userSearchParams: {
-        occupationTypeId: null,
-        genreId: null,
-        isActive: null,
-        distance: null,
+        occupationTypeId: undefined,
+        genreId: undefined,
+        isActive: undefined,
+        distance: undefined,
         skillIds: []
       },
       projectSearchParams: {
-        genreId: null,
-        cityId: null,
+        genreId: undefined,
+        cityId: undefined,
         skillIds: []
       },
       selectedIndex: USER_INDEX
@@ -71,33 +69,6 @@ class DiscoveryScreen extends React.Component<Props, State> {
 
     this.props.navigator.setOnNavigatorEvent(this.handleNavigatorEvent);
   }
-
-  static defaultProps = {
-    users: [
-      {
-        id: 1,
-        displayName: "Tomoaki",
-        areaName: "San Francisco",
-        occupationTypeName: "Engineer",
-        genreName: "Education",
-        mainPhotoUrl:
-          "https://images.pexels.com/photos/407035/model-face-beautiful-black-and-white-407035.jpeg",
-        leadSentence:
-          "I'm Ruby and React Software enginner. I like to work on ambiscious project"
-      },
-      {
-        id: 2,
-        displayName: "Tomoaki",
-        areaName: "San Francisco",
-        occupationTypeName: "Software Engineer",
-        genreName: "NPO",
-        mainPhotoUrl:
-          "https://images.pexels.com/photos/407035/model-face-beautiful-black-and-white-407035.jpeg",
-        leadSentence:
-          "I'm Ruby and React Software enginner. I like to work on ambiscious project"
-      }
-    ]
-  };
 
   private isUserOriented = (): boolean => {
     return this.state.selectedIndex === USER_INDEX;
@@ -173,8 +144,7 @@ class DiscoveryScreen extends React.Component<Props, State> {
     let conditions = {};
     for (let key in searchParams) {
       if (
-        searchParams[key] !== "undefined" &&
-        searchParams[key] !== null &&
+        searchParams[key] !== undefined &&
         searchParams[key].length !== 0
       ) {
         conditions[key] = searchParams[key];
@@ -214,6 +184,7 @@ class DiscoveryScreen extends React.Component<Props, State> {
             //return this.setState({errorMessage: error})
           }
           if (data && data.users) {
+            console.log("users", data.users)
             return (
               <ItemList
                 type="User"

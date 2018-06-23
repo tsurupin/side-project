@@ -138,7 +138,7 @@ class ProjectEditScreen extends React.Component<Props> {
               <EditProjectMutation>
                 {({ editProjectMutation, loading, error, data }) => {
                   if (data) {
-                    this.props.navigator.pop({ animated: true });
+                    this.props.navigator.dismissModal();
                     return <View />;
                   }
                   return (

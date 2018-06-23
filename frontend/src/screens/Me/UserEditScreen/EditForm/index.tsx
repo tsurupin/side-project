@@ -130,14 +130,11 @@ class EditForm extends React.Component<Props, State> {
   private handleNavigatorEvent = e => {
     if (e.type !== "NavBarButtonPress") return;
 
-    console.log(e);
     switch (e.id) {
       case SUBMIT_USER_EDIT_BUTTON:
         this.props.onSubmit(this.buildUserEditParams());
       case CANCEL_USER_EDIT_BUTTON:
-        this.props.navigator.pop({
-          animated: true
-        });
+        this.props.navigator.dismissModal();
     }
   };
 

@@ -12,6 +12,7 @@ defmodule Db.Users.Photo do
   schema "user_photos" do
     field(:rank, :integer, null: false)
     field(:image_url, UserPhotoUploader.Type)
+    field(:uuid, :string, null: false)
     field(:deleted_at, :utc_datetime)
     belongs_to(:user, User)
     timestamps(type: :utc_datetime)
@@ -19,7 +20,7 @@ defmodule Db.Users.Photo do
 
   @spec changeset(map()) :: Ecto.Changeset.t()
   def changeset(attrs) do
-    permitted_attrs = ~w(user_id rank)a
+    permitted_attrs = ~w(user_id rank uuid)a
     required_attrs = ~w(user_id rank)a
 
     attrs =
@@ -30,6 +31,7 @@ defmodule Db.Users.Photo do
 
     %Photo{}
     |> cast(attrs, permitted_attrs)
+    |> set_uuid_if_nil
     |> assoc_constraint(:user)
     |> cast_attachments(attrs, [:image_url])
     |> validate_required(required_attrs)
@@ -47,5 +49,13 @@ defmodule Db.Users.Photo do
     |> validate_required(required_attrs)
     |> unique_constraint(:user_id, name: "user_photos_user_id_and_rank_index")
     |> check_constraint(:rank, name: "valid_user_photo_rank")
+  end
+
+  defp set_uuid_if_nil(changeset) do
+    if get_field(changeset, :uuid) == nil do
+      force_change(changeset, :uuid, Ecto.UUID.generate)
+    else
+      changeset
+    end
   end
 end

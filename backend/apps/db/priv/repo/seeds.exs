@@ -102,7 +102,7 @@ Repo.insert!(
 # )
 user_photo_changeset = %{
   user_id: owner.id,
-  rank: 1,
+  rank: 0,
   image_url: %Plug.Upload{content_type: "image/jpeg", filename: "user1.jpg", path: Path.join(__DIR__, "images/seeds/user1.jpg")}
 }
 
@@ -135,7 +135,7 @@ Repo.insert!(
 
 project_photo_changeset = %{
   project_id: project.id,
-  rank: 2,
+  rank: 0,
   image_url: %Plug.Upload{content_type: "image/jpeg", filename: "project1.jpg", path: Path.join(__DIR__, "images/seeds/project1.jpg")}
 }
 
@@ -245,7 +245,8 @@ Repo.insert!(
   %Chats.Message{
     chat_id: chat.id,
     user_id: user.id,
-    comment: "Hello World!"
+    comment: "Hello World!",
+    uuid: Ecto.UUID.generate
   }
 )
 

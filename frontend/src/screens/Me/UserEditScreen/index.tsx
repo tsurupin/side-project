@@ -27,7 +27,7 @@ class UserEditScreen extends React.Component<Props, UserEditParams> {
     super(props);
   }
 
-  handlePress = mutation => {
+  handlePressUpload = (mutation, rank: number) => {
     ImagePicker.showImagePicker({}, async response => {
       console.log("Response = ", response);
 
@@ -53,7 +53,7 @@ class UserEditScreen extends React.Component<Props, UserEditParams> {
           });
 
           console.log(photo, mutation);
-          const variables: UserUploadParams = { photo: photo, rank: 252 };
+          const variables: UserUploadParams = { photo: photo, rank };
 
           console.log(variables);
           mutation({ variables });
@@ -125,7 +125,7 @@ class UserEditScreen extends React.Component<Props, UserEditParams> {
                   return (
                     <Button
                       title="button"
-                      onPress={() => this.handlePress(uploadUserPhotoMutation)}
+                      onPress={() => this.handlePressUpload(uploadUserPhotoMutation, myUser.photos.length)}
                     />
                   );
                 }}
@@ -133,7 +133,8 @@ class UserEditScreen extends React.Component<Props, UserEditParams> {
               <EditUserMutation>
               {({ editUserMutation, loading, error, data }) => {
                   if (data) {
-                    this.props.navigator.pop({ animated: true });
+                    this.props.navigator.dismissModal();
+          
                     return <View />;
                   }
                   return (
