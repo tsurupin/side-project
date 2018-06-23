@@ -53,7 +53,7 @@ defmodule Db.Users.Photo do
 
   defp set_uuid_if_nil(changeset) do
     if get_field(changeset, :uuid) == nil do
-      force_change(changeset, :uuid, Ecto.UUID.generate)
+      force_change(changeset, :uuid, Ecto.UUID.generate())
     else
       changeset
     end

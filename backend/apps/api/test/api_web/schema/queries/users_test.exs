@@ -183,8 +183,6 @@ defmodule ApiWeb.Schema.Queries.UsersTest do
       end
     end
 
-
-
     @query """
       query MyUser {
         myUser {
@@ -231,25 +229,23 @@ defmodule ApiWeb.Schema.Queries.UsersTest do
         response = json_response(conn, 200)
 
         expected_result = %{
-          "myUser" =>
-            %{
-              "id" => "#{user.id}",
-              "displayName" => user.display_name,
-              "occupationType" => %{
-                "id" => "#{occupation_type.id}",
-                "name" => occupation_type.name
-              },
-              "genre" => %{"id" => "#{genre.id}", "name" => genre.name},
-              "city" => %{
-                "id" => "#{city.id}",
-                "fullName" => "#{city.name}, #{city.state_abbreviation}"
-              },
-              "introduction" => user.introduction,
-              "schoolName" => user.school_name,
-              "companyName" => user.company_name,
-              "mainPhotoUrl" => photo_url
-            }
-
+          "myUser" => %{
+            "id" => "#{user.id}",
+            "displayName" => user.display_name,
+            "occupationType" => %{
+              "id" => "#{occupation_type.id}",
+              "name" => occupation_type.name
+            },
+            "genre" => %{"id" => "#{genre.id}", "name" => genre.name},
+            "city" => %{
+              "id" => "#{city.id}",
+              "fullName" => "#{city.name}, #{city.state_abbreviation}"
+            },
+            "introduction" => user.introduction,
+            "schoolName" => user.school_name,
+            "companyName" => user.company_name,
+            "mainPhotoUrl" => photo_url
+          }
         }
 
         assert response["data"] == expected_result

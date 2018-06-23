@@ -8,11 +8,9 @@ defmodule ApiWeb.Schema.Mutations.CitiesTest do
       user = Factory.insert(:user)
       country = Factory.insert(:country)
 
-
       {
         :ok,
-        user_id: user.id,
-        country: country
+        user_id: user.id, country: country
       }
     end
 
@@ -38,7 +36,13 @@ defmodule ApiWeb.Schema.Mutations.CitiesTest do
     """
     test "find existing city", %{user_id: user_id, country: country} do
       city = Factory.insert(:city, country: country, state_abbreviation: "CA")
-      attrs = %{name: city.name, stateName: city.state_name, stateAbbreviation: city.state_abbreviation, countryName: country.name}
+
+      attrs = %{
+        name: city.name,
+        stateName: city.state_name,
+        stateAbbreviation: city.state_abbreviation,
+        countryName: country.name
+      }
 
       with_mock Api.Accounts.Authentication,
         verify: fn user_id -> {:ok, Db.Repo.get(Db.Users.User, user_id)} end do
@@ -54,7 +58,12 @@ defmodule ApiWeb.Schema.Mutations.CitiesTest do
     end
 
     test "create a city", %{user_id: user_id, country: country} do
-     attrs = %{name: "Shibuya", stateName: "Tokyo", stateAbbreviation: "Tokyo", countryName: country.name}
+      attrs = %{
+        name: "Shibuya",
+        stateName: "Tokyo",
+        stateAbbreviation: "Tokyo",
+        countryName: country.name
+      }
 
       with_mock Api.Accounts.Authentication,
         verify: fn user_id -> {:ok, Db.Repo.get(Db.Users.User, user_id)} end do
@@ -72,7 +81,12 @@ defmodule ApiWeb.Schema.Mutations.CitiesTest do
     end
 
     test "returns error because of unfound country name", %{user_id: user_id} do
-      attrs = %{name: "Shibuya", stateName: "Tokyo", stateAbbreviation: "Tokyo", countryName: "unknowon country"}
+      attrs = %{
+        name: "Shibuya",
+        stateName: "Tokyo",
+        stateAbbreviation: "Tokyo",
+        countryName: "unknowon country"
+      }
 
       with_mock Api.Accounts.Authentication,
         verify: fn user_id -> {:ok, Db.Repo.get(Db.Users.User, user_id)} end do
