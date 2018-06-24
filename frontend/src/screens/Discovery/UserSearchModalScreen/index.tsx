@@ -4,8 +4,8 @@ import { SKILL_SEARCH_MODAL_SCREEN } from "../../../constants/screens";
 
 import { View, TouchableOpacity, Text } from "react-native";
 import {
-  SUBMIT_USER_SEARCH_BUTTON,
-  CANCEL_USER_SEARCH_BUTTON
+  SUBMIT_BUTTON,
+  CANCEL_BUTTON
 } from "../../../constants/buttons";
 
 import {
@@ -143,7 +143,7 @@ class UserSearchFormScreen extends React.Component<Props, State> {
       return;
     }
     switch (e.id) {
-      case SUBMIT_USER_SEARCH_BUTTON:
+      case SUBMIT_BUTTON:
         this.props.onSubmit({
           genreId: genreId,
           occupationTypeId: occupationTypeId,
@@ -153,7 +153,7 @@ class UserSearchFormScreen extends React.Component<Props, State> {
         });
         this.props.navigator.dismissModal();
         break;
-      case CANCEL_USER_SEARCH_BUTTON:
+      case CANCEL_BUTTON:
         this.props.navigator.dismissModal();
         break;
     }

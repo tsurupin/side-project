@@ -14,7 +14,7 @@ import {
   USER_DETAILS_SCREEN
 } from "../../../constants/screens";
 import {
-  BACK_BUTTON,
+  CANCEL_BUTTON,
   SUBMIT_BUTTON,
   SEARCH_BUTTON
 } from "../../../constants/buttons";
@@ -97,8 +97,8 @@ class DiscoveryScreen extends React.Component<Props, State> {
             leftButtons: [
               {
                 //icon: sources[1],
-                title: "Back",
-                id: BACK_BUTTON
+                title: "Cancel",
+                id: CANCEL_BUTTON
               }
             ],
             rightButtons: [

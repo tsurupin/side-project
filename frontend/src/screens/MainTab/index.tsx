@@ -8,7 +8,7 @@ import {
   MY_PROFILE_SCREEN,
   MY_PROJECT_LIST_SCREEN
 } from "../../constants/screens";
-import { USER_SEARCH_BUTTON, USER_EDIT_BUTTON, PROJECT_NEW_BUTTON } from "../../constants/buttons";
+import { SEARCH_BUTTON, USER_EDIT_BUTTON, PROJECT_NEW_BUTTON } from "../../constants/buttons";
 const MainTab = () => {
   Promise.all([
     Icon.getImageSource("md-map", 30),
@@ -28,7 +28,7 @@ const MainTab = () => {
               {
                 icon: sources[1],
                 title: "Search",
-                id: USER_SEARCH_BUTTON
+                id: SEARCH_BUTTON
               }
             ]
           }
