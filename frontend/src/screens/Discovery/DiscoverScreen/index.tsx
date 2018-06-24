@@ -15,6 +15,7 @@ import {
 } from "../../../constants/screens";
 import {
   CANCEL_BUTTON,
+  BACK_BUTTON,
   SUBMIT_BUTTON,
   SEARCH_BUTTON
 } from "../../../constants/buttons";
@@ -27,6 +28,10 @@ import {
   UserSearchParams,
   ProjectSearchParams
 } from "../../../interfaces";
+import {
+  ErrorAlert,
+  LoadingIndicator
+} from "../../../components/Commons";
 import SegmentedControlTab from "react-native-segmented-control-tab";
 import styles from "./styles";
 
@@ -169,11 +174,8 @@ class DiscoveryScreen extends React.Component<Props, State> {
         {({ loading, error, data }) => {
           if (loading) {
             return (
-              <View>
-                <Text>Loading</Text>
-              </View>
+              <LoadingIndicator />
             );
-            //return this.setState({loading})
           }
           if (error) {
             return (
@@ -211,19 +213,15 @@ class DiscoveryScreen extends React.Component<Props, State> {
         {({ loading, error, data }) => {
           if (loading) {
             return (
-              <View>
-                <Text>Loading</Text>
-              </View>
+              <LoadingIndicator />
             );
             //return this.setState({loading})
           }
           if (error) {
-            return (
-              <View>
-                <Text>Error</Text>
-              </View>
-            );
-            //return this.setState({errorMessage: error})
+            console.log("error happend");
+            console.log(error)
+            //return <ErrorAlert message="Loading Error" />
+            return this.setState({errorMessage: error})
           }
           if (data && data.projects) {
             return (
