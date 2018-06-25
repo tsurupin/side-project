@@ -12,7 +12,7 @@ type Props = {
 };
 
 const renderCityName = (city: City | undefined) => {
-  return city ? <Text style={styles.mainText}>{city.fullName}</Text> : null;
+  return city ? <Text style={styles.subText}>{city.fullName}</Text> : null;
 };
 const renderBadge = (genre: Genre | undefined) => {
   if (!genre) return null;
@@ -27,23 +27,29 @@ const renderBadge = (genre: Genre | undefined) => {
 
 const UserCard = (props: Props) => {
   const { user, onPressCard } = props;
+  console.log(user)
 
-  const { id, mainPhotoUrl, leadSentence, genre, city, displayName } = user;
-
+  const { id, mainPhotoUrl, introduction, genre, city, displayName } = user;
 
   return (
     <TouchableOpacity onPress={() => onPressCard(id)}>
-      <View style={[styles.container]}>
-        <Card image={{ uri: mainPhotoUrl }} imageStyle={styles.imageBox}>
+      <Card
+        containerStyle={styles.container}
+        image={{ uri: mainPhotoUrl }}
+        imageStyle={styles.imageBox}
+        flexDirection="column"
+      >
+        <View style={styles.mainTextBox}>
           <View style={styles.titleBox}>
-            <Text style={styles.mainText}>{displayName}</Text>
+            <Text style={styles.titleText}>{displayName}</Text> 
             {renderBadge(genre)}
           </View>
           {renderCityName(city)}
-          <Divider style={styles.divider} />
-          <Text style={styles.leadSentence}>{leadSentence}</Text>
-        </Card>
-      </View>
+        </View>
+        
+        <Divider style={styles.divider} />
+        <Text style={styles.leadSentence}>{introduction}</Text>
+      </Card>
     </TouchableOpacity>
   );
 };

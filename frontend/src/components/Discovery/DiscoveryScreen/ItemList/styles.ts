@@ -1,9 +1,15 @@
-const styles = {
+import { StyleSheet, ViewStyle } from "react-native";
+
+type Style = {
+  container: ViewStyle;
+}
+
+const styles = StyleSheet.create<Style>({
   container: {
-    width: "100%",
+    backgroundColor: "black",
     flex: 1,
     flexDirection: "row"
   }
-};
+});
 
 export default styles;

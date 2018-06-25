@@ -121,8 +121,10 @@ project = Repo.insert!(
     lead_sentence: "this project is to connect engineers",
     motivation: "I has been struggling with finding engineers",
     requirement: "we need backend engineers",
+    status: 1,
     owner_id: owner.id,
-    genre_id: education.id
+    genre_id: education.id,
+    city_id: san_francisco.id
   }
 )
 

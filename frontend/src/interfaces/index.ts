@@ -16,7 +16,7 @@ export interface UserCore {
   id: string;
   displayName: string;
   mainPhotoUrl: string;
-  leadSentence?: string;
+  introduction?: string;
   genre?: Genre;
   city?: City;
 }

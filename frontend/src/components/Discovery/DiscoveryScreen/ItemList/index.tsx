@@ -5,9 +5,9 @@ import UserCard from "../UserCard";
 import ProjectCard from "../ProjectCard";
 import styles from "./styles";
 
-type Item = UserCore | ProjectCore
+type Item = UserCore | ProjectCore;
 type Props = {
-  type: string
+  type: string;
   items: Item[];
   onPressCard: (id: string) => void;
 };
@@ -15,28 +15,16 @@ type Props = {
 const renderItem = (type: string, item: Item, fnc) => {
   if (type === "User") {
     const user = item as UserCore;
-    return (
-      <UserCard
-      key={item.id}
-      user={user}
-      onPressCard={fnc}
-    />
-    )
+    return <UserCard key={item.id} user={user} onPressCard={fnc} />;
   } else {
     const project = item as ProjectCore;
-    return (
-      <ProjectCard
-      key={project.id}
-      project={project}
-      onPressCard={fnc}
-    />
-    )
+    return <ProjectCard key={project.id} project={project} onPressCard={fnc} />;
   }
-}
+};
 
 const ItemList = (props: Props) => {
   const { onPressCard, items, type } = props;
-  
+
   if (items.length === 0) {
     return (
       <View key={0}>
@@ -46,8 +34,8 @@ const ItemList = (props: Props) => {
   }
 
   return (
-    <View>
-      {items.map(item => renderItem(type, item, onPressCard))}
+    <View style={styles.container}>
+      {items.map((item) => renderItem(type, item, onPressCard))}
     </View>
   );
 };

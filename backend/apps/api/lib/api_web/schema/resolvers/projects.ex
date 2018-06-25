@@ -26,7 +26,6 @@ defmodule ApiWeb.Schema.Resolvers.Projects do
   def liked_by(_, _, %{context: %{current_user: current_user}}) do
     case Projects.liked_by(current_user.id) do
       {:ok, projects} ->
-        IO.inspect(projects)
         projects = Projects.preload(projects, [:photos, :genre, :city])
         {:ok, projects}
     end
