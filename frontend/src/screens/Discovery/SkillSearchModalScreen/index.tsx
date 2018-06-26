@@ -7,7 +7,7 @@ import {
   SkillInput,
   SkillList
 } from "../../../components/Discovery/SkillSearchModalScreen";
-import { CANCEL_BUTTON } from "../../../constants/buttons";
+import { CANCEL_BUTTON, BACK_BUTTON } from "../../../constants/buttons";
 import { SkillsQuery } from "../../../queries/skills";
 
 import { Skill } from "../../../interfaces";
@@ -49,6 +49,7 @@ class SkillSearchModalScreen extends React.Component<Props, State> {
     }
     switch (e.id) {
       case CANCEL_BUTTON:
+      case BACK_BUTTON:
         this.props.navigator.dismissModal();
         break;
     }

@@ -3,7 +3,7 @@ import * as React from "react";
 import { SKILL_SEARCH_MODAL_SCREEN, CITY_SEARCH_MODAL_SCREEN } from "../../../constants/screens";
 
 import { View, TouchableOpacity, Text } from "react-native";
-import { SUBMIT_BUTTON, CANCEL_BUTTON} from "../../../constants/buttons";
+import { SUBMIT_BUTTON, CANCEL_BUTTON, BACK_BUTTON} from "../../../constants/buttons";
 
 import {
   Container,
@@ -100,7 +100,15 @@ class ProjectSearchFormScreen extends React.Component<Props, State> {
       screen: SKILL_SEARCH_MODAL_SCREEN,
       title: "Skill Search",
       animationType: "slide-up",
-      passProps: { onPress: this.handleAddSkill }
+      passProps: { onPress: this.handleAddSkill },
+      navigatorButtons: {
+        leftButtons: [
+          {
+            title: "Back",
+            id: BACK_BUTTON
+          }
+        ]
+      }
     });
   };
 
@@ -111,7 +119,15 @@ class ProjectSearchFormScreen extends React.Component<Props, State> {
       screen: CITY_SEARCH_MODAL_SCREEN,
       title: "City Search",
       animationType: "slide-up",
-      passProps: { onPress: this.handleAddCity }
+      passProps: { onPress: this.handleAddCity },
+      navigatorButtons: {
+        leftButtons: [
+          {
+            title: "Back",
+            id: BACK_BUTTON
+          }
+        ]
+      }
     });
   };
 

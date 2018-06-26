@@ -5,7 +5,8 @@ import { SKILL_SEARCH_MODAL_SCREEN } from "../../../constants/screens";
 import { View, TouchableOpacity, Text } from "react-native";
 import {
   SUBMIT_BUTTON,
-  CANCEL_BUTTON
+  CANCEL_BUTTON,
+  BACK_BUTTON
 } from "../../../constants/buttons";
 
 import {
@@ -164,7 +165,15 @@ class UserSearchFormScreen extends React.Component<Props, State> {
       screen: SKILL_SEARCH_MODAL_SCREEN,
       title: "Skill Search",
       animationType: "slide-up",
-      passProps: { onPress: this.handleAddSkill }
+      passProps: { onPress: this.handleAddSkill },
+      navigatorButtons: {
+        leftButtons: [
+          {
+            title: "Back",
+            id: BACK_BUTTON
+          }
+        ]
+      }
     });
   };
 
