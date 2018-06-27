@@ -58,6 +58,7 @@ class AuthScreen extends React.Component<Props, State> {
         {({ data }) => {
           if (data && data.logined) {
             this.openMainTab();
+            return <View />
           }
 
           return (
@@ -82,6 +83,7 @@ class AuthScreen extends React.Component<Props, State> {
                   if (signUpData && signUpData.signUp) {
                     console.log("loginFirebase")
                     this.loginFirebase(signUpData.signUp.token, loginMutation);
+                    return <View />
                   }
 
                   return (
