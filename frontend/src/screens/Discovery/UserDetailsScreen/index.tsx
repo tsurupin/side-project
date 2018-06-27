@@ -2,6 +2,7 @@ import * as React from "react";
 import { View, TouchableOpacity, Text, Button } from "react-native";
 import { ErrorMessage } from "../../../components/Commons";
 import { USER_DISCOVERY_SCREEN, CHAT_SCREEN } from "../../../constants/screens";
+import { BACK_BUTTON } from "../../../constants/buttons";
 import { UserDetailsQuery } from "../../../queries/users";
 import {
   LikeUserMutation,
@@ -23,9 +24,18 @@ class UserDetailsScreen extends React.Component<Props, State> {
     liked: false
   };
 
-  constructor(props) {
+  constructor(props: Props) {
     super(props);
+    this.props.navigator.setOnNavigatorEvent(this.handleNavigatorEvent);
   }
+
+  private handleNavigatorEvent = e => {
+    if (e.type !== "NavBarButtonPress") return;
+    switch (e.id) {
+      case BACK_BUTTON:
+        this.props.navigator.pop();
+    }
+  };
 
   private handlePress = mutation => {
     const { id, liked } = this.props;
