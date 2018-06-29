@@ -10,7 +10,7 @@ import {
 import { Input } from "react-native-elements";
 import {
   SUBMIT_BUTTON,
-  CANCEL_BUTTON
+  BACK_BUTTON
 } from "../../../../constants/buttons";
 import {
   SKILL_SEARCH_MODAL_SCREEN,
@@ -61,6 +61,7 @@ class EditForm extends React.Component<Props, State> {
   private buildProjectEditParams = (): ProjectEditParams => {
     const { project } = this.props;
     let params = {};
+
     const stringKeys = ["title", "leadSentence", "motivation", "requirement"];
     const objectKeys = ["genre", "city"];
     const arrayObjectKeys = ["skills"];
@@ -70,6 +71,7 @@ class EditForm extends React.Component<Props, State> {
         params[key] = currentValue;
       }
     });
+
     objectKeys.forEach(key => {
       if (this.objectValueChanged(key)) {
         params[key] = this.state[key] ? this.state[key].id : undefined;
@@ -111,12 +113,16 @@ class EditForm extends React.Component<Props, State> {
   private handleNavigatorEvent = e => {
     if (e.type !== "NavBarButtonPress") return;
 
-    console.log(e);
+    console.log(e, e.id);
     switch (e.id) {
       case SUBMIT_BUTTON:
         this.props.onSubmit(this.buildProjectEditParams());
-      case CANCEL_BUTTON:
+      case BACK_BUTTON:
+        console.log("aaaaaaaaaaaaaabb");
         this.props.navigator.dismissModal();
+      default:
+        console.log("bbbb")
+          
     }
   };
 

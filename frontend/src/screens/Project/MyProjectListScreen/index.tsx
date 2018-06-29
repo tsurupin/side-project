@@ -4,7 +4,7 @@ import { MyProjectListQuery } from "../../../queries/projects";
 import { ProjectCore } from "../../../interfaces";
 import { ProjectRow } from "../../../components/Project/MyProjectListScreen";
 import { LIKED_PROJECT_DETAILS_SCREEN } from "../../../constants/screens";
-import { PROJECT_NEW_BUTTON, CANCEL_BUTTON, SUBMIT_PROJECT_NEW_BUTTON } from "../../../constants/buttons";
+import { PROJECT_NEW_BUTTON, BACK_BUTTON, SUBMIT_PROJECT_NEW_BUTTON } from "../../../constants/buttons";
 import { PROJECT_NEW_SCREEN } from "../../../constants/screens";
 
 type Props = {
@@ -30,7 +30,7 @@ class MyProjectListScreen extends React.Component<Props> {
               {
                 //icon: sources[1],
                 title: "Back",
-                id: CANCEL_BUTTON
+                id: BACK_BUTTON
               }
             ],
             rightButtons: [

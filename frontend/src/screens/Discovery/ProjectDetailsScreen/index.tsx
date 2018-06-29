@@ -8,6 +8,7 @@ import styles from "./styles";
 import { LikeProjectMutation } from "../../../mutations/projectLikes";
 import { LIKED_PROJECT_DETAILS_SCREEN } from "../../../constants/screens";
 import { LikeButton } from "../../../components/Discovery/ProjectDetailsScreen";
+import { ProjectDetails } from "../../../interfaces";
 
 type Props = {
   id: string;
@@ -56,10 +57,11 @@ class ProjectDetailsScreen extends React.Component<Props, State> {
               </View>
             );
 
-          const { projectDetails } = data;
+          const project: ProjectDetails = data;
+          
           return (
             <View>
-              <Text>{projectDetails.id}</Text>
+              <Text>{project.id}</Text>
               <LikeProjectMutation>
                 {({ likeProjectMutation, data, loading, error }) => {
                   if (loading) {
@@ -74,6 +76,7 @@ class ProjectDetailsScreen extends React.Component<Props, State> {
                       screen: LIKED_PROJECT_DETAILS_SCREEN,
                       passProps: {id}
                     });
+                    return <View />
                   }
 
                   return (
