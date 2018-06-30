@@ -1,8 +1,10 @@
 import * as React from "react";
 
-import { SKILL_SEARCH_MODAL_SCREEN } from "../../../constants/screens";
+import { SKILL_SEARCH_MODAL_SCREEN, PICKER_SCREEN } from "../../../constants/screens";
 
-import { View, Text } from "react-native";
+import { View, Text, Switch } from "react-native";
+import { ListItem } from "react-native-elements";
+import { SelectBox } from "../../../components/Commons"; 
 import { APPLY_BUTTON, BACK_BUTTON } from "../../../constants/buttons";
 
 import {
@@ -16,7 +18,8 @@ import {
   Body,
   Left,
   Picker,
-  Form
+  Form,
+  ListItem
 } from "native-base";
 
 import {
@@ -214,122 +217,181 @@ class UserSearchFormScreen extends React.Component<Props, State> {
     );
   };
 
+  private handlePressShowModal = (items: any[], selectedValue: string | number | undefined) => {
+    this.props.navigator.showModal({
+      screen: PICKER_SCREEN,
+      passProps: {
+        items, 
+        selectedValue,
+        onPress: this.handleValueChange
+      },
+      navigatorButtons: {
+        leftButtons: [
+          {
+            icon: getIcon(CLOSE_ICON),
+            title: "BACK",
+            id: BACK_BUTTON
+          }
+        ]
+      }
+    })
+  }
+
   render() {
     const {
       genreId,
       occupationTypeId,
       distance,
       isActive,
-      skills
+      skills,
     } = this.state;
 
-    return (
-      <Container>
-        <Content>
-          <Form>
-          <Picker
-              mode="dropdown"
-              iosIcon={<Icon name="ios-arrow-down-outline" />}
-              placeholder="Select person's type"
-              placeholderStyle={{ color: "#bfc6ea" }}
-              placeholderIconColor="#007aff"
-              style={styles.pickerContainer}
-              selectedValue={genreId}
-              onValueChange={(value) => {
-                this.handleValueChange("occupationTypeId", value);
-              }}
-            >
-              {this.props.occupationTypes.map((occupationType) => {
-                return (
-                  <Picker.Item
-                    key={occupationType.id}
-                    label={occupationType.name}
-                    value={occupationType.id}
-                  />
-                );
-              })}
-            </Picker>
-            <Picker
-              mode="dropdown"
-              iosIcon={<Icon name="ios-arrow-down-outline" />}
-              placeholder="Select distance"
-              placeholderStyle={{ color: 'red', flex: 1, flexDirection: "row", justifyContent: 'space-between', width: '100%' }}
-              placeholderIconColor="#007aff"
-              style={styles.pickerContainer}
-              selectedValue={distance}
-              onValueChange={(value) =>
-                this.handleValueChange("distance", value)
-              }
-            >
-              {this.props.distances.map((distance, i) => {
-                return (
-                  <Picker.Item
-                    key={i}
-                    label={distance.name}
-                    value={distance.value}
-                  />
-                );
-              })}
-            </Picker>
-            <Picker
-              mode="dropdown"
-              iosIcon={<Icon name="ios-arrow-down-outline" />}
-              placeholder="Select person's type"
-              placeholderStyle={{ color: "#bfc6ea" }}
-              placeholderIconColor="#007aff"
-              style={styles.pickerContainer}
-              selectedValue={genreId}
-              onValueChange={(value) => {
-                this.handleValueChange("genreId", value);
-              }}
-            >
-              {this.props.occupationTypes.map((occupationType) => {
-                return (
-                  <Picker.Item
-                    key={occupationType.id}
-                    label={occupationType.name}
-                    value={occupationType.id}
-                  />
-                );
-              })}
-            </Picker>
+    const {
+      genres,
+      occupationTypes,
+      distances
+    } = this.props;
 
-            <Picker
-              mode="dropdown"
-              iosIcon={<Icon name="ios-arrow-down-outline" />}
-              placeholder="Select person's activeness"
-              placeholderStyle={{ color: "#bfc6ea" }}
-              placeholderIconColor="#007aff"
-              style={styles.pickerContainer}
-              selectedValue={isActive}
-              onValueChange={(value) =>
-                this.handleValueChange("isActive", value)
-              }
-            >
-              {this.props.activeness.map((active, i) => {
-                return (
-                  <Picker.Item
-                    key={i}
-                    label={active.name}
-                    value={active.value}
-                  />
-                );
-              })}
-            </Picker>
-            <View style={styles.buttonFormBox}>
-              <Text style={styles.textLabel}>Skill</Text>
-              <Button
-                iconLeft
-                primary
-                onPress={this.handleSkillSearchShowModal}
-              >
-                <Icon name="beer" />
-              </Button>
-              {this.renderSkillList()}
-            </View>
-          </Form>
-        </Content>
-      </Container>
+    return (
+      <View>
+        <SelectBox
+          key="occupationTypeId"
+          placeholder="OccupationType"
+          value={occupationTypeId}
+          items={occupationTypes}
+          onPress={this.handlePressShowModal}
+        />
+        <SelectBox
+          key="distance"
+          placeholder="Distance"
+          value={distance}
+          items={distances}
+          onPress={this.handlePressShowModal}
+        />
+         <SelectBox
+          key="genreId"
+          placeholder="Genre"
+          value={genreId}
+          items={genres}
+          onPress={this.handlePressShowModal}
+        />
+        <ListItem
+        title="Active within 72 hours"
+        chevron
+        bottomDivider
+        switch={
+          <Switch value={isActive} onValuChange={this.handleValueChange} />
+        }
+        />
+         
+      </View>
+
+      // <Container>
+      //   <Content>
+      //     <Form>
+      //     <Picker
+      //         mode="dropdown"
+      //         iosIcon={<Icon name="ios-arrow-down-outline" />}
+      //         placeholder="Select person's type"
+      //         placeholderStyle={{ color: "#bfc6ea" }}
+      //         placeholderIconColor="#007aff"
+      //         style={styles.pickerContainer}
+      //         selectedValue={genreId}
+      //         onValueChange={(value) => {
+      //           this.handleValueChange("occupationTypeId", value);
+      //         }}
+      //       >
+      //         {this.props.occupationTypes.map((occupationType) => {
+      //           return (
+      //             <Picker.Item
+      //               key={occupationType.id}
+      //               label={occupationType.name}
+      //               value={occupationType.id}
+      //             />
+      //           );
+      //         })}
+      //       </Picker>
+      //       <Picker
+      //         mode="dropdown"
+      //         iosIcon={<Icon name="ios-arrow-down-outline" />}
+      //         placeholder="Select distance"
+      //         placeholderStyle={{ color: 'red', flex: 1, flexDirection: "row", justifyContent: 'space-between', width: '100%' }}
+      //         placeholderIconColor="#007aff"
+      //         style={styles.pickerContainer}
+      //         selectedValue={distance}
+      //         onValueChange={(value) =>
+      //           this.handleValueChange("distance", value)
+      //         }
+      //       >
+      //         {this.props.distances.map((distance, i) => {
+      //           return (
+      //             <Picker.Item
+      //               key={i}
+      //               label={distance.name}
+      //               value={distance.value}
+      //             />
+      //           );
+      //         })}
+      //       </Picker>
+      //       <Picker
+      //         mode="dropdown"
+      //         iosIcon={<Icon name="ios-arrow-down-outline" />}
+      //         placeholder="Select person's type"
+      //         placeholderStyle={{ color: "#bfc6ea" }}
+      //         placeholderIconColor="#007aff"
+      //         style={styles.pickerContainer}
+      //         selectedValue={genreId}
+      //         onValueChange={(value) => {
+      //           this.handleValueChange("genreId", value);
+      //         }}
+      //       >
+      //         {this.props.occupationTypes.map((occupationType) => {
+      //           return (
+      //             <Picker.Item
+      //               key={occupationType.id}
+      //               label={occupationType.name}
+      //               value={occupationType.id}
+      //             />
+      //           );
+      //         })}
+      //       </Picker>
+
+      //       <Picker
+      //         mode="dropdown"
+      //         iosIcon={<Icon name="ios-arrow-down-outline" />}
+      //         placeholder="Select person's activeness"
+      //         placeholderStyle={{ color: "#bfc6ea" }}
+      //         placeholderIconColor="#007aff"
+      //         style={styles.pickerContainer}
+      //         selectedValue={isActive}
+      //         onValueChange={(value) =>
+      //           this.handleValueChange("isActive", value)
+      //         }
+      //       >
+      //         {this.props.activeness.map((active, i) => {
+      //           return (
+      //             <Picker.Item
+      //               key={i}
+      //               label={active.name}
+      //               value={active.value}
+      //             />
+      //           );
+      //         })}
+      //       </Picker>
+      //       <View style={styles.buttonFormBox}>
+      //         <Text style={styles.textLabel}>Skill</Text>
+      //         <Button
+      //           iconLeft
+      //           primary
+      //           onPress={this.handleSkillSearchShowModal}
+      //         >
+      //           <Icon name="beer" />
+      //         </Button>
+      //         {this.renderSkillList()}
+      //       </View>
+      //     </Form>
+      //   </Content>
+      // </Container>
     );
   }
 }
