@@ -18,7 +18,8 @@ import {
   PROJECT_EDIT_SCREEN,
   MY_PROJECT_LIST_SCREEN,
   PROJECT_NEW_SCREEN,
-  SETTINGS_LIST_SCREEN
+  SETTINGS_LIST_SCREEN,
+  PICKER_SCREEN
 } from "./constants/screens";
 import AuthScreen from "./screens/Auth";
 import TopScreen from "./screens/Top";
@@ -32,7 +33,8 @@ import {
   SkillSearchModalScreen,
   CitySearchModalScreen,
   UserDetailsScreen,
-  ProjectDetailsScreen
+  ProjectDetailsScreen,
+  PickerScreen
 } from "./screens/Discovery";
 
 import { UserEditScreen, MyProfileScreen, SettingsListScreen } from "./screens/Me";
@@ -43,6 +45,7 @@ import {
   ProjectEditScreen,
   ProjectNewScreen
 } from "./screens/Project";
+import { CLOSE_ICON, FILTER_ICON } from "./constants/icons";
 import { loadIcons } from "./utilities/iconLoader";
 
 import MainTab from "./screens/MainTab";
@@ -57,6 +60,10 @@ const registerComponents = () => {
   );
   Navigation.registerComponent(USER_SEARCH_MODAL_SCREEN, () =>
     ApolloWrapper(UserSearchModalScreen)
+  );
+
+  Navigation.registerComponent(PICKER_SCREEN, () =>
+    ApolloWrapper(PickerScreen)
   );
 
   Navigation.registerComponent(PROJECT_SEARCH_MODAL_SCREEN, () =>
@@ -106,7 +113,7 @@ registerComponents();
 //MainTab();
 
 const preloadTasks = [
-  loadIcons(['filter', 'close'])
+  loadIcons([FILTER_ICON, CLOSE_ICON])
 ];
 Promise.all(preloadTasks).then(result => {
   Navigation.startSingleScreenApp({

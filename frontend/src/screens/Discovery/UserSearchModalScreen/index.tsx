@@ -2,7 +2,7 @@ import * as React from "react";
 
 import { SKILL_SEARCH_MODAL_SCREEN } from "../../../constants/screens";
 
-import { View, TouchableOpacity, Text } from "react-native";
+import { View, Text } from "react-native";
 import { APPLY_BUTTON, BACK_BUTTON } from "../../../constants/buttons";
 
 import {
@@ -25,6 +25,9 @@ import {
   OccupationType,
   UserSearchParams
 } from "../../../interfaces";
+import { getIcon } from "../../../utilities/iconLoader";
+import { CLOSE_ICON } from "../../../constants/icons";
+
 import styles from "./styles";
 
 type Props = {
@@ -165,7 +168,8 @@ class UserSearchFormScreen extends React.Component<Props, State> {
       navigatorButtons: {
         leftButtons: [
           {
-            title: "Back",
+            icon: getIcon(CLOSE_ICON),
+            title: "BACK",
             id: BACK_BUTTON
           }
         ]
@@ -223,7 +227,7 @@ class UserSearchFormScreen extends React.Component<Props, State> {
       <Container>
         <Content>
           <Form>
-            <Picker
+          <Picker
               mode="dropdown"
               iosIcon={<Icon name="ios-arrow-down-outline" />}
               placeholder="Select person's type"
@@ -232,7 +236,7 @@ class UserSearchFormScreen extends React.Component<Props, State> {
               style={styles.pickerContainer}
               selectedValue={genreId}
               onValueChange={(value) => {
-                this.handleValueChange("genreId", value);
+                this.handleValueChange("occupationTypeId", value);
               }}
             >
               {this.props.occupationTypes.map((occupationType) => {
@@ -249,7 +253,7 @@ class UserSearchFormScreen extends React.Component<Props, State> {
               mode="dropdown"
               iosIcon={<Icon name="ios-arrow-down-outline" />}
               placeholder="Select distance"
-              placeholderStyle={{ color: "#bfc6ea" }}
+              placeholderStyle={{ color: 'red', flex: 1, flexDirection: "row", justifyContent: 'space-between', width: '100%' }}
               placeholderIconColor="#007aff"
               style={styles.pickerContainer}
               selectedValue={distance}
@@ -270,21 +274,21 @@ class UserSearchFormScreen extends React.Component<Props, State> {
             <Picker
               mode="dropdown"
               iosIcon={<Icon name="ios-arrow-down-outline" />}
-              placeholder="Select person's interest"
+              placeholder="Select person's type"
               placeholderStyle={{ color: "#bfc6ea" }}
               placeholderIconColor="#007aff"
               style={styles.pickerContainer}
               selectedValue={genreId}
-              onValueChange={(value) =>
-                this.handleValueChange("interestId", value)
-              }
+              onValueChange={(value) => {
+                this.handleValueChange("genreId", value);
+              }}
             >
-              {this.props.genres.map((genre) => {
+              {this.props.occupationTypes.map((occupationType) => {
                 return (
                   <Picker.Item
-                    key={genre.id}
-                    label={genre.name}
-                    value={genre.id}
+                    key={occupationType.id}
+                    label={occupationType.name}
+                    value={occupationType.id}
                   />
                 );
               })}

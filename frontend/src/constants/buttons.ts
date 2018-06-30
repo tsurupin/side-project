@@ -21,6 +21,7 @@ const APPLY_BUTTON = "ApplyButton";
 const SEARCH_BUTTON = "SearchButton";
 const FILTER_BUTTON = "FilterButton";
 const CANCEL_BUTTON = "CancelButton";
+const CLOSE_BUTTON = "CloseButton";
 
 export {
   USER_SEARCH_BUTTON,
@@ -42,6 +43,7 @@ export {
   APPLY_BUTTON,
   SUBMIT_BUTTON,
   SEARCH_BUTTON,
+  CLOSE_BUTTON,
   FILTER_BUTTON,
   CANCEL_BUTTON
 };

@@ -11,6 +11,8 @@ import { CANCEL_BUTTON, BACK_BUTTON } from "../../../constants/buttons";
 import { SkillsQuery } from "../../../queries/skills";
 
 import { Skill } from "../../../interfaces";
+import { getIcon } from "../../../utilities/iconLoader";
+import { CLOSE_ICON } from "../../../constants/icons";
 
 import styles from "./styles";
 
@@ -48,13 +50,11 @@ class SkillSearchModalScreen extends React.Component<Props, State> {
       return;
     }
     switch (e.id) {
-      case CANCEL_BUTTON:
       case BACK_BUTTON:
         this.props.navigator.dismissModal();
         break;
     }
   };
-
 
   private onPressSkill = (skill: Skill) => {
     this.props.onPress(skill);
@@ -65,15 +65,13 @@ class SkillSearchModalScreen extends React.Component<Props, State> {
     this.setState({ name });
   };
 
-
-
   private renderSkillList = () => {
     const { name } = this.state;
     return (
       <SkillsQuery variables={{ name }}>
         {({ data, error, loading }) => {
           if (loading) {
-            //return this.setState({loading});
+  
             return (
               <View>
                 <Text>Loading</Text>
@@ -86,7 +84,6 @@ class SkillSearchModalScreen extends React.Component<Props, State> {
                 <Text>{error}</Text>
               </View>
             );
-            //return this.setState({errorMessage: error});
           }
           return (
             <SkillList skills={data.skills} onPressSkill={this.onPressSkill} />

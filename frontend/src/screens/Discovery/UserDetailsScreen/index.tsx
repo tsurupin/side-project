@@ -74,10 +74,12 @@ class UserDetailsScreen extends React.Component<Props, State> {
           screen: CHAT_SCREEN,
           passProps: { id: data.acceptUserLike.id }
         });
+        return <View/>
       } else {
         this.props.navigator.push({
           screen: USER_DISCOVERY_SCREEN
         });
+        return <View/>
       }
     }
     return (
