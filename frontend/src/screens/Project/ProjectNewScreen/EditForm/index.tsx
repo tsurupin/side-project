@@ -2,7 +2,7 @@ import * as React from "react";
 import { View, Button, Text } from "react-native";
 import { ProjectEditParams, Skill, City, Genre } from "../../../../interfaces";
 import { Input } from "react-native-elements";
-import { CANCEL_BUTTON, SUBMIT_BUTTON } from "../../../../constants/buttons";
+import { BACK_BUTTON, SUBMIT_BUTTON } from "../../../../constants/buttons";
 import {
   SKILL_SEARCH_MODAL_SCREEN,
   CITY_SEARCH_MODAL_SCREEN
@@ -72,16 +72,13 @@ class EditForm extends React.Component<Props, State> {
 
   private handleNavigatorEvent = e => {
     if (e.type !== "NavBarButtonPress") return;
-
-    console.log(e);
     switch (e.id) {
       case SUBMIT_BUTTON:
         this.props.onSubmit(this.buildProjectEditParams());
-      case CANCEL_BUTTON:
-      console.log("popping")
-        this.props.navigator.pop({
-          animated: true
-        });
+        break;
+      case BACK_BUTTON:
+        this.props.navigator.dismissModal();
+        break;
     }
   };
 
