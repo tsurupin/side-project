@@ -15,7 +15,7 @@ import {
 } from "../../../constants/screens";
 import {
   BACK_BUTTON,
-  FILTER_BUTTON,
+  APPLY_BUTTON,
   SEARCH_BUTTON
 } from "../../../constants/buttons";
 import ItemList from "../../../components/Discovery/DiscoveryScreen/ItemList";
@@ -27,10 +27,7 @@ import {
   UserSearchParams,
   ProjectSearchParams
 } from "../../../interfaces";
-import {
-  ErrorAlert,
-  LoadingIndicator
-} from "../../../components/Commons";
+import { ErrorAlert, LoadingIndicator } from "../../../components/Commons";
 import SegmentedControlTab from "react-native-segmented-control-tab";
 import styles from "./styles";
 
@@ -78,7 +75,7 @@ class DiscoveryScreen extends React.Component<Props, State> {
     return this.state.selectedIndex === USER_INDEX;
   };
 
-  private handleUpdateSearchParams = searchParams => {
+  private handleUpdateSearchParams = (searchParams) => {
     if (this.isUserOriented()) {
       this.setState({ userSearchParams: searchParams });
     } else {
@@ -86,7 +83,7 @@ class DiscoveryScreen extends React.Component<Props, State> {
     }
   };
 
-  private handleNavigatorEvent = e => {
+  private handleNavigatorEvent = (e) => {
     if (e.type !== "NavBarButtonPress") return;
 
     console.log(e);
@@ -96,6 +93,7 @@ class DiscoveryScreen extends React.Component<Props, State> {
           screen: this.isUserOriented()
             ? USER_SEARCH_MODAL_SCREEN
             : PROJECT_SEARCH_MODAL_SCREEN,
+          title: "Filter",
           passProps: { onSubmit: this.handleUpdateSearchParams },
           navigatorButtons: {
             leftButtons: [
@@ -107,8 +105,8 @@ class DiscoveryScreen extends React.Component<Props, State> {
             ],
             rightButtons: [
               {
-                title: "Filter",
-                id: FILTER_BUTTON
+                title: "Apply",
+                id: APPLY_BUTTON
               }
             ]
           }
@@ -147,11 +145,9 @@ class DiscoveryScreen extends React.Component<Props, State> {
   private cleanupParams = (searchParams): any => {
     let conditions = {};
     for (let key in searchParams) {
-      if (
-        searchParams[key] !== undefined &&
-        searchParams[key].length !== 0
-      ) {
-        conditions[key] = searchParams[key];
+      let value = searchParams[key];
+      if (value !== undefined && (Array.isArray(value) && value.length !== 0)) {
+        conditions[key] = value;
       }
     }
     return conditions;
@@ -172,9 +168,7 @@ class DiscoveryScreen extends React.Component<Props, State> {
       <UserListQuery variables={conditions}>
         {({ loading, error, data }) => {
           if (loading) {
-            return (
-              <LoadingIndicator />
-            );
+            return <LoadingIndicator />;
           }
           if (error) {
             return (
@@ -185,7 +179,7 @@ class DiscoveryScreen extends React.Component<Props, State> {
             //return this.setState({errorMessage: error})
           }
           if (data && data.users) {
-            console.log("users", data.users)
+            console.log("users", data.users);
             return (
               <ItemList
                 type="User"
@@ -211,16 +205,14 @@ class DiscoveryScreen extends React.Component<Props, State> {
       <ProjectListQuery variables={conditions}>
         {({ loading, error, data }) => {
           if (loading) {
-            return (
-              <LoadingIndicator />
-            );
+            return <LoadingIndicator />;
             //return this.setState({loading})
           }
           if (error) {
             console.log("error happend");
-            console.log(error)
+            console.log(error);
             //return <ErrorAlert message="Loading Error" />
-            return this.setState({errorMessage: error})
+            return this.setState({ errorMessage: error });
           }
           if (data && data.projects) {
             return (

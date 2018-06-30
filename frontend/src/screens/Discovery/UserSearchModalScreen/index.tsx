@@ -3,7 +3,7 @@ import * as React from "react";
 import { SKILL_SEARCH_MODAL_SCREEN } from "../../../constants/screens";
 
 import { View, TouchableOpacity, Text } from "react-native";
-import { FILTER_BUTTON, BACK_BUTTON } from "../../../constants/buttons";
+import { APPLY_BUTTON, BACK_BUTTON } from "../../../constants/buttons";
 
 import {
   Container,
@@ -140,7 +140,7 @@ class UserSearchFormScreen extends React.Component<Props, State> {
       return;
     }
     switch (e.id) {
-      case FILTER_BUTTON:
+      case APPLY_BUTTON:
         this.props.onSubmit({
           genreId: genreId,
           occupationTypeId: occupationTypeId,
