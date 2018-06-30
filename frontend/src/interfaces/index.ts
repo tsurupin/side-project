@@ -17,7 +17,9 @@ export interface UserCore {
   displayName: string;
   mainPhotoUrl: string;
   introduction?: string;
-  genre?: Genre;
+  companyName?: string;
+  occupation?: string;
+  occupationType?: OccupationType;
   city?: City;
 }
 

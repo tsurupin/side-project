@@ -14,6 +14,17 @@ type Props = {
 const renderCityName = (city: City | undefined) => {
   return city ? <Text style={styles.subText}>{city.fullName}</Text> : null;
 };
+
+const renderProfession = (occupation: string | undefined, companyName: string | undefined) => {
+  let profession = '';
+  if (occupation && companyName) {
+    profession = `${occupation}, ${companyName}`;
+  } else {
+    profession = `${occupation || companyName}`;
+  }
+  return <Text style={styles.subText}>{profession}</Text>
+};
+
 const renderBadge = (genre: Genre | undefined) => {
   if (!genre) return null;
   return (
@@ -27,9 +38,8 @@ const renderBadge = (genre: Genre | undefined) => {
 
 const UserCard = (props: Props) => {
   const { user, onPressCard } = props;
-  console.log(user)
 
-  const { id, mainPhotoUrl, introduction, genre, city, displayName } = user;
+  const { id, mainPhotoUrl, introduction, occupationType, occupation, companyName, city, displayName } = user;
 
   return (
     <TouchableOpacity onPress={() => onPressCard(id)}>
@@ -42,9 +52,9 @@ const UserCard = (props: Props) => {
         <View style={styles.mainTextBox}>
           <View style={styles.titleBox}>
             <Text style={styles.titleText}>{displayName}</Text> 
-            {renderBadge(genre)}
           </View>
           {renderCityName(city)}
+          {renderProfession(occupation, companyName)}
         </View>
         
         <Divider style={styles.divider} />

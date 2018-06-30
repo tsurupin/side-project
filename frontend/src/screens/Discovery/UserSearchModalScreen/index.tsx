@@ -3,11 +3,7 @@ import * as React from "react";
 import { SKILL_SEARCH_MODAL_SCREEN } from "../../../constants/screens";
 
 import { View, TouchableOpacity, Text } from "react-native";
-import {
-  SUBMIT_BUTTON,
-  CANCEL_BUTTON,
-  BACK_BUTTON
-} from "../../../constants/buttons";
+import { FILTER_BUTTON, BACK_BUTTON } from "../../../constants/buttons";
 
 import {
   Container,
@@ -132,7 +128,7 @@ class UserSearchFormScreen extends React.Component<Props, State> {
     this.props.navigator.setOnNavigatorEvent(this.handleNavigationEvent);
   }
 
-  protected handleNavigationEvent = e => {
+  protected handleNavigationEvent = (e) => {
     const {
       genreId,
       occupationTypeId,
@@ -144,17 +140,17 @@ class UserSearchFormScreen extends React.Component<Props, State> {
       return;
     }
     switch (e.id) {
-      case SUBMIT_BUTTON:
+      case FILTER_BUTTON:
         this.props.onSubmit({
           genreId: genreId,
           occupationTypeId: occupationTypeId,
           distance: distance,
           isActive: isActive,
-          skillIds: skills.map(skill => skill.id)
+          skillIds: skills.map((skill) => skill.id)
         });
         this.props.navigator.dismissModal();
         break;
-      case CANCEL_BUTTON:
+      case BACK_BUTTON:
         this.props.navigator.dismissModal();
         break;
     }
@@ -192,14 +188,14 @@ class UserSearchFormScreen extends React.Component<Props, State> {
   };
 
   protected handleDeleteSkill = (id: string) => {
-    const skills = this.state.skills.filter(skill => skill.id !== id);
+    const skills = this.state.skills.filter((skill) => skill.id !== id);
     this.setState({ skills });
   };
 
   private renderSkillList = () => {
     return (
       <Content>
-        {this.state.skills.map(skill => {
+        {this.state.skills.map((skill) => {
           return (
             <Button
               key={skill.id}
@@ -235,11 +231,11 @@ class UserSearchFormScreen extends React.Component<Props, State> {
               placeholderIconColor="#007aff"
               style={styles.pickerContainer}
               selectedValue={genreId}
-              onValueChange={value => {
+              onValueChange={(value) => {
                 this.handleValueChange("genreId", value);
               }}
             >
-              {this.props.occupationTypes.map(occupationType => {
+              {this.props.occupationTypes.map((occupationType) => {
                 return (
                   <Picker.Item
                     key={occupationType.id}
@@ -257,7 +253,9 @@ class UserSearchFormScreen extends React.Component<Props, State> {
               placeholderIconColor="#007aff"
               style={styles.pickerContainer}
               selectedValue={distance}
-              onValueChange={value => this.handleValueChange("distance", value)}
+              onValueChange={(value) =>
+                this.handleValueChange("distance", value)
+              }
             >
               {this.props.distances.map((distance, i) => {
                 return (
@@ -277,11 +275,11 @@ class UserSearchFormScreen extends React.Component<Props, State> {
               placeholderIconColor="#007aff"
               style={styles.pickerContainer}
               selectedValue={genreId}
-              onValueChange={value =>
+              onValueChange={(value) =>
                 this.handleValueChange("interestId", value)
               }
             >
-              {this.props.genres.map(genre => {
+              {this.props.genres.map((genre) => {
                 return (
                   <Picker.Item
                     key={genre.id}
@@ -300,7 +298,9 @@ class UserSearchFormScreen extends React.Component<Props, State> {
               placeholderIconColor="#007aff"
               style={styles.pickerContainer}
               selectedValue={isActive}
-              onValueChange={value => this.handleValueChange("isActive", value)}
+              onValueChange={(value) =>
+                this.handleValueChange("isActive", value)
+              }
             >
               {this.props.activeness.map((active, i) => {
                 return (

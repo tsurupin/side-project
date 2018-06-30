@@ -14,9 +14,8 @@ import {
   USER_DETAILS_SCREEN
 } from "../../../constants/screens";
 import {
-  CANCEL_BUTTON,
   BACK_BUTTON,
-  SUBMIT_BUTTON,
+  FILTER_BUTTON,
   SEARCH_BUTTON
 } from "../../../constants/buttons";
 import ItemList from "../../../components/Discovery/DiscoveryScreen/ItemList";
@@ -102,14 +101,14 @@ class DiscoveryScreen extends React.Component<Props, State> {
             leftButtons: [
               {
                 //icon: sources[1],
-                title: "Cancel",
-                id: CANCEL_BUTTON
+                title: "BACK",
+                id: BACK_BUTTON
               }
             ],
             rightButtons: [
               {
-                title: "Submit",
-                id: SUBMIT_BUTTON
+                title: "Filter",
+                id: FILTER_BUTTON
               }
             ]
           }
