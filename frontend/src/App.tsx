@@ -43,6 +43,7 @@ import {
   ProjectEditScreen,
   ProjectNewScreen
 } from "./screens/Project";
+import { loadIcons } from "./utilities/iconLoader";
 
 import MainTab from "./screens/MainTab";
 
@@ -104,9 +105,14 @@ const registerComponents = () => {
 registerComponents();
 //MainTab();
 
-Navigation.startSingleScreenApp({
-  screen: {
-    screen: AUTH_SCREEN,
-    title: "Login"
-  }
-});
+const preloadTasks = [
+  loadIcons(['filter', 'close'])
+];
+Promise.all(preloadTasks).then(result => {
+  Navigation.startSingleScreenApp({
+    screen: {
+      screen: AUTH_SCREEN,
+      title: "Login"
+    }
+  });
+})

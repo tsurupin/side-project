@@ -28,8 +28,10 @@ import {
   ProjectSearchParams
 } from "../../../interfaces";
 import { ErrorAlert, LoadingIndicator } from "../../../components/Commons";
-import SegmentedControlTab from "react-native-segmented-control-tab";
 import styles from "./styles";
+import { getIcon } from "../../../utilities/iconLoader";
+import SegmentedControlTab from "react-native-segmented-control-tab";
+
 
 type Props = {
   navigator: any;
@@ -98,13 +100,14 @@ class DiscoveryScreen extends React.Component<Props, State> {
           navigatorButtons: {
             leftButtons: [
               {
-                //icon: sources[1],
+                icon: getIcon("close"),
                 title: "BACK",
                 id: BACK_BUTTON
               }
             ],
             rightButtons: [
               {
+                icon: getIcon("filter"),
                 title: "Apply",
                 id: APPLY_BUTTON
               }
@@ -123,7 +126,7 @@ class DiscoveryScreen extends React.Component<Props, State> {
       navigatorButtons: {
         leftButtons: [
           {
-            //icon: sources[1],
+            icon: getIcon("close"),
             title: "Back",
             id: BACK_BUTTON
           }
