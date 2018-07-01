@@ -1,27 +1,17 @@
 import * as React from "react";
 
-import { SKILL_SEARCH_MODAL_SCREEN, PICKER_SCREEN } from "../../../constants/screens";
-
-import { View, Text, Switch } from "react-native";
-import { ListItem } from "react-native-elements";
-import { SelectBox } from "../../../components/Commons"; 
-import { APPLY_BUTTON, BACK_BUTTON } from "../../../constants/buttons";
-
 import {
-  Container,
-  Header,
-  Title,
-  Content,
-  Button,
-  Icon,
-  Right,
-  Body,
-  Left,
-  Picker,
-  Form,
-  ListItem
-} from "native-base";
+  SKILL_SEARCH_MODAL_SCREEN,
+  PICKER_SCREEN
+} from "../../../constants/screens";
 
+import { View, FlatList, Switch } from "react-native";
+import { ListItem } from "react-native-elements";
+import { SelectBox } from "../../../components/Commons";
+import { APPLY_BUTTON, CLOSE_BUTTON } from "../../../constants/buttons";
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+
+// f
 import {
   Skill,
   Genre,
@@ -52,7 +42,7 @@ type State = {
   genreId: string;
   occupationTypeId?: string | undefined;
   distance?: number | undefined;
-  isActive?: boolean | undefined;
+  isActive: boolean;
   skillIds?: string[];
   skills: Skill[];
 };
@@ -62,7 +52,7 @@ class UserSearchFormScreen extends React.Component<Props, State> {
     genreId: 1,
     distance: null,
     occupationTypeId: 1,
-    isActive: null,
+    isActive: false,
     skillIds: null,
     occupationTypes: [
       {
@@ -172,15 +162,15 @@ class UserSearchFormScreen extends React.Component<Props, State> {
         leftButtons: [
           {
             icon: getIcon(CLOSE_ICON),
-            title: "BACK",
-            id: BACK_BUTTON
+            title: "CLOSE",
+            id: CLOSE_BUTTON
           }
         ]
       }
     });
   };
 
-  protected handleValueChange = (
+  protected handleChangeValue = (
     key: string,
     value: string | number | boolean
   ) => {
@@ -199,42 +189,65 @@ class UserSearchFormScreen extends React.Component<Props, State> {
     this.setState({ skills });
   };
 
-  private renderSkillList = () => {
-    return (
-      <Content>
-        {this.state.skills.map((skill) => {
-          return (
-            <Button
-              key={skill.id}
-              rounded
-              onPress={() => this.handleDeleteSkill(skill.id)}
-            >
-              <Text>{skill.name}</Text>
-            </Button>
-          );
-        })}
-      </Content>
-    );
-  };
-
-  private handlePressShowModal = (items: any[], selectedValue: string | number | undefined) => {
+  private handlePressShowModal = (
+    items: any[],
+    selectedValue: string | number | undefined
+  ) => {
     this.props.navigator.showModal({
       screen: PICKER_SCREEN,
       passProps: {
-        items, 
+        items,
         selectedValue,
-        onPress: this.handleValueChange
+        onPress: this.handleChangeValue
       },
       navigatorButtons: {
         leftButtons: [
           {
             icon: getIcon(CLOSE_ICON),
-            title: "BACK",
-            id: BACK_BUTTON
+            title: "CLOSE",
+            id: CLOSE_BUTTON
           }
         ]
       }
-    })
+    });
+  };
+
+  private renderSkillList = () => {
+    return (
+      <FlatList
+        data={this.state.skills}
+        renderItem={this.renderSkill}
+      />
+    );
+  };
+
+  private renderSkill = (skill) => {
+    return (
+      <ListItem
+        key={skill.id}
+        title={skill.name}
+        rightIcon={this.renderSkillRemoveIcon(skill.id)}
+      />        
+    );
+  }
+
+
+  private renderSkillChangeIcon = () => {
+    return (
+      <MaterialCommunityIcons
+        name="plus"
+        onPress={() => this.handleSkillSearchShowModal()}
+      />
+    );
+  };
+
+  private renderSkillRemoveIcon = (skillId: string) => {
+    return(
+      <MaterialCommunityIcons
+        name="minus-circle"
+        onPress={() => this.handleDeleteSkill(skillId)}
+      />
+    )
   }
 
   render() {
@@ -243,14 +256,10 @@ class UserSearchFormScreen extends React.Component<Props, State> {
       occupationTypeId,
       distance,
       isActive,
-      skills,
+      skills
     } = this.state;
 
-    const {
-      genres,
-      occupationTypes,
-      distances
-    } = this.props;
+    const { genres, occupationTypes, distances } = this.props;
 
     return (
       <View>
@@ -268,7 +277,7 @@ class UserSearchFormScreen extends React.Component<Props, State> {
           items={distances}
           onPress={this.handlePressShowModal}
         />
-         <SelectBox
+        <SelectBox
           key="genreId"
           placeholder="Genre"
           value={genreId}
@@ -276,14 +285,21 @@ class UserSearchFormScreen extends React.Component<Props, State> {
           onPress={this.handlePressShowModal}
         />
         <ListItem
-        title="Active within 72 hours"
-        chevron
-        bottomDivider
-        switch={
-          <Switch value={isActive} onValuChange={this.handleValueChange} />
-        }
+          title="Active within 72 hours"
+          chevron
+          bottomDivider
+          switch={{
+            value: isActive, 
+            onValueChange: (value: boolean) => this.handleChangeValue("active", value)
+          }}
         />
-         
+        <ListItem
+          title="Skills"
+          chevron={false}
+          bottomDivider
+          rightIcon={this.renderSkillChangeIcon()}
+        />
+        {this.renderSkillList()}
       </View>
 
       // <Container>

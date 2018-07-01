@@ -5,6 +5,8 @@ import CitySearchModalScreen from "./CitySearchModalScreen";
 import UserDetailsScreen from "./UserDetailsScreen";
 import ProjectDetailsScreen from "./ProjectDetailsScreen";
 import ProjectSearchModalScreen from "./ProjectSearchModalScreen";
+import PickerScreen from "./PickerScreen";
+
 export {
   DiscoveryScreen,
   UserSearchModalScreen,
@@ -12,5 +14,6 @@ export {
   SkillSearchModalScreen,
   CitySearchModalScreen,
   UserDetailsScreen,
+  PickerScreen,
   ProjectDetailsScreen
 };

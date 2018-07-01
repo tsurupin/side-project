@@ -12,18 +12,17 @@ type Props = {
 }
 
 const SelectBox = (props: Props) => {
-  const { key, placeholder, value, items, onPress} = props;
-  const valueName = items.find(item => {
-    if (item.hasOwnProprty('id')) {
-      return item.id === value
-    } else {
-      return item.value == value
-    }
+  const { placeholder, value, items, onPress} = props;
+  const item = items.find(item => {
+    return (item['id'] || item['value']) == value
   })
+  
+  const key: string = item['name'] || placeholder;
 
   return(
     <ListItem
-      title={valueName || placeholder}
+      key={key}
+      title={key}
       chevron
       bottomDivider
       onPress={() => onPress(items, value)}

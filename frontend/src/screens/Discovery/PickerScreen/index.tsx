@@ -38,6 +38,7 @@ class PickerScreen extends React.Component<Props> {
     this.props.navigator.dismissModal();
   }
   private renderItem = (item: any) => {
+    console.log("PickerScren", item)
     const { key, value } = item;
     return (
       <ListItem
