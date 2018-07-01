@@ -96,16 +96,6 @@ class UserSearchFormScreen extends React.Component<Props, State> {
         id: 2
       }
     ],
-    activeness: [
-      {
-        name: "Active within 72 hours",
-        value: true
-      },
-      {
-        name: "Not Active",
-        value: false
-      }
-    ],
     skills: []
   };
 
@@ -146,7 +136,7 @@ class UserSearchFormScreen extends React.Component<Props, State> {
         });
         this.props.navigator.dismissModal();
         break;
-      case BACK_BUTTON:
+      case CLOSE_BUTTON:
         this.props.navigator.dismissModal();
         break;
     }
@@ -176,6 +166,7 @@ class UserSearchFormScreen extends React.Component<Props, State> {
   ) => {
     let changeAttr = {};
     changeAttr[key] = value;
+  
     this.setState(changeAttr);
   };
 
@@ -286,11 +277,11 @@ class UserSearchFormScreen extends React.Component<Props, State> {
         />
         <ListItem
           title="Active within 72 hours"
-          chevron
+          chevron={false}
           bottomDivider
           switch={{
             value: isActive, 
-            onValueChange: (value: boolean) => this.handleChangeValue("active", value)
+            onValueChange: (value: boolean) => this.handleChangeValue("isActive", value)
           }}
         />
         <ListItem
@@ -302,112 +293,6 @@ class UserSearchFormScreen extends React.Component<Props, State> {
         {this.renderSkillList()}
       </View>
 
-      // <Container>
-      //   <Content>
-      //     <Form>
-      //     <Picker
-      //         mode="dropdown"
-      //         iosIcon={<Icon name="ios-arrow-down-outline" />}
-      //         placeholder="Select person's type"
-      //         placeholderStyle={{ color: "#bfc6ea" }}
-      //         placeholderIconColor="#007aff"
-      //         style={styles.pickerContainer}
-      //         selectedValue={genreId}
-      //         onValueChange={(value) => {
-      //           this.handleValueChange("occupationTypeId", value);
-      //         }}
-      //       >
-      //         {this.props.occupationTypes.map((occupationType) => {
-      //           return (
-      //             <Picker.Item
-      //               key={occupationType.id}
-      //               label={occupationType.name}
-      //               value={occupationType.id}
-      //             />
-      //           );
-      //         })}
-      //       </Picker>
-      //       <Picker
-      //         mode="dropdown"
-      //         iosIcon={<Icon name="ios-arrow-down-outline" />}
-      //         placeholder="Select distance"
-      //         placeholderStyle={{ color: 'red', flex: 1, flexDirection: "row", justifyContent: 'space-between', width: '100%' }}
-      //         placeholderIconColor="#007aff"
-      //         style={styles.pickerContainer}
-      //         selectedValue={distance}
-      //         onValueChange={(value) =>
-      //           this.handleValueChange("distance", value)
-      //         }
-      //       >
-      //         {this.props.distances.map((distance, i) => {
-      //           return (
-      //             <Picker.Item
-      //               key={i}
-      //               label={distance.name}
-      //               value={distance.value}
-      //             />
-      //           );
-      //         })}
-      //       </Picker>
-      //       <Picker
-      //         mode="dropdown"
-      //         iosIcon={<Icon name="ios-arrow-down-outline" />}
-      //         placeholder="Select person's type"
-      //         placeholderStyle={{ color: "#bfc6ea" }}
-      //         placeholderIconColor="#007aff"
-      //         style={styles.pickerContainer}
-      //         selectedValue={genreId}
-      //         onValueChange={(value) => {
-      //           this.handleValueChange("genreId", value);
-      //         }}
-      //       >
-      //         {this.props.occupationTypes.map((occupationType) => {
-      //           return (
-      //             <Picker.Item
-      //               key={occupationType.id}
-      //               label={occupationType.name}
-      //               value={occupationType.id}
-      //             />
-      //           );
-      //         })}
-      //       </Picker>
-
-      //       <Picker
-      //         mode="dropdown"
-      //         iosIcon={<Icon name="ios-arrow-down-outline" />}
-      //         placeholder="Select person's activeness"
-      //         placeholderStyle={{ color: "#bfc6ea" }}
-      //         placeholderIconColor="#007aff"
-      //         style={styles.pickerContainer}
-      //         selectedValue={isActive}
-      //         onValueChange={(value) =>
-      //           this.handleValueChange("isActive", value)
-      //         }
-      //       >
-      //         {this.props.activeness.map((active, i) => {
-      //           return (
-      //             <Picker.Item
-      //               key={i}
-      //               label={active.name}
-      //               value={active.value}
-      //             />
-      //           );
-      //         })}
-      //       </Picker>
-      //       <View style={styles.buttonFormBox}>
-      //         <Text style={styles.textLabel}>Skill</Text>
-      //         <Button
-      //           iconLeft
-      //           primary
-      //           onPress={this.handleSkillSearchShowModal}
-      //         >
-      //           <Icon name="beer" />
-      //         </Button>
-      //         {this.renderSkillList()}
-      //       </View>
-      //     </Form>
-      //   </Content>
-      // </Container>
     );
   }
 }
