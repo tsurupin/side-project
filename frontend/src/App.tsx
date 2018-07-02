@@ -45,7 +45,7 @@ import {
   ProjectEditScreen,
   ProjectNewScreen
 } from "./screens/Project";
-import { CLOSE_ICON, FILTER_ICON } from "./constants/icons";
+import { CLOSE_ICON, FILTER_ICON, FILTER_OUTLINE_ICON, MESSAGE_OUTLINE_ICON, PENCIL_ICON, ACCOUNT_ICON, LIBRARY_BOOKS_ICON } from "./constants/icons";
 import { loadIcons } from "./utilities/iconLoader";
 
 import MainTab from "./screens/MainTab";
@@ -110,10 +110,11 @@ const registerComponents = () => {
 };
 
 registerComponents();
-//MainTab();
 
+const navIcons = [CLOSE_ICON, FILTER_ICON,FILTER_OUTLINE_ICON];
+const tabIcons = [LIBRARY_BOOKS_ICON, PENCIL_ICON, MESSAGE_OUTLINE_ICON, ACCOUNT_ICON]
 const preloadTasks = [
-  loadIcons([FILTER_ICON, CLOSE_ICON])
+  loadIcons(navIcons.concat(tabIcons))
 ];
 Promise.all(preloadTasks).then(result => {
   Navigation.startSingleScreenApp({
