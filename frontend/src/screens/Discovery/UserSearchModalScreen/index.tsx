@@ -114,7 +114,7 @@ class UserSearchFormScreen extends React.Component<Props, State> {
     this.props.navigator.setOnNavigatorEvent(this.handleNavigationEvent);
   }
 
-  protected handleNavigationEvent = (e) => {
+  private handleNavigationEvent = (e) => {
     const {
       genreId,
       occupationTypeId,
@@ -142,7 +142,7 @@ class UserSearchFormScreen extends React.Component<Props, State> {
     }
   };
 
-  protected handleSkillSearchShowModal = () => {
+  private handleSkillSearchShowModal = () => {
     this.props.navigator.showModal({
       screen: SKILL_SEARCH_MODAL_SCREEN,
       title: "Skill Search",
@@ -160,34 +160,37 @@ class UserSearchFormScreen extends React.Component<Props, State> {
     });
   };
 
-  protected handleChangeValue = (
+  private handleChangeValue = (
     key: string,
     value: string | number | boolean
   ) => {
     let changeAttr = {};
     changeAttr[key] = value;
+    console.log(changeAttr);
   
     this.setState(changeAttr);
   };
 
-  protected handleAddSkill = (skill: Skill) => {
+  private handleAddSkill = (skill: Skill) => {
     const skills = Array.from(new Set(this.state.skills.concat(skill)));
     this.setState({ skills });
   };
 
-  protected handleDeleteSkill = (id: string) => {
+  private handleDeleteSkill = (id: string) => {
     const skills = this.state.skills.filter((skill) => skill.id !== id);
     this.setState({ skills });
   };
 
   private handlePressShowModal = (
     items: any[],
+    keyName: string,
     selectedValue: string | number | undefined
   ) => {
     this.props.navigator.showModal({
       screen: PICKER_SCREEN,
       passProps: {
         items,
+        keyName,
         selectedValue,
         onPress: this.handleChangeValue
       },
@@ -255,21 +258,21 @@ class UserSearchFormScreen extends React.Component<Props, State> {
     return (
       <View>
         <SelectBox
-          key="occupationTypeId"
+          keyName="occupationTypeId"
           placeholder="OccupationType"
           value={occupationTypeId}
           items={occupationTypes}
           onPress={this.handlePressShowModal}
         />
         <SelectBox
-          key="distance"
+          keyName="distance"
           placeholder="Distance"
           value={distance}
           items={distances}
           onPress={this.handlePressShowModal}
         />
         <SelectBox
-          key="genreId"
+          keyName="genreId"
           placeholder="Genre"
           value={genreId}
           items={genres}

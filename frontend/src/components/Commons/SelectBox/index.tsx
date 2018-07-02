@@ -4,28 +4,29 @@ import styles from "./styles";
 
 
 type Props = {
-  key: string;
+  keyName: string;
   placeholder: string;
   value: string | number | undefined;
   items: any[],
-  onPress: (items: any[], selectedValue: string | number | undefined) => void;
+  onPress: (items: any[], key: string, selectedValue: string | number | undefined) => void;
 }
 
 const SelectBox = (props: Props) => {
-  const { placeholder, value, items, onPress} = props;
+  console.log(props);
+  const { placeholder, value, items, keyName, onPress} = props;
   const item = items.find(item => {
     return (item['id'] || item['value']) == value
   })
-  
-  const key: string = item['name'] || placeholder;
+
+  const title: string = item['name'] || placeholder;
 
   return(
     <ListItem
-      key={key}
-      title={key}
+      key={title}
+      title={title}
       chevron
       bottomDivider
-      onPress={() => onPress(items, value)}
+      onPress={() => onPress(items, keyName, value)}
     />
   )
 }
