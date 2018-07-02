@@ -20,6 +20,7 @@ import {
 
 import {
   BACK_BUTTON,
+  CLOSE_BUTTON,
   APPLY_BUTTON,
   SEARCH_BUTTON
 } from "../../../constants/buttons";
@@ -106,8 +107,8 @@ class DiscoveryScreen extends React.Component<Props, State> {
             leftButtons: [
               {
                 icon: getIcon(CLOSE_ICON),
-                title: "BACK",
-                id: BACK_BUTTON
+                title: "Close",
+                id: CLOSE_BUTTON
               }
             ],
             rightButtons: [

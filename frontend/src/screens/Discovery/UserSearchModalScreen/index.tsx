@@ -5,13 +5,11 @@ import {
   PICKER_SCREEN
 } from "../../../constants/screens";
 
-import { View, FlatList, Switch } from "react-native";
+import { View, FlatList } from "react-native";
 import { ListItem } from "react-native-elements";
 import { SelectBox } from "../../../components/Commons";
 import { APPLY_BUTTON, CLOSE_BUTTON } from "../../../constants/buttons";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
-
-// f
 import {
   Skill,
   Genre,
@@ -166,8 +164,7 @@ class UserSearchFormScreen extends React.Component<Props, State> {
   ) => {
     let changeAttr = {};
     changeAttr[key] = value;
-    console.log(changeAttr);
-  
+
     this.setState(changeAttr);
   };
 
@@ -207,24 +204,20 @@ class UserSearchFormScreen extends React.Component<Props, State> {
   };
 
   private renderSkillList = () => {
-    return (
-      <FlatList
-        data={this.state.skills}
-        renderItem={this.renderSkill}
-      />
-    );
+    return <FlatList data={this.state.skills} renderItem={this.renderSkill} />;
   };
 
-  private renderSkill = (skill) => {
+  private renderSkill = (data) => {
+    const skill: Skill = data.item;
     return (
       <ListItem
         key={skill.id}
         title={skill.name}
+        bottomDivider
         rightIcon={this.renderSkillRemoveIcon(skill.id)}
-      />        
+      />
     );
-  }
-
+  };
 
   private renderSkillChangeIcon = () => {
     return (
@@ -236,22 +229,16 @@ class UserSearchFormScreen extends React.Component<Props, State> {
   };
 
   private renderSkillRemoveIcon = (skillId: string) => {
-    return(
+    return (
       <MaterialCommunityIcons
         name="minus-circle"
         onPress={() => this.handleDeleteSkill(skillId)}
       />
-    )
-  }
+    );
+  };
 
   render() {
-    const {
-      genreId,
-      occupationTypeId,
-      distance,
-      isActive,
-      skills
-    } = this.state;
+    const { genreId, occupationTypeId, distance, isActive } = this.state;
 
     const { genres, occupationTypes, distances } = this.props;
 
@@ -279,15 +266,18 @@ class UserSearchFormScreen extends React.Component<Props, State> {
           onPress={this.handlePressShowModal}
         />
         <ListItem
+          key="active"
           title="Active within 72 hours"
           chevron={false}
           bottomDivider
           switch={{
-            value: isActive, 
-            onValueChange: (value: boolean) => this.handleChangeValue("isActive", value)
+            value: isActive,
+            onValueChange: (value: boolean) =>
+              this.handleChangeValue("isActive", value)
           }}
         />
         <ListItem
+          key="skills"
           title="Skills"
           chevron={false}
           bottomDivider
@@ -295,7 +285,6 @@ class UserSearchFormScreen extends React.Component<Props, State> {
         />
         {this.renderSkillList()}
       </View>
-
     );
   }
 }

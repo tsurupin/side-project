@@ -4,7 +4,7 @@ import styles from "./styles";
 
 type Props = {
   name: string;
-  onChangeText: (string) => void;
+  onChangeText: (name) => void;
 };
 
 type State = {
@@ -27,7 +27,7 @@ class SkillInput extends React.Component<Props, State> {
         placeholder="Skill(ex: Ruby)"
         containerStyle={styles.inputContainer}
         value={name}
-        onChangeText={() => this.props.onChangeText}
+        onChangeText={(val: string) => this.props.onChangeText(val)}
       />
     );
   }
