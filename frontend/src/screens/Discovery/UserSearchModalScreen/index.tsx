@@ -219,7 +219,7 @@ class UserSearchFormScreen extends React.Component<Props, State> {
     );
   };
 
-  private renderSkillChangeIcon = () => {
+  private renderSkillAddIcon = () => {
     return (
       <MaterialCommunityIcons
         name="plus"
@@ -281,7 +281,7 @@ class UserSearchFormScreen extends React.Component<Props, State> {
           title="Skills"
           chevron={false}
           bottomDivider
-          rightIcon={this.renderSkillChangeIcon()}
+          rightIcon={this.renderSkillAddIcon()}
         />
         {this.renderSkillList()}
       </View>

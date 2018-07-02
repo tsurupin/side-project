@@ -2,27 +2,19 @@ import * as React from "react";
 
 import {
   SKILL_SEARCH_MODAL_SCREEN,
-  CITY_SEARCH_MODAL_SCREEN
+  CITY_SEARCH_MODAL_SCREEN,
+  PICKER_SCREEN
 } from "../../../constants/screens";
 
-import { View, TouchableOpacity, Text } from "react-native";
-import { APPLY_BUTTON, BACK_BUTTON } from "../../../constants/buttons";
+import { View, FlatList } from "react-native";
+import { ListItem } from "react-native-elements";
+import { SelectBox } from "../../../components/Commons";
+import { APPLY_BUTTON, CLOSE_BUTTON } from "../../../constants/buttons";
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+import { Skill, City, Genre, ProjectSearchParams } from "../../../interfaces";
+import { getIcon } from "../../../utilities/iconLoader";
+import { CLOSE_ICON } from "../../../constants/icons";
 
-import {
-  Container,
-  Header,
-  Title,
-  Content,
-  Button,
-  Icon,
-  Right,
-  Body,
-  Left,
-  Picker,
-  Form
-} from "native-base";
-
-import { Skill, Genre, ProjectSearchParams } from "../../../interfaces";
 import styles from "./styles";
 
 type Props = {
@@ -33,13 +25,12 @@ type Props = {
   skillIds: string[];
   skills: Skill[];
   genres: Genre[];
-  client: any;
   onSubmit: (searchParams: ProjectSearchParams) => void;
 };
 
 type State = {
   genreId: string;
-  cityId: string;
+  city: City;
   skillIds: string[];
   skills: Skill[];
 };
@@ -58,6 +49,7 @@ class ProjectSearchFormScreen extends React.Component<Props, State> {
         id: 2
       }
     ],
+    city: undefined,
 
     skills: []
   };
@@ -67,7 +59,7 @@ class ProjectSearchFormScreen extends React.Component<Props, State> {
 
     this.state = {
       genreId: props.genreId,
-      cityId: props.cityId,
+      city: props.city,
       skillIds: props.skillIds,
       skills: props.skills
     };
@@ -83,15 +75,40 @@ class ProjectSearchFormScreen extends React.Component<Props, State> {
       case APPLY_BUTTON:
         this.props.onSubmit({
           genreId: this.state.genreId,
-          cityId: this.state.cityId,
+          cityId: this.state.city ? this.state.city.id : undefined,
           skillIds: this.state.skills.map((skill) => skill.id)
         });
         this.props.navigator.dismissModal();
         break;
-      case BACK_BUTTON:
+      case CLOSE_BUTTON:
         this.props.navigator.dismissModal();
         break;
     }
+  };
+
+  private handlePressShowModal = (
+    items: any[],
+    keyName: string,
+    selectedValue: string | number | undefined
+  ) => {
+    this.props.navigator.showModal({
+      screen: PICKER_SCREEN,
+      passProps: {
+        items,
+        keyName,
+        selectedValue,
+        onPress: this.handleChangeValue
+      },
+      navigatorButtons: {
+        leftButtons: [
+          {
+            icon: getIcon(CLOSE_ICON),
+            title: "CLOSE",
+            id: CLOSE_BUTTON
+          }
+        ]
+      }
+    });
   };
 
   protected handleSkillSearchShowModal = () => {
@@ -103,8 +120,8 @@ class ProjectSearchFormScreen extends React.Component<Props, State> {
       navigatorButtons: {
         leftButtons: [
           {
-            title: "Back",
-            id: BACK_BUTTON
+            title: "Close",
+            id: CLOSE_BUTTON
           }
         ]
       }
@@ -120,22 +137,22 @@ class ProjectSearchFormScreen extends React.Component<Props, State> {
       navigatorButtons: {
         leftButtons: [
           {
-            title: "Back",
-            id: BACK_BUTTON
+            title: "Close",
+            id: CLOSE_BUTTON
           }
         ]
       }
     });
   };
 
-  protected handleValueChange = (key: string, value: string) => {
+  protected handleChangeValue = (key: string, value: string) => {
     let changeAttr = {};
     changeAttr[key] = value;
     this.setState(changeAttr);
   };
 
-  private handleAddCity = (cityId: string) => {
-    this.setState({ cityId });
+  private handleAddCity = (city: City) => {
+    this.setState({ city });
   };
 
   protected handleAddSkill = (skill: Skill) => {
@@ -149,73 +166,69 @@ class ProjectSearchFormScreen extends React.Component<Props, State> {
   };
 
   private renderSkillList = () => {
+    return <FlatList data={this.state.skills} renderItem={this.renderSkill} />;
+  };
+
+  private renderSkill = (data) => {
+    const skill: Skill = data.item;
     return (
-      <Content>
-        {this.state.skills.map((skill) => {
-          return (
-            <Button
-              key={skill.id}
-              rounded
-              onPress={() => this.handleDeleteSkill(skill.id)}
-            >
-              <Text>{skill.name}</Text>
-            </Button>
-          );
-        })}
-      </Content>
+      <ListItem
+        key={skill.id}
+        title={skill.name}
+        bottomDivider
+        rightIcon={this.renderSkillRemoveIcon(skill.id)}
+      />
     );
   };
 
-  render() {
-    const { genreId } = this.state;
-
+  private renderSkillAddIcon = () => {
     return (
-      <Container>
-        <Content>
-          <Form>
-            <Picker
-              mode="dropdown"
-              iosIcon={<Icon name="ios-arrow-down-outline" />}
-              placeholder="Select person's type"
-              placeholderStyle={{ color: "#bfc6ea" }}
-              placeholderIconColor="#007aff"
-              style={styles.pickerContainer}
-              selectedValue={genreId}
-              onValueChange={(value) => {
-                this.handleValueChange("genreId", value);
-              }}
-            >
-              {this.props.genres.map((genre) => {
-                return (
-                  <Picker.Item
-                    key={genre.id}
-                    label={genre.name}
-                    value={genre.id}
-                  />
-                );
-              })}
-            </Picker>
+      <MaterialCommunityIcons
+        name="plus"
+        onPress={() => this.handleSkillSearchShowModal()}
+      />
+    );
+  };
 
-            <View style={styles.buttonFormBox}>
-              <Text style={styles.textLabel}>Skill</Text>
-              <Button
-                iconLeft
-                primary
-                onPress={this.handleSkillSearchShowModal}
-              >
-                <Icon name="beer" />
-              </Button>
-              {this.renderSkillList()}
-            </View>
-            <View style={styles.buttonFormBox}>
-              <Text style={styles.textLabel}>City</Text>
-              <Button iconLeft primary onPress={this.handleCitySearchShowModal}>
-                <Icon name="beer" />
-              </Button>
-            </View>
-          </Form>
-        </Content>
-      </Container>
+  private renderSkillRemoveIcon = (skillId: string) => {
+    return (
+      <MaterialCommunityIcons
+        name="minus-circle"
+        onPress={() => this.handleDeleteSkill(skillId)}
+      />
+    );
+  };
+
+
+  render() {
+
+    const { genreId, city } = this.state;
+    const { genres } = this.props;
+    return (
+      <View>
+        <SelectBox
+          keyName="genreId"
+          placeholder="Genre"
+          value={genreId}
+          items={genres}
+          onPress={this.handlePressShowModal}
+        />
+         <ListItem
+          key="city"
+          title={city ? city.fullName : "Select City"}
+          chevron
+          bottomDivider
+          onPress={() => this.handleCitySearchShowModal()}
+        />
+        <ListItem
+          key="skills"
+          title="Skills"
+          chevron={false}
+          bottomDivider
+          rightIcon={this.renderSkillAddIcon()}
+        />
+        {this.renderSkillList()}
+      </View>
     );
   }
 }

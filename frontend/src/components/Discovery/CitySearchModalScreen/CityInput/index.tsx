@@ -4,7 +4,7 @@ import styles from "./styles";
 
 type Props = {
   name: string | undefined;
-  onChangeText: (string) => void;
+  onChangeText: (name) => void;
 };
 
 type State = {
@@ -28,7 +28,7 @@ class CityInput extends React.Component<Props, State> {
         placeholder="City(ex: San Francisco)"
         containerStyle={styles.inputContainer}
         value={name}
-        onChangeText={() => this.props.onChangeText}
+        onChangeText={(val: string) => this.props.onChangeText(val)}
       />
     );
   }

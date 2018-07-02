@@ -6,7 +6,7 @@ import {
   CityList,
   CityInput
 } from "../../../components/Discovery/CitySearchModalScreen";
-import { BACK_BUTTON } from "../../../constants/buttons";
+import { CLOSE_BUTTON } from "../../../constants/buttons";
 import { CityListQuery } from "../../../queries/cities";
 import { FindOrCreateCityMutation } from "../../../mutations/cities";
 import { City, CityEditParams } from "../../../interfaces";
@@ -49,7 +49,7 @@ class CitySearchModalScreen extends React.Component<Props, State> {
 
     console.log(e);
     switch (e.id) {
-      case BACK_BUTTON:
+      case CLOSE_BUTTON:
         this.props.navigator.dismissModal();
     }
   };
@@ -95,7 +95,7 @@ class CitySearchModalScreen extends React.Component<Props, State> {
       <CityListQuery variables={{ name }}>
         {({ data, error, loading }) => {
           if (loading) {
-            //return this.setState({loading});
+  
             return (
               <View>
                 <Text>Loading</Text>
@@ -108,7 +108,7 @@ class CitySearchModalScreen extends React.Component<Props, State> {
                 <Text>{error}</Text>
               </View>
             );
-            //return this.setState({errorMessage: error});
+
           }
           const { cityList } = data;
           return <CityList cities={cityList} onPress={this.onPress} />;
