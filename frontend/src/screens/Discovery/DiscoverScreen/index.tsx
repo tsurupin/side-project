@@ -36,7 +36,6 @@ import { ErrorAlert, LoadingIndicator } from "../../../components/Commons";
 import styles from "./styles";
 import { getIcon } from "../../../utilities/iconLoader";
 import SegmentedControlTab from "react-native-segmented-control-tab";
-import { CLOSE_ICON } from "../../../constants/icons";
 
 
 type Props = {

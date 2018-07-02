@@ -1,24 +1,17 @@
 import * as React from "react";
 
-import { SKILL_SEARCH_MODAL_SCREEN } from "../../../constants/screens";
-
-import { View, Text } from "react-native";
-import { APPLY_BUTTON, BACK_BUTTON } from "../../../constants/buttons";
-
 import {
-  Container,
-  Header,
-  Title,
-  Content,
-  Button,
-  Icon,
-  Right,
-  Body,
-  Left,
-  Picker,
-  Form
-} from "native-base";
+  SKILL_SEARCH_MODAL_SCREEN,
+  PICKER_SCREEN
+} from "../../../constants/screens";
 
+import { View, FlatList, Switch } from "react-native";
+import { ListItem } from "react-native-elements";
+import { SelectBox } from "../../../components/Commons";
+import { APPLY_BUTTON, CLOSE_BUTTON } from "../../../constants/buttons";
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+
+// f
 import {
   Skill,
   Genre,
@@ -49,7 +42,7 @@ type State = {
   genreId: string;
   occupationTypeId?: string | undefined;
   distance?: number | undefined;
-  isActive?: boolean | undefined;
+  isActive: boolean;
   skillIds?: string[];
   skills: Skill[];
 };
@@ -59,7 +52,7 @@ class UserSearchFormScreen extends React.Component<Props, State> {
     genreId: 1,
     distance: null,
     occupationTypeId: 1,
-    isActive: null,
+    isActive: false,
     skillIds: null,
     occupationTypes: [
       {
@@ -103,16 +96,6 @@ class UserSearchFormScreen extends React.Component<Props, State> {
         id: 2
       }
     ],
-    activeness: [
-      {
-        name: "Active within 72 hours",
-        value: true
-      },
-      {
-        name: "Not Active",
-        value: false
-      }
-    ],
     skills: []
   };
 
@@ -131,7 +114,7 @@ class UserSearchFormScreen extends React.Component<Props, State> {
     this.props.navigator.setOnNavigatorEvent(this.handleNavigationEvent);
   }
 
-  protected handleNavigationEvent = (e) => {
+  private handleNavigationEvent = (e) => {
     const {
       genreId,
       occupationTypeId,
@@ -153,13 +136,13 @@ class UserSearchFormScreen extends React.Component<Props, State> {
         });
         this.props.navigator.dismissModal();
         break;
-      case BACK_BUTTON:
+      case CLOSE_BUTTON:
         this.props.navigator.dismissModal();
         break;
     }
   };
 
-  protected handleSkillSearchShowModal = () => {
+  private handleSkillSearchShowModal = () => {
     this.props.navigator.showModal({
       screen: SKILL_SEARCH_MODAL_SCREEN,
       title: "Skill Search",
@@ -169,50 +152,97 @@ class UserSearchFormScreen extends React.Component<Props, State> {
         leftButtons: [
           {
             icon: getIcon(CLOSE_ICON),
-            title: "BACK",
-            id: BACK_BUTTON
+            title: "CLOSE",
+            id: CLOSE_BUTTON
           }
         ]
       }
     });
   };
 
-  protected handleValueChange = (
+  private handleChangeValue = (
     key: string,
     value: string | number | boolean
   ) => {
     let changeAttr = {};
     changeAttr[key] = value;
+    console.log(changeAttr);
+  
     this.setState(changeAttr);
   };
 
-  protected handleAddSkill = (skill: Skill) => {
+  private handleAddSkill = (skill: Skill) => {
     const skills = Array.from(new Set(this.state.skills.concat(skill)));
     this.setState({ skills });
   };
 
-  protected handleDeleteSkill = (id: string) => {
+  private handleDeleteSkill = (id: string) => {
     const skills = this.state.skills.filter((skill) => skill.id !== id);
     this.setState({ skills });
   };
 
+  private handlePressShowModal = (
+    items: any[],
+    keyName: string,
+    selectedValue: string | number | undefined
+  ) => {
+    this.props.navigator.showModal({
+      screen: PICKER_SCREEN,
+      passProps: {
+        items,
+        keyName,
+        selectedValue,
+        onPress: this.handleChangeValue
+      },
+      navigatorButtons: {
+        leftButtons: [
+          {
+            icon: getIcon(CLOSE_ICON),
+            title: "CLOSE",
+            id: CLOSE_BUTTON
+          }
+        ]
+      }
+    });
+  };
+
   private renderSkillList = () => {
     return (
-      <Content>
-        {this.state.skills.map((skill) => {
-          return (
-            <Button
-              key={skill.id}
-              rounded
-              onPress={() => this.handleDeleteSkill(skill.id)}
-            >
-              <Text>{skill.name}</Text>
-            </Button>
-          );
-        })}
-      </Content>
+      <FlatList
+        data={this.state.skills}
+        renderItem={this.renderSkill}
+      />
     );
   };
+
+  private renderSkill = (skill) => {
+    return (
+      <ListItem
+        key={skill.id}
+        title={skill.name}
+        rightIcon={this.renderSkillRemoveIcon(skill.id)}
+      />        
+    );
+  }
+
+
+  private renderSkillChangeIcon = () => {
+    return (
+      <MaterialCommunityIcons
+        name="plus"
+        onPress={() => this.handleSkillSearchShowModal()}
+      />
+    );
+  };
+
+  private renderSkillRemoveIcon = (skillId: string) => {
+    return(
+      <MaterialCommunityIcons
+        name="minus-circle"
+        onPress={() => this.handleDeleteSkill(skillId)}
+      />
+    )
+  }
 
   render() {
     const {
@@ -223,113 +253,49 @@ class UserSearchFormScreen extends React.Component<Props, State> {
       skills
     } = this.state;
 
-    return (
-      <Container>
-        <Content>
-          <Form>
-          <Picker
-              mode="dropdown"
-              iosIcon={<Icon name="ios-arrow-down-outline" />}
-              placeholder="Select person's type"
-              placeholderStyle={{ color: "#bfc6ea" }}
-              placeholderIconColor="#007aff"
-              style={styles.pickerContainer}
-              selectedValue={genreId}
-              onValueChange={(value) => {
-                this.handleValueChange("occupationTypeId", value);
-              }}
-            >
-              {this.props.occupationTypes.map((occupationType) => {
-                return (
-                  <Picker.Item
-                    key={occupationType.id}
-                    label={occupationType.name}
-                    value={occupationType.id}
-                  />
-                );
-              })}
-            </Picker>
-            <Picker
-              mode="dropdown"
-              iosIcon={<Icon name="ios-arrow-down-outline" />}
-              placeholder="Select distance"
-              placeholderStyle={{ color: 'red', flex: 1, flexDirection: "row", justifyContent: 'space-between', width: '100%' }}
-              placeholderIconColor="#007aff"
-              style={styles.pickerContainer}
-              selectedValue={distance}
-              onValueChange={(value) =>
-                this.handleValueChange("distance", value)
-              }
-            >
-              {this.props.distances.map((distance, i) => {
-                return (
-                  <Picker.Item
-                    key={i}
-                    label={distance.name}
-                    value={distance.value}
-                  />
-                );
-              })}
-            </Picker>
-            <Picker
-              mode="dropdown"
-              iosIcon={<Icon name="ios-arrow-down-outline" />}
-              placeholder="Select person's type"
-              placeholderStyle={{ color: "#bfc6ea" }}
-              placeholderIconColor="#007aff"
-              style={styles.pickerContainer}
-              selectedValue={genreId}
-              onValueChange={(value) => {
-                this.handleValueChange("genreId", value);
-              }}
-            >
-              {this.props.occupationTypes.map((occupationType) => {
-                return (
-                  <Picker.Item
-                    key={occupationType.id}
-                    label={occupationType.name}
-                    value={occupationType.id}
-                  />
-                );
-              })}
-            </Picker>
+    const { genres, occupationTypes, distances } = this.props;
 
-            <Picker
-              mode="dropdown"
-              iosIcon={<Icon name="ios-arrow-down-outline" />}
-              placeholder="Select person's activeness"
-              placeholderStyle={{ color: "#bfc6ea" }}
-              placeholderIconColor="#007aff"
-              style={styles.pickerContainer}
-              selectedValue={isActive}
-              onValueChange={(value) =>
-                this.handleValueChange("isActive", value)
-              }
-            >
-              {this.props.activeness.map((active, i) => {
-                return (
-                  <Picker.Item
-                    key={i}
-                    label={active.name}
-                    value={active.value}
-                  />
-                );
-              })}
-            </Picker>
-            <View style={styles.buttonFormBox}>
-              <Text style={styles.textLabel}>Skill</Text>
-              <Button
-                iconLeft
-                primary
-                onPress={this.handleSkillSearchShowModal}
-              >
-                <Icon name="beer" />
-              </Button>
-              {this.renderSkillList()}
-            </View>
-          </Form>
-        </Content>
-      </Container>
+    return (
+      <View>
+        <SelectBox
+          keyName="occupationTypeId"
+          placeholder="OccupationType"
+          value={occupationTypeId}
+          items={occupationTypes}
+          onPress={this.handlePressShowModal}
+        />
+        <SelectBox
+          keyName="distance"
+          placeholder="Distance"
+          value={distance}
+          items={distances}
+          onPress={this.handlePressShowModal}
+        />
+        <SelectBox
+          keyName="genreId"
+          placeholder="Genre"
+          value={genreId}
+          items={genres}
+          onPress={this.handlePressShowModal}
+        />
+        <ListItem
+          title="Active within 72 hours"
+          chevron={false}
+          bottomDivider
+          switch={{
+            value: isActive, 
+            onValueChange: (value: boolean) => this.handleChangeValue("isActive", value)
+          }}
+        />
+        <ListItem
+          title="Skills"
+          chevron={false}
+          bottomDivider
+          rightIcon={this.renderSkillChangeIcon()}
+        />
+        {this.renderSkillList()}
+      </View>
+
     );
   }
 }

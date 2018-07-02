@@ -5,12 +5,14 @@ import { CLOSE_BUTTON } from "../../../constants/buttons";
 
 import styles from "./styles";
 type Item = {
-  key: string;
-  value: string | number;
+  id?: string;
+  name: string;
+  value?: string | number;
 }
 
 type Props = {
   items: Item[];
+  keyName: string;
   navigator: any;
   selectedValue: string | number | undefined;
   onPress: (key:string, value: string | number | undefined) => void;
@@ -33,26 +35,29 @@ class PickerScreen extends React.Component<Props> {
     }
   }
 
-  private handlePress = (key: string, value: string | number) => {
-    this.props.onPress(key, value);
-    this.props.navigator.dismissModal();
-  }
-  private renderItem = (item: any) => {
-    const { key, value } = item;
-    return (
-      <ListItem
-        title={key}
-        onPress={() => this.handlePress(key, value)}
-        chevron={this.selectedItem(value)}
-        bottomDivider
-      />
-    )
-  }
-
   private selectedItem = (value: string | number) : boolean => {
     const { selectedValue } = this.props;
     if (selectedValue !== value) return false;
     return true;
+  }
+
+  private handlePress = (key: string, value: string | number) => {
+    this.props.onPress(key, value);
+    this.props.navigator.dismissModal();
+  }
+
+  private renderItem = (data) => {
+    const { id, name, value } = data.item;
+
+    return (
+      <ListItem
+        key={name}
+        title={name}
+        onPress={() => this.handlePress(this.props.keyName, id || value)}
+        chevron={this.selectedItem(id || value)}
+        bottomDivider
+      />
+    )
   }
 
   render() {
