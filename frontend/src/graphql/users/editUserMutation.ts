@@ -7,8 +7,8 @@ export const EDIT_USER_MUTATION = gql`
     $displayName: String
     $introduction: String
     $occupationTypeId: String
-    $genreId: String
-    $skillIds: [String]
+    $genreId: ID
+    $skillIds: [ID]
     $companyName: String
     $schoolName: String
   ) {

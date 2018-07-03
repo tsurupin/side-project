@@ -12,7 +12,7 @@ defmodule ApiWeb.Schema.Types.Chats do
 
   object :message do
     field(:id, :id)
-    field(:chat_id, :integer)
+    field(:chat_id, :id)
     field(:user, :user)
     field(:comment, :string)
 

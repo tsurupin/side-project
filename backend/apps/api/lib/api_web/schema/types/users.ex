@@ -62,11 +62,11 @@ defmodule ApiWeb.Schema.Types.Users do
   end
 
   input_object :user_search_conditions do
-    field(:occupation_type_id, :integer)
+    field(:occupation_type_id, :id)
     field(:distance, :integer)
-    field(:genre_id, :integer)
+    field(:genre_id, :id)
     field(:is_active, :boolean)
-    field(:skill_ids, list_of(:integer))
+    field(:skill_ids, list_of(:id))
   end
 
   input_object :user_input do
