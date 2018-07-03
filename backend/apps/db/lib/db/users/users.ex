@@ -115,7 +115,8 @@ defmodule Db.Users.Users do
         )
 
       # need to figure out location search
-      {:distance, %{meter: meter, current_location: geom}}, queries ->
+      {:geo, %{meter: meter, geom: geom}}, queries ->
+
         from(u in queries, where: st_dwithin_in_meters(u.geom, ^geom, ^meter))
 
       _, queries ->
