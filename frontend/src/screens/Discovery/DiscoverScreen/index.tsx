@@ -155,7 +155,7 @@ class DiscoveryScreen extends React.Component<Props, State> {
     let conditions = {};
     for (let key in searchParams) {
       let value = searchParams[key];
-      if (value !== undefined && (Array.isArray(value) && value.length !== 0)) {
+      if (value !== undefined || (Array.isArray(value) && value.length !== 0)) {
         conditions[key] = value;
       }
     }
