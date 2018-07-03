@@ -54,6 +54,7 @@ type State = {
 
 const USER_INDEX = 0;
 const PROJECT_INDEX = 1;
+const CONTROL_TABS = ["People", "Projects"];
 
 class DiscoveryScreen extends React.Component<Props, State> {
   constructor(props) {
@@ -94,7 +95,6 @@ class DiscoveryScreen extends React.Component<Props, State> {
   private handleNavigatorEvent = (e) => {
     if (e.type !== "NavBarButtonPress") return;
 
-    console.log(e);
     switch (e.id) {
       case SEARCH_BUTTON:
         this.props.navigator.showModal({
@@ -155,7 +155,8 @@ class DiscoveryScreen extends React.Component<Props, State> {
     let conditions = {};
     for (let key in searchParams) {
       let value = searchParams[key];
-      if (value !== undefined || (Array.isArray(value) && value.length !== 0)) {
+     
+      if ((!Array.isArray(value) && value !== undefined) || (Array.isArray(value) && value.length !== 0)) {
         conditions[key] = value;
       }
     }
@@ -247,7 +248,7 @@ class DiscoveryScreen extends React.Component<Props, State> {
     return (
       <View style={styles.container}>
         <SegmentedControlTab
-          values={["People", "Projects"]}
+          values={CONTROL_TABS}
           borderRadius={0}
           selectedIndex={this.state.selectedIndex}
           onTabPress={this.handleIndexChange}
