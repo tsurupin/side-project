@@ -6,7 +6,10 @@ import { PROJECT_DETAILS_QUERY } from './projectDetailsQuery';
 import { PROJECT_LIST_QUERY } from './projectListQuery';
 import { MY_PROJECT_LIST_QUERY } from './myProjectListQuery';
 import { UPLOAD_PROJECT_PHOTO_MUTATION } from './uploadProjectPhotoMutation';
+import { PROJECT_SEARCH_FORM_QUERY } from "./projectSearchFormQuery";
+import { UPDATE_PROJECT_SEARCH_PARMS_MUTATION } from "./updateProjectSearchParamsMutation"
 import { PROJECT_FRAGMENTS } from "./projectFragments";
+
 export {
   CHANGE_PROJECT_STATUS_MUTATION,
   CREATE_PROJECT_MUTATION,
@@ -16,5 +19,7 @@ export {
   PROJECT_LIST_QUERY,
   MY_PROJECT_LIST_QUERY,
   UPLOAD_PROJECT_PHOTO_MUTATION,
+  PROJECT_SEARCH_FORM_QUERY,
+  UPDATE_PROJECT_SEARCH_PARMS_MUTATION,
   PROJECT_FRAGMENTS
 };

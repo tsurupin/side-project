@@ -81,7 +81,7 @@ defmodule Db.Users.User do
     if is_nil(longitude) or is_nil(latitude) do
       changeset
     else
-      geo = %Geo.Point{coordinates: {longitude, latitude}, srid: @srid}
+      geo = %Geo.Point{coordinates: {latitude, longitude}, srid: @srid}
       put_change(changeset, :geom, geo)
     end
   end

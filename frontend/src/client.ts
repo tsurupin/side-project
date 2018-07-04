@@ -92,6 +92,18 @@ const stateLink = withClientState({
         console.log(params)
         cache.writeData({data: {userSearchParams: params}})
         return null;
+      },
+      updateProjectSearchParams: (prev, {projectSearchParams}, { cache }) => {
+        
+        const params = {
+          __typename: "ProjectSearchParams",
+          genreId: projectSearchParams.genreId,
+          cityId: projectSearchParams.cityId,
+          skills: projectSearchParams.skills
+        }
+
+        cache.writeData({data: {projectSearchParams: params}})
+        return null;
       }
     }
   },
@@ -100,6 +112,10 @@ const stateLink = withClientState({
     userSearchParams: {
       __typename: "UserSearchParams",
       genreId: null, occupationTypeId: null, isActive: false, skills: [],location: {__typename: "UserSearchParamsLocation"}
+    },
+    projectSearchParams: {
+      __typename: "ProjectSearchParams",
+      genreId: null, cityId: null, skills: []
     }
   }
 });

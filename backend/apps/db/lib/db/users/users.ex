@@ -88,9 +88,10 @@ defmodule Db.Users.Users do
 
   @active_duration_days 3
   @limit_num 15
+  @srid 4326
   @spec build_queries(Ecto.Queryable.t(), map) :: Ecto.Queyable.t()
   defp build_queries(query, conditions) do
-  
+
 
     Enum.reduce(conditions, query, fn
       {:genre_id, genre_id}, queries ->
@@ -102,7 +103,7 @@ defmodule Db.Users.Users do
       {:is_active, true}, queries ->
         from(
           u in queries,
-          where: u.last_activated_at > datetime_add(^Ecto.DateTime.utc(), -3, "day")
+          where: u.last_activated_at > datetime_add(^Ecto.DateTime.utc(), -@@active_duration_days, "day")
         )
 
       {:skill_ids, skill_ids}, queries ->
@@ -113,7 +114,7 @@ defmodule Db.Users.Users do
         )
 
       {:location, %{distance: distance, latitude: latitude, longitude: longitude}}, queries ->
-        geo = %Geo.Point{coordinates: {latitude, longitude}, srid: 4326}
+        geo = %Geo.Point{coordinates: {latitude, longitude}, srid: @srid}
 
         from(u in queries, where: st_dwithin_in_meters(u.geom, ^geo, ^distance))
 
