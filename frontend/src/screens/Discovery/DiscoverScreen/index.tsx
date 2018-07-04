@@ -153,7 +153,7 @@ class DiscoveryScreen extends React.Component<Props, State> {
 
   private cleanupParams = (searchParams): any => {
     let conditions = {};
-  =
+
     for (let key in searchParams) {
       let value = searchParams[key];
       if (Array.isArray(value)) {
@@ -163,7 +163,7 @@ class DiscoveryScreen extends React.Component<Props, State> {
         }
       } else if (key === "location") {
         if (value && value.hasOwnProperty("distance")){
-          conditions[key] = value;
+          conditions = {...conditions, ...value}
         }
       } else if (value !== undefined && value !== null) {
         conditions[key] = value;
