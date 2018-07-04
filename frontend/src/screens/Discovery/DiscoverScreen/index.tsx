@@ -13,10 +13,7 @@ import {
   PROJECT_DETAILS_SCREEN,
   USER_DETAILS_SCREEN
 } from "../../../constants/screens";
-import {
-  CLOSE_ICON,
-  FILTER_ICON
-} from "../../../constants/icons";
+import { CLOSE_ICON, FILTER_ICON } from "../../../constants/icons";
 
 import {
   BACK_BUTTON,
@@ -29,15 +26,17 @@ import { UserListQuery } from "../../../queries/users";
 import { ProjectListQuery } from "../../../queries/projects";
 import {
   UserDetails,
+  Skill,
   ProjectDetails,
   UserSearchParams,
-  ProjectSearchParams
+  UserSearchSubmitParams,
+  ProjectSearchParams,
+  ProjectSearchSubmitParams
 } from "../../../interfaces";
-import { ErrorAlert, LoadingIndicator } from "../../../components/Commons";
+import { ErrorMessage,ErrorAlert, LoadingIndicator } from "../../../components/Commons";
 import styles from "./styles";
 import { getIcon } from "../../../utilities/iconLoader";
 import SegmentedControlTab from "react-native-segmented-control-tab";
-
 
 type Props = {
   navigator: any;
@@ -51,6 +50,7 @@ type State = {
   projectSearchParams: ProjectSearchParams;
   selectedIndex: number;
 };
+
 
 const USER_INDEX = 0;
 const PROJECT_INDEX = 1;
@@ -66,13 +66,13 @@ class DiscoveryScreen extends React.Component<Props, State> {
         occupationTypeId: undefined,
         genreId: undefined,
         isActive: undefined,
-        distance: undefined,
-        skillIds: []
+        location: undefined,
+        skills: []
       },
       projectSearchParams: {
         genreId: undefined,
         cityId: undefined,
-        skillIds: []
+        skills: []
       },
       selectedIndex: USER_INDEX
     };
@@ -141,25 +141,35 @@ class DiscoveryScreen extends React.Component<Props, State> {
     });
   };
 
-  private buildUserSearchParams = (): UserSearchParams => {
+  private buildUserSearchParams = (): UserSearchSubmitParams => {
     const searchParams: UserSearchParams = this.state.userSearchParams;
     return this.cleanupParams(searchParams);
   };
 
-  private buildProjectSearchParams = (): ProjectSearchParams => {
+  private buildProjectSearchParams = (): ProjectSearchSubmitParams => {
     const searchParams: ProjectSearchParams = this.state.projectSearchParams;
     return this.cleanupParams(searchParams);
   };
 
   private cleanupParams = (searchParams): any => {
     let conditions = {};
+
     for (let key in searchParams) {
       let value = searchParams[key];
-     
-      if ((!Array.isArray(value) && value !== undefined) || (Array.isArray(value) && value.length !== 0)) {
+      if (Array.isArray(value)) {
+        if (value.length === 0) continue;
+        if (key === "skills") {
+          conditions["skillIds"] = value.map((skill: Skill) => skill.id);
+        }
+      } else if (key === "location") {
+        if (value && value.hasOwnProperty("distance")){
+          conditions = {...conditions, ...value}
+        }
+      } else if (value !== undefined && value !== null) {
         conditions[key] = value;
       }
     }
+  
     return conditions;
   };
 
@@ -173,7 +183,7 @@ class DiscoveryScreen extends React.Component<Props, State> {
   };
 
   private renderUserCards = () => {
-    const conditions: UserSearchParams = this.buildUserSearchParams();
+    const conditions: UserSearchSubmitParams = this.buildUserSearchParams();
     return (
       <UserListQuery variables={conditions}>
         {({ loading, error, data }) => {
@@ -181,11 +191,10 @@ class DiscoveryScreen extends React.Component<Props, State> {
             return <LoadingIndicator />;
           }
           if (error) {
-            return (
-              <View>
-                <Text>Error</Text>
-              </View>
-            );
+            console.log(error)
+            console.log(error.error)
+            return <View/>//<ErrorMessage message={error.message} />
+          
             //return this.setState({errorMessage: error})
           }
           if (data && data.users) {
@@ -210,7 +219,7 @@ class DiscoveryScreen extends React.Component<Props, State> {
   };
 
   private renderProjectCards = () => {
-    const conditions: ProjectSearchParams = this.buildProjectSearchParams();
+    const conditions: ProjectSearchSubmitParams = this.buildProjectSearchParams();
     return (
       <ProjectListQuery variables={conditions}>
         {({ loading, error, data }) => {

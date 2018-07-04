@@ -14,11 +14,12 @@ type Props = {
 const SelectBox = (props: Props) => {
   console.log(props);
   const { placeholder, value, items, keyName, onPress} = props;
+  
   const item = items.find(item => {
     return (item['id'] || item['value']) == value
   })
 
-  const title: string = item['name'] || placeholder;
+  const title: string = item ? item['name'] : placeholder;
 
   return(
     <ListItem

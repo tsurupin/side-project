@@ -50,8 +50,15 @@ defmodule ApiWeb.Schema.Types.Users do
     end
   end
 
-  object :token do
-    field(:token, :string)
+  object :location do
+    field(:distance, :integer)
+    field(:latitude, :float)
+    field(:longitude, :float)
+  end
+
+  object :user_search_form do
+    field(:genres, list_of(:genre))
+    field(:occupation_types, list_of(:occupation_type))
   end
 
   enum :user_status do
@@ -63,7 +70,7 @@ defmodule ApiWeb.Schema.Types.Users do
 
   input_object :user_search_conditions do
     field(:occupation_type_id, :id)
-    field(:distance, :integer)
+    field(:location, :location)
     field(:genre_id, :id)
     field(:is_active, :boolean)
     field(:skill_ids, list_of(:id))

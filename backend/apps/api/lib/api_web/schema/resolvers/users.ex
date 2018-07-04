@@ -1,5 +1,7 @@
 defmodule ApiWeb.Schema.Resolvers.Users do
   alias Db.Users.{Users, Photos}
+  alias Db.Genres.Genres
+  alias Db.OccupationTypes.OccupationTypes
   alias Api.Accounts.Authentication
 
   def sign_up(_, %{provider_id: _provider_id, uid: _uid} = attrs, _) do
@@ -37,19 +39,7 @@ defmodule ApiWeb.Schema.Resolvers.Users do
     {:ok, user}
   end
 
-  def search(_ctx, %{conditions: %{distance: meter} = conditions}, %{context: %{current_user: current_user} = ctx}) do
-    if curre_user.geom do
-      new_conditions =
-        conditions
-        |> Map.update(:geo, %{meter: meter, geom: current_user.geom})
-        |> Map.pop(:distance)
-      search(_ctx, %{conditions: new_conditions}, ctx)
-    else
-      {:error, %{reason: "Needs to register location"}}
-    end
-  end
-
-  def search(_ctx, %{conditions: conditions}, %{context: %{current_user: current_user}}) do
+  def search(_ctx, %{conditions: conditions}, _) do
     case Users.search(conditions) do
       {:error, :not_found} ->
         {:error, %{reason: "Not Found"}}
@@ -60,15 +50,10 @@ defmodule ApiWeb.Schema.Resolvers.Users do
     end
   end
 
-  def search(_ctx, %{conditions: conditions}, %{context: %{current_user: current_user}}) do
-    case Users.search(conditions) do
-      {:error, :not_found} ->
-        {:error, %{reason: "Not Found"}}
-
-      {:ok, users} ->
-        users = Users.preload(users, [:photos, :occupation_type, :city, :genre])
-        {:ok, users}
-    end
+  def fetch_search_form(_, _, _) do
+    genres = Genres.all
+    occupation_types = OccupationTypes.all
+    {:ok, %{genres: genres, occupation_types: occupation_types}}
   end
 
   def upload_photo(ctx, %{user_upload_input: attrs}, %{

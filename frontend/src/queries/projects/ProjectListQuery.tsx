@@ -1,10 +1,10 @@
 import * as React from "react";
 import { Query } from "react-apollo";
 import { PROJECT_LIST_QUERY } from "../../graphql/projects";
-import { ProjectSearchParams } from "../../interfaces";
+import { ProjectSearchSubmitParams } from "../../interfaces";
 
 type Props = {
-  variables: ProjectSearchParams;
+  variables: ProjectSearchSubmitParams;
   children: any;
 };
 

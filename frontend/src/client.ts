@@ -14,21 +14,10 @@ import TokenManager from "./utilities/tokenManager";
 import AbsintheSocketLink from "./utilities/absintheSocketLink";
 import { firebaseRefreshToken } from "./utilities/firebase";
 import { getMainDefinition } from "apollo-utilities";
-// import { observe, notifier, create } from "@absinthe/socket";
-// import { createAbsintheSocketLink } from "@absinthe/socket-apollo-link";
-// import { Socket as PhoenixSocket } from "phoenix";
-import { MATCH_LIST_QUERY } from "./graphql/matches";
+
 const uri = "http://localhost:4000/api/graphiql";
 
-// const absintheSocket = create(new PhoenixSocket("ws://localhost:4000/socket/websocket?vsn=2.0.0",{params: { token: 'my-token' }}));
-// // how to params asynchronouslly
-// const bsintheSocketLink = createAbsintheSocketLink(absintheSocket);
 
-// const httpLink = createHttpLink({
-//   uri,
-//   credentials: "include"
-//   //credentials: process.env.NODE_ENV === 'development' ? 'include' : 'same-origin'
-// });
 
 const uploadLink = createUploadLink({
   uri,
@@ -41,8 +30,15 @@ const uploadLink = createUploadLink({
 //   headers,
 // });
 
-const errorLink = onError(err => {
-  console.log("apollo-link-error, err", err);
+const errorLink = onError(({ graphQLErrors, networkError }) => {
+  if (graphQLErrors)
+    graphQLErrors.map(({ message, locations, path }) =>
+      console.log(
+        `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`,
+      ),
+    );
+
+  if (networkError) console.log(`[Network error]: ${networkError}`);
 });
 
 const authLink = setContext(async (_, context) => {
@@ -82,11 +78,29 @@ const stateLink = withClientState({
         console.log("mutation", prev, logined);
         cache.writeData({ data: { logined } });
         return null;
+      },
+      updateUserSearchParams: (prev, {userSearchParams}, { cache}) => {
+        console.log("update", prev, userSearchParams, cache);
+        const params = {
+          __typename: "UserSearchParams",
+          genreId: userSearchParams.genreId,
+          occupationTypeId: userSearchParams.occupationTypeId,
+          isActive: userSearchParams.isActive,
+          skills: userSearchParams.skills,
+          location: {...userSearchParams.location, __typename: "UserSearchParamsLocation"}
+        }
+        console.log(params)
+        cache.writeData({data: {userSearchParams: params}})
+        return null;
       }
     }
   },
   defaults: {
-    logined: false
+    logined: false,
+    userSearchParams: {
+      __typename: "UserSearchParams",
+      genreId: null, occupationTypeId: null, isActive: false, skills: [],location: {__typename: "UserSearchParamsLocation"}
+    }
   }
 });
 
