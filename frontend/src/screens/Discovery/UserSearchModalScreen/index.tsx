@@ -1,7 +1,6 @@
 import * as React from "react";
 import { View } from "react-native";
 import {
-  UserSearchParams,
   OccupationType,
   Genre,
   Skill,
@@ -13,21 +12,26 @@ import SearchForm from "./SearchForm";
 
 import styles from "./styles";
 
-type UserSearchForm = {
-  genres: Genre[];
-  occupationTypes: OccupationType[];
+type UserSearchParams = {
   occupationTypeId: string | undefined;
   genreId: string | undefined;
   location: Location | undefined;
-  isActive: boolean | undefined;
+  isActive: boolean;
   skills: Skill[];
+}
+type UserSearchForm = {
+  genres: Genre[];
+  occupationTypes: OccupationType[];
+  userSearchParams: UserSearchParams;
 };
+
 type Props = {
   navigator: any;
   onSubmit: (searchParams: UserSearchParams) => void;
 };
 
 class UserSearchFormScreen extends React.Component<Props> {
+  
   constructor(props) {
     super(props);
   }
@@ -36,6 +40,7 @@ class UserSearchFormScreen extends React.Component<Props> {
     searchParams: UserSearchParams,
     updateUserSearchParamsMutation
   ) => {
+    console.log("OnSubmit", searchParams);
     updateUserSearchParamsMutation({ variables: searchParams });
     this.props.onSubmit(searchParams);
   };
@@ -55,23 +60,30 @@ class UserSearchFormScreen extends React.Component<Props> {
           }
 
           const userSearchForm: UserSearchForm = data.userSearchForm;
-          <UpdateUserSearchParamsMutation>
-            {({ updateUserSearchParamsMutation, error }) => {
-              
-              if (error) {
-                console.log(error);
-                return <View />;
-              }
+          const {genres, occupationTypes, userSearchParams} = userSearchForm;
+          
+          console.log("current search", userSearchForm);
+          return(
+            <UpdateUserSearchParamsMutation>
+              {({ updateUserSearchParamsMutation, error }) => {
+                
+                if (error) {
+                  console.log(error);
+                  return <View />;
+                }
 
-              return (
-                <SearchForm
-                  {...userSearchForm}
-                  navigator={this.props.navigator}
-                  onSubmit={(searchParams: UserSearchParams) => this.onSubmit(searchParams, updateUserSearchParamsMutation)}
-                />
-              );
-            }}
-          </UpdateUserSearchParamsMutation>;
+                return (
+                  <SearchForm
+                    {...userSearchParams}
+                    genres={genres}
+                    occupationTypes={occupationTypes}
+                    navigator={this.props.navigator}
+                    onSubmit={(searchParams: UserSearchParams) => this.onSubmit(searchParams, updateUserSearchParamsMutation)}
+                  />
+                );
+              }}
+            </UpdateUserSearchParamsMutation>
+          );
         }}
       </UserSearchFormQuery>
     );

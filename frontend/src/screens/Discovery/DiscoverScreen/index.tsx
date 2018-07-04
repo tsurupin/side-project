@@ -33,7 +33,7 @@ import {
   ProjectSearchParams,
   ProjectSearchSubmitParams
 } from "../../../interfaces";
-import { ErrorAlert, LoadingIndicator } from "../../../components/Commons";
+import { ErrorMessage,ErrorAlert, LoadingIndicator } from "../../../components/Commons";
 import styles from "./styles";
 import { getIcon } from "../../../utilities/iconLoader";
 import SegmentedControlTab from "react-native-segmented-control-tab";
@@ -153,6 +153,7 @@ class DiscoveryScreen extends React.Component<Props, State> {
 
   private cleanupParams = (searchParams): any => {
     let conditions = {};
+  =
     for (let key in searchParams) {
       let value = searchParams[key];
       if (Array.isArray(value)) {
@@ -160,10 +161,15 @@ class DiscoveryScreen extends React.Component<Props, State> {
         if (key === "skills") {
           conditions["skillIds"] = value.map((skill: Skill) => skill.id);
         }
-      } else if (value !== undefined) {
+      } else if (key === "location") {
+        if (value && value.hasOwnProperty("distance")){
+          conditions[key] = value;
+        }
+      } else if (value !== undefined && value !== null) {
         conditions[key] = value;
       }
     }
+  
     return conditions;
   };
 
@@ -185,11 +191,10 @@ class DiscoveryScreen extends React.Component<Props, State> {
             return <LoadingIndicator />;
           }
           if (error) {
-            return (
-              <View>
-                <Text>Error</Text>
-              </View>
-            );
+            console.log(error)
+            console.log(error.error)
+            return <View/>//<ErrorMessage message={error.message} />
+          
             //return this.setState({errorMessage: error})
           }
           if (data && data.users) {

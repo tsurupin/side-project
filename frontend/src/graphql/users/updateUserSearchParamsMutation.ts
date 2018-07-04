@@ -10,7 +10,7 @@ import gql from "graphql-tag";
 // }
 
 export const UPDATE_USER_SEARCH_PARMS_MUTATION = gql`
-  mutation UpdateUserSearchParams($genreId: ID, $occupationTypeId: ID, $isActive: Boolean, $location: Location, skills: [Skill]) {
-    updateUserSearchParams(userSearchParams: {genreID: $genreId, occupationTypeId: $occupationTypeId, isActive: $isActive, location: $location, skills: $skills}) @client
+  mutation UpdateUserSearchParams($genreId: ID, $occupationTypeId: ID, $isActive: Boolean, $location: Location, $skills: [Skill]) {
+    updateUserSearchParams(userSearchParams: {genreId: $genreId, occupationTypeId: $occupationTypeId, isActive: $isActive, location: $location, skills: $skills}) @client
   }
 `;

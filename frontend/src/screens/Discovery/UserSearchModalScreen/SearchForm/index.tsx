@@ -27,7 +27,7 @@ type Props = {
   occupationTypeId: string | undefined;
   genreId: string | undefined;
   location: Location | undefined;
-  isActive: boolean | undefined;
+  isActive: boolean;
   skills: Skill[];
   onSubmit: (searchParams: UserSearchParams) => void;
 };
@@ -55,11 +55,14 @@ const DISTANCES = [
   },
   {
     name: "doesn't care",
-    value: null
+    value: undefined
   }
 ];
 
 class SearchForm extends React.Component<Props, State> {
+  static defaultProps = {
+
+  }
   constructor(props) {
     super(props);
     this.state = {
@@ -85,6 +88,7 @@ class SearchForm extends React.Component<Props, State> {
     }
     switch (e.id) {
       case APPLY_BUTTON:
+      
         this.props.onSubmit({
           genreId: genreId,
           occupationTypeId: occupationTypeId,
