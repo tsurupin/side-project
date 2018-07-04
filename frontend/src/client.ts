@@ -81,12 +81,18 @@ const stateLink = withClientState({
       changeLoginStatus: (prev, { logined }, { cache }) => {
         console.log("mutation", prev, logined);
         cache.writeData({ data: { logined } });
-        return null;
+        return;
+      },
+      updateUserSearchParams: (prev, data, { cache}) => {
+        console.log("update", prev, data);
+        // cache.writeData({data: { }})
+        return;
       }
     }
   },
   defaults: {
-    logined: false
+    logined: false,
+    userSearchParams: {genreId: undefined, occupationTypeId: undefined, isActive: false, skills: [],location: {}}
   }
 });
 

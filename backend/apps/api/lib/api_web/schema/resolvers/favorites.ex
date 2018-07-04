@@ -21,14 +21,14 @@ defmodule ApiWeb.Schema.Resolvers.Favorites do
     end
   end
 
-  def search(_ctx, %{conditions: conditions}, _) do
-    case Users.search(conditions) do
-      {:error, :not_found} ->
-        {:error, %{reason: "Not Found"}}
+  # def search(_ctx, %{conditions: conditions}, _) do
+  #   case Users.search(conditions) do
+  #     {:error, :not_found} ->
+  #       {:error, %{reason: "Not Found"}}
 
-      {:ok, users} ->
-        users = Users.preload(users, [:photos, :occupation_type, :genre])
-        {:ok, users}
-    end
-  end
+  #     {:ok, users} ->
+  #       users = Users.preload(users, [:photos, :occupation_type, :genre])
+  #       {:ok, users}
+  #   end
+  # end
 end

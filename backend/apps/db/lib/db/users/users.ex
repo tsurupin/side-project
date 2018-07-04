@@ -114,10 +114,9 @@ defmodule Db.Users.Users do
           where: us.user_id == u.id and us.skill_id in ^skill_ids
         )
 
-      # need to figure out location search
-      {:geo, %{meter: meter, geom: geom}}, queries ->
-
-        from(u in queries, where: st_dwithin_in_meters(u.geom, ^geom, ^meter))
+      {:location, %{distance: distance, latitude: latitude, longitude: longitude}}, queries ->
+        geo = %Geo.Point{coordinates: {latitude, longitude}, srid: 4326}
+        from(u in queries, where: st_dwithin_in_meters(u.geom, ^geo, ^distance))
 
       _, queries ->
         queries

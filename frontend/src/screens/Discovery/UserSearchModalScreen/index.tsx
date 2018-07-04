@@ -238,6 +238,7 @@ class UserSearchFormScreen extends React.Component<Props, State> {
   };
 
   render() {
+    <
     const { genreId, occupationTypeId, distance, isActive } = this.state;
 
     const { genres, occupationTypes, distances } = this.props;
