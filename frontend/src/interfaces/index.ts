@@ -57,13 +57,28 @@ export interface OccupationType {
   name: string;
 }
 
+export interface Location {
+  distance: number;
+  latitude: number;
+  longitude: number;
+}
+
 export interface UserSearchParams {
   occupationTypeId: string | undefined;
   genreId: string | undefined;
   isActive: boolean | undefined;
-  distance: number | undefined;
-  skillIds: string[];
+  location: Location | undefined;
+  skills: Skill[];
 }
+
+export interface UserSearchSubmitParams {
+  occupationTypeId?: string;
+  genreId?: string;
+  isActive?: boolean;
+  location?: Location;
+  skills?: Skill[];
+}
+
 
 export interface UserEditParams {
   displayName?: string;
@@ -86,11 +101,11 @@ export interface UserUploadParams {
 
 export interface ProjectCore {
   id: string;
-  title: string,
-  leadSentence?: string,
-  genre?: Genre,
+  title: string;
+  leadSentence?: string;
+  genre?: Genre;
   mainPhotoUrl: string;
-  city?: City
+  city?: City;
 }
 
 export interface ProjectPhoto {
@@ -112,11 +127,16 @@ export interface ProjectDetails extends ProjectCore {
 }
 
 export interface ProjectSearchParams {
+  genreId: string | undefined;
+  cityId: string | undefined;
+  skills: Skill[];
+}
+
+export interface ProjectSearchSubmitParams {
   genreId?: string;
   cityId?: string;
   skillIds?: string[];
 }
-
 export interface ProjectEditParams {
   title?: string;
   leadSentence?: string;
@@ -141,7 +161,7 @@ export interface Message {
   id: string;
   comment?: string;
   imageUrl?: string;
-  
+
   user: UserCore;
 }
 
@@ -150,3 +170,4 @@ export interface MessageParams {
   comment?: string;
   image?: string;
 }
+
