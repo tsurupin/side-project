@@ -128,7 +128,7 @@ export interface ProjectDetails extends ProjectCore {
 
 export interface ProjectSearchParams {
   genreId: string | undefined;
-  cityId: string | undefined;
+  city: City | undefined;
   skills: Skill[];
 }
 

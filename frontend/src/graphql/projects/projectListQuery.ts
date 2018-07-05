@@ -4,7 +4,7 @@ import { parseFragment } from "../utilities/parseFragment";
 
 export const PROJECT_LIST_QUERY = gql`
 query Projects($genreId: ID, $cityId: ID, $skillIds: [ID]) {
-  projects(conditions: {genreId: $genreId, $cityId: ID, skillIds: $skillIds}) {
+  projects(conditions: {genreId: $genreId, cityId: $cityId, skillIds: $skillIds}) {
     ${parseFragment(PROJECT_FRAGMENTS.projectOnList)}
   }
 }`;

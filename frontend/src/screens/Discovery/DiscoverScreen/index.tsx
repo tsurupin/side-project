@@ -71,7 +71,7 @@ class DiscoveryScreen extends React.Component<Props, State> {
       },
       projectSearchParams: {
         genreId: undefined,
-        cityId: undefined,
+        city: undefined,
         skills: []
       },
       selectedIndex: USER_INDEX
@@ -166,7 +166,11 @@ class DiscoveryScreen extends React.Component<Props, State> {
           conditions = {...conditions, ...value}
         }
       } else if (value !== undefined && value !== null) {
-        conditions[key] = value;
+        if (key === "city") {
+          conditions["cityId"] = value.id;
+        } else {
+          conditions[key] = value;
+        }
       }
     }
   

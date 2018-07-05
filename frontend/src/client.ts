@@ -98,7 +98,7 @@ const stateLink = withClientState({
         const params = {
           __typename: "ProjectSearchParams",
           genreId: projectSearchParams.genreId,
-          cityId: projectSearchParams.cityId,
+          city:  {...projectSearchParams.city, __typename: "ProjectSearchParamsCity"},
           skills: projectSearchParams.skills
         }
 
@@ -115,7 +115,7 @@ const stateLink = withClientState({
     },
     projectSearchParams: {
       __typename: "ProjectSearchParams",
-      genreId: null, cityId: null, skills: []
+      genreId: null, skills: [], city: {__typename: "ProjectSearchParamsCity"}
     }
   }
 });

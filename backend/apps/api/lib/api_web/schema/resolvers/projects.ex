@@ -1,5 +1,6 @@
 defmodule ApiWeb.Schema.Resolvers.Projects do
   alias Db.Projects.{Projects, Photos}
+  alias Db.Genres.Genres
 
   def fetch_profile(_, %{id: id}, _) do
     case Projects.get_by(%{id: id}) do
@@ -10,6 +11,11 @@ defmodule ApiWeb.Schema.Resolvers.Projects do
         project = Projects.preload(project, [:photos, :skills, :city, :genre, :owner])
         {:ok, project}
     end
+  end
+
+  def fetch_search_form(_, _, _) do
+    genres = Genres.all
+    {:ok, %{genres: genres}}
   end
 
   def search(_, %{conditions: conditions}, _) do

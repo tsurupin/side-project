@@ -22,5 +22,11 @@ defmodule ApiWeb.Schema.Queries.Projects do
       middleware(Middleware.Authorize)
       resolve(&Resolvers.Projects.liked_by/3)
     end
+
+    @desc "Fetch data needed for project search"
+    field :project_search_form, :project_search_form do
+      middleware(Middleware.Authorize)
+      resolve(&Resolvers.Projects.fetch_search_form/3)
+    end
   end
 end

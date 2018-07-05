@@ -103,7 +103,7 @@ defmodule Db.Users.Users do
       {:is_active, true}, queries ->
         from(
           u in queries,
-          where: u.last_activated_at > datetime_add(^Ecto.DateTime.utc(), -@@active_duration_days, "day")
+          where: u.last_activated_at > datetime_add(^Ecto.DateTime.utc(), -3, "day")
         )
 
       {:skill_ids, skill_ids}, queries ->
