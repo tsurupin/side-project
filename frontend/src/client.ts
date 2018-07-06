@@ -117,7 +117,18 @@ const stateLink = withClientState({
       __typename: "ProjectSearchParams",
       genreId: null, skills: [], city: {__typename: "ProjectSearchParamsCity"}
     }
-  }
+  },
+  typeDefs: `
+    type Skill {
+      id: ID!
+      name: String!
+    }
+    type Location {
+      latitude: Float!
+      longitude: Float!
+      distance: Int!
+    }
+  `
 });
 
 const link = split(
