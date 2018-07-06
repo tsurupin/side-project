@@ -54,7 +54,6 @@ defmodule ApiWeb.Schema.Types.Projects do
     field(:genres, list_of(:genre))
   end
 
-
   input_object :project_search_conditions do
     field(:genre_id, :id)
     field(:city_id, :id)

@@ -14,8 +14,8 @@ defmodule ApiWeb.Schema.Resolvers.Projects do
   end
 
   def fetch_search_form(_, _, _) do
-    genres = Genres.all
-    {:ok, %{genres: genres}}
+    genres = Genres.all()
+    {:ok, %{genres: [%{id: nil, name: "All"}] ++ genres}}
   end
 
   def search(_, %{conditions: conditions}, _) do

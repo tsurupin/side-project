@@ -60,6 +60,7 @@ class UserSearchFormScreen extends React.Component<Props> {
           }
 
           const userSearchForm: UserSearchForm = data.userSearchForm;
+        
           const {genres, occupationTypes, userSearchParams} = userSearchForm;
           
           console.log("current search", userSearchForm);

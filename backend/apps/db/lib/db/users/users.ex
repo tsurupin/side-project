@@ -91,8 +91,6 @@ defmodule Db.Users.Users do
   @srid 4326
   @spec build_queries(Ecto.Queryable.t(), map) :: Ecto.Queyable.t()
   defp build_queries(query, conditions) do
-
-
     Enum.reduce(conditions, query, fn
       {:genre_id, genre_id}, queries ->
         from(u in queries, where: u.genre_id == ^genre_id)

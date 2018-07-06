@@ -14,3 +14,5 @@ query UserSearchForm{
     }
   }
 }`;
+
+// Figure out how to cache search params

@@ -51,9 +51,14 @@ defmodule ApiWeb.Schema.Resolvers.Users do
   end
 
   def fetch_search_form(_, _, _) do
-    genres = Genres.all
-    occupation_types = OccupationTypes.all
-    {:ok, %{genres: genres, occupation_types: occupation_types}}
+    genres = Genres.all()
+    occupation_types = OccupationTypes.all()
+
+    {:ok,
+     %{
+       genres: [%{id: nil, name: "All"}] ++ genres,
+       occupation_types: [%{id: nil, name: "All"}] ++ occupation_types
+     }}
   end
 
   def upload_photo(ctx, %{user_upload_input: attrs}, %{
