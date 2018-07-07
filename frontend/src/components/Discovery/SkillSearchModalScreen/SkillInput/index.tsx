@@ -25,7 +25,8 @@ class SkillInput extends React.Component<Props, State> {
     return (
       <Input
         placeholder="Skill(ex: Ruby)"
-        containerStyle={styles.inputContainer}
+        containerStyle={styles.container}
+        inputContainerStyle={styles.inputContainer}
         value={name}
         onChangeText={(val: string) => this.props.onChangeText(val)}
       />

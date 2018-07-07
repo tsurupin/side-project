@@ -4,7 +4,6 @@ import { InMemoryCache } from "apollo-cache-inmemory";
 import { ApolloLink, split } from "apollo-link";
 import { ApolloClient } from "apollo-client";
 import { withClientState } from "apollo-link-state";
-import { accountMutation }   from './src/graphql/resolvers/mutations';
 import { createHttpLink } from "apollo-link-http";
 import { createUploadLink } from "@richeterre/apollo-upload-client";
 

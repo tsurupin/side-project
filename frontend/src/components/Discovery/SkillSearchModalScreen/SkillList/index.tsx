@@ -19,6 +19,7 @@ class SkillList extends React.Component<Props> {
     return (
       <ListItem
         key={skill.id}
+        bottomDivider={true}
         containerStyle={styles.listItemContainer}
         title={skill.name}
         onPress={() => this.props.onPressSkill(skill)}

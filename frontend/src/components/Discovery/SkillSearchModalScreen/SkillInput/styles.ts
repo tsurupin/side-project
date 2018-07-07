@@ -1,5 +1,10 @@
 const styles = {
-  inputContainer: {},
+  container: {
+    width: '100%'
+  },
+  inputContainer: {
+    borderColor: '#BCBBC1'
+  },
   errorMessage: {}
 };
 

@@ -70,13 +70,9 @@ class SkillSearchModalScreen extends React.Component<Props, State> {
     return (
       <SkillsQuery variables={{ name }}>
         {({ data, error, loading }) => {
+          console.log(loading, data)
           if (loading) {
-  
-            return (
-              <View>
-                <Text>Loading</Text>
-              </View>
-            );
+            return <View/>;
           }
           if (error) {
             return (
@@ -95,7 +91,6 @@ class SkillSearchModalScreen extends React.Component<Props, State> {
 
   private renderTextForm = () => {
     const { name } = this.state;
-    console.log(name);
     return <SkillInput name={name} onChangeText={this.handleChangeText} />;
   };
 
