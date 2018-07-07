@@ -162,7 +162,7 @@ class DiscoveryScreen extends React.Component<Props, State> {
           conditions["skillIds"] = value.map((skill: Skill) => skill.id);
         }
       } else if (key === "location") {
-        if (value && value.hasOwnProperty("distance")){
+        if (value && value.distance){
           conditions = {...conditions, ...value}
         }
       } else if (value !== undefined && value !== null) {
