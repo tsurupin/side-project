@@ -189,6 +189,8 @@ class SearchForm extends React.Component<Props, State> {
 
     const { genres } = this.props;
 
+    console.log("city search form", city)
+
     return (
       <View>
         <SelectBox

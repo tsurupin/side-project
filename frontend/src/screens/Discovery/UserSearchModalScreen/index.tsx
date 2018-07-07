@@ -14,10 +14,7 @@ type UserSearchParams = {
   isActive: boolean;
   skills: Skill[];
 };
-type UserSearchForm = {
-  genres: Genre[];
-  occupationTypes: OccupationType[];
-};
+
 
 type Props = {
   navigator: any;
@@ -52,10 +49,9 @@ class UserSearchFormScreen extends React.Component<Props> {
             return <View />;
           }
 
-          const {userSearchForm, userSearchParams} = data;
+          const {userSearchForm: { genres, occupationTypes }, userSearchParams} = data;
 
-          const { genres, occupationTypes } = userSearchForm;
-
+        
           return (
             <UpdateUserSearchParamsMutation>
               {({ updateUserSearchParamsMutation, error }) => {

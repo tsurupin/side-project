@@ -71,32 +71,18 @@ const stateLink = withClientState({
       users: (hoge1, hoge2, _) => {
         console.warn("user resolvers");
       }
-      // userSearchForm: (_, args, { cache, getCacheKey }) =>
-      // const userSearchParams =
-      // const id = getCacheKey({ __typename: 'TodoItem', id: variables.id })
-      // const fragment = gql`
-      //   fragment completeTodo on TodoItem {
-      //     completed
-      //   }
-      // `;
-      // const todo = cache.readFragment({ fragment, id });
-      // const data = { ...todo, completed: !todo.completed };
-      // cache.writeData({ id, data });
-      // return null;
-      // getCacheKey({__typename: "UserSearchParams"})
     },
     Mutation: {
       changeLoginStatus: (prev, { logined }, { cache }) => {
-        console.log("mutation", prev, logined);
+
         cache.writeData({ data: { logined } });
         return null;
       },
       updateUserSearchParams: (prev, { userSearchParams }, { cache }) => {
-     
         let data = cache.readQuery({ query: USER_SEARCH_PARAMS_QUERY });
         for (let [k, v] of Object.entries(userSearchParams)) {
           if (k === "location") {
-            data.userSearchParams[k] = {...data.userSearchParams[k], ...v}
+            data.userSearchParams[k] = { ...data.userSearchParams[k], ...v };
           } else {
             data.userSearchParams[k] = v;
           }
@@ -107,14 +93,19 @@ const stateLink = withClientState({
             userSearchParams: data.userSearchParams
           }
         });
-        
+
         return null;
       },
       updateProjectSearchParams: (prev, { projectSearchParams }, { cache }) => {
         let data = cache.readQuery({ query: PROJECT_SEARCH_PARAMS_QUERY });
+       
         for (let [k, v] of Object.entries(projectSearchParams)) {
           if (k === "city") {
-            data.projectSearchParams[k] = {...data.projectSearchParams[k], ...v}
+        
+            data.projectSearchParams[k] = {
+              ...data.projectSearchParams[k],
+              ...v
+            };
           } else {
             data.projectSearchParams[k] = v;
           }
@@ -125,7 +116,7 @@ const stateLink = withClientState({
             projectSearchParams: data.projectSearchParams
           }
         });
-        
+
         return null;
       }
     }
@@ -161,6 +152,10 @@ const stateLink = withClientState({
       latitude: Float!
       longitude: Float!
       distance: Int!
+    }
+    type City {
+      id: ID!
+      fullName: String!
     }
   `
 });

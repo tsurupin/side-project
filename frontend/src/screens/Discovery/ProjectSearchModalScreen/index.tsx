@@ -13,10 +13,6 @@ type ProjectSearchParams = {
   skills: Skill[];
 };
 
-type ProjectSearchForm = {
-  genres: Genre[];
-  projectSearchParams: ProjectSearchParams;
-};
 type Props = {
   navigator: any;
   onSubmit: (searchParams: ProjectSearchParams) => void;
@@ -50,10 +46,10 @@ class ProjectSearchFormScreen extends React.Component<Props> {
             return <View />;
           }
 
-          const { projectSearchForm, projectSearchParams} = data;
-          const { genres } = projectSearchForm;
+          const { projectSearchForm: {genres}, projectSearchParams} = data;
 
-          console.log("current search", projectSearchForm);
+
+          console.log("current search", projectSearchParams);
           return (
             <UpdateProjectSearchParamsMutation>
               {({ updateProjectSearchParamsMutation, error }) => {
