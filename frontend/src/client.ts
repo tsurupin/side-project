@@ -6,7 +6,7 @@ import { ApolloClient } from "apollo-client";
 import { withClientState } from "apollo-link-state";
 //import authentication from './src/graphql/resolvers/authentication';
 import { createHttpLink } from "apollo-link-http";
-import { createUploadLink } from '@richeterre/apollo-upload-client'
+import { createUploadLink } from "@richeterre/apollo-upload-client";
 
 import { onError } from "apollo-link-error";
 //import Retry from 'apollo-link-retry';
@@ -14,15 +14,14 @@ import TokenManager from "./utilities/tokenManager";
 import AbsintheSocketLink from "./utilities/absintheSocketLink";
 import { firebaseRefreshToken } from "./utilities/firebase";
 import { getMainDefinition } from "apollo-utilities";
-
+import { USER_SEARCH_PARAMS_QUERY } from "./graphql/users";
+import { PROJECT_SEARCH_PARAMS_QUERY } from "./graphql/projects";
 const uri = "http://localhost:4000/api/graphiql";
-
-
 
 const uploadLink = createUploadLink({
   uri,
   credentials: "include"
-})
+});
 // const client = new ApolloClient({
 //   link: createLink({
 //       uri: "/graphql"
@@ -34,8 +33,8 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
   if (graphQLErrors)
     graphQLErrors.map(({ message, locations, path }) =>
       console.log(
-        `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`,
-      ),
+        `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`
+      )
     );
 
   if (networkError) console.log(`[Network error]: ${networkError}`);
@@ -72,6 +71,19 @@ const stateLink = withClientState({
       users: (hoge1, hoge2, _) => {
         console.warn("user resolvers");
       }
+      // userSearchForm: (_, args, { cache, getCacheKey }) =>
+      // const userSearchParams =
+      // const id = getCacheKey({ __typename: 'TodoItem', id: variables.id })
+      // const fragment = gql`
+      //   fragment completeTodo on TodoItem {
+      //     completed
+      //   }
+      // `;
+      // const todo = cache.readFragment({ fragment, id });
+      // const data = { ...todo, completed: !todo.completed };
+      // cache.writeData({ id, data });
+      // return null;
+      // getCacheKey({__typename: "UserSearchParams"})
     },
     Mutation: {
       changeLoginStatus: (prev, { logined }, { cache }) => {
@@ -79,30 +91,41 @@ const stateLink = withClientState({
         cache.writeData({ data: { logined } });
         return null;
       },
-      updateUserSearchParams: (prev, {userSearchParams}, { cache}) => {
-        console.log("update", prev, userSearchParams, cache);
-        const params = {
-          __typename: "UserSearchParams",
-          genreId: userSearchParams.genreId,
-          occupationTypeId: userSearchParams.occupationTypeId,
-          isActive: userSearchParams.isActive,
-          skills: userSearchParams.skills,
-          location: {...userSearchParams.location, __typename: "UserSearchParamsLocation"}
+      updateUserSearchParams: (prev, { userSearchParams }, { cache }) => {
+     
+        let data = cache.readQuery({ query: USER_SEARCH_PARAMS_QUERY });
+        for (let [k, v] of Object.entries(userSearchParams)) {
+          if (k === "location") {
+            data.userSearchParams[k] = {...data.userSearchParams[k], ...v}
+          } else {
+            data.userSearchParams[k] = v;
+          }
         }
-        console.log(params)
-        cache.writeData({data: {userSearchParams: params}})
+        cache.writeQuery({
+          query: USER_SEARCH_PARAMS_QUERY,
+          data: {
+            userSearchParams: data.userSearchParams
+          }
+        });
+        
         return null;
       },
-      updateProjectSearchParams: (prev, {projectSearchParams}, { cache }) => {
-        
-        const params = {
-          __typename: "ProjectSearchParams",
-          genreId: projectSearchParams.genreId,
-          city:  {...projectSearchParams.city, __typename: "ProjectSearchParamsCity"},
-          skills: projectSearchParams.skills
+      updateProjectSearchParams: (prev, { projectSearchParams }, { cache }) => {
+        let data = cache.readQuery({ query: PROJECT_SEARCH_PARAMS_QUERY });
+        for (let [k, v] of Object.entries(projectSearchParams)) {
+          if (k === "city") {
+            data.projectSearchParams[k] = {...data.projectSearchParams[k], ...v}
+          } else {
+            data.projectSearchParams[k] = v;
+          }
         }
-
-        cache.writeData({data: {projectSearchParams: params}})
+        cache.writeQuery({
+          query: PROJECT_SEARCH_PARAMS_QUERY,
+          data: {
+            projectSearchParams: data.projectSearchParams
+          }
+        });
+        
         return null;
       }
     }
@@ -111,11 +134,22 @@ const stateLink = withClientState({
     logined: false,
     userSearchParams: {
       __typename: "UserSearchParams",
-      genreId: null, occupationTypeId: null, isActive: false, skills: [],location: {__typename: "UserSearchParamsLocation"}
+      genreId: null,
+      occupationTypeId: null,
+      isActive: false,
+      skills: [],
+      location: {
+        __typename: "UserSearchParamsLocation",
+        latitude: null,
+        longitude: null,
+        distance: null
+      }
     },
     projectSearchParams: {
       __typename: "ProjectSearchParams",
-      genreId: null, skills: [], city: {__typename: "ProjectSearchParamsCity"}
+      genreId: null,
+      skills: [],
+      city: { __typename: "ProjectSearchParamsCity", id: null, fullName: null }
     }
   },
   typeDefs: `

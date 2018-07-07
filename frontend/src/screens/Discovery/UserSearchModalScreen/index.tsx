@@ -1,11 +1,6 @@
 import * as React from "react";
 import { View } from "react-native";
-import {
-  OccupationType,
-  Genre,
-  Skill,
-  Location,
-} from "../../../interfaces";
+import { OccupationType, Genre, Skill, Location } from "../../../interfaces";
 import { UserSearchFormQuery } from "../../../queries/users";
 import { UpdateUserSearchParamsMutation } from "../../../mutations/users";
 import SearchForm from "./SearchForm";
@@ -18,11 +13,10 @@ type UserSearchParams = {
   location: Location | undefined;
   isActive: boolean;
   skills: Skill[];
-}
+};
 type UserSearchForm = {
   genres: Genre[];
   occupationTypes: OccupationType[];
-  userSearchParams: UserSearchParams;
 };
 
 type Props = {
@@ -31,7 +25,6 @@ type Props = {
 };
 
 class UserSearchFormScreen extends React.Component<Props> {
-  
   constructor(props) {
     super(props);
   }
@@ -59,15 +52,13 @@ class UserSearchFormScreen extends React.Component<Props> {
             return <View />;
           }
 
-          const userSearchForm: UserSearchForm = data.userSearchForm;
-        
-          const {genres, occupationTypes, userSearchParams} = userSearchForm;
-          
-          console.log("current search", userSearchForm);
-          return(
+          const {userSearchForm, userSearchParams} = data;
+
+          const { genres, occupationTypes } = userSearchForm;
+
+          return (
             <UpdateUserSearchParamsMutation>
               {({ updateUserSearchParamsMutation, error }) => {
-                
                 if (error) {
                   console.log(error);
                   return <View />;
@@ -79,7 +70,12 @@ class UserSearchFormScreen extends React.Component<Props> {
                     genres={genres}
                     occupationTypes={occupationTypes}
                     navigator={this.props.navigator}
-                    onSubmit={(searchParams: UserSearchParams) => this.onSubmit(searchParams, updateUserSearchParamsMutation)}
+                    onSubmit={(searchParams: UserSearchParams) =>
+                      this.onSubmit(
+                        searchParams,
+                        updateUserSearchParamsMutation
+                      )
+                    }
                   />
                 );
               }}

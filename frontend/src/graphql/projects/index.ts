@@ -9,6 +9,7 @@ import { UPLOAD_PROJECT_PHOTO_MUTATION } from './uploadProjectPhotoMutation';
 import { PROJECT_SEARCH_FORM_QUERY } from "./projectSearchFormQuery";
 import { UPDATE_PROJECT_SEARCH_PARMS_MUTATION } from "./updateProjectSearchParamsMutation"
 import { PROJECT_FRAGMENTS } from "./projectFragments";
+import { PROJECT_SEARCH_PARAMS_QUERY } from "./projectSearchParamsQuery";
 
 export {
   CHANGE_PROJECT_STATUS_MUTATION,
@@ -21,5 +22,6 @@ export {
   UPLOAD_PROJECT_PHOTO_MUTATION,
   PROJECT_SEARCH_FORM_QUERY,
   UPDATE_PROJECT_SEARCH_PARMS_MUTATION,
-  PROJECT_FRAGMENTS
+  PROJECT_FRAGMENTS,
+  PROJECT_SEARCH_PARAMS_QUERY
 };

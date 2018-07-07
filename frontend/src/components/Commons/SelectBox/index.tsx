@@ -12,7 +12,6 @@ type Props = {
 }
 
 const SelectBox = (props: Props) => {
-  console.log(props);
   const { placeholder, value, items, keyName, onPress} = props;
   
   const item = items.find(item => {

@@ -50,8 +50,8 @@ class ProjectSearchFormScreen extends React.Component<Props> {
             return <View />;
           }
 
-          const projectSearchForm: ProjectSearchForm = data.projectSearchForm;
-          const { genres, projectSearchParams } = projectSearchForm;
+          const { projectSearchForm, projectSearchParams} = data;
+          const { genres } = projectSearchForm;
 
           console.log("current search", projectSearchForm);
           return (

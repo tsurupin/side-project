@@ -3,7 +3,7 @@ import { Text, TouchableOpacity, View } from "react-native";
 import { AccessToken, LoginManager } from "react-native-fbsdk";
 import { SignUpMutation } from "../../mutations/accounts";
 import { LoginStatusQuery } from "../../queries/accounts";
-import MainTab from "../../screens/MainTab";
+import MainTab from "../MainTab";
 import { firebaseSignIn } from "../../utilities/firebase";
 
 const FACEBOOK = "facebook";
