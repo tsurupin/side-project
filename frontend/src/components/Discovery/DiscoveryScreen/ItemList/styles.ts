@@ -6,7 +6,6 @@ type Style = {
 
 const styles = StyleSheet.create<Style>({
   container: {
-    backgroundColor: "black",
     flex: 1,
     flexDirection: "row"
   }

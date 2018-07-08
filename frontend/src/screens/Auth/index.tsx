@@ -40,11 +40,14 @@ class AuthScreen extends React.Component<Props, State> {
 
   loginFirebase = async (token: string, loginMutation: any): Promise<void> => {
     try {
+ 
       await firebaseSignIn(token);
 
+      console.log('hoggg')
       loginMutation({ variables: { logined: true } });
+      console.log("firebaseSignIn end")
     } catch (e) {
-      console.log(e);
+      console.log("error", e);
     }
   };
 

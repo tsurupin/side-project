@@ -22,12 +22,17 @@ const TOKEN = "TOKEN";
 const FIREBASE_TOKEN_URL = "https://securetoken.googleapis.com/v1/token";
 
 export const firebaseSignIn = firebaseToken => {
+
   return new Promise((resolve, reject) => {
+    try {
     firebase
       .auth()
       .signInWithCustomToken(firebaseToken)
       .then(result => {
+        console.log(result)
         const { user } = result;
+        
+        if(!user) return reject("not found user");
 
         user.getIdToken(false).then(async userToken => {
           await TokenManager.setToken(userToken, user.refreshToken);
@@ -38,6 +43,11 @@ export const firebaseSignIn = firebaseToken => {
         console.log("signInError", error);
         reject();
       });
+    } catch(e){
+      console.log(e);
+      resolve();
+
+    }
   });
 };
 

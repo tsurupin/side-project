@@ -37,7 +37,11 @@ import {
   PickerScreen
 } from "./screens/Discovery";
 
-import { UserEditScreen, MyProfileScreen, SettingsListScreen } from "./screens/Me";
+import {
+  UserEditScreen,
+  MyProfileScreen,
+  SettingsListScreen
+} from "./screens/Me";
 
 import {
   LikedProjectDetailsScreen,
@@ -45,7 +49,15 @@ import {
   ProjectEditScreen,
   ProjectNewScreen
 } from "./screens/Project";
-import { CLOSE_ICON, FILTER_ICON, FILTER_OUTLINE_ICON, MESSAGE_OUTLINE_ICON, PENCIL_ICON, ACCOUNT_ICON, LIBRARY_BOOKS_ICON } from "./constants/icons";
+import {
+  CLOSE_ICON,
+  FILTER_ICON,
+  FILTER_OUTLINE_ICON,
+  MESSAGE_OUTLINE_ICON,
+  PENCIL_ICON,
+  ACCOUNT_ICON,
+  LIBRARY_BOOKS_ICON
+} from "./constants/icons";
 import { loadIcons } from "./utilities/iconLoader";
 
 import MainTab from "./screens/MainTab";
@@ -74,8 +86,8 @@ const registerComponents = () => {
   );
 
   Navigation.registerComponent(CITY_SEARCH_MODAL_SCREEN, () =>
-  ApolloWrapper(CitySearchModalScreen)
-);
+    ApolloWrapper(CitySearchModalScreen)
+  );
   Navigation.registerComponent(USER_DETAILS_SCREEN, () =>
     ApolloWrapper(UserDetailsScreen)
   );
@@ -111,16 +123,19 @@ const registerComponents = () => {
 
 registerComponents();
 
-const navIcons = [CLOSE_ICON, FILTER_ICON,FILTER_OUTLINE_ICON];
-const tabIcons = [LIBRARY_BOOKS_ICON, PENCIL_ICON, MESSAGE_OUTLINE_ICON, ACCOUNT_ICON]
-const preloadTasks = [
-  loadIcons(navIcons.concat(tabIcons))
+const navIcons = [CLOSE_ICON, FILTER_ICON, FILTER_OUTLINE_ICON];
+const tabIcons = [
+  LIBRARY_BOOKS_ICON,
+  PENCIL_ICON,
+  MESSAGE_OUTLINE_ICON,
+  ACCOUNT_ICON
 ];
-Promise.all(preloadTasks).then(result => {
+const preloadTasks = [loadIcons(navIcons.concat(tabIcons))];
+Promise.all(preloadTasks).then((result) => {
   Navigation.startSingleScreenApp({
     screen: {
       screen: AUTH_SCREEN,
       title: "Login"
     }
   });
-})
+});
