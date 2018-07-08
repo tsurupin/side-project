@@ -3,6 +3,7 @@ import { View, Text } from "react-native";
 import { ProjectCore, UserCore } from "../../../../interfaces";
 import UserCard from "../UserCard";
 import ProjectCard from "../ProjectCard";
+
 import styles from "./styles";
 
 type Item = UserCore | ProjectCore;
