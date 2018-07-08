@@ -7,7 +7,7 @@ type Props = {
   onPress: (id: string) => void;
 };
 
-const ProjectRow = (props: Props) => {
+const ProjectRow: React.SFC<Props> = props  => {
   const { onPress, project } = props;
   return (
     <View>

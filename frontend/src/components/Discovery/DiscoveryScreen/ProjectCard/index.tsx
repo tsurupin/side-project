@@ -26,7 +26,7 @@ const renderBadge = (genre: Genre | undefined) => {
   );
 };
 
-const ProjectCard = (props: Props) => {
+const ProjectCard: React.SFC<Props> = props => {
   const { project, onPressCard } = props;
 
   const { id, mainPhotoUrl, leadSentence, genre, city, title } = project;

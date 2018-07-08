@@ -7,7 +7,7 @@ type Props = {
   imageUrl?: string;
 };
 
-const MessageDetails = (props: Props) => {
+const MessageDetails: React.SFC<Props> = props  => {
   return (
     <View>
       <Text>{props.comment}</Text>

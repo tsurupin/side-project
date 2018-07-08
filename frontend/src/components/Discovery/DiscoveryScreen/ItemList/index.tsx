@@ -22,7 +22,7 @@ const renderItem = (type: string, item: Item, fnc) => {
   }
 };
 
-const ItemList = (props: Props) => {
+const ItemList: React.SFC<Props> = props => {
   const { onPressCard, items, type } = props;
 
   if (items.length === 0) {

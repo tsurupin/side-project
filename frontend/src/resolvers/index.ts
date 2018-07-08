@@ -5,7 +5,7 @@ import { updateProjectSearchParams } from "./projects";
 const resolvers = {
   Query: {},
   Mutation: {
-    changeLoginStatus: () => console.log("change login coming"),
+    changeLoginStatus,
     updateUserSearchParams,
     updateProjectSearchParams
   }

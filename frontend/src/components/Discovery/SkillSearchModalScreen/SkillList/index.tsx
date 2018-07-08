@@ -10,32 +10,27 @@ type Props = {
   onPressSkill: (skill: Skill) => void;
 };
 
-class SkillList extends React.Component<Props> {
-  constructor(props) {
-    super(props);
-  }
+const renderSkill = (skill: Skill, fnc) => {
+  return (
+    <ListItem
+      key={skill.id}
+      bottomDivider={true}
+      containerStyle={styles.listItemContainer}
+      title={skill.name}
+      onPress={() => fnc(skill)}
+    />
+  );
+};
 
-  private renderSkill = (skill: Skill) => {
-    return (
-      <ListItem
-        key={skill.id}
-        bottomDivider={true}
-        containerStyle={styles.listItemContainer}
-        title={skill.name}
-        onPress={() => this.props.onPressSkill(skill)}
-      />
-    );
-  };
-
-  render() {
-    return (
-      <View style={styles.listContainer}>
-        {this.props.skills.map((skill: Skill) => {
-          return this.renderSkill(skill);
-        })}
-      </View>
-    );
-  }
+const SkillList: React.SFC<Props> = props => {
+  return (
+    <View style={styles.listContainer}>
+      {props.skills.map((skill: Skill) => {
+        return renderSkill(skill, props.onPressSkill);
+      })}
+    </View>
+  );
+  
 }
 
 export default SkillList;

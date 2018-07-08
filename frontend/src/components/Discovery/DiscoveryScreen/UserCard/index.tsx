@@ -30,7 +30,7 @@ const renderProfession = (
 };
 
 const renderBadge = (occupationType: OccupationType | undefined) => {
-  if (!occupationType) return null;
+  if (!occupationType) return undefined;
   return (
     <Badge
       value={occupationType.name}
@@ -40,7 +40,7 @@ const renderBadge = (occupationType: OccupationType | undefined) => {
   );
 };
 
-const UserCard = (props: Props) => {
+const UserCard: React.SFC<Props> = props => {
   const { user, onPressCard } = props;
   console.log("user", user);
 

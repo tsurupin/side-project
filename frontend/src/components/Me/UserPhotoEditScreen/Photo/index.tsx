@@ -6,7 +6,7 @@ type Props = {
   photo: UserPhoto;
   onPress: (id: string) => void;
 }
-const Photo = (props: Props) => {
+const Photo: React.SFC<Props> = props  => {
   const { photo, onPress } = props;
   return(
     <TouchableOpacity onPress={() => onPress(photo.id)}>

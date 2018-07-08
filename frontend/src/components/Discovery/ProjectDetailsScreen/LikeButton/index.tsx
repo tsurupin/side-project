@@ -5,7 +5,7 @@ type Props = {
   onPress: () => void;
   name: string;
 };
-const LikeButton = (props: Props) => {
+const LikeButton: React.SFC<Props> = props => {
   const { onPress, name } = props;
   return <Button title={name} onPress={onPress} />;
 };

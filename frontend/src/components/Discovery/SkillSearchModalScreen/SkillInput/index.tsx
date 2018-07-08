@@ -7,31 +7,18 @@ type Props = {
   onChangeText: (name) => void;
 };
 
-type State = {
-  name: string;
-};
+const SkillInput: React.SFC<Props> = props => {
 
-class SkillInput extends React.Component<Props, State> {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      name: props.name
-    };
-  }
-
-  render() {
-    const { name } = this.state;
-    return (
-      <Input
-        placeholder="Skill(ex: Ruby)"
-        containerStyle={styles.container}
-        inputContainerStyle={styles.inputContainer}
-        value={name}
-        onChangeText={(val: string) => this.props.onChangeText(val)}
-      />
-    );
-  }
+  return (
+    <Input
+      placeholder="Skill(ex: Ruby)"
+      containerStyle={styles.container}
+      inputContainerStyle={styles.inputContainer}
+      value={props.name}
+      onChangeText={(val: string) => props.onChangeText(val)}
+    />
+  );
+  
 }
 
 export default SkillInput;
