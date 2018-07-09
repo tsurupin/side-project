@@ -31,16 +31,15 @@ export interface UserPhoto {
 }
 
 export interface UserDetails extends UserCore {
-  introduction?: string;
-  occupation?: string;
-  occupationType?: OccupationType;
+  introduction: string | undefined;
+  occupation: string | undefined;
+  genre: Genre | undefined;
+  occupationType: OccupationType | undefined;
   skills: Skill[];
-  companyName?: string;
-  schoolName?: string;
-  longitude?: number;
-  latitude?: number;
-  city?: City;
-  photos?: UserPhoto[];
+  companyName: string | undefined;
+  schoolName: string | undefined;
+  city: City | undefined;
+  photos: UserPhoto[];
 }
 
 export interface Skill {

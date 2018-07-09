@@ -15,10 +15,10 @@ const buildProfession = (
     return `${occupation}, ${companyName}`;
   } else {
     return `${occupation || companyName}`;
-  }  
+  }
 };
 
-const UserCard: React.SFC<Props> = props => {
+const UserCard: React.SFC<Props> = (props) => {
   const { user, onPressCard } = props;
 
   const {
@@ -34,16 +34,18 @@ const UserCard: React.SFC<Props> = props => {
 
   const profession = buildProfession(occupation, companyName);
 
-  return  <ItemCard
-  id={id}
-  title={displayName}
-  city={city}
-  badgeText={occupationType ? occupationType.name : undefined}
-  subText={profession}
-  details={introduction}
-  mainPhotoUrl={mainPhotoUrl}
-  onPressCard={onPressCard}
-/>
+  return (
+    <ItemCard
+      id={id}
+      title={displayName}
+      city={city}
+      badgeText={occupationType ? occupationType.name : undefined}
+      subText={profession}
+      details={introduction}
+      mainPhotoUrl={mainPhotoUrl}
+      onPressCard={onPressCard}
+    />
+  );
 };
 
 export default UserCard;
