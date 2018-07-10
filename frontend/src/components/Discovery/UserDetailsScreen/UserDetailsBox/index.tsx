@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Image, View } from "react-native";
+import { View } from "react-native";
 import { Divider, Badge, Text, Button } from "react-native-elements";
 import SkillList from "../SkillList";
 import CarouselPanel from "../CarouselPanel";
@@ -74,7 +74,7 @@ const UserDetailsBox: React.SFC<Props> = props => {
           <Text style={styles.mainText}>{occupation}</Text>
         </View> 
         <View style={styles.textGroup}>
-          <Text style={styles.labelText}>Company /School </Text>
+          <Text style={styles.labelText}>Company / School </Text>
           <Text style={styles.mainText}>{`${companyName} /  ${schoolName}`}</Text>
         </View> 
         <View style={styles.textGroup}>
