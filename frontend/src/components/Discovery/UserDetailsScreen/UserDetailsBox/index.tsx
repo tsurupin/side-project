@@ -14,7 +14,6 @@ type Props = {
   user: UserDetails
 }
 
-
 const renderActionContainer = (liked, like, rejectLike, acceptLike) => {
   if (liked) return renderLikeContainer(like);
   return renderResponseLikeContainer(rejectLike, acceptLike);
@@ -55,7 +54,7 @@ const renderBadge = (badgeName: string | undefined) => {
 
 const UserDetailsBox: React.SFC<Props> = props => {
   const { liked, rejectLike, acceptLike, like, user} = props;
-  const { displayName, occupation, city, companyName, schoolName, occupationType, genre, skills, introduction, photos } = user;
+  const { displayName, occupation, city, companyName, schoolName, occupationType, skills, introduction, photos } = user;
   console.log(user)
   return(
     <View style={styles.container}>
