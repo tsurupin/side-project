@@ -8,7 +8,8 @@ type Style = {
 const styles = StyleSheet.create<Style>({
   container: {
     height: 200,
-    flexDirection: "row"
+    flexDirection: "row",
+    borderBottomWidth: 1
   },
   image: {
     width,
