@@ -1,8 +1,9 @@
 import * as React from "react";
-import { View } from "react-native";
+import { View, ScrollView } from "react-native";
 import { Divider, Badge, Text, Button } from "react-native-elements";
 import SkillList from "../SkillList";
 import CarouselPanel from "../CarouselPanel";
+import TextGroup from "../TextGroup";
 import { UserDetails, City } from "../../../../interfaces";
 import styles from "./styles";
 
@@ -11,35 +12,35 @@ type Props = {
   rejectLike?: () => void;
   acceptLike?: () => void;
   like?: () => void;
-  user: UserDetails
-}
+  user: UserDetails;
+};
 
 const renderActionContainer = (liked, like, rejectLike, acceptLike) => {
   if (liked) return renderLikeContainer(like);
   return renderResponseLikeContainer(rejectLike, acceptLike);
-}
+};
 
 const renderResponseLikeContainer = (rejectLike, acceptLike) => {
-  return(
+  return (
     <View style={styles.responseLikeContainer}>
       <Button onPress={acceptLike} title="Accept" />
       <Button onPress={rejectLike} title="Reject" />
     </View>
-  )
-}
+  );
+};
 
 const renderLikeContainer = (like) => {
-  return(
+  return (
     <View style={styles.likeButton}>
       <Button onPress={like} title="Like" />
     </View>
-  )
-}
+  );
+};
 
 const renderCityName = (city: City | undefined) => {
   if (!city) return undefined;
-  return <Text style={styles.subText}>{city.fullName} </Text>
-}
+  return <Text style={styles.subText}>{city.fullName} </Text>;
+};
 
 const renderBadge = (badgeName: string | undefined) => {
   if (!badgeName) return undefined;
@@ -52,13 +53,33 @@ const renderBadge = (badgeName: string | undefined) => {
   );
 };
 
-const UserDetailsBox: React.SFC<Props> = props => {
-  const { liked, rejectLike, acceptLike, like, user} = props;
-  const { displayName, occupation, city, companyName, schoolName, occupationType, skills, introduction, photos } = user;
-  console.log(user)
-  return(
-    <View style={styles.container}>
-      <CarouselPanel photos={photos} />
+const UserDetailsBox: React.SFC<Props> = (props) => {
+  const { liked, rejectLike, acceptLike, like, user } = props;
+  let {
+    displayName,
+    occupation,
+    city,
+    companyName,
+    schoolName,
+    occupationType,
+    skills,
+    introduction,
+    photos
+  } = user;
+  occupation = "Software Engineer";
+  companyName = "Google";
+  schoolName = "UC Berkley";
+  introduction =
+    "I'm a genuine technology lover who codes literally everyday.\nFor most of my past career, Ive worked for a small team. I love to wear many hats - from backend and front-end to mobile or DevOps, and I am happy to take on any role to make a better product.\nMy true passion is not to learn a new technology itself, but to create a great product with ambitious teammates which contributes to our life.\nI'm a full stack engineer, who is especially proficient in Ruby, Rails and React/Redux.\nMy recent project, built in Rails and React/Redux,  got over 500 stars in GitHub.";
+  return (
+    <ScrollView
+      alwaysBounceVertical={true}
+      showsVerticalScrollIndicator={false}
+      contentContainerStyle={styles.container}
+    >
+      <View style={styles.carouselWrapper}>
+        <CarouselPanel photos={photos} />
+      </View>
       <View style={styles.headerContainer}>
         <View style={styles.mainTextContainer}>
           <Text style={styles.titleText}>{displayName} </Text>
@@ -68,26 +89,19 @@ const UserDetailsBox: React.SFC<Props> = props => {
       </View>
       <Divider style={styles.divider} />
       <View style={styles.detailsContainer}>
-        <View style={styles.textGroup}>
-          <Text style={styles.labelText}>Position</Text>
-          <Text style={styles.mainText}>{occupation}</Text>
-        </View> 
-        <View style={styles.textGroup}>
-          <Text style={styles.labelText}>Company / School </Text>
-          <Text style={styles.mainText}>{`${companyName} /  ${schoolName}`}</Text>
-        </View> 
-        <View style={styles.textGroup}>
-          <Text style={styles.labelText}>Introduction </Text>
-          <Text style={styles.mainText}>{introduction}</Text>
-        </View> 
+        <TextGroup labelName="Occupation" text={occupation} />
+        <TextGroup
+          labelName="Company / School"
+          text={`${companyName} /  ${schoolName}`}
+        />
+        <TextGroup labelName="Introduction" text={introduction} />
         <View style={styles.skillListContainer}>
           <SkillList skills={skills} />
-        </View> 
+        </View>
       </View>
       {renderActionContainer(liked, like, rejectLike, acceptLike)}
-    </View>
-
-  )
-}
+    </ScrollView>
+  );
+};
 
 export default UserDetailsBox;

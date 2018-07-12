@@ -7,13 +7,13 @@ type Style = {
 
 const styles = StyleSheet.create<Style>({
   container: {
-    height: 200,
+    height: "100%",
     flexDirection: "row",
     borderBottomWidth: 1
   },
   image: {
     width,
-    height: 200
+    height: "100%"
   }
 })
 
