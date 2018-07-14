@@ -1,11 +1,13 @@
 import * as React from "react";
 import { View, ScrollView } from "react-native";
-import { Divider, Badge, Text, Button } from "react-native-elements";
+import { Divider, Badge, Text, Button, Icon } from "react-native-elements";
 import SkillList from "../SkillList";
 import CarouselPanel from "../CarouselPanel";
 import TextGroup from "../TextGroup";
 import { UserDetails, City } from "../../../../interfaces";
+import { CLOSE_ICON, HEART_OUTLINE_ICON, CHECK_OUTLINE_ICON } from "../../../../constants/icons";
 import styles from "./styles";
+
 
 type Props = {
   liked: boolean;
@@ -23,16 +25,16 @@ const renderActionContainer = (liked, like, rejectLike, acceptLike) => {
 const renderResponseLikeContainer = (rejectLike, acceptLike) => {
   return (
     <View style={styles.responseLikeContainer}>
-      <Button onPress={acceptLike} title="Accept" />
-      <Button onPress={rejectLike} title="Reject" />
+      <Icon size={40} color="blue" containerStyle={styles.iconContainer} name={CHECK_OUTLINE_ICON} type="MaterialCommunityIcons" onPress={acceptLike} />
+      <Icon size={40} color="blue" containerStyle={styles.iconContainer} name={CLOSE_ICON} type="MaterialCommunityIcons" onPress={rejectLike} />
     </View>
   );
 };
 
 const renderLikeContainer = (like) => {
   return (
-    <View style={styles.likeButton}>
-      <Button onPress={like} title="Like" />
+    <View style={styles.likeContainer}>
+      <Icon size={40} color="blue" containerStyle={styles.iconContainer} type="MaterialCommunityIcons" name={HEART_OUTLINE_ICON} onPress={like} />
     </View>
   );
 };

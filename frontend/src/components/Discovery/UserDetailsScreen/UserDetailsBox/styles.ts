@@ -76,11 +76,23 @@ const styles = StyleSheet.create({
    
   },
   responseLikeContainer: {
-
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginLeft: Math.trunc(width * 0.25),
+    marginRight: Math.trunc(width * 0.25)
   },
-  likeButton: {
-
+  likeContainer: {
+    flexDirection: "row",
+    justifyContent: "center"
   },
+  iconContainer: {
+    padding: 10,
+    width: 60,
+    height: 60,
+    borderColor: "blue",
+    borderWidth: 1,
+    borderRadius: 30
+  }
 
 })
 
