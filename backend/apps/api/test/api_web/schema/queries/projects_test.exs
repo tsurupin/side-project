@@ -2,10 +2,15 @@ defmodule ApiWeb.Schema.Queries.ProjectsTest do
   use ApiWeb.ConnCase, async: false
   import Mock
   alias Db.Uploaders.ProjectPhotoUploader
+  alias Db.Uploaders.UserPhotoUploader
 
   describe "project detail query" do
     setup do
-      owner = Factory.insert(:user)
+      occupation_type = Factory.insert(:occupation_type)
+
+      owner = Factory.insert(:user, occupation_type: occupation_type)
+      user_photo = Factory.insert(:user_photo, user: owner, rank: 0)
+
       genre = Factory.insert(:genre)
 
       san_francisco =
@@ -20,6 +25,7 @@ defmodule ApiWeb.Schema.Queries.ProjectsTest do
         Factory.insert(:project, genre: genre, city: san_francisco, owner: owner, status: 1)
 
       skill = Factory.insert(:skill)
+      member = Factory.insert(:project_member, project: project, user: owner)
 
       Factory.insert(:project_skill, project: project, skill: skill)
       photo = Factory.insert(:project_photo, project: project)
@@ -31,6 +37,9 @@ defmodule ApiWeb.Schema.Queries.ProjectsTest do
         owner: owner,
         genre: genre,
         city: san_francisco,
+        user: owner,
+        user_photo_url: UserPhotoUploader.url({user_photo.image_url, user_photo}, :thumb),
+        occupation_type: occupation_type,
         photo_url: ProjectPhotoUploader.url({photo.image_url, photo}, :thumb)
       }
     end
@@ -60,6 +69,15 @@ defmodule ApiWeb.Schema.Queries.ProjectsTest do
             id
             fullName
           }
+          users {
+            id
+            displayName
+            mainPhotoUrl
+            occupationType {
+              id
+              name
+            }
+          }
           photos {
             imageUrl
           }
@@ -70,9 +88,13 @@ defmodule ApiWeb.Schema.Queries.ProjectsTest do
       %{
         project: project,
         skill: skill,
+
         genre: genre,
         owner: owner,
         city: city,
+        user: user,
+        user_photo_url: user_photo_url,
+        occupation_type: occupation_type,
         photo_url: photo_url
       } = cxt
 
@@ -95,6 +117,7 @@ defmodule ApiWeb.Schema.Queries.ProjectsTest do
             "id" => "#{city.id}",
             "fullName" => "#{city.name}, #{city.state_abbreviation}"
           },
+          "users" => [%{"id" => "#{user.id}", "displayName" => user.display_name, "mainPhotoUrl" => user_photo_url, "occupationType" => %{"id" => "#{occupation_type.id}", "name" => occupation_type.name} }],
           "photos" => [%{"imageUrl" => photo_url}]
         }
       }

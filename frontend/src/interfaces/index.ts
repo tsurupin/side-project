@@ -120,6 +120,7 @@ export interface ProjectDetails extends ProjectCore {
   motivation: string | undefined;
   requirement: string | undefined;
   owner: UserCore;
+  members: UserCore[],
   genre: Genre;
   skills: Skill[];
   photos: ProjectPhoto[];

@@ -1,3 +1,3 @@
-import LikeButton from "./LikeButton";
+import ProjectDetailsBox from "./ProjectDetailsBox";
 
-export { LikeButton };
+export { ProjectDetailsBox };

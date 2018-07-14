@@ -2,7 +2,7 @@ import * as React from "react";
 import { View, ScrollView } from "react-native";
 import { Divider, Badge, Text, Icon } from "react-native-elements";
 import { SkillList, CarouselPanel, TextGroup } from "../../../Commons";
-import { UserDetails, City } from "../../../../interfaces";
+import { ProjectDetails, City } from "../../../../interfaces";
 import {
   CLOSE_ICON,
   HEART_OUTLINE_ICON,
@@ -12,53 +12,8 @@ import styles from "./styles";
 
 type Props = {
   liked: boolean;
-  rejectLike?: () => void;
-  acceptLike?: () => void;
   like?: () => void;
-  user: UserDetails;
-};
-
-const renderActionContainer = (liked, like, rejectLike, acceptLike) => {
-  if (liked) return renderLikeContainer(like);
-  return renderResponseLikeContainer(rejectLike, acceptLike);
-};
-
-const renderResponseLikeContainer = (rejectLike, acceptLike) => {
-  return (
-    <View style={styles.responseLikeContainer}>
-      <Icon
-        size={40}
-        color="blue"
-        containerStyle={styles.iconContainer}
-        name={CHECK_OUTLINE_ICON}
-        type="MaterialCommunityIcons"
-        onPress={acceptLike}
-      />
-      <Icon
-        size={40}
-        color="blue"
-        containerStyle={styles.iconContainer}
-        name={CLOSE_ICON}
-        type="MaterialCommunityIcons"
-        onPress={rejectLike}
-      />
-    </View>
-  );
-};
-
-const renderLikeContainer = (like) => {
-  return (
-    <View style={styles.likeContainer}>
-      <Icon
-        size={40}
-        color="blue"
-        containerStyle={styles.iconContainer}
-        type="MaterialCommunityIcons"
-        name={HEART_OUTLINE_ICON}
-        onPress={like}
-      />
-    </View>
-  );
+  project: ProjectDetails;
 };
 
 const renderCityName = (city: City | undefined) => {
@@ -78,18 +33,18 @@ const renderBadge = (badgeName: string | undefined) => {
 };
 
 const UserDetailsBox: React.SFC<Props> = (props) => {
-  const { liked, rejectLike, acceptLike, like, user } = props;
+  const { liked, like, project } = props;
   let {
-    displayName,
-    occupation,
+    title,
+    genre,
     city,
-    companyName,
-    schoolName,
-    occupationType,
+    leadSentence,
+    motivation,
+    owner,
+    members,
     skills,
-    introduction,
     photos
-  } = user;
+  } = project;
   occupation = "Software Engineer";
   companyName = "Google";
   schoolName = "UC Berkley";
@@ -106,24 +61,30 @@ const UserDetailsBox: React.SFC<Props> = (props) => {
       </View>
       <View style={styles.headerContainer}>
         <View style={styles.mainTextContainer}>
-          <Text style={styles.titleText}>{displayName} </Text>
+          <Text style={styles.titleText}>{title} </Text>
           {renderCityName(city)}
         </View>
-        {renderBadge(occupationType ? occupationType.name : undefined)}
+        {renderBadge(genre? genre.name : undefined)}
       </View>
       <Divider style={styles.divider} />
       <View style={styles.detailsContainer}>
-        <TextGroup labelName="Occupation" text={occupation} />
-        <TextGroup
-          labelName="Company / School"
-          text={`${companyName} /  ${schoolName}`}
-        />
-        <TextGroup labelName="Introduction" text={introduction} />
+        <TextGroup labelName="Lead Sentence" text={leadSentence} />
+        <TextGroup labelName="Motivation" text={motivation} />
+        
         <View style={styles.skillListContainer}>
           <SkillList skills={skills} />
         </View>
       </View>
-      {renderActionContainer(liked, like, rejectLike, acceptLike)}
+      <View style={styles.likeContainer}>
+        <Icon
+          size={40}
+          color="blue"
+          containerStyle={styles.iconContainer}
+          type="MaterialCommunityIcons"
+          name={HEART_OUTLINE_ICON}
+          onPress={like}
+        />
+      </View>
     </ScrollView>
   );
 };

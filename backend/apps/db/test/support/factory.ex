@@ -123,6 +123,7 @@ defmodule Db.Factory do
     %Users.Photo{
       user: build(:user),
       rank: sequence(:rank, & &1),
+      uuid: Ecto.UUID.generate(),
       image_url: %Plug.Upload{
         content_type: "image/jpeg",
         filename: "project1.jpg",
@@ -149,6 +150,7 @@ defmodule Db.Factory do
     %Projects.Photo{
       project: build(:project),
       rank: sequence(:rank, & &1),
+      uuid: Ecto.UUID.generate(),
       image_url: %Plug.Upload{
         content_type: "image/jpeg",
         filename: "project1.jpg",
@@ -211,6 +213,7 @@ defmodule Db.Factory do
     %Chats.Message{
       chat: build(:chat),
       user: build(:user),
+      uuid: Ecto.UUID.generate(),
       comment: "comment"
     }
   end
@@ -220,6 +223,7 @@ defmodule Db.Factory do
     %Chats.Message{
       chat: build(:chat),
       user: build(:user),
+      uuid: Ecto.UUID.generate(),
       image_url: %Plug.Upload{
         content_type: "image/jpeg",
         filename: "project1.jpg",

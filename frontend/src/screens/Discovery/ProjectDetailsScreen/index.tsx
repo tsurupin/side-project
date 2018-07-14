@@ -1,13 +1,11 @@
 import * as React from "react";
 import { View, TouchableOpacity, Text, Button } from "react-native";
 import { ProjectDetailsQuery } from "../../../queries/projects";
-import {
-  BACK_BUTTON
-} from "../../../constants/buttons";
+import { BACK_BUTTON } from "../../../constants/buttons";
 import styles from "./styles";
 import { LikeProjectMutation } from "../../../mutations/projectLikes";
 import { LIKED_PROJECT_DETAILS_SCREEN } from "../../../constants/screens";
-import { LikeButton } from "../../../components/Discovery/ProjectDetailsScreen";
+import { ProjectDetailsBox } from "../../../components/Discovery/ProjectDetailsScreen";
 import { ProjectDetails } from "../../../interfaces";
 
 type Props = {
@@ -18,13 +16,12 @@ type Props = {
 type State = {};
 
 class ProjectDetailsScreen extends React.Component<Props, State> {
-
   constructor(props: Props) {
     super(props);
     this.props.navigator.setOnNavigatorEvent(this.handleNavigatorEvent);
   }
 
-  private handleNavigatorEvent = e => {
+  private handleNavigatorEvent = (e) => {
     if (e.type !== "NavBarButtonPress") return;
 
     console.log(e);
@@ -34,9 +31,9 @@ class ProjectDetailsScreen extends React.Component<Props, State> {
     }
   };
 
-  private handlePressLike = (likeProjectMutation) => {
-    likeProjectMutation({variables: {projectId: this.props.id}})
-  }
+  private handlePress = (likeProjectMutation) => {
+    likeProjectMutation({ variables: { projectId: this.props.id } });
+  };
 
   render() {
     const { id } = this.props;
@@ -57,15 +54,15 @@ class ProjectDetailsScreen extends React.Component<Props, State> {
               </View>
             );
 
-          const project: ProjectDetails = data;
-          
+          const project: ProjectDetails = data.project;
+
           return (
             <View>
               <Text>{project.id}</Text>
               <LikeProjectMutation>
                 {({ likeProjectMutation, data, loading, error }) => {
                   if (loading) {
-                    <Text>loading</Text>
+                    <Text>loading</Text>;
                   }
                   if (error) {
                     // Alert
@@ -74,13 +71,17 @@ class ProjectDetailsScreen extends React.Component<Props, State> {
                     // Alert
                     this.props.navigator.push({
                       screen: LIKED_PROJECT_DETAILS_SCREEN,
-                      passProps: {id}
+                      passProps: { id }
                     });
-                    return <View />
+                    return <View />;
                   }
 
                   return (
-                    <LikeButton onPress={() => this.handlePressLike(likeProjectMutation)} name="Like This project" />
+                    <ProjectDetailsBox
+                      project={project}
+                      liked={false}
+                      like={() => this.handlePress(likeProjectMutation)}
+                    />
                   );
                 }}
               </LikeProjectMutation>

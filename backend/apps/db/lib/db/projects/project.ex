@@ -3,7 +3,7 @@ defmodule Db.Projects.Project do
   import Ecto.Changeset
   alias Db.Users.User
   alias Db.Genres.Genre
-  alias Db.Projects.Photo
+  alias Db.Projects.{Photo, Member}
   alias Db.Skills.Skill
   alias Db.Locations.City
   alias Db.Users.Favorite
@@ -25,6 +25,7 @@ defmodule Db.Projects.Project do
     belongs_to(:city, City)
     has_many(:photos, Photo)
     has_many(:favorites, Favorite)
+    many_to_many(:users, User, join_through: "project_members")
     many_to_many(:skills, Skill, join_through: "project_skills")
 
     timestamps(type: :utc_datetime)

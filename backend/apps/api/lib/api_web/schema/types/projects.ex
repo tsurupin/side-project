@@ -17,6 +17,7 @@ defmodule ApiWeb.Schema.Types.Projects do
     field(:updated_at, :native_datetime)
     field(:skills, list_of(:skill))
     field(:photos, list_of(:project_photo))
+    field(:users, list_of(:user))
 
     field(
       :main_photo_url,
