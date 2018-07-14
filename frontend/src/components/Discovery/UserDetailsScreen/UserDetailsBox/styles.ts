@@ -73,8 +73,7 @@ const styles = StyleSheet.create({
   },
 
   skillListContainer: {
-    marginLeft: Math.trunc(width * 0.05),
-    marginRight: Math.trunc(width * 0.05)
+   
   },
   responseLikeContainer: {
 

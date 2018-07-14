@@ -21,6 +21,12 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     marginBottom: 10
   },
+  badgeFirstContainer: {
+    padding: 5,
+    height: 30,
+    marginLeft: 0,
+    marginBottom: 10
+  },
   badgeText: {
     color: "white",
     fontSize: 14
