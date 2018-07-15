@@ -4,7 +4,7 @@ import { ProjectDetailsQuery } from "../../../queries/projects";
 import { BACK_BUTTON } from "../../../constants/buttons";
 import styles from "./styles";
 import { LikeProjectMutation } from "../../../mutations/projectLikes";
-import { LIKED_PROJECT_DETAILS_SCREEN } from "../../../constants/screens";
+import { LIKED_PROJECT_DETAILS_SCREEN, USER_DETAILS_SCREEN } from "../../../constants/screens";
 import { ProjectDetailsBox } from "../../../components/Discovery/ProjectDetailsScreen";
 import { ProjectDetails } from "../../../interfaces";
 
@@ -13,11 +13,16 @@ type Props = {
   navigator: any;
 };
 
-type State = {};
+type State = {
+  isOpen: boolean;
+};
 
 class ProjectDetailsScreen extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
+    this.state = {
+      isOpen: false
+    }
     this.props.navigator.setOnNavigatorEvent(this.handleNavigatorEvent);
   }
 
@@ -35,8 +40,18 @@ class ProjectDetailsScreen extends React.Component<Props, State> {
     likeProjectMutation({ variables: { projectId: this.props.id } });
   };
 
+  private handleUserPress = (userId: string) => {
+    this.props.navigator.push({
+      screen: USER_DETAILS_SCREEN,
+      passProps: {
+        id: userId
+      }
+    })
+  }
+
   render() {
     const { id } = this.props;
+    const { isOpen } = this.state;
     return (
       <ProjectDetailsQuery variables={{ id }}>
         {({ data, loading, error }) => {
@@ -80,6 +95,9 @@ class ProjectDetailsScreen extends React.Component<Props, State> {
                     <ProjectDetailsBox
                       project={project}
                       liked={false}
+                      isOpen={isOpen}
+                      onPressUser={this.handleUserPress}
+                      onToggleIcon={(isOpen) => this.setState({isOpen: !isOpen})}
                       like={() => this.handlePress(likeProjectMutation)}
                     />
                   );

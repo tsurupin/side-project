@@ -98,6 +98,31 @@ const styles = StyleSheet.create({
     borderColor: "blue",
     borderWidth: 1,
     borderRadius: 30
+  },
+  userListWrapper: {
+    marginTop: 20,
+    marginBottom: 30
+  },
+  userListHeader: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    height: 40,
+    width: "100%"
+  },
+
+  label: {  
+    fontSize: 16,
+    fontWeight: "bold",
+    color: "grey",
+    marginBottom: 5
+  },
+  userListIconContainer: {
+    padding: 5,
+    width: 30,
+    height: 30,
+    borderColor: "blue",
+    borderWidth: 1,
+    borderRadius: 15
   }
 
 })
