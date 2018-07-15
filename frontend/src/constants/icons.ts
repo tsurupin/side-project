@@ -8,6 +8,9 @@ const FILTER_OUTLINE_ICON = "filter-outline";
 const LIBRARY_BOOKS_ICON = "library-books";
 const HEART_OUTLINE_ICON = "heart-outline";
 const CHECK_OUTLINE_ICON = "check-outline";
+const UNFOLD_MORE_HORIZONTAL_ICON = "unfold-more-horizontal";
+const UNFOLD_LESS_HORIZONTAL_ICON = "unfold-less-horizontal";
+
 export {
 
   CHECK_ICON,
@@ -19,5 +22,7 @@ export {
   LIBRARY_BOOKS_ICON,
   HEART_OUTLINE_ICON,
   CHECK_OUTLINE_ICON,
-  CLOSE_ICON
+  CLOSE_ICON,
+  UNFOLD_LESS_HORIZONTAL_ICON,
+  UNFOLD_MORE_HORIZONTAL_ICON
 }

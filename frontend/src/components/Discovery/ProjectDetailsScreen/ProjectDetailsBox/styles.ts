@@ -72,7 +72,13 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
 
-  skillListContainer: {
+  ownerWrapper: {
+
+  },
+  userListWrapper: {
+
+  },
+  skillListWrapper: {
    
   },
   responseLikeContainer: {

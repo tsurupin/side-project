@@ -14,6 +14,15 @@ export const PROJECT_FRAGMENTS = {
         id
         displayName
       }
+      users {
+        id
+        displayName
+        mainPhotoUrl
+        occupationType {
+          id
+          name
+        }
+      }
       genre {
         id
         name
