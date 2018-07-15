@@ -7,7 +7,7 @@ import TextGroup from "./TextGroup";
 import SkillList from "./SkillList";
 import CarouselPanel from "./CarouselPanel";
 
-import InnnerTextInput from "./InnerTextInput";
+import InnerTextInput from "./InnerTextInput";
 //import InnerSelectInput from "./InnerSelectInput";
 
 export {
@@ -19,5 +19,5 @@ export {
     TextGroup,
     SkillList,
     CarouselPanel,
-    InnnerTextInput
+    InnerTextInput
 };

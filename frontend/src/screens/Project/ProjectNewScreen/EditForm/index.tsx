@@ -143,9 +143,11 @@ class EditForm extends React.Component<Props, State> {
       <View style={styles.container}>
         <InnerTextInput
           label="title"
-          placeholder="Title"
+          placeholder="Enter Title"
           value={title}
-          onChange={(key: string, value: string) => this.setState({title: value})}
+          onChange={(key: string, value: string) => {
+            console.log(key, value); 
+            this.setState({title: value})}}
         />
 
         <Input
