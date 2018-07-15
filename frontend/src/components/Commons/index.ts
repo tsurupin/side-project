@@ -8,7 +8,7 @@ import SkillList from "./SkillList";
 import CarouselPanel from "./CarouselPanel";
 
 import InnerTextInput from "./InnerTextInput";
-//import InnerSelectInput from "./InnerSelectInput";
+import InnerSelectInput from "./InnerSelectInput";
 
 export {
     ErrorMessage,
@@ -19,5 +19,6 @@ export {
     TextGroup,
     SkillList,
     CarouselPanel,
-    InnerTextInput
+    InnerTextInput,
+    InnerSelectInput
 };

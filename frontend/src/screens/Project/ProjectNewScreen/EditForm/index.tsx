@@ -2,7 +2,7 @@ import * as React from "react";
 import { View, Button, Text } from "react-native";
 import { ProjectEditParams, Skill, City, Genre } from "../../../../interfaces";
 import { Input } from "react-native-elements";
-import { InnerTextInput } from "../../../../components/Commons";
+import { InnerTextInput, InnerSelectInput } from "../../../../components/Commons";
 import { BACK_BUTTON, SUBMIT_BUTTON } from "../../../../constants/buttons";
 import {
   SKILL_SEARCH_MODAL_SCREEN,
@@ -137,7 +137,7 @@ class EditForm extends React.Component<Props, State> {
   };
 
   render() {
-    const { title, leadSentence } = this.state;
+    const { title, leadSentence, city } = this.state;
 
     return (
       <View style={styles.container}>
@@ -156,13 +156,12 @@ class EditForm extends React.Component<Props, State> {
           value={leadSentence}
           onChangeText={e => this.setState({ leadSentence: e })}
         />
-        <View style={styles.buttonFormBox}>
-          <Text style={styles.textLabel}>City</Text>
-          <Button
-            title="Search City"
-            onPress={() => this.handleCitySearchShowModal()}
-          />
-        </View>
+        <InnerSelectInput
+          placeholder="Select City"
+          value={ city ? city.fullName : ""}
+          label="City"
+          onPress={() => this.handleCitySearchShowModal()}
+        />
 
         <View style={styles.buttonFormBox}>
           <Text style={styles.textLabel}>Skill</Text>

@@ -25,7 +25,6 @@ const styles = StyleSheet.create({
   },
   inputText: {
     color: "black"
-
   },
   errorText: {
     color: "red"
