@@ -6,6 +6,10 @@ import SelectBox from "./SelectBox";
 import TextGroup from "./TextGroup";
 import SkillList from "./SkillList";
 import CarouselPanel from "./CarouselPanel";
+
+import InnnerTextInput from "./InnerTextInput";
+//import InnerSelectInput from "./InnerSelectInput";
+
 export {
     ErrorMessage,
     ErrorAlert,
@@ -14,5 +18,6 @@ export {
     SelectBox,
     TextGroup,
     SkillList,
-    CarouselPanel
+    CarouselPanel,
+    InnnerTextInput
 };

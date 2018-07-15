@@ -36,14 +36,7 @@ class MemberList extends React.Component<Props, State> {
 
     const initialValue = isOpen ? maxHeight + minHeight : minHeight;
     const finalValue = isOpen ? minHeight : maxHeight + minHeight;
-    console.log(
-      "toggling",
-      minHeight,
-      maxHeight,
-      initialValue,
-      finalValue,
-      isOpen
-    );
+  
     this.setState({ isOpen: !this.state.isOpen });
     this.state.currentHeight.setValue(initialValue);
     Animated.spring(this.state.currentHeight, {

@@ -2,6 +2,7 @@ import * as React from "react";
 import { View, Button, Text } from "react-native";
 import { ProjectEditParams, Skill, City, Genre } from "../../../../interfaces";
 import { Input } from "react-native-elements";
+import { InnerTextInput } from "../../../../components/Commons";
 import { BACK_BUTTON, SUBMIT_BUTTON } from "../../../../constants/buttons";
 import {
   SKILL_SEARCH_MODAL_SCREEN,
@@ -9,9 +10,6 @@ import {
 } from "../../../../constants/screens";
 
 import styles from "./styles";
-
-// TODO: Fix screen moves
-// Check uploading images inclusing chat
 
 type Props = {
   navigator: any;
@@ -142,12 +140,12 @@ class EditForm extends React.Component<Props, State> {
     const { title, leadSentence } = this.state;
 
     return (
-      <View>
-        <Input
+      <View style={styles.container}>
+        <InnerTextInput
+          label="title"
           placeholder="Title"
-          containerStyle={styles.inputContainer}
           value={title}
-          onChangeText={e => this.setState({ title: e })}
+          onChange={(key: string, value: string) => this.setState({title: value})}
         />
 
         <Input
