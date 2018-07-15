@@ -1,17 +1,16 @@
 import * as React from "react";
-import { View } from "react-native";
 import { ListItem } from "react-native-elements";
 import { UserCore } from "../../../../interfaces";
 import styles from './styles';
 
 type Props = {
-  user: UserCore;
+  member: UserCore;
   onPress: (userId: string) => void; 
 };
 
-const UserListItem: React.SFC<Props> = (props) => {
-  const { user, onPress } = props;
-  const { displayName, mainPhotoUrl, occupationType } = user;
+const MemberListItem: React.SFC<Props> = (props) => {
+  const { member, onPress } = props;
+  const { displayName, mainPhotoUrl, occupationType } = member;
   return (
     <ListItem
       title={displayName}
@@ -19,9 +18,9 @@ const UserListItem: React.SFC<Props> = (props) => {
       leftAvatar={{
         source: { uri: mainPhotoUrl }
       }}
-      onPress={() => onPress(user.id)}
+      onPress={() => onPress(member.id)}
     />
   );
 };
 
-export default UserListItem;
+export default MemberListItem;

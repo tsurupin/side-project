@@ -106,7 +106,7 @@ const styles = StyleSheet.create({
   userListHeader: {
     flexDirection: "row",
     justifyContent: "space-between",
-    height: 40,
+    height: 20,
     width: "100%"
   },
 
@@ -122,7 +122,8 @@ const styles = StyleSheet.create({
     height: 30,
     borderColor: "blue",
     borderWidth: 1,
-    borderRadius: 15
+    borderRadius: 15,
+    transform: [{rotate: '90deg'}]
   }
 
 })

@@ -13,16 +13,10 @@ type Props = {
   navigator: any;
 };
 
-type State = {
-  isOpen: boolean;
-};
-
-class ProjectDetailsScreen extends React.Component<Props, State> {
+class ProjectDetailsScreen extends React.Component<Props> {
   constructor(props: Props) {
     super(props);
-    this.state = {
-      isOpen: false
-    }
+    
     this.props.navigator.setOnNavigatorEvent(this.handleNavigatorEvent);
   }
 
@@ -51,7 +45,6 @@ class ProjectDetailsScreen extends React.Component<Props, State> {
 
   render() {
     const { id } = this.props;
-    const { isOpen } = this.state;
     return (
       <ProjectDetailsQuery variables={{ id }}>
         {({ data, loading, error }) => {
@@ -95,9 +88,7 @@ class ProjectDetailsScreen extends React.Component<Props, State> {
                     <ProjectDetailsBox
                       project={project}
                       liked={false}
-                      isOpen={isOpen}
                       onPressUser={this.handleUserPress}
-                      onToggleIcon={(isOpen) => this.setState({isOpen: !isOpen})}
                       like={() => this.handlePress(likeProjectMutation)}
                     />
                   );
