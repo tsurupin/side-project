@@ -6,7 +6,6 @@ const styles = StyleSheet.create({
     width: "100%",
     height: 50,
     fontSize: 14,
-    
     marginBottom: 10,
     borderBottomWidth: 1,
     borderColor: "grey"
@@ -21,10 +20,10 @@ const styles = StyleSheet.create({
   },
   inputContainer: {
     flex: 3,
-    borderBottomWidth: 0
   },
   inputText: {
-    color: "black"
+    color: "black",
+
   },
   errorText: {
     color: "red"

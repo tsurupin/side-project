@@ -2,7 +2,13 @@ import * as React from "react";
 import { View, Button, Text } from "react-native";
 import { ProjectEditParams, Skill, City, Genre } from "../../../../interfaces";
 import { Input } from "react-native-elements";
-import { InnerTextInput, InnerSelectInput } from "../../../../components/Commons";
+import { CLOSE_ICON } from "../../../../constants/icons";
+import { CLOSE_BUTTON } from "../../../../constants/buttons";
+import { getIcon } from "../../../../utilities/iconLoader";
+import {
+  InnerTextInput,
+  InnerSelectInput
+} from "../../../../components/Commons";
 import { BACK_BUTTON, SUBMIT_BUTTON } from "../../../../constants/buttons";
 import {
   SKILL_SEARCH_MODAL_SCREEN,
@@ -54,21 +60,21 @@ class EditForm extends React.Component<Props, State> {
     const stringKeys = ["title", "leadSentence", "motivation", "requirement"];
     const objectKeys = ["genre", "city"];
     const arrayObjectKeys = ["skills"];
-    stringKeys.forEach(key => (params[key] = this.state[key]));
-    objectKeys.forEach(key => {
+    stringKeys.forEach((key) => (params[key] = this.state[key]));
+    objectKeys.forEach((key) => {
       if (this.state[key]) {
         params[key] = this.state[key] ? this.state[key].id : undefined;
       }
     });
 
-    arrayObjectKeys.forEach(key => {
-      params[`${key}Ids`] = this.state[key].map(item => item.id);
+    arrayObjectKeys.forEach((key) => {
+      params[`${key}Ids`] = this.state[key].map((item) => item.id);
     });
 
     return params;
   };
 
-  private handleNavigatorEvent = e => {
+  private handleNavigatorEvent = (e) => {
     if (e.type !== "NavBarButtonPress") return;
     switch (e.id) {
       case SUBMIT_BUTTON:
@@ -90,7 +96,7 @@ class EditForm extends React.Component<Props, State> {
     longitude: number | undefined = undefined,
     latitude: number | undefined = undefined
   ) => {
-    console.log(city)
+    console.log(city);
     this.setState({ city });
   };
 
@@ -99,7 +105,16 @@ class EditForm extends React.Component<Props, State> {
       screen: SKILL_SEARCH_MODAL_SCREEN,
       title: "Skill Search",
       animationType: "slide-up",
-      passProps: { onPress: this.handleAddSkill }
+      passProps: { onPress: this.handleAddSkill },
+      navigatorButtons: {
+        leftButtons: [
+          {
+            icon: getIcon(CLOSE_ICON),
+            title: "Close",
+            id: CLOSE_BUTTON
+          }
+        ]
+      }
     });
   };
 
@@ -111,19 +126,28 @@ class EditForm extends React.Component<Props, State> {
       passProps: {
         onPress: this.handleUpdateLocation,
         needLocationSearch: true
+      },
+      navigatorButtons: {
+        leftButtons: [
+          {
+            icon: getIcon(CLOSE_ICON),
+            title: "Close",
+            id: CLOSE_BUTTON
+          }
+        ]
       }
     });
   };
 
   protected handleDeleteSkill = (id: string) => {
-    const skills = this.state.skills.filter(skill => skill.id !== id);
+    const skills = this.state.skills.filter((skill) => skill.id !== id);
     this.setState({ skills });
   };
 
   private renderSkillList = () => {
     return (
       <View>
-        {this.state.skills.map(skill => {
+        {this.state.skills.map((skill) => {
           return (
             <Button
               key={skill.id}
@@ -146,19 +170,20 @@ class EditForm extends React.Component<Props, State> {
           placeholder="Enter Title"
           value={title}
           onChange={(key: string, value: string) => {
-            console.log(key, value); 
-            this.setState({title: value})}}
+            console.log(key, value);
+            this.setState({ title: value });
+          }}
         />
 
         <Input
           placeholder="Lead Sentence"
           containerStyle={styles.inputContainer}
           value={leadSentence}
-          onChangeText={e => this.setState({ leadSentence: e })}
+          onChangeText={(e) => this.setState({ leadSentence: e })}
         />
         <InnerSelectInput
           placeholder="Select City"
-          value={ city ? city.fullName : ""}
+          value={city ? city.fullName : ""}
           label="City"
           onPress={() => this.handleCitySearchShowModal()}
         />
