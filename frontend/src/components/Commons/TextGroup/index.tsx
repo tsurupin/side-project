@@ -6,17 +6,17 @@ import styles from "./styles";
 type Props = {
   labelName: string;
   text: string | undefined;
-}
+};
 
-const TextGroup: React.SFC<Props> = props => {
+const TextGroup: React.SFC<Props> = (props) => {
   const { labelName, text } = props;
-  
+
   return (
     <View style={styles.container}>
       <Text style={styles.labelText}>{labelName}</Text>
       <Text style={styles.text}>{text}</Text>
-    </View> 
-  )
-}
+    </View>
+  );
+};
 
 export default TextGroup;

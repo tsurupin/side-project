@@ -1,7 +1,7 @@
 import * as React from "react";
 import { View, TouchableOpacity, Text, Button, Alert } from "react-native";
 import { ErrorMessage } from "../../../components/Commons";
-import EditForm  from "./EditForm";
+import EditForm from "./EditForm";
 import { ProjectEditParams } from "../../../interfaces";
 import { CreateProjectMutation } from "../../../mutations/projects";
 import { PROJECT_DETAILS_SCREEN } from "../../../constants/screens";
@@ -43,7 +43,7 @@ class ProjectNewScreen extends React.Component<Props> {
               screen: PROJECT_DETAILS_SCREEN,
               passProps: { id: data.createProject.id }
             });
-          }  
+          }
 
           return (
             <EditForm
