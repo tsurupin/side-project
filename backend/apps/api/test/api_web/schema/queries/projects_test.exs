@@ -88,7 +88,6 @@ defmodule ApiWeb.Schema.Queries.ProjectsTest do
       %{
         project: project,
         skill: skill,
-
         genre: genre,
         owner: owner,
         city: city,
@@ -117,7 +116,17 @@ defmodule ApiWeb.Schema.Queries.ProjectsTest do
             "id" => "#{city.id}",
             "fullName" => "#{city.name}, #{city.state_abbreviation}"
           },
-          "users" => [%{"id" => "#{user.id}", "displayName" => user.display_name, "mainPhotoUrl" => user_photo_url, "occupationType" => %{"id" => "#{occupation_type.id}", "name" => occupation_type.name} }],
+          "users" => [
+            %{
+              "id" => "#{user.id}",
+              "displayName" => user.display_name,
+              "mainPhotoUrl" => user_photo_url,
+              "occupationType" => %{
+                "id" => "#{occupation_type.id}",
+                "name" => occupation_type.name
+              }
+            }
+          ],
           "photos" => [%{"imageUrl" => photo_url}]
         }
       }
