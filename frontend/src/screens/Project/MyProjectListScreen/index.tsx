@@ -4,7 +4,11 @@ import { MyProjectListQuery } from "../../../queries/projects";
 import { ProjectCore } from "../../../interfaces";
 import { ProjectRow } from "../../../components/Project/MyProjectListScreen";
 import { LIKED_PROJECT_DETAILS_SCREEN } from "../../../constants/screens";
-import { PROJECT_NEW_BUTTON, BACK_BUTTON, SUBMIT_PROJECT_NEW_BUTTON } from "../../../constants/buttons";
+import {
+  PROJECT_NEW_BUTTON,
+  BACK_BUTTON,
+  SUBMIT_PROJECT_NEW_BUTTON
+} from "../../../constants/buttons";
 import { PROJECT_NEW_SCREEN } from "../../../constants/screens";
 
 type Props = {
@@ -17,7 +21,7 @@ class MyProjectListScreen extends React.Component<Props> {
     this.props.navigator.setOnNavigatorEvent(this.handleNavigatorEvent);
   }
 
-  private handleNavigatorEvent = e => {
+  private handleNavigatorEvent = (e) => {
     if (e.type !== "NavBarButtonPress") return;
 
     console.log(e);
@@ -71,8 +75,8 @@ class MyProjectListScreen extends React.Component<Props> {
               );
 
             const projects: ProjectCore[] = data.myProjects;
-          
-            return projects.map(project => {
+
+            return projects.map((project) => {
               return (
                 <ProjectRow
                   key={project.id}

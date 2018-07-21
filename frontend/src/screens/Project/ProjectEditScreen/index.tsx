@@ -30,8 +30,8 @@ class ProjectEditScreen extends React.Component<Props> {
     super(props);
   }
 
-  handlePress = mutation => {
-    ImagePicker.showImagePicker({}, async response => {
+  handlePress = (mutation) => {
+    ImagePicker.showImagePicker({}, async (response) => {
       console.log("Response = ", response);
 
       if (response.didCancel) {
@@ -39,10 +39,8 @@ class ProjectEditScreen extends React.Component<Props> {
       } else if (response.error) {
         console.log("ImagePicker Error: ", response.error);
       } else if (response.customButton) {
-
         console.log("User tapped custom button: ", response.customButton);
       } else {
-        
         try {
           const uri = await ImageResizer.createResizedImage(
             response.uri,
@@ -82,7 +80,7 @@ class ProjectEditScreen extends React.Component<Props> {
   };
 
   renderPhotos = (mutation, photos) => {
-    return photos.map(photo => {
+    return photos.map((photo) => {
       return (
         <Photo
           key={photo.id}
