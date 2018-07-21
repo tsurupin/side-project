@@ -158,6 +158,7 @@ defmodule Db.Projects.Projects do
   @limit_num 15
   @spec build_queries(Ecto.Queryable.t(), map) :: Ecto.Queryable.t()
   defp build_queries(query, conditions) do
+    IO.inspect(conditions)
     queries =
       Enum.reduce(conditions, query, fn
         {:genre_id, genre_id}, queries ->

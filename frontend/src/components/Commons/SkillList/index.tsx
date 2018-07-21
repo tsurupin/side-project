@@ -1,7 +1,7 @@
 import * as React from "react";
 import { View } from "react-native";
 import { Badge, Text } from "react-native-elements";
-import { Skill } from "../../../../interfaces";
+import { Skill } from "../../../interfaces";
 import styles from "./styles";
 
 type Props = {

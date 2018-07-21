@@ -153,6 +153,7 @@ class DiscoveryScreen extends React.Component<Props, State> {
 
   private cleanupParams = (searchParams): any => {
     let conditions = {};
+    console.log(searchParams)
 
     for (let key in searchParams) {
       let value = searchParams[key];
@@ -167,7 +168,10 @@ class DiscoveryScreen extends React.Component<Props, State> {
         }
       } else if (value !== undefined && value !== null) {
         if (key === "city") {
-          conditions["cityId"] = value.id;
+          if (value.id) {
+            conditions["cityId"] = value.id;
+          }
+          
         } else {
           conditions[key] = value;
         }
