@@ -8,6 +8,7 @@ import SkillList from "./SkillList";
 import CarouselPanel from "./CarouselPanel";
 
 import InnerTextInput from "./InnerTextInput";
+import InnerDetailsInput from "./InnerDetailsInput";
 import InnerSelectInput from "./InnerSelectInput";
 import Chevron from "./Chevron";
 export {
@@ -20,6 +21,7 @@ export {
     SkillList,
     CarouselPanel,
     InnerTextInput,
+    InnerDetailsInput,
     InnerSelectInput,
     Chevron
 };

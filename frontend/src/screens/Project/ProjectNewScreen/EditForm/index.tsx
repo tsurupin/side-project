@@ -1,18 +1,21 @@
 import * as React from "react";
-import { View, Button, Text } from "react-native";
+import { View, Button, Text, FlatList } from "react-native";
 import { ProjectEditParams, Skill, City, Genre } from "../../../../interfaces";
-import { Input } from "react-native-elements";
+import { Input, ListItem } from "react-native-elements";
 import { CLOSE_ICON } from "../../../../constants/icons";
 import { CLOSE_BUTTON } from "../../../../constants/buttons";
 import { getIcon } from "../../../../utilities/iconLoader";
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import {
   InnerTextInput,
+  InnerDetailsInput,
   InnerSelectInput
 } from "../../../../components/Commons";
 import { BACK_BUTTON, SUBMIT_BUTTON } from "../../../../constants/buttons";
 import {
   SKILL_SEARCH_MODAL_SCREEN,
-  CITY_SEARCH_MODAL_SCREEN
+  CITY_SEARCH_MODAL_SCREEN,
+  PICKER_SCREEN
 } from "../../../../constants/screens";
 
 import styles from "./styles";
@@ -86,6 +89,43 @@ class EditForm extends React.Component<Props, State> {
     }
   };
 
+  private handleChangeValue = (
+    key: string,
+    value: number
+  ) => {
+    let changeAttr = {};
+    changeAttr[key] = value;
+
+    this.setState(changeAttr);
+
+  };
+
+
+  private handlePressShowModal = (
+    items: any[],
+    keyName: string,
+    selectedValue: string | number | undefined
+  ) => {
+    this.props.navigator.showModal({
+      screen: PICKER_SCREEN,
+      passProps: {
+        items,
+        keyName,
+        selectedValue,
+        onPress: this.handleChangeValue
+      },
+      navigatorButtons: {
+        leftButtons: [
+          {
+            icon: getIcon(CLOSE_ICON),
+            title: "CLOSE",
+            id: CLOSE_BUTTON
+          }
+        ]
+      }
+    });
+  };
+
   private handleAddSkill = (skill: Skill) => {
     const skills = Array.from(new Set(this.state.skills.concat(skill)));
     this.setState({ skills });
@@ -145,23 +185,48 @@ class EditForm extends React.Component<Props, State> {
   };
 
   private renderSkillList = () => {
+    return <FlatList data={this.state.skills} renderItem={this.renderSkill} />;
+  };
+
+  private renderSkill = (data) => {
+    const skill: Skill = data.item;
     return (
-      <View>
-        {this.state.skills.map((skill) => {
-          return (
-            <Button
-              key={skill.id}
-              title={skill.name}
-              onPress={() => this.handleDeleteSkill(skill.id)}
-            />
-          );
-        })}
-      </View>
+      <ListItem
+        key={skill.id}
+        title={skill.name}
+        bottomDivider
+        rightIcon={this.renderSkillRemoveIcon(skill.id)}
+      />
+    );
+  };
+
+  private renderSkillAddIcon = () => {
+    return (
+      <MaterialCommunityIcons
+        name="plus"
+        onPress={() => this.handleSkillSearchShowModal()}
+      />
+    );
+  };
+
+  private renderSkillRemoveIcon = (skillId: string) => {
+    return (
+      <MaterialCommunityIcons
+        name="minus-circle"
+        onPress={() => this.handleDeleteSkill(skillId)}
+      />
     );
   };
 
   render() {
-    const { title, leadSentence, city } = this.state;
+    const {
+      title,
+      leadSentence,
+      genre,
+      motivation,
+      requirement,
+      city
+    } = this.state;
 
     return (
       <View style={styles.container}>
@@ -175,11 +240,13 @@ class EditForm extends React.Component<Props, State> {
           }}
         />
 
-        <Input
-          placeholder="Lead Sentence"
-          containerStyle={styles.inputContainer}
-          value={leadSentence}
-          onChangeText={(e) => this.setState({ leadSentence: e })}
+ {/* fetch genres */}
+ {/* Add image upload */}
+         <InnerSelectInput
+          placeholder="Select Genre"
+          value={genre ? genre.name : ""}
+          label="Genre"
+          onPress={() => this.handlePressShowModal([], 'genre', genre? genre.id : undefined)}
         />
         <InnerSelectInput
           placeholder="Select City"
@@ -188,14 +255,39 @@ class EditForm extends React.Component<Props, State> {
           onPress={() => this.handleCitySearchShowModal()}
         />
 
-        <View style={styles.buttonFormBox}>
-          <Text style={styles.textLabel}>Skill</Text>
-          <Button
-            title="Search Skill"
-            onPress={() => this.handleSkillSearchShowModal()}
-          />
-          {this.renderSkillList()}
-        </View>
+        <InnerDetailsInput
+          label="Lead Sentence"
+          placeholder="Enter Lead Sentence"
+          value={leadSentence}
+          onChange={(key: string, value: string) => {
+            this.setState({ leadSentence: value });
+          }}
+        />
+
+        <InnerDetailsInput
+          label="Motivation"
+          placeholder="Enter Motivation"
+          value={motivation}
+          onChange={(key: string, value: string) => {
+            this.setState({ motivation: value });
+          }}
+        />
+        <InnerDetailsInput
+          label="Requirement"
+          placeholder="Enter Requirement"
+          value={requirement}
+          onChange={(key: string, value: string) => {
+            this.setState({ requirement: value });
+          }}
+        />
+         <ListItem
+          key="skills"
+          title="Skills"
+          chevron={false}
+          bottomDivider
+          rightIcon={this.renderSkillAddIcon()}
+        />
+        {this.renderSkillList()}
       </View>
     );
   }
