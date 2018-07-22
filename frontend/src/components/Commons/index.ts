@@ -9,7 +9,7 @@ import CarouselPanel from "./CarouselPanel";
 
 import InnerTextInput from "./InnerTextInput";
 import InnerSelectInput from "./InnerSelectInput";
-
+import Chevron from "./Chevron";
 export {
     ErrorMessage,
     ErrorAlert,
@@ -20,5 +20,6 @@ export {
     SkillList,
     CarouselPanel,
     InnerTextInput,
-    InnerSelectInput
+    InnerSelectInput,
+    Chevron
 };

@@ -15,15 +15,22 @@ const styles = StyleSheet.create({
     flex: 1,
     color: "gray",
     fontWeight: "bold",
-    paddingTop: 23,
+    paddingTop: 18,
     paddingLeft: 10,
   },
   inputContainer: {
+    height: 50,
+    flexDirection: "row",
+    justifyContent: "space-between",
     flex: 3,
+    paddingTop: 18,
+    width: "100%",
   },
   inputText: {
-    color: "black",
-
+    color: "black",    
+  },
+  chevronContainer: {
+    paddingRight: 10
   },
   errorText: {
     color: "red"

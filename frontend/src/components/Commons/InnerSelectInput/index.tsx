@@ -1,5 +1,7 @@
 import * as React from "react";
 import { View, Text, TouchableOpacity } from "react-native";
+import { Chevron } from "..";
+
 import styles from "./styles";
 
 type Props = {
@@ -17,15 +19,19 @@ const InnnerSelectInput: React.SFC<Props> = (props) => {
   return (
     <View style={styles.container}>
       <Text style={styles.label}>{label}</Text>
-      <View style={styles.inputContainer}>
-        <TouchableOpacity onPress={onPress}>
-          <Text
-            style={[styles.inputText, value ? {} : { color: placeholderTextColor }]}
-          >
-            {value || placeholder}
-          </Text>
-        </TouchableOpacity>
-      </View>
+      <TouchableOpacity onPress={onPress} style={styles.inputContainer}>
+        <Text
+          style={[
+            styles.inputText,
+            value ? {} : { color: placeholderTextColor }
+          ]}
+        >
+          {value || placeholder}
+        </Text>
+        <View style={styles.chevronContainer}>
+          <Chevron />
+        </View>
+      </TouchableOpacity>
     </View>
   );
 };
