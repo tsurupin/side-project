@@ -1,6 +1,6 @@
 import * as React from "react";
 import { View, Button, Text, FlatList } from "react-native";
-import { ProjectEditParams, Skill, City, Genre } from "../../../../interfaces";
+import { ProjectEditParams, Skill, City, Genre, ProjectPhoto } from "../../../../interfaces";
 import { Input, ListItem } from "react-native-elements";
 import { CLOSE_ICON } from "../../../../constants/icons";
 import { CLOSE_BUTTON } from "../../../../constants/buttons";
@@ -9,7 +9,8 @@ import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityI
 import {
   InnerTextInput,
   InnerDetailsInput,
-  InnerSelectInput
+  InnerSelectInput,
+  ImageSelectGroup,
 } from "../../../../components/Commons";
 import { BACK_BUTTON, SUBMIT_BUTTON } from "../../../../constants/buttons";
 import {
@@ -34,6 +35,7 @@ type State = {
   requirement: string | undefined;
   genre: Genre | undefined;
   city: City | undefined;
+  photos: ProjectPhoto[] ;
   skills: Skill[];
 };
 
@@ -52,6 +54,7 @@ class EditForm extends React.Component<Props, State> {
       requirement: undefined,
       genre: undefined,
       city: undefined,
+      photos:[],
       skills: []
     };
 
@@ -225,11 +228,13 @@ class EditForm extends React.Component<Props, State> {
       genre,
       motivation,
       requirement,
-      city
+      city,
+      photos
     } = this.state;
 
     return (
       <View style={styles.container}>
+        <ImageSelectGroup photos={photos} />
         <InnerTextInput
           label="title"
           placeholder="Enter Title"
