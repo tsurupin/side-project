@@ -4,8 +4,15 @@ type Props = {
 
 }
 
+type State = {
+  
+}
+
 // add editab;e images like Tinder
-class ImageSelectGroup extends React<Props> {
+class ImageSelectGroup extends React.Component<Props> {
+  constructor(props) {
+    super(props);
+  }
   render() {
     return <View />
   }
