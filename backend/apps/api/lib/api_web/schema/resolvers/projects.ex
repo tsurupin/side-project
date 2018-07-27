@@ -27,6 +27,11 @@ defmodule ApiWeb.Schema.Resolvers.Projects do
     {:ok, %{genres: [%{id: nil, name: "All"}] ++ genres}}
   end
 
+  def fetch_form(_, _, _) do
+    genres = Genres.all()
+    {:ok, %{genres: genres}}
+  end
+
   def search(_, %{conditions: conditions}, _) do
     case Projects.search(conditions) do
       {:error, :not_found} ->
