@@ -3,6 +3,7 @@ import { View, TouchableOpacity, Text, Button, Alert } from "react-native";
 import { ErrorMessage } from "../../../components/Commons";
 import EditForm from "./EditForm";
 import { ProjectEditParams } from "../../../interfaces";
+import { ProjectFormQuery } from "../../../queries/projects";
 import { CreateProjectMutation } from "../../../mutations/projects";
 import { PROJECT_DETAILS_SCREEN } from "../../../constants/screens";
 
@@ -23,8 +24,8 @@ class ProjectNewScreen extends React.Component<Props> {
 
   render() {
     return (
-      <CreateProjectMutation>
-        {({ createProjectMutation, data, loading, error }) => {
+      <ProjectFormQuery>
+        {({ data, loading, error }) => {
           console.log(error);
           if (loading)
             return (
@@ -38,25 +39,45 @@ class ProjectNewScreen extends React.Component<Props> {
                 <Text> Error</Text>
               </View>
             );
-          if (data) {
-            this.props.navigator.push({
-              screen: PROJECT_DETAILS_SCREEN,
-              passProps: { id: data.createProject.id }
-            });
-          }
 
-          return (
-            <EditForm
-              onSubmit={(projectEditParams: ProjectEditParams) =>
-                this.handleSubmit(projectEditParams, createProjectMutation)
+          const projectFormData = data.projectForm;
+          <CreateProjectMutation>
+            {({ createProjectMutation, data, loading, error }) => {
+              console.log(error);
+              if (loading)
+                return (
+                  <View>
+                    <Text> Text</Text>
+                  </View>
+                );
+              if (error)
+                return (
+                  <View>
+                    <Text> Error</Text>
+                  </View>
+                );
+              if (data) {
+                this.props.navigator.push({
+                  screen: PROJECT_DETAILS_SCREEN,
+                  passProps: { id: data.createProject.id }
+                });
               }
-              loading={loading}
-              error={error}
-              navigator={this.props.navigator}
-            />
-          );
+
+              return (
+                <EditForm
+                  onSubmit={(projectEditParams: ProjectEditParams) =>
+                    this.handleSubmit(projectEditParams, createProjectMutation)
+                  }
+                  genres={projectFormData.genres}
+                  loading={loading}
+                  error={error}
+                  navigator={this.props.navigator}
+                />
+              );
+            }}
+          </CreateProjectMutation>;
         }}
-      </CreateProjectMutation>
+      </ProjectFormQuery>
     );
   }
 }

@@ -10,7 +10,6 @@ import {
   InnerTextInput,
   InnerDetailsInput,
   InnerSelectInput,
-  ImageSelectGroup,
 } from "../../../../components/Commons";
 import { BACK_BUTTON, SUBMIT_BUTTON } from "../../../../constants/buttons";
 import {
@@ -22,6 +21,7 @@ import {
 import styles from "./styles";
 
 type Props = {
+  genres: Genre[], 
   navigator: any;
   loading: boolean;
   error: any;
