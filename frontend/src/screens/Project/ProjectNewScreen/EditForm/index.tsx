@@ -33,7 +33,7 @@ type State = {
   leadSentence: string | undefined;
   motivation: string | undefined;
   requirement: string | undefined;
-  genre: Genre | undefined;
+  genreId: string | undefined;
   city: City | undefined;
   photos: ProjectPhoto[] ;
   skills: Skill[];
@@ -63,13 +63,13 @@ class EditForm extends React.Component<Props, State> {
 
   private buildProjectEditParams = (): ProjectEditParams => {
     let params = {};
-    const stringKeys = ["title", "leadSentence", "motivation", "requirement"];
-    const objectKeys = ["genre", "city"];
+    const stringKeys = ["title", "leadSentence", "motivation", "requirement", "genreId"];
+    const objectKeys = ["city"];
     const arrayObjectKeys = ["skills"];
     stringKeys.forEach((key) => (params[key] = this.state[key]));
     objectKeys.forEach((key) => {
       if (this.state[key]) {
-        params[key] = this.state[key] ? this.state[key].id : undefined;
+        params[`${key}Id`] = this.state[key] ? this.state[key].id : undefined;
       }
     });
 
@@ -98,6 +98,7 @@ class EditForm extends React.Component<Props, State> {
   ) => {
     let changeAttr = {};
     changeAttr[key] = value;
+    console.log(changeAttr);
 
     this.setState(changeAttr);
 
@@ -132,15 +133,6 @@ class EditForm extends React.Component<Props, State> {
   private handleAddSkill = (skill: Skill) => {
     const skills = Array.from(new Set(this.state.skills.concat(skill)));
     this.setState({ skills });
-  };
-
-  private handleUpdateLocation = (
-    city: City,
-    longitude: number | undefined = undefined,
-    latitude: number | undefined = undefined
-  ) => {
-    console.log(city);
-    this.setState({ city });
   };
 
   private handleSkillSearchShowModal = () => {
@@ -180,6 +172,15 @@ class EditForm extends React.Component<Props, State> {
         ]
       }
     });
+  };
+
+  private handleUpdateLocation = (
+    city: City,
+    longitude: number | undefined = undefined,
+    latitude: number | undefined = undefined
+  ) => {
+    console.log(city);
+    this.setState({ city });
   };
 
   protected handleDeleteSkill = (id: string) => {
@@ -225,7 +226,7 @@ class EditForm extends React.Component<Props, State> {
     const {
       title,
       leadSentence,
-      genre,
+      genreId,
       motivation,
       requirement,
       city,
@@ -233,9 +234,10 @@ class EditForm extends React.Component<Props, State> {
     } = this.state;
     const { genres } = this.props;
 
+
+    const genre = genres.find(genre => genre.id === genreId);
     return (
       <View style={styles.container}>
-        <ImageSelectGroup photos={photos} />
         <InnerTextInput
           label="title"
           placeholder="Enter Title"
@@ -245,14 +247,11 @@ class EditForm extends React.Component<Props, State> {
             this.setState({ title: value });
           }}
         />
-
- {/* fetch genres */}
- {/* Add image upload */}
          <InnerSelectInput
           placeholder="Select Genre"
-          value={genre ? genre.name : ""}
+          value={genre ? genre.name : undefined}
           label="Genre"
-          onPress={() => this.handlePressShowModal(genres, 'genre', genre? genre.id : undefined)}
+          onPress={() => this.handlePressShowModal(genres, 'genreId', genreId)}
         />
         <InnerSelectInput
           placeholder="Select City"

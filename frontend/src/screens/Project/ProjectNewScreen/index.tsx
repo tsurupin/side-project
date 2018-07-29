@@ -41,41 +41,48 @@ class ProjectNewScreen extends React.Component<Props> {
             );
 
           const projectFormData = data.projectForm;
-          <CreateProjectMutation>
-            {({ createProjectMutation, data, loading, error }) => {
-              console.log(error);
-              if (loading)
-                return (
-                  <View>
-                    <Text> Text</Text>
-                  </View>
-                );
-              if (error)
-                return (
-                  <View>
-                    <Text> Error</Text>
-                  </View>
-                );
-              if (data) {
-                this.props.navigator.push({
-                  screen: PROJECT_DETAILS_SCREEN,
-                  passProps: { id: data.createProject.id }
-                });
-              }
-
-              return (
-                <EditForm
-                  onSubmit={(projectEditParams: ProjectEditParams) =>
-                    this.handleSubmit(projectEditParams, createProjectMutation)
+          return (
+            <View>
+              <CreateProjectMutation>
+                {({ createProjectMutation, data, loading, error }) => {
+                  console.log(error);
+                  if (loading)
+                    return (
+                      <View>
+                        <Text> Text</Text>
+                      </View>
+                    );
+                  if (error)
+                    return (
+                      <View>
+                        <Text> Error</Text>
+                      </View>
+                    );
+                  if (data) {
+                    this.props.navigator.push({
+                      screen: PROJECT_DETAILS_SCREEN,
+                      passProps: { id: data.createProject.id }
+                    });
                   }
-                  genres={projectFormData.genres}
-                  loading={loading}
-                  error={error}
-                  navigator={this.props.navigator}
-                />
-              );
-            }}
-          </CreateProjectMutation>;
+
+                  return (
+                    <EditForm
+                      onSubmit={(projectEditParams: ProjectEditParams) =>
+                        this.handleSubmit(
+                          projectEditParams,
+                          createProjectMutation
+                        )
+                      }
+                      genres={projectFormData.genres}
+                      loading={loading}
+                      error={error}
+                      navigator={this.props.navigator}
+                    />
+                  );
+                }}
+              </CreateProjectMutation>
+            </View>
+          );
         }}
       </ProjectFormQuery>
     );
