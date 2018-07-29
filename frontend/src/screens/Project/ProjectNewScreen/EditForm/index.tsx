@@ -231,6 +231,7 @@ class EditForm extends React.Component<Props, State> {
       city,
       photos
     } = this.state;
+    const { genres } = this.props;
 
     return (
       <View style={styles.container}>
@@ -251,7 +252,7 @@ class EditForm extends React.Component<Props, State> {
           placeholder="Select Genre"
           value={genre ? genre.name : ""}
           label="Genre"
-          onPress={() => this.handlePressShowModal([], 'genre', genre? genre.id : undefined)}
+          onPress={() => this.handlePressShowModal(genres, 'genre', genre? genre.id : undefined)}
         />
         <InnerSelectInput
           placeholder="Select City"
