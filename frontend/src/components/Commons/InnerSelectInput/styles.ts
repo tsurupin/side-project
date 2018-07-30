@@ -7,10 +7,8 @@ const styles = StyleSheet.create({
     width: "100%",
     height: 50,
     fontSize: 14,
-    marginBottom: 10,
     borderBottomWidth: 1,
     borderColor: "grey"
-    
   },
   label: {
     flex: 1,

@@ -7,13 +7,14 @@ type Props = {
   label: string;
   value: string | undefined;
   placeholder: string | undefined;
+  style?: object;
   onChange: (key: string, value: string | undefined) => void;
 };
 
 const placeholderTextColor = "blue";
 
 const InnnerDetailsInput: React.SFC<Props> = (props) => {
-  const { label, value, placeholder, onChange } = props;
+  const { label, value, placeholder, style, onChange } = props;
   
   return (
     <View style={styles.container}>
@@ -22,7 +23,7 @@ const InnnerDetailsInput: React.SFC<Props> = (props) => {
         placeholder={placeholder}
         numberOfLines={3}
         ellipsizeMode='head'
-        containerStyle={styles.inputContainer}
+        containerStyle={[styles.inputContainer, style | {}]}
         inputContainerStyle={styles.inputInnerContainer}
         inputStyle={[styles.inputText, value ? {} : {color: placeholderTextColor}]}
         errorStyle={styles.errorText}

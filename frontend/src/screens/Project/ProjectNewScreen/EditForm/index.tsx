@@ -1,5 +1,5 @@
 import * as React from "react";
-import { View, Button, Text, FlatList } from "react-native";
+import { View, Button, Text, FlatList, ScrollView } from "react-native";
 import { ProjectEditParams, Skill, City, Genre, ProjectPhoto } from "../../../../interfaces";
 import { Input, ListItem } from "react-native-elements";
 import { CLOSE_ICON } from "../../../../constants/icons";
@@ -237,7 +237,11 @@ class EditForm extends React.Component<Props, State> {
 
     const genre = genres.find(genre => genre.id === genreId);
     return (
-      <View style={styles.container}>
+      <ScrollView
+      alwaysBounceVertical={true}
+      showsVerticalScrollIndicator={false}
+      contentContainerStyle={styles.container}
+    >
         <InnerTextInput
           label="title"
           placeholder="Enter Title"
@@ -257,6 +261,7 @@ class EditForm extends React.Component<Props, State> {
           placeholder="Select City"
           value={city ? city.fullName : ""}
           label="City"
+          style={{marginBottom: 0}}
           onPress={() => this.handleCitySearchShowModal()}
         />
 
@@ -293,7 +298,7 @@ class EditForm extends React.Component<Props, State> {
           rightIcon={this.renderSkillAddIcon()}
         />
         {this.renderSkillList()}
-      </View>
+      </ScrollView>
     );
   }
 }

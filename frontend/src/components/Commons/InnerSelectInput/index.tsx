@@ -8,16 +8,17 @@ type Props = {
   label: string;
   value: string | undefined;
   placeholder: string | undefined;
+  style?: object;
   onPress: () => void;
 };
 
 const placeholderTextColor = "blue";
 
 const InnnerSelectInput: React.SFC<Props> = (props) => {
-  const { label, value, placeholder, onPress } = props;
-
+  const { label, value, placeholder, onPress, style } = props;
+  console.log(style)
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, style | {}]}>
       <Text style={styles.label}>{label}</Text>
       <TouchableOpacity onPress={onPress} style={styles.inputContainer}>
         <Text
