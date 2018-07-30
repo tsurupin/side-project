@@ -117,7 +117,7 @@ Projects.Member |> Repo.delete_all
 
 project = Repo.insert!(
   %Projects.Project{
-    name: "engineer matching platform",
+    title: "engineer matching platform",
     lead_sentence: "this project is to connect engineers",
     motivation: "I has been struggling with finding engineers",
     requirement: "we need backend engineers",

@@ -5,7 +5,7 @@ export const PROJECT_FRAGMENTS = {
   projectDetails: gql`
     fragment ProjectDetail on Project {
       id
-      name
+      title
       leadSentence
       status
       motivation
@@ -40,7 +40,7 @@ export const PROJECT_FRAGMENTS = {
   projectOnList: gql`
     fragment ProjectOnList on Project {
       id
-      name
+      title
       leadSentence
       mainPhotoUrl
       genre {
@@ -52,7 +52,7 @@ export const PROJECT_FRAGMENTS = {
   projectCore: gql`
     fragment ProjectCore on Project {
       id
-      name
+      title
       status
     }
   `

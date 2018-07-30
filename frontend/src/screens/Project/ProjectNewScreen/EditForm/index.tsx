@@ -1,6 +1,12 @@
 import * as React from "react";
 import { View, Button, Text, FlatList, ScrollView } from "react-native";
-import { ProjectEditParams, Skill, City, Genre, ProjectPhoto } from "../../../../interfaces";
+import {
+  ProjectEditParams,
+  Skill,
+  City,
+  Genre,
+  ProjectPhoto
+} from "../../../../interfaces";
 import { Input, ListItem } from "react-native-elements";
 import { CLOSE_ICON } from "../../../../constants/icons";
 import { CLOSE_BUTTON } from "../../../../constants/buttons";
@@ -9,7 +15,7 @@ import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityI
 import {
   InnerTextInput,
   InnerDetailsInput,
-  InnerSelectInput,
+  InnerSelectInput
 } from "../../../../components/Commons";
 import { BACK_BUTTON, SUBMIT_BUTTON } from "../../../../constants/buttons";
 import {
@@ -21,7 +27,7 @@ import {
 import styles from "./styles";
 
 type Props = {
-  genres: Genre[], 
+  genres: Genre[];
   navigator: any;
   loading: boolean;
   error: any;
@@ -35,7 +41,7 @@ type State = {
   requirement: string | undefined;
   genreId: string | undefined;
   city: City | undefined;
-  photos: ProjectPhoto[] ;
+  photos: ProjectPhoto[];
   skills: Skill[];
 };
 
@@ -54,7 +60,7 @@ class EditForm extends React.Component<Props, State> {
       requirement: undefined,
       genre: undefined,
       city: undefined,
-      photos:[],
+      photos: [],
       skills: []
     };
 
@@ -63,7 +69,13 @@ class EditForm extends React.Component<Props, State> {
 
   private buildProjectEditParams = (): ProjectEditParams => {
     let params = {};
-    const stringKeys = ["title", "leadSentence", "motivation", "requirement", "genreId"];
+    const stringKeys = [
+      "title",
+      "leadSentence",
+      "motivation",
+      "requirement",
+      "genreId"
+    ];
     const objectKeys = ["city"];
     const arrayObjectKeys = ["skills"];
     stringKeys.forEach((key) => (params[key] = this.state[key]));
@@ -81,6 +93,7 @@ class EditForm extends React.Component<Props, State> {
   };
 
   private handleNavigatorEvent = (e) => {
+    console.log("navigation", e)
     if (e.type !== "NavBarButtonPress") return;
     switch (e.id) {
       case SUBMIT_BUTTON:
@@ -92,18 +105,13 @@ class EditForm extends React.Component<Props, State> {
     }
   };
 
-  private handleChangeValue = (
-    key: string,
-    value: number
-  ) => {
+  private handleChangeValue = (key: string, value: number) => {
     let changeAttr = {};
     changeAttr[key] = value;
     console.log(changeAttr);
 
     this.setState(changeAttr);
-
   };
-
 
   private handlePressShowModal = (
     items: any[],
@@ -234,14 +242,13 @@ class EditForm extends React.Component<Props, State> {
     } = this.state;
     const { genres } = this.props;
 
-
-    const genre = genres.find(genre => genre.id === genreId);
+    const genre = genres.find((genre) => genre.id === genreId);
     return (
       <ScrollView
-      alwaysBounceVertical={true}
-      showsVerticalScrollIndicator={false}
-      contentContainerStyle={styles.container}
-    >
+        alwaysBounceVertical={true}
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={styles.container}
+      >
         <InnerTextInput
           label="title"
           placeholder="Enter Title"
@@ -251,17 +258,17 @@ class EditForm extends React.Component<Props, State> {
             this.setState({ title: value });
           }}
         />
-         <InnerSelectInput
+        <InnerSelectInput
           placeholder="Select Genre"
           value={genre ? genre.name : undefined}
           label="Genre"
-          onPress={() => this.handlePressShowModal(genres, 'genreId', genreId)}
+          onPress={() => this.handlePressShowModal(genres, "genreId", genreId)}
         />
         <InnerSelectInput
           placeholder="Select City"
           value={city ? city.fullName : ""}
           label="City"
-          style={{marginBottom: 0}}
+          style={{ marginBottom: 0 }}
           onPress={() => this.handleCitySearchShowModal()}
         />
 
@@ -290,7 +297,7 @@ class EditForm extends React.Component<Props, State> {
             this.setState({ requirement: value });
           }}
         />
-         <ListItem
+        <ListItem
           key="skills"
           title="Skills"
           chevron={false}

@@ -48,7 +48,7 @@ defmodule ApiWeb.Schema.Queries.ProjectsTest do
       query Project($id: ID!) {
         project(id: $id) {
           id
-          name
+          title
           leadSentence
           status
           motivation
@@ -104,7 +104,7 @@ defmodule ApiWeb.Schema.Queries.ProjectsTest do
       expected_result = %{
         "project" => %{
           "id" => "#{project.id}",
-          "name" => project.name,
+          "title" => project.title,
           "leadSentence" => project.lead_sentence,
           "motivation" => project.motivation,
           "requirement" => project.requirement,
@@ -168,7 +168,7 @@ defmodule ApiWeb.Schema.Queries.ProjectsTest do
       query Projects($genreId: ID, $cityId: ID, $skillIds: [ID]) {
         projects(conditions: {genreId: $genreId, cityID: $cityId, skillIds: $skillIds}) {
           id
-          name
+          title
           leadSentence
           mainPhotoUrl
           genre {
@@ -206,14 +206,14 @@ defmodule ApiWeb.Schema.Queries.ProjectsTest do
           "projects" => [
             %{
               "id" => "#{project1.id}",
-              "name" => project1.name,
+              "title" => project1.title,
               "leadSentence" => project1.lead_sentence,
               "genre" => %{"id" => "#{genre2.id}", "name" => genre2.name},
               "mainPhotoUrl" => photo1_url
             },
             %{
               "id" => "#{project2.id}",
-              "name" => project2.name,
+              "title" => project2.title,
               "leadSentence" => project2.lead_sentence,
               "genre" => %{"id" => "#{genre2.id}", "name" => genre2.name},
               "mainPhotoUrl" => nil
@@ -254,7 +254,7 @@ defmodule ApiWeb.Schema.Queries.ProjectsTest do
       query MyProjects {
         myProjects {
           id
-          name
+          title
           leadSentence
           mainPhotoUrl
           genre {
@@ -289,7 +289,7 @@ defmodule ApiWeb.Schema.Queries.ProjectsTest do
           "myProjects" => [
             %{
               "id" => "#{project1.id}",
-              "name" => project1.name,
+              "title" => project1.title,
               "leadSentence" => project1.lead_sentence,
               "genre" => %{"id" => "#{genre2.id}", "name" => genre2.name},
               "mainPhotoUrl" => photo1_url

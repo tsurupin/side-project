@@ -6,7 +6,7 @@ defmodule ApiWeb.Schema.Types.Projects do
 
   object :project do
     field(:id, :id)
-    field(:name, :string)
+    field(:title, :string)
     field(:genre, :genre)
     field(:status, :project_status)
     field(:owner, :user)
@@ -66,7 +66,7 @@ defmodule ApiWeb.Schema.Types.Projects do
   end
 
   input_object :project_input do
-    field(:name, :string)
+    field(:title, :string)
     field(:lead_sentence, :string)
     field(:requirement, :string)
     field(:motivation, :string)

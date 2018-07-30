@@ -12,7 +12,7 @@ defmodule Db.Projects.Project do
   @type t :: %Project{}
 
   schema "projects" do
-    field(:name, :string, null: false)
+    field(:title, :string, null: false)
     field(:lead_sentence, :string)
     field(:deleted_at, :utc_datetime)
     field(:status, ProjectStatusEnum, default: :editing)
@@ -34,9 +34,9 @@ defmodule Db.Projects.Project do
   @spec changeset(map()) :: Ecto.Changeset.t()
   def changeset(attrs) do
     permitted_attrs =
-      ~w(name lead_sentence owner_id genre_id status motivation requirement city_id zip_code)a
+      ~w(title lead_sentence owner_id genre_id status motivation requirement city_id zip_code)a
 
-    required_attrs = ~w(name owner_id)a
+    required_attrs = ~w(title owner_id)a
 
     %Project{}
     |> cast(attrs, permitted_attrs)
@@ -44,7 +44,7 @@ defmodule Db.Projects.Project do
     |> assoc_constraint(:genre)
     |> assoc_constraint(:owner)
     |> assoc_constraint(:city)
-    |> unique_constraint(:name, name: "projects_owner_id_and_name_index")
+    |> unique_constraint(:name, name: "projects_owner_id_and_title_index")
     |> check_constraint(:status, name: "valid_project_status")
   end
 
@@ -55,7 +55,7 @@ defmodule Db.Projects.Project do
     |> cast(attrs, permitted_attrs)
     |> assoc_constraint(:genre)
     |> assoc_constraint(:city)
-    |> unique_constraint(:name, name: "projects_owner_id_and_name_index")
+    |> unique_constraint(:name, name: "projects_owner_id_and_title_index")
     |> check_constraint(:status, name: "valid_project_status")
   end
 

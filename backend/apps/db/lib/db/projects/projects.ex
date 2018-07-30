@@ -53,7 +53,7 @@ defmodule Db.Projects.Projects do
 
     case result do
       {:ok, %{project: project}} -> {:ok, project}
-      {:error, _name, changeset, _prev} -> {:error, Db.FullErrorMessage.message(changeset)}
+      {:error, _title, changeset, _prev} -> {:error, Db.FullErrorMessage.message(changeset)}
     end
   end
 

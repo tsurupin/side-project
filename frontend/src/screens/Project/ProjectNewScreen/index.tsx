@@ -19,6 +19,8 @@ class ProjectNewScreen extends React.Component<Props> {
   }
 
   handleSubmit = (variables: ProjectEditParams, createProjectMutation: any) => {
+    console.log("submit is done!!!")
+    console.log(variables);
     createProjectMutation({ variables });
   };
 
@@ -59,6 +61,7 @@ class ProjectNewScreen extends React.Component<Props> {
                       </View>
                     );
                   if (data) {
+                    console.log("data is created", data)
                     this.props.navigator.push({
                       screen: PROJECT_DETAILS_SCREEN,
                       passProps: { id: data.createProject.id }

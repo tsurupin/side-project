@@ -7,7 +7,7 @@ import { LIKED_PROJECT_DETAILS_SCREEN } from "../../../constants/screens";
 import {
   PROJECT_NEW_BUTTON,
   BACK_BUTTON,
-  SUBMIT_PROJECT_NEW_BUTTON
+  SUBMIT_BUTTON
 } from "../../../constants/buttons";
 import { PROJECT_NEW_SCREEN } from "../../../constants/screens";
 
@@ -40,7 +40,7 @@ class MyProjectListScreen extends React.Component<Props> {
             rightButtons: [
               {
                 title: "Create",
-                id: SUBMIT_PROJECT_NEW_BUTTON
+                id: SUBMIT_BUTTON
               }
             ]
           }

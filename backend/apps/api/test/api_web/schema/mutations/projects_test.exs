@@ -14,17 +14,17 @@ defmodule ApiWeb.Schema.Mutations.ProjectsTest do
     end
 
     @mutation """
-      mutation CreateProject($name: String!, $leadSentence: String, $motivation: String, $requirement: String, $genreId: Int, $skillIds: [Int]) {
-        createProject(projectInput: {name: $name, leadSentence: $leadSentence, motivation: $motivation, requirement: $requirement, genreId: $genreId, skillIds: $skillIds}) {
+      mutation CreateProject($title: String!, $leadSentence: String, $motivation: String, $requirement: String, $genreId: Int, $skillIds: [Int]) {
+        createProject(projectInput: {title: $title, leadSentence: $leadSentence, motivation: $motivation, requirement: $requirement, genreId: $genreId, skillIds: $skillIds}) {
           id
-          name
+          title
           status
         }
       }
     """
     test "creates a new project", %{user: user} do
       user_id = user.id
-      attrs = %{name: "New Project", leadSentence: "aaa"}
+      attrs = %{title: "New Project", leadSentence: "aaa"}
 
       with_mock Api.Accounts.Authentication,
         verify: fn user_id -> {:ok, Db.Repo.get(Db.Users.User, user_id)} end do
@@ -35,9 +35,9 @@ defmodule ApiWeb.Schema.Mutations.ProjectsTest do
 
         response = json_response(conn, 200)
 
-        project = Repo.get_by(Db.Projects.Project, name: "New Project")
+        project = Repo.get_by(Db.Projects.Project, title: "New Project")
         assert project.owner_id == user_id
-        assert response["data"]["createProject"]["name"] == "New Project"
+        assert response["data"]["createProject"]["title"] == "New Project"
       end
     end
 
@@ -47,7 +47,7 @@ defmodule ApiWeb.Schema.Mutations.ProjectsTest do
       skill2 = Factory.insert(:skill)
 
       attrs = %{
-        name: "New Project",
+        title: "New Project",
         skillIds: [skill1.id, skill2.id],
         requirement: "rrequirement",
         motivation: "motivation"
@@ -65,7 +65,7 @@ defmodule ApiWeb.Schema.Mutations.ProjectsTest do
         assert Repo.get_by(Db.Skills.ProjectSkill, skill_id: skill1.id)
         assert Repo.get_by(Db.Skills.ProjectSkill, skill_id: skill2.id)
 
-        assert response["data"]["createProject"]["name"] == "New Project"
+        assert response["data"]["createProject"]["title"] == "New Project"
       end
     end
 
@@ -75,7 +75,7 @@ defmodule ApiWeb.Schema.Mutations.ProjectsTest do
       user_id = user.id
 
       attrs = %{
-        name: "New Project",
+        title: "New Project",
         skillIds: [1],
         requirement: "rrequirement",
         motivation: "motivation"
@@ -95,10 +95,10 @@ defmodule ApiWeb.Schema.Mutations.ProjectsTest do
       end
     end
 
-    test "fails to create a new project becaue the project name exists", %{user: user} do
+    test "fails to create a new project becaue the project title exists", %{user: user} do
       user_id = user.id
-      Factory.insert(:project, owner: user, name: "New Project")
-      attrs = %{name: "New Project", leadSentence: "aaa"}
+      Factory.insert(:project, owner: user, title: "New Project")
+      attrs = %{title: "New Project", leadSentence: "aaa"}
 
       with_mock Api.Accounts.Authentication,
         verify: fn user_id -> {:ok, Db.Repo.get(Db.Users.User, user_id)} end do
@@ -127,10 +127,10 @@ defmodule ApiWeb.Schema.Mutations.ProjectsTest do
     end
 
     @mutation """
-      mutation EditProject($id: Int!, $name: String!, $leadSentence: String, $motivation: String, $requirement: String, $genreId: Int, $skillIds: [Int]) {
-        editProject(id: $id, projectInput: {name: $name, leadSentence: $leadSentence, motivation: $motivation, requirement: $requirement, genreId: $genreId, skillIds: $skillIds}) {
+      mutation EditProject($id: Int!, $title: String!, $leadSentence: String, $motivation: String, $requirement: String, $genreId: Int, $skillIds: [Int]) {
+        editProject(id: $id, projectInput: {title: $title, leadSentence: $leadSentence, motivation: $motivation, requirement: $requirement, genreId: $genreId, skillIds: $skillIds}) {
           id
-          name
+          title
           status
         }
       }
@@ -138,7 +138,7 @@ defmodule ApiWeb.Schema.Mutations.ProjectsTest do
     test "edits project", %{project: project, user: user} do
       user_id = user.id
       new_genre = Factory.insert(:genre)
-      attrs = %{id: project.id, name: "project neo", genreId: new_genre.id}
+      attrs = %{id: project.id, title: "project neo", genreId: new_genre.id}
 
       with_mock Api.Accounts.Authentication,
         verify: fn user_id -> {:ok, Db.Repo.get(Db.Users.User, user_id)} end do
@@ -152,7 +152,7 @@ defmodule ApiWeb.Schema.Mutations.ProjectsTest do
         project = Repo.get(Db.Projects.Project, project.id)
         assert project.name == "project neo"
         assert project.genre_id == new_genre.id
-        assert response["data"]["editProject"]["name"] == "project neo"
+        assert response["data"]["editProject"]["title"] == "project neo"
       end
     end
 
@@ -162,7 +162,7 @@ defmodule ApiWeb.Schema.Mutations.ProjectsTest do
     } do
       user_id = user.id
       new_genre = Factory.insert(:genre)
-      attrs = %{id: project.id + 1, name: "project neo", genreId: new_genre.id}
+      attrs = %{id: project.id + 1, title: "project neo", genreId: new_genre.id}
 
       with_mock Api.Accounts.Authentication,
         verify: fn user_id -> {:ok, Db.Repo.get(Db.Users.User, user_id)} end do
