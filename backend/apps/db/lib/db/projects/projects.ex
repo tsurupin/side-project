@@ -29,6 +29,19 @@ defmodule Db.Projects.Projects do
     {:ok, projects}
   end
 
+  @spec editable(String.t() | integer) :: {:ok, list(Project.t())}
+  def editable(user_id) do
+    projects =
+      from(
+        p in Project,
+        join: pm in ProjectMember,
+        where: p.id == pm.project_id and pm.user_id == ^user_id and pm.role > 0
+      )
+      |> Repo.all()
+
+    {:ok, projects}
+  end
+
   @spec liked_by(String.t() | integer) :: {:ok, list(Project.t())}
   def liked_by(user_id) do
     projects =
@@ -42,12 +55,15 @@ defmodule Db.Projects.Projects do
     {:ok, projects}
   end
 
-  def create(%{skill_ids: skill_ids} = attrs) do
+  def create(%{skill_ids: skill_ids, user_id: user_id} = attrs) do
     result =
       Multi.new()
       |> Multi.insert(:project, Project.changeset(attrs))
       |> Multi.run(:bulk_create_project_skills, fn %{project: project} ->
         Db.Skills.Skills.bulk_create_project_skills(project.id, 0, skill_ids)
+      end)
+      |> Multi.run(:create_master_project_member, fn %{project: project} ->
+        Db.Projects.Member.changeset(%{project_id: project.id, user_id: user_id})
       end)
       |> Repo.transaction()
 
@@ -57,13 +73,13 @@ defmodule Db.Projects.Projects do
     end
   end
 
-  @spec create(map) :: {:ok, Project.t()} | {:error, String.t()}
-  def create(attrs) do
-    case Project.changeset(attrs) |> Repo.insert() do
-      {:ok, project} -> {:ok, project}
-      {:error, changeset} -> {:error, Db.FullErrorMessage.message(changeset)}
-    end
-  end
+  # @spec create(map) :: {:ok, Project.t()} | {:error, String.t()}
+  # def create(attrs) do
+  #   case Project.changeset(attrs) |> Repo.insert() do
+  #     {:ok, project} -> {:ok, project}
+  #     {:error, changeset} -> {:error, Db.FullErrorMessage.message(changeset)}
+  #   end
+  # end
 
   @spec edit(Project.t(), %{:skill_ids => list(integer), optional(atom) => any}) ::
           {:ok, any()} | {:error, Ecto.Multi.name(), any()}

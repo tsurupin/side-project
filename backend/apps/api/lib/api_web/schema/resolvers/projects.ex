@@ -23,7 +23,7 @@ defmodule ApiWeb.Schema.Resolvers.Projects do
   end
 
   def fetch_editable(_, _, %{context: %{current_user: current_user}}) do
-    case Projects.liked_by(current_user.id) do
+    case Projects.editable(current_user.id) do
       {:ok, projects} ->
         projects =
           Projects.preload(projects, [:photos, :genre, :city, {:users, :occupation_type}])
