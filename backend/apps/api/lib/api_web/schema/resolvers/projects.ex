@@ -22,6 +22,16 @@ defmodule ApiWeb.Schema.Resolvers.Projects do
     end
   end
 
+  def fetch_editable(_, _, %{context: %{current_user: current_user}}) do
+    case Projects.liked_by(current_user.id) do
+      {:ok, projects} ->
+        projects =
+          Projects.preload(projects, [:photos, :genre, :city, {:users, :occupation_type}])
+
+        {:ok, projects}
+    end
+  end
+
   def fetch_search_form(_, _, _) do
     genres = Genres.all()
     {:ok, %{genres: [%{id: nil, name: "All"}] ++ genres}}

@@ -148,7 +148,8 @@ Repo.insert!(
   %Projects.Member{
     user_id: user.id,
     project_id: project.id,
-    status: 1
+    status: 1,
+    role: 2
   }
 )
 

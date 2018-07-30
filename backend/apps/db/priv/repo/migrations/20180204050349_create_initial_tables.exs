@@ -185,6 +185,7 @@ defmodule Db.Repo.Migrations.CreateInitialTables do
       add :project_id, references(:projects, on_delete: :delete_all), null: false
       add :user_id, references(:users), null: false
       add :status, :integer, default: 0, null: false, comment: "0: requested, 1: approved, 2: rejected, 3: withdrawed"
+      add :role, :integer, default: 0, null: false, comment: "0: user, 1: admin, 3: master"
       add :deleted_at, :utc_datetime
       timestamps()
     end

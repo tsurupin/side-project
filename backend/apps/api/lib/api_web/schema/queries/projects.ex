@@ -23,6 +23,12 @@ defmodule ApiWeb.Schema.Queries.Projects do
       resolve(&Resolvers.Projects.liked_by/3)
     end
 
+    @desc "Show editable projects"
+    field :editable_projects, list_of(:project) do
+      middleware(Middleware.Authorize)
+      resolve(&Resolvers.Projects.fetch_editable/3)
+    end
+
     @desc "Fetch data needed for project search"
     field :project_search_form, :project_search_form do
       middleware(Middleware.Authorize)
