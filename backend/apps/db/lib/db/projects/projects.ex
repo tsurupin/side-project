@@ -14,7 +14,7 @@ defmodule Db.Projects.Projects do
 
   @spec get_by(%{id: integer}) :: {:ok, Project.t()} | {:error, :not_found}
   def get_by(%{id: id}) do
-    case Repo.get_by(Project, id: id, status: 1) do
+    case Repo.get_by(Project, id: id) do
       %Project{} = project -> {:ok, project}
       nil -> {:error, :not_found}
     end
