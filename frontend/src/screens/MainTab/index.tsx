@@ -44,19 +44,10 @@ const MainTab = () => {
         },
         {
           screen: PROJECT_LIST_SCREEN,
-          label: "Project",
-          title: "Project",
+          label: "ProjectList",
+          title: "ProjectList",
           icon: getIcon(PENCIL_ICON),
-          navigatorButtons: {
-            rightButtons: [
-              {
-                icon: getIcon(PENCIL_ICON),
-                title: "New",
-                id: PROJECT_NEW_BUTTON
-              }
-            ]
-          }
-
+          
         },
         {
           screen: MY_PROFILE_SCREEN,

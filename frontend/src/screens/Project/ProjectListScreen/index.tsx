@@ -3,7 +3,6 @@ import { View, Text } from "react-native";
 import { ProjectCore } from "../../../interfaces";
 import MyProjectList from "./MyProjectList";
 import EditableProjectList from "./EditableProjectList";
-
 import { LIKED_PROJECT_DETAILS_SCREEN, PROJECT_EDIT_SCREEN } from "../../../constants/screens";
 import {
   PROJECT_NEW_BUTTON,
@@ -11,6 +10,7 @@ import {
   SUBMIT_BUTTON
 } from "../../../constants/buttons";
 import { PROJECT_NEW_SCREEN } from "../../../constants/screens";
+import SegmentedControlTab from "react-native-segmented-control-tab";
 
 type Props = {
   navigator: any;
@@ -81,13 +81,13 @@ class ProjectListScreen extends React.Component<Props, State> {
   render() {
     return (
       <View>
-        {/* <SegmentedControlTab
+        <SegmentedControlTab
           values={CONTROL_TABS}
           borderRadius={0}
           selectedIndex={this.state.selectedIndex}
           onTabPress={this.handleIndexChange}
-        /> */}
-        {/* {this.renderProjectList()} */}
+        />
+        {this.renderProjectList()}
       </View>
     );
   }

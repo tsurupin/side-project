@@ -1,8 +1,8 @@
 import * as React from "react";
 import { View, Text } from "react-native";
-import { MyProjectListQuery } from "../../../queries/projects";
-import { ProjectCore } from "../../../interfaces";
-import { ProjectRow } from "../../../components/Project/MyProjectListScreen";
+import { MyProjectListQuery } from "../../../../queries/projects";
+import { ProjectCore } from "../../../../interfaces";
+import { ProjectRow } from "../../../../components/Project/MyProjectListScreen";
 
 type Props = {
   onPress: () => void;
@@ -11,7 +11,7 @@ type Props = {
 const MyProjectList = (props: Props) => {
   return (
     <View>
-      {/* <MyProjectListQuery>
+      <MyProjectListQuery>
         {({ data, loading, error }) => {
           console.log(error);
           if (loading)
@@ -39,7 +39,7 @@ const MyProjectList = (props: Props) => {
             );
           });
         }}
-      </MyProjectListQuery> */}
+      </MyProjectListQuery>
     </View>
   );
 };
