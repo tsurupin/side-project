@@ -6,7 +6,7 @@ import {
   MATCH_SCREEN,
   USER_DISCOVERY_SCREEN,
   MY_PROFILE_SCREEN,
-  MY_PROJECT_LIST_SCREEN
+  PROJECT_LIST_SCREEN,
 } from "../../constants/screens";
 import { SEARCH_BUTTON, USER_EDIT_BUTTON, PROJECT_NEW_BUTTON } from "../../constants/buttons";
 import { getIcon } from "../../utilities/iconLoader";
@@ -43,9 +43,9 @@ const MainTab = () => {
           icon: getIcon(MESSAGE_OUTLINE_ICON),
         },
         {
-          screen: MY_PROJECT_LIST_SCREEN,
-          label: "MyProjectList",
-          title: "MyProjectList",
+          screen: PROJECT_LIST_SCREEN,
+          label: "Project",
+          title: "Project",
           icon: getIcon(PENCIL_ICON),
           navigatorButtons: {
             rightButtons: [

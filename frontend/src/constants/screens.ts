@@ -20,7 +20,7 @@ const PROJECT_DETAILS_SCREEN = `${APP_NAME}.ProjectDetailsScreen`;
 
 const LIKED_PROJECT_DETAILS_SCREEN = `${APP_NAME}.LikedProjectDetailsScreen`;
 
-const MY_PROJECT_LIST_SCREEN = `${APP_NAME}.MyProjectListScreen`;
+const PROJECT_LIST_SCREEN = `${APP_NAME}.ProjectListScreen`;
 const PROJECT_NEW_SCREEN = `${APP_NAME}.ProjectNewScreen`;
 const PROJECT_EDIT_SCREEN = `${APP_NAME}.ProjectEditScreen`;
 const PROJECT_DISCOVERY_SCREEN = `${APP_NAME}.ProjectDiscoveryScreen`;
@@ -48,7 +48,6 @@ export {
   LIKED_PROJECT_DETAILS_SCREEN,
   PROJECT_EDIT_SCREEN,
   PROJECT_NEW_SCREEN,
-  MY_PROJECT_LIST_SCREEN,
   PROJECT_DISCOVERY_SCREEN,
   SETTINGS_LIST_SCREEN,
 

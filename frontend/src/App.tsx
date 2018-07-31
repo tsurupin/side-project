@@ -16,7 +16,7 @@ import {
   CHAT_SCREEN,
   LIKED_PROJECT_DETAILS_SCREEN,
   PROJECT_EDIT_SCREEN,
-  MY_PROJECT_LIST_SCREEN,
+  PROJECT_LIST_SCREEN,
   PROJECT_NEW_SCREEN,
   SETTINGS_LIST_SCREEN,
   PICKER_SCREEN
@@ -45,7 +45,7 @@ import {
 
 import {
   LikedProjectDetailsScreen,
-  MyProjectListScreen,
+  ProjectListScreen,
   ProjectEditScreen,
   ProjectNewScreen
 } from "./screens/Project";
@@ -113,8 +113,8 @@ const registerComponents = () => {
   Navigation.registerComponent(LIKED_PROJECT_DETAILS_SCREEN, () =>
     ApolloWrapper(LikedProjectDetailsScreen)
   );
-  Navigation.registerComponent(MY_PROJECT_LIST_SCREEN, () =>
-    ApolloWrapper(MyProjectListScreen)
+  Navigation.registerComponent(PROJECT_LIST_SCREEN, () =>
+    ApolloWrapper(ProjectListScreen)
   );
   Navigation.registerComponent(SETTINGS_LIST_SCREEN, () =>
     ApolloWrapper(SettingsListScreen)

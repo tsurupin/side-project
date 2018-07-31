@@ -1,9 +1,10 @@
 import * as React from "react";
 import { View, Text } from "react-native";
-import { MyProjectListQuery } from "../../../queries/projects";
 import { ProjectCore } from "../../../interfaces";
-import { ProjectRow } from "../../../components/Project/MyProjectListScreen";
-import { LIKED_PROJECT_DETAILS_SCREEN } from "../../../constants/screens";
+import MyProjectList from "./MyProjectList";
+import EditableProjectList from "./EditableProjectList";
+
+import { LIKED_PROJECT_DETAILS_SCREEN, PROJECT_EDIT_SCREEN } from "../../../constants/screens";
 import {
   PROJECT_NEW_BUTTON,
   BACK_BUTTON,
@@ -15,9 +16,19 @@ type Props = {
   navigator: any;
 };
 
-class ProjectListScreen extends React.Component<Props> {
+type State = {
+  selectedIndex: number;
+};
+const LIKED_PROJECT_INDEX = 0;
+const CONTROL_TABS = ["Liked", "Admin"];
+
+class ProjectListScreen extends React.Component<Props, State> {
   constructor(props) {
     super(props);
+
+    this.state = {
+      selectedIndex: LIKED_PROJECT_INDEX
+    };
     this.props.navigator.setOnNavigatorEvent(this.handleNavigatorEvent);
   }
 
@@ -41,48 +52,45 @@ class ProjectListScreen extends React.Component<Props> {
     }
   };
 
-  handlePress = (id: string) => {
+  private handleIndexChange = (selectedIndex: number): void => {
+    this.setState({ selectedIndex });
+  };
+
+  private handleLikedProjectPress = (id: string) => {
     this.props.navigator.push({
       screen: LIKED_PROJECT_DETAILS_SCREEN,
       passProps: { id }
     });
   };
 
+  private handleEditableProjectPress = (id: string) => {
+    this.props.navigator.push({
+      screen: PROJECT_EDIT_SCREEN,
+      passProps: { id }
+    });
+  };
+
+  private renderProjectList = () => {
+    if (this.state.selectedIndex === 0) {
+      return <MyProjectList onPress={this.handleLikedProjectPress} />;
+    } else {
+      return <EditableProjectList onPress={this.handleEditableProjectPress} />;
+    }
+  };
+
   render() {
     return (
       <View>
-        <MyProjectListQuery>
-          {({ data, loading, error }) => {
-            console.log(error);
-            if (loading)
-              return (
-                <View>
-                  <Text> Text</Text>
-                </View>
-              );
-            if (error)
-              return (
-                <View>
-                  <Text> Error</Text>
-                </View>
-              );
-
-            const projects: ProjectCore[] = data.myProjects;
-
-            return projects.map((project) => {
-              return (
-                <ProjectRow
-                  key={project.id}
-                  project={project}
-                  onPress={this.handlePress}
-                />
-              );
-            });
-          }}
-        </MyProjectListQuery>
+        {/* <SegmentedControlTab
+          values={CONTROL_TABS}
+          borderRadius={0}
+          selectedIndex={this.state.selectedIndex}
+          onTabPress={this.handleIndexChange}
+        /> */}
+        {/* {this.renderProjectList()} */}
       </View>
     );
   }
 }
 
-export default MyProjectListScreen;
+export default ProjectListScreen;
