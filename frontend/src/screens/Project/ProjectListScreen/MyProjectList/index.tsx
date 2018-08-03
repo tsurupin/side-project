@@ -5,10 +5,10 @@ import { ProjectCore } from "../../../../interfaces";
 import { ProjectRow } from "../../../../components/Project/MyProjectListScreen";
 
 type Props = {
-  onPress: () => void;
+  onPress: (string) => void;
 };
 
-const MyProjectList = (props: Props) => {
+const MyProjectList: React.SFC<Props> = (props) => {
   return (
     <View>
       <MyProjectListQuery>
@@ -34,7 +34,7 @@ const MyProjectList = (props: Props) => {
               <ProjectRow
                 key={project.id}
                 project={project}
-                onPress={this.onPress}
+                onPress={props.onPress}
               />
             );
           });

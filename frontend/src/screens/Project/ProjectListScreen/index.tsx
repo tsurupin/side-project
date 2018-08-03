@@ -3,7 +3,10 @@ import { View, Text } from "react-native";
 import { ProjectCore } from "../../../interfaces";
 import MyProjectList from "./MyProjectList";
 import EditableProjectList from "./EditableProjectList";
-import { LIKED_PROJECT_DETAILS_SCREEN, PROJECT_EDIT_SCREEN } from "../../../constants/screens";
+import {
+  LIKED_PROJECT_DETAILS_SCREEN,
+  PROJECT_EDIT_SCREEN
+} from "../../../constants/screens";
 import {
   PROJECT_NEW_BUTTON,
   BACK_BUTTON,

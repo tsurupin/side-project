@@ -34,7 +34,7 @@ defmodule Db.Projects.Projects do
     projects =
       from(
         p in Project,
-        join: pm in ProjectMember,
+        join: pm in Member,
         where: p.id == pm.project_id and pm.user_id == ^user_id and pm.role > 0
       )
       |> Repo.all()

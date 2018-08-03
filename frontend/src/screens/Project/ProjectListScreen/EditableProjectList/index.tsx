@@ -5,10 +5,10 @@ import { ProjectCore } from "../../../../interfaces";
 import { ProjectRow } from "../../../../components/Project/MyProjectListScreen";
 
 type Props = {
-  onPress: () => void;
+  onPress: (string) => void;
 };
 
-const EditableProjectList = (props: Props) => {
+const EditableProjectList: React.SFC<Props> = (props) => {
   return (
     <View>
       <EditableProjectListQuery>
@@ -34,7 +34,7 @@ const EditableProjectList = (props: Props) => {
               <ProjectRow
                 key={project.id}
                 project={project}
-                onPress={this.onPress}
+                onPress={props.onPress}
               />
             );
           });

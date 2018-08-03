@@ -47,6 +47,15 @@ const MainTab = () => {
           label: "ProjectList",
           title: "ProjectList",
           icon: getIcon(PENCIL_ICON),
+          navigatorButtons: {
+            rightButtons: [
+              {
+                icon: getIcon(PENCIL_ICON),
+                title: "New",
+                id: PROJECT_NEW_BUTTON
+              }
+             ]
+           }
           
         },
         {
