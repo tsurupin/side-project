@@ -55,15 +55,16 @@ defmodule Db.Projects.Projects do
     {:ok, projects}
   end
 
-  def create(%{skill_ids: skill_ids, user_id: user_id} = attrs) do
+  def create(%{owner_id: owner_id} = attrs) do
     result =
       Multi.new()
       |> Multi.insert(:project, Project.changeset(attrs))
       |> Multi.run(:bulk_create_project_skills, fn %{project: project} ->
-        Db.Skills.Skills.bulk_create_project_skills(project.id, 0, skill_ids)
+        Db.Skills.Skills.bulk_create_project_skills(project.id, 0, attrs[:skill_ids] || [])
       end)
       |> Multi.run(:create_master_project_member, fn %{project: project} ->
-        Db.Projects.Member.changeset(%{project_id: project.id, user_id: user_id})
+        Db.Projects.Member.changeset(%{project_id: project.id, user_id: owner_id})
+        |> Repo.insert()
       end)
       |> Repo.transaction()
 

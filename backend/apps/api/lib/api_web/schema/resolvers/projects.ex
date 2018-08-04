@@ -68,7 +68,9 @@ defmodule ApiWeb.Schema.Resolvers.Projects do
   def create(_, %{project_input: project_input}, %{context: %{current_user: current_user}}) do
     case Projects.create(Map.put_new(project_input, :owner_id, current_user.id)) do
       {:ok, project} -> {:ok, project}
-      {:error, message} -> {:error, message}
+      {:error, message} -> 
+        IO.inspect(message)
+        {:error, message}
     end
   end
 
