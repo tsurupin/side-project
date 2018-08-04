@@ -6,7 +6,9 @@ import { ProjectEditParams } from "../../../interfaces";
 import { ProjectFormQuery } from "../../../queries/projects";
 import { CreateProjectMutation } from "../../../mutations/projects";
 import { PROJECT_DETAILS_SCREEN } from "../../../constants/screens";
-
+import {
+  CLOSE_BUTTON
+} from "../../../constants/buttons";
 import styles from "./styles";
 
 type Props = {
@@ -16,9 +18,10 @@ type Props = {
 class ProjectNewScreen extends React.Component<Props> {
   constructor(props) {
     super(props);
+
   }
 
-  handleSubmit = (variables: ProjectEditParams, createProjectMutation: any) => {
+  private handleSubmit = (variables: ProjectEditParams, createProjectMutation: any) => {
     createProjectMutation({ variables });
   };
 
@@ -59,9 +62,19 @@ class ProjectNewScreen extends React.Component<Props> {
                       </View>
                     );
                   if (data) {
+                    this.props.navigator.dismissAllModals({ animationType: 'none'});
                     this.props.navigator.push({
                       screen: PROJECT_DETAILS_SCREEN,
-                      passProps: { id: data.createProject.id }
+                      passProps: { id: data.createProject.id },
+                      navigatorButtons: {
+                        leftButtons: [
+                          {
+                            title: "Back",
+                            id: BACK_BUTTON
+                          }
+                        ]
+      
+                      }
                     });
                   }
 

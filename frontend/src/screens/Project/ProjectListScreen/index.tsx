@@ -10,8 +10,11 @@ import {
 import {
   PROJECT_NEW_BUTTON,
   BACK_BUTTON,
+  CLOSE_BUTTON,
   SUBMIT_BUTTON
 } from "../../../constants/buttons";
+import { CLOSE_ICON } from "../../../constants/icons";
+import { getIcon } from "../../../utilities/iconLoader";
 import { PROJECT_NEW_SCREEN } from "../../../constants/screens";
 import SegmentedControlTab from "react-native-segmented-control-tab";
 
@@ -44,6 +47,13 @@ class ProjectListScreen extends React.Component<Props, State> {
         this.props.navigator.showModal({
           screen: PROJECT_NEW_SCREEN,
           navigatorButtons: {
+            leftButtons: [
+              {
+                icon: getIcon(CLOSE_ICON),
+                title: "Close",
+                id: CLOSE_BUTTON
+              }
+            ],
             rightButtons: [
               {
                 title: "Create",

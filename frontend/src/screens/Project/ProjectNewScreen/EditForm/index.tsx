@@ -97,7 +97,7 @@ class EditForm extends React.Component<Props, State> {
       case SUBMIT_BUTTON:
         this.props.onSubmit(this.buildProjectEditParams());
         break;
-      case BACK_BUTTON:
+      case CLOSE_BUTTON:
         this.props.navigator.dismissModal();
         break;
     }
