@@ -5,7 +5,8 @@ import {
   ProjectEditParams,
   Skill,
   City,
-  Genre
+  Genre,
+  ProjectPhoto
 } from "../../../../interfaces";
 import { Input } from "react-native-elements";
 import {
@@ -35,6 +36,7 @@ type State = {
   genre: Genre | undefined;
   city: City | undefined;
   skills: Skill[];
+  photos: ProjectPhoto[]
 };
 
 class EditForm extends React.Component<Props, State> {
@@ -52,7 +54,8 @@ class EditForm extends React.Component<Props, State> {
       requirement: project.requirement,
       genre: project.genre,
       city: project.city,
-      skills: project.skills
+      skills: project.skills,
+      photos: project.photos
     };
 
     this.props.navigator.setOnNavigatorEvent(this.handleNavigatorEvent);
@@ -74,7 +77,7 @@ class EditForm extends React.Component<Props, State> {
 
     objectKeys.forEach(key => {
       if (this.objectValueChanged(key)) {
-        params[key] = this.state[key] ? this.state[key].id : undefined;
+        params[`${key}Id`] = this.state[key] ? this.state[key].id : undefined;
       }
     });
 
@@ -152,7 +155,15 @@ class EditForm extends React.Component<Props, State> {
       passProps: {
         onPress: this.handleUpdateLocation,
         needLocationSearch: true
-      }
+      },
+      navigatorButtons: {
+        leftButtons: [
+          {
+            icon: getIcon(CLOSE_ICON),
+            title: "Close",
+            id: CLOSE_BUTTON
+          }
+        ]
     });
   };
 
@@ -178,7 +189,18 @@ class EditForm extends React.Component<Props, State> {
   };
 
   render() {
-    const { title, leadSentence } = this.state;
+    const {
+      title,
+      leadSentence,
+      genreId,
+      motivation,
+      requirement,
+      city,
+      photos
+    } = this.state;
+    const { genres } = this.props;
+
+     const genre = genres.find((genre) => genre.id === genreId);
 
     return (
       <View>

@@ -4,8 +4,7 @@ import {
   ProjectEditParams,
   Skill,
   City,
-  Genre,
-  ProjectPhoto
+  Genre
 } from "../../../../interfaces";
 import { Input, ListItem } from "react-native-elements";
 import { CLOSE_ICON } from "../../../../constants/icons";
@@ -41,7 +40,6 @@ type State = {
   requirement: string | undefined;
   genreId: string | undefined;
   city: City | undefined;
-  photos: ProjectPhoto[];
   skills: Skill[];
 };
 
@@ -86,7 +84,7 @@ class EditForm extends React.Component<Props, State> {
     });
 
     arrayObjectKeys.forEach((key) => {
-      params[`${key}Ids`] = this.state[key].map((item) => item.id);
+      params[`${key}Ids`] = this.state[key].map(item => item.id);
     });
 
     return params;
@@ -237,8 +235,7 @@ class EditForm extends React.Component<Props, State> {
       genreId,
       motivation,
       requirement,
-      city,
-      photos
+      city
     } = this.state;
     const { genres } = this.props;
 
