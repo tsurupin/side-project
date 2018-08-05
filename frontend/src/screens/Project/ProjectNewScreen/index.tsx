@@ -7,7 +7,7 @@ import { ProjectFormQuery } from "../../../queries/projects";
 import { CreateProjectMutation } from "../../../mutations/projects";
 import { PROJECT_DETAILS_SCREEN } from "../../../constants/screens";
 import {
-  CLOSE_BUTTON
+  BACK_BUTTON
 } from "../../../constants/buttons";
 import styles from "./styles";
 
@@ -48,19 +48,13 @@ class ProjectNewScreen extends React.Component<Props> {
             <View>
               <CreateProjectMutation>
                 {({ createProjectMutation, data, loading, error }) => {
-                  console.log(error);
                   if (loading)
                     return (
                       <View>
                         <Text> Text</Text>
                       </View>
                     );
-                  if (error)
-                    return (
-                      <View>
-                        <Text> Error</Text>
-                      </View>
-                    );
+                  if (error) return <ErrorMessage {...error} />;
                   if (data) {
                     this.props.navigator.dismissAllModals({ animationType: 'none'});
                     this.props.navigator.push({
