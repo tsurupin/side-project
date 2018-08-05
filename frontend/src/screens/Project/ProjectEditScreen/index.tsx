@@ -1,7 +1,7 @@
 import * as React from "react";
 import { View, TouchableOpacity, Text, Button, Alert } from "react-native";
 import { ErrorMessage } from "../../../components/Commons";
-import EditForm from "./EditForm";
+import { EditForm } from "../../../components/Project/Commons";
 import { ProjectFormQuery, ProjectDetailsQuery } from "../../../queries/projects";
 import {
   ProjectDetails,
@@ -96,8 +96,22 @@ class ProjectEditScreen extends React.Component<Props> {
     return (
       <ProjectFormQuery>
           {({ data, loading, error }) => {
+             console.log(error);
+            if (loading)
+              return (
+                <View>
+                  <Text> Text</Text>
+                </View>
+              );
+            if (error)
+              return (
+                <View>
+                  <Text> Error</Text>
+                </View>
+              );
             
             const projectFormData = data.projectForm;
+    
             return (
               <ProjectDetailsQuery variables={{ id }}>
                 {({ data, loading, error }) => {

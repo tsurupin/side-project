@@ -1,7 +1,7 @@
 import * as React from "react";
 import { View, TouchableOpacity, Text, Button, Alert } from "react-native";
 import { ErrorMessage } from "../../../components/Commons";
-import EditForm from "./EditForm";
+import { EditForm } from "../../../components/Project/Commons";
 import { ProjectEditParams } from "../../../interfaces";
 import { ProjectFormQuery } from "../../../queries/projects";
 import { CreateProjectMutation } from "../../../mutations/projects";

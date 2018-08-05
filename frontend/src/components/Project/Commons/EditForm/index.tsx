@@ -30,6 +30,7 @@ type Props = {
   navigator: any;
   loading: boolean;
   error: any;
+  project: ProjectDetails;
   onSubmit: (projectEditParams: ProjectEditParams) => void;
 };
 
@@ -45,27 +46,37 @@ type State = {
 
 class EditForm extends React.Component<Props, State> {
   static defaultProps = {
-    loading: false
-  };
-
-  constructor(props) {
-    super(props);
-
-    this.state = {
+    loading: false,
+    project: {
       title: undefined,
       leadSentence: undefined,
       motivation: undefined,
       requirement: undefined,
       genre: undefined,
       city: undefined,
-      photos: [],
       skills: []
+    }
+  };
+
+  constructor(props) {
+    super(props);
+
+    const { project } = props;
+    this.state = {
+      title: project.title,
+      leadSentence: project.leadSentence,
+      motivation: project.motivation,
+      requirement: project.requirement,
+      genre: project.genre,
+      city: project.city,
+      skills: project.skills
     };
 
     this.props.navigator.setOnNavigatorEvent(this.handleNavigatorEvent);
   }
 
   private buildProjectEditParams = (): ProjectEditParams => {
+    const { project } = this.props;
     let params = {};
     const stringKeys = [
       "title",
@@ -76,18 +87,62 @@ class EditForm extends React.Component<Props, State> {
     ];
     const objectKeys = ["city"];
     const arrayObjectKeys = ["skills"];
-    stringKeys.forEach((key) => (params[key] = this.state[key]));
-    objectKeys.forEach((key) => {
-      if (this.state[key]) {
+    // stringKeys.forEach((key) => (params[key] = this.state[key]));
+    // objectKeys.forEach((key) => {
+    //   if (this.state[key]) {
+    //     params[`${key}Id`] = this.state[key] ? this.state[key].id : undefined;
+    //   }
+    // });
+
+    // arrayObjectKeys.forEach((key) => {
+    //   params[`${key}Ids`] = this.state[key].map(item => item.id);
+    // });
+
+    // return params;
+
+     stringKeys.forEach(key => {
+      let currentValue = this.state[key];
+      if (!currentValue === project[key]) {
+        params[key] = currentValue;
+      }
+    });
+
+    objectKeys.forEach(key => {
+      if (this.objectValueChanged(key)) {
         params[`${key}Id`] = this.state[key] ? this.state[key].id : undefined;
       }
     });
 
-    arrayObjectKeys.forEach((key) => {
-      params[`${key}Ids`] = this.state[key].map(item => item.id);
+    arrayObjectKeys.forEach(key => {
+      if (this.arrayObjectValueChanged(key)) {
+        params[`${key}Ids`] = this.state[key].map(item => item.id);
+      }
     });
 
     return params;
+  };
+
+   private objectValueChanged = (key: string): boolean => {
+    const currentValue = this.state[key];
+    const previousValue = this.props.project[key];
+
+    if (currentValue && previousValue && currentValue.id === previousValue.id) {
+      return false;
+    } else if (!currentValue && !previousValue) {
+      return false;
+    } else {
+      return true;
+    }
+  };
+
+  private arrayObjectValueChanged = (key: string): boolean => {
+    const currentObjectIds = this.state[key].map(item => item.id);
+    const previousObjectIds = this.props.project[key].map(item => item.id);
+
+    const intersectionCount = new Set(
+      [...currentObjectIds].filter(id => previousObjectIds.has(id))
+    ).size;
+    return previousObjectIds.size !== intersectionCount;
   };
 
   private handleNavigatorEvent = (e) => {
