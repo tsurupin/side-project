@@ -13,7 +13,6 @@ const MyProjectList: React.SFC<Props> = (props) => {
     <View>
       <MyProjectListQuery>
         {({ data, loading, error }) => {
-          console.log(error);
           if (loading)
             return (
               <View>

@@ -12,7 +12,7 @@ const ProjectRow: React.SFC<Props> = props  => {
   return (
     <View>
       <TouchableOpacity onPress={() => onPress(project.id)}>
-        <Text>{project.id}</Text>
+        <Text>{project.title}</Text>
       </TouchableOpacity>
     </View>
   );

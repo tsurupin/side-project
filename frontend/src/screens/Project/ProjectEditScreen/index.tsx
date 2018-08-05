@@ -2,7 +2,7 @@ import * as React from "react";
 import { View, TouchableOpacity, Text, Button, Alert } from "react-native";
 import { ErrorMessage } from "../../../components/Commons";
 import EditForm from "./EditForm";
-import { ProjectDetailsQuery } from "../../../queries/projects";
+import { ProjectFormQuery, ProjectDetailsQuery } from "../../../queries/projects";
 import {
   ProjectDetails,
   ProjectEditParams,
@@ -94,74 +94,83 @@ class ProjectEditScreen extends React.Component<Props> {
   render() {
     const { id } = this.props;
     return (
-      <ProjectDetailsQuery variables={{ id }}>
-        {({ data, loading, error }) => {
-          console.log(error);
-          if (loading)
+      <ProjectFormQuery>
+          {({ data, loading, error }) => {
+            
+            const projectFormData = data.projectForm;
             return (
-              <View>
-                <Text> Text</Text>
-              </View>
-            );
-          if (error)
-            return (
-              <View>
-                <Text> Error</Text>
-              </View>
-            );
+              <ProjectDetailsQuery variables={{ id }}>
+                {({ data, loading, error }) => {
+                  console.log(error);
+                  if (loading)
+                    return (
+                      <View>
+                        <Text> Text</Text>
+                      </View>
+                    );
+                  if (error)
+                    return (
+                      <View>
+                        <Text> Error</Text>
+                      </View>
+                    );
 
-          const project: ProjectDetails = data.project;
-          return (
-            <View>
-              <DeleteProjectPhotoMutation>
-                {({ deleteProjectPhotoMutation, data, loading, error }) => {
-                  console.log("delete project photo", data, loading, error);
-                  return this.renderPhotos(
-                    deleteProjectPhotoMutation,
-                    project.photos
-                  );
-                }}
-              </DeleteProjectPhotoMutation>;
-              <UploadProjectPhotoMutation>
-                {({ uploadProjectPhotoMutation, data, loading, error }) => {
-                  console.log("upload project photo", data, loading, error);
+                  const project: ProjectDetails = data.project;
                   return (
-                    <Button
-                      title="button"
-                      onPress={() =>
-                        this.handlePress(uploadProjectPhotoMutation)
-                      }
-                    />
+                    <View>
+                      <DeleteProjectPhotoMutation>
+                        {({ deleteProjectPhotoMutation, data, loading, error }) => {
+                          console.log("delete project photo", data, loading, error);
+                          return this.renderPhotos(
+                            deleteProjectPhotoMutation,
+                            project.photos
+                          );
+                        }}
+                      </DeleteProjectPhotoMutation>;
+                      <UploadProjectPhotoMutation>
+                        {({ uploadProjectPhotoMutation, data, loading, error }) => {
+                          console.log("upload project photo", data, loading, error);
+                          return (
+                            <Button
+                              title="button"
+                              onPress={() =>
+                                this.handlePress(uploadProjectPhotoMutation)
+                              }
+                            />
+                          );
+                        }}
+                      </UploadProjectPhotoMutation>;
+                      <EditProjectMutation>
+                        {({ editProjectMutation, loading, error, data }) => {
+                          if (data) {
+                            this.props.navigator.dismissModal();
+                            return <View />;
+                          }
+                          return (
+                            <EditForm
+                              project={project}
+                              onSubmit={(projectEditParams: ProjectEditParams) =>
+                                this.handleSubmit(
+                                  projectEditParams,
+                                  editProjectMutation
+                                )
+                              }
+                              loading={loading}
+                              genres={projectFormData.genres}
+                              error={error}
+                              navigator={this.props.navigator}
+                            />
+                          );
+                        }}
+                      </EditProjectMutation>
+                    </View>
                   );
                 }}
-              </UploadProjectPhotoMutation>;
-              <EditProjectMutation>
-                {({ editProjectMutation, loading, error, data }) => {
-                  if (data) {
-                    this.props.navigator.dismissModal();
-                    return <View />;
-                  }
-                  return (
-                    <EditForm
-                      project={project}
-                      onSubmit={(projectEditParams: ProjectEditParams) =>
-                        this.handleSubmit(
-                          projectEditParams,
-                          editProjectMutation
-                        )
-                      }
-                      loading={loading}
-                      error={error}
-                      navigator={this.props.navigator}
-                    />
-                  );
-                }}
-              </EditProjectMutation>
-            </View>
-          );
+              </ProjectDetailsQuery>
+            );
         }}
-      </ProjectDetailsQuery>
-    );
+        </ProjectFormQuery>
+        );
   }
 }
 

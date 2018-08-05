@@ -13,7 +13,7 @@ const EditableProjectList: React.SFC<Props> = (props) => {
     <View>
       <EditableProjectListQuery>
         {({ data, loading, error }) => {
-          console.log(error);
+          console.log(error, data);
           if (loading)
             return (
               <View>

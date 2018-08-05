@@ -18,7 +18,7 @@ defmodule Db.Projects.Member do
 
   @spec changeset(map()) :: Ecto.Changeset.t()
   def changeset(attrs) do
-    permitted_attrs = ~w(project_id user_id status)a
+    permitted_attrs = ~w(project_id user_id status role)a
     required_attrs = ~w(project_id user_id)a
 
     %__MODULE__{}

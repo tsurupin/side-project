@@ -35,7 +35,7 @@ defmodule Db.Projects.Projects do
       from(
         p in Project,
         join: pm in Member,
-        where: p.id == pm.project_id and pm.user_id == ^user_id and pm.role > 0
+        where: p.id == pm.project_id and pm.user_id == ^user_id and pm.role > 0 and pm.status == 1 
       )
       |> Repo.all()
 
@@ -63,7 +63,7 @@ defmodule Db.Projects.Projects do
         Db.Skills.Skills.bulk_create_project_skills(project.id, 0, attrs[:skill_ids] || [])
       end)
       |> Multi.run(:create_master_project_member, fn %{project: project} ->
-        Db.Projects.Member.changeset(%{project_id: project.id, user_id: owner_id})
+        Db.Projects.Member.changeset(%{project_id: project.id, user_id: owner_id, role: :master, status: :approved})
         |> Repo.insert()
       end)
       |> Repo.transaction()
