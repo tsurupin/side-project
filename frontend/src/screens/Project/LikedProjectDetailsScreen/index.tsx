@@ -3,9 +3,10 @@ import { View, TouchableOpacity, Text, Button } from "react-native";
 import { ProjectDetailsQuery } from "../../../queries/projects";
 import ActionSheet from "react-native-actionsheet";
 import {
+  BACK_BUTTON,
   PROJECT_ACTION_SHEET_BUTTON,
-  CANCEL_PROJECT_EDIT_BUTTON,
-  SUBMIT_PROJECT_EDIT_BUTTON
+  CLOSE_BUTTON,
+  SUBMIT_BUTTON
 } from "../../../constants/buttons";
 import styles from "./styles";
 import { PROJECT_EDIT_SCREEN } from "../../../constants/screens";
@@ -41,7 +42,9 @@ class LikedProjectDetailsScreen extends React.Component<Props, State> {
     console.log(e);
     switch (e.id) {
       case PROJECT_ACTION_SHEET_BUTTON:
-        this.refs.actionSheet.show();
+        this.ActionSheet.show();
+      case BACK_BUTTON:
+       this.props.navigator.pop();  
     }
   };
 
@@ -50,6 +53,7 @@ class LikedProjectDetailsScreen extends React.Component<Props, State> {
     withdrawProjectLikeMutation: any
   ) => {
     const { id } = this.props;
+    console.log("index is", index)
     switch (index) {
       case PROJECT_EDIT_INDEX:
         this.props.navigator.showModal({
@@ -59,20 +63,22 @@ class LikedProjectDetailsScreen extends React.Component<Props, State> {
             leftButtons: [
               {
                 //icon: sources[1],
-                title: "Back",
-                id: CANCEL_PROJECT_EDIT_BUTTON
+                title: "Close",
+                id: CLOSE_BUTTON
               }
             ],
             rightButtons: [
               {
                 title: "Submit",
-                id: SUBMIT_PROJECT_EDIT_BUTTON
+                id: SUBMIT_BUTTON
               }
             ]
           }
         });
+        break;
       case WITHDRAW_PROJECT_LIKE_INDEX:
         withdrawProjectLikeMutation({ variables: { projectId: id } });
+        break;
     }
   };
 
@@ -95,32 +101,33 @@ class LikedProjectDetailsScreen extends React.Component<Props, State> {
               </View>
             );
 
-          const { projectDetails } = data;
+          const { project } = data;
+          console.log(data)
           return (
             <View>
-              <Text>{projectDetails.id}</Text>
+              <Text>{project.title}</Text>
               <WithdrawProjectLikeMutation>
                 {({ withdraProjectLikeMutation, data, loading, error }) => {
-                  if (error) {
-                    // Alert
-                  }
+          
                   if (data) {
                     // Alert
                     this.props.navigator.pop();
+                    return <View></View>
                   }
-                  <ActionSheet
-                    ref="actionSheet"
-                    title={"Title"}
-                    options={ACTION_SHEET_OPTIONS}
-                    cancelButtonIndex={CANCEL_INDEX}
-                    destructiveButtonIndex={CANCEL_INDEX}
-                    onPress={index =>
-                      this.handlePressActionSheet(
-                        index,
-                        withdraProjectLikeMutation
-                      )
-                    }
-                  />;
+                  
+                  return(
+                    <View>
+
+                    <ActionSheet
+                      ref={o => this.ActionSheet = o}
+                      title={"Title"}
+                      options={ACTION_SHEET_OPTIONS}
+                      cancelButtonIndex={CANCEL_INDEX}
+                      destructiveButtonIndex={CANCEL_INDEX}
+                      onPress={index => this.handlePressActionSheet(index, withdraProjectLikeMutation)}
+                    />;
+                    </View>
+                  )
                 }}
               </WithdrawProjectLikeMutation>
             </View>

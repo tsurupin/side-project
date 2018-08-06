@@ -9,6 +9,7 @@ import {
 } from "../../../constants/screens";
 import {
   PROJECT_NEW_BUTTON,
+  PROJECT_ACTION_SHEET_BUTTON,
   BACK_BUTTON,
   CLOSE_BUTTON,
   SUBMIT_BUTTON
@@ -72,8 +73,22 @@ class ProjectListScreen extends React.Component<Props, State> {
   private handleLikedProjectPress = (id: string) => {
     this.props.navigator.push({
       screen: LIKED_PROJECT_DETAILS_SCREEN,
-      passProps: { id }
-    });
+      passProps: { id },
+      navigatorButtons: {
+        leftButtons: [
+              {
+              
+                title: "BACK",
+                id: BACK_BUTTON
+              }
+            ],
+            rightButtons: [
+              {
+                title: "ACTION",
+                id: PROJECT_ACTION_SHEET_BUTTON
+              }
+            ]   
+      }});
   };
 
   private handleEditableProjectPress = (id: string) => {
