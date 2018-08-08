@@ -33,7 +33,8 @@ export const PROJECT_FRAGMENTS = {
       }
       photos {
         id
-        image_url
+        rank
+        imageUrl
       }
     }
   `,

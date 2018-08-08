@@ -22,6 +22,11 @@ defmodule Db.Projects.Photo do
   def changeset(attrs) do
     permitted_attrs = ~w(project_id rank uuid)a
     required_attrs = ~w(project_id rank)a
+    attrs =
+      case attrs[:image] do
+        %Plug.Upload{} -> Map.merge(attrs, %{image_url: attrs[:image]})
+        _ -> attrs
+      end
 
     %Photo{}
     |> cast(attrs, permitted_attrs)

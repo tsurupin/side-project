@@ -30,7 +30,7 @@ class ProjectEditScreen extends React.Component<Props> {
     super(props);
   }
 
-  private handlePress = (mutation) => {
+  private handlePress = (rank: number, mutation) => {
     ImagePicker.showImagePicker({}, async (response) => {
       console.log("Response = ", response);
 
@@ -56,7 +56,7 @@ class ProjectEditScreen extends React.Component<Props> {
           });
 
           console.log(photo, mutation);
-          const variables: ProjectUploadParams = { projectId: this.props.id, photo, rank: 258 };
+          const variables: ProjectUploadParams = { projectId: this.props.id, photo, rank };
 
           console.log(variables);
           mutation({ variables });
@@ -122,7 +122,7 @@ class ProjectEditScreen extends React.Component<Props> {
                                   <PhotosEditForm 
                                     photos={project.photos}
                                     onPressPhoto={(id: string) => this.handlePressDeletion(deleteProjectPhotoMutation, id)}
-                                    onPressNewPhoto={() => this.handlePress(uploadProjectPhotoMutation)}
+                                    onPressNewPhoto={(rank: number) => this.handlePress(rank, uploadProjectPhotoMutation)}
                                   />
                                 );
                               }}
@@ -132,7 +132,7 @@ class ProjectEditScreen extends React.Component<Props> {
                        </DeleteProjectPhotoMutation>; 
                       <EditProjectMutation>
                         {({ editProjectMutation, loading, error, data }) => {
-                          if (error) return if (error) return <ErrorMessage {...error} />; 
+                          if (error) return <ErrorMessage {...error} />; 
                           if (data) {
                             this.props.navigator.dismissModal();
                             return <View />;
