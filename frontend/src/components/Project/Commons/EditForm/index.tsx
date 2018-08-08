@@ -4,11 +4,11 @@ import {
   ProjectEditParams,
   Skill,
   City,
-  Genre
+  Genre,
+  ProjectDetails
 } from "../../../../interfaces";
 import { Input, ListItem } from "react-native-elements";
 import { CLOSE_ICON } from "../../../../constants/icons";
-import { CLOSE_BUTTON } from "../../../../constants/buttons";
 import { getIcon } from "../../../../utilities/iconLoader";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import {

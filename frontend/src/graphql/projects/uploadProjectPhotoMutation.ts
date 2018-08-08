@@ -1,9 +1,9 @@
 import gql from "graphql-tag";
 
 export const UPLOAD_PROJECT_PHOTO_MUTATION = gql`
-  mutation UploadProjectPhoto($photo: Upload!, $rank: Int!) {
+  mutation UploadProjectPhoto($projectId: ID!, $photo: Upload!, $rank: Int!) {
     uploadProjectPhoto(
-      projectUploadInput: { photo: $photo, rank: $rank }
+      projectUploadInput: { projectId: $projectId, photo: $photo, rank: $rank }
     ) {
       id
       rank

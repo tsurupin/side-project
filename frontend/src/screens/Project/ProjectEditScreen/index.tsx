@@ -1,6 +1,6 @@
 import * as React from "react";
 import { View, TouchableOpacity, Text, Button, Alert } from "react-native";
-import { ErrorMessage } from "../../../components/Commons";
+import { ErrorMessage, PhotosEditForm } from "../../../components/Commons";
 import { EditForm } from "../../../components/Project/Commons";
 import { ProjectFormQuery, ProjectDetailsQuery } from "../../../queries/projects";
 import {
@@ -30,7 +30,7 @@ class ProjectEditScreen extends React.Component<Props> {
     super(props);
   }
 
-  handlePress = (mutation) => {
+  private handlePress = (rank: number, mutation) => {
     ImagePicker.showImagePicker({}, async (response) => {
       console.log("Response = ", response);
 
@@ -56,7 +56,7 @@ class ProjectEditScreen extends React.Component<Props> {
           });
 
           console.log(photo, mutation);
-          const variables: ProjectUploadParams = { photo: photo, rank: 252 };
+          const variables: ProjectUploadParams = { projectId: this.props.id, photo, rank };
 
           console.log(variables);
           mutation({ variables });
@@ -79,18 +79,6 @@ class ProjectEditScreen extends React.Component<Props> {
     editProjectMutation({ variables });
   };
 
-  renderPhotos = (mutation, photos) => {
-    return photos.map((photo) => {
-      return (
-        <Photo
-          key={photo.id}
-          photo={photo}
-          onPress={(id: string) => this.handlePressDeletion(mutation, id)}
-        />
-      );
-    });
-  };
-
   render() {
     const { id } = this.props;
     return (
@@ -103,12 +91,7 @@ class ProjectEditScreen extends React.Component<Props> {
                   <Text> Text</Text>
                 </View>
               );
-            if (error)
-              return (
-                <View>
-                  <Text> Error</Text>
-                </View>
-              );
+            if (error) return <ErrorMessage {...error} />
             
             const projectFormData = data.projectForm;
     
@@ -122,40 +105,34 @@ class ProjectEditScreen extends React.Component<Props> {
                         <Text> Text</Text>
                       </View>
                     );
-                  if (error)
-                    return (
-                      <View>
-                        <Text> Error</Text>
-                      </View>
-                    );
+                  if (error) return <ErrorMessage {...error} />
 
                   const project: ProjectDetails = data.project;
                   return (
                     <View>
                       <DeleteProjectPhotoMutation>
                         {({ deleteProjectPhotoMutation, data, loading, error }) => {
-                          console.log("delete project photo", data, loading, error);
-                          return this.renderPhotos(
-                            deleteProjectPhotoMutation,
-                            project.photos
-                          );
-                        }}
-                      </DeleteProjectPhotoMutation>;
-                      <UploadProjectPhotoMutation>
-                        {({ uploadProjectPhotoMutation, data, loading, error }) => {
-                          console.log("upload project photo", data, loading, error);
+                          if (error) return <ErrorMessage {...error} />
                           return (
-                            <Button
-                              title="button"
-                              onPress={() =>
-                                this.handlePress(uploadProjectPhotoMutation)
-                              }
-                            />
+                            <UploadProjectPhotoMutation>
+                              {({ uploadProjectPhotoMutation, data, loading, error }) => {
+                                console.log("upload project photo", data, loading, error);
+                                if (error) return <ErrorMessage {...error} />
+                                return (
+                                  <PhotosEditForm 
+                                    photos={project.photos}
+                                    onPressPhoto={(id: string) => this.handlePressDeletion(deleteProjectPhotoMutation, id)}
+                                    onPressNewPhoto={(rank: number) => this.handlePress(rank, uploadProjectPhotoMutation)}
+                                  />
+                                );
+                              }}
+                          </UploadProjectPhotoMutation>
                           );
                         }}
-                      </UploadProjectPhotoMutation>;
+                       </DeleteProjectPhotoMutation>; 
                       <EditProjectMutation>
                         {({ editProjectMutation, loading, error, data }) => {
+                          if (error) return <ErrorMessage {...error} />; 
                           if (data) {
                             this.props.navigator.dismissModal();
                             return <View />;

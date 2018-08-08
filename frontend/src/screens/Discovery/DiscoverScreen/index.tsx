@@ -33,7 +33,7 @@ import {
   ProjectSearchParams,
   ProjectSearchSubmitParams
 } from "../../../interfaces";
-import { ErrorMessage,ErrorAlert, LoadingIndicator } from "../../../components/Commons";
+import { ErrorMessage, ErrorAlert, LoadingIndicator } from "../../../components/Commons";
 import styles from "./styles";
 import { getIcon } from "../../../utilities/iconLoader";
 import SegmentedControlTab from "react-native-segmented-control-tab";
@@ -199,11 +199,9 @@ class DiscoveryScreen extends React.Component<Props, State> {
             return <LoadingIndicator />;
           }
           if (error) {
-            console.log(error)
-            console.log(error.error)
-            return <View/>//<ErrorMessage message={error.message} />
-          
-            //return this.setState({errorMessage: error})
+            
+            return <ErrorMessage error={error} />
+        
           }
           if (data && data.users) {
             console.log("users", data.users);
@@ -236,10 +234,7 @@ class DiscoveryScreen extends React.Component<Props, State> {
             //return this.setState({loading})
           }
           if (error) {
-            console.log("error happend");
-            console.log(error);
-            //return <ErrorAlert message="Loading Error" />
-            return this.setState({ errorMessage: error });
+            return <ErrorMessage error={error} />
           }
           if (data && data.projects) {
             return (

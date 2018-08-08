@@ -18,16 +18,18 @@ const UploadProjectPhotoMutation = (props: Props) => {
       mutation={UPLOAD_PROJECT_PHOTO_MUTATION}
       context={{ needAuth: true }}
       update={(cache, { data: { uploadProjectPhoto } }) => {
+        console.log("uploadProjectPhoto", uploadProjectPhoto)
         const fragmentId: string = `Project:${uploadProjectPhoto.projectId}`;
         const project: ProjectDetails = cache.readFragment({
           id: fragmentId,
           fragment: PROJECT_FRAGMENTS.projectDetails
         });
+       
         const { id, rank, imageUrl } = uploadProjectPhoto;
         const newPhoto = { __typename: "ProjectPhoto", id, rank, imageUrl };
-
+      
         const photos = [...project.photos, newPhoto];
-
+     
         cache.writeFragment({
           id: fragmentId,
           fragment: PROJECT_FRAGMENTS.projectDetails,
