@@ -148,6 +148,7 @@ export interface ProjectEditParams {
 }
 
 export interface ProjectUploadParams {
+  projectId: string;
   photo: string;
   rank: number;
 }

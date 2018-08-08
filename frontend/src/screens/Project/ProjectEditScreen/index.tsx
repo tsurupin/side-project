@@ -56,7 +56,7 @@ class ProjectEditScreen extends React.Component<Props> {
           });
 
           console.log(photo, mutation);
-          const variables: ProjectUploadParams = { photo: photo, rank: 252 };
+          const variables: ProjectUploadParams = { projectId: this.props.id, photo, rank: 258 };
 
           console.log(variables);
           mutation({ variables });
@@ -91,12 +91,7 @@ class ProjectEditScreen extends React.Component<Props> {
                   <Text> Text</Text>
                 </View>
               );
-            if (error)
-              return (
-                <View>
-                  <Text> Error</Text>
-                </View>
-              );
+            if (error) return <ErrorMessage {...error} />
             
             const projectFormData = data.projectForm;
     
@@ -110,22 +105,19 @@ class ProjectEditScreen extends React.Component<Props> {
                         <Text> Text</Text>
                       </View>
                     );
-                  if (error)
-                    return (
-                      <View>
-                        <Text> Error</Text>
-                      </View>
-                    );
+                  if (error) return <ErrorMessage {...error} />
 
                   const project: ProjectDetails = data.project;
                   return (
                     <View>
                       <DeleteProjectPhotoMutation>
                         {({ deleteProjectPhotoMutation, data, loading, error }) => {
+                          if (error) return <ErrorMessage {...error} />
                           return (
                             <UploadProjectPhotoMutation>
                               {({ uploadProjectPhotoMutation, data, loading, error }) => {
                                 console.log("upload project photo", data, loading, error);
+                                if (error) return <ErrorMessage {...error} />
                                 return (
                                   <PhotosEditForm 
                                     photos={project.photos}
@@ -140,6 +132,7 @@ class ProjectEditScreen extends React.Component<Props> {
                        </DeleteProjectPhotoMutation>; 
                       <EditProjectMutation>
                         {({ editProjectMutation, loading, error, data }) => {
+                          if (error) return if (error) return <ErrorMessage {...error} />; 
                           if (data) {
                             this.props.navigator.dismissModal();
                             return <View />;

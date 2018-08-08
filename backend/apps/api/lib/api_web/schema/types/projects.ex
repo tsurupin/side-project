@@ -41,6 +41,8 @@ defmodule ApiWeb.Schema.Types.Projects do
 
   object :project_photo do
     field(:id, :id)
+    field(:rank, :integer)
+    field(:project_id, :id)
 
     field :image_url, :string do
       arg(:format, :string, default_value: "thumb")
@@ -77,7 +79,7 @@ defmodule ApiWeb.Schema.Types.Projects do
   end
 
   input_object :project_upload_input do
-    field(:project_id, :string)
+    field(:project_id, :id)
     field(:photo, :upload)
     field(:rank, :integer)
   end

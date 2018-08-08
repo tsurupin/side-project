@@ -68,7 +68,7 @@ defmodule ApiWeb.Schema.Resolvers.Projects do
   def create(_, %{project_input: project_input}, %{context: %{current_user: current_user}}) do
     case Projects.create(Map.put_new(project_input, :owner_id, current_user.id)) do
       {:ok, project} -> {:ok, project}
-      {:error, message} -> 
+      {:error, message} ->
         IO.inspect(message)
         {:error, message}
     end
@@ -92,12 +92,14 @@ defmodule ApiWeb.Schema.Resolvers.Projects do
     end
   end
 
-  def upload_photo(ctx, %{project_id: _project_id, photo: _photo, rank: _rank} = attrs, %{
+  def upload_photo(ctx, %{project_upload_input: %{project_id: _project_id, photo: _photo, rank: _rank} = attrs}, %{
         context: %{current_user: current_user}
       }) do
     case Photos.upload_photo(current_user.id, attrs) do
-      {:ok, _repo} -> {:ok, true}
-      {:error, reason} -> {:error, reason}
+      {:ok, photo} -> {:ok, photo}
+      {:error, reason} ->
+        IO.inspect(reason)
+        {:error, reason}
     end
   end
 

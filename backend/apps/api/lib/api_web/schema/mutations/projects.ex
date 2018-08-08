@@ -19,7 +19,7 @@ defmodule ApiWeb.Schema.Mutations.Projects do
     end
 
     @desc "Upload project photo"
-    field :upload_project_photo, :boolean do
+    field :upload_project_photo, :project_photo do
       arg(:project_upload_input, :project_upload_input)
       middleware(Middleware.Authorize)
       resolve(&Resolvers.Projects.upload_photo/3)
