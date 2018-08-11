@@ -19,13 +19,16 @@ defmodule Db.Projects.Photos do
         %{project_id: project_id, photo: photo, rank: rank} = attrs
       ) do
     with %Project{} = project <- Repo.get_by(Project, owner_id: user_id, id: project_id),
-         {:ok, photo} <- Repo.insert(Photo.changeset(%{project_id: project_id, image: photo, rank: rank})) do
+         {:ok, photo} <-
+           Repo.insert(Photo.changeset(%{project_id: project_id, image: photo, rank: rank})) do
       {:ok, photo}
     else
       {:error, changeset} ->
         IO.inspect(changeset)
         {:error, Db.FullErrorMessage.message(changeset)}
-      _ -> {:error, :unauthorized}
+
+      _ ->
+        {:error, :unauthorized}
     end
   end
 
