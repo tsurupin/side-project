@@ -11,25 +11,40 @@ type Props = {
   onPressNewPhoto: (rank: number) => void;
 };
 
-const renderPhotos = (photos: ProjectPhoto[], fnc) => {
-  return (
-    <View>
-      {photos.map((photo) => {
-        return <Photo key={photo.id} photo={photo} onPress={fnc} />;
-      })}
-    </View>
-  );
+const photoList = (photos: ProjectPhoto[], fnc) => {
+  return photos.map((photo) => {
+    return <Photo key={photo.id} photo={photo} onPress={fnc} />;
+  });
+};
+const CHUNK_SIZE = 3;
+
+const renderItems = (items: any[]) => {
+  const maxChunkIndex = Math.ceil(items.length / CHUNK_SIZE);
+
+  let itemList: any[] = [];
+  for (let i = 1; i <= maxChunkIndex; i++) {
+    itemList = [
+      ...itemList,
+      <View style={styles.itemContainer}>
+        {items.slice((i - 1) * CHUNK_SIZE, i * CHUNK_SIZE).map((item) => item)}
+      </View>
+    ];
+  }
+  return itemList;
 };
 
 const PhotosEditForm: React.SFC<Props> = (props) => {
   const { photos, onPressPhoto, onPressNewPhoto } = props;
-  const availableRank = photos.length; 
-  return (
-    <View>
-      {renderPhotos(photos, onPressPhoto)}
-      <Button title="Add New Photo" onPress={() => onPressNewPhoto(availableRank)} />
-    </View>
-  );
+  const availableRank = photos.length;
+  const items = [
+    ...photoList(photos, onPressPhoto),
+    <Button
+      style={styles.button}
+      title="Add New Photo"
+      onPress={() => onPressNewPhoto(availableRank)}
+    />
+  ];
+  return <View style={styles.container}>{renderItems(items)}</View>;
 };
 
 export default PhotosEditForm;

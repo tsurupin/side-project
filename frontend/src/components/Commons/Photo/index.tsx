@@ -9,9 +9,8 @@ type Props = {
 const Photo: React.SFC<Props> = (props) => {
   const { photo, onPress } = props;
   return (
-    <TouchableOpacity onPress={() => onPress(photo.id)}>
-      <Text>{photo.id}</Text>
-      <Image source={{ uri: photo.imageUrl }} />
+    <TouchableOpacity style={styles.container} onPress={() => onPress(photo.id)}>
+      <Image style={styles.image} source={{ uri: photo.imageUrl }} />
     </TouchableOpacity>
   );
 };
