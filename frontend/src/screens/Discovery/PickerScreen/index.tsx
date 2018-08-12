@@ -35,7 +35,7 @@ class PickerScreen extends React.Component<Props> {
     }
   }
 
-  private selectedItem = (value: string | number) : boolean => {
+  private isSelectedItem = (value: string | number) : boolean => {
     const { selectedValue } = this.props;
     if (selectedValue !== value) return false;
     return true;
@@ -54,7 +54,7 @@ class PickerScreen extends React.Component<Props> {
         key={name}
         title={name}
         onPress={() => this.handlePress(this.props.keyName, id || value)}
-        chevron={this.selectedItem(id || value)}
+        chevron={this.isSelectedItem(id || value)}
         bottomDivider
       />
     )

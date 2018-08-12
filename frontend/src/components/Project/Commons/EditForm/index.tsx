@@ -39,7 +39,7 @@ type State = {
   leadSentence: string | undefined;
   motivation: string | undefined;
   requirement: string | undefined;
-  genreId: string | undefined;
+  genre: Genre | undefined;
   city: City | undefined;
   skills: Skill[];
 };
@@ -52,7 +52,7 @@ class EditForm extends React.Component<Props, State> {
       leadSentence: undefined,
       motivation: undefined,
       requirement: undefined,
-      genre: undefined,
+      genre: [],
       city: undefined,
       skills: []
     }
@@ -67,7 +67,7 @@ class EditForm extends React.Component<Props, State> {
       leadSentence: project.leadSentence,
       motivation: project.motivation,
       requirement: project.requirement,
-      genreId: project.genre ? project.genre.id : undefined,
+      genre: project.genre,
       city: project.city,
       skills: project.skills
     };
@@ -78,22 +78,22 @@ class EditForm extends React.Component<Props, State> {
   private buildProjectEditParams = (): ProjectEditParams => {
     const { project } = this.props;
     let params = {};
-    const stringKeys = [
-      "title",
-      "leadSentence",
-      "motivation",
-      "requirement",
-      "genreId"
-    ];
-    const objectKeys = ["city"];
+    const stringKeys = ["title", "leadSentence", "motivation", "requirement"];
+    const objectKeys = ["city", "genre"];
     const arrayObjectKeys = ["skills"];
 
     stringKeys.forEach((key) => {
       let currentValue = this.state[key];
+      console.log(
+        currentValue,
+        project[key],
+        !(currentValue === project[key]),
+        "string key",
+        key
+      );
       if (!(currentValue === project[key])) {
         params[key] = currentValue;
       }
-
     });
 
     objectKeys.forEach((key) => {
@@ -108,7 +108,7 @@ class EditForm extends React.Component<Props, State> {
         params[keyName] = this.state[key].map((item) => item.id);
       }
     });
-    console.log(params, this.state)
+    console.log(params, this.state);
 
     return params;
   };
@@ -116,7 +116,7 @@ class EditForm extends React.Component<Props, State> {
   private objectValueChanged = (key: string): boolean => {
     const currentValue = this.state[key];
     const previousValue = this.props.project[key];
-    console.log(currentValue, previousValue, key, 'obj');
+    console.log(currentValue, previousValue, key, "obj");
     if (currentValue && previousValue && currentValue.id === previousValue.id) {
       return false;
     } else if (!currentValue && !previousValue) {
@@ -129,11 +129,19 @@ class EditForm extends React.Component<Props, State> {
   private arrayObjectValueChanged = (key: string): boolean => {
     const currentObjectIds = this.state[key].map((item) => item.id);
     const previousObjectIds = this.props.project[key].map((item) => item.id);
-    console.log(currentObjectIds, previousObjectIds, key, 'array');
-    const intersectionCount = new Set(
-      [...currentObjectIds].filter((id) => previousObjectIds.includes(id))
-    ).size;
-    return previousObjectIds.size !== intersectionCount;
+
+    const intersectionCount = currentObjectIds.filter((id) =>
+      previousObjectIds.includes(id)
+    ).length;
+    console.log(
+      currentObjectIds,
+      previousObjectIds,
+      key,
+      "array",
+      intersectionCount,
+      previousObjectIds.length
+    );
+    return previousObjectIds.length !== intersectionCount;
   };
 
   private handleNavigatorEvent = (e) => {
@@ -149,26 +157,24 @@ class EditForm extends React.Component<Props, State> {
     }
   };
 
-  private handleChangeValue = (key: string, value: number) => {
-    let changeAttr = {};
-    changeAttr[key] = value;
-    console.log(changeAttr);
+  private handleGenreChange = (key: string, value: string | number) => {
+    let changedAttr = {};
+    const genre = this.props.genres.find((genre) => genre.id == value);
+    changedAttr[key] = genre;
 
-    this.setState(changeAttr);
+    this.setState(changedAttr);
   };
 
-  private handlePressShowModal = (
-    items: any[],
-    keyName: string,
-    selectedValue: string | number | undefined
-  ) => {
+  private handleGenreShowModal = () => {
+    const { genres } = this.props;
+    const { genre } = this.state;
     this.props.navigator.showModal({
       screen: PICKER_SCREEN,
       passProps: {
-        items,
-        keyName,
-        selectedValue,
-        onPress: this.handleChangeValue
+        items: genres,
+        keyName: "genre",
+        selectedValue: genre ? genre.id : undefined,
+        onPress: this.handleGenreChange
       },
       navigatorButtons: {
         leftButtons: [
@@ -278,14 +284,12 @@ class EditForm extends React.Component<Props, State> {
     const {
       title,
       leadSentence,
-      genreId,
+      genre,
       motivation,
       requirement,
       city
     } = this.state;
-    const { genres } = this.props;
 
-    const genre = genres.find((genre) => genre.id === genreId);
     return (
       <ScrollView
         alwaysBounceVertical={true}
@@ -305,7 +309,7 @@ class EditForm extends React.Component<Props, State> {
           placeholder="Select Genre"
           value={genre ? genre.name : undefined}
           label="Genre"
-          onPress={() => this.handlePressShowModal(genres, "genreId", genreId)}
+          onPress={() => this.handleGenreShowModal()}
         />
         <InnerSelectInput
           placeholder="Select City"

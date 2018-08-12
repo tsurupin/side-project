@@ -36,6 +36,11 @@ export const PROJECT_FRAGMENTS = {
         rank
         imageUrl
       }
+      city {
+        id
+        name
+        fullName
+      }
     }
   `,
   projectOnList: gql`
