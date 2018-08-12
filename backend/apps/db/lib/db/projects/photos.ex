@@ -24,7 +24,6 @@ defmodule Db.Projects.Photos do
       {:ok, photo}
     else
       {:error, changeset} ->
-        IO.inspect(changeset)
         {:error, Db.FullErrorMessage.message(changeset)}
 
       _ ->
@@ -43,24 +42,26 @@ defmodule Db.Projects.Photos do
               Repo.all(
                 from(
                   p in Photo,
-                  where: p.project_id == ^photo.project_id and p.rank > ^photo.rank
+                  where: p.project_id == ^photo.project_id and p.rank > ^photo.rank,
+                  order_by: [asc: p.rank]
                 )
               )
 
             transaction =
               Multi.new()
               |> Multi.delete(:deleted_photo, photo)
-              |> promote_photos(photos, photo.rank)
+              |> promote_photos(photos)
               |> Multi.run(:delete_image_file, fn %{deleted_photo: deleted_photo} ->
                 delete_image_file(deleted_photo)
               end)
               |> Repo.transaction()
 
             case transaction do
-              {:ok, _any} ->
-                {:ok, _any}
+              {:ok, _} ->
+                {:ok, photo}
 
               {:error, _name, changeset, _prev} ->
+                IO.inspect(changeset)
                 {:error, Db.FullErrorMessage.message(changeset)}
             end
 
@@ -74,16 +75,16 @@ defmodule Db.Projects.Photos do
   end
 
   # @spec promote_photos(Ecto.Multi.t, [], integer) :: Ecto.Multi.t()
-  defp promote_photos(multi, [], _rank), do: multi
+  defp promote_photos(multi, []), do: multi
 
-  @spec promote_photos(Ecto.Multi.t(), nonempty_list(Photo.t()), integer) :: Ecto.Multi.t()
-  defp promote_photos(multi, [photo | remaining], rank) do
+  @spec promote_photos(Ecto.Multi.t(), nonempty_list(Photo.t())) :: Ecto.Multi.t()
+  defp promote_photos(multi, [photo | remaining]) do
     multi
     |> Multi.update(
       "promote_photos:#{photo.id}",
-      Photo.promote_changeset(photo, %{rank: rank})
+      Photo.promote_changeset(photo, %{rank: photo.rank-1})
     )
-    |> promote_photos(remaining, rank - 1)
+    |> promote_photos(remaining)
   end
 
   @spec delete_image_file(Photo.t()) :: {:ok, Photo.t()}

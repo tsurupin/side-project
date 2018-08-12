@@ -44,18 +44,18 @@ defmodule Db.Projects.Project do
     |> assoc_constraint(:genre)
     |> assoc_constraint(:owner)
     |> assoc_constraint(:city)
-    |> unique_constraint(:name, name: "projects_owner_id_and_title_index")
+    |> unique_constraint(:title, name: "projects_owner_id_and_title_index")
     |> check_constraint(:status, name: "valid_project_status")
   end
 
   def edit_changeset(%__MODULE__{} = project, attrs) do
-    permitted_attrs = ~w(name lead_sentence genre_id motivation requirement city_id zip_code)a
+    permitted_attrs = ~w(title lead_sentence genre_id motivation requirement city_id zip_code)a
 
     project
     |> cast(attrs, permitted_attrs)
     |> assoc_constraint(:genre)
     |> assoc_constraint(:city)
-    |> unique_constraint(:name, name: "projects_owner_id_and_title_index")
+    |> unique_constraint(:title, name: "projects_owner_id_and_title_index")
     |> check_constraint(:status, name: "valid_project_status")
   end
 

@@ -1,6 +1,7 @@
 import * as React from "react";
 import { Mutation } from "react-apollo";
 import { EDIT_PROJECT_MUTATION, PROJECT_FRAGMENTS } from "../../graphql/projects";
+import { ProjectDetails } from "../../interfaces";
 
 type Props = {
   children: any;
@@ -14,8 +15,10 @@ const EditProjectMutation = (props: Props) => {
       mutation={EDIT_PROJECT_MUTATION}
       context={{ needAuth: true }}
       update={(cache, { data: { editProject } }) => {
+        console.log("edit", editProject);
+      
         const fragmentId: string = `Project:${editProject.id}`;
-        const { project } = cache.readFragment({
+        const project: ProjectDetails | null  = cache.readFragment({
           id: fragmentId,
           fragment: PROJECT_FRAGMENTS.projectDetails
         });

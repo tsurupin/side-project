@@ -67,7 +67,7 @@ class EditForm extends React.Component<Props, State> {
       leadSentence: project.leadSentence,
       motivation: project.motivation,
       requirement: project.requirement,
-      genre: project.genre,
+      genreId: project.genre ? project.genre.id : undefined,
       city: project.city,
       skills: project.skills
     };
@@ -87,45 +87,36 @@ class EditForm extends React.Component<Props, State> {
     ];
     const objectKeys = ["city"];
     const arrayObjectKeys = ["skills"];
-    // stringKeys.forEach((key) => (params[key] = this.state[key]));
-    // objectKeys.forEach((key) => {
-    //   if (this.state[key]) {
-    //     params[`${key}Id`] = this.state[key] ? this.state[key].id : undefined;
-    //   }
-    // });
 
-    // arrayObjectKeys.forEach((key) => {
-    //   params[`${key}Ids`] = this.state[key].map(item => item.id);
-    // });
-
-    // return params;
-
-     stringKeys.forEach(key => {
+    stringKeys.forEach((key) => {
       let currentValue = this.state[key];
-      if (!currentValue === project[key]) {
+      if (!(currentValue === project[key])) {
         params[key] = currentValue;
       }
+
     });
 
-    objectKeys.forEach(key => {
+    objectKeys.forEach((key) => {
       if (this.objectValueChanged(key)) {
         params[`${key}Id`] = this.state[key] ? this.state[key].id : undefined;
       }
     });
 
-    arrayObjectKeys.forEach(key => {
+    arrayObjectKeys.forEach((key) => {
       if (this.arrayObjectValueChanged(key)) {
-        params[`${key}Ids`] = this.state[key].map(item => item.id);
+        let keyName = key === "skills" ? "skillIds" : `${key}Ids`;
+        params[keyName] = this.state[key].map((item) => item.id);
       }
     });
+    console.log(params, this.state)
 
     return params;
   };
 
-   private objectValueChanged = (key: string): boolean => {
+  private objectValueChanged = (key: string): boolean => {
     const currentValue = this.state[key];
     const previousValue = this.props.project[key];
-
+    console.log(currentValue, previousValue, key, 'obj');
     if (currentValue && previousValue && currentValue.id === previousValue.id) {
       return false;
     } else if (!currentValue && !previousValue) {
@@ -136,17 +127,17 @@ class EditForm extends React.Component<Props, State> {
   };
 
   private arrayObjectValueChanged = (key: string): boolean => {
-    const currentObjectIds = this.state[key].map(item => item.id);
-    const previousObjectIds = this.props.project[key].map(item => item.id);
-
+    const currentObjectIds = this.state[key].map((item) => item.id);
+    const previousObjectIds = this.props.project[key].map((item) => item.id);
+    console.log(currentObjectIds, previousObjectIds, key, 'array');
     const intersectionCount = new Set(
-      [...currentObjectIds].filter(id => previousObjectIds.has(id))
+      [...currentObjectIds].filter((id) => previousObjectIds.includes(id))
     ).size;
     return previousObjectIds.size !== intersectionCount;
   };
 
   private handleNavigatorEvent = (e) => {
-    console.log("navigation", e)
+    console.log("navigation", e);
     if (e.type !== "NavBarButtonPress") return;
     switch (e.id) {
       case SUBMIT_BUTTON:

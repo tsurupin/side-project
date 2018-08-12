@@ -76,7 +76,7 @@ class ProjectEditScreen extends React.Component<Props> {
   };
 
   handleSubmit = (variables: ProjectEditParams, editProjectMutation: any) => {
-    editProjectMutation({ variables });
+    editProjectMutation({ variables: {id: this.props.id, ...variables }});
   };
 
   render() {

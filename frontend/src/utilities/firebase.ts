@@ -21,32 +21,33 @@ const EXPIRED_AT_IN_UNIX = "EXPIRED_AT_IN_UNIX";
 const TOKEN = "TOKEN";
 const FIREBASE_TOKEN_URL = "https://securetoken.googleapis.com/v1/token";
 
-export const firebaseSignIn = firebaseToken => {
+export const firebaseSignIn = (firebaseToken) => {
+  console.log("before FB signIn");
 
   return new Promise((resolve, reject) => {
     try {
-    firebase
-      .auth()
-      .signInWithCustomToken(firebaseToken)
-      .then(result => {
-        console.log(result)
-        const { user } = result;
-        
-        if(!user) return reject("not found user");
+      console.log("firebase before auth");
+      firebase
+        .auth()
+        .signInWithCustomToken(firebaseToken)
+        .then((result) => {
+          console.log(result);
+          const { user } = result;
 
-        user.getIdToken(false).then(async userToken => {
-          await TokenManager.setToken(userToken, user.refreshToken);
-          resolve();
+          if (!user) return reject("not found user");
+
+          user.getIdToken(false).then(async (userToken) => {
+            await TokenManager.setToken(userToken, user.refreshToken);
+            resolve();
+          });
+        })
+        .catch((error) => {
+          console.log("signInError", error);
+          reject();
         });
-      })
-      .catch(error => {
-        console.log("signInError", error);
-        reject();
-      });
-    } catch(e){
+    } catch (e) {
       console.log(e);
       resolve();
-
     }
   });
 };
@@ -60,7 +61,7 @@ export const firebaseSignOut = () => {
         await TokenManager.removeToken();
         resolve();
       })
-      .catch(error => {
+      .catch((error) => {
         console.log(error);
         reject();
       });
@@ -90,8 +91,8 @@ export const firebaseRefreshToken = async () => {
     `${FIREBASE_TOKEN_URL}?key=${FIREBASE_API_KEY}`,
     config
   )
-    .then(result => result.json())
-    .then(async result => {
+    .then((result) => result.json())
+    .then(async (result) => {
       const token = result.id_token;
       await TokenManager.setToken(
         token,
@@ -101,6 +102,6 @@ export const firebaseRefreshToken = async () => {
 
       return token;
     })
-    .catch(error => console.log(error));
+    .catch((error) => console.log(error));
   return result;
 };

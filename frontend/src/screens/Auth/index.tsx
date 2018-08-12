@@ -78,7 +78,7 @@ class AuthScreen extends React.Component<Props, State> {
                   signUpData,
                   loginData
                 }) => {
-                  console.log("SignUpMutation", signUpData, error, loginData);
+                  
                   if (loading) {
                     return <View>Loading</View>;
                   }
