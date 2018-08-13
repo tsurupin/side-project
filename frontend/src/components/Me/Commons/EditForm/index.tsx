@@ -1,5 +1,5 @@
 import * as React from "react";
-import { View, Button, Text } from "react-native";
+import { View, Button, Text, FlatList, ScrollView } from "react-native";
 import {
   UserDetails,
   UserEditParams,
@@ -8,11 +8,20 @@ import {
   Genre,
   OccupationType
 } from "../../../../interfaces";
-import { Input } from "react-native-elements";
+import { Input, ListItem } from "react-native-elements";
 import {
-  SUBMIT_USER_EDIT_BUTTON,
-  CANCEL_USER_EDIT_BUTTON
+  SUBMIT_BUTTON,
+  CLOSE_BUTTON
 } from "../../../../constants/buttons";
+import { CLOSE_ICON } from "../../../../constants/icons";
+import IconLoader from "../../../../utilities/iconLoader";
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+import {
+  InnerTextInput,
+  InnerDetailsInput,
+  InnerSelectInput
+} from "../../../Commons";
+
 import {
   SKILL_SEARCH_MODAL_SCREEN,
   CITY_SEARCH_MODAL_SCREEN
@@ -21,6 +30,8 @@ import {
 import styles from "./styles";
 
 type Props = {
+  genres: Genre[];
+  occupationTypes: OccupationType[];
   user: UserDetails;
   navigator: any;
   loading: boolean;
@@ -80,19 +91,20 @@ class EditForm extends React.Component<Props, State> {
     const statePrioritizedKeys = ["longitude", "latitude"];
     stringKeys.forEach(key => {
       let currentValue = this.state[key];
-      if (!currentValue === user[key]) {
+      if ((!currentValue === user[key])) {
         params[key] = currentValue;
       }
     });
     objectKeys.forEach(key => {
       if (this.objectValueChanged(key)) {
-        params[key] = this.state[key] ? this.state[key].id : undefined;
+        params[`${key}Id`] = this.state[key] ? this.state[key].id : undefined;
       }
     });
 
     arrayObjectKeys.forEach(key => {
       if (this.arrayObjectValueChanged(key)) {
-        params[`${key}Ids`] = this.state[key].map(item => item.id);
+        let keyName = key === "skills" ? "skillIds" : `${key}Ids`;
+        params[keyName] = this.state[key].map(item => item.id);
       }
     });
 
@@ -118,29 +130,78 @@ class EditForm extends React.Component<Props, State> {
   };
 
   private arrayObjectValueChanged = (key: string): boolean => {
-    const currentObjectIds = this.state[key].map(item => item.id);
-    const previousObjectIds = this.props.user[key].map(item => item.id);
+    const currentObjectIds = this.state[key].map((item) => item.id);
+    const previousObjectIds = this.props.user[key].map((item) => item.id);
 
-    const intersectionCount = new Set(
-      [...currentObjectIds].filter(id => previousObjectIds.has(id))
-    ).size;
-    return previousObjectIds.size !== intersectionCount;
+    const intersectionCount = currentObjectIds.filter((id) =>
+      previousObjectIds.includes(id)
+    ).length;
+    
+    return (previousObjectIds.length !== intersectionCount) || (currentObjectIds.length !== intersectionCount);
   };
 
   private handleNavigatorEvent = e => {
     if (e.type !== "NavBarButtonPress") return;
 
     switch (e.id) {
-      case SUBMIT_USER_EDIT_BUTTON:
+      case SUBMIT_BUTTON:
         this.props.onSubmit(this.buildUserEditParams());
-      case CANCEL_USER_EDIT_BUTTON:
+      case CLOSE_BUTTON:
         this.props.navigator.dismissModal();
     }
   };
 
+
+  private handleSkillSearchShowModal = () => {
+    this.props.navigator.showModal({
+      screen: SKILL_SEARCH_MODAL_SCREEN,
+      title: "Skill Search",
+      animationType: "slide-up",
+      passProps: { onPressSkill: this.handleAddSkill },
+      navigatorButtons: {
+        leftButtons: [
+          {
+            icon: IconLoader.getIcon(CLOSE_ICON),
+            title: "Close",
+            id: CLOSE_BUTTON
+          }
+        ]
+      }
+    });
+  };
+
   private handleAddSkill = (skill: Skill) => {
+    if (this.state.skills.find(skill => skill.id === skill.id)) return;
     const skills = Array.from(new Set(this.state.skills.concat(skill)));
     this.setState({ skills });
+  };
+
+
+  protected handleDeleteSkill = (id: string) => {
+    const skills = this.state.skills.filter(skill => skill.id !== id);
+    this.setState({ skills });
+  };
+
+
+  private handleCitySearchShowModal = () => {
+    this.props.navigator.showModal({
+      screen: CITY_SEARCH_MODAL_SCREEN,
+      title: "City Search",
+      animationType: "slide-up",
+      passProps: {
+        onPress: this.handleUpdateLocation,
+        needLocationSearch: true
+      },
+      navigatorButtons: {
+        leftButtons: [
+          {
+            icon: IconLoader.getIcon(CLOSE_ICON),
+            title: "Close",
+            id: CLOSE_BUTTON
+          }
+        ]
+      }
+    });
   };
 
   private handleUpdateLocation = (
@@ -155,45 +216,37 @@ class EditForm extends React.Component<Props, State> {
     }
   };
 
-  private handleSkillSearchShowModal = () => {
-    this.props.navigator.showModal({
-      screen: SKILL_SEARCH_MODAL_SCREEN,
-      title: "Skill Search",
-      animationType: "slide-up",
-      passProps: { onPressSkill: this.handleAddSkill }
-    });
-  };
-
-  private handleCitySearchShowModal = () => {
-    this.props.navigator.showModal({
-      screen: CITY_SEARCH_MODAL_SCREEN,
-      title: "City Search",
-      animationType: "slide-up",
-      passProps: {
-        onPress: this.handleUpdateLocation,
-        needLocationSearch: true
-      }
-    });
-  };
-
-  protected handleDeleteSkill = (id: string) => {
-    const skills = this.state.skills.filter(skill => skill.id !== id);
-    this.setState({ skills });
-  };
-
   private renderSkillList = () => {
+    return <FlatList data={this.state.skills} renderItem={this.renderSkill} />;
+  };
+
+  private renderSkill = (data) => {
+    const skill: Skill = data.item;
     return (
-      <View>
-        {this.state.skills.map(skill => {
-          return (
-            <Button
-              key={skill.id}
-              title={skill.name}
-              onPress={() => this.handleDeleteSkill(skill.id)}
-            />
-          );
-        })}
-      </View>
+      <ListItem
+        key={skill.id}
+        title={skill.name}
+        bottomDivider
+        rightIcon={this.renderSkillRemoveIcon(skill.id)}
+      />
+    );
+  };
+
+  private renderSkillAddIcon = () => {
+    return (
+      <MaterialCommunityIcons
+        name="plus"
+        onPress={() => this.handleSkillSearchShowModal()}
+      />
+    );
+  };
+
+  private renderSkillRemoveIcon = (skillId: string) => {
+    return (
+      <MaterialCommunityIcons
+        name="minus-circle"
+        onPress={() => this.handleDeleteSkill(skillId)}
+      />
     );
   };
 

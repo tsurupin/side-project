@@ -1,20 +1,16 @@
 import * as React from "react";
 import { View, TouchableOpacity, Text, Button, Alert } from "react-native";
-import { ErrorMessage } from "../../../components/Commons";
-import EditForm from "./EditForm";
-
+import { ErrorMessage, LoadingIndicator,  PhotosEditForm } from "../../../components/Commons";
+import { EditForm } from "../../../components/Me/Commons";
 import { MyUserQuery } from "../../../queries/users";
 import { EditUserMutation } from "../../../mutations/users";
-import { UserEditParams, UserUploadParams } from "../../../interfaces";
-import { Photo } from "../../../components/Me/UserPhotoEditScreen";
+
 import {
   UploadUserPhotoMutation,
   DeleteUserPhotoMutation
 } from "../../../mutations/users";
-import * as ImagePicker from "react-native-image-picker";
-import ImageResizer from "react-native-image-resizer";
-import { ReactNativeFile } from "@richeterre/apollo-upload-client";
-
+import { UserDetails, UserEditParams } from "../../../interfaces";
+import { uploadImage } from "../../../utilities/imagePickerHandler";
 import styles from "./styles";
 
 type Props = {
@@ -27,129 +23,95 @@ class UserEditScreen extends React.Component<Props, UserEditParams> {
     super(props);
   }
 
-  handlePressUpload = (mutation, rank: number) => {
-    ImagePicker.showImagePicker({}, async response => {
-      console.log("Response = ", response);
-
-      if (response.didCancel) {
-        console.log("User cancelled image picker");
-      } else if (response.error) {
-        console.log("ImagePicker Error: ", response.error);
-      } else if (response.customButton) {
-        console.log("User tapped custom button: ", response.customButton);
-      } else {
-        try {
-          const uri = await ImageResizer.createResizedImage(
-            response.uri,
-            600,
-            600,
-            "JPEG",
-            100
-          );
-          const photo = new ReactNativeFile({
-            uri,
-            type: "image/jpeg",
-            name: "photo.jpg"
-          });
-
-          console.log(photo, mutation);
-          const variables: UserUploadParams = { photo: photo, rank };
-
-          console.log(variables);
-          mutation({ variables });
-        } catch (err) {
-          console.log(err);
-          return Alert.alert(
-            "Unable to resize the photo",
-            "Check the console for full the error message"
-          );
-        }
-      }
+  private handlePress = (rank: number, mutation) => {
+    uploadImage({
+      variables: {rank}, 
+      onCallback: mutation,
+      onError: (message: string) => Alert.alert(message)
     });
   };
 
-  handlePressDeletion = (deleteUserPhotoMutation, photoId: string) => {
+  private handlePressDeletion = (deleteUserPhotoMutation, photoId: string) => {
     deleteUserPhotoMutation({ variables: { photoId } });
   };
 
-  handleSubmit = (variables: UserEditParams, editUserMutation: any) => {
+  private handleSubmit = (variables: UserEditParams, editUserMutation: any) => {
     editUserMutation({ variables });
   };
 
-  renderPhotos = (mutation, photos) => {
-    return photos.map(photo => {
-      return (
-        <Photo
-          key={photo.id}
-          photo={photo}
-          onPress={(id: string) => this.handlePressDeletion(mutation, id)}
-        />
-      );
-    });
+
+  private renderPhotoListEditForm = (user: UserDetails) => {
+  
+    return (
+      <DeleteUserPhotoMutation>
+                {({ deleteUserPhotoMutation, data, loading, error }) => {
+          if (loading) return <LoadingIndicator />;
+          if (error) return <ErrorMessage {...error} />;
+          return (
+            <UploadUserPhotoMutation>
+            {({ uploadUserPhotoMutation, data, loading, error }) => {
+                if (loading) return <LoadingIndicator />;
+                if (error) return <ErrorMessage {...error} />;
+                return (
+                  <PhotosEditForm
+                    photos={user.photos}
+                    onPressPhoto={(id: string) =>
+                      this.handlePressDeletion(deleteUserPhotoMutation, id)
+                    }
+                    onPressNewPhoto={(rank: number) =>
+                      this.handlePress(rank, uploadUserPhotoMutation)
+                    }
+                  />
+                );
+              }}
+            </UploadUserPhotoMutation>
+          );
+        }}
+      </DeleteUserPhotoMutation>
+    );
+  };
+
+  private renderEditForm = (user: UserDetails, defaultProps) => {
+    const { genres } = defaultProps;
+    return (
+      <EditUserMutation>
+        {({ editUserMutation, loading, error, data }) => {
+          if (loading) return <LoadingIndicator />;
+          if (error) return <ErrorMessage {...error} />;
+          if (data) {
+            this.props.navigator.pop();
+            return <View />;
+          }
+          return (
+            <EditForm
+              user={user}
+              onSubmit={(userEditParams: UserEditParams) =>
+                this.handleSubmit(userEditParams, editUserMutation)
+              }
+              loading={loading}
+              genres={genres}
+              error={error}
+              navigator={this.props.navigator}
+            />
+          );
+        }}
+      </EditUserMutation>
+    );
   };
 
   render() {
-    const { id } = this.props;
     return (
       <MyUserQuery>
         {({ data, loading, error }) => {
           console.log(error);
-          if (loading)
-            return (
-              <View>
-                <Text> Text</Text>
-              </View>
-            );
-          if (error)
-            return (
-              <View>
-                <Text> Error</Text>
-              </View>
-            );
+          if (loading) return <LoadingIndicator />;
+          if (error) return <ErrorMessage {...error} />;
 
-          const { myUser } = data;
+          const user: UserDetails = data.myUser;
           return (
             <View>
-               <DeleteUserPhotoMutation>
-                {({ deleteUserPhotoMutation, data, loading, error }) => {
-                  console.log("delete user photo", data, loading, error);
-                  return this.renderPhotos(
-                    deleteUserPhotoMutation,
-                    myUser.photos
-                  );
-                }}
-              </DeleteUserPhotoMutation>;
-              <UploadUserPhotoMutation>
-                {({ uploadUserPhotoMutation, data, loading, error }) => {
-                  console.log("upload user photo", data, loading, error);
-                  return (
-                    <Button
-                      title="button"
-                      onPress={() => this.handlePressUpload(uploadUserPhotoMutation, myUser.photos.length)}
-                    />
-                  );
-                }}
-              </UploadUserPhotoMutation>;
-              <EditUserMutation>
-              {({ editUserMutation, loading, error, data }) => {
-                  if (data) {
-                    this.props.navigator.dismissModal();
-          
-                    return <View />;
-                  }
-                  return (
-                    <EditForm
-                      user={myUser}
-                      onSubmit={(userEditParams: UserEditParams) =>
-                        this.handleSubmit(userEditParams, editUserMutation)
-                      }
-                      loading={loading}
-                      error={error}
-                      navigator={this.props.navigator}
-                    />
-                  );
-                }}
-              </EditUserMutation>
+               {this.renderPhotoListEditForm(user)}
+               {this.renderEditForm(user, {})} 
             </View>
           );
         }}

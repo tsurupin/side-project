@@ -9,7 +9,7 @@ import {
 } from "../../../../interfaces";
 import { Input, ListItem } from "react-native-elements";
 import { CLOSE_ICON } from "../../../../constants/icons";
-import { getIcon } from "../../../../utilities/iconLoader";
+import IconLoader from "../../../../utilities/iconLoader";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import {
   InnerTextInput,
@@ -84,13 +84,7 @@ class EditForm extends React.Component<Props, State> {
 
     stringKeys.forEach((key) => {
       let currentValue = this.state[key];
-      console.log(
-        currentValue,
-        project[key],
-        !(currentValue === project[key]),
-        "string key",
-        key
-      );
+     
       if (!(currentValue === project[key])) {
         params[key] = currentValue;
       }
@@ -132,14 +126,7 @@ class EditForm extends React.Component<Props, State> {
     const intersectionCount = currentObjectIds.filter((id) =>
       previousObjectIds.includes(id)
     ).length;
-    console.log(
-      currentObjectIds,
-      previousObjectIds,
-      key,
-      "array",
-      intersectionCount,
-      previousObjectIds.length
-    );
+    
     return (previousObjectIds.length !== intersectionCount) || (currentObjectIds.length !== intersectionCount);
   };
 
@@ -171,7 +158,7 @@ class EditForm extends React.Component<Props, State> {
       navigatorButtons: {
         leftButtons: [
           {
-            icon: getIcon(CLOSE_ICON),
+            icon: IconLoader.getIcon(CLOSE_ICON),
             title: "CLOSE",
             id: CLOSE_BUTTON
           }
@@ -199,7 +186,7 @@ class EditForm extends React.Component<Props, State> {
       navigatorButtons: {
         leftButtons: [
           {
-            icon: getIcon(CLOSE_ICON),
+            icon: IconLoader.getIcon(CLOSE_ICON),
             title: "Close",
             id: CLOSE_BUTTON
           }
@@ -231,7 +218,7 @@ class EditForm extends React.Component<Props, State> {
       navigatorButtons: {
         leftButtons: [
           {
-            icon: getIcon(CLOSE_ICON),
+            icon: IconLoader.getIcon(CLOSE_ICON),
             title: "Close",
             id: CLOSE_BUTTON
           }

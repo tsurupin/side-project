@@ -6,7 +6,7 @@ import { ProjectPhoto, UserPhoto } from "../../../interfaces";
 import styles from "./styles";
 
 type Props = {
-  photos: ProjectPhoto[];
+  photos: ProjectPhoto[] | UserPhoto[];
   onPressPhoto: (string) => void;
   onPressNewPhoto: (rank: number) => void;
 };
