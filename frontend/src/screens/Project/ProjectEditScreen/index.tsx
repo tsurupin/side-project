@@ -15,16 +15,14 @@ import {
   ProjectEditParams,
   ProjectUploadParams
 } from "../../../interfaces";
-import { Photo } from "../../../components/Me/UserPhotoEditScreen";
+
 import {
   EditProjectMutation,
   UploadProjectPhotoMutation,
   DeleteProjectPhotoMutation
 } from "../../../mutations/projects";
-import * as ImagePicker from "react-native-image-picker";
-import ImageResizer from "react-native-image-resizer";
-import { ReactNativeFile } from "@richeterre/apollo-upload-client";
 
+import { uploadImage } from "../../../utilities/imagePickerHandler";
 import styles from "./styles";
 
 type Props = {
@@ -38,47 +36,11 @@ class ProjectEditScreen extends React.Component<Props> {
   }
 
   private handlePress = (rank: number, mutation) => {
-    ImagePicker.showImagePicker({}, async (response) => {
-      console.log("Response = ", response);
-
-      if (response.didCancel) {
-        console.log("User cancelled image picker");
-      } else if (response.error) {
-        console.log("ImagePicker Error: ", response.error);
-      } else if (response.customButton) {
-        console.log("User tapped custom button: ", response.customButton);
-      } else {
-        try {
-          const uri = await ImageResizer.createResizedImage(
-            response.uri,
-            600,
-            600,
-            "JPEG",
-            100
-          );
-          const photo = new ReactNativeFile({
-            uri,
-            type: "image/jpeg",
-            name: "photo.jpg"
-          });
-
-          console.log(photo, mutation);
-          const variables: ProjectUploadParams = {
-            projectId: this.props.id,
-            photo,
-            rank
-          };
-
-          console.log(variables);
-          mutation({ variables });
-        } catch (err) {
-          console.log(err);
-          return Alert.alert(
-            "Unable to resize the photo",
-            "Check the console for full the error message"
-          );
-        }
-      }
+    const {id} = this.props;
+    uploadImage({
+      variables: {rank, projectId: id}, 
+      onCallback: mutation,
+      onError: (message: string) => Alert.alert(message)
     });
   };
 

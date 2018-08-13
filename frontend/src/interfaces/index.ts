@@ -93,11 +93,6 @@ export interface UserEditParams {
   cityId?: string;
 }
 
-export interface UserUploadParams {
-  photo: string;
-  rank: number;
-}
-
 export interface ProjectCore {
   id: string;
   title: string;
@@ -147,10 +142,13 @@ export interface ProjectEditParams {
   skillIds?: string[];
 }
 
-export interface ProjectUploadParams {
-  projectId: string;
+export interface UploadPhotoParams {
   photo: string;
   rank: number;
+}
+
+export interface ProjectUploadParams extends UploadPhotoParams {
+  projectId: string;
 }
 
 export interface Chat {
