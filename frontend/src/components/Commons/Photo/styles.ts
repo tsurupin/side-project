@@ -4,13 +4,9 @@ const styles = StyleSheet.create({
   container: {
     width: Math.trunc(windowWidth * 0.33),
     height: 100,
-    backgroundColor: "black",
-    margin: 1
-  },
-  image: {
-    
+    margin: 1,
     borderWidth: 1,
-    borderColor: "red"
+    borderColor: "grey"
   }
 });
 export default styles;

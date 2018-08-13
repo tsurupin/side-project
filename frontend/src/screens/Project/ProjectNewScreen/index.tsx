@@ -1,14 +1,12 @@
 import * as React from "react";
 import { View, TouchableOpacity, Text, Button, Alert } from "react-native";
-import { ErrorMessage } from "../../../components/Commons";
+import { ErrorMessage, LoadingIndicator } from "../../../components/Commons";
 import { EditForm } from "../../../components/Project/Commons";
 import { ProjectEditParams } from "../../../interfaces";
 import { ProjectFormQuery } from "../../../queries/projects";
 import { CreateProjectMutation } from "../../../mutations/projects";
 import { PROJECT_DETAILS_SCREEN } from "../../../constants/screens";
-import {
-  BACK_BUTTON
-} from "../../../constants/buttons";
+import { BACK_BUTTON } from "../../../constants/buttons";
 import styles from "./styles";
 
 type Props = {
@@ -18,10 +16,12 @@ type Props = {
 class ProjectNewScreen extends React.Component<Props> {
   constructor(props) {
     super(props);
-
   }
 
-  private handleSubmit = (variables: ProjectEditParams, createProjectMutation: any) => {
+  private handleSubmit = (
+    variables: ProjectEditParams,
+    createProjectMutation: any
+  ) => {
     createProjectMutation({ variables });
   };
 
@@ -30,33 +30,20 @@ class ProjectNewScreen extends React.Component<Props> {
       <ProjectFormQuery>
         {({ data, loading, error }) => {
           console.log(error);
-          if (loading)
-            return (
-              <View>
-                <Text> Text</Text>
-              </View>
-            );
-          if (error)
-            return (
-              <View>
-                <Text> Error</Text>
-              </View>
-            );
+          if (loading) return <LoadingIndicator />;
+          if (error) return <ErrorMessage {...error} />;
 
           const projectFormData = data.projectForm;
           return (
             <View>
               <CreateProjectMutation>
                 {({ createProjectMutation, data, loading, error }) => {
-                  if (loading)
-                    return (
-                      <View>
-                        <Text> Text</Text>
-                      </View>
-                    );
+                  if (loading) return <LoadingIndicator />;
                   if (error) return <ErrorMessage {...error} />;
                   if (data) {
-                    this.props.navigator.dismissAllModals({ animationType: 'none'});
+                    this.props.navigator.dismissAllModals({
+                      animationType: "none"
+                    });
                     this.props.navigator.push({
                       screen: PROJECT_DETAILS_SCREEN,
                       passProps: { id: data.createProject.id },
@@ -67,7 +54,6 @@ class ProjectNewScreen extends React.Component<Props> {
                             id: BACK_BUTTON
                           }
                         ]
-      
                       }
                     });
                   }

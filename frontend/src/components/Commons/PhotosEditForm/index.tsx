@@ -16,6 +16,7 @@ const photoList = (photos: ProjectPhoto[], fnc) => {
     return <Photo key={photo.id} photo={photo} onPress={fnc} />;
   });
 };
+
 const CHUNK_SIZE = 3;
 
 const renderItems = (items: any[]) => {
@@ -23,14 +24,18 @@ const renderItems = (items: any[]) => {
 
   let itemList: any[] = [];
   for (let i = 1; i <= maxChunkIndex; i++) {
-    itemList = [
-      ...itemList,
-      <View style={styles.itemContainer}>
-        {items.slice((i - 1) * CHUNK_SIZE, i * CHUNK_SIZE).map((item) => item)}
-      </View>
-    ];
+    let sectionItems =  items.slice((i- 1) * CHUNK_SIZE, i * CHUNK_SIZE);
+    itemList.push(photoListSection(i, sectionItems));
   }
   return itemList;
+};
+
+const photoListSection = (index: number, items: any[]) => {
+  return (
+    <View key={`photoListSection:${index}`} style={styles.itemContainer}>
+      {items.map((item) => item)}
+    </View>
+  );
 };
 
 const PhotosEditForm: React.SFC<Props> = (props) => {
@@ -39,7 +44,8 @@ const PhotosEditForm: React.SFC<Props> = (props) => {
   const items = [
     ...photoList(photos, onPressPhoto),
     <Button
-      style={styles.button}
+      key="projectPhoto newButton"
+      buttonStyle={styles.buttonContainer}
       title="Add New Photo"
       onPress={() => onPressNewPhoto(availableRank)}
     />

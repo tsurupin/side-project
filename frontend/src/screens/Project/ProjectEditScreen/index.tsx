@@ -1,6 +1,10 @@
 import * as React from "react";
 import { View, TouchableOpacity, Text, Button, Alert } from "react-native";
-import { ErrorMessage, PhotosEditForm } from "../../../components/Commons";
+import {
+  ErrorMessage,
+  PhotosEditForm,
+  LoadingIndicator
+} from "../../../components/Commons";
 import { EditForm } from "../../../components/Project/Commons";
 import {
   ProjectFormQuery,
@@ -78,12 +82,70 @@ class ProjectEditScreen extends React.Component<Props> {
     });
   };
 
-  handlePressDeletion = (deleteProjectPhotoMutation, photoId: string) => {
+  private handlePressDeletion = (deleteProjectPhotoMutation, photoId: string) => {
     deleteProjectPhotoMutation({ variables: { photoId } });
   };
 
-  handleSubmit = (variables: ProjectEditParams, editProjectMutation: any) => {
+  private handleSubmit = (variables: ProjectEditParams, editProjectMutation: any) => {
     editProjectMutation({ variables: { id: this.props.id, ...variables } });
+  };
+
+  private renderPhotoListEditForm = (project: ProjectDetails) => {
+    return (
+      <DeleteProjectPhotoMutation>
+        {({ deleteProjectPhotoMutation, data, loading, error }) => {
+          if (loading) return <LoadingIndicator />;
+          if (error) return <ErrorMessage {...error} />;
+          return (
+            <UploadProjectPhotoMutation>
+              {({ uploadProjectPhotoMutation, data, loading, error }) => {
+                if (loading) return <LoadingIndicator />;
+                if (error) return <ErrorMessage {...error} />;
+                return (
+                  <PhotosEditForm
+                    photos={project.photos}
+                    onPressPhoto={(id: string) =>
+                      this.handlePressDeletion(deleteProjectPhotoMutation, id)
+                    }
+                    onPressNewPhoto={(rank: number) =>
+                      this.handlePress(rank, uploadProjectPhotoMutation)
+                    }
+                  />
+                );
+              }}
+            </UploadProjectPhotoMutation>
+          );
+        }}
+      </DeleteProjectPhotoMutation>
+    );
+  };
+
+  private renderEditForm = (project: ProjectDetails, defaultProps) => {
+    const { genres } = defaultProps;
+    return (
+      <EditProjectMutation>
+        {({ editProjectMutation, loading, error, data }) => {
+          if (loading) return <LoadingIndicator />;
+          if (error) return <ErrorMessage {...error} />;
+          if (data) {
+            this.props.navigator.pop();
+            return <View />;
+          }
+          return (
+            <EditForm
+              project={project}
+              onSubmit={(projectEditParams: ProjectEditParams) =>
+                this.handleSubmit(projectEditParams, editProjectMutation)
+              }
+              loading={loading}
+              genres={genres}
+              error={error}
+              navigator={this.props.navigator}
+            />
+          );
+        }}
+      </EditProjectMutation>
+    );
   };
 
   render() {
@@ -91,102 +153,22 @@ class ProjectEditScreen extends React.Component<Props> {
     return (
       <ProjectFormQuery>
         {({ data, loading, error }) => {
-          console.log(error);
-          if (loading)
-            return (
-              <View>
-                <Text> Text</Text>
-              </View>
-            );
+          if (loading) return <LoadingIndicator />;
           if (error) return <ErrorMessage {...error} />;
 
-          const projectFormData = data.projectForm;
+          const defaultProps = data.projectForm;
 
           return (
             <ProjectDetailsQuery variables={{ id }}>
               {({ data, loading, error }) => {
-                console.log(error);
-                if (loading)
-                  return (
-                    <View>
-                      <Text> Text</Text>
-                    </View>
-                  );
+                if (loading) return <LoadingIndicator />;
                 if (error) return <ErrorMessage {...error} />;
 
                 const project: ProjectDetails = data.project;
                 return (
                   <View>
-                    <DeleteProjectPhotoMutation>
-                      {({
-                        deleteProjectPhotoMutation,
-                        data,
-                        loading,
-                        error
-                      }) => {
-                        if (error) return <ErrorMessage {...error} />;
-                        return (
-                          <UploadProjectPhotoMutation>
-                            {({
-                              uploadProjectPhotoMutation,
-                              data,
-                              loading,
-                              error
-                            }) => {
-                              console.log(
-                                "upload project photo",
-                                data,
-                                loading,
-                                error
-                              );
-                              if (error) return <ErrorMessage {...error} />;
-                              return (
-                                <PhotosEditForm
-                                  photos={project.photos}
-                                  onPressPhoto={(id: string) =>
-                                    this.handlePressDeletion(
-                                      deleteProjectPhotoMutation,
-                                      id
-                                    )
-                                  }
-                                  onPressNewPhoto={(rank: number) =>
-                                    this.handlePress(
-                                      rank,
-                                      uploadProjectPhotoMutation
-                                    )
-                                  }
-                                />
-                              );
-                            }}
-                          </UploadProjectPhotoMutation>
-                        );
-                      }}
-                    </DeleteProjectPhotoMutation>
-                    ;
-                    <EditProjectMutation>
-                      {({ editProjectMutation, loading, error, data }) => {
-                        if (error) return <ErrorMessage {...error} />;
-                        if (data) {
-                          this.props.navigator.pop();
-                          return <View />;
-                        }
-                        return (
-                          <EditForm
-                            project={project}
-                            onSubmit={(projectEditParams: ProjectEditParams) =>
-                              this.handleSubmit(
-                                projectEditParams,
-                                editProjectMutation
-                              )
-                            }
-                            loading={loading}
-                            genres={projectFormData.genres}
-                            error={error}
-                            navigator={this.props.navigator}
-                          />
-                        );
-                      }}
-                    </EditProjectMutation>
+                    {this.renderPhotoListEditForm(project)}
+                    {this.renderEditForm(project, defaultProps)}
                   </View>
                 );
               }}
