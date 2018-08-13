@@ -1,6 +1,5 @@
 import * as React from "react";
 import { View, Text } from "react-native";
-import Icon from "react-native-vector-icons/FontAwesome";
 
 import { USER_SEARCH_MODAL_SCREEN } from "../../../constants/screens";
 import {
@@ -11,8 +10,6 @@ import { CLOSE_BUTTON, BACK_BUTTON } from "../../../constants/buttons";
 import { SkillsQuery } from "../../../queries/skills";
 
 import { Skill } from "../../../interfaces";
-import { getIcon } from "../../../utilities/iconLoader";
-import { CLOSE_ICON } from "../../../constants/icons";
 
 import styles from "./styles";
 

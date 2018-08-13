@@ -1,6 +1,6 @@
 import * as React from "react";
 import { View, TouchableOpacity, Text, Button } from "react-native";
-import { ErrorMessage } from "../../../components/Commons";
+import { ErrorMessage, LoadingIndicator } from "../../../components/Commons";
 import { UserDetailsBox } from "../../../components/Discovery/UserDetailsScreen";
 import { USER_DISCOVERY_SCREEN, CHAT_SCREEN } from "../../../constants/screens";
 import { BACK_BUTTON } from "../../../constants/buttons";
@@ -50,8 +50,8 @@ class UserDetailsScreen extends React.Component<Props, State> {
     return (
       <RejectUserLikeMutation>
         {({ rejectUserLikeMutation, data, loading, error }) => {
-          if (loading) return <View />;
-          if (error) return <View />;
+          if (loading) return <LoadingIndicator />;
+          if (error) return <ErrorMessage {...error} />;
           if (data) {
             this.props.navigator.push({
               screen: USER_DISCOVERY_SCREEN
@@ -91,8 +91,8 @@ class UserDetailsScreen extends React.Component<Props, State> {
     return (
       <LikeUserMutation>
         {({ likeUserMutation, data, loading, error }) => {
-          if (loading) return <View />;
-          if (error) return <View />;
+          if (loading) return <LoadingIndicator />;
+          if (error) return <ErrorMessage {...error} />;
           if (data) {
             this.props.navigator.push({
               screen: USER_DISCOVERY_SCREEN
@@ -117,23 +117,13 @@ class UserDetailsScreen extends React.Component<Props, State> {
     return (
       <UserDetailsQuery variables={{ id }}>
         {({ data, loading, error }) => {
-          console.log(error);
-          if (loading)
-            return (
-              <View>
-                <Text> Text</Text>
-              </View>
-            );
+          if (loading) return <LoadingIndicator />;
           if (error) {
-            return (
-              <View>
-                <Text> Error</Text>
-              </View>
-            );
+            return <ErrorMessage {...error} />;
           }
-          
+
           const userDetails: UserDetails = data.user;
-  
+
           if (liked) {
             return this.renderLikedUserDetails(userDetails);
           } else {

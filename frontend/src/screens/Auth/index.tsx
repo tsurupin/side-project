@@ -5,7 +5,6 @@ import { SignUpMutation } from "../../mutations/accounts";
 import { LoginStatusQuery } from "../../queries/accounts";
 import MainTab from "../MainTab";
 import { firebaseSignIn } from "../../utilities/firebase";
-import TokenManager from "../../utilities/tokenManager";
 
 const FACEBOOK = "facebook";
 const FB_READ_PERMISSIONS = ["public_profile", "email"];

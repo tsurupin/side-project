@@ -16,7 +16,7 @@ import {
   OccupationType,
   UserSearchParams
 } from "../../../../interfaces";
-import { getIcon } from "../../../../utilities/iconLoader";
+import IconLoader from "../../../../utilities/iconLoader";
 import { CLOSE_ICON } from "../../../../constants/icons";
 import styles from "./styles";
 
@@ -113,7 +113,7 @@ class SearchForm extends React.Component<Props, State> {
       navigatorButtons: {
         leftButtons: [
           {
-            icon: getIcon(CLOSE_ICON),
+            icon: IconLoader.getIcon(CLOSE_ICON),
             title: "CLOSE",
             id: CLOSE_BUTTON
           }
@@ -180,7 +180,7 @@ class SearchForm extends React.Component<Props, State> {
       navigatorButtons: {
         leftButtons: [
           {
-            icon: getIcon(CLOSE_ICON),
+            icon: IconLoader.getIcon(CLOSE_ICON),
             title: "CLOSE",
             id: CLOSE_BUTTON
           }

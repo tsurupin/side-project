@@ -1,10 +1,17 @@
 import * as React from "react";
-import { View, TouchableOpacity, Text, Button } from "react-native";
-import { ErrorMessage, UserDetailsView } from "../../../components/Commons";
+import {
+  ErrorMessage,
+  UserDetailsView,
+  LoadingIndicator
+} from "../../../components/Commons";
 import { USER_EDIT_SCREEN } from "../../../constants/screens";
 import { MyUserQuery } from "../../../queries/users";
 import { UserDetails } from "../../../interfaces";
-import { USER_EDIT_BUTTON, CANCEL_USER_EDIT_BUTTON, SUBMIT_USER_EDIT_BUTTON } from "../../../constants/buttons";
+import {
+  USER_EDIT_BUTTON,
+  CANCEL_USER_EDIT_BUTTON,
+  SUBMIT_USER_EDIT_BUTTON
+} from "../../../constants/buttons";
 
 import styles from "./styles";
 
@@ -19,7 +26,7 @@ class MyProfileScreen extends React.Component<Props, State> {
     this.props.navigator.setOnNavigatorEvent(this.handleNavigatorEvent);
   }
 
-  private handleNavigatorEvent = e => {
+  private handleNavigatorEvent = (e) => {
     if (e.type !== "NavBarButtonPress") return;
 
     console.log(e);
@@ -50,23 +57,12 @@ class MyProfileScreen extends React.Component<Props, State> {
     return (
       <MyUserQuery>
         {({ data, loading, error }) => {
-          console.log(error);
-          if (loading)
-            return (
-              <View>
-                <Text> Text</Text>
-              </View>
-            );
-          if (error)
-            return (
-              <View>
-                <Text> Error</Text>
-              </View>
-            );
+  
+          if (loading) return <LoadingIndicator />;
+          if (error) return <ErrorMessage {...error} />;
 
           const myUser: UserDetails = data.myUser;
-          console.log("MyProfile", myUser)
-
+          
           return <UserDetailsView user={myUser} />;
         }}
       </MyUserQuery>

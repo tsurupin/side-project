@@ -2,8 +2,6 @@ import * as React from "react";
 import {
   View,
   Text,
-  TouchableOpacity,
-  AsyncStorage,
   ScrollView
 } from "react-native";
 
@@ -33,9 +31,12 @@ import {
   ProjectSearchParams,
   ProjectSearchSubmitParams
 } from "../../../interfaces";
-import { ErrorMessage, ErrorAlert, LoadingIndicator } from "../../../components/Commons";
+import {
+  ErrorMessage,
+  LoadingIndicator
+} from "../../../components/Commons";
 import styles from "./styles";
-import { getIcon } from "../../../utilities/iconLoader";
+import IconLoader from "../../../utilities/iconLoader";
 import SegmentedControlTab from "react-native-segmented-control-tab";
 
 type Props = {
@@ -50,7 +51,6 @@ type State = {
   projectSearchParams: ProjectSearchParams;
   selectedIndex: number;
 };
-
 
 const USER_INDEX = 0;
 const PROJECT_INDEX = 1;
@@ -106,14 +106,14 @@ class DiscoveryScreen extends React.Component<Props, State> {
           navigatorButtons: {
             leftButtons: [
               {
-                icon: getIcon(CLOSE_ICON),
+                icon: IconLoader.getIcon(CLOSE_ICON),
                 title: "Close",
                 id: CLOSE_BUTTON
               }
             ],
             rightButtons: [
               {
-                icon: getIcon(FILTER_ICON),
+                icon: IconLoader.getIcon(FILTER_ICON),
                 title: "Apply",
                 id: APPLY_BUTTON
               }
@@ -132,7 +132,7 @@ class DiscoveryScreen extends React.Component<Props, State> {
       navigatorButtons: {
         leftButtons: [
           {
-            icon: getIcon(CLOSE_ICON),
+            icon: IconLoader.getIcon(CLOSE_ICON),
             title: "Back",
             id: BACK_BUTTON
           }
@@ -153,7 +153,7 @@ class DiscoveryScreen extends React.Component<Props, State> {
 
   private cleanupParams = (searchParams): any => {
     let conditions = {};
-    console.log(searchParams)
+    console.log(searchParams);
 
     for (let key in searchParams) {
       let value = searchParams[key];
@@ -163,21 +163,20 @@ class DiscoveryScreen extends React.Component<Props, State> {
           conditions["skillIds"] = value.map((skill: Skill) => skill.id);
         }
       } else if (key === "location") {
-        if (value && value.distance){
-          conditions = {...conditions, ...value}
+        if (value && value.distance) {
+          conditions = { ...conditions, ...value };
         }
       } else if (value !== undefined && value !== null) {
         if (key === "city") {
           if (value.id) {
             conditions["cityId"] = value.id;
           }
-          
         } else {
           conditions[key] = value;
         }
       }
     }
-  
+
     return conditions;
   };
 
@@ -199,9 +198,7 @@ class DiscoveryScreen extends React.Component<Props, State> {
             return <LoadingIndicator />;
           }
           if (error) {
-            
-            return <ErrorMessage error={error} />
-        
+            return <ErrorMessage {...error} />;
           }
           if (data && data.users) {
             console.log("users", data.users);
@@ -234,7 +231,7 @@ class DiscoveryScreen extends React.Component<Props, State> {
             //return this.setState({loading})
           }
           if (error) {
-            return <ErrorMessage error={error} />
+            return <ErrorMessage {...error} />;
           }
           if (data && data.projects) {
             return (

@@ -15,7 +15,7 @@ import {
   SUBMIT_BUTTON
 } from "../../../constants/buttons";
 import { CLOSE_ICON } from "../../../constants/icons";
-import { getIcon } from "../../../utilities/iconLoader";
+import IconLoader from "../../../utilities/iconLoader";
 import { PROJECT_NEW_SCREEN } from "../../../constants/screens";
 import SegmentedControlTab from "react-native-segmented-control-tab";
 
@@ -50,7 +50,7 @@ class ProjectListScreen extends React.Component<Props, State> {
           navigatorButtons: {
             leftButtons: [
               {
-                icon: getIcon(CLOSE_ICON),
+                icon: IconLoader.getIcon(CLOSE_ICON),
                 title: "Close",
                 id: CLOSE_BUTTON
               }

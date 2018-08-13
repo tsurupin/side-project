@@ -9,7 +9,7 @@ import {
   PROJECT_LIST_SCREEN,
 } from "../../constants/screens";
 import { SEARCH_BUTTON, USER_EDIT_BUTTON, PROJECT_NEW_BUTTON } from "../../constants/buttons";
-import { getIcon } from "../../utilities/iconLoader";
+import IconLoader from "../../utilities/iconLoader";
 import { LIBRARY_BOOKS_ICON, MESSAGE_OUTLINE_ICON, PENCIL_ICON, ACCOUNT_ICON, FILTER_OUTLINE_ICON } from "../../constants/icons";
 
 const MainTab = () => {
@@ -25,11 +25,11 @@ const MainTab = () => {
           screen: USER_DISCOVERY_SCREEN,
           label: "Discovery",
           title: "Discovery",
-          icon: getIcon(LIBRARY_BOOKS_ICON),
+          icon: IconLoader.getIcon(LIBRARY_BOOKS_ICON),
           navigatorButtons: {
             leftButtons: [
               {
-                icon: getIcon(FILTER_OUTLINE_ICON),
+                icon: IconLoader.getIcon(FILTER_OUTLINE_ICON),
                 title: "Search",
                 id: SEARCH_BUTTON
               }
@@ -40,17 +40,17 @@ const MainTab = () => {
           screen: MATCH_SCREEN,
           label: "Match",
           title: "Match",
-          icon: getIcon(MESSAGE_OUTLINE_ICON),
+          icon: IconLoader.getIcon(MESSAGE_OUTLINE_ICON),
         },
         {
           screen: PROJECT_LIST_SCREEN,
           label: "ProjectList",
           title: "ProjectList",
-          icon: getIcon(PENCIL_ICON),
+          icon: IconLoader.getIcon(PENCIL_ICON),
           navigatorButtons: {
             rightButtons: [
               {
-                icon: getIcon(PENCIL_ICON),
+                icon: IconLoader.getIcon(PENCIL_ICON),
                 title: "New",
                 id: PROJECT_NEW_BUTTON
               }
@@ -62,11 +62,11 @@ const MainTab = () => {
           screen: MY_PROFILE_SCREEN,
           label: "MyProfile",
           title: "MyProfile",
-          icon: getIcon(ACCOUNT_ICON),
+          icon: IconLoader.getIcon(ACCOUNT_ICON),
           navigatorButtons: {
             rightButtons: [
               {
-                icon: getIcon(PENCIL_ICON),
+                icon: IconLoader.getIcon(PENCIL_ICON),
                 title: "Edit",
                 id: USER_EDIT_BUTTON
               }

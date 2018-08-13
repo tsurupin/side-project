@@ -58,7 +58,7 @@ import {
   ACCOUNT_ICON,
   LIBRARY_BOOKS_ICON
 } from "./constants/icons";
-import { loadIcons } from "./utilities/iconLoader";
+import IconLoader from "./utilities/iconLoader";
 
 import MainTab from "./screens/MainTab";
 
@@ -130,7 +130,7 @@ const tabIcons = [
   MESSAGE_OUTLINE_ICON,
   ACCOUNT_ICON
 ];
-const preloadTasks = [loadIcons(navIcons.concat(tabIcons))];
+const preloadTasks = [IconLoader.loadIcons(navIcons.concat(tabIcons))];
 Promise.all(preloadTasks).then((result) => {
   Navigation.startSingleScreenApp({
     screen: {
