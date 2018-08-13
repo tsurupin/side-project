@@ -29,4 +29,15 @@ defmodule Db.Skills.ProjectSkill do
     |> unique_constraint(:rank, name: "project_skills_project_id_and_rank_index")
     |> unique_constraint(:skill_id, name: "project_skills_project_id_and skill_id_index")
   end
+
+  @spec edit_changeset(ProjectSkill.t(), map()) :: Ecto.Changeset.t()
+  def edit_changeset(project_skill, attrs) do
+    permitted_attrs = ~w(rank)a
+    required_attrs = ~w(rank)a
+
+    project_skill
+    |> cast(attrs, permitted_attrs)
+    |> validate_required(required_attrs)
+    |> unique_constraint(:rank, name: "project_skills_project_id_and_rank_index")
+  end
 end

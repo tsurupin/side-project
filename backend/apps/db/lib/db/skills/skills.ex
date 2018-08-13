@@ -44,6 +44,12 @@ defmodule Db.Skills.Skills do
     user_skill_change_set =
       UserSkill.changeset(%{user_id: user_id, rank: rank, skill_id: skill_id})
 
+    user_skill_changeset =
+      case Repo.get_by(UserSkill, user_id: user_id, skill_id: skill_id) do
+        %UserSkill{} = user_skill -> UserSkill.edit_changeset(user_skill, %{rank: rank})
+        nil -> UserSkill.changeset(%{user_id: user_id, rank: rank, skill_id: skill_id})
+      end
+
     multi
     |> Multi.insert_or_update(Ecto.UUID.generate(), user_skill_change_set)
     |> bulk_upsert_user_skills(user_id, rank + 1, tail)
@@ -81,11 +87,17 @@ defmodule Db.Skills.Skills do
   end
 
   def bulk_upsert_project_skills(multi, project_id, rank, [skill_id | tail]) do
-    project_skill_change_set =
-      ProjectSkill.changeset(%{project_id: project_id, rank: rank, skill_id: skill_id})
+    project_skill_changeset =
+      case Repo.get_by(ProjectSkill, project_id: project_id, skill_id: skill_id) do
+        %ProjectSkill{} = project_skill ->
+          ProjectSkill.edit_changeset(project_skill, %{rank: rank})
+
+        nil ->
+          ProjectSkill.changeset(%{project_id: project_id, rank: rank, skill_id: skill_id})
+      end
 
     multi
-    |> Multi.insert_or_update(Ecto.UUID.generate(), project_skill_change_set)
+    |> Multi.insert_or_update(Ecto.UUID.generate(), project_skill_changeset)
     |> bulk_upsert_project_skills(project_id, rank + 1, tail)
   end
 end

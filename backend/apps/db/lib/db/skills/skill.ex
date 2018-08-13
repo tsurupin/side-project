@@ -25,4 +25,15 @@ defmodule Db.Skills.Skill do
     |> validate_required(required_attrs)
     |> unique_constraint(:name, name: "skills_name_index")
   end
+
+  @spec edit_changeset(Skill.t(), map()) :: Ecto.Changeset.t()
+  def edit_changeset(skill, attrs) do
+    permitted_attrs = ~w(name)a
+    required_attrs = ~w(name)a
+
+    skill
+    |> cast(attrs, permitted_attrs)
+    |> validate_required(required_attrs)
+    |> unique_constraint(:name, name: "skills_name_index")
+  end
 end

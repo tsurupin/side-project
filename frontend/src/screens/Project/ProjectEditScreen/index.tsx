@@ -2,7 +2,10 @@ import * as React from "react";
 import { View, TouchableOpacity, Text, Button, Alert } from "react-native";
 import { ErrorMessage, PhotosEditForm } from "../../../components/Commons";
 import { EditForm } from "../../../components/Project/Commons";
-import { ProjectFormQuery, ProjectDetailsQuery } from "../../../queries/projects";
+import {
+  ProjectFormQuery,
+  ProjectDetailsQuery
+} from "../../../queries/projects";
 import {
   ProjectDetails,
   ProjectEditParams,
@@ -56,7 +59,11 @@ class ProjectEditScreen extends React.Component<Props> {
           });
 
           console.log(photo, mutation);
-          const variables: ProjectUploadParams = { projectId: this.props.id, photo, rank };
+          const variables: ProjectUploadParams = {
+            projectId: this.props.id,
+            photo,
+            rank
+          };
 
           console.log(variables);
           mutation({ variables });
@@ -76,92 +83,118 @@ class ProjectEditScreen extends React.Component<Props> {
   };
 
   handleSubmit = (variables: ProjectEditParams, editProjectMutation: any) => {
-    editProjectMutation({ variables: {id: this.props.id, ...variables }});
+    editProjectMutation({ variables: { id: this.props.id, ...variables } });
   };
 
   render() {
     const { id } = this.props;
     return (
       <ProjectFormQuery>
-          {({ data, loading, error }) => {
-             console.log(error);
-            if (loading)
-              return (
-                <View>
-                  <Text> Text</Text>
-                </View>
-              );
-            if (error) return <ErrorMessage {...error} />
-            
-            const projectFormData = data.projectForm;
-    
+        {({ data, loading, error }) => {
+          console.log(error);
+          if (loading)
             return (
-              <ProjectDetailsQuery variables={{ id }}>
-                {({ data, loading, error }) => {
-                  console.log(error);
-                  if (loading)
-                    return (
-                      <View>
-                        <Text> Text</Text>
-                      </View>
-                    );
-                  if (error) return <ErrorMessage {...error} />
+              <View>
+                <Text> Text</Text>
+              </View>
+            );
+          if (error) return <ErrorMessage {...error} />;
 
-                  const project: ProjectDetails = data.project;
+          const projectFormData = data.projectForm;
+
+          return (
+            <ProjectDetailsQuery variables={{ id }}>
+              {({ data, loading, error }) => {
+                console.log(error);
+                if (loading)
                   return (
                     <View>
-                      <DeleteProjectPhotoMutation>
-                        {({ deleteProjectPhotoMutation, data, loading, error }) => {
-                          if (error) return <ErrorMessage {...error} />
-                          return (
-                            <UploadProjectPhotoMutation>
-                              {({ uploadProjectPhotoMutation, data, loading, error }) => {
-                                console.log("upload project photo", data, loading, error);
-                                if (error) return <ErrorMessage {...error} />
-                                return (
-                                  <PhotosEditForm 
-                                    photos={project.photos}
-                                    onPressPhoto={(id: string) => this.handlePressDeletion(deleteProjectPhotoMutation, id)}
-                                    onPressNewPhoto={(rank: number) => this.handlePress(rank, uploadProjectPhotoMutation)}
-                                  />
-                                );
-                              }}
-                          </UploadProjectPhotoMutation>
-                          );
-                        }}
-                       </DeleteProjectPhotoMutation>; 
-                      <EditProjectMutation>
-                        {({ editProjectMutation, loading, error, data }) => {
-                          if (error) return <ErrorMessage {...error} />; 
-                          if (data) {
-                            this.props.navigator.dismissModal();
-                            return <View />;
-                          }
-                          return (
-                            <EditForm
-                              project={project}
-                              onSubmit={(projectEditParams: ProjectEditParams) =>
-                                this.handleSubmit(
-                                  projectEditParams,
-                                  editProjectMutation
-                                )
-                              }
-                              loading={loading}
-                              genres={projectFormData.genres}
-                              error={error}
-                              navigator={this.props.navigator}
-                            />
-                          );
-                        }}
-                      </EditProjectMutation>
+                      <Text> Text</Text>
                     </View>
                   );
-                }}
-              </ProjectDetailsQuery>
-            );
+                if (error) return <ErrorMessage {...error} />;
+
+                const project: ProjectDetails = data.project;
+                return (
+                  <View>
+                    <DeleteProjectPhotoMutation>
+                      {({
+                        deleteProjectPhotoMutation,
+                        data,
+                        loading,
+                        error
+                      }) => {
+                        if (error) return <ErrorMessage {...error} />;
+                        return (
+                          <UploadProjectPhotoMutation>
+                            {({
+                              uploadProjectPhotoMutation,
+                              data,
+                              loading,
+                              error
+                            }) => {
+                              console.log(
+                                "upload project photo",
+                                data,
+                                loading,
+                                error
+                              );
+                              if (error) return <ErrorMessage {...error} />;
+                              return (
+                                <PhotosEditForm
+                                  photos={project.photos}
+                                  onPressPhoto={(id: string) =>
+                                    this.handlePressDeletion(
+                                      deleteProjectPhotoMutation,
+                                      id
+                                    )
+                                  }
+                                  onPressNewPhoto={(rank: number) =>
+                                    this.handlePress(
+                                      rank,
+                                      uploadProjectPhotoMutation
+                                    )
+                                  }
+                                />
+                              );
+                            }}
+                          </UploadProjectPhotoMutation>
+                        );
+                      }}
+                    </DeleteProjectPhotoMutation>
+                    ;
+                    <EditProjectMutation>
+                      {({ editProjectMutation, loading, error, data }) => {
+                        if (error) return <ErrorMessage {...error} />;
+                        if (data) {
+                          this.props.navigator.pop();
+                          return <View />;
+                        }
+                        return (
+                          <EditForm
+                            project={project}
+                            onSubmit={(projectEditParams: ProjectEditParams) =>
+                              this.handleSubmit(
+                                projectEditParams,
+                                editProjectMutation
+                              )
+                            }
+                            loading={loading}
+                            genres={projectFormData.genres}
+                            error={error}
+                            navigator={this.props.navigator}
+                          />
+                        );
+                      }}
+                    </EditProjectMutation>
+                  </View>
+                );
+              }}
+            </ProjectDetailsQuery>
+          );
         }}
-        </ProjectFormQuery>
-        );
+      </ProjectFormQuery>
+    );
   }
 }
 

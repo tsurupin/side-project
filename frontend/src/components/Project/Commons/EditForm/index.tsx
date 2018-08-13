@@ -108,15 +108,14 @@ class EditForm extends React.Component<Props, State> {
         params[keyName] = this.state[key].map((item) => item.id);
       }
     });
-    console.log(params, this.state);
-
+  
     return params;
   };
 
   private objectValueChanged = (key: string): boolean => {
     const currentValue = this.state[key];
     const previousValue = this.props.project[key];
-    console.log(currentValue, previousValue, key, "obj");
+   
     if (currentValue && previousValue && currentValue.id === previousValue.id) {
       return false;
     } else if (!currentValue && !previousValue) {
@@ -141,11 +140,11 @@ class EditForm extends React.Component<Props, State> {
       intersectionCount,
       previousObjectIds.length
     );
-    return previousObjectIds.length !== intersectionCount;
+    return (previousObjectIds.length !== intersectionCount) || (currentObjectIds.length !== intersectionCount);
   };
 
   private handleNavigatorEvent = (e) => {
-    console.log("navigation", e);
+  
     if (e.type !== "NavBarButtonPress") return;
     switch (e.id) {
       case SUBMIT_BUTTON:
@@ -157,14 +156,7 @@ class EditForm extends React.Component<Props, State> {
     }
   };
 
-  private handleGenreChange = (key: string, value: string | number) => {
-    let changedAttr = {};
-    const genre = this.props.genres.find((genre) => genre.id == value);
-    changedAttr[key] = genre;
-
-    this.setState(changedAttr);
-  };
-
+  
   private handleGenreShowModal = () => {
     const { genres } = this.props;
     const { genre } = this.state;
@@ -188,10 +180,15 @@ class EditForm extends React.Component<Props, State> {
     });
   };
 
-  private handleAddSkill = (skill: Skill) => {
-    const skills = Array.from(new Set(this.state.skills.concat(skill)));
-    this.setState({ skills });
+  private handleGenreChange = (key: string, value: string | number) => {
+    let changedAttr = {};
+    const genre = this.props.genres.find((genre) => genre.id == value);
+    changedAttr[key] = genre;
+
+    this.setState(changedAttr);
   };
+
+ 
 
   private handleSkillSearchShowModal = () => {
     this.props.navigator.showModal({
@@ -209,6 +206,17 @@ class EditForm extends React.Component<Props, State> {
         ]
       }
     });
+  };
+
+  private handleAddSkill = (skill: Skill) => {
+    if (this.state.skills.find(skill => skill.id === skill.id)) return;
+    const skills = Array.from(new Set(this.state.skills.concat(skill)));
+    this.setState({ skills });
+  };
+
+  protected handleDeleteSkill = (id: string) => {
+    const skills = this.state.skills.filter((skill) => skill.id !== id);
+    this.setState({ skills });
   };
 
   private handleCitySearchShowModal = () => {
@@ -241,10 +249,6 @@ class EditForm extends React.Component<Props, State> {
     this.setState({ city });
   };
 
-  protected handleDeleteSkill = (id: string) => {
-    const skills = this.state.skills.filter((skill) => skill.id !== id);
-    this.setState({ skills });
-  };
 
   private renderSkillList = () => {
     return <FlatList data={this.state.skills} renderItem={this.renderSkill} />;
@@ -301,7 +305,6 @@ class EditForm extends React.Component<Props, State> {
           placeholder="Enter Title"
           value={title}
           onChange={(key: string, value: string) => {
-            console.log(key, value);
             this.setState({ title: value });
           }}
         />

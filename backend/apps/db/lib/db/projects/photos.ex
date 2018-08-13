@@ -82,7 +82,7 @@ defmodule Db.Projects.Photos do
     multi
     |> Multi.update(
       "promote_photos:#{photo.id}",
-      Photo.promote_changeset(photo, %{rank: photo.rank-1})
+      Photo.promote_changeset(photo, %{rank: photo.rank - 1})
     )
     |> promote_photos(remaining)
   end

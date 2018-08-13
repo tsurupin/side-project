@@ -79,34 +79,25 @@ defmodule Db.Projects.Projects do
     end
   end
 
-  # @spec create(map) :: {:ok, Project.t()} | {:error, String.t()}
-  # def create(attrs) do
-  #   case Project.changeset(attrs) |> Repo.insert() do
-  #     {:ok, project} -> {:ok, project}
-  #     {:error, changeset} -> {:error, Db.FullErrorMessage.message(changeset)}
-  #   end
-  # end
+  @spec edit(Project.t(), map()) :: {:ok, any()} | {:error, Ecto.Multi.name(), any()}
+  def edit(%Project{} = project, attrs) do
 
-  @spec edit(Project.t(), %{:skill_ids => list(integer), optional(atom) => any}) ::
-          {:ok, any()} | {:error, Ecto.Multi.name(), any()}
-  def edit(%Project{} = project, %{skill_ids: skill_ids} = attrs) do
     Multi.new()
     |> Multi.update(:project, Project.edit_changeset(project, attrs))
-    |> Db.Skills.Skills.bulk_upsert_project_skills(project.id, 0, skill_ids)
+    |> Db.Skills.Skills.bulk_upsert_project_skills(project.id, 0, attrs[:skill_ids] || [])
     |> Repo.transaction()
-  end
-
-  def edit(%Project{} = project, attrs) do
-    project
-    |> Project.edit_changeset(attrs)
-    |> Repo.update()
   end
 
   @spec edit(integer, %{:project_id => integer, optional(atom) => any}) ::
           {:ok, any()} | {:error, Ecto.Multi.name(), any()} | {:error, :unauthorized}
   def edit(user_id, %{project_id: project_id} = attrs) do
-    case Repo.get_by(Project, owner_id: user_id, id: project_id) do
-      %Project{} = project -> edit(project, attrs)
+
+    with %Project{} = project <- Repo.get(Project, project_id),
+         {:ok, %{project: project}} <- edit(project, attrs) do
+
+      {:ok, project}
+    else
+      {:error, _title, changeset, _prev} -> {:error, Db.FullErrorMessage.message(changeset)}
       nil -> {:error, :unauthorized}
     end
   end

@@ -89,8 +89,21 @@ defmodule ApiWeb.Schema.Resolvers.Projects do
         context: %{current_user: current_user}
       }) do
     case Projects.edit(current_user.id, Map.put_new(project_input, :project_id, project_id)) do
-      {:ok, project} -> {:ok, project}
-      {:error, reason} -> {:error, reason}
+      {:ok, project} ->
+    
+        project =
+          Projects.preload(project, [
+            :photos,
+            :skills,
+            :city,
+            :genre,
+            :owner,
+            {:users, :occupation_type}
+          ])
+        {:ok, project}
+
+      {:error, reason} ->
+        {:error, reason}
     end
   end
 
@@ -116,7 +129,9 @@ defmodule ApiWeb.Schema.Resolvers.Projects do
       {:ok, photo} ->
         IO.inspect(photo)
         {:ok, photo}
-      {:error, reason} -> {:error, reason}
+
+      {:error, reason} ->
+        {:error, reason}
     end
   end
 end
