@@ -83,8 +83,9 @@ defmodule Db.Users.Users do
 
   @spec main_photo(User.t()) :: Photo.t() | nil
   def main_photo(user) do
-    #IO.inspect(user)
-    nil#Repo.get_by(Photo, user_id: user.id, rank: 0)
+    # IO.inspect(user)
+    # Repo.get_by(Photo, user_id: user.id, rank: 0)
+    nil
   end
 
   @active_duration_days 3
