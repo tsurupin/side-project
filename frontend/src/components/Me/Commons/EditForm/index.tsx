@@ -87,9 +87,10 @@ class EditForm extends React.Component<Props, State> {
     const objectKeys = ["genre", "occupationType", "city"];
     const arrayObjectKeys = ["skills"];
     const statePrioritizedKeys = ["longitude", "latitude"];
+   
     stringKeys.forEach((key) => {
       let currentValue = this.state[key];
-      if (!currentValue === user[key]) {
+      if (!(currentValue === user[key])) {
         params[key] = currentValue;
       }
     });

@@ -13,6 +13,7 @@ defmodule ApiWeb.Schema.Resolvers.Users do
   end
 
   def edit(_, %{user_input: user_input}, %{context: %{current_user: current_user}}) do
+    IO.inspect(user_input)
     case Users.edit(current_user, user_input) do
       {:ok, %{user: user}} ->
         user = Users.preload(user, [:photos, :skills, :city, :genre, :occupation_type])
