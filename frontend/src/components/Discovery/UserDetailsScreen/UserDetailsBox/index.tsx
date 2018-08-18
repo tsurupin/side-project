@@ -11,7 +11,7 @@ import {
 import styles from "./styles";
 
 type Props = {
-  liked: boolean;
+  liked?: boolean;
   rejectLike?: () => void;
   acceptLike?: () => void;
   like?: () => void;
@@ -19,6 +19,7 @@ type Props = {
 };
 
 const renderActionContainer = (liked, like, rejectLike, acceptLike) => {
+  if (liked === undefined) return <View/>
   if (liked) return renderLikeContainer(like);
   return renderResponseLikeContainer(rejectLike, acceptLike);
 };

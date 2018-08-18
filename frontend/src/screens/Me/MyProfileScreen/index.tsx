@@ -1,9 +1,9 @@
 import * as React from "react";
 import {
   ErrorMessage,
-  UserDetailsView,
   LoadingIndicator
 } from "../../../components/Commons";
+import { UserDetailsBox } from "../../../components/Discovery/UserDetailsScreen";
 import { USER_EDIT_SCREEN } from "../../../constants/screens";
 import { MyUserQuery } from "../../../queries/users";
 import { UserDetails } from "../../../interfaces";
@@ -63,7 +63,7 @@ class MyProfileScreen extends React.Component<Props, State> {
 
           const myUser: UserDetails = data.myUser;
           
-          return <UserDetailsView user={myUser} />;
+          return <UserDetailsBox user={myUser} />;
         }}
       </MyUserQuery>
     );
