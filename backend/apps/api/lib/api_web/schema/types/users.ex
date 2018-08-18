@@ -61,6 +61,11 @@ defmodule ApiWeb.Schema.Types.Users do
     field(:occupation_types, list_of(:occupation_type))
   end
 
+  object :user_form do
+    field(:genres, list_of(:genre))
+    field(:occupation_types, list_of(:occupation_type))
+  end
+
   enum :user_status do
     value(:editing)
     value(:not_compeleted)

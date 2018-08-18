@@ -61,6 +61,12 @@ defmodule ApiWeb.Schema.Resolvers.Users do
      }}
   end
 
+  def fetch_form(_, _, _) do
+    genres = Genres.all()
+    occupationTypes = OccupationTypes.all()
+    {:ok, %{genres: genres, occupationTypes: occupationTypes}}
+  end
+
   def upload_photo(ctx, %{user_upload_input: attrs}, %{
         context: %{current_user: current_user}
       }) do

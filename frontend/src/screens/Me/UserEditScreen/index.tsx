@@ -6,20 +6,30 @@ import {
   PhotosEditForm
 } from "../../../components/Commons";
 import { EditForm } from "../../../components/Me/Commons";
-import { MyUserQuery } from "../../../queries/users";
+import { MyUserQuery, UserFormQuery } from "../../../queries/users";
 import { EditUserMutation } from "../../../mutations/users";
 
 import {
   UploadUserPhotoMutation,
   DeleteUserPhotoMutation
 } from "../../../mutations/users";
-import { UserDetails, UserEditParams } from "../../../interfaces";
+import {
+  UserDetails,
+  UserEditParams,
+  OccupationType,
+  Genre
+} from "../../../interfaces";
 import { uploadImage } from "../../../utilities/imagePickerHandler";
 import styles from "./styles";
 
 type Props = {
   id: number;
   navigator: any;
+};
+
+type DefaultProps = {
+  occupationTypes: OccupationType[];
+  genres: Genre[];
 };
 
 class UserEditScreen extends React.Component<Props, UserEditParams> {
@@ -73,8 +83,8 @@ class UserEditScreen extends React.Component<Props, UserEditParams> {
     );
   };
 
-  private renderEditForm = (user: UserDetails, defaultProps) => {
-    const { genres } = defaultProps;
+  private renderEditForm = (user: UserDetails, defaultProps: DefaultProps) => {
+    const { genres, occupationTypes } = defaultProps;
     return (
       <EditUserMutation>
         {({ editUserMutation, loading, error, data }) => {
@@ -92,6 +102,7 @@ class UserEditScreen extends React.Component<Props, UserEditParams> {
               }
               loading={loading}
               genres={genres}
+              occupationTypes={occupationTypes}
               error={error}
               navigator={this.props.navigator}
             />
@@ -103,21 +114,31 @@ class UserEditScreen extends React.Component<Props, UserEditParams> {
 
   render() {
     return (
-      <MyUserQuery>
+      <UserFormQuery>
         {({ data, loading, error }) => {
-          console.log(error);
           if (loading) return <LoadingIndicator />;
           if (error) return <ErrorMessage {...error} />;
 
-          const user: UserDetails = data.myUser;
+          const defaultProps: DefaultProps = data.userForm;
           return (
-            <View>
-              {this.renderPhotoListEditForm(user)}
-              {this.renderEditForm(user, {})}
-            </View>
+            <MyUserQuery>
+              {({ data, loading, error }) => {
+                console.log(error);
+                if (loading) return <LoadingIndicator />;
+                if (error) return <ErrorMessage {...error} />;
+
+                const user: UserDetails = data.myUser;
+                return (
+                  <View>
+                    {this.renderPhotoListEditForm(user)}
+                    {this.renderEditForm(user, defaultProps)}
+                  </View>
+                );
+              }}
+            </MyUserQuery>
           );
         }}
-      </MyUserQuery>
+      </UserFormQuery>
     );
   }
 }

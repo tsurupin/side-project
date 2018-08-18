@@ -28,9 +28,9 @@ import {
 import styles from "./styles";
 
 type Props = {
+  user: UserDetails;
   genres: Genre[];
   occupationTypes: OccupationType[];
-  user: UserDetails;
   navigator: any;
   loading: boolean;
   error: any;

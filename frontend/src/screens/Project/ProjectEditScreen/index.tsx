@@ -13,7 +13,6 @@ import {
 import {
   ProjectDetails,
   ProjectEditParams,
-  ProjectUploadParams
 } from "../../../interfaces";
 
 import {
