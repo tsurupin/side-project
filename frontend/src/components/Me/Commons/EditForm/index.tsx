@@ -9,10 +9,7 @@ import {
   OccupationType
 } from "../../../../interfaces";
 import { Input, ListItem } from "react-native-elements";
-import {
-  SUBMIT_BUTTON,
-  CLOSE_BUTTON
-} from "../../../../constants/buttons";
+import { SUBMIT_BUTTON, CLOSE_BUTTON } from "../../../../constants/buttons";
 import { CLOSE_ICON } from "../../../../constants/icons";
 import IconLoader from "../../../../utilities/iconLoader";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
@@ -24,7 +21,8 @@ import {
 
 import {
   SKILL_SEARCH_MODAL_SCREEN,
-  CITY_SEARCH_MODAL_SCREEN
+  CITY_SEARCH_MODAL_SCREEN,
+  PICKER_SCREEN
 } from "../../../../constants/screens";
 
 import styles from "./styles";
@@ -89,26 +87,26 @@ class EditForm extends React.Component<Props, State> {
     const objectKeys = ["genre", "occupationType", "city"];
     const arrayObjectKeys = ["skills"];
     const statePrioritizedKeys = ["longitude", "latitude"];
-    stringKeys.forEach(key => {
+    stringKeys.forEach((key) => {
       let currentValue = this.state[key];
-      if ((!currentValue === user[key])) {
+      if (!currentValue === user[key]) {
         params[key] = currentValue;
       }
     });
-    objectKeys.forEach(key => {
+    objectKeys.forEach((key) => {
       if (this.objectValueChanged(key)) {
         params[`${key}Id`] = this.state[key] ? this.state[key].id : undefined;
       }
     });
 
-    arrayObjectKeys.forEach(key => {
+    arrayObjectKeys.forEach((key) => {
       if (this.arrayObjectValueChanged(key)) {
         let keyName = key === "skills" ? "skillIds" : `${key}Ids`;
-        params[keyName] = this.state[key].map(item => item.id);
+        params[keyName] = this.state[key].map((item) => item.id);
       }
     });
 
-    statePrioritizedKeys.forEach(key => {
+    statePrioritizedKeys.forEach((key) => {
       if (this.state[key]) {
         params[key] = this.state[key];
       }
@@ -136,21 +134,54 @@ class EditForm extends React.Component<Props, State> {
     const intersectionCount = currentObjectIds.filter((id) =>
       previousObjectIds.includes(id)
     ).length;
-    
-    return (previousObjectIds.length !== intersectionCount) || (currentObjectIds.length !== intersectionCount);
+
+    return (
+      previousObjectIds.length !== intersectionCount ||
+      currentObjectIds.length !== intersectionCount
+    );
   };
 
-  private handleNavigatorEvent = e => {
+  private handleNavigatorEvent = (e) => {
     if (e.type !== "NavBarButtonPress") return;
 
     switch (e.id) {
       case SUBMIT_BUTTON:
         this.props.onSubmit(this.buildUserEditParams());
+        break;
       case CLOSE_BUTTON:
         this.props.navigator.dismissModal();
+        break;
     }
   };
 
+  private handleObjectShowModal = (key: string) => {
+    this.props.navigator.showModal({
+      screen: PICKER_SCREEN,
+      passProps: {
+        items: this.props[`${key}s`],
+        keyName: "genre",
+        selectedValue: this.state[key] ? this.state[key].id : undefined,
+        onPress: this.handleObjectChange
+      },
+      navigatorButtons: {
+        leftButtons: [
+          {
+            icon: IconLoader.getIcon(CLOSE_ICON),
+            title: "CLOSE",
+            id: CLOSE_BUTTON
+          }
+        ]
+      }
+    });
+  };
+
+  private handleObjectChange = (key: string, value: string | number) => {
+    let changedAttr = {};
+    const genre = this.props[`${key}s`].find((item) => item.id == value);
+    changedAttr[key] = genre;
+
+    this.setState(changedAttr);
+  };
 
   private handleSkillSearchShowModal = () => {
     this.props.navigator.showModal({
@@ -171,17 +202,15 @@ class EditForm extends React.Component<Props, State> {
   };
 
   private handleAddSkill = (skill: Skill) => {
-    if (this.state.skills.find(skill => skill.id === skill.id)) return;
+    if (this.state.skills.find((skill) => skill.id === skill.id)) return;
     const skills = Array.from(new Set(this.state.skills.concat(skill)));
     this.setState({ skills });
   };
 
-
   protected handleDeleteSkill = (id: string) => {
-    const skills = this.state.skills.filter(skill => skill.id !== id);
+    const skills = this.state.skills.filter((skill) => skill.id !== id);
     this.setState({ skills });
   };
-
 
   private handleCitySearchShowModal = () => {
     this.props.navigator.showModal({
@@ -251,41 +280,98 @@ class EditForm extends React.Component<Props, State> {
   };
 
   render() {
-    const { displayName, occupation, city } = this.state;
+    const {
+      displayName,
+      introduction,
+      occupation,
+      occupationType,
+      genre,
+      companyName,
+      schoolName,
+      city,
+      skills,
+      latitude,
+      longitude
+    } = this.state;
 
     return (
-      <View>
-        <Input
-          placeholder="Display Name"
-          containerStyle={styles.inputContainer}
+      <ScrollView
+        alwaysBounceVertical={true}
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={styles.container}
+      >
+        <InnerTextInput
+          label="Display Name"
+          placeholder="Enter Your Display Name"
           value={displayName}
-          onChangeText={e => this.setState({ displayName: e })}
+          onChange={(key: string, value: string) => {
+            this.setState({ displayName: value });
+          }}
+        />
+        <InnerDetailsInput
+          label="Introduction"
+          placeholder="Enter Introduction"
+          value={introduction}
+          onChange={(key: string, value: string) => {
+            this.setState({ introduction: value });
+          }}
         />
 
-        <Input
-          placeholder="Occupation"
-          containerStyle={styles.inputContainer}
+        <InnerTextInput
+          label="Occupation"
+          placeholder="Enter Your Occupation"
           value={occupation}
-          onChangeText={e => this.setState({ occupation: e })}
+          onChange={(key: string, value: string) => {
+            this.setState({ occupation: value });
+          }}
         />
-        <View style={styles.buttonFormBox}>
-          <Text style={styles.textLabel}>City</Text>
-          <Text style={styles.textLabel}>{city ? city.fullName : ''}</Text>
-          <Button
-            title="Search City"
-            onPress={() => this.handleCitySearchShowModal()}
-          />
-        </View>
 
-        <View style={styles.buttonFormBox}>
-          <Text style={styles.textLabel}>Skill</Text>
-          <Button
-            title="Search Skill"
-            onPress={() => this.handleSkillSearchShowModal()}
-          />
-          {this.renderSkillList()}
-        </View>
-      </View>
+        <InnerSelectInput
+          placeholder="Select OccupationType"
+          value={occupationType ? occupationType.name : undefined}
+          label="Occupation Type"
+          onPress={() => this.handleObjectShowModal("occupationType")}
+        />
+        <InnerSelectInput
+          placeholder="Select Genre"
+          value={genre ? genre.name : undefined}
+          label="Genre"
+          onPress={() => this.handleObjectShowModal("genre")}
+        />
+        <InnerTextInput
+          label="Company Name"
+          placeholder="Enter Your Company Name"
+          value={companyName}
+          onChange={(key: string, value: string) => {
+            this.setState({ companyName: value });
+          }}
+        />
+        <InnerTextInput
+          label="School Name"
+          placeholder="Enter Your School Name"
+          value={schoolName}
+          onChange={(key: string, value: string) => {
+            this.setState({ schoolName: value });
+          }}
+        />
+
+        <InnerSelectInput
+          placeholder="Select City"
+          value={city ? city.fullName : ""}
+          label="City"
+          style={{ marginBottom: 0 }}
+          onPress={() => this.handleCitySearchShowModal()}
+        />
+
+        <ListItem
+          key="skills"
+          title="Skills"
+          chevron={false}
+          bottomDivider
+          rightIcon={this.renderSkillAddIcon()}
+        />
+        {this.renderSkillList()}
+      </ScrollView>
     );
   }
 }

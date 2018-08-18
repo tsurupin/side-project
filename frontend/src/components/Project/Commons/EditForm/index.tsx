@@ -16,7 +16,7 @@ import {
   InnerDetailsInput,
   InnerSelectInput
 } from "../../../Commons";
-import { BACK_BUTTON, SUBMIT_BUTTON } from "../../../../constants/buttons";
+import { CLOSE_BUTTON, SUBMIT_BUTTON } from "../../../../constants/buttons";
 import {
   SKILL_SEARCH_MODAL_SCREEN,
   CITY_SEARCH_MODAL_SCREEN,
@@ -137,7 +137,7 @@ class EditForm extends React.Component<Props, State> {
       case SUBMIT_BUTTON:
         this.props.onSubmit(this.buildProjectEditParams());
         break;
-      case BACK_BUTTON:
+      case CLOSE_BUTTON:
         this.props.navigator.dismissModal();
         break;
     }
