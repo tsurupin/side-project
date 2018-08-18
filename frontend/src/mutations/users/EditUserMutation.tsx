@@ -13,19 +13,6 @@ const EditUserMutation = (props: Props) => {
     <Mutation
       mutation={EDIT_USER_MUTATION}
       context={{ needAuth: true }}
-      update={(cache, { data: { editUser } }) => {
-        const fragmentId: string = `User:${editUser.id}`;
-        const { user } = cache.readFragment({
-          id: fragmentId,
-          fragment: USER_FRAGMENTS.userDetails
-        });
-
-        cache.writeFragment({
-          id: fragmentId,
-          fragment: USER_FRAGMENTS.userDetails,
-          data: { user: { ...user, editUser } }
-        });
-      }}
     >
       {(editUserMutation, { loading, error, data }) => {
         return children({

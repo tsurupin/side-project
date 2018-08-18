@@ -24,10 +24,17 @@ defmodule ApiWeb.Schema.Queries.Users do
       resolve(&Resolvers.Users.search/3)
     end
 
-    @desc "Fetch data needed for user search"
+    @desc "Fetch data needed for search"
     field :user_search_form, :user_search_form do
       middleware(Middleware.Authorize)
       resolve(&Resolvers.Users.fetch_search_form/3)
+    end
+
+
+    @desc "Fetch data needed for edit"
+    field :user_form, :user_form do
+      middleware(Middleware.Authorize)
+      resolve(&Resolvers.Users.fetch_form/3)
     end
   end
 end

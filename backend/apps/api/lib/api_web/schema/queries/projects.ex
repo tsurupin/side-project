@@ -29,13 +29,13 @@ defmodule ApiWeb.Schema.Queries.Projects do
       resolve(&Resolvers.Projects.fetch_editable/3)
     end
 
-    @desc "Fetch data needed for project search"
+    @desc "Fetch data needed for search"
     field :project_search_form, :project_search_form do
       middleware(Middleware.Authorize)
       resolve(&Resolvers.Projects.fetch_search_form/3)
     end
 
-    @desc "Fetch data needed for project form"
+    @desc "Fetch data needed for form"
     field :project_form, :project_form do
       middleware(Middleware.Authorize)
       resolve(&Resolvers.Projects.fetch_form/3)

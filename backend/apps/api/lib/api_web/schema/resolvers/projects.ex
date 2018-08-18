@@ -90,7 +90,6 @@ defmodule ApiWeb.Schema.Resolvers.Projects do
       }) do
     case Projects.edit(current_user.id, Map.put_new(project_input, :project_id, project_id)) do
       {:ok, project} ->
-    
         project =
           Projects.preload(project, [
             :photos,
@@ -100,6 +99,7 @@ defmodule ApiWeb.Schema.Resolvers.Projects do
             :owner,
             {:users, :occupation_type}
           ])
+
         {:ok, project}
 
       {:error, reason} ->

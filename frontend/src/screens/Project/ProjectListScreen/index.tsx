@@ -42,7 +42,6 @@ class ProjectListScreen extends React.Component<Props, State> {
   private handleNavigatorEvent = (e) => {
     if (e.type !== "NavBarButtonPress") return;
 
-    console.log(e);
     switch (e.id) {
       case PROJECT_NEW_BUTTON:
         this.props.navigator.showModal({

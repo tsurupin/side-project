@@ -62,7 +62,7 @@ defmodule Db.Users.User do
   @spec edit_changeset(User.t(), map()) :: Ecto.Changeset.t()
   def edit_changeset(user, attrs) do
     permitted_attributes =
-      ~w(display_name email occupation company_name school_name status city_id zip_code occupation_type_id genre_id longitude latitude)a
+      ~w(display_name introduction email occupation company_name school_name status city_id zip_code occupation_type_id genre_id longitude latitude)a
 
     user
     |> cast(attrs, permitted_attributes)

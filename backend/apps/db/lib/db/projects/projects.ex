@@ -81,7 +81,6 @@ defmodule Db.Projects.Projects do
 
   @spec edit(Project.t(), map()) :: {:ok, any()} | {:error, Ecto.Multi.name(), any()}
   def edit(%Project{} = project, attrs) do
-
     Multi.new()
     |> Multi.update(:project, Project.edit_changeset(project, attrs))
     |> Db.Skills.Skills.bulk_upsert_project_skills(project.id, 0, attrs[:skill_ids] || [])
@@ -91,10 +90,8 @@ defmodule Db.Projects.Projects do
   @spec edit(integer, %{:project_id => integer, optional(atom) => any}) ::
           {:ok, any()} | {:error, Ecto.Multi.name(), any()} | {:error, :unauthorized}
   def edit(user_id, %{project_id: project_id} = attrs) do
-
     with %Project{} = project <- Repo.get(Project, project_id),
          {:ok, %{project: project}} <- edit(project, attrs) do
-
       {:ok, project}
     else
       {:error, _title, changeset, _prev} -> {:error, Db.FullErrorMessage.message(changeset)}

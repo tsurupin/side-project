@@ -13,7 +13,6 @@ import {
 import {
   ProjectDetails,
   ProjectEditParams,
-  ProjectUploadParams
 } from "../../../interfaces";
 
 import {
@@ -90,7 +89,7 @@ class ProjectEditScreen extends React.Component<Props> {
           if (loading) return <LoadingIndicator />;
           if (error) return <ErrorMessage {...error} />;
           if (data) {
-            this.props.navigator.pop();
+            this.props.navigator.dismissModal();
             return <View />;
           }
           return (

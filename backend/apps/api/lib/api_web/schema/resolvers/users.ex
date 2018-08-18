@@ -13,6 +13,7 @@ defmodule ApiWeb.Schema.Resolvers.Users do
   end
 
   def edit(_, %{user_input: user_input}, %{context: %{current_user: current_user}}) do
+    IO.inspect(user_input)
     case Users.edit(current_user, user_input) do
       {:ok, %{user: user}} ->
         user = Users.preload(user, [:photos, :skills, :city, :genre, :occupation_type])
@@ -59,6 +60,12 @@ defmodule ApiWeb.Schema.Resolvers.Users do
        genres: [%{id: nil, name: "All"}] ++ genres,
        occupation_types: [%{id: nil, name: "All"}] ++ occupation_types
      }}
+  end
+
+  def fetch_form(_, _, _) do
+    genres = Genres.all()
+    occupationTypes = OccupationTypes.all()
+    {:ok, %{genres: genres, occupationTypes: occupationTypes}}
   end
 
   def upload_photo(ctx, %{user_upload_input: attrs}, %{

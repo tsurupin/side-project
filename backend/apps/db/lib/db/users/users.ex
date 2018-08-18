@@ -33,12 +33,12 @@ defmodule Db.Users.Users do
     )
   end
 
-  @spec edit(User.t(), %{skill_ids: [String.t()]}) ::
+  @spec edit(User.t(), map()) ::
           {:ok, any} | {:error, Ecto.Multi.name(), any()}
-  def edit(%User{} = user, %{skill_ids: skill_ids} = user_input) do
+  def edit(%User{} = user, attrs) do
     Multi.new()
-    |> Multi.update(:user, User.edit_changeset(user, user_input))
-    |> Db.Skills.Skills.bulk_upsert_user_skills(user.id, 0, skill_ids)
+    |> Multi.update(:user, User.edit_changeset(user, attrs))
+    |> Db.Skills.Skills.bulk_upsert_user_skills(user.id, 0, attrs[:skill_ids] || [])
     |> Repo.transaction()
   end
 
@@ -83,8 +83,9 @@ defmodule Db.Users.Users do
 
   @spec main_photo(User.t()) :: Photo.t() | nil
   def main_photo(user) do
-    #IO.inspect(user)
-    nil#Repo.get_by(Photo, user_id: user.id, rank: 0)
+    # IO.inspect(user)
+    # Repo.get_by(Photo, user_id: user.id, rank: 0)
+    nil
   end
 
   @active_duration_days 3
