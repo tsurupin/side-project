@@ -9,8 +9,8 @@ import { MyUserQuery } from "../../../queries/users";
 import { UserDetails } from "../../../interfaces";
 import {
   USER_EDIT_BUTTON,
-  CANCEL_USER_EDIT_BUTTON,
-  SUBMIT_USER_EDIT_BUTTON
+  CLOSE_BUTTON,
+  SUBMIT_BUTTON
 } from "../../../constants/buttons";
 
 import styles from "./styles";
@@ -38,14 +38,14 @@ class MyProfileScreen extends React.Component<Props, State> {
             leftButtons: [
               {
                 //icon: sources[1],
-                title: "Back",
-                id: CANCEL_USER_EDIT_BUTTON
+                title: "Close",
+                id: CLOSE_BUTTON
               }
             ],
             rightButtons: [
               {
                 title: "Submit",
-                id: SUBMIT_USER_EDIT_BUTTON
+                id: SUBMIT_BUTTON
               }
             ]
           }

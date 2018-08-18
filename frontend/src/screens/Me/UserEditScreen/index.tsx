@@ -1,6 +1,10 @@
 import * as React from "react";
 import { View, TouchableOpacity, Text, Button, Alert } from "react-native";
-import { ErrorMessage, LoadingIndicator,  PhotosEditForm } from "../../../components/Commons";
+import {
+  ErrorMessage,
+  LoadingIndicator,
+  PhotosEditForm
+} from "../../../components/Commons";
 import { EditForm } from "../../../components/Me/Commons";
 import { MyUserQuery } from "../../../queries/users";
 import { EditUserMutation } from "../../../mutations/users";
@@ -25,7 +29,7 @@ class UserEditScreen extends React.Component<Props, UserEditParams> {
 
   private handlePress = (rank: number, mutation) => {
     uploadImage({
-      variables: {rank}, 
+      variables: { rank },
       onCallback: mutation,
       onError: (message: string) => Alert.alert(message)
     });
@@ -39,17 +43,15 @@ class UserEditScreen extends React.Component<Props, UserEditParams> {
     editUserMutation({ variables });
   };
 
-
   private renderPhotoListEditForm = (user: UserDetails) => {
-  
     return (
       <DeleteUserPhotoMutation>
-                {({ deleteUserPhotoMutation, data, loading, error }) => {
+        {({ deleteUserPhotoMutation, data, loading, error }) => {
           if (loading) return <LoadingIndicator />;
           if (error) return <ErrorMessage {...error} />;
           return (
             <UploadUserPhotoMutation>
-            {({ uploadUserPhotoMutation, data, loading, error }) => {
+              {({ uploadUserPhotoMutation, data, loading, error }) => {
                 if (loading) return <LoadingIndicator />;
                 if (error) return <ErrorMessage {...error} />;
                 return (
@@ -110,8 +112,8 @@ class UserEditScreen extends React.Component<Props, UserEditParams> {
           const user: UserDetails = data.myUser;
           return (
             <View>
-               {this.renderPhotoListEditForm(user)}
-               {this.renderEditForm(user, {})} 
+              {this.renderPhotoListEditForm(user)}
+              {this.renderEditForm(user, {})}
             </View>
           );
         }}
