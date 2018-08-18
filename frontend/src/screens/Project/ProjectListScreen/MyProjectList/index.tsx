@@ -2,13 +2,14 @@ import * as React from "react";
 import { View, Text } from "react-native";
 import { MyProjectListQuery } from "../../../../queries/projects";
 import { ProjectCore } from "../../../../interfaces";
-import { ProjectRow } from "../../../../components/Project/MyProjectListScreen";
+import { ProjectList } from "../../../../components/Project/MyProjectListScreen";
 
 type Props = {
   onPress: (string) => void;
 };
 
 const MyProjectList: React.SFC<Props> = (props) => {
+  const { onPress } = props;
   return (
     <View>
       <MyProjectListQuery>
@@ -28,15 +29,7 @@ const MyProjectList: React.SFC<Props> = (props) => {
 
           const projects: ProjectCore[] = data.myProjects;
 
-          return projects.map((project) => {
-            return (
-              <ProjectRow
-                key={project.id}
-                project={project}
-                onPress={props.onPress}
-              />
-            );
-          });
+          return <ProjectList projects={projects} onPress={onPress} />;
         }}
       </MyProjectListQuery>
     </View>

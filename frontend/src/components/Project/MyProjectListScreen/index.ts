@@ -1,5 +1,5 @@
-import ProjectRow from "./ProjectRow";
+import ProjectList from "./ProjectList";
 
 export {
-  ProjectRow
+  ProjectList
 }
