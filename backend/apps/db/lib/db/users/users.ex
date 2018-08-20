@@ -33,8 +33,7 @@ defmodule Db.Users.Users do
     )
   end
 
-  @spec edit(User.t(), map()) ::
-          {:ok, any} | {:error, Ecto.Multi.name(), any()}
+  @spec edit(User.t(), map()) :: {:ok, any} | {:error, Ecto.Multi.name(), any()}
   def edit(%User{} = user, attrs) do
     Multi.new()
     |> Multi.update(:user, User.edit_changeset(user, attrs))
