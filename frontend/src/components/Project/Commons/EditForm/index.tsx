@@ -84,7 +84,7 @@ class EditForm extends React.Component<Props, State> {
 
     stringKeys.forEach((key) => {
       let currentValue = this.state[key];
-     
+
       if (!(currentValue === project[key])) {
         params[key] = currentValue;
       }
@@ -102,14 +102,14 @@ class EditForm extends React.Component<Props, State> {
         params[keyName] = this.state[key].map((item) => item.id);
       }
     });
-  
+
     return params;
   };
 
   private objectValueChanged = (key: string): boolean => {
     const currentValue = this.state[key];
     const previousValue = this.props.project[key];
-   
+
     if (currentValue && previousValue && currentValue.id === previousValue.id) {
       return false;
     } else if (!currentValue && !previousValue) {
@@ -126,12 +126,14 @@ class EditForm extends React.Component<Props, State> {
     const intersectionCount = currentObjectIds.filter((id) =>
       previousObjectIds.includes(id)
     ).length;
-    
-    return (previousObjectIds.length !== intersectionCount) || (currentObjectIds.length !== intersectionCount);
+
+    return (
+      previousObjectIds.length !== intersectionCount ||
+      currentObjectIds.length !== intersectionCount
+    );
   };
 
   private handleNavigatorEvent = (e) => {
-  
     if (e.type !== "NavBarButtonPress") return;
     switch (e.id) {
       case SUBMIT_BUTTON:
@@ -143,7 +145,6 @@ class EditForm extends React.Component<Props, State> {
     }
   };
 
-  
   private handleGenreShowModal = () => {
     const { genres } = this.props;
     const { genre } = this.state;
@@ -175,8 +176,6 @@ class EditForm extends React.Component<Props, State> {
     this.setState(changedAttr);
   };
 
- 
-
   private handleSkillSearchShowModal = () => {
     this.props.navigator.showModal({
       screen: SKILL_SEARCH_MODAL_SCREEN,
@@ -196,7 +195,7 @@ class EditForm extends React.Component<Props, State> {
   };
 
   private handleAddSkill = (skill: Skill) => {
-    if (this.state.skills.find(skill => skill.id === skill.id)) return;
+    if (this.state.skills.find((skill) => skill.id === skill.id)) return;
     const skills = Array.from(new Set(this.state.skills.concat(skill)));
     this.setState({ skills });
   };
@@ -235,7 +234,6 @@ class EditForm extends React.Component<Props, State> {
     console.log(city);
     this.setState({ city });
   };
-
 
   private renderSkillList = () => {
     return <FlatList data={this.state.skills} renderItem={this.renderSkill} />;

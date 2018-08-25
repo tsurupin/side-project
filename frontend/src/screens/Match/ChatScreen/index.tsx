@@ -54,7 +54,7 @@ class ChatScreen extends React.Component<Props, State> {
 
                   return (
                     <MessageForm
-                      onPress={variables =>
+                      onPress={(variables) =>
                         this.handlePress(variables, createMessageMutation)
                       }
                       chatId={chat.id}

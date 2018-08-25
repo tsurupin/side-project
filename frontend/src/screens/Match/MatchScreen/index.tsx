@@ -13,6 +13,7 @@ import {
   ChatList
 } from "../../../components/Match/MatchScreen";
 import styles from "./styles";
+import { LoadingIndicator, ErrorMessage } from "../../../components/Commons";
 
 type Props = {
   navigator: any;
@@ -26,11 +27,11 @@ class MatchScreen extends React.Component<Props, State> {
   }
 
   componentWillMount() {
-    console.log("MatchScreen componentWillMount")
+    console.log("MatchScreen componentWillMount");
   }
 
   componentDidMount() {
-    console.log("MatchScreen componentDidmount")
+    console.log("MatchScreen componentDidmount");
   }
 
   protected handleChatPress = (chatId: number): void => {
@@ -53,20 +54,21 @@ class MatchScreen extends React.Component<Props, State> {
         <MatchListQuery>
           {({ data, error, loading }) => {
             if (loading) {
-              return <View />;
+              return <LoadingIndicator />;
             }
             if (error) {
-              return <View> Error</View>;
+              return <ErrorMessage {...error} />;
             }
 
             const { likedUserList, chatList } = data.matchList;
-           
+
             return (
               <View>
                 <MatchQueueList
                   likedUserList={likedUserList}
                   onPress={this.handleUserPress}
                 />
+                {/* add segme */}
                 <ChatList chatList={chatList} onPress={this.handleChatPress} />
               </View>
             );
