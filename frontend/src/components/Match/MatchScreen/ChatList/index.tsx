@@ -7,7 +7,7 @@ import styles from "./styles";
 
 type Props = {
   chats: Chat[];
-  onPress: (id: string) => void;
+  onPress: (id: string, name: string) => void;
 };
 
 let onPress;
@@ -21,7 +21,7 @@ const renderChat = ({ item }) => {
       leftAvatar={{ source: { uri: item.imageUrl } }}
       chevron
       bottomDivider
-      onPress={() => onPress(item.id)}
+      onPress={() => onPress(item.id, item.name)}
       containerStyle={styles.itemContainer}
       titleStyle={styles.itemTitle}
     />
@@ -29,7 +29,7 @@ const renderChat = ({ item }) => {
 };
 
 const ChatList: React.SFC<Props> = (props) => {
-  onPress = (id) => props.onPress(id);
+  onPress = (id, name) => props.onPress(id, name);
   return (
     <View style={styles.container}>
       <SectionHeader title="Chat List" />

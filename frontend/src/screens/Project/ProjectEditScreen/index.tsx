@@ -21,7 +21,7 @@ import {
   DeleteProjectPhotoMutation
 } from "../../../mutations/projects";
 
-import { uploadImage } from "../../../utilities/imagePickerHandler";
+import * as ImagePickerHandler from "../../../utilities/imagePickerHandler";
 import styles from "./styles";
 
 type Props = {
@@ -36,7 +36,7 @@ class ProjectEditScreen extends React.Component<Props> {
 
   private handlePress = (rank: number, mutation) => {
     const {id} = this.props;
-    uploadImage({
+    ImagePickerHandler.uploadImage({
       variables: {rank, projectId: id}, 
       onCallback: mutation,
       onError: (message: string) => Alert.alert(message)

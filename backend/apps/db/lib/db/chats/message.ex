@@ -13,6 +13,7 @@ defmodule Db.Chats.Message do
     field(:comment, :string)
     field(:uuid, :string, null: false)
     field(:image_url, ChatImageUploader.Type)
+    field(:message_type, ChatMessageTypeEnum, default: :comment)
     field(:deleted_at, :utc_datetime)
     belongs_to(:chat, Chat)
     belongs_to(:user, User)
@@ -21,8 +22,8 @@ defmodule Db.Chats.Message do
 
   @spec changeset(map()) :: Ecto.Changeset.t()
   def changeset(attrs) do
-    permitted_attrs = ~w(user_id chat_id comment uuid)a
-    required_attrs = ~w(chat_id user_id)a
+    permitted_attrs = ~w(user_id chat_id comment uuid message_type)a
+    required_attrs = ~w(chat_id user_id message_type)a
 
     attrs =
       case attrs[:image] do
@@ -34,6 +35,7 @@ defmodule Db.Chats.Message do
     |> cast(attrs, permitted_attrs)
     |> set_uuid_if_nil
     |> validate_required(required_attrs)
+    |> validate_message_type
     |> cast_attachments(attrs, [:image_url])
     |> assoc_constraint(:chat)
     |> assoc_constraint(:user)
@@ -50,6 +52,17 @@ defmodule Db.Chats.Message do
     case Db.Repo.get_by(Db.Chats.Member, chat_id: chat_id, user_id: user_id) do
       nil -> add_error(changeset, :user_id, "user should be member of the chat")
       _ -> changeset
+    end
+  end
+
+  @spec validate_message_type(Ecto.Changeset.t()) :: Ecto.Changeset.t()
+  defp validate_message_type(changeset) do
+    message_type = get_field(changeset, :message_type)
+
+    if Map.has_key?(changeset, :image) && message_type == "comment" do
+      add_error(changeset, :message_type, "message_type should be upload")
+    else
+      changeset
     end
   end
 

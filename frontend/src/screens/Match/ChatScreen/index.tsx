@@ -12,6 +12,7 @@ import { MessageParams } from "../../../interfaces";
 
 import { MessageList, MessageForm } from "../../../components/Match/ChatScreen";
 import styles from "./styles";
+import { LoadingIndicator, ErrorMessage } from "../../../components/Commons";
 
 type Props = {
   id: string;
@@ -33,23 +34,20 @@ class ChatScreen extends React.Component<Props, State> {
     return (
       <ChatDetailsQuery variables={{ id }}>
         {({ subscribeMessages, error, data, loading }) => {
-          if (loading) return <View>Loading</View>;
+          if (loading) return <LoadingIndicator />;
           if (error) {
-            console.log("ChatDetailsQuery", error);
-            return <View>Error</View>;
+            return <ErrorMessage {...error} />;
           }
           const { chat } = data;
 
           return (
             <View>
-              <Text>{chat.name}</Text>
-
+          
               <CreateMessageMutation>
                 {({ createMessageMutation, loading, error, data }) => {
-                  if (loading) return <View>MessageCreationLoading</View>;
+                  if (loading) return <LoadingIndicator />;
                   if (error) {
-                    console.log("messageCreationError", error);
-                    return <View>MessageCreationError</View>;
+                    return <ErrorMessage {...error} />;
                   }
 
                   return (

@@ -40,10 +40,12 @@ class MatchScreen extends React.Component<Props, State> {
     console.log("MatchScreen componentDidmount");
   }
 
-  protected handleChatPress = (chatId: string): void => {
+  protected handleChatPress = (id: string, name: string): void => {
+    console.log("chat", name)
     this.props.navigator.push({
       screen: CHAT_SCREEN,
-      passProps: { id: chatId }
+      title: name,
+      passProps: { id }
     });
   };
 

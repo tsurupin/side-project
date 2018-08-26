@@ -217,6 +217,7 @@ defmodule Db.Repo.Migrations.CreateInitialTables do
       add :user_id, references(:users, on_delete: :delete_all), null: false
       add :comment, :text
       add :image_url, :string
+      add :message_type, :integer, null: false, comment: "0: comment, 1: upload"
       add :uuid, :string, null: false
       add :deleted_at, :utc_datetime
       timestamps()

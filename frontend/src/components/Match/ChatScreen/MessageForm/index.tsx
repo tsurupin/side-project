@@ -16,6 +16,7 @@ type Props = {
 type State = {
   comment: string | undefined;
   image: any | undefined;
+  messageType: string | undefined;
 };
 
 class MessageForm extends React.Component<Props, State> {
@@ -23,7 +24,8 @@ class MessageForm extends React.Component<Props, State> {
     super(props);
     this.state = {
       comment: "",
-      image: undefined
+      image: undefined,
+      messageType: undefined,
     };
   }
 
@@ -54,7 +56,7 @@ class MessageForm extends React.Component<Props, State> {
 
           console.log(photo);
           
-          this.setState({image: photo});
+          this.setState({image: photo, messageType: "upload"});
           this.onPress();
         } catch (err) {
           console.log(err);
@@ -81,7 +83,7 @@ class MessageForm extends React.Component<Props, State> {
         <Input
           placeholder="Add New Message"
           value={comment}
-          onChangeText={v => this.setState({ comment: v })}
+          onChangeText={v => this.setState({ comment: v, messageType: "comment" })}
           onSubmitEditing={this.onPress}
         />
         <Button title="button" onPress={this.handlePress} />

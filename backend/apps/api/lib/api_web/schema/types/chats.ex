@@ -53,5 +53,6 @@ defmodule ApiWeb.Schema.Types.Chats do
     field(:chat_id, :id)
     field(:comment, :string)
     field(:image, :upload)
+    field(:message_type, :string)
   end
 end
