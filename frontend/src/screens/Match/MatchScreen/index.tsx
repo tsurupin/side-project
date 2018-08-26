@@ -63,9 +63,10 @@ class MatchScreen extends React.Component<Props, State> {
               return <LoadingIndicator />;
             }
             if (error) {
+              console.log("matchList error", error)
               return <ErrorMessage {...error} />;
             }
-
+    
             const likedUserList: UserCore[] = data.matchList.likedUserList;
             const chatList: Chat[] = data.matchList.chatList;
 

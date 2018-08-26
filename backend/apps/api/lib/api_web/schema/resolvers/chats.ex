@@ -4,7 +4,6 @@ defmodule ApiWeb.Schema.Resolvers.Chats do
   def fetch_chat_with_messages(_, %{id: id}, _) do
     case Chats.get_by(%{id: id}) do
       {:error, :not_found} ->
-        IO.inspect("NOT FOUND")
         {:error, "Not Found"}
 
       {:ok, chat} ->

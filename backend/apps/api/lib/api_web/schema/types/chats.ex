@@ -2,28 +2,31 @@ defmodule ApiWeb.Schema.Types.Chats do
   use Absinthe.Schema.Notation
 
   alias Db.Chats.Message
+  alias Db.Chats.Chat
+  alias Db.Users.Photo
+  alias Db.Users.Users
   alias Db.Uploaders.ChatImageUploader
+  alias Db.Uploaders.UserPhotoUploader
 
   object :chat do
     field(:id, :id)
     field(:name, :string)
     field(:messages, list_of(:message))
     field :last_comment, :string do
-      resolve(fn messages // [], _, _ ->
+      resolve(fn %Chat{messages: messages}, _, _ ->
         case List.last(messages) do
           nil -> {:ok, nil}
-          %Message{comment} = _message -> {:ok, commment}
+          %Message{comment: comment} = _message -> {:ok, comment}
         end
       end)
     end
     field :image_url, :string do
-      resolve(fn messages // [], _, _ ->
+      resolve(fn %Chat{messages: messages}, _, _ ->
         with %Message{user: user} <- List.last(messages),
          %Photo{image_url: image_url} = photo <- Users.main_photo(user) do
           {:ok, UserPhotoUploader.url({image_url, photo}, :thumb)}
-         end
         else
-          _ -> {;ok, nil}
+          _ -> {:ok, UserPhotoUploader.missing_url(:thumb)}
         end
       end)
     end

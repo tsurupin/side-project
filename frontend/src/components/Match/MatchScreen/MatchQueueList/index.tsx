@@ -19,6 +19,7 @@ const MatchQueueList: React.SFC<Props> = props => {
         {props.likedUserList.map(user => {
           return(
             <Avatar
+              key={user.id}
               size="medium"
               avatarStyle={styles.avatar}
               rounded
