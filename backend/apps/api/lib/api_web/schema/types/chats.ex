@@ -8,6 +8,25 @@ defmodule ApiWeb.Schema.Types.Chats do
     field(:id, :id)
     field(:name, :string)
     field(:messages, list_of(:message))
+    field :last_comment, :string do
+      resolve(fn messages // [], _, _ ->
+        case List.last(messages) do
+          nil -> {:ok, nil}
+          %Message{comment} = _message -> {:ok, commment}
+        end
+      end)
+    end
+    field :image_url, :string do
+      resolve(fn messages // [], _, _ ->
+        with %Message{user: user} <- List.last(messages),
+         %Photo{image_url: image_url} = photo <- Users.main_photo(user) do
+          {:ok, UserPhotoUploader.url({image_url, photo}, :thumb)}
+         end
+        else
+          _ -> {;ok, nil}
+        end
+      end)
+    end
   end
 
   object :message do

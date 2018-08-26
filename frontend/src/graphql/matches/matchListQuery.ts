@@ -11,6 +11,8 @@ export const MATCH_LIST_QUERY = gql`
       chatList {
         id
         name
+        lastComment
+        imageUrl
       }
     }
   }
