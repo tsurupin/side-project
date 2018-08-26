@@ -4,7 +4,8 @@ import {
   Text,
   TouchableOpacity,
   AsyncStorage,
-  ScrollView
+  ScrollView,
+  SectionList
 } from "react-native";
 import { MatchListQuery } from "../../../queries/matches";
 import { CHAT_SCREEN, USER_DETAILS_SCREEN } from "../../../constants/screens";
@@ -68,7 +69,7 @@ class MatchScreen extends React.Component<Props, State> {
                   likedUserList={likedUserList}
                   onPress={this.handleUserPress}
                 />
-                {/* add segme */}
+                {/* add segment tab */}
                 <ChatList chatList={chatList} onPress={this.handleChatPress} />
               </View>
             );

@@ -9,7 +9,7 @@ type Props = {
   onPress: (number) => void;
 };
 
-const ChatList = (props: Props) => {
+const ChatList: React.SFC<Props> = props => {
   return (
     <View style={styles.container}>
       <Text style={styles.sectionTitle}>Chat List</Text>

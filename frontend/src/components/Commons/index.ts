@@ -11,6 +11,7 @@ import InnerTextInput from "./InnerTextInput";
 import InnerDetailsInput from "./InnerDetailsInput";
 import InnerSelectInput from "./InnerSelectInput";
 import Chevron from "./Chevron";
+import SectionHeader from "./SectionHeader";
 import Photo from "./Photo";
 import PhotosEditForm from "./PhotosEditForm";
 
@@ -27,6 +28,7 @@ export {
     InnerDetailsInput,
     InnerSelectInput,
     Chevron,
+    SectionHeader,
     Photo,
     PhotosEditForm
 };

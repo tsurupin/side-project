@@ -1,6 +1,7 @@
 import * as React from "react";
-import { View, Text } from 'react-native';
-import { ListItem } from 'react-native-elements'
+import { View, Text, ScrollView } from 'react-native';
+import { ListItem, Avatar } from 'react-native-elements'
+import { SectionHeader } from "../../../Commons";
 import styles from "./styles";
 
 import { UserCore } from "../../../../interfaces";
@@ -10,23 +11,24 @@ type Props = {
   onPress: (number) => void,
 }
 
-const MatchQueueList = (props: Props) => {
+const MatchQueueList: React.SFC<Props> = props => {
   return (
     <View style={styles.container}>
-      <Text style={styles.sectionTitle}>Match</Text>
-      <View style={styles.listContainer}>
+      <SectionHeader title="Match" />
+      <ScrollView horizontal style={styles.listContainer}>
         {props.likedUserList.map(user => {
           return(
-            <ListItem
-              containerStyle={styles.itemContainer}
-              titleStyle={styles.title}
-              onPress={() => props.onPress(user.id)}
-              key={user.id}
-              title={user.displayName}
+            <Avatar
+              size="medium"
+              avatarStyle={styles.avatar}
+              rounded
+              source={{uri: "https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg"}}
+              onPress={() =>  props.onPress(user.id)}
+              activeOpacity={0.7}
             />
           )
         })}
-      </View>
+      </ScrollView>
     </View>
   )
 }
