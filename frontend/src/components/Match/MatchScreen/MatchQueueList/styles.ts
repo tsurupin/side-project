@@ -12,7 +12,9 @@ const styles = StyleSheet.create({
     paddingLeft: 10
   },
   listContainer: {
-    margin: 10
+    paddingLeft: 10,
+    marginTop: 15,
+    marginBottom: 15
   },
   
   avatar: {

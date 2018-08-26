@@ -1,6 +1,6 @@
 import * as React from "react";
-import { View, Text, ScrollView } from 'react-native';
-import { ListItem, Avatar } from 'react-native-elements'
+import { View, ScrollView } from 'react-native';
+import { Avatar } from 'react-native-elements'
 import { SectionHeader } from "../../../Commons";
 import styles from "./styles";
 

@@ -28,7 +28,7 @@ const renderProject = ({ item }) => {
   );
 }
 
-const ProjectRow: React.SFC<Props> = props  => {
+const ProjectList: React.SFC<Props> = props  => {
  
   onPress = (id) => props.onPress(id);
   return (
@@ -40,4 +40,4 @@ const ProjectRow: React.SFC<Props> = props  => {
   )
 };
 
-export default ProjectRow;
+export default ProjectList;
