@@ -3,13 +3,11 @@ import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityI
 const ICON_COLOR = "white";
 const ICON_SIZE = 32;
 
-
-
 class IconLoader {
   icons: object;
 
   constructor() {
-    this.icons = {}
+    this.icons = {};
   }
 
   private loadIcon = (name: string) => {
@@ -21,14 +19,14 @@ class IconLoader {
     const results = await Promise.all(tasks);
     results.forEach((item, index) => {
       this.icons[names[index]] = item;
-    })
-  
+    });
+
     return this.icons;
   };
 
   public getIcon = (name: string) => {
     return this.icons[name];
-  }
-};
+  };
+}
 
 export default new IconLoader();

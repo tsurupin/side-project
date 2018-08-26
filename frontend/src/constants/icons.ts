@@ -10,7 +10,7 @@ const HEART_OUTLINE_ICON = "heart-outline";
 const CHECK_OUTLINE_ICON = "check-outline";
 const FORMAT_HORIZONTAL_ALIGN_LEFT_ICON = "format-horizontal-align-left";
 const FORMAT_HORIZONTAL_ALIGN_RIGHT_ICON = "format-horizontal-align-right";
-
+const IMAGE_ICON = "image";
 export {
 
   CHECK_ICON,
@@ -24,5 +24,6 @@ export {
   CHECK_OUTLINE_ICON,
   CLOSE_ICON,
   FORMAT_HORIZONTAL_ALIGN_LEFT_ICON,
-  FORMAT_HORIZONTAL_ALIGN_RIGHT_ICON
+  FORMAT_HORIZONTAL_ALIGN_RIGHT_ICON,
+  IMAGE_ICON
 }

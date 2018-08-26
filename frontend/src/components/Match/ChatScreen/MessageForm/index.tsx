@@ -1,16 +1,18 @@
 import * as React from "react";
 import { View, Alert } from "react-native";
-import { Input, Button } from "react-native-elements";
+import { Input, Button, Icon } from "react-native-elements";
 import { MessageParams } from "../../../../interfaces";
 import * as ImagePicker from "react-native-image-picker";
 import ImageResizer from "react-native-image-resizer";
 import { ReactNativeFile } from "@richeterre/apollo-upload-client";
-
+import { IMAGE_ICON } from "../../../../constants/icons";
+import IconLoader from "../../../../utilities/iconLoader";
 import styles from "./styles";
 
 type Props = {
   onPress: (variables: MessageParams) => void;
   chatId: string;
+  submitting: boolean;
 };
 
 type State = {
@@ -25,12 +27,12 @@ class MessageForm extends React.Component<Props, State> {
     this.state = {
       comment: "",
       image: undefined,
-      messageType: undefined,
+      messageType: undefined
     };
   }
 
   handlePress = () => {
-    ImagePicker.showImagePicker({}, async response => {
+    ImagePicker.showImagePicker({}, async (response) => {
       console.log("Response = ", response);
 
       if (response.didCancel) {
@@ -55,8 +57,8 @@ class MessageForm extends React.Component<Props, State> {
           });
 
           console.log(photo);
-          
-          this.setState({image: photo, messageType: "upload"});
+
+          this.setState({ image: photo, messageType: "upload" });
           this.onPress();
         } catch (err) {
           console.log(err);
@@ -77,16 +79,37 @@ class MessageForm extends React.Component<Props, State> {
 
   render() {
     const { comment, image } = this.state;
-    console.log("current image", image)
+    const { submitting } = this.props;
+    console.log("current image", image);
     return (
-      <View>
+      <View style={styles.container}>
+        <Icon
+          size={36}
+          color="white"
+          containerStyle={styles.iconContainer}
+          iconStyle={styles.icon}
+          name={IMAGE_ICON}
+          type="MaterialCommunityIcons"
+          onPress={this.handlePress}
+        />
         <Input
+          containerStyle={styles.inputContainer}
+          inputContainerStyle={styles.inputInnerContainer}
+          inputStyle={styles.input}
           placeholder="Add New Message"
           value={comment}
-          onChangeText={v => this.setState({ comment: v, messageType: "comment" })}
-          onSubmitEditing={this.onPress}
+          onChangeText={(v) =>
+            this.setState({ comment: v, messageType: "comment" })
+          }
         />
-        <Button title="button" onPress={this.handlePress} />
+        <Button
+          containerStyle={styles.buttonContainer}
+          buttonStyle={styles.button}
+          titleStyle={styles.buttonTitle}
+          title="Submit"
+          disabled={!submitting}
+          onPress={this.onPress}
+        />
       </View>
     );
   }
