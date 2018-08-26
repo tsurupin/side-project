@@ -170,5 +170,6 @@ export interface MessageParams {
   chatId: string;
   comment?: string;
   image?: string;
+  messageType: string;
 }
 

@@ -70,9 +70,9 @@ class MessageForm extends React.Component<Props, State> {
   };
 
   private onPress = () => {
-    const { comment, image } = this.state;
+    const { comment, image, messageType } = this.state;
     const { chatId } = this.props;
-    this.props.onPress({ chatId, comment, image });
+    this.props.onPress({ chatId, comment, image, messageType });
   };
 
   render() {
