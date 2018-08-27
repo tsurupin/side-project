@@ -25,7 +25,7 @@ class MessageForm extends React.Component<Props, State> {
   constructor(props) {
     super(props);
     this.state = {
-      comment: "",
+      comment: undefined,
       image: undefined,
       messageType: undefined
     };
@@ -73,14 +73,17 @@ class MessageForm extends React.Component<Props, State> {
 
   private onPress = () => {
     const { comment, image, messageType } = this.state;
-    const { chatId } = this.props;
+    const { chatId, submitting } = this.props;
+    if (submitting) return;
     this.props.onPress({ chatId, comment, image, messageType });
+    this.setState({comment: undefined, image: undefined})
   };
 
   render() {
     const { comment, image } = this.state;
     const { submitting } = this.props;
-    console.log("current image", image);
+    const disabled = submitting || comment == undefined || comment == ""
+  
     return (
       <View style={styles.container}>
         <Icon
@@ -107,7 +110,7 @@ class MessageForm extends React.Component<Props, State> {
           buttonStyle={styles.button}
           titleStyle={styles.buttonTitle}
           title="Submit"
-          disabled={!submitting}
+          disabled={disabled}
           onPress={this.onPress}
         />
       </View>

@@ -14,6 +14,7 @@ import Chevron from "./Chevron";
 import SectionHeader from "./SectionHeader";
 import Photo from "./Photo";
 import PhotosEditForm from "./PhotosEditForm";
+import RemoteImage from "./RemoteImage";
 
 export {
     ErrorMessage,
@@ -30,5 +31,6 @@ export {
     Chevron,
     SectionHeader,
     Photo,
-    PhotosEditForm
+    PhotosEditForm,
+    RemoteImage
 };

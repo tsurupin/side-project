@@ -50,7 +50,9 @@ const styles = StyleSheet.create({
   },
   button: {
     height: 36,
-    
+  },
+  buttonDisabled: {
+    opacity: 0.1
   }
 
 });

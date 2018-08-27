@@ -1,7 +1,7 @@
 import * as React from "react";
 import { View, Text, Image } from "react-native";
 import { Avatar } from "react-native-elements";
-
+import { RemoteImage } from "../../../Commons";
 import { UserCore } from "../../../../interfaces";
 import styles from "./styles";
 
@@ -18,13 +18,9 @@ const renderMessage = (
   comment: string | undefined
 ) => {
   if (imageUrl) {
+
     return (
-      <Image
-        style={styles.image}
-        source={{
-          uri: "https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg"
-        }}
-      />
+      <RemoteImage styles={styles.image} imageUrl="https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg" />
     );
   } else {
     return <Text style={styles.description}>{comment}</Text>;
@@ -38,7 +34,8 @@ const MessageItem: React.SFC<Props> = (props) => {
       <View style={styles.userImageContainer}>
         <Avatar
           key={user.id}
-          size="medium"
+          size="small"
+          containerStyle={styles.avatarContainer}
           avatarStyle={styles.avatar}
           rounded
           source={{
