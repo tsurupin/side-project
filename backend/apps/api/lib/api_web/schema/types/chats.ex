@@ -39,7 +39,8 @@ defmodule ApiWeb.Schema.Types.Chats do
     field(:comment, :string)
     field :inserted_at, :string do
       resolve(fn %Message{inserted_at: inserted_at}, _, _ ->
-        {:ok, DateTime.to_string(inserted_at)}
+        
+        {:ok, "#{inserted_at.month}/#{inserted_at.day} #{inserted_at.hour}:#{inserted_at.minute}"}
       end)
     end
 
