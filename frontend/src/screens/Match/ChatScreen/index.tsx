@@ -41,11 +41,14 @@ class ChatScreen extends React.Component<Props, State> {
           const { chat } = data;
 
           return (
-            <View>
-          
+            <View style={styles.container}>
+              <MessageList
+                subscribeMessages={subscribeMessages}
+                messages={chat.messages}
+              />
+
               <CreateMessageMutation>
                 {({ createMessageMutation, loading, error, data }) => {
-                  if (loading) return <LoadingIndicator />;
                   if (error) {
                     return <ErrorMessage {...error} />;
                   }
@@ -56,14 +59,12 @@ class ChatScreen extends React.Component<Props, State> {
                         this.handlePress(variables, createMessageMutation)
                       }
                       chatId={chat.id}
+                      submitting={loading}
                     />
                   );
                 }}
               </CreateMessageMutation>
-              <MessageList
-                subscribeMessages={subscribeMessages}
-                messages={chat.messages}
-              />
+              
             </View>
           );
         }}

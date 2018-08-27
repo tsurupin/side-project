@@ -37,6 +37,11 @@ defmodule ApiWeb.Schema.Types.Chats do
     field(:chat_id, :id)
     field(:user, :user)
     field(:comment, :string)
+    field :inserted_at, :string do
+      resolve(fn %Message{inserted_at: inserted_at}, _, _ ->
+        {:ok, DateTime.to_string(inserted_at)}
+      end)
+    end
 
     field :image_url, :string do
       arg(:format, :string, default_value: "thumb")

@@ -162,7 +162,7 @@ export interface Message {
   id: string;
   comment?: string;
   imageUrl?: string;
-
+  insertedAt: string;
   user: UserCore;
 }
 

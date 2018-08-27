@@ -1,7 +1,8 @@
 import * as React from "react";
 import { View, ScrollView } from "react-native";
-import MessageDetails from "../MessageDetails";
+import MessageItem from "../MessageItem";
 import { Message } from "../../../../interfaces";
+import styles from "./styles";
 
 type Props = {
   messages: Message[];
@@ -23,13 +24,11 @@ class MessageList extends React.Component<Props, State> {
     const { messages } = this.props;
     console.log("MessageList", messages);
     return (
-      <View>
-        <ScrollView>
-          {messages.map(message => {
-            return <MessageDetails key={message.id} {...message} />;
-          })}
-        </ScrollView>
-      </View>
+      <ScrollView style={styles.container}>
+        {messages.map((message) => {
+          return <MessageItem key={message.id} {...message} />;
+        })}
+      </ScrollView>
     );
   }
 }

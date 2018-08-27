@@ -7,6 +7,7 @@ fragment MessageDetail on Message {
   id
   comment
   imageUrl
+  insertedAt
   user {
     id
     displayName
