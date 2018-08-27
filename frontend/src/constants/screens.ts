@@ -23,7 +23,7 @@ const PROJECT_NEW_SCREEN = `${APP_NAME}.ProjectNewScreen`;
 const PROJECT_EDIT_SCREEN = `${APP_NAME}.ProjectEditScreen`;
 const PROJECT_DISCOVERY_SCREEN = `${APP_NAME}.ProjectDiscoveryScreen`;
 
-const SETTINGS_LIST_SCREEN = `${APP_NAME}.SettingsListScreen`;
+const SETTING_LIST_SCREEN = `${APP_NAME}.SettingListScreen`;
 
 export {
   PICKER_SCREEN,
@@ -47,6 +47,6 @@ export {
   PROJECT_NEW_SCREEN,
   PROJECT_LIST_SCREEN,
   PROJECT_DISCOVERY_SCREEN,
-  SETTINGS_LIST_SCREEN,
+  SETTING_LIST_SCREEN,
 
 };

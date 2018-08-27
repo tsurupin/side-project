@@ -1,16 +1,14 @@
 import * as React from "react";
-import {
-  ErrorMessage,
-  LoadingIndicator
-} from "../../../components/Commons";
+import { ErrorMessage, LoadingIndicator } from "../../../components/Commons";
 import { UserDetailsBox } from "../../../components/Discovery/UserDetailsScreen";
 import { USER_EDIT_SCREEN } from "../../../constants/screens";
 import { MyUserQuery } from "../../../queries/users";
 import { UserDetails } from "../../../interfaces";
 import {
   USER_EDIT_BUTTON,
-  CLOSE_BUTTON,
-  SUBMIT_BUTTON
+  BACK_BUTTON,
+  SUBMIT_BUTTON,
+  CLOSE_BUTTON
 } from "../../../constants/buttons";
 
 import styles from "./styles";
@@ -50,6 +48,8 @@ class MyProfileScreen extends React.Component<Props, State> {
             ]
           }
         });
+      case BACK_BUTTON:
+        this.props.navigator.pop();
     }
   };
 
@@ -57,12 +57,11 @@ class MyProfileScreen extends React.Component<Props, State> {
     return (
       <MyUserQuery>
         {({ data, loading, error }) => {
-  
           if (loading) return <LoadingIndicator />;
           if (error) return <ErrorMessage {...error} />;
 
           const myUser: UserDetails = data.myUser;
-          
+
           return <UserDetailsBox user={myUser} />;
         }}
       </MyUserQuery>

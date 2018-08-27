@@ -7,6 +7,7 @@ import {
   USER_DISCOVERY_SCREEN,
   MY_PROFILE_SCREEN,
   PROJECT_LIST_SCREEN,
+  SETTING_LIST_SCREEN
 } from "../../constants/screens";
 import { SEARCH_BUTTON, USER_EDIT_BUTTON, PROJECT_NEW_BUTTON } from "../../constants/buttons";
 import IconLoader from "../../utilities/iconLoader";
@@ -59,20 +60,26 @@ const MainTab = () => {
           
         },
         {
-          screen: MY_PROFILE_SCREEN,
-          label: "MyProfile",
-          title: "MyProfile",
-          icon: IconLoader.getIcon(ACCOUNT_ICON),
-          navigatorButtons: {
-            rightButtons: [
-              {
-                icon: IconLoader.getIcon(PENCIL_ICON),
-                title: "Edit",
-                id: USER_EDIT_BUTTON
-              }
-            ]
-          }
+          screen: SETTING_LIST_SCREEN,
+          label: "Settings",
+          title: "Settings",
+          icon: IconLoader.getIcon(ACCOUNT_ICON)
         }
+        // {
+        //   screen: MY_PROFILE_SCREEN,
+        //   label: "MyProfile",
+        //   title: "MyProfile",
+        //   icon: IconLoader.getIcon(ACCOUNT_ICON),
+        //   navigatorButtons: {
+        //     rightButtons: [
+        //       {
+        //         icon: IconLoader.getIcon(PENCIL_ICON),
+        //         title: "Edit",
+        //         id: USER_EDIT_BUTTON
+        //       }
+        //     ]
+        //   }
+        // }
       ],
       drawer: {}
     });

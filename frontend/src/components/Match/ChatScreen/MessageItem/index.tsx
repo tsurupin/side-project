@@ -26,6 +26,10 @@ const renderMessage = (
     return <Text style={styles.description}>{comment}</Text>;
   }
 };
+//TODO:
+// Add day divider
+// make scrollview reverse
+// Add pagination not to load all the messages
 
 const MessageItem: React.SFC<Props> = (props) => {
   const { user, comment, imageUrl, insertedAt } = props;
