@@ -12,6 +12,7 @@ type Props = {
 type State = {};
 
 class MessageList extends React.Component<Props, State> {
+  private scrollView;
   constructor(props) {
     super(props);
   }
@@ -24,7 +25,15 @@ class MessageList extends React.Component<Props, State> {
     const { messages } = this.props;
     console.log("MessageList", messages);
     return (
-      <ScrollView style={styles.container}>
+      <ScrollView
+        style={styles.container}
+        pagingEnabled
+        ref={(ref) => (this.scrollView = ref)}
+        onContentSizeChange={() => {
+          this.scrollView.scrollToEnd({ animated: false });
+        }}
+      >
+        >
         {messages.map((message) => {
           return <MessageItem key={message.id} {...message} />;
         })}
