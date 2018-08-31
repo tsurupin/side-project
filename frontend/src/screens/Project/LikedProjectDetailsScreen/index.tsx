@@ -9,8 +9,13 @@ import {
   SUBMIT_BUTTON
 } from "../../../constants/buttons";
 import styles from "./styles";
-import { PROJECT_EDIT_SCREEN } from "../../../constants/screens";
+import { ProjectDetailsBox } from "../../../components/Discovery/ProjectDetailsScreen";
+import {
+  PROJECT_EDIT_SCREEN,
+  USER_DETAILS_SCREEN
+} from "../../../constants/screens";
 import { WithdrawProjectLikeMutation } from "../../../mutations/projectLikes";
+import { LoadingIndicator, ErrorMessage } from "../../../components/Commons";
 
 type Props = {
   id: string;
@@ -36,7 +41,7 @@ class LikedProjectDetailsScreen extends React.Component<Props, State> {
     this.props.navigator.setOnNavigatorEvent(this.handleNavigatorEvent);
   }
 
-  private handleNavigatorEvent = e => {
+  private handleNavigatorEvent = (e) => {
     if (e.type !== "NavBarButtonPress") return;
 
     console.log(e);
@@ -44,16 +49,15 @@ class LikedProjectDetailsScreen extends React.Component<Props, State> {
       case PROJECT_ACTION_SHEET_BUTTON:
         this.ActionSheet.show();
       case BACK_BUTTON:
-       this.props.navigator.pop();  
+        this.props.navigator.pop();
     }
   };
 
-  handlePressActionSheet = (
+  private handlePressActionSheet = (
     index: number,
     withdrawProjectLikeMutation: any
   ) => {
     const { id } = this.props;
-    console.log("index is", index)
     switch (index) {
       case PROJECT_EDIT_INDEX:
         this.props.navigator.showModal({
@@ -82,52 +86,60 @@ class LikedProjectDetailsScreen extends React.Component<Props, State> {
     }
   };
 
+  private handleUserPress = (userId: string) => {
+    this.props.navigator.push({
+      screen: USER_DETAILS_SCREEN,
+      passProps: {
+        id: userId
+      }
+    });
+  };
+
   render() {
     const { id } = this.props;
     return (
       <ProjectDetailsQuery variables={{ id }}>
         {({ data, loading, error }) => {
-          console.log(error);
-          if (loading)
-            return (
-              <View>
-                <Text> Text</Text>
-              </View>
-            );
-          if (error)
-            return (
-              <View>
-                <Text> Error</Text>
-              </View>
-            );
+          if (loading) return <LoadingIndicator />;
+          if (error) return <ErrorMessage {...error} />;
 
           const { project } = data;
-          console.log(data)
+
           return (
             <View>
               <Text>{project.title}</Text>
               <WithdrawProjectLikeMutation>
                 {({ withdraProjectLikeMutation, data, loading, error }) => {
-          
+                  if (loading) return <LoadingIndicator />;
+                  if (error) return <ErrorMessage {...error} />;
                   if (data) {
-                    // Alert
                     this.props.navigator.pop();
-                    return <View></View>
+                    return <View />;
                   }
-                  
-                  return(
-                    <View>
 
-                    <ActionSheet
-                      ref={o => this.ActionSheet = o}
-                      title={"Title"}
-                      options={ACTION_SHEET_OPTIONS}
-                      cancelButtonIndex={CANCEL_INDEX}
-                      destructiveButtonIndex={CANCEL_INDEX}
-                      onPress={index => this.handlePressActionSheet(index, withdraProjectLikeMutation)}
-                    />;
+                  return (
+                    <View>
+                      <ProjectDetailsBox
+                        project={project}
+                        liked={true}
+                        onPressUser={this.handleUserPress}
+                      />
+                      <ActionSheet
+                        ref={(o) => (this.ActionSheet = o)}
+                        title={"Title"}
+                        options={ACTION_SHEET_OPTIONS}
+                        cancelButtonIndex={CANCEL_INDEX}
+                        destructiveButtonIndex={CANCEL_INDEX}
+                        onPress={(index) =>
+                          this.handlePressActionSheet(
+                            index,
+                            withdraProjectLikeMutation
+                          )
+                        }
+                      />
+                      ;
                     </View>
-                  )
+                  );
                 }}
               </WithdrawProjectLikeMutation>
             </View>

@@ -41,8 +41,24 @@ class ProjectDetailsBox extends React.Component<Props> {
     );
   };
 
+  private renderLikeButton = () => {
+    const { liked, like } = this.props;
+    if (liked) return <View />;
+    return (
+      <View style={styles.likeContainer}>
+        <Icon
+          size={40}
+          color="blue"
+          iconStyle={styles.iconContainer}
+          name={HEART_OUTLINE_ICON}
+          onPress={like}
+        />
+      </View>
+    );
+  };
+
   render() {
-    const { liked, like, project, onPressUser } = this.props;
+    const { project, onPressUser } = this.props;
     let {
       title,
       genre,
@@ -93,15 +109,7 @@ class ProjectDetailsBox extends React.Component<Props> {
             <SkillList skills={skills} />
           </View>
         </View>
-        <View style={styles.likeContainer}>
-          <Icon
-            size={40}
-            color="blue"
-            iconStyle={styles.iconContainer}
-            name={HEART_OUTLINE_ICON}
-            onPress={like}
-          />
-        </View>
+        {this.renderLikeButton()}
       </ScrollView>
     );
   }

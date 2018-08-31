@@ -11,7 +11,7 @@ type Props = {
 };
 
 let onPress;
-const keyExtractor = (item, index) => index
+const keyExtractor = (_item, index) => index
 
 const renderProject = ({ item }) => {
   return (

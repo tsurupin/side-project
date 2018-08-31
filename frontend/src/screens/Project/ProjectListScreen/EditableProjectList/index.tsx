@@ -3,6 +3,7 @@ import { View, Text } from "react-native";
 import { EditableProjectListQuery } from "../../../../queries/projects";
 import { ProjectCore } from "../../../../interfaces";
 import { ProjectList } from "../../../../components/Project/MyProjectListScreen";
+import { LoadingIndicator, ErrorMessage } from "../../../../components/Commons";
 
 type Props = {
   onPress: (string) => void;
@@ -15,18 +16,8 @@ const EditableProjectList: React.SFC<Props> = (props) => {
       <EditableProjectListQuery>
         {({ data, loading, error }) => {
           console.log(error, data);
-          if (loading)
-            return (
-              <View>
-                <Text> Text</Text>
-              </View>
-            );
-          if (error)
-            return (
-              <View>
-                <Text> Error</Text>
-              </View>
-            );
+          if (loading) return <LoadingIndicator />;
+          if (error) return <ErrorMessage {...error} />;
 
           const projects: ProjectCore[] = data.editableProjects;
 

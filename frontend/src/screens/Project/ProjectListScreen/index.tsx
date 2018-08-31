@@ -75,19 +75,19 @@ class ProjectListScreen extends React.Component<Props, State> {
       passProps: { id },
       navigatorButtons: {
         leftButtons: [
-              {
-              
-                title: "BACK",
-                id: BACK_BUTTON
-              }
-            ],
-            rightButtons: [
-              {
-                title: "ACTION",
-                id: PROJECT_ACTION_SHEET_BUTTON
-              }
-            ]   
-      }});
+          {
+            title: "BACK",
+            id: BACK_BUTTON
+          }
+        ],
+        rightButtons: [
+          {
+            title: "ACTION",
+            id: PROJECT_ACTION_SHEET_BUTTON
+          }
+        ]
+      }
+    });
   };
 
   private handleEditableProjectPress = (id: string) => {
