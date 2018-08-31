@@ -2,12 +2,14 @@ import * as React from "react";
 import { ErrorMessage, LoadingIndicator } from "../../../components/Commons";
 import { View, Button } from "react-native";
 import { ListItem } from "react-native-elements";
+import { UserCard } from "../../../components/Me/SettingListScreen";
 import { MY_PROFILE_SCREEN } from "../../../constants/screens";
 import { BACK_BUTTON, USER_EDIT_BUTTON } from "../../../constants/buttons";
 import { PENCIL_ICON } from "../../../constants/icons";
 import { MyUserQuery } from "../../../queries/users";
 import { UserDetails } from "../../../interfaces";
 import IconLoader from "../../../utilities/iconLoader";
+import styles from "../../../components/Commons/SelectBox/styles";
 
 type Item = {
   title: string;
@@ -70,10 +72,8 @@ class SettingsListScreen extends React.Component<Props> {
           const myUser: UserDetails = data.myUser;
           return (
             <View>
-              <ListItem
-                title={myUser.displayName}
-                subtitle="View and edit Profile"
-                leftAvatar={{ source: { uri: myUser.mainPhotoUrl } }}
+              <UserCard
+                user={myUser}
                 onPress={() => this.onPress(MY_PROFILE_SCREEN)}
               />
               {this.renderSettingItems()}
