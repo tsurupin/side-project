@@ -1,10 +1,20 @@
-import { StyleSheet } from "react-native";
+
+import { StyleSheet, Dimensions } from "react-native";
+const windowWidth = Math.trunc(Dimensions.get("window").width);
+const windowHeight = Math.trunc(Dimensions.get("window").height);
 
 const styles = StyleSheet.create({
   container: {
-    position: "absolute",
-    top: "50%",
-    left: "50%"
+    width: windowWidth,  
+    height: windowHeight,
+    flexDirection: "column",
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  indicatorContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center'
   }
 });
 
