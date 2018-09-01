@@ -11,6 +11,7 @@ const CHECK_OUTLINE_ICON = "check-outline";
 const FORMAT_HORIZONTAL_ALIGN_LEFT_ICON = "format-horizontal-align-left";
 const FORMAT_HORIZONTAL_ALIGN_RIGHT_ICON = "format-horizontal-align-right";
 const IMAGE_ICON = "image";
+const LOGOUT_ICON = "exit-to-app";
 export {
 
   CHECK_ICON,
@@ -25,5 +26,6 @@ export {
   CLOSE_ICON,
   FORMAT_HORIZONTAL_ALIGN_LEFT_ICON,
   FORMAT_HORIZONTAL_ALIGN_RIGHT_ICON,
-  IMAGE_ICON
+  IMAGE_ICON,
+  LOGOUT_ICON
 }

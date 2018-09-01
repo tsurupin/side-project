@@ -2,21 +2,15 @@ import * as React from "react";
 import { ErrorMessage, LoadingIndicator } from "../../../components/Commons";
 import { View, Button } from "react-native";
 import { ListItem } from "react-native-elements";
-import { UserCard } from "../../../components/Me/SettingListScreen";
+import { UserCard, SettingList } from "../../../components/Me/SettingListScreen";
 import { MY_PROFILE_SCREEN } from "../../../constants/screens";
 import { BACK_BUTTON, USER_EDIT_BUTTON } from "../../../constants/buttons";
-import { PENCIL_ICON } from "../../../constants/icons";
+import { PENCIL_ICON, LOGOUT_ICON } from "../../../constants/icons";
 import { MyUserQuery } from "../../../queries/users";
 import { UserDetails } from "../../../interfaces";
 import IconLoader from "../../../utilities/iconLoader";
-import styles from "../../../components/Commons/SelectBox/styles";
 
-type Item = {
-  title: string;
-  iconName: string;
-  screen: string;
-};
-const SETTINS_LIST: Item[] = [];
+import styles from "../../../components/Commons/SelectBox/styles";
 
 type Props = {
   navigator: any;
@@ -49,18 +43,6 @@ class SettingsListScreen extends React.Component<Props> {
     });
   };
 
-  renderSettingItems() {
-    return SETTINS_LIST.map((item) => {
-      return (
-        <ListItem
-          key={item.title}
-          title={item.title}
-          leftIcon={{ name: item.icon }}
-          onPress={() => this.onPress(item.screen)}
-        />
-      );
-    });
-  }
 
   render() {
     return (
@@ -76,7 +58,7 @@ class SettingsListScreen extends React.Component<Props> {
                 user={myUser}
                 onPress={() => this.onPress(MY_PROFILE_SCREEN)}
               />
-              {this.renderSettingItems()}
+              <SettingList onPress={this.onPress}/>
             </View>
           );
         }}
