@@ -18,8 +18,9 @@ const UploadUserPhotoMutation = (props: Props) => {
       mutation={UPLOAD_USER_PHOTO_MUTATION}
       context={{ needAuth: true }}
       update={(cache, { data: { uploadUserPhoto } }) => {
+        const fragmentId = `User:${uploadUserPhoto.userId}`;
         const user: UserDetails = cache.readFragment({
-          id: `User:${uploadUserPhoto.userId}`,
+          id: fragmentId,
           fragment: USER_FRAGMENTS.userDetails
         });
         const { id, rank, imageUrl } = uploadUserPhoto;
@@ -28,7 +29,7 @@ const UploadUserPhotoMutation = (props: Props) => {
         const photos = [...user.photos, newPhoto];
 
         cache.writeFragment({
-          id: `User:${user.id}`,
+          id: fragmentId,
           fragment: USER_FRAGMENTS.userDetails,
           data: { ...user, photos }
         });
