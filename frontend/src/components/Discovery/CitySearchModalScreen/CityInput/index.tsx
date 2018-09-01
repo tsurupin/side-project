@@ -7,31 +7,16 @@ type Props = {
   onChangeText: (name) => void;
 };
 
-type State = {
-  name: string | undefined;
+const CityInput: React.SFC<Props> = (props) => {
+  const { name, onChangeText } = props;
+  return (
+    <Input
+      placeholder="City(ex: San Francisco)"
+      containerStyle={styles.inputContainer}
+      value={name}
+      onChangeText={(val: string) => onChangeText(val)}
+    />
+  );
 };
-
-class CityInput extends React.Component<Props, State> {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      name: props.name
-    };
-  }
-  
-
-  render() {
-    const { name } = this.state;
-    return (
-      <Input
-        placeholder="City(ex: San Francisco)"
-        containerStyle={styles.inputContainer}
-        value={name}
-        onChangeText={(val: string) => this.props.onChangeText(val)}
-      />
-    );
-  }
-}
 
 export default CityInput;
