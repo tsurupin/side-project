@@ -139,3 +139,5 @@ Promise.all(preloadTasks).then((result) => {
     }
   });
 });
+
+console.disableYellowBox = true;
