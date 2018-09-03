@@ -26,7 +26,10 @@ const MainTab = () => {
         bottomTabBadgeBackgroundColor: NotificationBadgeColor,
         navBarTextColor: NavBarTextColor,
         navBarBackgroundColor: NavBarBackgroundColor,
-        navBarButtonColor: NavBarButtonColor 
+        navBarButtonColor: NavBarButtonColor ,
+        statusBarTextColorScheme: 'light',
+        statusBarColor: NavBarButtonColor,
+        statusBarTextColorSchemeSingleScreen: 'light',
       },
       tabsStyle: {
         tabBarButtonColor: TabBarButtonColor,
