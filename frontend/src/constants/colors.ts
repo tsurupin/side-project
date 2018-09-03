@@ -8,6 +8,9 @@ const NavBarBackgroundColor =  "#283145";
 const NavBarButtonColor = "#FFFFFF";
 const NavBarTextColor = "#FFFFFF";
 const NotificationBadgeColor = "#EC4926";
+const SegmentControlActiveColor = "#394561";
+const SegmentControlColor = "#7F8792";
+const WhiteColor = "#FFFFFF"
 const FontMainColor = "7F7D8E";
 
 export {
@@ -20,5 +23,8 @@ export {
   NavBarBackgroundColor,
   NavBarButtonColor,
   NavBarTextColor,
-  NotificationBadgeColor
+  NotificationBadgeColor,
+  SegmentControlActiveColor,
+  SegmentControlColor,
+  WhiteColor
 }

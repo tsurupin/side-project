@@ -33,11 +33,11 @@ import {
 } from "../../../interfaces";
 import {
   ErrorMessage,
-  LoadingIndicator
+  LoadingIndicator,
+  CustomizedSegmentedControlTab
 } from "../../../components/Commons";
 import styles from "./styles";
 import IconLoader from "../../../utilities/iconLoader";
-import SegmentedControlTab from "react-native-segmented-control-tab";
 
 type Props = {
   navigator: any;
@@ -256,7 +256,7 @@ class DiscoveryScreen extends React.Component<Props, State> {
   render() {
     return (
       <View style={styles.container}>
-        <SegmentedControlTab
+        <CustomizedSegmentedControlTab
           values={CONTROL_TABS}
           borderRadius={0}
           selectedIndex={this.state.selectedIndex}

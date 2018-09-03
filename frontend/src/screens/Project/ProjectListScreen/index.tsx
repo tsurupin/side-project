@@ -17,7 +17,7 @@ import {
 import { CLOSE_ICON } from "../../../constants/icons";
 import IconLoader from "../../../utilities/iconLoader";
 import { PROJECT_NEW_SCREEN } from "../../../constants/screens";
-import SegmentedControlTab from "react-native-segmented-control-tab";
+import { CustomizedSegmentedControlTab  } from "../../../components/Commons";
 
 type Props = {
   navigator: any;
@@ -116,7 +116,7 @@ class ProjectListScreen extends React.Component<Props, State> {
   render() {
     return (
       <View>
-        <SegmentedControlTab
+        <CustomizedSegmentedControlTab
           values={CONTROL_TABS}
           borderRadius={0}
           selectedIndex={this.state.selectedIndex}

@@ -15,6 +15,7 @@ import SectionHeader from "./SectionHeader";
 import Photo from "./Photo";
 import PhotosEditForm from "./PhotosEditForm";
 import RemoteImage from "./RemoteImage";
+import CustomizedSegmentedControlTab from "./CustomizedSegmentedControlTab";
 
 export {
     ErrorMessage,
@@ -32,5 +33,6 @@ export {
     SectionHeader,
     Photo,
     PhotosEditForm,
-    RemoteImage
+    RemoteImage,
+    CustomizedSegmentedControlTab
 };
