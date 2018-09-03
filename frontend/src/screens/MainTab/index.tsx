@@ -12,7 +12,7 @@ import {
 import { SEARCH_BUTTON, USER_EDIT_BUTTON, PROJECT_NEW_BUTTON } from "../../constants/buttons";
 import IconLoader from "../../utilities/iconLoader";
 import { LIBRARY_BOOKS_ICON, MESSAGE_OUTLINE_ICON, PENCIL_ICON, ACCOUNT_ICON, FILTER_OUTLINE_ICON } from "../../constants/icons";
-import { TabMainColor, TabLabelColor, TabButtonColor } from "../../constants/colors";
+import { TabBarBackgroundColor, TabBarSelectedButtonColor, TabBarSelectedLabelColor, TabBarButtonColor, TabBarLabelColor, NotificationBadgeColor, NavBarBackgroundColor, NavBarButtonColor, NavBarTextColor } from "../../constants/colors";
 
 const MainTab = () => {
   Promise.all([
@@ -22,10 +22,17 @@ const MainTab = () => {
     Icon.getImageSource("ios-menu", 30)
   ]).then(sources => {
     Navigation.startTabBasedApp({
+      appStyle: {
+        bottomTabBadgeBackgroundColor: NotificationBadgeColor,
+        navBarTextColor: NavBarTextColor,
+        navBarBackgroundColor: NavBarBackgroundColor,
+        navBarButtonColor: NavBarButtonColor 
+      },
       tabsStyle: {
-        tabBarButtonColor: TabButtonColor,
-        tabBarLabelColor: TabLabelColor,
-        tabBackgroundColor: TabMainColor,
+        tabBarButtonColor: TabBarButtonColor,
+        tabBarBackgroundColor: TabBarBackgroundColor,
+        tabBarSelectedButtonColor: TabBarSelectedButtonColor,
+      
       },
       tabs: [
         {

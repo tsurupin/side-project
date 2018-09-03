@@ -1,15 +1,24 @@
 const MainColor = "6BBA4A";
-const TabMainColor = "4B536C";
-const TabLabelColor = "white"
-const TabButtonColor = "black";
+const TabBarBackgroundColor = "#F9F9F9";
+const TabBarSelectedButtonColor = "#263144"
+const TabBarSelectedLabelColor = "#30394C";
+const TabBarButtonColor = "#A5A7AE";
+const TabBarLabelColor = "#A5A7AE";
+const NavBarBackgroundColor =  "#283145";
+const NavBarButtonColor = "#FFFFFF";
+const NavBarTextColor = "#FFFFFF";
+const NotificationBadgeColor = "#EC4926";
 const FontMainColor = "7F7D8E";
-
-
 
 export {
   MainColor,
-  TabMainColor,
-  TabLabelColor,
-  TabButtonColor,
-  FontMainColor
+  TabBarBackgroundColor,
+  TabBarSelectedButtonColor,
+  TabBarSelectedLabelColor,
+  TabBarLabelColor,
+  TabBarButtonColor,
+  NavBarBackgroundColor,
+  NavBarButtonColor,
+  NavBarTextColor,
+  NotificationBadgeColor
 }
