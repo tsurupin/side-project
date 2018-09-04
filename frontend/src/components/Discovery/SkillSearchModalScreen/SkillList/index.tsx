@@ -14,7 +14,7 @@ const renderSkill = (skill: Skill, fnc) => {
   return (
     <ListItem
       key={skill.id}
-      bottomDivider={true}
+      bottomDivider
       containerStyle={styles.listItemContainer}
       title={skill.name}
       onPress={() => fnc(skill)}

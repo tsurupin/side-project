@@ -5,7 +5,7 @@ import {
 } from "../../../../constants/screens";
 
 import { View, FlatList, Alert } from "react-native";
-import { ListItem } from "react-native-elements";
+import { ListItem, Icon } from "react-native-elements";
 import { SelectBox } from "../../../../components/Commons";
 import { APPLY_BUTTON, CLOSE_BUTTON } from "../../../../constants/buttons";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
@@ -60,9 +60,7 @@ const DISTANCES = [
 ];
 
 class SearchForm extends React.Component<Props, State> {
-  static defaultProps = {
-
-  }
+  static defaultProps = {};
   constructor(props) {
     super(props);
     this.state = {
@@ -88,7 +86,6 @@ class SearchForm extends React.Component<Props, State> {
     }
     switch (e.id) {
       case APPLY_BUTTON:
-      
         this.props.onSubmit({
           genreId: genreId,
           occupationTypeId: occupationTypeId,
@@ -209,17 +206,17 @@ class SearchForm extends React.Component<Props, State> {
 
   private renderSkillAddIcon = () => {
     return (
-      <MaterialCommunityIcons
-        name="plus"
-        onPress={() => this.handleSkillSearchShowModal()}
-      />
+      <Icon type="material-community" name="plus" size={24} color="black" />
     );
   };
 
   private renderSkillRemoveIcon = (skillId: string) => {
     return (
-      <MaterialCommunityIcons
+      <Icon
+        type="material-community"
         name="minus-circle"
+        size={24}
+        color="black"
         onPress={() => this.handleDeleteSkill(skillId)}
       />
     );
@@ -273,6 +270,7 @@ class SearchForm extends React.Component<Props, State> {
           title="Skills"
           chevron={false}
           bottomDivider
+          onPress={() => this.handleSkillSearchShowModal()}
           rightIcon={this.renderSkillAddIcon()}
         />
         {this.renderSkillList()}

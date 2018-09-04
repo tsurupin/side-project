@@ -8,8 +8,9 @@ import {
 } from "../../../components/Discovery/SkillSearchModalScreen";
 import { CLOSE_BUTTON, BACK_BUTTON } from "../../../constants/buttons";
 import { SkillsQuery } from "../../../queries/skills";
-
+import { LoadingIndicator, ErrorMessage } from "../../../components/Commons";
 import { Skill } from "../../../interfaces";
+
 
 import styles from "./styles";
 
@@ -68,16 +69,10 @@ class SkillSearchModalScreen extends React.Component<Props, State> {
       <SkillsQuery variables={{ name }}>
         {({ data, error, loading }) => {
           console.log(loading, data)
-          if (loading) {
-            return <View/>;
-          }
-          if (error) {
-            return (
-              <View>
-                <Text>{error}</Text>
-              </View>
-            );
-          }
+          if (loading)  return <LoadingIndicator />;    
+        
+          if (error) return <ErrorMessage {...error} />;   
+          
           return (
             <SkillList skills={data.skills} onPressSkill={this.onPressSkill} />
           );

@@ -1,11 +1,35 @@
-const styles = {
+import { StyleSheet, TransformsStyle } from "react-native";
+import { BackgroundColor, WhiteColor, SubTextColor } from "../../../../constants/colors";
+
+const styles = StyleSheet.create({
   container: {
-    width: '100%'
+    backgroundColor: BackgroundColor,
+    padding: 10
+  },
+
+  leftIconContainer: {
+    marginRight: 5,
+  
+  },
+  rightIconContainer: {
+    marginLeft: 10,
+    marginRight: 10
+   
+
   },
   inputContainer: {
-    borderColor: '#BCBBC1'
+    borderBottomWidth: 0,
+    backgroundColor: WhiteColor,
+    borderBottomColor: WhiteColor,
+    
+    width: "100%"
   },
-  errorMessage: {}
-};
+  inutTextContainer: {
+    fontSize: 16,
+    color: SubTextColor,
+   
+
+  },
+});
 
 export default styles;
