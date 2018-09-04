@@ -167,6 +167,7 @@ class SearchForm extends React.Component<Props, State> {
   private handlePressShowModal = (
     items: any[],
     keyName: string,
+    label: string,
     selectedValue: string | number | undefined
   ) => {
     this.props.navigator.showModal({
@@ -174,6 +175,7 @@ class SearchForm extends React.Component<Props, State> {
       passProps: {
         items,
         keyName,
+        label,
         selectedValue,
         onPress: this.handleChangeValue
       },
@@ -233,12 +235,14 @@ class SearchForm extends React.Component<Props, State> {
         <SelectBox
           keyName="occupationTypeId"
           placeholder="OccupationType"
+          label="Occupation Type"
           value={occupationTypeId}
           items={occupationTypes}
           onPress={this.handlePressShowModal}
         />
         <SelectBox
           keyName="distance"
+          label="Distance"
           placeholder="Distance"
           value={location ? location.distance : undefined}
           items={DISTANCES}
@@ -246,6 +250,7 @@ class SearchForm extends React.Component<Props, State> {
         />
         <SelectBox
           keyName="genreId"
+          label="Genre"
           placeholder="Genre"
           value={genreId}
           items={genres}

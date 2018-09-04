@@ -5,14 +5,15 @@ import styles from "./styles";
 
 type Props = {
   keyName: string;
+  label: string;
   placeholder: string;
   value: string | number | undefined;
   items: any[],
-  onPress: (items: any[], key: string, selectedValue: string | number | undefined) => void;
+  onPress: (items: any[], key: string, label: string, selectedValue: string | number | undefined) => void;
 }
 
 const SelectBox = (props: Props) => {
-  const { placeholder, value, items, keyName, onPress} = props;
+  const { placeholder, value, items, keyName, label, onPress} = props;
   
   const item = items.find(item => {
     return (item['id'] || item['value']) == value
@@ -26,7 +27,7 @@ const SelectBox = (props: Props) => {
       title={title}
       chevron
       bottomDivider
-      onPress={() => onPress(items, keyName, value)}
+      onPress={() => onPress(items, keyName, label, title)}
     />
   )
 }

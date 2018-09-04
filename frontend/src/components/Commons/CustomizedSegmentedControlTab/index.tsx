@@ -13,7 +13,6 @@ const CustomizedSegmentedControlTab: React.SFC<Props> = (props) => {
   const { selectedIndex, borderRadius, values, onTabPress} = props;
   return(
     <SegmentedControlTab
-        
           values={values}
           borderRadius={borderRadius}
           selectedIndex={selectedIndex}
