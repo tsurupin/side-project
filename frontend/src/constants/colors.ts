@@ -11,11 +11,12 @@ const NotificationBadgeColor = "#EC4926";
 const SegmentControlActiveColor = "#394561";
 const SegmentControlColor = "#7F8792";
 const WhiteColor = "#FFFFFF"
-const FontMainColor = "7F7D8E";
+
 const MainTextColor = "#000000";
 const BorderColor = "#CACACE";
 const BackgroundColor = "#EFEFF4";
 const LabelTextColor = "#6F6E74";
+const SubTextColor = "#8F8F94";
 
 export {
   MainColor,
@@ -34,5 +35,6 @@ export {
   MainTextColor,
   BorderColor,
   BackgroundColor,
-  LabelTextColor
+  LabelTextColor,
+  SubTextColor
 }

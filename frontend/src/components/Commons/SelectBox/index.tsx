@@ -9,11 +9,12 @@ type Props = {
   placeholder: string;
   value: string | number | undefined;
   items: any[],
+  needTopDivider?: boolean;
   onPress: (items: any[], key: string, label: string, selectedValue: string | number | undefined) => void;
 }
 
 const SelectBox = (props: Props) => {
-  const { placeholder, value, items, keyName, label, onPress} = props;
+  const { placeholder, value, items, keyName, label, needTopDivider, onPress} = props;
   
   const item = items.find(item => {
     return (item['id'] || item['value']) == value
@@ -24,10 +25,15 @@ const SelectBox = (props: Props) => {
   return(
     <ListItem
       key={title}
-      title={title}
+      title={label}
       chevron
+      topDivider={needTopDivider || false}
       bottomDivider
+      rightTitle={title}
       onPress={() => onPress(items, keyName, label, title)}
+      containerStyle={styles.container}
+      titleStyle={styles.title}
+      rightTitleStyle={styles.rightTitle}
     />
   )
 }

@@ -231,11 +231,12 @@ class SearchForm extends React.Component<Props, State> {
     const { genres, occupationTypes } = this.props;
 
     return (
-      <View>
+      <View style={styles.container}>
         <SelectBox
           keyName="occupationTypeId"
           placeholder="OccupationType"
           label="Occupation Type"
+          needTopDivider={true}
           value={occupationTypeId}
           items={occupationTypes}
           onPress={this.handlePressShowModal}
