@@ -19,6 +19,7 @@ const CityList: React.SFC<Props> = props => {
             key={city.id}
             containerStyle={styles.listItemContainer}
             title={city.fullName}
+            bottomDivider
             onPress={() => props.onPress(city)}
           />
         );

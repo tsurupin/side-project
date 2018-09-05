@@ -1,5 +1,5 @@
-import { StyleSheet, TransformsStyle } from "react-native";
-import { BackgroundColor, WhiteColor, SubTextColor } from "../../../../constants/colors";
+import { StyleSheet } from "react-native";
+import { BackgroundColor, WhiteColor, SubTextColor } from "../../../constants/colors";
 
 const styles = StyleSheet.create({
   container: {
@@ -14,8 +14,6 @@ const styles = StyleSheet.create({
   rightIconContainer: {
     marginLeft: 10,
     marginRight: 10
-   
-
   },
   inputContainer: {
     borderBottomWidth: 0,

@@ -3,12 +3,11 @@ import { View, Text } from "react-native";
 
 import { USER_SEARCH_MODAL_SCREEN } from "../../../constants/screens";
 import {
-  SkillInput,
   SkillList
 } from "../../../components/Discovery/SkillSearchModalScreen";
 import { CLOSE_BUTTON, BACK_BUTTON } from "../../../constants/buttons";
 import { SkillsQuery } from "../../../queries/skills";
-import { LoadingIndicator, ErrorMessage } from "../../../components/Commons";
+import { LoadingIndicator, ErrorMessage, SearchInput } from "../../../components/Commons";
 import { Skill } from "../../../interfaces";
 
 
@@ -68,7 +67,7 @@ class SkillSearchModalScreen extends React.Component<Props, State> {
     return (
       <SkillsQuery variables={{ name }}>
         {({ data, error, loading }) => {
-          console.log(loading, data)
+  
           if (loading)  return <LoadingIndicator />;    
         
           if (error) return <ErrorMessage {...error} />;   
@@ -83,7 +82,7 @@ class SkillSearchModalScreen extends React.Component<Props, State> {
 
   private renderTextForm = () => {
     const { name } = this.state;
-    return <SkillInput name={name} onChangeText={this.handleChangeText} />;
+    return <SearchInput name={name} onChangeText={this.handleChangeText} />;
   };
 
   render() {

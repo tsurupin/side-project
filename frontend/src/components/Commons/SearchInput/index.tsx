@@ -8,7 +8,7 @@ type Props = {
   onChangeText: (name) => void;
 };
 
-const SkillInput: React.SFC<Props> = (props) => {
+const SearchInput: React.SFC<Props> = (props) => {
   return (
     <View style={styles.container}>
       <Input
@@ -41,4 +41,4 @@ const SkillInput: React.SFC<Props> = (props) => {
   );
 };
 
-export default SkillInput;
+export default SearchInput;

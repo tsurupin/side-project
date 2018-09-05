@@ -1,12 +1,14 @@
 import * as React from "react";
 import { View, Text, Button } from "react-native";
 
-import {
-  CityList,
-  CityInput
-} from "../../../components/Discovery/CitySearchModalScreen";
+import { CityList } from "../../../components/Discovery/CitySearchModalScreen";
 import { CLOSE_BUTTON } from "../../../constants/buttons";
 import { CityListQuery } from "../../../queries/cities";
+import {
+  SearchInput,
+  ErrorMessage,
+  LoadingIndicator
+} from "../../../components/Commons";
 import { FindOrCreateCityMutation } from "../../../mutations/cities";
 import { City, CityEditParams } from "../../../interfaces";
 import { fetchAddress } from "../../../utilities/geocoder";
@@ -43,10 +45,9 @@ class CitySearchModalScreen extends React.Component<Props, State> {
     this.props.navigator.setOnNavigatorEvent(this.handleNavigatorEvent);
   }
 
-  private handleNavigatorEvent = e => {
+  private handleNavigatorEvent = (e) => {
     if (e.type !== "NavBarButtonPress") return;
 
-    console.log(e);
     switch (e.id) {
       case CLOSE_BUTTON:
         this.props.navigator.dismissModal();
@@ -62,7 +63,7 @@ class CitySearchModalScreen extends React.Component<Props, State> {
     this.setState({ name });
   };
 
-  private handlePressCurrentLocation = findOrCreateCityMutation => {
+  private handlePressCurrentLocation = (findOrCreateCityMutation) => {
     navigator.geolocation.getCurrentPosition(async ({ coords }) => {
       const { latitude, longitude } = coords;
 
@@ -70,7 +71,7 @@ class CitySearchModalScreen extends React.Component<Props, State> {
         const data = await fetchAddress(latitude, longitude);
         if (data.address) {
           const { address } = data;
-          console.log(address)
+          console.log(address);
 
           const cityParams: CityEditParams = {
             name: address.cityName,
@@ -78,7 +79,10 @@ class CitySearchModalScreen extends React.Component<Props, State> {
             stateAbbreviation: address.stateAbbreviation,
             countryName: address.countryName
           };
-          this.setState({longitude: address.longitude, latitude: address.latitude});
+          this.setState({
+            longitude: address.longitude,
+            latitude: address.latitude
+          });
           findOrCreateCityMutation({ variables: cityParams });
         }
       } catch (e) {
@@ -94,20 +98,10 @@ class CitySearchModalScreen extends React.Component<Props, State> {
       <CityListQuery variables={{ name }}>
         {({ data, error, loading }) => {
           if (loading) {
-  
-            return (
-              <View>
-                <Text>Loading</Text>
-              </View>
-            );
+            return <LoadingIndicator />;
           }
           if (error) {
-            return (
-              <View>
-                <Text>{error}</Text>
-              </View>
-            );
-
+            return <ErrorMessage {...error} />;
           }
           const { cityList } = data;
           return <CityList cities={cityList} onPress={this.onPress} />;
@@ -147,8 +141,7 @@ class CitySearchModalScreen extends React.Component<Props, State> {
   };
   private renderTextForm = () => {
     const { name } = this.state;
-    console.log(name);
-    return <CityInput name={name} onChangeText={this.handleChangeText} />;
+    return <SearchInput name={name} onChangeText={this.handleChangeText} />;
   };
 
   render() {

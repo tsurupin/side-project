@@ -16,6 +16,7 @@ import Photo from "./Photo";
 import PhotosEditForm from "./PhotosEditForm";
 import RemoteImage from "./RemoteImage";
 import CustomizedSegmentedControlTab from "./CustomizedSegmentedControlTab";
+import SearchInput from "./SearchInput";
 
 export {
     ErrorMessage,
@@ -34,5 +35,6 @@ export {
     Photo,
     PhotosEditForm,
     RemoteImage,
-    CustomizedSegmentedControlTab
+    CustomizedSegmentedControlTab,
+    SearchInput
 };
