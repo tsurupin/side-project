@@ -20,6 +20,14 @@ defmodule ApiWeb.Schema.Types.Chats do
         end
       end)
     end
+    field :last_commented_at, :string do
+      resolve(fn %Chat{messages: messages}, _, _ ->
+        case List.last(messages) do
+          nil -> {:ok, nil}
+          %Message{inserted_at: inserted_at} = _message  -> {:ok, "#{inserted_at.month}/#{inserted_at.day} #{inserted_at.hour}:#{inserted_at.minute}"}
+        end
+      end)
+    end
     field :image_url, :string do
       resolve(fn %Chat{messages: messages}, _, _ ->
         with %Message{user: user} <- List.last(messages),
@@ -39,7 +47,7 @@ defmodule ApiWeb.Schema.Types.Chats do
     field(:comment, :string)
     field :inserted_at, :string do
       resolve(fn %Message{inserted_at: inserted_at}, _, _ ->
-        
+
         {:ok, "#{inserted_at.month}/#{inserted_at.day} #{inserted_at.hour}:#{inserted_at.minute}"}
       end)
     end

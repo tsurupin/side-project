@@ -12,6 +12,7 @@ export const MATCH_LIST_QUERY = gql`
         id
         name
         lastComment
+        lastCommentedAt
         imageUrl
       }
     }

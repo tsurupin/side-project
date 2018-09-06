@@ -24,6 +24,7 @@ const renderChat = ({ item }) => {
       onPress={() => onPress(item.id, item.name)}
       containerStyle={styles.itemContainer}
       titleStyle={styles.itemTitle}
+      rightSubtitle={item.lastCommentedAt || ""}
     />
   );
 };

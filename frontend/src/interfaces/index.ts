@@ -155,6 +155,7 @@ export interface Chat {
   id: string;
   name: string;
   lastComment?: string | undefined;
+  lastCommentedAt?: string | undefined;
   imageUrl?: string
 }
 
