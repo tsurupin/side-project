@@ -12,6 +12,7 @@ defmodule ApiWeb.Schema.Types.Chats do
     field(:id, :id)
     field(:name, :string)
     field(:messages, list_of(:message))
+
     field :last_comment, :string do
       resolve(fn %Chat{messages: messages}, _, _ ->
         case List.last(messages) do
@@ -20,18 +21,24 @@ defmodule ApiWeb.Schema.Types.Chats do
         end
       end)
     end
+
     field :last_commented_at, :string do
       resolve(fn %Chat{messages: messages}, _, _ ->
         case List.last(messages) do
-          nil -> {:ok, nil}
-          %Message{inserted_at: inserted_at} = _message  -> {:ok, "#{inserted_at.month}/#{inserted_at.day} #{inserted_at.hour}:#{inserted_at.minute}"}
+          nil ->
+            {:ok, nil}
+
+          %Message{inserted_at: inserted_at} = _message ->
+            {:ok,
+             "#{inserted_at.month}/#{inserted_at.day} #{inserted_at.hour}:#{inserted_at.minute}"}
         end
       end)
     end
+
     field :image_url, :string do
       resolve(fn %Chat{messages: messages}, _, _ ->
         with %Message{user: user} <- List.last(messages),
-         %Photo{image_url: image_url} = photo <- Users.main_photo(user) do
+             %Photo{image_url: image_url} = photo <- Users.main_photo(user) do
           {:ok, UserPhotoUploader.url({image_url, photo}, :thumb)}
         else
           _ -> {:ok, UserPhotoUploader.missing_url(:thumb)}
@@ -45,9 +52,9 @@ defmodule ApiWeb.Schema.Types.Chats do
     field(:chat_id, :id)
     field(:user, :user)
     field(:comment, :string)
+
     field :inserted_at, :string do
       resolve(fn %Message{inserted_at: inserted_at}, _, _ ->
-
         {:ok, "#{inserted_at.month}/#{inserted_at.day} #{inserted_at.hour}:#{inserted_at.minute}"}
       end)
     end

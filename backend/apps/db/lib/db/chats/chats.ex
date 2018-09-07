@@ -107,7 +107,6 @@ defmodule Db.Chats.Chats do
       messages: from(m in Message, order_by: m.inserted_at, preload: :user)
     )
   end
-  
 
   @spec attended_chats(integer) :: [Chat.t()] | []
   def attended_chats(user_id) do
