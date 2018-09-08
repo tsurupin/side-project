@@ -1,29 +1,26 @@
 import { StyleSheet } from "react-native";
+import { MainTextColor, SubTextColor } from "../../../../constants/colors";
 
 const styles = StyleSheet.create({
   container: {
     flexDirection: "column",
     justifyContent: 'center',
     alignItems: 'center',
-    paddingTop: 20,
     paddingBottom: 20,
     width: "100%",
-    borderBottomWidth: 1,
-    borderBottomColor: "grey"
-  
   },
   avatar: {
 
   },
   mainText: {
     marginTop: 10,
-    color: "black",
+    color: MainTextColor,
     fontWeight: "bold",
-    fontSize: 16
+    fontSize: 20
   },
   subText: {
     marginTop: 5,
-    color: "grey",
+    color: SubTextColor,
     fontSize: 14
   }
 })

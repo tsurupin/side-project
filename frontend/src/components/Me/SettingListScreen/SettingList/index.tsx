@@ -34,6 +34,7 @@ const SettingList: React.SFC<Props> = (props) => {
             key={item.title}
             title={item.title}
             chevron
+            topDivider
             bottomDivider
             containerStyle={styles.itemContainer}
             titleStyle={styles.itemTitle}

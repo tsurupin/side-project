@@ -13,10 +13,7 @@ import {
   MatchQueueList,
   ChatList
 } from "../../../components/Match/MatchScreen";
-import {
-  Chat,
-  UserCore
-} from "../../../interfaces";
+import { Chat, UserCore } from "../../../interfaces";
 
 import styles from "./styles";
 import { LoadingIndicator, ErrorMessage } from "../../../components/Commons";
@@ -33,7 +30,7 @@ class MatchScreen extends React.Component<Props, State> {
   }
 
   protected handleChatPress = (id: string, name: string): void => {
-    console.log("chat", name)
+    console.log("chat", name);
     this.props.navigator.push({
       screen: CHAT_SCREEN,
       title: name,
@@ -41,9 +38,10 @@ class MatchScreen extends React.Component<Props, State> {
     });
   };
 
-  protected handleUserPress = (userId: number): void => {
+  protected handleUserPress = (userId: number, userDisplayName: string): void => {
     this.props.navigator.push({
       screen: USER_DETAILS_SCREEN,
+      title: userDisplayName,
       passProps: { id: userId, liked: true }
     });
   };
@@ -57,10 +55,10 @@ class MatchScreen extends React.Component<Props, State> {
               return <LoadingIndicator />;
             }
             if (error) {
-              console.log("matchList error", error)
+              console.log("matchList error", error);
               return <ErrorMessage {...error} />;
             }
-    
+
             const likedUserList: UserCore[] = data.matchList.likedUserList;
             const chatList: Chat[] = data.matchList.chatList;
 

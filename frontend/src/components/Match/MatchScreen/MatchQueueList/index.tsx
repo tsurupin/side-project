@@ -7,7 +7,7 @@ import { UserCore } from "../../../../interfaces";
 
 type Props = {
   likedUserList: UserCore[],
-  onPress: (number) => void,
+  onPress: (number, string) => void,
 }
 
 const MatchQueueList: React.SFC<Props> = props => {
@@ -23,7 +23,7 @@ const MatchQueueList: React.SFC<Props> = props => {
               avatarStyle={styles.avatar}
               rounded
               source={{uri: "https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg"}}
-              onPress={() =>  props.onPress(user.id)}
+              onPress={() =>  props.onPress(user.id, user.displayName)}
               activeOpacity={0.7}
             />
           )
