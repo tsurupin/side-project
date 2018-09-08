@@ -11,25 +11,24 @@ type Props = {
 };
 
 let onPress;
-const keyExtractor = (_item, index) => index
+const keyExtractor = (_item, index) => index;
 
 const renderProject = ({ item }) => {
   return (
-  <ListItem
-    title={item.title}
-    subtitle={item.genre? item.genre.name : ""}
-    leftAvatar={{ source: { uri: item.main_photo_url } }}
-    chevron
-    bottomDivider
-    onPress={() => onPress(item.id)}
-    containerStyle={styles.container}
-    titleStyle={styles.title}
-  />
+    <ListItem
+      title={item.title}
+      subtitle={item.genre ? item.genre.name : ""}
+      leftAvatar={{ source: { uri: item.main_photo_url } }}
+      chevron
+      bottomDivider
+      onPress={() => onPress(item.id)}
+      containerStyle={styles.container}
+      titleStyle={styles.title}
+    />
   );
-}
+};
 
-const ProjectList: React.SFC<Props> = props  => {
- 
+const ProjectList: React.SFC<Props> = (props) => {
   onPress = (id) => props.onPress(id);
   return (
     <FlatList
@@ -37,7 +36,7 @@ const ProjectList: React.SFC<Props> = props  => {
       data={props.projects}
       renderItem={renderProject}
     />
-  )
+  );
 };
 
 export default ProjectList;
