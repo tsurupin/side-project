@@ -1,20 +1,23 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet, Dimensions } from "react-native";
+import { BorderColor, LabelTextColor, WhiteColor } from "../../../../constants/colors";
 
 const styles = StyleSheet.create({
-  container: {},
-  sectionTitle: {
+  container: {
+    marginBottom: 30
+   
+  },
+  label: {
+    color: LabelTextColor,
     fontSize: 16,
-    backgroundColor: "grey",
-    color: "white",
-    width: "100%",
-    height: 40,
-    paddingTop: 12,
-    paddingLeft: 10
+    fontWeight: "bold",
+    marginLeft: 10,
+    marginBottom: 5
   },
   listContainer: {
-    paddingLeft: 10,
-    marginTop: 15,
-    marginBottom: 15
+    borderColor: BorderColor,
+    borderWidth: 1,
+    padding: 10,
+    backgroundColor: WhiteColor
   },
   
   avatar: {

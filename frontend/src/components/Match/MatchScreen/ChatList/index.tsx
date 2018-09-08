@@ -1,7 +1,6 @@
 import * as React from "react";
-import { View, FlatList } from "react-native";
+import { View, FlatList, Text } from "react-native";
 import { ListItem } from "react-native-elements";
-import { SectionHeader } from "../../../Commons";
 import { Chat } from "../../../../interfaces";
 import styles from "./styles";
 
@@ -21,6 +20,7 @@ const renderChat = ({ item }) => {
       leftAvatar={{ source: { uri: item.imageUrl } }}
       chevron
       bottomDivider
+      topDivider
       onPress={() => onPress(item.id, item.name)}
       containerStyle={styles.itemContainer}
       titleStyle={styles.itemTitle}
@@ -33,7 +33,7 @@ const ChatList: React.SFC<Props> = (props) => {
   onPress = (id, name) => props.onPress(id, name);
   return (
     <View style={styles.container}>
-      <SectionHeader title="Chat List" />
+      <Text style={styles.label}>Chat List</Text>
       <FlatList
         keyExtractor={keyExtractor}
         data={props.chats}

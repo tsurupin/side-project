@@ -32,14 +32,6 @@ class MatchScreen extends React.Component<Props, State> {
     super(props);
   }
 
-  componentWillMount() {
-    console.log("MatchScreen componentWillMount");
-  }
-
-  componentDidMount() {
-    console.log("MatchScreen componentDidmount");
-  }
-
   protected handleChatPress = (id: string, name: string): void => {
     console.log("chat", name)
     this.props.navigator.push({
@@ -58,7 +50,7 @@ class MatchScreen extends React.Component<Props, State> {
 
   render() {
     return (
-      <View>
+      <View style={styles.container}>
         <MatchListQuery>
           {({ data, error, loading }) => {
             if (loading) {

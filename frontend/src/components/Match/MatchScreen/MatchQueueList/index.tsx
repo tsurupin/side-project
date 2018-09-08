@@ -1,7 +1,6 @@
 import * as React from "react";
-import { View, ScrollView } from 'react-native';
+import { View, ScrollView, Text } from 'react-native';
 import { Avatar } from 'react-native-elements'
-import { SectionHeader } from "../../../Commons";
 import styles from "./styles";
 
 import { UserCore } from "../../../../interfaces";
@@ -14,7 +13,7 @@ type Props = {
 const MatchQueueList: React.SFC<Props> = props => {
   return (
     <View style={styles.container}>
-      <SectionHeader title="Match" />
+      <Text style={styles.label}>Match</Text>
       <ScrollView horizontal style={styles.listContainer}>
         {props.likedUserList.map(user => {
           return(
