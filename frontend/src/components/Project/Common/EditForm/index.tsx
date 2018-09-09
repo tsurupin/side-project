@@ -19,7 +19,8 @@ import { CLOSE_BUTTON, SUBMIT_BUTTON } from "../../../../constants/buttons";
 import {
   SKILL_SEARCH_MODAL_SCREEN,
   CITY_SEARCH_MODAL_SCREEN,
-  SELECT_BOX_PICKER_SCREEN
+  SELECT_BOX_PICKER_SCREEN,
+  TEXT_INPUT_SCREEN
 } from "../../../../constants/screens";
 import {
   PLUS_ICON,
@@ -173,6 +174,32 @@ class EditForm extends React.Component<Props, State> {
     });
   };
 
+  private handleTextInputModal = (keyName: string, value: string | undefined) => {
+    this.props.navigator.showModal({
+      screen: TEXT_INPUT_SCREEN,
+      title: keyName.toUpperCase(),
+      animationType: "slide-up",
+      passProps: { keyName, value, onPress: this.handleValueChange },
+      navigatorButtons: {
+        leftButtons: [
+          {
+            icon: IconLoader.getIcon(CLOSE_ICON),
+            title: "Close",
+            id: CLOSE_BUTTON
+          }
+        ]
+      }
+    });
+
+  }
+
+  private handleValueChange = (keyName: string, value: string | undefined) => {
+    let changedAttr = {};  
+    changedAttr[keyName] = value
+    console.log("updated key", changedAttr)
+    this.setState(changedAttr);
+  };
+
   private handleGenreChange = (key: string, value: string | number) => {
     let changedAttr = {};
     const genre = this.props.genres.find((genre) => genre.id == value);
@@ -295,13 +322,13 @@ class EditForm extends React.Component<Props, State> {
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.container}
       >
-        <InnerTextInput
-          label="title"
-          placeholder="Enter Title"
-          value={title}
-          onChange={(key: string, value: string) => {
-            this.setState({ title: value });
-          }}
+        <ListItem
+          key="title"
+          title="Title"
+          rightTitle={title}
+          chevron
+          bottomDivider
+          onPress={() => this.handleTextInputModal("title", title)}
         />
         <InnerSelectInput
           placeholder="Select Genre"

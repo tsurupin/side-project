@@ -13,30 +13,37 @@ const styles = StyleSheet.create({
   },
   inputContainer: {
     width: "100%",
-    marginBottom: 15
+    marginBottom: 15,
   },
   inputTextContainer: {
-    borderColor: BorderColor
+    borderColor: BorderColor,
+    backgroundColor: WhiteColor,
+    padding: 10
   },
   inputText: {
     color: MainTextColor,
     fontSize: 16
   },
-  buttonTitle: {
-    color: WhiteColor,
-    fontSize: 16,
-    fontWeight: "bold"
+  buttonContainer: {
+    flexDirection: "column",
+    alignItems: 'center',
+    justifyContent:'center'
   },
-
   button: {
     borderColor: "transparent",
     borderWidth: 0,
     borderRadius: 5,
     height: 48,
-    width: 300,
+    width: 200,
     backgroundColor: ActiveMainColor,
-    justifyContent: "space-between"
-  }
+  },
+  buttonTitle: {
+    color: WhiteColor,
+    fontSize: 16,
+    fontWeight: "bold",
+    textAlign: "center"
+  },
+
 })
 
 export default styles;

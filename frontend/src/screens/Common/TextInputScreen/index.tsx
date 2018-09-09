@@ -6,13 +6,14 @@ import { CLOSE_BUTTON } from "../../../constants/buttons";
 import styles from "./styles";
 
 type Props = {
-  text: string | undefined;
-  onPress: (string) => void;
+  keyName: string;
+  value: string | undefined;
+  onPress: (keyName: string, value: string | undefined) => void;
   navigator: any;
 };
 
 type State = {
-  text: string | undefined;
+  value: string | undefined;
   height: number;
 };
 
@@ -21,9 +22,10 @@ class TextInputScreen extends React.Component<Props, State> {
   constructor(props) {
     super(props);
     this.state = {
-      text: props.text,
+      value: props.value,
       height: 0
     };
+    console.log(props);
 
     this.props.navigator.setOnNavigatorEvent(this.handleNavigatorEvent);
   }
@@ -39,13 +41,17 @@ class TextInputScreen extends React.Component<Props, State> {
   };
 
   private onPress = () => {
-    const { onPress } = this.props;
-    const { text } = this.state;
-    onPress(text);
+    const { keyName, onPress } = this.props;
+    const { value } = this.state;
+    onPress(keyName, value);
+    console.log(keyName, value)
+    this.props.navigator.dismissModal();
+
   };
 
   render() {
-    const { text, height } = this.state;
+    const { value, height } = this.state;
+    console.log(`value:${value}, height: ${height}`);
     return (
       <View style={styles.container}>
         <Input
@@ -53,13 +59,13 @@ class TextInputScreen extends React.Component<Props, State> {
           containerStyle={styles.inputContainer}
           inputContainerStyle={[
             styles.inputTextContainer,
-            { height: Math.max(DEFAULT_HEIGHT, height) }
+            { height: Math.max(DEFAULT_HEIGHT, height) + 20, borderBottomWidth: 0 }
           ]}
-          inputStyle={styles.inputText}
-          value={text}
-          onChangeText={(text) => {
-            console.log("text change", text);
-            this.setState({ text });
+          inputStyle={[styles.inputText,  { height: Math.max(DEFAULT_HEIGHT, height) }]}
+          value={value}
+          onChangeText={(value) => {
+            
+            this.setState({ value });
           }}
           onContentSizeChange={(event) => {
             this.setState({ height: event.nativeEvent.contentSize.height });
@@ -67,6 +73,7 @@ class TextInputScreen extends React.Component<Props, State> {
         />
         <Button
           title="Change"
+          containerStyle={styles.buttonContainer}
           titleStyle={styles.buttonTitle}
           buttonStyle={styles.button}
           onPress={this.onPress}
