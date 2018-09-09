@@ -1,7 +1,7 @@
 import * as React from "react";
 import {
   SKILL_SEARCH_MODAL_SCREEN,
-  PICKER_SCREEN
+  SELECT_BOX_PICKER_SCREEN
 } from "../../../../constants/screens";
 
 import { View, FlatList, Alert } from "react-native";
@@ -168,7 +168,7 @@ class SearchForm extends React.Component<Props, State> {
     selectedValue: string | number | undefined
   ) => {
     this.props.navigator.showModal({
-      screen: PICKER_SCREEN,
+      screen: SELECT_BOX_PICKER_SCREEN,
       passProps: {
         items,
         keyName,

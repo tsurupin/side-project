@@ -4,7 +4,7 @@ import { View, Text } from "react-native";
 import { USER_SEARCH_MODAL_SCREEN } from "../../../constants/screens";
 import {
   SkillList
-} from "../../../components/Discovery/SkillSearchModalScreen";
+} from "../../../components/Common/SkillSearchModalScreen";
 import { CLOSE_BUTTON, BACK_BUTTON } from "../../../constants/buttons";
 import { SkillsQuery } from "../../../queries/skills";
 import { LoadingIndicator, ErrorMessage, SearchInput } from "../../../components/Common";

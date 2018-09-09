@@ -19,8 +19,9 @@ import {
   PROJECT_LIST_SCREEN,
   PROJECT_NEW_SCREEN,
   SETTING_LIST_SCREEN,
-  PICKER_SCREEN,
+  SELECT_BOX_PICKER_SCREEN,
   TEXT_INPUT_SCREEN,
+  PHOTOS_EDIT_SCREEN
 } from "./constants/screens";
 import AuthScreen from "./screens/Auth";
 import TopScreen from "./screens/Top";
@@ -50,9 +51,10 @@ import {
 
 import {
   TextInputScreen,
-  PickerScreen,
+  SelectBoxPickerScreen,
   SkillSearchModalScreen,
   CitySearchModalScreen,
+  PhotosEditScreen
 } from "./screens/Common";
 
 import {
@@ -123,23 +125,21 @@ const registerComponents = () => {
     ApolloWrapper(SettingListScreen)
   );
 
-  Navigation.registerComponent(PICKER_SCREEN, () =>
-    ApolloWrapper(PickerScreen)
+  Navigation.registerComponent(SELECT_BOX_PICKER_SCREEN, () =>
+    ApolloWrapper(SelectBoxPickerScreen)
   );
   Navigation.registerComponent(TEXT_INPUT_SCREEN, () =>
-  ApolloWrapper(TextInputScreen)
-);
+    ApolloWrapper(TextInputScreen)
+  );
 
+  Navigation.registerComponent(PHOTOS_EDIT_SCREEN, () =>
+    ApolloWrapper(PhotosEditScreen)
+  );
 };
 
 registerComponents();
 
-const navIcons = [
-  CLOSE_ICON, 
-  FILTER_ICON, 
-  FILTER_OUTLINE_ICON,
-  BACK_ICON
-];
+const navIcons = [CLOSE_ICON, FILTER_ICON, FILTER_OUTLINE_ICON, BACK_ICON];
 const tabIcons = [
   LIBRARY_BOOKS_ICON,
   PENCIL_ICON,

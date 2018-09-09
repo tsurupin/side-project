@@ -1,7 +1,7 @@
 import * as React from "react";
 import { View, Text, Button } from "react-native";
 
-import { CityList } from "../../../components/Discovery/CitySearchModalScreen";
+import { CityList } from "../../../components/Common/CitySearchModalScreen";
 import { CLOSE_BUTTON } from "../../../constants/buttons";
 import { CityListQuery } from "../../../queries/cities";
 import {

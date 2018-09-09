@@ -6,8 +6,6 @@ const USER_DETAILS_SCREEN = `${APP_NAME}.UserDetailsScreen`;
 const USER_SEARCH_MODAL_SCREEN = `${APP_NAME}.UserSearchModalScreen`;
 const PROJECT_SEARCH_MODAL_SCREEN = `${APP_NAME}.ProjectSearchModalScreen`;
 const AUTH_SCREEN = `${APP_NAME}.AuthScreen`;
-const SKILL_SEARCH_MODAL_SCREEN = `${APP_NAME}.SkillSearchModalScreen`;
-const CITY_SEARCH_MODAL_SCREEN = `${APP_NAME}.CitySearchModalScreen`;
 const MATCH_SCREEN = `${APP_NAME}.MatchScreen`;
 const CHAT_SCREEN = `${APP_NAME}.ChatScreen`;
 
@@ -24,9 +22,11 @@ const PROJECT_DISCOVERY_SCREEN = `${APP_NAME}.ProjectDiscoveryScreen`;
 
 const SETTING_LIST_SCREEN = `${APP_NAME}.SettingListScreen`;
 
-const PICKER_SCREEN = `${APP_NAME}.PickerScreen`;
+const SKILL_SEARCH_MODAL_SCREEN = `${APP_NAME}.SkillSearchModalScreen`;
+const CITY_SEARCH_MODAL_SCREEN = `${APP_NAME}.CitySearchModalScreen`;
+const SELECT_BOX_PICKER_SCREEN = `${APP_NAME}.SelectBoxPickerScreen`;
 const TEXT_INPUT_SCREEN = `${APP_NAME}.TextInputScreen`;
-
+const PHOTOS_EDIT_SCREEN = `${APP_NAME}.PhotosEditScreen`; 
 
 export {
   USER_DISCOVERY_SCREEN,
@@ -51,6 +51,7 @@ export {
   PROJECT_DISCOVERY_SCREEN,
   SETTING_LIST_SCREEN,
 
-  PICKER_SCREEN,
-  TEXT_INPUT_SCREEN
+  SELECT_BOX_PICKER_SCREEN,
+  TEXT_INPUT_SCREEN,
+  PHOTOS_EDIT_SCREEN
 };
