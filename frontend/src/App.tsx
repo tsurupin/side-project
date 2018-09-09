@@ -31,8 +31,6 @@ import {
   DiscoveryScreen,
   UserSearchModalScreen,
   ProjectSearchModalScreen,
-  SkillSearchModalScreen,
-  CitySearchModalScreen,
   UserDetailsScreen,
   ProjectDetailsScreen
 } from "./screens/Discovery";
@@ -52,8 +50,9 @@ import {
 
 import {
   TextInputScreen,
-  PickertScreen,
-  PickerScreen
+  PickerScreen,
+  SkillSearchModalScreen,
+  CitySearchModalScreen,
 } from "./screens/Common";
 
 import {

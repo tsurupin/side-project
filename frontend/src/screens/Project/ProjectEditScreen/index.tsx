@@ -4,7 +4,7 @@ import {
   ErrorMessage,
   PhotosEditForm,
   LoadingIndicator
-} from "../../../components/Commons";
+} from "../../../components/Common";
 import { EditForm } from "../../../components/Project/Common";
 import {
   ProjectFormQuery,

@@ -15,7 +15,7 @@ import {
   InnerTextInput,
   InnerDetailsInput,
   InnerSelectInput
-} from "../../../Commons";
+} from "../../../Common";
 import { CLOSE_BUTTON, SUBMIT_BUTTON } from "../../../../constants/buttons";
 import {
   SKILL_SEARCH_MODAL_SCREEN,

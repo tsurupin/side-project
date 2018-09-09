@@ -19,35 +19,34 @@ class AuthScreen extends React.Component<Props, State> {
   }
 
   private handleFbLogin = (signUpMutation: any): void => {
-  
-    
     LoginManager.logInWithReadPermissions(FB_READ_PERMISSIONS)
-      .then(result => {
+      .then((result) => {
         if (result.isCancelled) {
           return console.log("Login is cancelled");
         }
 
         AccessToken.getCurrentAccessToken()
-          .then(accessTokenData => {
+          .then((accessTokenData) => {
             console.log("accessData", accessTokenData);
-            if (!accessTokenData) { throw "No accessToken" }
+            if (!accessTokenData) {
+              throw "No accessToken";
+            }
             signUpMutation({
               variables: { providerId: FACEBOOK, uid: accessTokenData.userID }
             });
           })
-          .catch(error => console.log("getcurrentaccesserror", error));
+          .catch((error) => console.log("getcurrentaccesserror", error));
       })
-      .catch(error => console.log("loginError", error));
+      .catch((error) => console.log("loginError", error));
   };
 
   loginFirebase = async (token: string, loginMutation: any): Promise<void> => {
     try {
- 
       await firebaseSignIn(token);
 
-      console.log('hoggg')
+      console.log("hoggg");
       loginMutation({ variables: { logined: true } });
-      console.log("firebaseSignIn end")
+      console.log("firebaseSignIn end");
     } catch (e) {
       console.log("error", e);
     }
@@ -63,7 +62,7 @@ class AuthScreen extends React.Component<Props, State> {
         {({ data }) => {
           if (data && data.logined) {
             this.openMainTab();
-            return <View />
+            return <View />;
           }
 
           return (
@@ -77,7 +76,6 @@ class AuthScreen extends React.Component<Props, State> {
                   signUpData,
                   loginData
                 }) => {
-                  
                   if (loading) {
                     return <View>Loading</View>;
                   }
@@ -86,9 +84,9 @@ class AuthScreen extends React.Component<Props, State> {
                   }
 
                   if (signUpData && signUpData.signUp) {
-                    console.log("loginFirebase")
+                    console.log("loginFirebase");
                     this.loginFirebase(signUpData.signUp.token, loginMutation);
-                    return <View />
+                    return <View />;
                   }
 
                   return (
