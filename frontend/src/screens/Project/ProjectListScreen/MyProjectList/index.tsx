@@ -3,7 +3,7 @@ import { View } from "react-native";
 import { MyProjectListQuery } from "../../../../queries/projects";
 import { ProjectCore } from "../../../../interfaces";
 import { ProjectList } from "../../../../components/Project/MyProjectListScreen";
-import { LoadingIndicator, ErrorMessage } from "../../../../components/Commons";
+import { LoadingIndicator, ErrorMessage } from "../../../../components/Common";
 
 type Props = {
   onPress: (string) => void;

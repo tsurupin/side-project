@@ -1,5 +1,5 @@
 import * as React from "react";
-import { ErrorMessage, LoadingIndicator } from "../../../components/Commons";
+import { ErrorMessage, LoadingIndicator } from "../../../components/Common";
 import { View, Button } from "react-native";
 import { ListItem } from "react-native-elements";
 import {

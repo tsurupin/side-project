@@ -12,7 +12,7 @@ import { MessageParams } from "../../../interfaces";
 
 import { MessageList, MessageForm } from "../../../components/Match/ChatScreen";
 import styles from "./styles";
-import { LoadingIndicator, ErrorMessage } from "../../../components/Commons";
+import { LoadingIndicator, ErrorMessage } from "../../../components/Common";
 
 type Props = {
   id: string;

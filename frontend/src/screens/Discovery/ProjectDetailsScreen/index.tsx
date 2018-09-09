@@ -10,7 +10,7 @@ import {
 } from "../../../constants/screens";
 import { ProjectDetailsBox } from "../../../components/Discovery/ProjectDetailsScreen";
 import { ProjectDetails } from "../../../interfaces";
-import { LoadingIndicator, ErrorMessage } from "../../../components/Commons";
+import { LoadingIndicator, ErrorMessage } from "../../../components/Common";
 
 type Props = {
   id: string;

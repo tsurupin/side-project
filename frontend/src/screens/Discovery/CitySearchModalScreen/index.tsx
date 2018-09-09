@@ -8,7 +8,7 @@ import {
   SearchInput,
   ErrorMessage,
   LoadingIndicator
-} from "../../../components/Commons";
+} from "../../../components/Common";
 import { FindOrCreateCityMutation } from "../../../mutations/cities";
 import { City, CityEditParams } from "../../../interfaces";
 import { fetchAddress } from "../../../utilities/geocoder";

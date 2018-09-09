@@ -15,7 +15,7 @@ import {
   USER_DETAILS_SCREEN
 } from "../../../constants/screens";
 import { WithdrawProjectLikeMutation } from "../../../mutations/projectLikes";
-import { LoadingIndicator, ErrorMessage } from "../../../components/Commons";
+import { LoadingIndicator, ErrorMessage } from "../../../components/Common";
 
 type Props = {
   id: string;

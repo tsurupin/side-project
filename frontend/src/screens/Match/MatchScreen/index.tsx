@@ -16,7 +16,7 @@ import {
 import { Chat, UserCore } from "../../../interfaces";
 
 import styles from "./styles";
-import { LoadingIndicator, ErrorMessage } from "../../../components/Commons";
+import { LoadingIndicator, ErrorMessage } from "../../../components/Common";
 
 type Props = {
   navigator: any;

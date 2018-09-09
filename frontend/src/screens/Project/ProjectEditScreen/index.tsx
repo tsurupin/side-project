@@ -5,7 +5,7 @@ import {
   PhotosEditForm,
   LoadingIndicator
 } from "../../../components/Commons";
-import { EditForm } from "../../../components/Project/Commons";
+import { EditForm } from "../../../components/Project/Common";
 import {
   ProjectFormQuery,
   ProjectDetailsQuery

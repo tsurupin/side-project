@@ -4,8 +4,8 @@ import {
   ErrorMessage,
   LoadingIndicator,
   PhotosEditForm
-} from "../../../components/Commons";
-import { EditForm } from "../../../components/Me/Commons";
+} from "../../../components/Common";
+import { EditForm } from "../../../components/Me/Common";
 import { MyUserQuery, UserFormQuery } from "../../../queries/users";
 import { EditUserMutation } from "../../../mutations/users";
 

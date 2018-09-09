@@ -6,7 +6,7 @@ import {
 
 import { View, FlatList, Alert } from "react-native";
 import { ListItem, Icon } from "react-native-elements";
-import { SelectBox } from "../../../../components/Commons";
+import { SelectBox } from "../../../../components/Common";
 import { APPLY_BUTTON, CLOSE_BUTTON } from "../../../../constants/buttons";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import {

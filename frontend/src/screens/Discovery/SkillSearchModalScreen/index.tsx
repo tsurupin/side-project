@@ -7,7 +7,7 @@ import {
 } from "../../../components/Discovery/SkillSearchModalScreen";
 import { CLOSE_BUTTON, BACK_BUTTON } from "../../../constants/buttons";
 import { SkillsQuery } from "../../../queries/skills";
-import { LoadingIndicator, ErrorMessage, SearchInput } from "../../../components/Commons";
+import { LoadingIndicator, ErrorMessage, SearchInput } from "../../../components/Common";
 import { Skill } from "../../../interfaces";
 
 

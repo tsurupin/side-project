@@ -1,6 +1,6 @@
 import * as React from "react";
 import { View, TouchableOpacity, Text, Button } from "react-native";
-import { ErrorMessage, LoadingIndicator } from "../../../components/Commons";
+import { ErrorMessage, LoadingIndicator } from "../../../components/Common";
 import { UserDetailsBox } from "../../../components/Discovery/UserDetailsScreen";
 import { USER_DISCOVERY_SCREEN, CHAT_SCREEN } from "../../../constants/screens";
 import { BACK_BUTTON } from "../../../constants/buttons";

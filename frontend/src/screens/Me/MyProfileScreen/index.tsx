@@ -1,5 +1,5 @@
 import * as React from "react";
-import { ErrorMessage, LoadingIndicator } from "../../../components/Commons";
+import { ErrorMessage, LoadingIndicator } from "../../../components/Common";
 import { UserDetailsBox } from "../../../components/Discovery/UserDetailsScreen";
 import { USER_EDIT_SCREEN } from "../../../constants/screens";
 import { MyUserQuery } from "../../../queries/users";

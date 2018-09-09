@@ -35,7 +35,7 @@ import {
   ErrorMessage,
   LoadingIndicator,
   CustomizedSegmentedControlTab
-} from "../../../components/Commons";
+} from "../../../components/Common";
 import styles from "./styles";
 import IconLoader from "../../../utilities/iconLoader";
 
