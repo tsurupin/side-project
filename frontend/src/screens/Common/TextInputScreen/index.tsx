@@ -1,8 +1,9 @@
 import * as React from "react";
 
 import { View } from "react-native";
-import { Input, Button } from "react-native-elements";
+import { Input, Button, Icon } from "react-native-elements";
 import { CLOSE_BUTTON } from "../../../constants/buttons";
+import { ICON_MAIN_TYPE, CLOSE_CIRCLE_ICON } from "../../../constants/icons";
 import styles from "./styles";
 
 type Props = {
@@ -63,8 +64,16 @@ class TextInputScreen extends React.Component<Props, State> {
           ]}
           inputStyle={[styles.inputText,  { height: Math.max(DEFAULT_HEIGHT, height) }]}
           value={value}
+          rightIcon={
+            <Icon
+              type={ICON_MAIN_TYPE}
+              name={CLOSE_CIRCLE_ICON}
+              size={24}
+              color="black"
+              onPress={() => this.setState({value: "", height: 0})}
+            />
+          }
           onChangeText={(value) => {
-            
             this.setState({ value });
           }}
           onContentSizeChange={(event) => {

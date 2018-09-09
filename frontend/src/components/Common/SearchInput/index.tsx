@@ -1,6 +1,7 @@
 import * as React from "react";
 import { View } from "react-native";
 import { Input, Icon } from "react-native-elements";
+import { ICON_MAIN_TYPE, CLOSE_CIRCLE_ICON, MAGNIFY_ICON } from "../../../constants/icons";
 import styles from "./styles";
 
 type Props = {
@@ -15,8 +16,8 @@ const SearchInput: React.SFC<Props> = (props) => {
         placeholder="Search"
         leftIcon={
           <Icon
-            type="material-community"
-            name="magnify"
+            type={ICON_MAIN_TYPE}
+            name={MAGNIFY_ICON}
             size={24}
             color="black"
           />
@@ -24,8 +25,8 @@ const SearchInput: React.SFC<Props> = (props) => {
         leftIconContainerStyle={styles.leftIconContainer}
         rightIcon={
           <Icon
-            type="material-community"
-            name="close-circle"
+            type={ICON_MAIN_TYPE}
+            name={CLOSE_CIRCLE_ICON}
             size={24}
             color="black"
             onPress={() => props.onChangeText("")}

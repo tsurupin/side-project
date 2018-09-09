@@ -22,7 +22,8 @@ const styles = StyleSheet.create({
   },
   inputText: {
     color: MainTextColor,
-    fontSize: 16
+    fontSize: 16,
+    paddingRight: 5
   },
   buttonContainer: {
     flexDirection: "column",
