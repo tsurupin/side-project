@@ -10,11 +10,7 @@ import {
 import { Input, ListItem, Icon } from "react-native-elements";
 import { CLOSE_ICON } from "../../../../constants/icons";
 import IconLoader from "../../../../utilities/iconLoader";
-import {
-  InnerTextInput,
-  InnerDetailsInput,
-  InnerSelectInput
-} from "../../../Common";
+import { InnerSelectInput, SelectBox, TextAreaListItem } from "../../../Common";
 import { CLOSE_BUTTON, SUBMIT_BUTTON } from "../../../../constants/buttons";
 import {
   SKILL_SEARCH_MODAL_SCREEN,
@@ -27,7 +23,6 @@ import {
   MINUS_CIRCLE_ICON,
   ICON_MAIN_TYPE
 } from "../../../../constants/icons";
-
 
 import styles from "./styles";
 
@@ -45,7 +40,7 @@ type State = {
   leadSentence: string | undefined;
   motivation: string | undefined;
   requirement: string | undefined;
-  genre: Genre | undefined;
+  genreId: string | undefined;
   city: City | undefined;
   skills: Skill[];
 };
@@ -58,7 +53,7 @@ class EditForm extends React.Component<Props, State> {
       leadSentence: undefined,
       motivation: undefined,
       requirement: undefined,
-      genre: [],
+      genreId: undefined,
       city: undefined,
       skills: []
     }
@@ -73,7 +68,7 @@ class EditForm extends React.Component<Props, State> {
       leadSentence: project.leadSentence,
       motivation: project.motivation,
       requirement: project.requirement,
-      genre: project.genre,
+      genreId: project.genre ? project.genre.id : undefined,
       city: project.city,
       skills: project.skills
     };
@@ -84,8 +79,14 @@ class EditForm extends React.Component<Props, State> {
   private buildProjectEditParams = (): ProjectEditParams => {
     const { project } = this.props;
     let params = {};
-    const stringKeys = ["title", "leadSentence", "motivation", "requirement"];
-    const objectKeys = ["city", "genre"];
+    const stringKeys = [
+      "title",
+      "leadSentence",
+      "motivation",
+      "requirement",
+      "genreId"
+    ];
+    const objectKeys = ["city"];
     const arrayObjectKeys = ["skills"];
 
     stringKeys.forEach((key) => {
@@ -151,16 +152,41 @@ class EditForm extends React.Component<Props, State> {
     }
   };
 
-  private handleGenreShowModal = () => {
-    const { genres } = this.props;
-    const { genre } = this.state;
+  // private handleGenreShowModal = () => {
+  //   const { genres } = this.props;
+  //   const { genre } = this.state;
+  //   this.props.navigator.showModal({
+  //     screen: SELECT_BOX_PICKER_SCREEN,
+  //     passProps: {
+  //       items: genres,
+  //       keyName: "genre",
+  //       selectedValue: genre ? genre.id : undefined,
+  //       onPress: this.handleGenreChange
+  //     },
+  //     navigatorButtons: {
+  //       leftButtons: [
+  //         {
+  //           icon: IconLoader.getIcon(CLOSE_ICON),
+  //           title: "CLOSE",
+  //           id: CLOSE_BUTTON
+  //         }
+  //       ]
+  //     }
+  //   });
+  // };
+
+  private handlePressShowModal = (
+    items: any[],
+    keyName: string,
+    selectedValue: string | number | undefined
+  ) => {
     this.props.navigator.showModal({
       screen: SELECT_BOX_PICKER_SCREEN,
       passProps: {
-        items: genres,
-        keyName: "genre",
-        selectedValue: genre ? genre.id : undefined,
-        onPress: this.handleGenreChange
+        items,
+        keyName,
+        selectedValue,
+        onPress: this.handleChangeValue
       },
       navigatorButtons: {
         leftButtons: [
@@ -174,12 +200,21 @@ class EditForm extends React.Component<Props, State> {
     });
   };
 
-  private handleTextInputModal = (keyName: string, value: string | undefined) => {
+  private handleTextInputModal = (
+    keyName: string,
+    value: string | undefined,
+    placeholder: string
+  ) => {
     this.props.navigator.showModal({
       screen: TEXT_INPUT_SCREEN,
       title: keyName.toUpperCase(),
       animationType: "slide-up",
-      passProps: { keyName, value, onPress: this.handleValueChange },
+      passProps: {
+        keyName,
+        value,
+        placeholder,
+        onPress: this.handleChangeValue
+      },
       navigatorButtons: {
         leftButtons: [
           {
@@ -190,23 +225,25 @@ class EditForm extends React.Component<Props, State> {
         ]
       }
     });
-
-  }
-
-  private handleValueChange = (keyName: string, value: string | undefined) => {
-    let changedAttr = {};  
-    changedAttr[keyName] = value
-    console.log("updated key", changedAttr)
-    this.setState(changedAttr);
   };
 
-  private handleGenreChange = (key: string, value: string | number) => {
+  private handleChangeValue = (
+    keyName: string,
+    value: string | number | undefined
+  ) => {
     let changedAttr = {};
-    const genre = this.props.genres.find((genre) => genre.id == value);
-    changedAttr[key] = genre;
-
+    changedAttr[keyName] = value;
+    console.log("updated key", changedAttr);
     this.setState(changedAttr);
   };
+
+  // private handleGenreChange = (key: string, value: string | number) => {
+  //   let changedAttr = {};
+  //   const genre = this.props.genres.find((genre) => genre.id == value);
+  //   changedAttr[key] = genre;
+
+  //   this.setState(changedAttr);
+  // };
 
   private handleSkillSearchShowModal = () => {
     this.props.navigator.showModal({
@@ -285,12 +322,7 @@ class EditForm extends React.Component<Props, State> {
 
   private renderSkillAddIcon = () => {
     return (
-      <Icon
-        type={ICON_MAIN_TYPE}
-        name={PLUS_ICON}
-        size={24}
-        color="black"
-      />
+      <Icon type={ICON_MAIN_TYPE} name={PLUS_ICON} size={24} color="black" />
     );
   };
 
@@ -307,10 +339,11 @@ class EditForm extends React.Component<Props, State> {
   };
 
   render() {
+    const { genres } = this.props;
     const {
       title,
       leadSentence,
-      genre,
+      genreId,
       motivation,
       requirement,
       city
@@ -324,55 +357,70 @@ class EditForm extends React.Component<Props, State> {
       >
         <ListItem
           key="title"
+          containerStyle={styles.itemContainer}
           title="Title"
+          titleStyle={styles.itemTitle}
           rightTitle={title}
+          rightTitleStyle={styles.rightTitle}
+          chevron
+          topDivider
+          bottomDivider
+          onPress={() =>
+            this.handleTextInputModal("title", title, "Enter title")
+          }
+        />
+        <SelectBox
+          keyName="genreId"
+          placeholder="Genre"
+          label="Genre"
+          value={genreId}
+          items={genres}
+          onPress={this.handlePressShowModal}
+        />
+
+        <ListItem
+          key="city"
+          containerStyle={styles.itemContainer}
+          title="City"
+          titleStyle={styles.itemTitle}
+          rightTitle={city ? city.fullName : ""}
+          rightTitleStyle={styles.rightTitle}
           chevron
           bottomDivider
-          onPress={() => this.handleTextInputModal("title", title)}
-        />
-        <InnerSelectInput
-          placeholder="Select Genre"
-          value={genre ? genre.name : undefined}
-          label="Genre"
-          onPress={() => this.handleGenreShowModal()}
-        />
-        <InnerSelectInput
-          placeholder="Select City"
-          value={city ? city.fullName : ""}
-          label="City"
-          style={{ marginBottom: 0 }}
           onPress={() => this.handleCitySearchShowModal()}
         />
 
-        <InnerDetailsInput
+        <TextAreaListItem
           label="Lead Sentence"
+          keyName="leadSentence"
           placeholder="Enter Lead Sentence"
           value={leadSentence}
-          onChange={(key: string, value: string) => {
-            this.setState({ leadSentence: value });
-          }}
+          onPress={this.handleTextInputModal}
         />
 
-        <InnerDetailsInput
+        <TextAreaListItem
           label="Motivation"
+          keyName="motivation"
           placeholder="Enter Motivation"
           value={motivation}
-          onChange={(key: string, value: string) => {
-            this.setState({ motivation: value });
-          }}
+          onPress={this.handleTextInputModal}
         />
-        <InnerDetailsInput
+
+        <TextAreaListItem
           label="Requirement"
+          keyName="requirement"
           placeholder="Enter Requirement"
           value={requirement}
-          onChange={(key: string, value: string) => {
-            this.setState({ requirement: value });
-          }}
+          onPress={this.handleTextInputModal}
         />
+
         <ListItem
           key="skills"
+          containerStyle={styles.itemContainer}
           title="Skills"
+          titleStyle={styles.itemTitle}
           chevron={false}
+          topDivider
           bottomDivider
           rightIcon={this.renderSkillAddIcon()}
           onPress={() => this.handleSkillSearchShowModal()}

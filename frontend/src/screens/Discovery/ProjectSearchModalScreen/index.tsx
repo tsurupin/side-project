@@ -6,6 +6,7 @@ import { UpdateProjectSearchParamsMutation } from "../../../mutations/projects";
 import SearchForm from "./SearchForm";
 
 import styles from "./styles";
+import { ErrorMessage, LoadingIndicator } from "../../../components/Common";
 
 type ProjectSearchParams = {
   genreId: string | undefined;
@@ -37,25 +38,24 @@ class ProjectSearchFormScreen extends React.Component<Props> {
       <ProjectSearchFormQuery>
         {({ data, loading, error }) => {
           if (loading) {
-            console.log("loading");
-            return <View />;
+            return <LoadingIndicator />;
           }
 
           if (error) {
-            console.log(error);
-            return <View />;
+            return <ErrorMessage {...error} />;
           }
 
-          const { projectSearchForm: {genres}, projectSearchParams} = data;
-
+          const {
+            projectSearchForm: { genres },
+            projectSearchParams
+          } = data;
 
           console.log("current search", projectSearchParams);
           return (
             <UpdateProjectSearchParamsMutation>
               {({ updateProjectSearchParamsMutation, error }) => {
                 if (error) {
-                  console.log(error);
-                  return <View />;
+                  return <ErrorMessage {...error} />;
                 }
 
                 return (

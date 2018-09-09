@@ -21,7 +21,7 @@ import {
   CLOSE_ICON,
   MINUS_CIRCLE_ICON,
   PLUS_ICON,
-  MAIN_ICON_TYPE
+  ICON_MAIN_TYPE
 } from "../../../../constants/icons";
 import styles from "./styles";
 
@@ -174,7 +174,7 @@ class SearchForm extends React.Component<Props, State> {
   private renderSkillAddIcon = () => {
     return (
       <Icon 
-        type={MAIN_ICON_TYPE} 
+        type={ICON_MAIN_TYPE} 
         name={PLUS_ICON} 
         size={24} 
         color="black" 
@@ -185,7 +185,7 @@ class SearchForm extends React.Component<Props, State> {
   private renderSkillRemoveIcon = (skillId: string) => {
     return (
       <Icon
-        type={MAIN_ICON_TYPE}
+        type={ICON_MAIN_TYPE}
         name={MINUS_CIRCLE_ICON}
         size={24}
         color="black"
