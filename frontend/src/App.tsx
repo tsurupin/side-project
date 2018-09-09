@@ -19,7 +19,8 @@ import {
   PROJECT_LIST_SCREEN,
   PROJECT_NEW_SCREEN,
   SETTING_LIST_SCREEN,
-  PICKER_SCREEN
+  PICKER_SCREEN,
+  TEXT_INPUT_SCREEN,
 } from "./constants/screens";
 import AuthScreen from "./screens/Auth";
 import TopScreen from "./screens/Top";
@@ -33,8 +34,7 @@ import {
   SkillSearchModalScreen,
   CitySearchModalScreen,
   UserDetailsScreen,
-  ProjectDetailsScreen,
-  PickerScreen
+  ProjectDetailsScreen
 } from "./screens/Discovery";
 
 import {
@@ -49,6 +49,13 @@ import {
   ProjectEditScreen,
   ProjectNewScreen
 } from "./screens/Project";
+
+import {
+  TextInputScreen,
+  PickertScreen,
+  PickerScreen
+} from "./screens/Common";
+
 import {
   CLOSE_ICON,
   FILTER_ICON,
@@ -73,10 +80,6 @@ const registerComponents = () => {
   );
   Navigation.registerComponent(USER_SEARCH_MODAL_SCREEN, () =>
     ApolloWrapper(UserSearchModalScreen)
-  );
-
-  Navigation.registerComponent(PICKER_SCREEN, () =>
-    ApolloWrapper(PickerScreen)
   );
 
   Navigation.registerComponent(PROJECT_SEARCH_MODAL_SCREEN, () =>
@@ -120,6 +123,14 @@ const registerComponents = () => {
   Navigation.registerComponent(SETTING_LIST_SCREEN, () =>
     ApolloWrapper(SettingListScreen)
   );
+
+  Navigation.registerComponent(PICKER_SCREEN, () =>
+    ApolloWrapper(PickerScreen)
+  );
+  Navigation.registerComponent(TEXT_INPUT_SCREEN, () =>
+  ApolloWrapper(TextInputScreen)
+);
+
 };
 
 registerComponents();

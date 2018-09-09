@@ -2,7 +2,6 @@ const APP_NAME = "side-project";
 const TOP_SCREEN = `${APP_NAME}.TopScreen`;
 const USER_DISCOVERY_SCREEN = `${APP_NAME}.UserDisccoveryScreen`;
 const USER_DETAILS_SCREEN = `${APP_NAME}.UserDetailsScreen`;
-const PICKER_SCREEN = `${APP_NAME}.PickerScreen`;
 
 const USER_SEARCH_MODAL_SCREEN = `${APP_NAME}.UserSearchModalScreen`;
 const PROJECT_SEARCH_MODAL_SCREEN = `${APP_NAME}.ProjectSearchModalScreen`;
@@ -25,8 +24,11 @@ const PROJECT_DISCOVERY_SCREEN = `${APP_NAME}.ProjectDiscoveryScreen`;
 
 const SETTING_LIST_SCREEN = `${APP_NAME}.SettingListScreen`;
 
+const PICKER_SCREEN = `${APP_NAME}.PickerScreen`;
+const TEXT_INPUT_SCREEN = `${APP_NAME}.TextInputScreen`;
+
+
 export {
-  PICKER_SCREEN,
   USER_DISCOVERY_SCREEN,
   USER_SEARCH_MODAL_SCREEN,
   PROJECT_SEARCH_MODAL_SCREEN,
@@ -49,4 +51,6 @@ export {
   PROJECT_DISCOVERY_SCREEN,
   SETTING_LIST_SCREEN,
 
+  PICKER_SCREEN,
+  TEXT_INPUT_SCREEN
 };
