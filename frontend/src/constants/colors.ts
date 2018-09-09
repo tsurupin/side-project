@@ -17,6 +17,7 @@ const BorderColor = "#CACACE";
 const BackgroundColor = "#EFEFF4";
 const LabelTextColor = "#6F6E74";
 const SubTextColor = "#8F8F94";
+const ActiveMainColor = "#55B237";
 
 export {
   MainColor,
@@ -36,5 +37,6 @@ export {
   BorderColor,
   BackgroundColor,
   LabelTextColor,
-  SubTextColor
+  SubTextColor,
+  ActiveMainColor
 }

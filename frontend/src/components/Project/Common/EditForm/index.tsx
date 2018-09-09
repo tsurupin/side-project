@@ -7,10 +7,9 @@ import {
   Genre,
   ProjectDetails
 } from "../../../../interfaces";
-import { Input, ListItem } from "react-native-elements";
+import { Input, ListItem, Icon } from "react-native-elements";
 import { CLOSE_ICON } from "../../../../constants/icons";
 import IconLoader from "../../../../utilities/iconLoader";
-import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import {
   InnerTextInput,
   InnerDetailsInput,
@@ -20,8 +19,14 @@ import { CLOSE_BUTTON, SUBMIT_BUTTON } from "../../../../constants/buttons";
 import {
   SKILL_SEARCH_MODAL_SCREEN,
   CITY_SEARCH_MODAL_SCREEN,
-  PICKER_SCREEN
+  SELECT_BOX_PICKER_SCREEN
 } from "../../../../constants/screens";
+import {
+  PLUS_ICON,
+  MINUS_CIRCLE_ICON,
+  ICON_MAIN_TYPE
+} from "../../../../constants/icons";
+
 
 import styles from "./styles";
 
@@ -149,7 +154,7 @@ class EditForm extends React.Component<Props, State> {
     const { genres } = this.props;
     const { genre } = this.state;
     this.props.navigator.showModal({
-      screen: PICKER_SCREEN,
+      screen: SELECT_BOX_PICKER_SCREEN,
       passProps: {
         items: genres,
         keyName: "genre",
@@ -253,17 +258,22 @@ class EditForm extends React.Component<Props, State> {
 
   private renderSkillAddIcon = () => {
     return (
-      <MaterialCommunityIcons
-        name="plus"
-        onPress={() => this.handleSkillSearchShowModal()}
+      <Icon
+        type={ICON_MAIN_TYPE}
+        name={PLUS_ICON}
+        size={24}
+        color="black"
       />
     );
   };
 
   private renderSkillRemoveIcon = (skillId: string) => {
     return (
-      <MaterialCommunityIcons
-        name="minus-circle"
+      <Icon
+        type={ICON_MAIN_TYPE}
+        name={MINUS_CIRCLE_ICON}
+        size={24}
+        color="black"
         onPress={() => this.handleDeleteSkill(skillId)}
       />
     );
@@ -338,6 +348,7 @@ class EditForm extends React.Component<Props, State> {
           chevron={false}
           bottomDivider
           rightIcon={this.renderSkillAddIcon()}
+          onPress={() => this.handleSkillSearchShowModal()}
         />
         {this.renderSkillList()}
       </ScrollView>

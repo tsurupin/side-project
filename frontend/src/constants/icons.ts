@@ -13,6 +13,9 @@ const FORMAT_HORIZONTAL_ALIGN_RIGHT_ICON = "format-horizontal-align-right";
 const IMAGE_ICON = "image";
 const LOGOUT_ICON = "exit-to-app";
 const BACK_ICON = "chevron-left";
+const PLUS_ICON = "plus";
+const MINUS_CIRCLE_ICON = "minus-circle";
+const ICON_MAIN_TYPE = 'material-community';
 export {
 
   CHECK_ICON,
@@ -29,5 +32,9 @@ export {
   FORMAT_HORIZONTAL_ALIGN_RIGHT_ICON,
   IMAGE_ICON,
   LOGOUT_ICON,
-  BACK_ICON
+  BACK_ICON,
+  PLUS_ICON,
+  MINUS_CIRCLE_ICON,
+
+  ICON_MAIN_TYPE
 }

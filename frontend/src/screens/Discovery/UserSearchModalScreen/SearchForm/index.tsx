@@ -8,7 +8,7 @@ import { View, FlatList, Alert } from "react-native";
 import { ListItem, Icon } from "react-native-elements";
 import { SelectBox } from "../../../../components/Common";
 import { APPLY_BUTTON, CLOSE_BUTTON } from "../../../../constants/buttons";
-import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+
 import {
   Skill,
   Genre,
@@ -17,7 +17,12 @@ import {
   UserSearchParams
 } from "../../../../interfaces";
 import IconLoader from "../../../../utilities/iconLoader";
-import { CLOSE_ICON } from "../../../../constants/icons";
+import {
+  CLOSE_ICON,
+  PLUS_ICON,
+  MINUS_CIRCLE_ICON,
+  ICON_MAIN_TYPE
+} from "../../../../constants/icons";
 import styles from "./styles";
 
 type Props = {
@@ -206,15 +211,15 @@ class SearchForm extends React.Component<Props, State> {
 
   private renderSkillAddIcon = () => {
     return (
-      <Icon type="material-community" name="plus" size={24} color="black" />
+      <Icon type={ICON_MAIN_TYPE} name={PLUS_ICON} size={24} color="black" />
     );
   };
 
   private renderSkillRemoveIcon = (skillId: string) => {
     return (
       <Icon
-        type="material-community"
-        name="minus-circle"
+        type={ICON_MAIN_TYPE}
+        name={MINUS_CIRCLE_ICON}
         size={24}
         color="black"
         onPress={() => this.handleDeleteSkill(skillId)}
