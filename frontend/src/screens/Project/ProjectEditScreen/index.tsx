@@ -127,7 +127,7 @@ class ProjectEditScreen extends React.Component<Props> {
 
                 const project: ProjectDetails = data.project;
                 return (
-                  <View>
+                  <View style={styles.container}>
                     {this.renderPhotoListEditForm(project)}
                     {this.renderEditForm(project, defaultProps)}
                   </View>

@@ -1,7 +1,7 @@
 import * as React from "react";
 import { View } from "react-native";
 import { Button } from "react-native-elements";
-import { Photo } from "..";
+import Photo  from "../Photo";
 import { ProjectPhoto, UserPhoto } from "../../../interfaces";
 import styles from "./styles";
 
