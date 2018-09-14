@@ -15,7 +15,6 @@ type UserSearchParams = {
   skills: Skill[];
 };
 
-
 type Props = {
   navigator: any;
   onSubmit: (searchParams: UserSearchParams) => void;
@@ -49,9 +48,11 @@ class UserSearchFormScreen extends React.Component<Props> {
             return <View />;
           }
 
-          const {userSearchForm: { genres, occupationTypes }, userSearchParams} = data;
+          const {
+            userSearchForm: { genres, occupationTypes },
+            userSearchParams
+          } = data;
 
-        
           return (
             <UpdateUserSearchParamsMutation>
               {({ updateUserSearchParamsMutation, error }) => {
