@@ -1,3 +1,3 @@
-import EditForm from "./EditForm";
+import EditForm from "../Common/EditForm";
 
 export { EditForm };

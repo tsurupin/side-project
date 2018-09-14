@@ -10,10 +10,7 @@ import {
   ProjectFormQuery,
   ProjectDetailsQuery
 } from "../../../queries/projects";
-import {
-  ProjectDetails,
-  ProjectEditParams,
-} from "../../../interfaces";
+import { ProjectDetails, ProjectEditParams } from "../../../interfaces";
 
 import {
   EditProjectMutation,
@@ -35,19 +32,25 @@ class ProjectEditScreen extends React.Component<Props> {
   }
 
   private handlePress = (rank: number, mutation) => {
-    const {id} = this.props;
+    const { id } = this.props;
     ImagePickerHandler.uploadImage({
-      variables: {rank, projectId: id}, 
+      variables: { rank, projectId: id },
       onCallback: mutation,
       onError: (message: string) => Alert.alert(message)
     });
   };
 
-  private handlePressDeletion = (deleteProjectPhotoMutation, photoId: string) => {
+  private handlePressDeletion = (
+    deleteProjectPhotoMutation,
+    photoId: string
+  ) => {
     deleteProjectPhotoMutation({ variables: { photoId } });
   };
 
-  private handleSubmit = (variables: ProjectEditParams, editProjectMutation: any) => {
+  private handleSubmit = (
+    variables: ProjectEditParams,
+    editProjectMutation: any
+  ) => {
     editProjectMutation({ variables: { id: this.props.id, ...variables } });
   };
 

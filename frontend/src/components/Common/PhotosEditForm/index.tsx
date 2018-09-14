@@ -1,7 +1,7 @@
 import * as React from "react";
 import { View } from "react-native";
 import { Button } from "react-native-elements";
-import Photo  from "../Photo";
+import Photo from "../Photo";
 import { ProjectPhoto, UserPhoto } from "../../../interfaces";
 import styles from "./styles";
 
@@ -24,7 +24,7 @@ const renderItems = (items: any[]) => {
 
   let itemList: any[] = [];
   for (let i = 1; i <= maxChunkIndex; i++) {
-    let sectionItems =  items.slice((i- 1) * CHUNK_SIZE, i * CHUNK_SIZE);
+    let sectionItems = items.slice((i - 1) * CHUNK_SIZE, i * CHUNK_SIZE);
     itemList.push(photoListSection(i, sectionItems));
   }
   return itemList;
