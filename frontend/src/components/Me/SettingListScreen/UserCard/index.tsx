@@ -12,7 +12,7 @@ type Props = {
 const UserCard: React.SFC<Props> = (props) => {
   const { user, onPress } = props;
   return (
-    <TouchableOpacity onPress={onPress}>
+    <TouchableOpacity>
       <View style={styles.container}>
         <Avatar
           key={user.id}
@@ -23,7 +23,7 @@ const UserCard: React.SFC<Props> = (props) => {
             uri:
               "https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg"
           }}
-          onPress={() => props.onPress()}
+          onPress={onPress}
           activeOpacity={0.7}
         />
         <Text style={styles.mainText}>{user.displayName}</Text>

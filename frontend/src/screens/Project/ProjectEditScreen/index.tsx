@@ -1,10 +1,7 @@
 import * as React from "react";
-import { View, TouchableOpacity, Text, Button, Alert } from "react-native";
-import {
-  ErrorMessage,
-  PhotosEditForm,
-  LoadingIndicator
-} from "../../../components/Common";
+import { View } from "react-native";
+import { Avatar } from "react-native-elements";
+import { ErrorMessage, LoadingIndicator } from "../../../components/Common";
 import { EditForm } from "../../../components/Project/Common";
 import {
   ProjectFormQuery,
@@ -12,14 +9,10 @@ import {
 } from "../../../queries/projects";
 import { ProjectDetails, ProjectEditParams } from "../../../interfaces";
 
-import {
-  EditProjectMutation,
-  UploadProjectPhotoMutation,
-  DeleteProjectPhotoMutation
-} from "../../../mutations/projects";
+import { EditProjectMutation } from "../../../mutations/projects";
 
-import * as ImagePickerHandler from "../../../utilities/imagePickerHandler";
 import styles from "./styles";
+import { PHOTOS_EDIT_SCREEN } from "../../../constants/screens";
 
 type Props = {
   id: string;
@@ -31,22 +24,6 @@ class ProjectEditScreen extends React.Component<Props> {
     super(props);
   }
 
-  private handlePress = (rank: number, mutation) => {
-    const { id } = this.props;
-    ImagePickerHandler.uploadImage({
-      variables: { rank, projectId: id },
-      onCallback: mutation,
-      onError: (message: string) => Alert.alert(message)
-    });
-  };
-
-  private handlePressDeletion = (
-    deleteProjectPhotoMutation,
-    photoId: string
-  ) => {
-    deleteProjectPhotoMutation({ variables: { photoId } });
-  };
-
   private handleSubmit = (
     variables: ProjectEditParams,
     editProjectMutation: any
@@ -54,33 +31,30 @@ class ProjectEditScreen extends React.Component<Props> {
     editProjectMutation({ variables: { id: this.props.id, ...variables } });
   };
 
-  private renderPhotoListEditForm = (project: ProjectDetails) => {
+  private handlePressPhoto = (id: string, photos: any[]) => {
+    this.props.navigator.showModal({
+      screen: PHOTOS_EDIT_SCREEN,
+      passProps: {
+        id,
+        photos
+      }
+    });
+  };
+
+  private renderMainPhoto = (project: ProjectDetails) => {
+    const { id, photos } = project;
     return (
-      <DeleteProjectPhotoMutation>
-        {({ deleteProjectPhotoMutation, data, loading, error }) => {
-          if (loading) return <LoadingIndicator />;
-          if (error) return <ErrorMessage {...error} />;
-          return (
-            <UploadProjectPhotoMutation>
-              {({ uploadProjectPhotoMutation, data, loading, error }) => {
-                if (loading) return <LoadingIndicator />;
-                if (error) return <ErrorMessage {...error} />;
-                return (
-                  <PhotosEditForm
-                    photos={project.photos}
-                    onPressPhoto={(id: string) =>
-                      this.handlePressDeletion(deleteProjectPhotoMutation, id)
-                    }
-                    onPressNewPhoto={(rank: number) =>
-                      this.handlePress(rank, uploadProjectPhotoMutation)
-                    }
-                  />
-                );
-              }}
-            </UploadProjectPhotoMutation>
-          );
+      <Avatar
+        key={id}
+        size="xlarge"
+        avatarStyle={styles.avatar}
+        rounded
+        source={{
+          uri: "https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg"
         }}
-      </DeleteProjectPhotoMutation>
+        onPress={() => this.handlePressPhoto(id, photos)}
+        activeOpacity={0.7}
+      />
     );
   };
 
@@ -131,7 +105,7 @@ class ProjectEditScreen extends React.Component<Props> {
                 const project: ProjectDetails = data.project;
                 return (
                   <View style={styles.container}>
-                    {this.renderPhotoListEditForm(project)}
+                    {this.renderMainPhoto(project)}
                     {this.renderEditForm(project, defaultProps)}
                   </View>
                 );
