@@ -13,7 +13,7 @@ const placeholderTextColor = "blue";
 
 const InnnerTextInput: React.SFC<Props> = (props) => {
   const { label, value, placeholder, onChange } = props;
-  
+
   return (
     <Input
       placeholder={placeholder}
@@ -21,7 +21,10 @@ const InnnerTextInput: React.SFC<Props> = (props) => {
       label={label}
       labelStyle={styles.label}
       inputContainerStyle={styles.inputContainer}
-      inputStyle={[styles.inputText, value ? {} : {color: placeholderTextColor}]}
+      inputStyle={[
+        styles.inputText,
+        value ? {} : { color: placeholderTextColor }
+      ]}
       errorStyle={styles.errorText}
       value={value}
       onChangeText={(e) => onChange(label, e)}

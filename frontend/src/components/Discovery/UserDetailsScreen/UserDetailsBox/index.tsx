@@ -19,7 +19,7 @@ type Props = {
 };
 
 const renderActionContainer = (liked, like, rejectLike, acceptLike) => {
-  if (liked === undefined) return <View/>
+  if (liked === undefined) return <View />;
   if (liked) return renderLikeContainer(like);
   return renderResponseLikeContainer(rejectLike, acceptLike);
 };

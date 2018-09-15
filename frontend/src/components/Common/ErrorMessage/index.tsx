@@ -20,10 +20,10 @@ const ErrorMessage: React.SFC<Props> = (props) => {
   console.info(graphQLErrors, message, networkError, extraInfo);
   const errorMessage = graphQLErrors[0].message;
   return (
-  <View>
-     <Text>{errorMessage}</Text>
-  </View>
-  )
+    <View>
+      <Text>{errorMessage}</Text>
+    </View>
+  );
 };
 
 export default ErrorMessage;

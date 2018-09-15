@@ -32,7 +32,6 @@ import {
   ICON_MAIN_TYPE
 } from "../../../../constants/icons";
 
-
 import styles from "./styles";
 
 type Props = {
@@ -272,12 +271,7 @@ class EditForm extends React.Component<Props, State> {
 
   private renderSkillAddIcon = () => {
     return (
-      <Icon
-        type={ICON_MAIN_TYPE}
-        name={PLUS_ICON}
-        size={24}
-        color="black"
-      />
+      <Icon type={ICON_MAIN_TYPE} name={PLUS_ICON} size={24} color="black" />
     );
   };
 

@@ -65,7 +65,6 @@ class ProjectDetailsScreen extends React.Component<Props> {
                   if (loading) return <LoadingIndicator />;
                   if (error) return <ErrorMessage {...error} />;
                   if (data) {
-                  
                     this.props.navigator.push({
                       screen: LIKED_PROJECT_DETAILS_SCREEN,
                       passProps: { id }

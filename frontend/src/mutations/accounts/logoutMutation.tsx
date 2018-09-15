@@ -5,11 +5,9 @@ import { LOGOUT_MUTATION } from "../../graphql/accounts";
 const LogoutMutation = (props: any) => {
   const { children } = props;
 
-
   return (
     <Mutation mutation={LOGOUT_MUTATION}>
       {(logoutMutation, { data, error, loading }) => {
-
         if (loading) {
           return children({ loading });
         }
@@ -23,4 +21,3 @@ const LogoutMutation = (props: any) => {
 };
 
 export default LogoutMutation;
-

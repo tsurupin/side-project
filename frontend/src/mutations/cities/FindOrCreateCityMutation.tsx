@@ -10,7 +10,10 @@ const FindOrCreateCityMutation = (props: Props) => {
   const { children } = props;
 
   return (
-    <Mutation mutation={FIND_OR_CREATE_CITY_MUTATION} context={{ needAuth: true }}>
+    <Mutation
+      mutation={FIND_OR_CREATE_CITY_MUTATION}
+      context={{ needAuth: true }}
+    >
       {(findOrCreateCityMutation, { loading, error, data }) => {
         return children({ findOrCreateCityMutation, loading, error, data });
       }}

@@ -47,9 +47,8 @@ class TextInputScreen extends React.Component<Props, State> {
     const { keyName, onPress } = this.props;
     const { value } = this.state;
     onPress(keyName, value);
-    console.log(keyName, value)
+    console.log(keyName, value);
     this.props.navigator.dismissModal();
-
   };
 
   render() {
@@ -63,9 +62,15 @@ class TextInputScreen extends React.Component<Props, State> {
           containerStyle={styles.inputContainer}
           inputContainerStyle={[
             styles.inputTextContainer,
-            { height: Math.max(DEFAULT_HEIGHT, height) + 20, borderBottomWidth: 0 }
+            {
+              height: Math.max(DEFAULT_HEIGHT, height) + 20,
+              borderBottomWidth: 0
+            }
           ]}
-          inputStyle={[styles.inputText,  { height: Math.max(DEFAULT_HEIGHT, height) }]}
+          inputStyle={[
+            styles.inputText,
+            { height: Math.max(DEFAULT_HEIGHT, height) }
+          ]}
           placeholder={placeholder}
           placeholderTextColor={LabelTextColor}
           value={value}
@@ -75,7 +80,7 @@ class TextInputScreen extends React.Component<Props, State> {
               name={CLOSE_CIRCLE_ICON}
               size={24}
               color="black"
-              onPress={() => this.setState({value: "", height: 0})}
+              onPress={() => this.setState({ value: "", height: 0 })}
             />
           }
           onChangeText={(value) => {

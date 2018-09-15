@@ -10,10 +10,7 @@ const EditUserMutation = (props: Props) => {
   const { children } = props;
 
   return (
-    <Mutation
-      mutation={EDIT_USER_MUTATION}
-      context={{ needAuth: true }}
-    >
+    <Mutation mutation={EDIT_USER_MUTATION} context={{ needAuth: true }}>
       {(editUserMutation, { loading, error, data }) => {
         return children({
           editUserMutation,

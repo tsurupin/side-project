@@ -173,12 +173,7 @@ class SearchForm extends React.Component<Props, State> {
 
   private renderSkillAddIcon = () => {
     return (
-      <Icon 
-        type={ICON_MAIN_TYPE} 
-        name={PLUS_ICON} 
-        size={24} 
-        color="black" 
-      />
+      <Icon type={ICON_MAIN_TYPE} name={PLUS_ICON} size={24} color="black" />
     );
   };
 

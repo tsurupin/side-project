@@ -64,7 +64,6 @@ class ChatScreen extends React.Component<Props, State> {
                   );
                 }}
               </CreateMessageMutation>
-              
             </View>
           );
         }}

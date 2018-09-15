@@ -22,7 +22,7 @@ const renderSkill = (skill: Skill, fnc) => {
   );
 };
 
-const SkillList: React.SFC<Props> = props => {
+const SkillList: React.SFC<Props> = (props) => {
   return (
     <View style={styles.listContainer}>
       {props.skills.map((skill: Skill) => {
@@ -30,7 +30,6 @@ const SkillList: React.SFC<Props> = props => {
       })}
     </View>
   );
-  
-}
+};
 
 export default SkillList;

@@ -16,7 +16,7 @@ const placeholderTextColor = "blue";
 
 const InnnerSelectInput: React.SFC<Props> = (props) => {
   const { label, value, placeholder, onPress, style } = props;
-  console.log(style)
+  console.log(style);
   return (
     <View style={[styles.container, style | {}]}>
       <Text style={styles.label}>{label}</Text>

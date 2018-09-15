@@ -2,14 +2,15 @@ import * as React from "react";
 import { View, Text } from "react-native";
 
 import { USER_SEARCH_MODAL_SCREEN } from "../../../constants/screens";
-import {
-  SkillList
-} from "../../../components/Common/SkillSearchModalScreen";
+import { SkillList } from "../../../components/Common/SkillSearchModalScreen";
 import { CLOSE_BUTTON, BACK_BUTTON } from "../../../constants/buttons";
 import { SkillsQuery } from "../../../queries/skills";
-import { LoadingIndicator, ErrorMessage, SearchInput } from "../../../components/Common";
+import {
+  LoadingIndicator,
+  ErrorMessage,
+  SearchInput
+} from "../../../components/Common";
 import { Skill } from "../../../interfaces";
-
 
 import styles from "./styles";
 
@@ -42,7 +43,7 @@ class SkillSearchModalScreen extends React.Component<Props, State> {
     this.props.navigator.setOnNavigatorEvent(this.handleNavigationEvent);
   }
 
-  private handleNavigationEvent = e => {
+  private handleNavigationEvent = (e) => {
     if (e.type !== "NavBarButtonPress") {
       return;
     }
@@ -67,11 +68,10 @@ class SkillSearchModalScreen extends React.Component<Props, State> {
     return (
       <SkillsQuery variables={{ name }}>
         {({ data, error, loading }) => {
-  
-          if (loading)  return <LoadingIndicator />;    
-        
-          if (error) return <ErrorMessage {...error} />;   
-          
+          if (loading) return <LoadingIndicator />;
+
+          if (error) return <ErrorMessage {...error} />;
+
           return (
             <SkillList skills={data.skills} onPressSkill={this.onPressSkill} />
           );

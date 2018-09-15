@@ -1,11 +1,11 @@
 import * as React from "react";
 import { ListItem } from "react-native-elements";
 import { UserCore } from "../../../../interfaces";
-import styles from './styles';
+import styles from "./styles";
 
 type Props = {
   member: UserCore;
-  onPress: (userId: string) => void; 
+  onPress: (userId: string) => void;
 };
 
 const MemberListItem: React.SFC<Props> = (props) => {

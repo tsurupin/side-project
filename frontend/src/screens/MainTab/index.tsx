@@ -9,10 +9,30 @@ import {
   PROJECT_LIST_SCREEN,
   SETTING_LIST_SCREEN
 } from "../../constants/screens";
-import { SEARCH_BUTTON, USER_EDIT_BUTTON, PROJECT_NEW_BUTTON } from "../../constants/buttons";
+import {
+  SEARCH_BUTTON,
+  USER_EDIT_BUTTON,
+  PROJECT_NEW_BUTTON
+} from "../../constants/buttons";
 import IconLoader from "../../utilities/iconLoader";
-import { LIBRARY_BOOKS_ICON, MESSAGE_OUTLINE_ICON, PENCIL_ICON, ACCOUNT_ICON, FILTER_OUTLINE_ICON } from "../../constants/icons";
-import { TabBarBackgroundColor, TabBarSelectedButtonColor, TabBarSelectedLabelColor, TabBarButtonColor, TabBarLabelColor, NotificationBadgeColor, NavBarBackgroundColor, NavBarButtonColor, NavBarTextColor } from "../../constants/colors";
+import {
+  LIBRARY_BOOKS_ICON,
+  MESSAGE_OUTLINE_ICON,
+  PENCIL_ICON,
+  ACCOUNT_ICON,
+  FILTER_OUTLINE_ICON
+} from "../../constants/icons";
+import {
+  TabBarBackgroundColor,
+  TabBarSelectedButtonColor,
+  TabBarSelectedLabelColor,
+  TabBarButtonColor,
+  TabBarLabelColor,
+  NotificationBadgeColor,
+  NavBarBackgroundColor,
+  NavBarButtonColor,
+  NavBarTextColor
+} from "../../constants/colors";
 
 const MainTab = () => {
   Promise.all([
@@ -20,22 +40,21 @@ const MainTab = () => {
     Icon.getImageSource("filter-outline", 30),
     Icon.getImageSource("ios-share-alt", 30),
     Icon.getImageSource("ios-menu", 30)
-  ]).then(sources => {
+  ]).then((sources) => {
     Navigation.startTabBasedApp({
       appStyle: {
         bottomTabBadgeBackgroundColor: NotificationBadgeColor,
         navBarTextColor: NavBarTextColor,
         navBarBackgroundColor: NavBarBackgroundColor,
-        navBarButtonColor: NavBarButtonColor ,
-        statusBarTextColorScheme: 'light',
+        navBarButtonColor: NavBarButtonColor,
+        statusBarTextColorScheme: "light",
         statusBarColor: NavBarButtonColor,
-        statusBarTextColorSchemeSingleScreen: 'light',
+        statusBarTextColorSchemeSingleScreen: "light"
       },
       tabsStyle: {
         tabBarButtonColor: TabBarButtonColor,
         tabBarBackgroundColor: TabBarBackgroundColor,
-        tabBarSelectedButtonColor: TabBarSelectedButtonColor,
-      
+        tabBarSelectedButtonColor: TabBarSelectedButtonColor
       },
       tabs: [
         {
@@ -57,7 +76,7 @@ const MainTab = () => {
           screen: MATCH_SCREEN,
           label: "Match",
           title: "Match",
-          icon: IconLoader.getIcon(MESSAGE_OUTLINE_ICON),
+          icon: IconLoader.getIcon(MESSAGE_OUTLINE_ICON)
         },
         {
           screen: PROJECT_LIST_SCREEN,
@@ -71,9 +90,8 @@ const MainTab = () => {
                 title: "New",
                 id: PROJECT_NEW_BUTTON
               }
-             ]
-           }
-          
+            ]
+          }
         },
         {
           screen: SETTING_LIST_SCREEN,

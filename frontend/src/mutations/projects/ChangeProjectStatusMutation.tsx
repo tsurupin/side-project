@@ -1,6 +1,9 @@
 import * as React from "react";
 import { Mutation } from "react-apollo";
-import { CHANGE_PROJECT_STATUS_MUTATION, PROJECT_FRAGMENTS } from "../../graphql/projects";
+import {
+  CHANGE_PROJECT_STATUS_MUTATION,
+  PROJECT_FRAGMENTS
+} from "../../graphql/projects";
 
 type Props = {
   children: any;

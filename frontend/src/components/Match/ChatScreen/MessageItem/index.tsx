@@ -18,9 +18,11 @@ const renderMessage = (
   comment: string | undefined
 ) => {
   if (imageUrl) {
-
     return (
-      <RemoteImage styles={styles.image} imageUrl="https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg" />
+      <RemoteImage
+        styles={styles.image}
+        imageUrl="https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg"
+      />
     );
   } else {
     return <Text style={styles.description}>{comment}</Text>;

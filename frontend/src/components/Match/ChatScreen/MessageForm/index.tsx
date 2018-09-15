@@ -76,14 +76,14 @@ class MessageForm extends React.Component<Props, State> {
     const { chatId, submitting } = this.props;
     if (submitting) return;
     this.props.onPress({ chatId, comment, image, messageType });
-    this.setState({comment: undefined, image: undefined})
+    this.setState({ comment: undefined, image: undefined });
   };
 
   render() {
     const { comment, image } = this.state;
     const { submitting } = this.props;
-    const disabled = submitting || comment == undefined || comment == ""
-  
+    const disabled = submitting || comment == undefined || comment == "";
+
     return (
       <View style={styles.container}>
         <Icon

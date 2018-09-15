@@ -1,7 +1,11 @@
 import * as React from "react";
 import { View } from "react-native";
 import { Input, Icon } from "react-native-elements";
-import { ICON_MAIN_TYPE, CLOSE_CIRCLE_ICON, MAGNIFY_ICON } from "../../../constants/icons";
+import {
+  ICON_MAIN_TYPE,
+  CLOSE_CIRCLE_ICON,
+  MAGNIFY_ICON
+} from "../../../constants/icons";
 import styles from "./styles";
 
 type Props = {
@@ -34,7 +38,10 @@ const SearchInput: React.SFC<Props> = (props) => {
         }
         rightIconContainerStyle={styles.rightIconContainer}
         containerStyle={styles.inputContainer}
-        inputContainerStyle={[styles.inputTextContainer,{borderBottomWidth: 0}]}
+        inputContainerStyle={[
+          styles.inputTextContainer,
+          { borderBottomWidth: 0 }
+        ]}
         value={props.name}
         onChangeText={(val: string) => props.onChangeText(val)}
       />

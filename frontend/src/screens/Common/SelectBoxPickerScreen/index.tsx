@@ -43,7 +43,7 @@ class PickerScreen extends React.Component<Props> {
 
   private renderSelectedItem = () => {
     const { selectedValue, label } = this.props;
-  
+
     return (
       <View style={styles.selectedItemContainer}>
         <Text style={styles.label}>{label}</Text>

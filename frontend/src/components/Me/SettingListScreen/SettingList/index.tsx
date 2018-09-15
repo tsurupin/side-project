@@ -39,9 +39,7 @@ const SettingList: React.SFC<Props> = (props) => {
             containerStyle={styles.itemContainer}
             titleStyle={styles.itemTitle}
             leftIcon={{ name: item.iconName }}
-            onPress={() =>
-              item.screen ? onPress(item.screen) : item.fnc()
-            }
+            onPress={() => (item.screen ? onPress(item.screen) : item.fnc())}
           />
         );
       })}

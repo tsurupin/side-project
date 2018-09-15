@@ -17,7 +17,7 @@ const RejectUserLikeMutation = (props: Props) => {
       update={(cache, { data: { rejectUserLike: userId } }) => {
         const { matchList } = cache.readQuery({ query: MATCH_LIST_QUERY });
         const likedUserList = matchList.likedUserList.filter(
-          user => user.id !== userId
+          (user) => user.id !== userId
         );
 
         cache.writeQuery({

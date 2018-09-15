@@ -15,17 +15,20 @@ const placeholderTextColor = "blue";
 
 const InnnerDetailsInput: React.SFC<Props> = (props) => {
   const { label, value, placeholder, style, onChange } = props;
-  
+
   return (
     <View style={styles.container}>
       <Text style={styles.label}>{label}</Text>
       <Input
         placeholder={placeholder}
         numberOfLines={3}
-        ellipsizeMode='head'
+        ellipsizeMode="head"
         containerStyle={[styles.inputContainer, style | {}]}
         inputContainerStyle={styles.inputInnerContainer}
-        inputStyle={[styles.inputText, value ? {} : {color: placeholderTextColor}]}
+        inputStyle={[
+          styles.inputText,
+          value ? {} : { color: placeholderTextColor }
+        ]}
         errorStyle={styles.errorText}
         value={value}
         onChangeText={(e) => onChange(label, e)}
@@ -35,4 +38,3 @@ const InnnerDetailsInput: React.SFC<Props> = (props) => {
 };
 
 export default InnnerDetailsInput;
-
