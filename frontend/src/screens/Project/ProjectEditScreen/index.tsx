@@ -36,6 +36,7 @@ class ProjectEditScreen extends React.Component<Props> {
   private handlePressPhoto = (id: string, photos: any[]) => {
     this.props.navigator.showModal({
       screen: PHOTOS_EDIT_SCREEN,
+      title: "Edit Photos",
       passProps: {
         id,
         photos
@@ -45,6 +46,12 @@ class ProjectEditScreen extends React.Component<Props> {
           {
             icon: IconLoader.getIcon(CLOSE_ICON),
             title: "Close",
+            id: CLOSE_BUTTON
+          }
+        ],
+        rightButtons: [
+          {
+            title: "Done",
             id: CLOSE_BUTTON
           }
         ]

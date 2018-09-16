@@ -33,7 +33,7 @@ class PhotosEditScreen extends React.Component<Props> {
     switch (e.id) {
       case CLOSE_BUTTON:
         this.props.navigator.dismissModal();
-        break;
+        break;  
     }
   };
 
@@ -55,7 +55,6 @@ class PhotosEditScreen extends React.Component<Props> {
 
   render() {
     let { photos } = this.props;
-    console.log("rendering", photos);
     return (
       <View style={styles.container}>
         <DeleteProjectPhotoMutation>
@@ -63,10 +62,8 @@ class PhotosEditScreen extends React.Component<Props> {
             if (loading) return <LoadingIndicator />;
             if (error) return <ErrorMessage {...error} />;
             if (data) {
-              const { deleteProjectPhoto } = data;
-              console.log(deleteProjectPhoto);
-              photos = photos.filter(photo => photo.id == deleteProjectPhoto.id);
-              console.log(photos);
+              const { deleteProjectPhoto } = data;  
+              photos = photos.filter(photo => photo.id !== deleteProjectPhoto.id);
             }
             return (
               <UploadProjectPhotoMutation>
@@ -74,9 +71,8 @@ class PhotosEditScreen extends React.Component<Props> {
                   if (loading) return <LoadingIndicator />;
                   if (error) return <ErrorMessage {...error} />;
                   if (data) {
-                    console.log(data.updateProjectPhoto)
-
-
+                    const { uploadProjectPhoto } = data;
+                    photos = [...photos, uploadProjectPhoto];
                   }
                   return (
                     <PhotosEditForm
