@@ -10,7 +10,9 @@ import {
 import { ProjectDetails, ProjectEditParams } from "../../../interfaces";
 
 import { EditProjectMutation } from "../../../mutations/projects";
-
+import { CLOSE_ICON } from "../../../constants/icons";
+import { CLOSE_BUTTON } from "../../../constants/buttons";
+import IconLoader from "../../../utilities/iconLoader";
 import styles from "./styles";
 import { PHOTOS_EDIT_SCREEN } from "../../../constants/screens";
 
@@ -37,6 +39,15 @@ class ProjectEditScreen extends React.Component<Props> {
       passProps: {
         id,
         photos
+      },
+      navigatorButtons: {
+        leftButtons: [
+          {
+            icon: IconLoader.getIcon(CLOSE_ICON),
+            title: "Close",
+            id: CLOSE_BUTTON
+          }
+        ]
       }
     });
   };
