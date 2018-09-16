@@ -15,6 +15,7 @@ const LOGOUT_ICON = "exit-to-app";
 const BACK_ICON = "chevron-left";
 const PLUS_ICON = "plus";
 const MINUS_CIRCLE_ICON = "minus-circle";
+const PLUS_CIRCLE_ICON = "plus-circle";
 const CLOSE_CIRCLE_ICON = "close-circle";
 const MAGNIFY_ICON = "magnify";
 const ICON_MAIN_TYPE = 'material-community';
@@ -37,6 +38,7 @@ export {
   BACK_ICON,
   PLUS_ICON,
   MINUS_CIRCLE_ICON,
+  PLUS_CIRCLE_ICON,
   CLOSE_CIRCLE_ICON,
   MAGNIFY_ICON,
 

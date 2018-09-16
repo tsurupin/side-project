@@ -1,21 +1,16 @@
 import { StyleSheet, Dimensions } from "react-native";
-const windowWidth = Math.trunc(Dimensions.get("window").width);
+const windowWidth = Math.trunc(Dimensions.get("window").width) - 20;
 const styles = StyleSheet.create({
   container: {
-    marginBottom: 10,
-   
+ 
   },
-  itemContainer: {
+  listContainer: {
     flexDirection: "row",
-    height: 100,
     width: windowWidth,
+    height: 115,
+    marginBottom: 10,
+    
   },
-  buttonContainer: {
-    margin: 1,
-    width: Math.trunc(windowWidth * 0.33),
-    height: 100
-  }
-
 })
 
 export default styles;
