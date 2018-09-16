@@ -22,7 +22,7 @@ const styles = StyleSheet.create({
     
     width: "100%"
   },
-  inutTextContainer: {
+  inputTextContainer: {
     fontSize: 16,
     color: SubTextColor,
    

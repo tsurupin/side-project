@@ -12,23 +12,20 @@ type Props = {
 const UserCard: React.SFC<Props> = (props) => {
   const { user, onPress } = props;
   return (
-    <TouchableOpacity>
-      <View style={styles.container}>
-        <Avatar
-          key={user.id}
-          size="xlarge"
-          avatarStyle={styles.avatar}
-          rounded
-          source={{
-            uri:
-              "https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg"
-          }}
-          onPress={onPress}
-          activeOpacity={0.7}
-        />
-        <Text style={styles.mainText}>{user.displayName}</Text>
-        <Text style={styles.subText}>View and Edit Profile</Text>
-      </View>
+    <TouchableOpacity style={styles.container}>
+      <Avatar
+        key={user.id}
+        size="xlarge"
+        avatarStyle={styles.avatar}
+        rounded
+        source={{
+          uri: "https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg"
+        }}
+        onPress={onPress}
+        activeOpacity={0.7}
+      />
+      <Text style={styles.mainText}>{user.displayName}</Text>
+      <Text style={styles.subText}>View and Edit Profile</Text>
     </TouchableOpacity>
   );
 };

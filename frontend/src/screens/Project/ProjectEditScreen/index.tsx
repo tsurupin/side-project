@@ -62,17 +62,19 @@ class ProjectEditScreen extends React.Component<Props> {
   private renderMainPhoto = (project: ProjectDetails) => {
     const { id, photos } = project;
     return (
-      <Avatar
-        key={id}
-        size="xlarge"
-        avatarStyle={styles.avatar}
-        rounded
-        source={{
-          uri: "https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg"
-        }}
-        onPress={() => this.handlePressPhoto(id, photos)}
-        activeOpacity={0.7}
-      />
+      <View style={styles.avatarContainer}>
+        <Avatar
+          key={id}
+          size="xlarge"
+          rounded
+          source={{
+            uri:
+              "https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg"
+          }}
+          onPress={() => this.handlePressPhoto(id, photos)}
+          activeOpacity={0.7}
+        />
+      </View>
     );
   };
 

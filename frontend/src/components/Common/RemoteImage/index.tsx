@@ -16,8 +16,8 @@ class RemoteImage extends React.Component<Props, State> {
     super(props);
 
     this.state = {
-      width: undefined,
-      height: undefined
+      imageWidth: undefined,
+      imageHeight: undefined
     };
   }
 
@@ -25,8 +25,8 @@ class RemoteImage extends React.Component<Props, State> {
     const { imageUrl } = this.props;
     Image.getSize(
       imageUrl,
-      (width, height) => {
-        this.setState({ width, height });
+      (imageWidth, imageHeight) => {
+        this.setState({ imageWidth, imageHeight });
       },
       (errorMessage) => {
         console.log("imageLoad error", errorMessage);
