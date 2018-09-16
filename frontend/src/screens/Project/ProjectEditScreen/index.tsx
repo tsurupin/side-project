@@ -1,5 +1,5 @@
 import * as React from "react";
-import { View } from "react-native";
+import { View, ScrollView } from "react-native";
 import { Avatar } from "react-native-elements";
 import { ErrorMessage, LoadingIndicator } from "../../../components/Common";
 import { EditForm } from "../../../components/Project/Common";
@@ -125,8 +125,13 @@ class ProjectEditScreen extends React.Component<Props> {
                 const project: ProjectDetails = data.project;
                 return (
                   <View style={styles.container}>
-                    {this.renderMainPhoto(project)}
-                    {this.renderEditForm(project, defaultProps)}
+                    <ScrollView
+                      alwaysBounceVertical={true}
+                      showsVerticalScrollIndicator={false}
+                    >
+                      {this.renderMainPhoto(project)}
+                      {this.renderEditForm(project, defaultProps)}
+                    </ScrollView>
                   </View>
                 );
               }}

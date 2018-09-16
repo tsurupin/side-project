@@ -152,29 +152,6 @@ class EditForm extends React.Component<Props, State> {
     }
   };
 
-  // private handleGenreShowModal = () => {
-  //   const { genres } = this.props;
-  //   const { genre } = this.state;
-  //   this.props.navigator.showModal({
-  //     screen: SELECT_BOX_PICKER_SCREEN,
-  //     passProps: {
-  //       items: genres,
-  //       keyName: "genre",
-  //       selectedValue: genre ? genre.id : undefined,
-  //       onPress: this.handleGenreChange
-  //     },
-  //     navigatorButtons: {
-  //       leftButtons: [
-  //         {
-  //           icon: IconLoader.getIcon(CLOSE_ICON),
-  //           title: "CLOSE",
-  //           id: CLOSE_BUTTON
-  //         }
-  //       ]
-  //     }
-  //   });
-  // };
-
   private handlePressShowModal = (
     items: any[],
     keyName: string,
@@ -236,15 +213,7 @@ class EditForm extends React.Component<Props, State> {
     console.log("updated key", changedAttr);
     this.setState(changedAttr);
   };
-
-  // private handleGenreChange = (key: string, value: string | number) => {
-  //   let changedAttr = {};
-  //   const genre = this.props.genres.find((genre) => genre.id == value);
-  //   changedAttr[key] = genre;
-
-  //   this.setState(changedAttr);
-  // };
-
+  
   private handleSkillSearchShowModal = () => {
     this.props.navigator.showModal({
       screen: SKILL_SEARCH_MODAL_SCREEN,

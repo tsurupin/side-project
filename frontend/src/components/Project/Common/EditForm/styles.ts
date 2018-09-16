@@ -1,12 +1,9 @@
 import { StyleSheet, Dimensions } from "react-native";
 import { BackgroundColor, SubTextColor, MainTextColor,BorderColor } from "../../../../constants/colors";
 
-const height = Dimensions.get("window").height;
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: BackgroundColor,
-    height
   },
   inputContainer: {},
   buttonFormBox: {},
