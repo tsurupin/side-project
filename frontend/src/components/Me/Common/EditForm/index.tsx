@@ -72,6 +72,7 @@ class EditForm extends React.Component<Props, State> {
   constructor(props) {
     super(props);
     const { user } = this.props;
+    
     this.state = {
       displayName: user.displayName,
       introduction: user.introduction,
@@ -129,6 +130,7 @@ class EditForm extends React.Component<Props, State> {
         params[key] = this.state[key];
       }
     });
+    console.log("user edit", params)
     return params;
   };
 
@@ -333,7 +335,7 @@ class EditForm extends React.Component<Props, State> {
 
   render() {
     const { occupationTypes, genres } = this.props;
-    console.log("occupationType", occupationTypes);
+  
     const {
       displayName,
       introduction,

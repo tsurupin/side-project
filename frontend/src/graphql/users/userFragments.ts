@@ -8,6 +8,7 @@ export const USER_FRAGMENTS = {
       displayName
       schoolName
       companyName
+      occupation
       introduction
       status
       city {
@@ -39,6 +40,7 @@ export const USER_FRAGMENTS = {
       displayName
       schoolName
       companyName
+      occupation
       introduction
       city {
         id

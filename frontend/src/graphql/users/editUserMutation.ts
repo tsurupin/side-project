@@ -9,6 +9,7 @@ export const EDIT_USER_MUTATION = gql`
     $occupationTypeId: String
     $genreId: ID
     $skillIds: [ID]
+    $occupation: String
     $companyName: String
     $schoolName: String
   ) {
@@ -19,6 +20,7 @@ export const EDIT_USER_MUTATION = gql`
         occupationTypeId: $occupationTypeId
         genreId: $genreId
         skillIds: $skillIds
+        occupation: $occupation
         companyName: $companyName
         schoolName: $schoolName
       }
