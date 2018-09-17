@@ -4,6 +4,7 @@ import { ListItem } from "react-native-elements";
 
 import { ProjectCore } from "../../../../interfaces";
 import styles from "./styles";
+import { BackgroundColor } from "../../../../constants/colors";
 
 type Props = {
   projects: ProjectCore[];
@@ -35,6 +36,8 @@ const ProjectList: React.SFC<Props> = (props) => {
       keyExtractor={keyExtractor}
       data={props.projects}
       renderItem={renderProject}
+      endFillColor={BackgroundColor}
+     
     />
   );
 };

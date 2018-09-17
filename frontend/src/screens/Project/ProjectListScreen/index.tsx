@@ -17,6 +17,7 @@ import { CLOSE_ICON } from "../../../constants/icons";
 import IconLoader from "../../../utilities/iconLoader";
 import { PROJECT_NEW_SCREEN } from "../../../constants/screens";
 import { CustomizedSegmentedControlTab } from "../../../components/Common";
+import styles from "./styles";
 
 type Props = {
   navigator: any;
@@ -121,7 +122,9 @@ class ProjectListScreen extends React.Component<Props, State> {
           selectedIndex={this.state.selectedIndex}
           onTabPress={this.handleIndexChange}
         />
+        <View style={styles.listContainer}>
         {this.renderProjectList()}
+        </View>
       </View>
     );
   }

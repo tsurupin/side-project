@@ -30,7 +30,7 @@ class MatchScreen extends React.Component<Props, State> {
   }
 
   protected handleChatPress = (id: string, name: string): void => {
-    console.log("chat", name);
+   
     this.props.navigator.push({
       screen: CHAT_SCREEN,
       title: name,
@@ -58,7 +58,6 @@ class MatchScreen extends React.Component<Props, State> {
               return <LoadingIndicator />;
             }
             if (error) {
-              console.log("matchList error", error);
               return <ErrorMessage {...error} />;
             }
 
