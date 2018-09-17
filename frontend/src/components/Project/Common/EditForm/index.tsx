@@ -1,5 +1,5 @@
 import * as React from "react";
-import { View, Button, Text, FlatList, ScrollView } from "react-native";
+import { FlatList, ScrollView } from "react-native";
 import {
   ProjectEditParams,
   Skill,
@@ -7,10 +7,10 @@ import {
   Genre,
   ProjectDetails
 } from "../../../../interfaces";
-import { Input, ListItem, Icon } from "react-native-elements";
+import { ListItem, Icon } from "react-native-elements";
 import { CLOSE_ICON } from "../../../../constants/icons";
 import IconLoader from "../../../../utilities/iconLoader";
-import { InnerSelectInput, SelectBox, TextAreaListItem } from "../../../Common";
+import { SelectBox, TextAreaListItem } from "../../../Common";
 import { CLOSE_BUTTON, SUBMIT_BUTTON } from "../../../../constants/buttons";
 import {
   SKILL_SEARCH_MODAL_SCREEN,
@@ -213,7 +213,7 @@ class EditForm extends React.Component<Props, State> {
     console.log("updated key", changedAttr);
     this.setState(changedAttr);
   };
-  
+
   private handleSkillSearchShowModal = () => {
     this.props.navigator.showModal({
       screen: SKILL_SEARCH_MODAL_SCREEN,

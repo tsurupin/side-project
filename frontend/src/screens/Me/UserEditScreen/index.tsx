@@ -43,18 +43,7 @@ class UserEditScreen extends React.Component<Props, UserEditParams> {
     super(props);
   }
 
-  // private handlePress = (rank: number, mutation) => {
-  //   uploadImage({
-  //     variables: { rank },
-  //     onCallback: mutation,
-  //     onError: (message: string) => Alert.alert(message)
-  //   });
-  // };
-
-  // private handlePressDeletion = (deleteUserPhotoMutation, photoId: string) => {
-  //   deleteUserPhotoMutation({ variables: { photoId } });
-  // };
-
+ 
   private handleSubmit = (variables: UserEditParams, editUserMutation: any) => {
     editUserMutation({ variables });
   };
@@ -104,36 +93,6 @@ class UserEditScreen extends React.Component<Props, UserEditParams> {
       </View>
     );
   };
-
-  // private renderPhotoListEditForm = (user: UserDetails) => {
-  //   return (
-  //     <DeleteUserPhotoMutation>
-  //       {({ deleteUserPhotoMutation, data, loading, error }) => {
-  //         if (loading) return <LoadingIndicator />;
-  //         if (error) return <ErrorMessage {...error} />;
-  //         return (
-  //           <UploadUserPhotoMutation>
-  //             {({ uploadUserPhotoMutation, data, loading, error }) => {
-  //               if (loading) return <LoadingIndicator />;
-  //               if (error) return <ErrorMessage {...error} />;
-  //               return (
-  //                 <PhotosEditForm
-  //                   photos={user.photos}
-  //                   onPressPhoto={(id: string) =>
-  //                     this.handlePressDeletion(deleteUserPhotoMutation, id)
-  //                   }
-  //                   onPressNewPhoto={(rank: number) =>
-  //                     this.handlePress(rank, uploadUserPhotoMutation)
-  //                   }
-  //                 />
-  //               );
-  //             }}
-  //           </UploadUserPhotoMutation>
-  //         );
-  //       }}
-  //     </DeleteUserPhotoMutation>
-  //   );
-  // };
 
   private renderEditForm = (user: UserDetails, defaultProps: DefaultProps) => {
     const { genres, occupationTypes } = defaultProps;

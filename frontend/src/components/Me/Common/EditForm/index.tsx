@@ -1,5 +1,5 @@
 import * as React from "react";
-import { View, Button, Text, FlatList, ScrollView } from "react-native";
+import { FlatList, ScrollView } from "react-native";
 import {
   UserDetails,
   UserEditParams,
@@ -8,16 +8,11 @@ import {
   Genre,
   OccupationType
 } from "../../../../interfaces";
-import { Input, ListItem, Icon } from "react-native-elements";
+import { ListItem, Icon } from "react-native-elements";
+import { SelectBox, TextAreaListItem } from "../../../Common";
 import { SUBMIT_BUTTON, CLOSE_BUTTON } from "../../../../constants/buttons";
 import { CLOSE_ICON } from "../../../../constants/icons";
 import IconLoader from "../../../../utilities/iconLoader";
-
-import {
-  InnerTextInput,
-  InnerDetailsInput,
-  InnerSelectInput
-} from "../../../Common";
 
 import {
   SKILL_SEARCH_MODAL_SCREEN,
@@ -48,8 +43,8 @@ type State = {
   displayName: string;
   introduction: string | undefined;
   occupation: string | undefined;
-  occupationType: OccupationType | undefined;
-  genre: Genre | undefined;
+  occupationTypeId: string | undefined;
+  genreId: string | undefined;
   companyName: string | undefined;
   schoolName: string | undefined;
   city: City | undefined;
@@ -60,7 +55,18 @@ type State = {
 
 class EditForm extends React.Component<Props, State> {
   static defaultProps = {
-    loading: false
+    loading: false,
+    user: {
+      title: undefined,
+      introduction: undefined,
+      occupation: undefined,
+      schoolName: undefined,
+      companyName: undefined,
+      occupationTypeId: undefined,
+      genreId: undefined,
+      city: undefined,
+      skills: []
+    }
   };
 
   constructor(props) {
@@ -70,8 +76,10 @@ class EditForm extends React.Component<Props, State> {
       displayName: user.displayName,
       introduction: user.introduction,
       occupation: user.occupation,
-      occupationType: user.occupationType,
-      genre: user.genre,
+      occupationTypeId: user.occupationType
+        ? user.occupationType.id
+        : undefined,
+      genreId: user.genre ? user.genre.id : undefined,
       companyName: user.companyName,
       schoolName: user.schoolName,
       city: user.city,
@@ -89,9 +97,11 @@ class EditForm extends React.Component<Props, State> {
       "introduction",
       "occupation",
       "companyName",
-      "schoolName"
+      "schoolName",
+      "genreId",
+      "occupationTypeId"
     ];
-    const objectKeys = ["genre", "occupationType", "city"];
+    const objectKeys = ["city"];
     const arrayObjectKeys = ["skills"];
     const statePrioritizedKeys = ["longitude", "latitude"];
 
@@ -162,14 +172,18 @@ class EditForm extends React.Component<Props, State> {
     }
   };
 
-  private handleObjectShowModal = (key: string) => {
+  private handlePressShowModal = (
+    items: any[],
+    keyName: string,
+    selectedValue: string | number | undefined
+  ) => {
     this.props.navigator.showModal({
       screen: SELECT_BOX_PICKER_SCREEN,
       passProps: {
-        items: this.props[`${key}s`],
-        keyName: "genre",
-        selectedValue: this.state[key] ? this.state[key].id : undefined,
-        onPress: this.handleObjectChange
+        items,
+        keyName,
+        selectedValue,
+        onPress: this.handleChangeValue
       },
       navigatorButtons: {
         leftButtons: [
@@ -183,13 +197,43 @@ class EditForm extends React.Component<Props, State> {
     });
   };
 
-  private handleObjectChange = (key: string, value: string | number) => {
-    let changedAttr = {};
-    const genre = this.props[`${key}s`].find((item) => item.id == value);
-    changedAttr[key] = genre;
+  private handleTextInputModal = (
+    keyName: string,
+    value: string | undefined,
+    placeholder: string
+  ) => {
+    this.props.navigator.showModal({
+      screen: TEXT_INPUT_SCREEN,
+      title: keyName.toUpperCase(),
+      animationType: "slide-up",
+      passProps: {
+        keyName,
+        value,
+        placeholder,
+        onPress: this.handleChangeValue
+      },
+      navigatorButtons: {
+        leftButtons: [
+          {
+            icon: IconLoader.getIcon(CLOSE_ICON),
+            title: "Close",
+            id: CLOSE_BUTTON
+          }
+        ]
+      }
+    });
+  };
 
+  private handleChangeValue = (
+    keyName: string,
+    value: string | number | undefined
+  ) => {
+    let changedAttr = {};
+    changedAttr[keyName] = value;
+    console.log("updated key", changedAttr);
     this.setState(changedAttr);
   };
+
 
   private handleSkillSearchShowModal = () => {
     this.props.navigator.showModal({
@@ -288,16 +332,17 @@ class EditForm extends React.Component<Props, State> {
   };
 
   render() {
+    const { occupationTypes, genres } = this.props;
+    console.log("occupationType", occupationTypes);
     const {
       displayName,
       introduction,
       occupation,
-      occupationType,
-      genre,
+      genreId,
+      occupationTypeId,
       companyName,
       schoolName,
       city,
-      skills,
       latitude,
       longitude
     } = this.state;
@@ -308,76 +353,129 @@ class EditForm extends React.Component<Props, State> {
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.container}
       >
-        <InnerTextInput
-          label="Display Name"
-          placeholder="Enter Your Display Name"
-          value={displayName}
-          onChange={(key: string, value: string) => {
-            this.setState({ displayName: value });
-          }}
+        <ListItem
+          key="displayName"
+          containerStyle={styles.itemContainer}
+          title="Display Name"
+          titleStyle={styles.itemTitle}
+          rightTitle={displayName}
+          rightTitleStyle={styles.rightTitle}
+          chevron
+          topDivider
+          bottomDivider
+          onPress={() =>
+            this.handleTextInputModal(
+              "displayName",
+              displayName,
+              "Enter Display Name"
+            )
+          }
         />
-        <InnerDetailsInput
+
+        <TextAreaListItem
           label="Introduction"
+          keyName="introduction"
           placeholder="Enter Introduction"
           value={introduction}
-          onChange={(key: string, value: string) => {
-            this.setState({ introduction: value });
-          }}
+          onPress={this.handleTextInputModal}
         />
 
-        <InnerTextInput
-          label="Occupation"
-          placeholder="Enter Your Occupation"
-          value={occupation}
-          onChange={(key: string, value: string) => {
-            this.setState({ occupation: value });
-          }}
+        <ListItem
+          key="occupation"
+          containerStyle={styles.itemContainer}
+          title="Occupation"
+          titleStyle={styles.itemTitle}
+          rightTitle={occupation}
+          rightTitleStyle={styles.rightTitle}
+          chevron
+          topDivider
+          bottomDivider
+          onPress={() =>
+            this.handleTextInputModal(
+              "occupation",
+              occupation,
+              "Enter Occupation"
+            )
+          }
         />
 
-        <InnerSelectInput
-          placeholder="Select OccupationType"
-          value={occupationType ? occupationType.name : undefined}
+        <SelectBox
+          keyName="occupationTypeId"
+          placeholder="Occupation Type"
           label="Occupation Type"
-          onPress={() => this.handleObjectShowModal("occupationType")}
-        />
-        <InnerSelectInput
-          placeholder="Select Genre"
-          value={genre ? genre.name : undefined}
-          label="Genre"
-          onPress={() => this.handleObjectShowModal("genre")}
-        />
-        <InnerTextInput
-          label="Company Name"
-          placeholder="Enter Your Company Name"
-          value={companyName}
-          onChange={(key: string, value: string) => {
-            this.setState({ companyName: value });
-          }}
-        />
-        <InnerTextInput
-          label="School Name"
-          placeholder="Enter Your School Name"
-          value={schoolName}
-          onChange={(key: string, value: string) => {
-            this.setState({ schoolName: value });
-          }}
+          value={occupationTypeId}
+          items={occupationTypes}
+          onPress={this.handlePressShowModal}
         />
 
-        <InnerSelectInput
-          placeholder="Select City"
-          value={city ? city.fullName : ""}
-          label="City"
-          style={{ marginBottom: 0 }}
+        <SelectBox
+          keyName="genreId"
+          placeholder="Genre"
+          label="Genre"
+          value={genreId}
+          items={genres}
+          onPress={this.handlePressShowModal}
+        />
+        <ListItem
+          key="companyName"
+          containerStyle={styles.itemContainer}
+          title="Company Name"
+          titleStyle={styles.itemTitle}
+          rightTitle={companyName}
+          rightTitleStyle={styles.rightTitle}
+          chevron
+          topDivider
+          bottomDivider
+          onPress={() =>
+            this.handleTextInputModal(
+              "companyName",
+              companyName,
+              "Enter Company Name"
+            )
+          }
+        />
+
+        <ListItem
+          key="schoolName"
+          containerStyle={styles.itemContainer}
+          title="School Name"
+          titleStyle={styles.itemTitle}
+          rightTitle={schoolName}
+          rightTitleStyle={styles.rightTitle}
+          chevron
+          topDivider
+          bottomDivider
+          onPress={() =>
+            this.handleTextInputModal(
+              "schoolName",
+              schoolName,
+              "Enter School Name"
+            )
+          }
+        />
+
+        <ListItem
+          key="city"
+          containerStyle={styles.itemContainer}
+          title="City"
+          titleStyle={styles.itemTitle}
+          rightTitle={city ? city.fullName : ""}
+          rightTitleStyle={styles.rightTitle}
+          chevron
+          bottomDivider
           onPress={() => this.handleCitySearchShowModal()}
         />
 
         <ListItem
           key="skills"
+          containerStyle={styles.itemContainer}
           title="Skills"
+          titleStyle={styles.itemTitle}
           chevron={false}
+          topDivider
           bottomDivider
-          onPress={() => this.handleSkillSearchShowModal()}
           rightIcon={this.renderSkillAddIcon()}
+          onPress={() => this.handleSkillSearchShowModal()}
         />
         {this.renderSkillList()}
       </ScrollView>
