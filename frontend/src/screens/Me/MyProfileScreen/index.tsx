@@ -12,6 +12,8 @@ import {
 } from "../../../constants/buttons";
 
 import styles from "./styles";
+import { CLOSE_ICON } from "../../../constants/icons";
+import iconLoader from "../../../utilities/iconLoader";
 
 type Props = {
   navigator: any;
@@ -35,8 +37,7 @@ class MyProfileScreen extends React.Component<Props, State> {
           navigatorButtons: {
             leftButtons: [
               {
-                //icon: sources[1],
-                title: "Close",
+                icon: iconLoader.getIcon(CLOSE_ICON),
                 id: CLOSE_BUTTON
               }
             ],

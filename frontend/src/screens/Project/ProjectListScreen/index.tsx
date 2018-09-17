@@ -1,6 +1,5 @@
 import * as React from "react";
 import { View, Text } from "react-native";
-import { ProjectCore } from "../../../interfaces";
 import MyProjectList from "./MyProjectList";
 import EditableProjectList from "./EditableProjectList";
 import {
@@ -17,7 +16,7 @@ import {
 import { CLOSE_ICON } from "../../../constants/icons";
 import IconLoader from "../../../utilities/iconLoader";
 import { PROJECT_NEW_SCREEN } from "../../../constants/screens";
-import { CustomizedSegmentedControlTab  } from "../../../components/Commons";
+import { CustomizedSegmentedControlTab } from "../../../components/Common";
 
 type Props = {
   navigator: any;
@@ -97,7 +96,7 @@ class ProjectListScreen extends React.Component<Props, State> {
       navigatorButtons: {
         rightButtons: [
           {
-            title: "SUBMIT",
+            title: "Submit",
             id: SUBMIT_BUTTON
           }
         ]

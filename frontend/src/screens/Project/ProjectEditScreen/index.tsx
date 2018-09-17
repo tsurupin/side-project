@@ -7,7 +7,7 @@ import {
   ProjectFormQuery,
   ProjectDetailsQuery
 } from "../../../queries/projects";
-import { ProjectDetails, ProjectEditParams } from "../../../interfaces";
+import { ProjectDetails, ProjectEditParams, Genre } from "../../../interfaces";
 
 import { EditProjectMutation } from "../../../mutations/projects";
 import { CLOSE_ICON } from "../../../constants/icons";
@@ -20,6 +20,11 @@ type Props = {
   id: string;
   navigator: any;
 };
+
+type DefaultProps = {
+  genres: Genre[];
+};
+
 
 class ProjectEditScreen extends React.Component<Props> {
   constructor(props) {
@@ -39,7 +44,8 @@ class ProjectEditScreen extends React.Component<Props> {
       title: "Edit Photos",
       passProps: {
         id,
-        photos
+        photos,
+        photoType: "Project"
       },
       navigatorButtons: {
         leftButtons: [
@@ -78,7 +84,7 @@ class ProjectEditScreen extends React.Component<Props> {
     );
   };
 
-  private renderEditForm = (project: ProjectDetails, defaultProps) => {
+  private renderEditForm = (project: ProjectDetails, defaultProps: DefaultProps) => {
     const { genres } = defaultProps;
     return (
       <EditProjectMutation>
