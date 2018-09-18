@@ -7,6 +7,6 @@ const styles = StyleSheet.create({
     height: height - 40,
     backgroundColor: BackgroundColor
   }
-})
+});
 
 export default styles;
