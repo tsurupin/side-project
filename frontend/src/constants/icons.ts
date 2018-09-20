@@ -3,7 +3,7 @@ const FILTER_ICON = "filter";
 const CHECK_ICON = "check";
 const ACCOUNT_ICON = "account";
 const PENCIL_ICON = "pencil";
-const MESSAGE_OUTLINE_ICON = "message-outline"
+const MESSAGE_OUTLINE_ICON = "message-outline";
 const FILTER_OUTLINE_ICON = "filter-outline";
 const LIBRARY_BOOKS_ICON = "library-books";
 const HEART_OUTLINE_ICON = "heart-outline";
@@ -18,9 +18,9 @@ const MINUS_CIRCLE_ICON = "minus-circle";
 const PLUS_CIRCLE_ICON = "plus-circle";
 const CLOSE_CIRCLE_ICON = "close-circle";
 const MAGNIFY_ICON = "magnify";
-const ICON_MAIN_TYPE = 'material-community';
-export {
+const ICON_MAIN_TYPE = "material-community";
 
+export {
   CHECK_ICON,
   FILTER_ICON,
   FILTER_OUTLINE_ICON,
@@ -41,6 +41,5 @@ export {
   PLUS_CIRCLE_ICON,
   CLOSE_CIRCLE_ICON,
   MAGNIFY_ICON,
-
   ICON_MAIN_TYPE
-}
+};
