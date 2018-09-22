@@ -1,4 +1,5 @@
 import { StyleSheet, Dimensions } from "react-native";
+import { BorderColor, SubTextColor } from "../../../../constants/colors";
 const windowWidth = Math.trunc(Dimensions.get("window").width);
 const windowHeight = Math.trunc(Dimensions.get("window").height);
 const width = Math.trunc(windowWidth * 0.90);
@@ -10,17 +11,20 @@ const styles = StyleSheet.create({
   },
   cardContainer: {
     width,
-    marginTop: Math.trunc(height * 0.07),
-    height: Math.trunc(height * 0.93),
+    marginTop: Math.trunc(height * 0.05),
+    height: Math.trunc(height * 0.95),
     marginLeft: Math.trunc(windowWidth * 0.05),
     marginRight: Math.trunc(windowWidth * 0.05),
   },
   imageBox: {
     width: "100%",
     height:  Math.trunc(height * 0.4),
+    borderBottomWidth: 1,
+    borderColor: BorderColor
   },
   textContainer: {
     height:  Math.trunc(height * 0.4),
+    width: Math.trunc(width * 0.95),
     flexDirection: "column",
     justifyContent: "flex-start"
   },
@@ -31,8 +35,8 @@ const styles = StyleSheet.create({
   },
   mainTextContainer: {
     height:  "100%",
-    maxWidth: Math.trunc(width * 0.625),
-    marginRight: Math.trunc(width * 0.075)
+    width: Math.trunc(width * 0.65),
+    marginRight: Math.trunc(width * 0.025)
   },
   titleText: {
     fontSize: 24,
@@ -43,11 +47,12 @@ const styles = StyleSheet.create({
     flex: 2
   },
   subText: {
-    fontSize: 16
+    fontSize: 12,
+    color: SubTextColor
   },
 
   badgeContainer: {
-    maxWidth: Math.trunc(width * 0.3),
+    width: Math.trunc(width * 0.25),
     marginTop:  "15%",
     padding: "10%",
     height:  "50%",
@@ -64,7 +69,9 @@ const styles = StyleSheet.create({
   leadSentence: {
     paddingTop:  Math.trunc(height * 0.01),
     paddingBottom:  Math.trunc(height * 0.01),
-    fontSize: 16
+    fontSize: 16,
+    textAlign: "justify",
+    lineHeight: 32
   }
 
 });

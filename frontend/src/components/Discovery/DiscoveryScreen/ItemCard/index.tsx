@@ -71,7 +71,8 @@ const ItemCard: React.SFC<Props> = (props) => {
 
             <View style={styles.subTextContainer}>
               <Divider style={styles.divider} />
-              <Text style={styles.leadSentence}>{details}</Text>
+              
+              <Text style={styles.leadSentence}>{details || "This is details about this project. There are three steps to achive this project"}</Text>
             </View>
           </View>
         </Card>

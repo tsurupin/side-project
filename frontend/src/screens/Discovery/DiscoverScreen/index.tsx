@@ -224,7 +224,7 @@ class DiscoveryScreen extends React.Component<Props, State> {
         {({ loading, error, data }) => {
           if (loading) {
             return <LoadingIndicator />;
-            //return this.setState({loading})
+          
           }
           if (error) {
             return <ErrorMessage {...error} />;
