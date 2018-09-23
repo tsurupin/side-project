@@ -34,6 +34,7 @@ const renderBadge = (badgeName: string | undefined) => {
       value={badgeName}
       containerStyle={styles.badgeContainer}
       textStyle={styles.badgeText}
+      
     />
   );
 };
@@ -59,7 +60,7 @@ const ItemCard: React.SFC<Props> = (props) => {
           imageStyle={styles.imageBox}
           flexDirection="column"
         >
-          <View style={styles.textContainer}>
+          <View style={styles.contentContainer}>
             <View style={styles.headerContainer}>
               <View style={styles.mainTextContainer}>
                 <Text style={styles.titleText}>{title}</Text>

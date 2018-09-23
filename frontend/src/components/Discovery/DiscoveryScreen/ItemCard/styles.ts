@@ -1,5 +1,5 @@
 import { StyleSheet, Dimensions } from "react-native";
-import { BorderColor, SubTextColor } from "../../../../constants/colors";
+import { BorderColor, SubTextColor, ActiveMainColor } from "../../../../constants/colors";
 const windowWidth = Math.trunc(Dimensions.get("window").width);
 const windowHeight = Math.trunc(Dimensions.get("window").height);
 const width = Math.trunc(windowWidth * 0.90);
@@ -22,7 +22,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderColor: BorderColor
   },
-  textContainer: {
+  contentContainer: {
     height:  Math.trunc(height * 0.4),
     width: Math.trunc(width * 0.95),
     flexDirection: "column",
@@ -32,6 +32,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "row",
     justifyContent: "flex-start",
+   
   },
   mainTextContainer: {
     height:  "100%",
@@ -56,6 +57,7 @@ const styles = StyleSheet.create({
     marginTop:  "15%",
     padding: "10%",
     height:  "50%",
+    backgroundColor: ActiveMainColor
   },
   badgeText: {
     fontWeight: 'bold',

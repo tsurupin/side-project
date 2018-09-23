@@ -1,4 +1,5 @@
 import { StyleSheet, Dimensions } from "react-native";
+import { SubTextColor, LabelTextColor, ActiveMainColor } from "../../../../constants/colors";
 const width = Math.trunc(Dimensions.get("window").width);
 const windowHeight = Math.trunc(Dimensions.get("window").height);
 const height = Math.trunc(windowHeight * 0.85);
@@ -12,18 +13,22 @@ const styles = StyleSheet.create({
     height: Math.trunc(height * 0.4)
   },
 
+  contentContainer: {
+    width: Math.trunc(width * 0.92),
+    marginLeft: Math.trunc(width * 0.04),
+    marginRight: Math.trunc(width * 0.04)
+  },
+
   headerContainer: {
     flexDirection: "row",
     justifyContent: "flex-start",
-    height: Math.trunc(height * 0.1),
-    marginLeft: Math.trunc(width * 0.05),
-    marginRight: Math.trunc(width * 0.05),
+    height: 70,
   },
 
   mainTextContainer: {
     height:  "100%",
-    maxWidth: Math.trunc(width * 0.625),
-    marginRight: Math.trunc(width * 0.075)
+    width: Math.trunc(width * 0.65),
+    marginRight: Math.trunc(width * 0.025)
   },
 
   titleText: {
@@ -33,14 +38,16 @@ const styles = StyleSheet.create({
 
 
   subText: {
-    fontSize: 16
+    fontSize: 12,
+    color: SubTextColor
   },
 
   badgeContainer: {
-    maxWidth: Math.trunc(width * 0.3),
+    width: Math.trunc(width * 0.25),
     marginTop:  "15%",
     padding: "10%",
     height:  "50%",
+    backgroundColor: ActiveMainColor
   },
   badgeText: {
     fontWeight: 'bold',
@@ -52,9 +59,6 @@ const styles = StyleSheet.create({
     height: 1
   },
   detailsContainer: {
-    width: Math.trunc(width * 0.9),
-    marginLeft: Math.trunc(width * 0.05),
-    marginRight: Math.trunc(width * 0.05),
     marginTop: Math.trunc(height * 0.03),
     marginBottom: Math.trunc(height * 0.03),
   },
@@ -65,7 +69,7 @@ const styles = StyleSheet.create({
   labelText: {
     fontSize: 20,
     fontWeight: "bold",
-    color: "grey",
+    color: LabelTextColor,
     marginBottom: 5
   },
   mainText: {

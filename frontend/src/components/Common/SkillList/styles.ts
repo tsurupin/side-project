@@ -1,4 +1,5 @@
 import { StyleSheet, ViewStyle } from "react-native";
+import { ActiveMainColor } from "../../../constants/colors";
 
 const styles = StyleSheet.create({
   container: {
@@ -12,14 +13,17 @@ const styles = StyleSheet.create({
   },
   badgeListContainer: {
     flexDirection: "row",
+    flexWrap: "wrap",
     justifyContent: "flex-start",
+
   },
  
   badgeContainer: {
     padding: 5,
     height: 30,
     marginLeft: 10,
-    marginBottom: 10
+    marginBottom: 10,
+    backgroundColor: ActiveMainColor
   },
   badgeFirstContainer: {
     padding: 5,
