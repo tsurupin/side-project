@@ -21,7 +21,7 @@ yarn-debug.log*
 yarn-error.log*
 
 # ios
-/third-parties
+/third-party
 /ios/build/
 /ios/Bolts.framework/
 /ios/FBSDKCoreKit.framework/
