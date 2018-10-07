@@ -7,8 +7,8 @@
     "@richeterre/apollo-upload-client": "^8.0.0",
     "@types/graphql": "^0.13.4",
     "@types/jest": "^23.3.2",
-    "@types/react": "^16.4.14",
-    "@types/react-native": "^0.55.28",
+    "@types/react": "^16.4.15",
+    "@types/react-native": "^0.57.0",
     "@types/react-native-fbsdk": "^0.6.2",
     "@types/react-native-navigation": "^1.1.12",
     "@types/react-test-renderer": "^16.0.2",
@@ -77,14 +77,17 @@
     }
   },
   "dependencies": {
+    "adm-zip": "^0.4.11",
     "expo": "28.0.0",
     "npm": "^6.4.1",
-    "react": "16.3.1",
-    "react-native": "0.55.4",
+    "plist": "^3.0.1",
+    "react": "16.5.0",
+    "react-native": "0.57.2",
     "react-native-actionsheet": "^2.4.2",
     "react-native-elements": "^1.0.0-beta5",
     "react-native-segmented-control-tab": "^3.3.2",
-    "update": "^0.7.4"
+    "update": "^0.7.4",
+    "xcode": "^1.0.0"
   },
   "description": "This project was bootstrapped with [Create React Native App](https://github.com/react-community/create-react-native-app).",
   "directories": {
