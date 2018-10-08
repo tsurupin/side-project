@@ -1,7 +1,7 @@
 import * as React from "react";
 import { View, Text, Image } from "react-native";
 import { Avatar } from "react-native-elements";
-import { RemoteImage } from "../../../Commons";
+import { RemoteImage } from "../../../Common";
 import { UserCore } from "../../../../interfaces";
 import styles from "./styles";
 

@@ -24,7 +24,7 @@ import {
   PHOTOS_EDIT_SCREEN
 } from "./constants/screens";
 import AuthScreen from "./screens/Auth";
-import TopScreen from "./screens/Top";
+//import TopScreen from "./screens/Top";
 
 import { MatchScreen, ChatScreen } from "./screens/Match";
 
@@ -69,12 +69,10 @@ import {
 } from "./constants/icons";
 import IconLoader from "./utilities/iconLoader";
 
-import MainTab from "./screens/MainTab";
-
 const registerComponents = () => {
   Navigation.registerComponent(AUTH_SCREEN, () => ApolloWrapper(AuthScreen));
 
-  Navigation.registerComponent(TOP_SCREEN, () => ApolloWrapper(TopScreen));
+  //Navigation.registerComponent(TOP_SCREEN, () => ApolloWrapper(TopScreen));
 
   Navigation.registerComponent(USER_DISCOVERY_SCREEN, () =>
     ApolloWrapper(DiscoveryScreen)
