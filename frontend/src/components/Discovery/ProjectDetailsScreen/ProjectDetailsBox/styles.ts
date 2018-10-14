@@ -1,46 +1,54 @@
 import { StyleSheet, Dimensions } from "react-native";
+import { DetailTextColor, DetailLabelColor, ActiveMainColor, DividerColor } from "../../../../constants/colors";
+
 const width = Math.trunc(Dimensions.get("window").width);
 const windowHeight = Math.trunc(Dimensions.get("window").height);
 const height = Math.trunc(windowHeight * 0.85);
 
 const styles = StyleSheet.create({
   container: {
-    
+    color: DetailTextColor
   },
 
   carouselWrapper: {
     height: Math.trunc(height * 0.4)
   },
 
+  contentContainer: {
+    width: Math.trunc(width * 0.92),
+    marginLeft: Math.trunc(width * 0.04),
+    marginRight: Math.trunc(width * 0.04)
+  },
   headerContainer: {
     flexDirection: "row",
     justifyContent: "flex-start",
-    height: Math.trunc(height * 0.1),
-    marginLeft: Math.trunc(width * 0.05),
-    marginRight: Math.trunc(width * 0.05),
+    height: 70,
   },
 
   mainTextContainer: {
     height:  "100%",
-    maxWidth: Math.trunc(width * 0.625),
-    marginRight: Math.trunc(width * 0.075)
+    marginTop: 10,
+    maxWidth: Math.trunc(width * 0.65),
+    marginRight: Math.trunc(width * 0.025)
   },
 
   titleText: {
-    fontSize: 24,
-    fontWeight: "bold"
+    fontSize: 16,
+    color: DetailTextColor
   },
 
-
   subText: {
-    fontSize: 16
+    marginTop: 5,
+    fontSize: 16,
+    color: DetailTextColor
   },
 
   badgeContainer: {
-    maxWidth: Math.trunc(width * 0.3),
-    marginTop:  "15%",
+    maxWidth: Math.trunc(width * 0.25),
+    marginTop: "15%",
     padding: "10%",
-    height:  "50%",
+    height: "54%",
+    backgroundColor: ActiveMainColor
   },
   badgeText: {
     fontWeight: 'bold',
@@ -49,23 +57,18 @@ const styles = StyleSheet.create({
   },
 
   divider: {
-    height: 1
+    height: 1,
+    color: DividerColor
   },
   detailsContainer: {
-    width: Math.trunc(width * 0.9),
-    marginLeft: Math.trunc(width * 0.05),
-    marginRight: Math.trunc(width * 0.05),
     marginTop: Math.trunc(height * 0.03),
     marginBottom: Math.trunc(height * 0.03),
   },
   
-  textGroup: {
-    marginBottom: 10
-  },
   labelText: {
-    fontSize: 20,
+    fontSize: 16,
     fontWeight: "bold",
-    color: "grey",
+    color: DetailLabelColor,
     marginBottom: 5
   },
   mainText: {
@@ -74,12 +77,6 @@ const styles = StyleSheet.create({
 
   ownerWrapper: {
 
-  },
-  userListWrapper: {
-
-  },
-  skillListWrapper: {
-   
   },
   responseLikeContainer: {
     flexDirection: "row",
@@ -92,13 +89,11 @@ const styles = StyleSheet.create({
     justifyContent: "center"
   },
   iconContainer: {
-    padding: 10,
-    width: 60,
-    height: 60,
-    borderColor: "blue",
-    borderWidth: 1,
-    borderRadius: 30
+    width: 48,
+    height: 48,
+    borderRadius: 12
   },
+
   userListWrapper: {
     marginTop: 20,
     marginBottom: 30

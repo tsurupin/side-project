@@ -16,16 +16,13 @@ import { UserDetails } from "../../../interfaces";
 
 type Props = {
   id: number;
-  liked: boolean;
+  liked: boolean | undefined;
   navigator: any;
 };
 
 type State = {};
 class UserDetailsScreen extends React.Component<Props, State> {
-  static defaultProps = {
-    liked: false
-  };
-
+ 
   constructor(props: Props) {
     super(props);
     this.props.navigator.setOnNavigatorEvent(this.handleNavigatorEvent);
@@ -122,12 +119,14 @@ class UserDetailsScreen extends React.Component<Props, State> {
             return <ErrorMessage {...error} />;
           }
 
-          const userDetails: UserDetails = data.user;
+          const user: UserDetails = data.user;
 
-          if (liked) {
-            return this.renderLikedUserDetails(userDetails);
+          if (liked == undefined) {
+            return (<UserDetailsBox user={user}/>);
+          } else if (liked) {
+            return this.renderLikedUserDetails(user);
           } else {
-            return this.renderUserDetails(userDetails);
+            return this.renderUserDetails(user);
           }
         }}
       </UserDetailsQuery>

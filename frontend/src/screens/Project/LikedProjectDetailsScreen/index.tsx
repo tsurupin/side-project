@@ -106,43 +106,41 @@ class LikedProjectDetailsScreen extends React.Component<Props, State> {
           const { project } = data;
 
           return (
-            <View>
-              <Text>{project.title}</Text>
-              <WithdrawProjectLikeMutation>
-                {({ withdraProjectLikeMutation, data, loading, error }) => {
-                  if (loading) return <LoadingIndicator />;
-                  if (error) return <ErrorMessage {...error} />;
-                  if (data) {
-                    this.props.navigator.pop();
-                    return <View />;
-                  }
+            <WithdrawProjectLikeMutation>
+              {({ withdraProjectLikeMutation, data, loading, error }) => {
+                if (loading) return <LoadingIndicator />;
+                if (error) return <ErrorMessage {...error} />;
+                if (data) {
+                  this.props.navigator.pop();
+                  return <View />;
+                }
 
-                  return (
-                    <View>
-                      <ProjectDetailsBox
-                        project={project}
-                        liked={true}
-                        onPressUser={this.handleUserPress}
-                      />
-                      <ActionSheet
-                        ref={(o) => (this.ActionSheet = o)}
-                        title={"Title"}
-                        options={ACTION_SHEET_OPTIONS}
-                        cancelButtonIndex={CANCEL_INDEX}
-                        destructiveButtonIndex={CANCEL_INDEX}
-                        onPress={(index) =>
-                          this.handlePressActionSheet(
-                            index,
-                            withdraProjectLikeMutation
-                          )
-                        }
-                      />
-                      ;
-                    </View>
-                  );
-                }}
-              </WithdrawProjectLikeMutation>
-            </View>
+                return (
+                  <View>
+                    <ProjectDetailsBox
+                      project={project}
+                      liked={true}
+                      onPressUser={this.handleUserPress}
+                    />
+                    <ActionSheet
+                      ref={(o) => (this.ActionSheet = o)}
+                      title={"Title"}
+                      options={ACTION_SHEET_OPTIONS}
+                      cancelButtonIndex={CANCEL_INDEX}
+                      destructiveButtonIndex={CANCEL_INDEX}
+                      onPress={(index) =>
+                        this.handlePressActionSheet(
+                          index,
+                          withdraProjectLikeMutation
+                        )
+                      }
+                    />
+                    ;
+                  </View>
+                );
+              }}
+            </WithdrawProjectLikeMutation>
+          
           );
         }}
       </ProjectDetailsQuery>

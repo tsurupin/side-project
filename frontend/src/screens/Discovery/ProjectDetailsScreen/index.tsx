@@ -51,38 +51,35 @@ class ProjectDetailsScreen extends React.Component<Props> {
     return (
       <ProjectDetailsQuery variables={{ id }}>
         {({ data, loading, error }) => {
-          console.log(error);
           if (loading) return <LoadingIndicator />;
           if (error) return <ErrorMessage {...error} />;
 
           const project: ProjectDetails = data.project;
 
           return (
-            <View>
-              <Text>{project.id}</Text>
-              <LikeProjectMutation>
-                {({ likeProjectMutation, data, loading, error }) => {
-                  if (loading) return <LoadingIndicator />;
-                  if (error) return <ErrorMessage {...error} />;
-                  if (data) {
-                    this.props.navigator.push({
-                      screen: LIKED_PROJECT_DETAILS_SCREEN,
-                      passProps: { id }
-                    });
-                    return <View />;
-                  }
+            <LikeProjectMutation>
+              {({ likeProjectMutation, data, loading, error }) => {
+                if (loading) return <LoadingIndicator />;
+                if (error) return <ErrorMessage {...error} />;
+                if (data) {
+                  this.props.navigator.push({
+                    screen: LIKED_PROJECT_DETAILS_SCREEN,
+                    passProps: { id }
+                  });
+                  return <View />;
+                }
 
-                  return (
-                    <ProjectDetailsBox
-                      project={project}
-                      liked={false}
-                      onPressUser={this.handleUserPress}
-                      like={() => this.handlePress(likeProjectMutation)}
-                    />
-                  );
-                }}
-              </LikeProjectMutation>
-            </View>
+                return (
+                  <ProjectDetailsBox
+                    project={project}
+                    liked={false}
+                    onPressUser={this.handleUserPress}
+                    like={() => this.handlePress(likeProjectMutation)}
+                  />
+                );
+              }}
+            </LikeProjectMutation>
+          
           );
         }}
       </ProjectDetailsQuery>
