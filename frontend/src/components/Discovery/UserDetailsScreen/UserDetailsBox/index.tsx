@@ -2,9 +2,11 @@ import * as React from "react";
 import { View, ScrollView } from "react-native";
 import { Divider, Badge, Text, Icon } from "react-native-elements";
 import { SkillList, CarouselPanel, TextGroup } from "../../../Common";
+import { ActiveMainColor } from "../../../../constants/colors";
 import { UserDetails, City } from "../../../../interfaces";
 import {
   CLOSE_ICON,
+  CHECK_ICON,
   HEART_OUTLINE_ICON,
   CHECK_OUTLINE_ICON,
   ICON_MAIN_TYPE
@@ -28,21 +30,24 @@ const renderActionContainer = (liked, like, rejectLike, acceptLike) => {
 const renderResponseLikeContainer = (rejectLike, acceptLike) => {
   return (
     <View style={styles.responseLikeContainer}>
+
       <Icon
-        size={40}
-        color="blue"
-        containerStyle={styles.iconContainer}
-        name={CHECK_OUTLINE_ICON}
-        type={ICON_MAIN_TYPE}
-        onPress={acceptLike}
-      />
-      <Icon
-        size={40}
-        color="blue"
+        size={30}
+        color="grey"
         containerStyle={styles.iconContainer}
         name={CLOSE_ICON}
         type={ICON_MAIN_TYPE}
         onPress={rejectLike}
+        raised
+      />
+      <Icon
+        size={30}
+        color={ActiveMainColor}
+        containerStyle={styles.iconContainer}
+        name={CHECK_ICON}
+        type={ICON_MAIN_TYPE}
+        onPress={acceptLike}
+        raised
       />
     </View>
   );
@@ -106,7 +111,7 @@ const UserDetailsBox: React.SFC<Props> = (props) => {
   ];
     return (
     <ScrollView
-      alwaysBounceVertical={true}
+      alwaysBounceVertical={false}
       showsVerticalScrollIndicator={false}
       contentContainerStyle={styles.container}
     >
@@ -129,7 +134,7 @@ const UserDetailsBox: React.SFC<Props> = (props) => {
             text={`${companyName} /  ${schoolName}`}
           />
           <TextGroup labelName="Introduction" text={introduction} />
-          <View style={styles.skillListContainer}>
+          <View>
             <SkillList skills={skills} />
           </View>
         </View>

@@ -1,5 +1,5 @@
 import { StyleSheet, ViewStyle } from "react-native";
-import { ActiveMainColor } from "../../../constants/colors";
+import { ActiveMainColor, DetailLabelColor } from "../../../constants/colors";
 
 const styles = StyleSheet.create({
   container: {
@@ -8,7 +8,7 @@ const styles = StyleSheet.create({
   labelText: {
     fontSize: 16,
     fontWeight: "bold",
-    color: "grey",
+    color: DetailLabelColor,
     marginBottom: 5
   },
   badgeListContainer: {

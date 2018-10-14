@@ -1,12 +1,12 @@
 import { StyleSheet, Dimensions } from "react-native";
-import { SubTextColor, LabelTextColor, ActiveMainColor } from "../../../../constants/colors";
+import { DetailTextColor, DetailLabelColor, ActiveMainColor, DividerColor } from "../../../../constants/colors";
 const width = Math.trunc(Dimensions.get("window").width);
 const windowHeight = Math.trunc(Dimensions.get("window").height);
 const height = Math.trunc(windowHeight * 0.85);
 
 const styles = StyleSheet.create({
   container: {
-    
+    color: DetailTextColor
   },
 
   carouselWrapper: {
@@ -26,27 +26,28 @@ const styles = StyleSheet.create({
   },
 
   mainTextContainer: {
-    height:  "100%",
+    height: "100%",
     width: Math.trunc(width * 0.65),
+    marginTop: 10,
     marginRight: Math.trunc(width * 0.025)
   },
 
   titleText: {
-    fontSize: 24,
-    fontWeight: "bold"
+    fontSize: 16,
+    color: DetailTextColor
   },
 
-
   subText: {
-    fontSize: 12,
-    color: SubTextColor
+    marginTop: 5,
+    fontSize: 16,
+    color: DetailTextColor
   },
 
   badgeContainer: {
     width: Math.trunc(width * 0.25),
-    marginTop:  "15%",
+    marginTop: "15%",
     padding: "10%",
-    height:  "50%",
+    height: "54%",
     backgroundColor: ActiveMainColor
   },
   badgeText: {
@@ -56,46 +57,30 @@ const styles = StyleSheet.create({
   },
 
   divider: {
-    height: 1
+    height: 1,
+    color: DividerColor
   },
   detailsContainer: {
     marginTop: Math.trunc(height * 0.03),
     marginBottom: Math.trunc(height * 0.03),
   },
-  
-  textGroup: {
-    marginBottom: 10
-  },
-  labelText: {
-    fontSize: 20,
-    fontWeight: "bold",
-    color: LabelTextColor,
-    marginBottom: 5
-  },
-  mainText: {
-    fontSize: 16,
-  },
 
-  skillListContainer: {
-   
-  },
   responseLikeContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
-    marginLeft: Math.trunc(width * 0.25),
-    marginRight: Math.trunc(width * 0.25)
+    width: Math.trunc(width * 0.46),
+    marginLeft: Math.trunc(width * 0.2),
+    marginRight: Math.trunc(width * 0.2),
+    marginBottom: 50
   },
   likeContainer: {
     flexDirection: "row",
     justifyContent: "center"
   },
   iconContainer: {
-    padding: 10,
-    width: 60,
-    height: 60,
-    borderColor: "blue",
-    borderWidth: 1,
-    borderRadius: 30
+    width: 48,
+    height: 48,
+    borderRadius: 12
   }
 
 })

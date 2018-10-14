@@ -9,7 +9,8 @@ const styles = StyleSheet.create<Style>({
   container: {
     height: "100%",
     flexDirection: "row",
-    borderBottomWidth: 1
+    borderBottomWidth: 0,
+    backgroundColor: "black"
   },
   image: {
     width,

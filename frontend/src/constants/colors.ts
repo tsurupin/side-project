@@ -10,9 +10,12 @@ const NavBarTextColor = "#FFFFFF";
 const NotificationBadgeColor = "#EC4926";
 const SegmentControlActiveColor = "#394561";
 const SegmentControlColor = "#7F8792";
-const WhiteColor = "#FFFFFF"
+const WhiteColor = "#FFFFFF";
+const DividerColor = "#D3D4D5";
 
 const MainTextColor = "#000000";
+const DetailTextColor = "#636465";
+const DetailLabelColor = "#A9AAAB";
 const BorderColor = "#CACACE";
 const BackgroundColor = "#EFEFF4";
 const LabelTextColor = "#6F6E74";
@@ -38,5 +41,8 @@ export {
   BackgroundColor,
   LabelTextColor,
   SubTextColor,
-  ActiveMainColor
+  ActiveMainColor,
+  DetailTextColor,
+  DetailLabelColor,
+  DividerColor
 }
