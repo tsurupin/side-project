@@ -5,7 +5,7 @@ import Icon from "react-native-vector-icons/dist/MaterialCommunityIcons";
 
 import MemberListItem from "../MemberListItem";
 import MemberList from "../MemberList";
-import { SkillList, CarouselPanel, TextGroup } from "../../../Commons";
+import { SkillList, CarouselPanel, TextGroup } from "../../../Common";
 import { ProjectDetails, City } from "../../../../interfaces";
 import {
   CLOSE_ICON,
