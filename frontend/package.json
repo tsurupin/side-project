@@ -24,7 +24,6 @@
     "apollo-link-state": "^0.4.2",
     "babel-jest": "^23.6.0",
     "babel-plugin-inline-import-graphql-ast": "^2.4.1",
-    "babel-preset-expo": "^4.0.0",
     "babel-preset-react-native-stage-0": "^1.0.1",
     "enzyme": "^3.6.0",
     "eslint": "^4.19.1",
