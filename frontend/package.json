@@ -24,6 +24,7 @@
     "apollo-link-state": "^0.4.2",
     "babel-jest": "^23.6.0",
     "babel-plugin-inline-import-graphql-ast": "^2.4.1",
+    "babel-preset-expo": "^4.0.0",
     "babel-preset-react-native-stage-0": "^1.0.1",
     "enzyme": "^3.6.0",
     "eslint": "^4.19.1",
@@ -32,7 +33,6 @@
     "graphql-tag": "^2.9.2",
     "jest": "^23.6.0",
     "jest-react-native": "^18.0.0",
-    "metro-react-native-babel-preset": "^0.48.1",
     "react-apollo": "^2.1.11",
     "react-native-fbsdk": "^0.7.0",
     "react-native-image-picker": "^0.26.10",
@@ -84,6 +84,7 @@
     "react-native-actionsheet": "^2.4.2",
     "react-native-elements": "^1.0.0-beta5",
     "react-native-segmented-control-tab": "^3.3.2",
+    "react-native-vector-icons": "^6.0.2",
     "update": "^0.7.4"
   },
   "description": "This project was bootstrapped with [Create React Native App](https://github.com/react-community/create-react-native-app).",
