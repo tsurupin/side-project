@@ -99,21 +99,6 @@ const MainTab = () => {
           title: "Settings",
           icon: IconLoader.getIcon(ACCOUNT_ICON)
         }
-        // {
-        //   screen: MY_PROFILE_SCREEN,
-        //   label: "MyProfile",
-        //   title: "MyProfile",
-        //   icon: IconLoader.getIcon(ACCOUNT_ICON),
-        //   navigatorButtons: {
-        //     rightButtons: [
-        //       {
-        //         icon: IconLoader.getIcon(PENCIL_ICON),
-        //         title: "Edit",
-        //         id: USER_EDIT_BUTTON
-        //       }
-        //     ]
-        //   }
-        // }
       ],
       drawer: {}
     });

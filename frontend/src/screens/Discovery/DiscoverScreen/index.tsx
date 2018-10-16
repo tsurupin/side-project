@@ -7,7 +7,7 @@ import {
   PROJECT_DETAILS_SCREEN,
   USER_DETAILS_SCREEN
 } from "../../../constants/screens";
-import { CLOSE_ICON, FILTER_ICON } from "../../../constants/icons";
+import { CLOSE_ICON, FILTER_ICON, ARROW_LEFT_ICON } from "../../../constants/icons";
 
 import {
   BACK_BUTTON,
@@ -128,7 +128,7 @@ class DiscoveryScreen extends React.Component<Props, State> {
       navigatorButtons: {
         leftButtons: [
           {
-            icon: IconLoader.getIcon(CLOSE_ICON),
+            icon: IconLoader.getIcon(ARROW_LEFT_ICON),
             title: "Back",
             id: BACK_BUTTON
           }

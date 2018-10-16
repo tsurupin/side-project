@@ -9,7 +9,9 @@ import {
 import { ChatDetailsQuery } from "../../../queries/chats";
 import { CreateMessageMutation } from "../../../mutations/chats";
 import { MessageParams } from "../../../interfaces";
-
+import {
+  BACK_BUTTON,
+} from "../../../constants/buttons";
 import { MessageList, MessageForm } from "../../../components/Match/ChatScreen";
 import styles from "./styles";
 import { LoadingIndicator, ErrorMessage } from "../../../components/Common";
@@ -23,7 +25,18 @@ type State = {};
 class ChatScreen extends React.Component<Props, State> {
   constructor(props) {
     super(props);
+    this.props.navigator.setOnNavigatorEvent(this.handleNavigatorEvent);
   }
+
+  private handleNavigatorEvent = (e) => {
+    if (e.type !== "NavBarButtonPress") return;
+
+    switch (e.id) {
+      case BACK_BUTTON:
+      this.props.navigator.pop();
+    }
+  };
+
 
   handlePress = (variables: MessageParams, mutation) => {
     mutation({ variables });

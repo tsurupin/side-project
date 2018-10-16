@@ -3,6 +3,7 @@ const FILTER_ICON = "filter";
 const CHECK_ICON = "check";
 const ACCOUNT_ICON = "account";
 const PENCIL_ICON = "pencil";
+const ARROW_LEFT_ICON = "arrow-left";
 const MESSAGE_OUTLINE_ICON = "message-outline";
 const FILTER_OUTLINE_ICON = "filter-outline";
 const LIBRARY_BOOKS_ICON = "library-books";
@@ -41,5 +42,6 @@ export {
   PLUS_CIRCLE_ICON,
   CLOSE_CIRCLE_ICON,
   MAGNIFY_ICON,
-  ICON_MAIN_TYPE
+  ICON_MAIN_TYPE,
+  ARROW_LEFT_ICON
 };

@@ -6,12 +6,12 @@ const height = Math.trunc(windowHeight * 0.85);
 const styles = StyleSheet.create({
   container: {
     marginTop: 20,
-    marginBottom: 30
+    marginBottom: 60
   },
   header: {
     flexDirection: "row",
     justifyContent: "space-between",
-    height: 20,
+    height: 40,
     width: "100%"
   },
 
@@ -25,9 +25,6 @@ const styles = StyleSheet.create({
     padding: 5,
     width: 30,
     height: 30,
-    borderColor: "blue",
-    borderWidth: 1,
-    borderRadius: 15,
     transform: [{rotate: '90deg'}]
   }
 

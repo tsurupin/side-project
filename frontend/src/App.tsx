@@ -65,7 +65,8 @@ import {
   PENCIL_ICON,
   ACCOUNT_ICON,
   LIBRARY_BOOKS_ICON,
-  BACK_ICON
+  BACK_ICON,
+  ARROW_LEFT_ICON
 } from "./constants/icons";
 import IconLoader from "./utilities/iconLoader";
 
@@ -137,7 +138,7 @@ const registerComponents = () => {
 
 registerComponents();
 
-const navIcons = [CLOSE_ICON, FILTER_ICON, FILTER_OUTLINE_ICON, BACK_ICON];
+const navIcons = [CLOSE_ICON, FILTER_ICON, FILTER_OUTLINE_ICON, BACK_ICON, ARROW_LEFT_ICON];
 const tabIcons = [
   LIBRARY_BOOKS_ICON,
   PENCIL_ICON,

@@ -9,8 +9,10 @@ import { ProjectDetails, City } from "../../../../interfaces";
 import { ActiveMainColor } from "../../../../constants/colors";
 import {
   CLOSE_ICON,
+  CHECK_ICON,
   HEART_OUTLINE_ICON,
-  CHECK_OUTLINE_ICON
+  CHECK_OUTLINE_ICON,
+  ICON_MAIN_TYPE
 } from "../../../../constants/icons";
 import styles from "./styles";
 
@@ -45,7 +47,8 @@ const renderLikeButton = (liked: boolean, like: any) => {
         size={30}
         color={ActiveMainColor}
         iconStyle={styles.iconContainer}
-        name={HEART_OUTLINE_ICON}
+        name={CHECK_ICON}
+        type={ICON_MAIN_TYPE}
         onPress={like}
         raised
       />

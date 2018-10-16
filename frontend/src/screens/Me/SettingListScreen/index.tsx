@@ -8,7 +8,7 @@ import {
 } from "../../../components/Me/SettingListScreen";
 import { MY_PROFILE_SCREEN } from "../../../constants/screens";
 import { BACK_BUTTON, USER_EDIT_BUTTON } from "../../../constants/buttons";
-import { PENCIL_ICON, BACK_ICON } from "../../../constants/icons";
+import { PENCIL_ICON, ARROW_LEFT_ICON } from "../../../constants/icons";
 import { MyUserQuery } from "../../../queries/users";
 import { UserDetails } from "../../../interfaces";
 import IconLoader from "../../../utilities/iconLoader";
@@ -30,8 +30,7 @@ class SettingsListScreen extends React.Component<Props> {
       navigatorButtons: {
         leftButtons: [
           {
-            icon: IconLoader.getIcon(BACK_ICON),
-            title: "BACK",
+            icon: IconLoader.getIcon(ARROW_LEFT_ICON),
             id: BACK_BUTTON
           }
         ],

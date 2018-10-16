@@ -14,7 +14,11 @@ import {
   ChatList
 } from "../../../components/Match/MatchScreen";
 import { Chat, UserCore } from "../../../interfaces";
-
+import {
+  BACK_BUTTON,
+} from "../../../constants/buttons";
+import { ARROW_LEFT_ICON } from "../../../constants/icons";
+import IconLoader from "../../../utilities/iconLoader";
 import styles from "./styles";
 import { LoadingIndicator, ErrorMessage } from "../../../components/Common";
 
@@ -34,7 +38,15 @@ class MatchScreen extends React.Component<Props, State> {
     this.props.navigator.push({
       screen: CHAT_SCREEN,
       title: name,
-      passProps: { id }
+      passProps: { id },
+      navigatorButtons: {
+        leftButtons: [
+          {
+            icon: IconLoader.getIcon(ARROW_LEFT_ICON),
+            id: BACK_BUTTON
+          }
+        ]
+      }
     });
   };
 
@@ -45,7 +57,15 @@ class MatchScreen extends React.Component<Props, State> {
     this.props.navigator.push({
       screen: USER_DETAILS_SCREEN,
       title: userDisplayName,
-      passProps: { id: userId, liked: true }
+      passProps: { id: userId, liked: true },
+      navigatorButtons: {
+        leftButtons: [
+          {
+            icon: IconLoader.getIcon(ARROW_LEFT_ICON),
+            id: BACK_BUTTON
+          }
+        ]
+      }
     });
   };
 

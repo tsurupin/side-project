@@ -13,7 +13,7 @@ import {
   CLOSE_BUTTON,
   SUBMIT_BUTTON
 } from "../../../constants/buttons";
-import { CLOSE_ICON } from "../../../constants/icons";
+import { CLOSE_ICON, ARROW_LEFT_ICON } from "../../../constants/icons";
 import IconLoader from "../../../utilities/iconLoader";
 import { PROJECT_NEW_SCREEN } from "../../../constants/screens";
 import { CustomizedSegmentedControlTab } from "../../../components/Common";
@@ -50,7 +50,6 @@ class ProjectListScreen extends React.Component<Props, State> {
             leftButtons: [
               {
                 icon: IconLoader.getIcon(CLOSE_ICON),
-                title: "Close",
                 id: CLOSE_BUTTON
               }
             ],
@@ -67,7 +66,7 @@ class ProjectListScreen extends React.Component<Props, State> {
 
   private handleIndexChange = (selectedIndex: number): void => {
     this.setState({ selectedIndex });
-  };
+  }; 
 
   private handleLikedProjectPress = (id: string) => {
     this.props.navigator.push({
@@ -76,7 +75,7 @@ class ProjectListScreen extends React.Component<Props, State> {
       navigatorButtons: {
         leftButtons: [
           {
-            title: "BACK",
+            icon: IconLoader.getIcon(ARROW_LEFT_ICON),
             id: BACK_BUTTON
           }
         ],

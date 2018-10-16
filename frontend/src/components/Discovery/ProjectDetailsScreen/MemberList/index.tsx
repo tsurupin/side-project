@@ -3,11 +3,13 @@ import * as React from "react";
 import { Animated, View, Text, FlatList } from "react-native";
 import { UserCore } from "../../../../interfaces";
 import MemberListItem from "../MemberListItem";
-import Icon from "react-native-vector-icons/dist/MaterialCommunityIcons";
+import {Icon} from "react-native-elements";
 import {
   FORMAT_HORIZONTAL_ALIGN_LEFT_ICON,
-  FORMAT_HORIZONTAL_ALIGN_RIGHT_ICON
+  FORMAT_HORIZONTAL_ALIGN_RIGHT_ICON,
+  ICON_MAIN_TYPE
 } from "../../../../constants/icons";
+import { ACTIVE_MAIN_COLOR } from "../../../../constants/colors";
 import styles from "./styles";
 
 type Props = {
@@ -60,10 +62,12 @@ class MemberList extends React.Component<Props, State> {
 
   private renderUserListToggleIcon = () => {
     return (
+
       <Icon
         size={20}
-        color="blue"
-        iconStyle={styles.iconContainer}
+        color={ACTIVE_MAIN_COLOR}
+        containerStyle={styles.iconContainer}
+        type={ICON_MAIN_TYPE}
         name={
           this.state.isOpen
             ? FORMAT_HORIZONTAL_ALIGN_LEFT_ICON
