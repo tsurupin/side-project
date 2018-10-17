@@ -28,12 +28,15 @@ defmodule Api.Accounts.Authentication do
       exp: one_hour_later,
       uid: user.uid
     }
+
     IO.inspect(user)
     IO.inspect(custom_claims)
 
     case Api.Guardian.encode_and_sign(user, custom_claims) do
-      {:ok, token, _full_claims} -> {:ok, token}
-      {:error, reason} -> 
+      {:ok, token, _full_claims} ->
+        {:ok, token}
+
+      {:error, reason} ->
         IO.inspect(reason)
         {:error, reason}
     end
