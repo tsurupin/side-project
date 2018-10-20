@@ -86,7 +86,8 @@ const styles = StyleSheet.create({
   },
   likeContainer: {
     flexDirection: "row",
-    justifyContent: "center"
+    justifyContent: "center",
+    marginBottom: 50
   },
   iconContainer: {
     width: 48,

@@ -58,12 +58,13 @@ const renderLikeContainer = (like) => {
   return (
     <View style={styles.likeContainer}>
       <Icon
-        size={40}
-        color="blue"
+        size={30}
+        color={ActiveMainColor}
         containerStyle={styles.iconContainer}
         type={ICON_MAIN_TYPE}
         name={HEART_OUTLINE_ICON}
         onPress={like}
+        raised
       />
     </View>
   );

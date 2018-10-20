@@ -46,7 +46,7 @@ const renderLikeButton = (liked: boolean, like: any) => {
       <Icon
         size={30}
         color={ActiveMainColor}
-        iconStyle={styles.iconContainer}
+        containerStyle={styles.iconContainer}
         name={CHECK_ICON}
         type={ICON_MAIN_TYPE}
         onPress={like}
