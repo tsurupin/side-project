@@ -14,6 +14,10 @@ const MemberListItem: React.SFC<Props> = (props) => {
   return (
     <ListItem
       title={displayName}
+      containerStyle={styles.container}
+      contentContainerStyle={styles.contentContainer}
+      titleStyle={styles.title}
+      subtitleStyle={styles.subTitle}
       subtitle={occupationType ? occupationType.name : ""}
       leftAvatar={{
         source: { uri: mainPhotoUrl }

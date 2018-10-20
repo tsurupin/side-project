@@ -5,14 +5,15 @@ const height = Math.trunc(windowHeight * 0.85);
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: 20,
-    marginBottom: 60
+    paddingTop: 2,
+    marginBottom: 20
   },
   header: {
+    marginTop: 20,
     flexDirection: "row",
     justifyContent: "space-between",
     height: 40,
-    width: "100%"
+    width: "100%",
   },
 
   label: {  
@@ -26,7 +27,8 @@ const styles = StyleSheet.create({
     width: 30,
     height: 30,
     transform: [{rotate: '90deg'}]
-  }
+  },
+ 
 
 })
 

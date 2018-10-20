@@ -9,7 +9,7 @@ import {
   FORMAT_HORIZONTAL_ALIGN_RIGHT_ICON,
   ICON_MAIN_TYPE
 } from "../../../../constants/icons";
-import { ACTIVE_MAIN_COLOR } from "../../../../constants/colors";
+import { ActiveMainColor} from "../../../../constants/colors";
 import styles from "./styles";
 
 type Props = {
@@ -20,44 +20,31 @@ type Props = {
 type State = {
   isOpen: boolean;
   currentHeight?: any;
-  minHeight: number;
   maxHeight: number;
 };
+const MIN_HEIGHT = 2;
+
 class MemberList extends React.Component<Props, State> {
   constructor(props) {
     super(props);
+
     this.state = {
       isOpen: false,
-      minHeight: 0,
-      maxHeight: 0
+      maxHeight:  MIN_HEIGHT + (props.members.length * 60) - 10,
+      currentHeight: new Animated.Value(2) 
     };
   }
 
   private toggle = () => {
-    const { isOpen, minHeight, maxHeight } = this.state;
+    const { isOpen, maxHeight } = this.state;
 
-    const initialValue = isOpen ? maxHeight + minHeight : minHeight;
-    const finalValue = isOpen ? minHeight : maxHeight + minHeight;
+    const finalValue = isOpen ? MIN_HEIGHT : maxHeight;
 
     this.setState({ isOpen: !this.state.isOpen });
-    this.state.currentHeight.setValue(initialValue);
+  
     Animated.spring(this.state.currentHeight, {
-      toValue: finalValue
+      toValue: finalValue,
     }).start();
-  };
-
-  private setMaxHeight = (event) => {
-    this.setState({
-      maxHeight: event.nativeEvent.layout.height
-    });
-  };
-
-  private setMinHeight = (event) => {
-    const height = event.nativeEvent.layout.height;
-    this.setState({
-      minHeight: height,
-      currentHeight: new Animated.Value(height)
-    });
   };
 
   private renderUserListToggleIcon = () => {
@@ -65,7 +52,7 @@ class MemberList extends React.Component<Props, State> {
 
       <Icon
         size={20}
-        color={ACTIVE_MAIN_COLOR}
+        color={ActiveMainColor}
         containerStyle={styles.iconContainer}
         type={ICON_MAIN_TYPE}
         name={
@@ -82,22 +69,22 @@ class MemberList extends React.Component<Props, State> {
     const { members, onPressUser } = this.props;
 
     return (
+      <View>
+        <View  style={styles.header}>
+            <Text style={styles.label}>{`Members (${members.length})`}</Text>
+            {this.renderUserListToggleIcon()}
+        </View>
       <Animated.View
-        style={[styles.container, { height: this.state.currentHeight }]}
-      >
-        <View style={styles.header} onLayout={this.setMinHeight}>
-          <Text style={styles.label}>{`Members (${members.length})`}</Text>
-          {this.renderUserListToggleIcon()}
-        </View>
-        <View onLayout={this.setMaxHeight}>
-          <FlatList
-            data={members}
-            renderItem={({ item }) => {
-              return <MemberListItem member={item} onPress={onPressUser} />;
-            }}
-          />
-        </View>
+        style={[styles.container, { height: this.state.currentHeight}]}
+      > 
+        <FlatList
+          data={members}
+          renderItem={({ item }) => {
+            return <MemberListItem member={item} onPress={onPressUser} />;
+          }}
+        />
       </Animated.View>
+      </View>
     );
   }
 }
