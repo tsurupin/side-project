@@ -2,6 +2,8 @@ import * as React from "react";
 import { View, TouchableOpacity, Text, Button } from "react-native";
 import { ProjectDetailsQuery } from "../../../queries/projects";
 import { BACK_BUTTON } from "../../../constants/buttons";
+import { BACK_ICON } from "../../../constants/icons";
+
 import styles from "./styles";
 import { LikeProjectMutation } from "../../../mutations/projectLikes";
 import {
@@ -11,7 +13,7 @@ import {
 import { ProjectDetailsBox } from "../../../components/Discovery/ProjectDetailsScreen";
 import { ProjectDetails } from "../../../interfaces";
 import { LoadingIndicator, ErrorMessage } from "../../../components/Common";
-
+import IconLoader from "../../../utilities/iconLoader";
 type Props = {
   id: string;
   navigator: any;
@@ -42,6 +44,14 @@ class ProjectDetailsScreen extends React.Component<Props> {
       screen: USER_DETAILS_SCREEN,
       passProps: {
         id: userId
+      },
+      navigatorButtons: {
+        leftButtons: [
+          {
+            icon:IconLoader.getIcon(BACK_ICON),
+            id: BACK_BUTTON
+          }
+        ]
       }
     });
   };

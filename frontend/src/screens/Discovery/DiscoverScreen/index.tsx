@@ -128,8 +128,7 @@ class DiscoveryScreen extends React.Component<Props, State> {
       navigatorButtons: {
         leftButtons: [
           {
-            icon: IconLoader.getIcon(ARROW_LEFT_ICON),
-            title: "Back",
+            icon: IconLoader.getIcon(BACK_ICON),
             id: BACK_BUTTON
           }
         ]

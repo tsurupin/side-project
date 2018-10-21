@@ -28,8 +28,8 @@ const ItemList: React.SFC<Props> = (props) => {
 
   if (items.length === 0) {
     return (
-      <View key={0}>
-        <Text>{`No ${type} Found`}</Text>
+      <View key={0} style={styles.blankContainer}>
+        <Text style={styles.text}>{`No ${type} Found`}</Text>
       </View>
     );
   }

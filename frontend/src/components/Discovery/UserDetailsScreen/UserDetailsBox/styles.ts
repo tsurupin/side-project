@@ -1,4 +1,4 @@
-import { StyleSheet, Dimensions, BackAndroid } from "react-native";
+import { StyleSheet, Dimensions} from "react-native";
 import { DetailTextColor, DetailLabelColor, ActiveMainColor, DividerColor, BackgroundColor } from "../../../../constants/colors";
 const width = Math.trunc(Dimensions.get("window").width);
 const windowHeight = Math.trunc(Dimensions.get("window").height);
