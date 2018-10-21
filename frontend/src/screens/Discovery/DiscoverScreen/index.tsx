@@ -7,7 +7,7 @@ import {
   PROJECT_DETAILS_SCREEN,
   USER_DETAILS_SCREEN
 } from "../../../constants/screens";
-import { CLOSE_ICON, FILTER_ICON, ARROW_LEFT_ICON } from "../../../constants/icons";
+import { CLOSE_ICON, FILTER_ICON, BACK_ICON } from "../../../constants/icons";
 
 import {
   BACK_BUTTON,
@@ -223,7 +223,7 @@ class DiscoveryScreen extends React.Component<Props, State> {
         {({ loading, error, data }) => {
           if (loading) {
             return <LoadingIndicator />;
-          
+
           }
           if (error) {
             return <ErrorMessage {...error} />;

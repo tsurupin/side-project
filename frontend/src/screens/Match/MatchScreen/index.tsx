@@ -17,7 +17,7 @@ import { Chat, UserCore } from "../../../interfaces";
 import {
   BACK_BUTTON,
 } from "../../../constants/buttons";
-import { ARROW_LEFT_ICON } from "../../../constants/icons";
+import { BACK_ICON } from "../../../constants/icons";
 import IconLoader from "../../../utilities/iconLoader";
 import styles from "./styles";
 import { LoadingIndicator, ErrorMessage } from "../../../components/Common";
@@ -42,7 +42,7 @@ class MatchScreen extends React.Component<Props, State> {
       navigatorButtons: {
         leftButtons: [
           {
-            icon: IconLoader.getIcon(ARROW_LEFT_ICON),
+            icon: IconLoader.getIcon(BACK_ICON),
             id: BACK_BUTTON
           }
         ]
