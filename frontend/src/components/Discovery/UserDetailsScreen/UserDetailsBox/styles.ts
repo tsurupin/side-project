@@ -1,12 +1,16 @@
-import { StyleSheet, Dimensions } from "react-native";
-import { DetailTextColor, DetailLabelColor, ActiveMainColor, DividerColor } from "../../../../constants/colors";
+import { StyleSheet, Dimensions, BackAndroid } from "react-native";
+import { DetailTextColor, DetailLabelColor, ActiveMainColor, DividerColor, BackgroundColor } from "../../../../constants/colors";
 const width = Math.trunc(Dimensions.get("window").width);
 const windowHeight = Math.trunc(Dimensions.get("window").height);
 const height = Math.trunc(windowHeight * 0.85);
 
 const styles = StyleSheet.create({
   container: {
-    color: DetailTextColor
+    backgroundColor: BackgroundColor
+  },
+  scrollContainer: {
+    color: DetailTextColor,
+    backgroundColor: "white"
   },
 
   carouselWrapper: {

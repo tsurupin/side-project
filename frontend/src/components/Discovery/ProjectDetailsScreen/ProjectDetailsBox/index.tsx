@@ -75,39 +75,41 @@ const ProjectDetailsBox: React.SFC<Props> = (props) => {
     "I'm a genuine technology lover who codes literally everyday.\nFor most of my past career, Ive worked for a small team. I love to wear many hats - from backend and front-end to mobile or DevOps, and I am happy to take on any role to make a better product.\nMy true passion is not to learn a new technology itself, but to create a great product with ambitious teammates which contributes to our life.\nI'm a full stack engineer, who is especially proficient in Ruby, Rails and React/Redux.\nMy recent project, built in Rails and React/Redux,  got over 500 stars in GitHub.";
 
   return (
-    <ScrollView
-      alwaysBounceVertical={false}
-      showsVerticalScrollIndicator={false}
-      contentContainerStyle={styles.container}
-    >
-      <View style={styles.carouselWrapper}>
-        <CarouselPanel photos={photos} />
-      </View>
-      <View style={styles.contentContainer}>
-        <View style={styles.headerContainer}>
-          <View style={styles.mainTextContainer}>
-            <Text style={styles.titleText}>{title} </Text>
-            {renderCityName(city)}
-          </View>
-          {renderBadge(genre ? genre.name : undefined)}
+    <View style={styles.container}>
+      <ScrollView
+        alwaysBounceVertical={false}
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={styles.scrollContainer}
+      >
+        <View style={styles.carouselWrapper}>
+          <CarouselPanel photos={photos} />
         </View>
-        <Divider style={styles.divider} />
-        <View style={styles.detailsContainer}>
-          <TextGroup labelName="Lead Sentence" text={leadSentence} />
-          <TextGroup labelName="Motivation" text={motivation} />
-          <View style={styles.ownerWrapper}>
-            <Text style={styles.label}>Owner</Text>
-            <MemberListItem key={owner.id} member={owner} onPress={onPressUser} />
+        <View style={styles.contentContainer}>
+          <View style={styles.headerContainer}>
+            <View style={styles.mainTextContainer}>
+              <Text style={styles.titleText}>{title} </Text>
+              {renderCityName(city)}
+            </View>
+            {renderBadge(genre ? genre.name : undefined)}
           </View>
-          <MemberList members={users} onPressUser={onPressUser} />
+          <Divider style={styles.divider} />
+          <View style={styles.detailsContainer}>
+            <TextGroup labelName="Lead Sentence" text={leadSentence} />
+            <TextGroup labelName="Motivation" text={motivation} />
+            <View style={styles.ownerWrapper}>
+              <Text style={styles.label}>Owner</Text>
+              <MemberListItem key={owner.id} member={owner} onPress={onPressUser} />
+            </View>
+            <MemberList members={users} onPressUser={onPressUser} />
 
-          <View style={styles.skillListWrapper}>
-            <SkillList skills={skills} />
+            <View style={styles.skillListWrapper}>
+              <SkillList skills={skills} />
+            </View>
           </View>
+          {renderLikeButton(liked, like)}
         </View>
-        {renderLikeButton(liked, like)}
-      </View>
-    </ScrollView>
+      </ScrollView>
+    </View>
   );
 };
 
