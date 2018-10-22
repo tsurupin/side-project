@@ -15,9 +15,11 @@ let onPress;
 const keyExtractor = (_item, index) => index;
 
 const renderProject = ({ item }) => {
+ 
+  const editing = item.status === "EDITING";
   return (
     <ListItem
-      title={item.title}
+      title={editing ? `${item.title} (Editing)` : item.title}
       subtitle={item.genre ? item.genre.name : ""}
       leftAvatar={{ source: { uri: item.main_photo_url } }}
       chevron

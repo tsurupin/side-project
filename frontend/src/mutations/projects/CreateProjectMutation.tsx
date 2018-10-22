@@ -17,10 +17,11 @@ const CreateProjectMutation = (props: Props) => {
       mutation={CREATE_PROJECT_MUTATION}
       context={{ needAuth: true }}
       update={(cache, { data: { createProject } }) => {
+        console.log("doc", EDITABLE_PROJECT_LIST_QUERY);
+        
         const projectData = cache.readQuery({
           query: EDITABLE_PROJECT_LIST_QUERY
         });
-        console.log("projectData", projectData);
         
         const projects = projectData.editableProjects;
         const newProject = {

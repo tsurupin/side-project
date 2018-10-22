@@ -1,5 +1,4 @@
 import gql from "graphql-tag";
-import { parseFragment } from "../utilities/parseFragment";
 
 export const PROJECT_FRAGMENTS = {
   projectDetails: gql`
@@ -49,6 +48,7 @@ export const PROJECT_FRAGMENTS = {
       title
       leadSentence
       mainPhotoUrl
+      status
       genre {
         id
         name

@@ -92,6 +92,7 @@ class ProjectEditScreen extends React.Component<Props> {
           if (loading) return <LoadingIndicator />;
           if (error) return <ErrorMessage {...error} />;
           if (data) {
+            console.log(data, 'aa')
             this.props.navigator.dismissModal();
             return <View />;
           }

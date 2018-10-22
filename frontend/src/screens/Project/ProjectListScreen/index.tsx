@@ -90,10 +90,16 @@ class ProjectListScreen extends React.Component<Props, State> {
   };
 
   private handleEditableProjectPress = (id: string) => {
-    this.props.navigator.push({
+    this.props.navigator.showModal({
       screen: PROJECT_EDIT_SCREEN,
       passProps: { id },
       navigatorButtons: {
+        leftButtons: [
+          {
+            icon: IconLoader.getIcon(CLOSE_ICON),
+            id: CLOSE_BUTTON
+          }
+        ],
         rightButtons: [
           {
             title: "Submit",

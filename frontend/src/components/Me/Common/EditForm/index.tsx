@@ -10,7 +10,7 @@ import {
 } from "../../../../interfaces";
 import { ListItem, Icon } from "react-native-elements";
 import { SelectBox, TextAreaListItem } from "../../../Common";
-import { SUBMIT_BUTTON, CLOSE_BUTTON } from "../../../../constants/buttons";
+import { SUBMIT_BUTTON, CLOSE_BUTTON} from "../../../../constants/buttons";
 import { CLOSE_ICON } from "../../../../constants/icons";
 import IconLoader from "../../../../utilities/iconLoader";
 
@@ -162,12 +162,14 @@ class EditForm extends React.Component<Props, State> {
   };
 
   private handleNavigatorEvent = (e) => {
-    if (e.type !== "NavBarButtonPress") return;
 
+    if (e.type !== "NavBarButtonPress") return;
+    
     switch (e.id) {
       case SUBMIT_BUTTON:
         this.props.onSubmit(this.buildUserEditParams());
         break;
+
       case CLOSE_BUTTON:
         this.props.navigator.dismissModal();
         break;
