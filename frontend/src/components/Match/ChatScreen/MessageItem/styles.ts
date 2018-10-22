@@ -43,14 +43,8 @@ const styles = StyleSheet.create({
   },
   description: {
     fontSize: 16,
-
-
   },
-  image: {
-    width: "100%",
-    minHeight: 50,
-    maxHeight: 500
-  }
+  
   
 })
 

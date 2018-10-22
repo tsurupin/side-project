@@ -80,14 +80,14 @@ class MessageForm extends React.Component<Props, State> {
   };
 
   render() {
-    const { comment, image } = this.state;
+    const { comment } = this.state;
     const { submitting } = this.props;
     const disabled = submitting || comment == undefined || comment == "";
 
     return (
       <View style={styles.container}>
         <Icon
-          size={36}
+          size={40}
           color="white"
           containerStyle={styles.iconContainer}
           iconStyle={styles.icon}
@@ -99,7 +99,7 @@ class MessageForm extends React.Component<Props, State> {
           containerStyle={styles.inputContainer}
           inputContainerStyle={styles.inputInnerContainer}
           inputStyle={styles.input}
-          placeholder="Add New Message"
+          placeholder="Message"
           value={comment}
           onChangeText={(v) =>
             this.setState({ comment: v, messageType: "comment" })

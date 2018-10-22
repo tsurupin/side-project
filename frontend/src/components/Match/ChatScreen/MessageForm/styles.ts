@@ -1,4 +1,5 @@
 import { StyleSheet, Dimensions } from "react-native";
+import { ActiveMainColor, BackgroundColor } from "../../../../constants/colors";
 const width = Math.trunc(Dimensions.get("window").width);
 const windowHeight = Math.trunc(Dimensions.get("window").height);
 const height = Math.trunc(windowHeight * 0.85);
@@ -15,7 +16,7 @@ const styles = StyleSheet.create({
     backgroundColor: "grey"
   },
   iconContainer: {
-    width: 36,
+    
   },
   icon: {
   
@@ -35,7 +36,8 @@ const styles = StyleSheet.create({
     paddingLeft: 5,
     paddingRight: 5,
     paddingTop: 0,
-    paddingBottom: 0
+    paddingBottom: 0,
+    borderRadius: 5
   },
   input: {
     fontSize: 16
@@ -46,13 +48,15 @@ const styles = StyleSheet.create({
     paddingRight: 10
   },
   buttonTitle: {
-    fontSize: 12
+    fontSize: 12,
+    fontWeight: "bold"
   },
   button: {
     height: 36,
+    backgroundColor: ActiveMainColor
   },
   buttonDisabled: {
-    opacity: 0.1
+    opacity: 0.2
   }
 
 });
