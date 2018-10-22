@@ -26,10 +26,9 @@ type State = {};
 // add like button for newcomer
 
 const CANCEL_INDEX = 0;
-const PROJECT_EDIT_INDEX = 1;
-const WITHDRAW_PROJECT_LIKE_INDEX = 2;
+const WITHDRAW_PROJECT_LIKE_INDEX = 1;
 // handle options dynamically
-const ACTION_SHEET_OPTIONS = ["Cancel", "Edit group", "Leave project"];
+const ACTION_SHEET_OPTIONS = ["Cancel", "Leave project"];
 
 class LikedProjectDetailsScreen extends React.Component<Props, State> {
   public refs = {
@@ -59,27 +58,6 @@ class LikedProjectDetailsScreen extends React.Component<Props, State> {
   ) => {
     const { id } = this.props;
     switch (index) {
-      case PROJECT_EDIT_INDEX:
-        this.props.navigator.showModal({
-          screen: PROJECT_EDIT_SCREEN,
-          passProps: { id },
-          navigatorButtons: {
-            leftButtons: [
-              {
-                //icon: sources[1],
-                title: "Close",
-                id: CLOSE_BUTTON
-              }
-            ],
-            rightButtons: [
-              {
-                title: "Submit",
-                id: SUBMIT_BUTTON
-              }
-            ]
-          }
-        });
-        break;
       case WITHDRAW_PROJECT_LIKE_INDEX:
         withdrawProjectLikeMutation({ variables: { projectId: id } });
         break;

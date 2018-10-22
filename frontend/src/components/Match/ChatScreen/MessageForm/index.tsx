@@ -5,7 +5,7 @@ import { MessageParams } from "../../../../interfaces";
 import * as ImagePicker from "react-native-image-picker";
 import ImageResizer from "react-native-image-resizer";
 import { ReactNativeFile } from "@richeterre/apollo-upload-client";
-import { IMAGE_ICON } from "../../../../constants/icons";
+import { IMAGE_ICON, ICON_MAIN_TYPE } from "../../../../constants/icons";
 import IconLoader from "../../../../utilities/iconLoader";
 import styles from "./styles";
 
@@ -92,7 +92,7 @@ class MessageForm extends React.Component<Props, State> {
           containerStyle={styles.iconContainer}
           iconStyle={styles.icon}
           name={IMAGE_ICON}
-          type="MaterialCommunityIcons"
+          type={ICON_MAIN_TYPE}
           onPress={this.handlePress}
         />
         <Input

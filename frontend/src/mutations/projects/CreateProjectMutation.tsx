@@ -20,6 +20,8 @@ const CreateProjectMutation = (props: Props) => {
         const projectData = cache.readQuery({
           query: EDITABLE_PROJECT_LIST_QUERY
         });
+        console.log("projectData", projectData);
+        
         const projects = projectData.editableProjects;
         const newProject = {
           __typename: "Project",

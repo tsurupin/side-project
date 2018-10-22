@@ -7,7 +7,7 @@ type Props = {
   onPressCard: (id: string) => void;
 };
 
-const buildProfession = (
+const buildProfessionText = (
   occupation: string | undefined,
   companyName: string | undefined
 ) => {
@@ -32,7 +32,7 @@ const UserCard: React.SFC<Props> = (props) => {
     displayName
   } = user;
 
-  const profession = buildProfession(occupation, companyName);
+  const profession = buildProfessionText(occupation, companyName);
 
   return (
     <ItemCard

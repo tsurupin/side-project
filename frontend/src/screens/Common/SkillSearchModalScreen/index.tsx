@@ -71,6 +71,8 @@ class SkillSearchModalScreen extends React.Component<Props, State> {
           if (loading) return <LoadingIndicator />;
 
           if (error) return <ErrorMessage {...error} />;
+  
+          if (!data) return <View/>
 
           return (
             <SkillList skills={data.skills} onPressSkill={this.onPressSkill} />

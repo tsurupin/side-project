@@ -124,7 +124,7 @@ class DiscoveryScreen extends React.Component<Props, State> {
       screen: this.isUserOriented()
         ? USER_DETAILS_SCREEN
         : PROJECT_DETAILS_SCREEN,
-      passProps: { id },
+      passProps: { id, liked: false },
       navigatorButtons: {
         leftButtons: [
           {

@@ -19,6 +19,8 @@ const styles = StyleSheet.create({
     
   },
   icon: {
+    width: 40,
+    height: 40
   
   },
   inputContainer:{
@@ -44,7 +46,7 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     height: 36,
-    width: Math.trunc((width-56) * 0.25),
+    width: Math.trunc((width-56) * 0.22),
     paddingRight: 10
   },
   buttonTitle: {
