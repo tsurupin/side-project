@@ -16,7 +16,7 @@ defmodule SideProject.MixProject do
   #
   # Run "mix help deps" for examples and options.
   defp deps do
-    []
+    [{:distillery, ">= 0.8.0", warn_missing: false}]
   end
 
   defp aliases do
