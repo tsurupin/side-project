@@ -35,6 +35,7 @@ environment :dev do
 end
 
 environment :prod do
+  set(pre_start_hooks: "rel/pre_start_hooks")
   set include_erts: true
   set include_src: false
   set cookie: :"HP:[}8^>/^r&4KFi$u9%Uo`HUosBv,nSD)rc3,h29$?&dG/m`nAw?^J,F;FF:8f;"
@@ -51,7 +52,6 @@ release :backend do
     :runtime_tools,
     api: :permanent,
     db: :permanent
-  ],
-  set pre_start_hook: "rel/hooks/pre_start.sh"
+  ]
 end
 

@@ -6,7 +6,7 @@ config :db, Db.Repo,
   username: System.get_env("DB_USER_NAME"),
   password: System.get_env("DB_PASSWORD"),
   types: Db.PostgresTypes,
-  pool_size: Sysem.get_env("POOL_SIZE") || 10,
+  pool_size: System.get_env("POOL_SIZE") || 10,
   ssl: false
 
 
