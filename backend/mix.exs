@@ -4,6 +4,7 @@ defmodule SideProject.MixProject do
   def project do
     [
       apps_path: "apps",
+      version: "0.1.0",
       start_permanent: Mix.env() == :prod,
       deps: deps(),
       aliases: aliases()
@@ -16,7 +17,7 @@ defmodule SideProject.MixProject do
   #
   # Run "mix help deps" for examples and options.
   defp deps do
-    [{:distillery, ">= 0.8.0", warn_missing: false}]
+     [{:distillery, "~> 2.0"}]
   end
 
   defp aliases do

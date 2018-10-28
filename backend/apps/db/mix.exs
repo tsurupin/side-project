@@ -25,8 +25,8 @@ defmodule Db.MixProject do
     ]
   end
 
-  defp elixirc_paths(:test), do: ["lib", "web", "test/support"]
-  defp elixirc_paths(_), do: ["lib", "web"]
+  defp elixirc_paths(:test), do: ["lib", "test/support"]
+  defp elixirc_paths(_), do: ["lib", "priv/tasks"]
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [

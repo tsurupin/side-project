@@ -3,8 +3,12 @@ use Mix.Config
 config :db, Db.Repo,
   adapter: Ecto.Adapters.Postgres,
   database: "side_project_production",
-  username: System.get_env("DB_USER"),
-  password: System.get_env("DB_PASSWORD")
+  username: System.get_env("DB_USER_NAME"),
+  password: System.get_env("DB_PASSWORD"),
+  types: Db.PostgresTypes,
+  pool_size: Sysem.get_env("POOL_SIZE") || 10,
+  ssl: false
+
 
 # config :arc, storage: Arc.Storage.S3, bucket: {:system, "AWS_S3_BUCKET"}
 # config :ex_aws,
