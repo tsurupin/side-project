@@ -11,7 +11,7 @@ defmodule Db.Tasks.ReleaseTasks do
     Db.Repo.__adapter__.storage_up(Db.Repo.config)
     {:ok, _ } = Db.Repo.start_link(pool_size: 1)
     run_migrations_for(@app_name)
-    run_seeds_for(:db)
+    #run_seeds_for(:db)
   end
 
   def migrate do
@@ -23,7 +23,12 @@ defmodule Db.Tasks.ReleaseTasks do
   defp boot(app) do
     IO.puts "Booting pre hook..."
     # Load app without starting it
-    :ok = Application.load(app)
+    
+    case Application.load(app) do
+      :ok -> IO.puts "Loaded"
+      {:error, {reason, _app}} -> IO.puts "errors:#{reason}"
+    end
+
     # Ensure postgrex and ecto for migrations and seed
     Enum.each(@start_apps, &Application.ensure_all_started/1)
   end

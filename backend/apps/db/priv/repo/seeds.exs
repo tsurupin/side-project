@@ -8,14 +8,41 @@ alias Db.Users
 alias Db.Projects
 alias Db.Repo
 
+
+Users.User |> Repo.delete_all
+Users.Photo |> Repo.delete_all
+Users.UserLike |> Repo.delete_all
+Users.ProjectLike |> Repo.delete_all
+
+Projects.Project |> Repo.delete_all
+Projects.Photo |> Repo.delete_all
+Projects.Member |> Repo.delete_all
+
+Skills.ProjectSkill |> Repo.delete_all
+Skills.UserSkill |> Repo.delete_all
+Skills.Skill |> Repo.delete_all
+
+
+Chats.Group |> Repo.delete_all
+Chats.Chat |> Repo.delete_all
+Chats.Message |> Repo.delete_all
+Chats.Member |> Repo.delete_all
+
+ZipCode |> Repo.delete_all
+City |> Repo.delete_all
 Country |> Repo.delete_all
+
+OccupationType |> Repo.delete_all
+Genre |> Repo.delete_all
+
+
 usa = Repo.insert!(
 %Country{
   name: "United States"
 }
 )
 
-City |> Repo.delete_all
+
 san_francisco = Repo.insert!(
 %City{
   name: "San Francisco",
@@ -24,7 +51,7 @@ san_francisco = Repo.insert!(
 }
 )
 
-ZipCode |> Repo.delete_all
+
 san_francisco_zip = Repo.insert!(
 %ZipCode{
   zip_code: "94103",
@@ -32,24 +59,21 @@ san_francisco_zip = Repo.insert!(
 }
 )
 
-OccupationType |> Repo.delete_all
+
 software_engineer = Repo.insert!(
 %OccupationType{
   name: "software engineer"
 }
 )
 
-Genre |> Repo.delete_all
+
 education = Repo.insert!(
 %Genre{
   name: "education"
 }
 )
 
-Users.User |> Repo.delete_all
-Users.Photo |> Repo.delete_all
-Users.UserLike |> Repo.delete_all
-Users.ProjectLike |> Repo.delete_all
+
 
 owner = Repo.insert!(
   %Users.User{
@@ -108,13 +132,6 @@ user_photo_changeset = %{
 
 Users.Photo.changeset(user_photo_changeset) |> Repo.insert!
 
-
-
-Projects.Project |> Repo.delete_all
-Projects.Photo |> Repo.delete_all
-Projects.Member |> Repo.delete_all
-
-
 project = Repo.insert!(
   %Projects.Project{
     title: "engineer matching platform",
@@ -152,11 +169,6 @@ Repo.insert!(
     role: 2
   }
 )
-
-
-Skills.ProjectSkill |> Repo.delete_all
-Skills.UserSkill |> Repo.delete_all
-Skills.Skill |> Repo.delete_all
 
 rails = Repo.insert!(
   %Skills.Skill{
@@ -208,11 +220,6 @@ Repo.insert!(
     rank: 1
   }
 )
-
-Chats.Group |> Repo.delete_all
-Chats.Chat |> Repo.delete_all
-Chats.Message |> Repo.delete_all
-Chats.Member |> Repo.delete_all
 
 chat_group = Repo.insert!(
   %Chats.Group{
