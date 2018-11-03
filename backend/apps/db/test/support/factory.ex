@@ -135,7 +135,7 @@ defmodule Db.Factory do
   @spec project_factory :: Projects.Project.t()
   def project_factory() do
     %Projects.Project{
-      name: sequence(:name, &"engineer #{&1} matching platform"),
+      title: sequence(:name, &"engineer #{&1} matching platform"),
       lead_sentence: sequence(:lead_sentence, &"lead_sentence #{&1} matching platform"),
       motivation: "I has been struggling with finding engineers",
       requirement: "we need backend engineers",
