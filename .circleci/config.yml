@@ -19,8 +19,8 @@ jobs:
       - checkout:
           path: ~/backend   
      
-      - run: cd backend mix local.hex --force
-      - run: cd backend mix local.rebar --force
+      - run: cd backend && mix local.hex --force
+      - run: cd backend && mix local.rebar --force
 
       # - restore_cache:
       #     keys:
@@ -53,9 +53,9 @@ jobs:
           command: dockerize -wait tcp://localhost:5432 -timeout 1m
 
       - run: echo $PWD
-      - run: cd backend mix deps.get
-      - run: cd backend mix ecto.create    
-      - run: cd backend mix test
+      - run: cd backend && mix deps.get
+      - run: cd backend && mix ecto.create    
+      - run: cd backend && mix test
 
       #  - setup_remote_docker:
       #   docker_layer_caching: true 
