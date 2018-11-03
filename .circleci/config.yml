@@ -13,7 +13,7 @@ jobs:
           POSTGRES_DB: app_test
           POSTGRES_PASSWORD:
 
-    working_directory: ./
+    working_directory: ./backend
 
     steps:
       - checkout
