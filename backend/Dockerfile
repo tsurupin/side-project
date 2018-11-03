@@ -61,7 +61,6 @@ COPY config config
 # Apps
 COPY apps apps
 RUN mix do deps.get, deps.compile
-RUN cd deps/comeonin && make clean && make
 
 WORKDIR /backend
 COPY rel rel
@@ -80,10 +79,10 @@ ENV MIX_ENV=prod \
     REPLACE_OS_VARS=true \
     SHELL=/bin/bash
 
-WORKDIR /subs
+WORKDIR /backend
 
 COPY --from=builder /backend/_build/prod/rel/backend/releases/0.1.0/backend.tar.gz .
 
 RUN tar zxf backend.tar.gz && rm backend.tar.gz
 
-CMD ["/backend/bin/backedn", "foreground"]
+CMD ["/backend/bin/backend", "foreground"]
