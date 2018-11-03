@@ -17,7 +17,7 @@ jobs:
 
     steps:
       - checkout:
-          path: ~/backend/backend
+          path: ~/backend/backend    
      
       - run: mix local.hex --force
       - run: mix local.rebar --force
@@ -52,6 +52,7 @@ jobs:
           name: Wait for DB
           command: dockerize -wait tcp://localhost:5432 -timeout 1m
 
+      - run: echo $PWD
       - run: mix deps.get
       - run: mix ecto.create    
       - run: mix test
