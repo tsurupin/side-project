@@ -8,3 +8,5 @@ erl_crash.dump
 *.DS_store
 
 /.idea
+.env
+.env_file
