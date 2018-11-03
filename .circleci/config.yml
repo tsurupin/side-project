@@ -13,10 +13,11 @@ jobs:
           POSTGRES_DB: app_test
           POSTGRES_PASSWORD:
 
-    working_directory: ~/backend
+    working_directory: ~/side-project/backend
 
     steps:
-      - checkout
+      - checkout:
+        path: ~/backend
      
       - run: mix local.hex --force
       - run: mix local.rebar --force
