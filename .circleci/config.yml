@@ -33,7 +33,7 @@ jobs:
             - v1-build-cache
       - run: cd backend && mix do deps.get, compile   
       - save_cache:
-          key: v1-mix-cache-{{ .Branch }}-backend-{{ checksum "smix.lock" }}
+          key: v1-mix-cache-{{ .Branch }}-backend-{{ checksum "mix.lock" }}
           paths: "deps"
       - save_cache:
           key: v1-mix-cache-{{ .Branch }}
