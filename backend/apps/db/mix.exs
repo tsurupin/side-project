@@ -30,8 +30,6 @@ defmodule Db.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      {:phoenix, "~> 1.3.0"},
-      {:phoenix_ecto, "~> 3.2"},
       {:postgrex, "~> 0.13.0"},
       {:ecto, "~> 2.1.1"},
       {:ecto_enum, "~> 1.0"},

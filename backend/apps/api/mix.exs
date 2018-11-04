@@ -39,7 +39,7 @@ defmodule Api.Mixfile do
       {:phoenix, "~> 1.3.0"},
       {:phoenix_pubsub, "~> 1.0"},
       {:phoenix_html, "~> 2.10"},
-      {:phoenix_ecto, "~> 3.2.1"},
+      {:phoenix_ecto, "~> 3.2.1", only: :test},
       {:phoenix_live_reload, "~> 1.0", only: :dev},
       {:db, in_umbrella: true},
       {:gettext, "~> 0.11"},
