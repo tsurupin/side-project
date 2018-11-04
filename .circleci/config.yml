@@ -24,17 +24,18 @@ jobs:
 
       - restore_cache:
           keys:
-            - v1-mix-cache-{{ .Branch }}-backend-{{ checksum "mix.lock" }}
+            - v1-mix-cache-{{ .Branch }}-{{ checksum "mix.lock" }}
             - v1-mix-cache-{{ .Branch }}
             - v1-mix-cache
+          paths: "backend"
       - restore_cache:
           keys:
             - v1-build-cache-{{ .Branch }}
             - v1-build-cache
       - run: cd backend && mix do deps.get, compile   
       - save_cache:
-          key: v1-mix-cache-{{ .Branch }}-backend-{{ checksum "mix.lock" }}
-          paths: "deps"
+          key: v1-mix-cache-{{ .Branch }}-{{ checksum "mix.lock" }}
+          paths: "backend/deps"
       - save_cache:
           key: v1-mix-cache-{{ .Branch }}
           paths: "deps"
@@ -54,7 +55,7 @@ jobs:
 
       # - run: echo $PWD
       #- run: cd backend && mix deps.get && mix deps.compile
-      - run: cd backend && mix ecto.create    
+      - run: cd backend && mix ecto.create  && mix ecto.migrate   
       - run: cd backend && mix test
 
       #  - setup_remote_docker:
