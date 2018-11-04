@@ -53,7 +53,7 @@ defmodule Api.Mixfile do
       {:cachex, "~> 3.0"},
       {:briefly, "~> 0.3"},
       {:dataloader, "~> 1.0.0"},
-      {:ex_machina, "~> 2.1.0", only: [:test]},
+      {:ex_machina, "~> 2.2", only: [:test]},
       {:mock, "~> 0.3.0", only: :test},
       {:faker, "~> 0.9.0", only: [:test]},
       {:dialyxir, "~> 0.5.1", only: [:dev], runtime: false}

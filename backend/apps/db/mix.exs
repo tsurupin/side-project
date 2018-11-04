@@ -43,7 +43,7 @@ defmodule Db.MixProject do
       {:sweet_xml, "~> 0.6"},
       {:geo, "~> 2.0"},
       {:geo_postgis, "~> 1.1.0"},
-      {:ex_machina, "~> 2.1.0", only: [:test]},
+      {:ex_machina, "~> 2.2", only: [:test]},
       {:timex, "~> 3.1"},
       {:faker, "~> 0.9.0", only: [:test]},
       {:dialyxir, "~> 0.5.1", only: [:dev], runtime: false}
