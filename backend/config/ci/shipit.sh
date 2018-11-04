@@ -8,34 +8,38 @@ set -e
 # programmatically. You should have both AWS_ACCESS_KEY_ID and
 # AWS_SECRET_ACCESS_KEY from when we created the admin user.
 # AWS_DEFAULT_REGION is the code for the aws region you chose, e.g., eu-west-2.
-AWS_ACCESS_KEY_ID= # ------------------------------------------------ CHANGE
-AWS_SECRET_ACCESS_KEY= # -------------------------------------------- CHANGE
-AWS_DEFAULT_REGION= # ----------------------------------------------- CHANGE
+AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID
+AWS_SECRET_ACCESS_KEY=$AWS_SECRET_KEY
+AWS_DEFAULT_REGION=$AWS_DEFAULT_REGION
 
 # Set AWS ECS vars.
 # Here you only need to set AWS_ECS_URL. I have created the others so that
 # it's easy to change for a different project. AWS_ECS_URL should be the
 # base url.
-AWS_ECS_URL= # ------------------------------------------------------ CHANGE
-AWS_ECS_PROJECT_NAME=opensubs
-AWS_ECS_CONTAINER_NAME=subs
-AWS_ECS_DOCKER_IMAGE=subs:latest
-AWS_ECS_CLUSTER_NAME=opensubs-production
+AWS_ECS_URL=$AWS_ECS_URL
+AWS_ECS_PROJECT_NAME=side-project
+AWS_ECS_CONTAINER_NAME=backend
+AWS_ECS_DOCKER_IMAGE=side-project:latest
+AWS_ECS_CLUSTER_NAME=side-project-production
 
 # Set Build args.
 # These are the build arguments we used before.
 # Note that the DATABASE_URL needs to be set.
-DATABASE_URL= # ----------------------------------------------------- CHANGE
-PHOENIX_SECRET_KEY_BASE=super_secret_phoenix_key_base
-SESSION_COOKIE_NAME=session_cookie_name
-SESSION_COOKIE_SIGNING_SALT=super_secret_cookie_signing_salt
-SESSION_COOKIE_ENCRYPTION_SALT=super_secret_cookie_encryption_salt
+POSTGRES_URL=$POSTGRES_URL
+POSTGRES_USER=$POSTGRES_USER
+POSTGRES_PASSWORD=$POSTGRES_PASSWORD
+
+
+PHOENIX_SECRET_KEY_BASE=$PHOENIX_SECRET_KEY_BASE
+SESSION_COOKIE_NAME=$SESSION_COOKIES_NAME
+SESSION_COOKIE_SIGNING_SALT=$SESSION_COOKIES_SIGNINIG_SALT
+SESSION_COOKIE_ENCRYPTION_SALT=$SESSION_COOKIES_ENCRYPTION_SALT
 
 # Set runtime ENV.
 # These are the runtime environment variables.
 # Note that HOST needs to be set.
-HOST= # ------------------------------------------------------------- CHANGE
-PORT=80
+HOST=$HOST # ------------------------------------------------------------- CHANGE
+PORT=$PORT
 
 # Build container.
 # As we did before, but now we are going to build the Docker image that will
@@ -45,7 +49,9 @@ docker build --pull -t $AWS_ECS_CONTAINER_NAME \
   --build-arg SESSION_COOKIE_NAME=$SESSION_COOKIE_NAME \
   --build-arg SESSION_COOKIE_SIGNING_SALT=$SESSION_COOKIE_SIGNING_SALT \
   --build-arg SESSION_COOKIE_ENCRYPTION_SALT=$SESSION_COOKIE_ENCRYPTION_SALT \
-  --build-arg DATABASE_URL=$DATABASE_URL \
+  --build-arg POSTGRES_URL=$POSTGRES_URL \
+  --build-arg POSTGRES_USER=$POSTGRES_USER \
+  --build-arg POSTGRES_PASSWORD=$POSTGRES_PASSWORD \
   .
 
 # Tag the new Docker image as latest on the ECS Repository.
