@@ -3,7 +3,7 @@ use Mix.Config
 config :db, Db.Repo,
   adapter: Ecto.Adapters.Postgres,
   database: "side_project_test",
-  username: System.get_env("DB_USER_NAME"),
+  username: "postgres",
   hostname: "localhost",
   types: Db.PostgresTypes,
   pool: Ecto.Adapters.SQL.Sandbox
