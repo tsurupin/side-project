@@ -17,7 +17,7 @@ jobs:
 
     steps:
       - checkout:
-          path: ~/side-project/backend   
+          path: ~/backend   
      
       - run: cd backend && mix local.hex --force
       - run: cd backend && mix local.rebar --force
@@ -31,7 +31,7 @@ jobs:
           keys:
             - v1-build-cache-{{ .Branch }}
             - v1-build-cache
-      - run: mix do deps.get, compile
+      - run: cd backend && mix do deps.get, compile   
       - save_cache:
           key: v1-mix-cache-{{ .Branch }}-{{ checksum "mix.lock" }}
           paths: "deps"
@@ -53,7 +53,7 @@ jobs:
           command: dockerize -wait tcp://localhost:5432 -timeout 1m
 
       # - run: echo $PWD
-      - run: cd backend && mix deps.get
+      #- run: cd backend && mix deps.get && mix deps.compile
       - run: cd backend && mix ecto.create    
       - run: cd backend && mix test
 
