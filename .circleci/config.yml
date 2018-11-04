@@ -75,7 +75,7 @@ deployment:
   - run:
       name: Run Deploy Script 
       command: |
-        sh ./backend/config/ci/shipit.sh
+        sh ./backend/config/ci/deploy.sh
 
 workflows:
   version: 2

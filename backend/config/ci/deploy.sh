@@ -31,10 +31,9 @@ POSTGRES_DB_URL=$POSTGRES_DB_URL
 POSTGRES_DB_POOL_SIZE=$POSTGRES_DB_POOL_SIZE
 
 PHOENIX_SECRET_KEY_BASE=$PHOENIX_SECRET_KEY_BASE
-SESSION_COOKIE_NAME=$SESSION_COOKIES_NAME
-SESSION_COOKIE_SIGNING_SALT=$SESSION_COOKIES_SIGNINIG_SALT
-SESSION_COOKIE_ENCRYPTION_SALT=$SESSION_COOKIES_ENCRYPTION_SALT
 
+FIREBASE_SECRET_PEM_FILE_PATH=$FIREBASE_SECRET_PEM_FILE_PATH
+FIREBASE_SERVICE_ACCOUNT_EMAIL=$FIREBASE_SERVICE_ACCOUNT_EMAIL
 # Set runtime ENV.
 # These are the runtime environment variables.
 # Note that HOST needs to be set.
@@ -45,12 +44,17 @@ PORT=$PORT
 # As we did before, but now we are going to build the Docker image that will
 # be pushed to the repository.
 docker build --pull -t $AWS_ECS_CONTAINER_NAME \
-  --build-arg PHOENIX_SECRET_KEY_BASE=$PHOENIX_SECRET_KEY_BASE \
-  --build-arg SESSION_COOKIE_NAME=$SESSION_COOKIE_NAME \
-  --build-arg SESSION_COOKIE_SIGNING_SALT=$SESSION_COOKIE_SIGNING_SALT \
-  --build-arg SESSION_COOKIE_ENCRYPTION_SALT=$SESSION_COOKIE_ENCRYPTION_SALT \
-  --build-arg POSTGRES_DB_URL=$POSTGRES_DB_URL \
   --build-arg AWS_S3_BUCKET=$AWS_S3_BUCKET \
+  --build-arg AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID \
+  --build-arg AWS_SECRET_KEY=$AWS_SECRET_KEY \
+  --build-arg AWS_DEFAULT_REGION=$AWS_DEFAULT_REGION \
+  --build-arg PHOENIX_SECRET_KEY_BASE=$PHOENIX_SECRET_KEY_BASE \
+  --build-arg POSTGRES_DB_URL=$POSTGRES_DB_URL \
+  --build-arg POSTGRES_DB_POOL_SIZE=$POSTGRES_DB_POOL_SIZE \
+  --build-arg HOST=$HOST \
+  --build-arg PORT=$PORT \
+  --build-arg FIREBASE_SECRET_PEM_FILE_PATH=$FIREBASE_SECRET_PEM_FILE_PATH \
+  --build-arg FIREBASE_SERVICE_ACCOUNT_EMAIL=$FIREBASE_SERVICE_ACCOUNT_EMAIL \
   .
 
 # Tag the new Docker image as latest on the ECS Repository.
@@ -75,7 +79,7 @@ sed -i '.original' \
   -e 's/$AWS_ECS_CONTAINER_NAME/'$AWS_ECS_CONTAINER_NAME'/g' \
   -e 's/$HOST/'$HOST'/g' \
   -e 's/$PORT/'$PORT'/g' \
-  config/deploy/docker-compose.yml
+  config/ci/docker-compose.yml
 
 # Deregister old task definition.
 # Every deploy we want a new task definition to be created with the latest
@@ -91,7 +95,7 @@ if [ ! -z "$REVISION" ]; then
   # Stop current task that is running ou application.
   # This is what will stop the application.
   ecs-cli compose \
-    --file config/deploy/docker-compose.yml \
+    --file config/ci/docker-compose.yml \
     --project-name "$AWS_ECS_PROJECT_NAME" \
     service stop
 fi
@@ -99,6 +103,6 @@ fi
 # Start new task which will create fresh new task definition as well.
 # This is what brings the application up with the new changes and configurations.
 ecs-cli compose \
-  --file config/deploy/docker-compose.yml \
+  --file config/ci/docker-compose.yml \
   --project-name "$AWS_ECS_PROJECT_NAME" \
   service up

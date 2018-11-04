@@ -23,7 +23,7 @@ defmodule Api.Mixfile do
   def application do
     [
       mod: {Api.Application, [:cachex]},
-      extra_applications: [:phoenix_ecto, :db, :logger, :runtime_tools]
+      extra_applications: [:db, :logger, :runtime_tools]
     ]
   end
 
