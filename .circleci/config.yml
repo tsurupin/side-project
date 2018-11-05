@@ -1,5 +1,25 @@
 version: 2
 
+references:
+  commands:
+    install_awscli: &install_awscli
+      name: install awscli
+      command: |
+        PATH=$PATH:/home/circleci/.local/bin; export PATH
+        sudo apt-get -y -qq update
+        sudo apt-get -y -qq install python3.4-dev
+        sudo curl -O https://bootstrap.pypa.io/get-pip.py
+        python3.4 get-pip.py --user
+        pip install awscli --upgrade --user
+        aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID --profile ecs-deploy-user
+        aws configure set aws_secret_access_key $AWS_SECRET_KEY --profile ecs-deploy-user
+    install_ecs-deploy: &install_ecs-deploy
+      name: install ecs-deploy
+      command: |
+        curl -sL https://github.com/silinternational/ecs-deploy/archive/3.2.tar.gz | tar zxvf -
+        sudo mv ecs-deploy-3.2/ecs-deploy /usr/local/bin/
+        sudo chmod +x /usr/local/bin/ecs-deploy
+
 jobs:
   build:
     parallelism: 1
@@ -65,17 +85,20 @@ jobs:
       #     path: _build/test/lib/hello_phoenix
 
 deployment:
-  production:
-    branch: master
-  - run:
-      name: Set convenience environment variables
-      command: |
-        echo 'export ECR_REPOSITORY_NAME="${AWS_RESOURCE_NAME_PREFIX}"' >> $BASH_ENV
-        echo 'export FULL_IMAGE_NAME="${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${ECR_REPOSITORY_NAME}:${CIRCLE_SHA1}"' >> $BASH_ENV
-  - run:
-      name: Run Deploy Script 
-      command: |
-        sh ./backend/config/ci/deploy.sh
+  environment:
+    - BASH_ENV: /home/circleci/.bashrc
+  steps:
+    - run: *install_awscli
+    - run: *install_ecs-deploy
+    - run:
+        name: Set convenience environment variables
+        command: |
+          echo 'export ECR_REPOSITORY_NAME="${AWS_RESOURCE_NAME_PREFIX}"' >> $BASH_ENV
+          echo 'export FULL_IMAGE_NAME="${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${ECR_REPOSITORY_NAME}:${CIRCLE_SHA1}"' >> $BASH_ENV
+    - run:
+        name: Run Deploy Script 
+        command: |
+          ./backend/config/ci/deploy.sh
 
 workflows:
   version: 2

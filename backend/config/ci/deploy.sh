@@ -3,13 +3,21 @@
 # If any of this commands fail, stop script.
 set -e
 
+# Install AWS CLI
+pip install --user awscli
+
+# Install AWS ECS CLI
+sudo curl -o /usr/local/bin/ecs-cli https://s3.amazonaws.com/amazon-ecs-cli/ecs-cli-linux-amd64-latest
+sudo chmod +x /usr/local/bin/ecs-cli
+#sudo apt-get install jq
+
 # Set AWS access keys.
 # This is required so that both aws-cli and ecs-cli can access you account
 # programmatically. You should have both AWS_ACCESS_KEY_ID and
 # AWS_SECRET_ACCESS_KEY from when we created the admin user.
 # AWS_DEFAULT_REGION is the code for the aws region you chose, e.g., eu-west-2.
 AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID
-AWS_SECRET_ACCESS_KEY=$AWS_SECRET_KEY
+AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY
 AWS_DEFAULT_REGION=$AWS_DEFAULT_REGION
 
 # Set AWS ECS vars.
@@ -43,10 +51,10 @@ PORT=$PORT
 # Build container.
 # As we did before, but now we are going to build the Docker image that will
 # be pushed to the repository.
-docker build --pull -t $AWS_ECS_CONTAINER_NAME \
+docker build -t $AWS_ECS_CONTAINER_NAME \
   --build-arg AWS_S3_BUCKET=$AWS_S3_BUCKET \
   --build-arg AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID \
-  --build-arg AWS_SECRET_KEY=$AWS_SECRET_KEY \
+  --build-arg AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY \
   --build-arg AWS_DEFAULT_REGION=$AWS_DEFAULT_REGION \
   --build-arg PHOENIX_SECRET_KEY_BASE=$PHOENIX_SECRET_KEY_BASE \
   --build-arg POSTGRES_DB_URL=$POSTGRES_DB_URL \
@@ -60,6 +68,7 @@ docker build --pull -t $AWS_ECS_CONTAINER_NAME \
 # Tag the new Docker image as latest on the ECS Repository.
 docker tag $AWS_ECS_DOCKER_IMAGE "$AWS_ECS_URL"/"$AWS_ECS_DOCKER_IMAGE"
 
+
 # Login to ECS Repository.
 eval $(aws ecr get-login --no-include-email --region $AWS_DEFAULT_REGION)
 
@@ -69,7 +78,7 @@ docker push "$AWS_ECS_URL"/"$AWS_ECS_DOCKER_IMAGE"
 # Configure ECS cluster and AWS_DEFAULT_REGION so we don't have to send it
 # on every command
 ecs-cli configure --cluster=$AWS_ECS_CLUSTER_NAME --region=$AWS_DEFAULT_REGION
-
+#ecs-cli configure profile --profile-name ecs-deploy-user --access-key $AWS_ACCESS_KEY_ID --secret-key $AWS_SECRET_ACCESS_KEY
 # Build docker-compose.yml with our configuration.
 # Here we are going to replace the docker-compose.yml placeholders with
 # our app's configurations
