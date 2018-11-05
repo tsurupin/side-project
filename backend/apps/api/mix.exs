@@ -23,7 +23,7 @@ defmodule Api.Mixfile do
   def application do
     [
       mod: {Api.Application, [:cachex]},
-      extra_applications: [:phoenix_ecto, :db, :logger, :runtime_tools]
+      extra_applications: [:db, :logger, :runtime_tools]
     ]
   end
 
@@ -39,7 +39,7 @@ defmodule Api.Mixfile do
       {:phoenix, "~> 1.3.0"},
       {:phoenix_pubsub, "~> 1.0"},
       {:phoenix_html, "~> 2.10"},
-      {:phoenix_ecto, "~> 3.2.1"},
+      {:phoenix_ecto, "~> 3.2.1", only: :test},
       {:phoenix_live_reload, "~> 1.0", only: :dev},
       {:db, in_umbrella: true},
       {:gettext, "~> 0.11"},
@@ -53,7 +53,7 @@ defmodule Api.Mixfile do
       {:cachex, "~> 3.0"},
       {:briefly, "~> 0.3"},
       {:dataloader, "~> 1.0.0"},
-      {:ex_machina, "~> 2.1.0", only: [:test]},
+      {:ex_machina, "~> 2.2", only: [:test]},
       {:mock, "~> 0.3.0", only: :test},
       {:faker, "~> 0.9.0", only: [:test]},
       {:dialyxir, "~> 0.5.1", only: [:dev], runtime: false}

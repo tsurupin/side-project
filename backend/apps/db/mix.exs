@@ -30,8 +30,6 @@ defmodule Db.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      {:phoenix, "~> 1.3.0"},
-      {:phoenix_ecto, "~> 3.2"},
       {:postgrex, "~> 0.13.0"},
       {:ecto, "~> 2.1.1"},
       {:ecto_enum, "~> 1.0"},
@@ -43,7 +41,7 @@ defmodule Db.MixProject do
       {:sweet_xml, "~> 0.6"},
       {:geo, "~> 2.0"},
       {:geo_postgis, "~> 1.1.0"},
-      {:ex_machina, "~> 2.1.0", only: [:test]},
+      {:ex_machina, "~> 2.2", only: [:test]},
       {:timex, "~> 3.1"},
       {:faker, "~> 0.9.0", only: [:test]},
       {:dialyxir, "~> 0.5.1", only: [:dev], runtime: false}

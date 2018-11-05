@@ -1,0 +1,113 @@
+version: 2
+
+references:
+  commands:
+    install_awscli: &install_awscli
+      name: install awscli
+      command: |
+        PATH=$PATH:/home/circleci/.local/bin; export PATH
+        sudo apt-get -y -qq update
+        sudo apt-get -y -qq install python3.4-dev
+        sudo curl -O https://bootstrap.pypa.io/get-pip.py
+        python3.4 get-pip.py --user
+        pip install awscli --upgrade --user
+        aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID --profile ecs-deploy-user
+        aws configure set aws_secret_access_key $AWS_SECRET_KEY --profile ecs-deploy-user
+    install_ecs-deploy: &install_ecs-deploy
+      name: install ecs-deploy
+      command: |
+        curl -sL https://github.com/silinternational/ecs-deploy/archive/3.2.tar.gz | tar zxvf -
+        sudo mv ecs-deploy-3.2/ecs-deploy /usr/local/bin/
+        sudo chmod +x /usr/local/bin/ecs-deploy
+
+jobs:
+  build:
+    parallelism: 1
+    docker:
+      - image: circleci/elixir:1.7.3
+        environment:
+          MIX_ENV: test
+      - image: mdillon/postgis:9.6
+        environment:
+          POSTGRES_USER: postgres
+          POSTGRES_DB: app_test
+          POSTGRES_PASSWORD:
+    working_directory: ~/side-project/backend
+
+    steps:
+      - checkout:
+          path: ~/side-project/backend   
+      - setup_remote_docker    
+    
+      - run: cd backend && mix local.hex --force
+      - run: cd backend && mix local.rebar --force
+
+      - restore_cache:
+          keys:
+            - v1-mix-cache-{{ .Branch }}-{{ checksum "mix.lock" }}
+            - v1-mix-cache-{{ .Branch }}
+            - v1-mix-cache
+          paths: "backend"
+      - restore_cache:
+          keys:
+            - v1-build-cache-{{ .Branch }}
+            - v1-build-cache
+      - run: cd backend && mix do deps.get, compile   
+      - save_cache:
+          key: v1-mix-cache-{{ .Branch }}-{{ checksum "mix.lock" }}
+          paths: "/backend/deps"
+      - save_cache:
+          key: v1-mix-cache-{{ .Branch }}
+          paths: "deps"
+      - save_cache:
+          key: v1-mix-cache
+          paths: "deps"
+      - save_cache:
+          key: v1-build-cache-{{ .Branch }}
+          paths: "_build"
+      - save_cache:
+          key: v1-build-cache
+          paths: "_build"
+
+      - run:
+          name: Wait for DB
+          command: dockerize -wait tcp://localhost:5432 -timeout 1m
+
+      # - run: echo $PWD
+      #- run: cd backend && mix deps.get && mix deps.compile
+      # - run: cd backend && mix ecto.create  && mix ecto.migrate   
+      # - run: cd backend && mix test
+
+      #  - setup_remote_docker:
+      #   docker_layer_caching: true 
+
+      # - store_test_results:
+      #     path: _build/test/lib/hello_phoenix
+
+deployment:
+  environment:
+    - BASH_ENV: /home/circleci/.bashrc
+  steps:
+    - run: *install_awscli
+    - run: *install_ecs-deploy
+    - run:
+        name: Set convenience environment variables
+        command: |
+          echo 'export ECR_REPOSITORY_NAME="${AWS_RESOURCE_NAME_PREFIX}"' >> $BASH_ENV
+          echo 'export FULL_IMAGE_NAME="${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${ECR_REPOSITORY_NAME}:${CIRCLE_SHA1}"' >> $BASH_ENV
+    - run:
+        name: Run Deploy Script 
+        command: |
+          ./backend/config/ci/deploy.sh
+
+workflows:
+  version: 2
+  build-deploy:
+    jobs:
+      - build
+      - deploy:
+          requires:
+            - build
+          filters:
+            branches:
+              only: master
