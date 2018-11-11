@@ -84,34 +84,34 @@ jobs:
       # - store_test_results:
       #     path: _build/test/lib/backend
 
-deploy:
-  environment:
-    - BASH_ENV: /home/circleci/.bashrc
-  steps:
-    # - run: *install_awscli
-    # - run: *install_ecs-deploy
-    - run:
-        name: Set convenience environment variables
-        command: |
-          echo 'export AWS_ACCESS_KEY_ID="${AWS_ACCESS_KEY_ID}"' >> $BASH_ENV
-          echo 'export AWS_SECRET_ACCESS_KEY="${AWS_SECRET_ACCESS_KEY}"' >> $BASH_ENV
-          echo 'export AWS_ECS_URL="${AWS_ECS_URL}"' >> $BASH_ENV
-          echo 'export AWS_ECS_PROJECT_NAME"${AWS_ECS_PROJECT_NAME}"' >> $BASH_ENV
-          echo 'export AWS_ECS_CONTAINER_NAME"${AWS_ECS_CONTAINER_NAME}"' >> $BASH_ENV
-          echo 'export AWS_ECS_DOCKER_IMAGE"${AWS_ECS_DOCKER_IMAGE}"' >> $BASH_ENV
-          echo 'export AWS_ECS_CLUSTER_NAME"${AWS_ECS_CLUSTER_NAME}"' >> $BASH_ENV
-          echo 'export AWS_S3_BUCKET"${AWS_S3_BUCKET}"' >> $BASH_ENV
-          echo 'export POSTGRES_DB_URL"${POSTGRES_DB_URL}"' >> $BASH_ENV
-          echo 'export POSTGRES_DB_POOL_SIZE"${POSTGRES_DB_POOL_SIZE}"' >> $BASH_ENV
-          echo 'export PHOENIX_SECRET_KEY_BASE"${PHOENIX_SECRET_KEY_BASE}"' >> $BASH_ENV
-          echo 'export FIREBASE_SECRET_PEM_FILE_PATH"${FIREBASE_SECRET_PEM_FILE_PATH}"' >> $BASH_ENV
-          echo 'export FIREBASE_SERVICE_ACCOUNT_EMAIL"${FIREBASE_SERVICE_ACCOUNT_EMAIL}"' >> $BASH_ENV
-          echo 'export HOST"${HOST}"' >> $BASH_ENV
-          echo 'export PORT"${PORT}"' >> $BASH_ENV
-    - run:
-        name: Run Deploy Script 
-        command: |
-          ./backend/config/ci/deploy.sh
+  deploy:
+    environment:
+      - BASH_ENV: /home/circleci/.bashrc
+    steps:
+      # - run: *install_awscli
+      # - run: *install_ecs-deploy
+      - run:
+          name: Set convenience environment variables
+          command: |
+            echo 'export AWS_ACCESS_KEY_ID="${AWS_ACCESS_KEY_ID}"' >> $BASH_ENV
+            echo 'export AWS_SECRET_ACCESS_KEY="${AWS_SECRET_ACCESS_KEY}"' >> $BASH_ENV
+            echo 'export AWS_ECS_URL="${AWS_ECS_URL}"' >> $BASH_ENV
+            echo 'export AWS_ECS_PROJECT_NAME"${AWS_ECS_PROJECT_NAME}"' >> $BASH_ENV
+            echo 'export AWS_ECS_CONTAINER_NAME"${AWS_ECS_CONTAINER_NAME}"' >> $BASH_ENV
+            echo 'export AWS_ECS_DOCKER_IMAGE"${AWS_ECS_DOCKER_IMAGE}"' >> $BASH_ENV
+            echo 'export AWS_ECS_CLUSTER_NAME"${AWS_ECS_CLUSTER_NAME}"' >> $BASH_ENV
+            echo 'export AWS_S3_BUCKET"${AWS_S3_BUCKET}"' >> $BASH_ENV
+            echo 'export POSTGRES_DB_URL"${POSTGRES_DB_URL}"' >> $BASH_ENV
+            echo 'export POSTGRES_DB_POOL_SIZE"${POSTGRES_DB_POOL_SIZE}"' >> $BASH_ENV
+            echo 'export PHOENIX_SECRET_KEY_BASE"${PHOENIX_SECRET_KEY_BASE}"' >> $BASH_ENV
+            echo 'export FIREBASE_SECRET_PEM_FILE_PATH"${FIREBASE_SECRET_PEM_FILE_PATH}"' >> $BASH_ENV
+            echo 'export FIREBASE_SERVICE_ACCOUNT_EMAIL"${FIREBASE_SERVICE_ACCOUNT_EMAIL}"' >> $BASH_ENV
+            echo 'export HOST"${HOST}"' >> $BASH_ENV
+            echo 'export PORT"${PORT}"' >> $BASH_ENV
+      - run:
+          name: Run Deploy Script 
+          command: |
+            ./backend/config/ci/deploy.sh
 
 workflows:
   version: 2
