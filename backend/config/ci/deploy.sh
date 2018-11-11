@@ -25,6 +25,7 @@ AWS_DEFAULT_REGION=$AWS_DEFAULT_REGION
 # Here you only need to set AWS_ECS_URL. I have created the others so that
 # it's easy to change for a different project. AWS_ECS_URL should be the
 # base url.
+
 AWS_ECS_URL=$AWS_ECS_URL
 AWS_ECS_PROJECT_NAME=$AWS_ECS_PROJECT_NAME
 AWS_ECS_CONTAINER_NAME=$AWS_ECS_CONTAINER_NAME
@@ -49,6 +50,14 @@ FIREBASE_SERVICE_ACCOUNT_EMAIL=$FIREBASE_SERVICE_ACCOUNT_EMAIL
 HOST=$HOST # ------------------------------------------------------------- CHANGE
 PORT=$PORT
 
+sed -e 's/$AWS_ECS_URL/'$AWS_ECS_URL'/g' \
+  -e 's/$AWS_ECS_DOCKER_IMAGE/'$AWS_ECS_DOCKER_IMAGE'/g' \
+  -e 's/$AWS_ECS_CONTAINER_NAME/'$AWS_ECS_CONTAINER_NAME'/g' \
+  -e 's/$HOST/'$HOST'/g' \
+  -e 's/$PORT/'$PORT'/g' \
+  config/ci/docker-compose.yml.original \
+  > config/ci/docker-compose.yml
+
 # Build container.
 # As we did before, but now we are going to build the Docker image that will
 # be pushed to the repository.
@@ -67,14 +76,14 @@ docker build -t $AWS_ECS_CONTAINER_NAME \
   .
 
 # # Tag the new Docker image as latest on the ECS Repository.
-# docker tag $AWS_ECS_DOCKER_IMAGE "$AWS_ECS_URL"/"$AWS_ECS_DOCKER_IMAGE"
+docker tag $AWS_ECS_DOCKER_IMAGE "$AWS_ECS_URL"/"$AWS_ECS_DOCKER_IMAGE"
 
 
 # Login to ECS Repository.
-# eval $(aws ecr get-login --no-include-email --region $AWS_DEFAULT_REGION)
+eval $(aws ecr get-login --no-include-email --region $AWS_DEFAULT_REGION)
 
 # Upload the Docker image to the ECS Repository.
-# docker push "$AWS_ECS_URL"/"$AWS_ECS_DOCKER_IMAGE"
+docker push "$AWS_ECS_URL"/"$AWS_ECS_DOCKER_IMAGE"
 
 # Configure ECS cluster and AWS_DEFAULT_REGION so we don't have to send it
 # on every command
@@ -84,13 +93,6 @@ ecs-cli configure --cluster=$AWS_ECS_CLUSTER_NAME --region=$AWS_DEFAULT_REGION
 # Build docker-compose.yml with our configuration.
 # Here we are going to replace the docker-compose.yml placeholders with
 # our app's configurations
-sed -e 's/$AWS_ECS_URL/'$AWS_ECS_URL'/g' \
-  -e 's/$AWS_ECS_DOCKER_IMAGE/'$AWS_ECS_DOCKER_IMAGE'/g' \
-  -e 's/$AWS_ECS_CONTAINER_NAME/'$AWS_ECS_CONTAINER_NAME'/g' \
-  -e 's/$HOST/'$HOST'/g' \
-  -e 's/$PORT/'$PORT'/g' \
-  config/ci/docker-compose.yml.original \
-  > config/ci/docker-compose.yml
 
 # Deregister old task definition.
 # Every deploy we want a new task definition to be created with the latest
@@ -116,4 +118,4 @@ fi
 ecs-cli compose --verbose\
   --file config/ci/docker-compose.yml \
   --project-name "$AWS_ECS_PROJECT_NAME" \
-  service up # —force-deployment --timeout 10
+  service up —force-deployment #--timeout 10

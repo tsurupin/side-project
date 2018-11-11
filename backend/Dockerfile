@@ -32,7 +32,6 @@ RUN echo $PORT
 # RUN mkdir tmp
 # RUN aws s3 sync s3://$OPENSUBS_S3_SECRETS_BUCKET/ssl tmp
 
-RUN echo $PWD
 # Umbrella
 COPY mix.exs mix.lock ./
 COPY config config
@@ -64,6 +63,6 @@ WORKDIR /backend
 COPY --from=builder /backend/_build/prod/rel/backend/releases/0.1.0/backend.tar.gz .
 
 RUN tar zxf backend.tar.gz && rm backend.tar.gz
-
+RUN ls -d "$PWD"/* 
 
 CMD ["/backend/bin/backend", "foreground"]
