@@ -4,13 +4,13 @@
 set -e
 
 # Install AWS CLI
-# pip install --user awscli
+pip install --user awscli
 
 # Install AWS ECS CLI
-# sudo curl -o /usr/local/bin/ecs-cli https://s3.amazonaws.com/amazon-ecs-cli/ecs-cli-linux-amd64-latest
-# echo "$(curl -s https://s3.amazonaws.com/amazon-ecs-cli/ecs-cli-linux-amd64-latest.md5) /usr/local/bin/ecs-cli" | md5sum -c -
-# sudo chmod +x /usr/local/bin/ecs-cli
-#sudo apt-get install jq
+sudo curl -o /usr/local/bin/ecs-cli https://s3.amazonaws.com/amazon-ecs-cli/ecs-cli-linux-amd64-latest
+#echo "$(curl -s https://s3.amazonaws.com/amazon-ecs-cli/ecs-cli-linux-amd64-latest.md5) /usr/local/bin/ecs-cli" | md5sum -c -
+sudo chmod +x /usr/local/bin/ecs-cli
+sudo apt-get install jq
 
 # Set AWS access keys.
 # This is required so that both aws-cli and ecs-cli can access you account
@@ -94,7 +94,7 @@ sed -e 's/$AWS_ECS_URL/'$AWS_ECS_URL'/g' \
   -e 's/$PORT/'$PORT'/g' \
   config/ci/docker-compose.yml.original \
   > config/ci/docker-compose.yml
-  
+
 # Deregister old task definition.
 # Every deploy we want a new task definition to be created with the latest
 # configurations. Task definitions are a set of configurations that state
