@@ -92,7 +92,7 @@ jobs:
       # BASH_ENV: /home/circleci/.bashrc
     working_directory: ~/side-project/backend
     steps:
-       - checkout:
+      - checkout:
           path: ~/side-project/backend  
       - run:
           name: Setup common environment variables
