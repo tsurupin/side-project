@@ -130,7 +130,7 @@ jobs:
             export FIREBASE_SERVICE_ACCOUNT_EMAIL="${FIREBASE_SERVICE_ACCOUNT_EMAIL}"
             export HOST="${HOST}"
             export PORT="${PORT}"
-            cd backend
+           
             echo ls -d "$PWD"/* 
             echo $PWD
             ./backend/config/ci/deploy.sh
