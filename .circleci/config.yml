@@ -84,7 +84,7 @@ jobs:
       # - store_test_results:
       #     path: _build/test/lib/backend
 
-deployment:
+deploy:
   environment:
     - BASH_ENV: /home/circleci/.bashrc
   steps:
@@ -108,7 +108,6 @@ deployment:
           echo 'export FIREBASE_SERVICE_ACCOUNT_EMAIL"${FIREBASE_SERVICE_ACCOUNT_EMAIL}"' >> $BASH_ENV
           echo 'export HOST"${HOST}"' >> $BASH_ENV
           echo 'export PORT"${PORT}"' >> $BASH_ENV
-
     - run:
         name: Run Deploy Script 
         command: |
