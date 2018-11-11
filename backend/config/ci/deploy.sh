@@ -50,13 +50,6 @@ FIREBASE_SERVICE_ACCOUNT_EMAIL=$FIREBASE_SERVICE_ACCOUNT_EMAIL
 HOST=$HOST # ------------------------------------------------------------- CHANGE
 PORT=$PORT
 
-sed -e 's/$AWS_ECS_URL/'$AWS_ECS_URL'/g' \
-  -e 's/$AWS_ECS_DOCKER_IMAGE/'$AWS_ECS_DOCKER_IMAGE'/g' \
-  -e 's/$AWS_ECS_CONTAINER_NAME/'$AWS_ECS_CONTAINER_NAME'/g' \
-  -e 's/$HOST/'$HOST'/g' \
-  -e 's/$PORT/'$PORT'/g' \
-  config/ci/docker-compose.yml.original \
-  > config/ci/docker-compose.yml
 
 # Build container.
 # As we did before, but now we are going to build the Docker image that will
@@ -94,6 +87,14 @@ ecs-cli configure --cluster=$AWS_ECS_CLUSTER_NAME --region=$AWS_DEFAULT_REGION
 # Here we are going to replace the docker-compose.yml placeholders with
 # our app's configurations
 
+sed -e 's/$AWS_ECS_URL/'$AWS_ECS_URL'/g' \
+  -e 's/$AWS_ECS_DOCKER_IMAGE/'$AWS_ECS_DOCKER_IMAGE'/g' \
+  -e 's/$AWS_ECS_CONTAINER_NAME/'$AWS_ECS_CONTAINER_NAME'/g' \
+  -e 's/$HOST/'$HOST'/g' \
+  -e 's/$PORT/'$PORT'/g' \
+  config/ci/docker-compose.yml.original \
+  > config/ci/docker-compose.yml
+  
 # Deregister old task definition.
 # Every deploy we want a new task definition to be created with the latest
 # configurations. Task definitions are a set of configurations that state

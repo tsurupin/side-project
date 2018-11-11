@@ -85,13 +85,14 @@ jobs:
       #     path: _build/test/lib/backend
 
   deploy:
+    machine:
+      enabled: true
     environment:
-      - BASH_ENV: /home/circleci/.bashrc
+      AWS_DEFAULT_OUTPUT: json
+      BASH_ENV: /home/circleci/.bashrc
     steps:
-      # - run: *install_awscli
-      # - run: *install_ecs-deploy
       - run:
-          name: Set convenience environment variables
+          name: Setup common environment variables
           command: |
             echo 'export AWS_ACCESS_KEY_ID="${AWS_ACCESS_KEY_ID}"' >> $BASH_ENV
             echo 'export AWS_SECRET_ACCESS_KEY="${AWS_SECRET_ACCESS_KEY}"' >> $BASH_ENV
