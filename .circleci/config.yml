@@ -131,6 +131,8 @@ jobs:
             export HOST="${HOST}"
             export PORT="${PORT}"
             cd backend
+            echo ls -d "$PWD"/* 
+            echo $PWD
             ./backend/config/ci/deploy.sh
 
 workflows:
