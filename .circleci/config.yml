@@ -1,24 +1,24 @@
 version: 2
 
-references:
-  commands:
-    install_awscli: &install_awscli
-      name: install awscli
-      command: |
-        PATH=$PATH:/home/circleci/.local/bin; export PATH
-        sudo apt-get -y -qq update
-        sudo apt-get -y -qq install python3.4-dev
-        sudo curl -O https://bootstrap.pypa.io/get-pip.py
-        python3.4 get-pip.py --user
-        pip install awscli --upgrade --user
-        aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID --profile ecs-deploy-user
-        aws configure set aws_secret_access_key $AWS_SECRET_KEY --profile ecs-deploy-user
-    install_ecs-deploy: &install_ecs-deploy
-      name: install ecs-deploy
-      command: |
-        curl -sL https://github.com/silinternational/ecs-deploy/archive/3.2.tar.gz | tar zxvf -
-        sudo mv ecs-deploy-3.2/ecs-deploy /usr/local/bin/
-        sudo chmod +x /usr/local/bin/ecs-deploy
+# references:
+#   commands:
+#     install_awscli: &install_awscli
+#       name: install awscli
+#       command: |
+#         PATH=$PATH:/home/circleci/.local/bin; export PATH
+#         sudo apt-get -y -qq update
+#         sudo apt-get -y -qq install python3.4-dev
+#         sudo curl -O https://bootstrap.pypa.io/get-pip.py
+#         python3.4 get-pip.py --user
+#         pip install awscli --upgrade --user
+#         aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID --profile ecs-deploy-user
+#         aws configure set aws_secret_access_key $AWS_SECRET_KEY --profile ecs-deploy-user
+#     install_ecs-deploy: &install_ecs-deploy
+#       name: install ecs-deploy
+#       command: |
+#         curl -sL https://github.com/silinternational/ecs-deploy/archive/3.2.tar.gz | tar zxvf -
+#         sudo mv ecs-deploy-3.2/ecs-deploy /usr/local/bin/
+#         sudo chmod +x /usr/local/bin/ecs-deploy
 
 jobs:
   build:
@@ -27,11 +27,11 @@ jobs:
       - image: circleci/elixir:1.7.3
         environment:
           MIX_ENV: test
-      - image: mdillon/postgis:9.6
-        environment:
-          POSTGRES_USER: postgres
-          POSTGRES_DB: app_test
-          POSTGRES_PASSWORD:
+      # - image: mdillon/postgis:9.6
+      #   environment:
+      #     POSTGRES_USER: postgres
+      #     POSTGRES_DB: app_test
+      #     POSTGRES_PASSWORD:
     working_directory: ~/side-project/backend
 
     steps:
@@ -39,8 +39,8 @@ jobs:
           path: ~/side-project/backend   
       - setup_remote_docker    
     
-      - run: cd backend && mix local.hex --force
-      - run: cd backend && mix local.rebar --force
+      # - run: cd backend && mix local.hex --force
+      # - run: cd backend && mix local.rebar --force
 
       # - restore_cache:
       #     keys:
@@ -95,20 +95,6 @@ jobs:
           name: Setup common environment variables
           command: |
             echo 'export AWS_ACCESS_KEY_ID="${AWS_ACCESS_KEY_ID}"' >> $BASH_ENV
-            echo 'export AWS_SECRET_ACCESS_KEY="${AWS_SECRET_ACCESS_KEY}"' >> $BASH_ENV
-            echo 'export AWS_ECS_URL="${AWS_ECS_URL}"' >> $BASH_ENV
-            echo 'export AWS_ECS_PROJECT_NAME="${AWS_ECS_PROJECT_NAME}"' >> $BASH_ENV
-            echo 'export AWS_ECS_CONTAINER_NAME="${AWS_ECS_CONTAINER_NAME}"' >> $BASH_ENV
-            echo 'export AWS_ECS_DOCKER_IMAGE="${AWS_ECS_DOCKER_IMAGE}"' >> $BASH_ENV
-            echo 'export AWS_ECS_CLUSTER_NAME="${AWS_ECS_CLUSTER_NAME}"' >> $BASH_ENV
-            echo 'export AWS_S3_BUCKET="${AWS_S3_BUCKET}"' >> $BASH_ENV
-            echo 'export POSTGRES_DB_URL="${POSTGRES_DB_URL}"' >> $BASH_ENV
-            echo 'export POSTGRES_DB_POOL_SIZE="${POSTGRES_DB_POOL_SIZE}"' >> $BASH_ENV
-            echo 'export PHOENIX_SECRET_KEY_BASE="${PHOENIX_SECRET_KEY_BASE}"' >> $BASH_ENV
-            echo 'export FIREBASE_SECRET_PEM_FILE_PATH="${FIREBASE_SECRET_PEM_FILE_PATH}"' >> $BASH_ENV
-            echo 'export FIREBASE_SERVICE_ACCOUNT_EMAIL="${FIREBASE_SERVICE_ACCOUNT_EMAIL}"' >> $BASH_ENV
-            echo 'export HOST="${HOST}"' >> $BASH_ENV
-            echo 'export PORT="${PORT}"' >> $BASH_ENV
       - run:
           name: Run Deploy Script 
           command: |
