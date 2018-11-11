@@ -42,36 +42,36 @@ jobs:
       - run: cd backend && mix local.hex --force
       - run: cd backend && mix local.rebar --force
 
-      - restore_cache:
-          keys:
-            - v1-mix-cache-{{ .Branch }}-{{ checksum "mix.lock" }}
-            - v1-mix-cache-{{ .Branch }}
-            - v1-mix-cache
-          paths: "backend"
-      - restore_cache:
-          keys:
-            - v1-build-cache-{{ .Branch }}
-            - v1-build-cache
-      - run: cd backend && mix do deps.get, compile   
-      - save_cache:
-          key: v1-mix-cache-{{ .Branch }}-{{ checksum "mix.lock" }}
-          paths: "/backend/deps"
-      - save_cache:
-          key: v1-mix-cache-{{ .Branch }}
-          paths: "deps"
-      - save_cache:
-          key: v1-mix-cache
-          paths: "deps"
-      - save_cache:
-          key: v1-build-cache-{{ .Branch }}
-          paths: "_build"
-      - save_cache:
-          key: v1-build-cache
-          paths: "_build"
+      # - restore_cache:
+      #     keys:
+      #       - v1-mix-cache-{{ .Branch }}-{{ checksum "mix.lock" }}
+      #       - v1-mix-cache-{{ .Branch }}
+      #       - v1-mix-cache
+      #     paths: "backend"
+      # - restore_cache:
+      #     keys:
+      #       - v1-build-cache-{{ .Branch }}
+      #       - v1-build-cache
+      # - run: cd backend && mix do deps.get, compile   
+      # - save_cache:
+      #     key: v1-mix-cache-{{ .Branch }}-{{ checksum "mix.lock" }}
+      #     paths: "/backend/deps"
+      # - save_cache:
+      #     key: v1-mix-cache-{{ .Branch }}
+      #     paths: "deps"
+      # - save_cache:
+      #     key: v1-mix-cache
+      #     paths: "deps"
+      # - save_cache:
+      #     key: v1-build-cache-{{ .Branch }}
+      #     paths: "_build"
+      # - save_cache:
+      #     key: v1-build-cache
+      #     paths: "_build"
 
-      - run:
-          name: Wait for DB
-          command: dockerize -wait tcp://localhost:5432 -timeout 1m
+      # - run:
+      #     name: Wait for DB
+      #     command: dockerize -wait tcp://localhost:5432 -timeout 1m
 
       # - run: echo $PWD
       #- run: cd backend && mix deps.get && mix deps.compile
@@ -81,8 +81,8 @@ jobs:
       #  - setup_remote_docker:
       #   docker_layer_caching: true 
 
-      - store_test_results:
-          path: _build/test/lib/backend
+      # - store_test_results:
+      #     path: _build/test/lib/backend
 
 deployment:
   environment:
