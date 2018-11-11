@@ -130,8 +130,7 @@ jobs:
             export FIREBASE_SERVICE_ACCOUNT_EMAIL="${FIREBASE_SERVICE_ACCOUNT_EMAIL}"
             export HOST="${HOST}"
             export PORT="${PORT}"
-            chown -R $USER:$USER ./backend/config/ci/deploy.sh
-            ./backend/config/ci/deploy.sh
+            sh ./backend/config/ci/deploy.sh
 
 workflows:
   version: 2
