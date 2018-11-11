@@ -15,8 +15,7 @@ use Mix.Config
 # which you typically run after static files are built.
 config :api, ApiWeb.Endpoint,
   load_from_system_env: true,
-  http: [port: {:system, "PORT"}],
-  url: [host: "localhost", port: {:system, "PORT"}],
+  url: [host: System.get_env("HOST"), port: System.get_env("PORT")],
   server: true,
   root: ".",
   version: Application.spec(:backend, :vsn),
@@ -25,6 +24,9 @@ config :api, ApiWeb.Endpoint,
 # Do not print debug messages in production
 config :logger, level: :info
 
+
+config :api, :port, System.get_env("PORT")
+config :api, :host, System.get_env("HOST")
 # ## SSL Support
 #
 # To get SSL working, you will need to add the `https` key

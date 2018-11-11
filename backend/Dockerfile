@@ -1,13 +1,6 @@
 # Alias this container as builder:
 FROM bitwalker/alpine-elixir-phoenix as builder
 
-# Install aws cli and yarn
-RUN apk --no-cache update && \
-    apk --no-cache add python py-pip py-setuptools ca-certificates groff less && \
-    pip --no-cache-dir install awscli && \
-    apk --no-cache add yarn && \
-    rm -rf /var/cache/apk/*
-
 ARG HOST
 ARG PORT
 ARG PHOENIX_SECRET_KEY_BASE
@@ -32,9 +25,9 @@ ENV MIX_ENV=prod \
     POSTGRES_DB_POOL_SIZE=$POSTGRES_DB_POOL_SIZE \
     FIREBASE_SECRET_PEM_FILE_PATH=$FIREBASE_SECRET_PEM_FILE_PATH \
     FIREBASE_SERVICE_ACCOUNT_EMAIL=$FIREBASE_SERVICE_ACCOUNT_EMAIL
-# WORKDIR ./
+WORKDIR /backend
 
-
+RUN echo $PORT
 # Copy ssl files into builder container tmp folder
 # RUN mkdir tmp
 # RUN aws s3 sync s3://$OPENSUBS_S3_SECRETS_BUCKET/ssl tmp
@@ -49,6 +42,7 @@ COPY config config
 COPY apps apps
 RUN mix do deps.get, deps.compile
 
+WORKDIR /backend
 COPY rel rel
 
 RUN mix release --env=prod --verbose
@@ -65,10 +59,11 @@ ENV MIX_ENV=prod \
     REPLACE_OS_VARS=true \
     SHELL=/bin/bash
 
-# WORKDIR ./
+WORKDIR /backend
 
-COPY --from=builder /opt/app/_build/prod/rel/backend/releases/0.1.0/backend.tar.gz .
+COPY --from=builder /backend/_build/prod/rel/backend/releases/0.1.0/backend.tar.gz .
 
 RUN tar zxf backend.tar.gz && rm backend.tar.gz
+
 
 CMD ["/backend/bin/backend", "foreground"]

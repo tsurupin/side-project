@@ -2,7 +2,6 @@ use Mix.Config
 
 config :db, Db.Repo,
   adapter: Ecto.Adapters.Postgres,
-  database: "side_project_production",
   url: System.get_env("POSTGRES_DB_URL"),
   types: Db.PostgresTypes,
   pool_size: System.get_env("POSTGRES_POOL_SIZE") || 10,
