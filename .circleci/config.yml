@@ -89,12 +89,13 @@ jobs:
       enabled: true
     environment:
       AWS_DEFAULT_OUTPUT: json
-      BASH_ENV: /home/circleci/.bashrc
     steps:
       - run:
           name: Setup common environment variables
           command: |
-            echo 'export AWS_ACCESS_KEY_ID="${AWS_ACCESS_KEY_ID}"' >> $BASH_ENV
+            echo "Using tag: $AWS_S3_BUCKET"
+            echo "Using tag: ${AWS_S3_BUCKET}"
+            echo 'export AWS_S3_BUCKET="${AWS_S3_BUCKET}"' >> $BASH_ENV
       - run:
           name: Run Deploy Script 
           command: |
