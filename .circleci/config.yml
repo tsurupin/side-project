@@ -48,10 +48,10 @@ jobs:
           name: Wait for DB
           command: dockerize -wait tcp://localhost:5432 -timeout 1m
      
-      - run: mix ecto.create  && mix ecto.migrate   
-      - run: mix test
-      - store_test_results:  # upload junit test results for display in Test Summary
-          path: _build/test/lib/backend 
+      # - run: mix ecto.create  && mix ecto.migrate   
+      # - run: mix test
+      # - store_test_results: 
+      #     path: _build/test/lib
 
   deploy:
     machine:
@@ -61,7 +61,7 @@ jobs:
     working_directory: ~/side-project/backend
     steps:
       - checkout:
-          path: ~/side-project/backend  
+          path: ~/side-project  
       - run:
           name: Run Deploy Script 
           command: |
@@ -80,7 +80,6 @@ jobs:
             export FIREBASE_SERVICE_ACCOUNT_EMAIL="${FIREBASE_SERVICE_ACCOUNT_EMAIL}"
             export HOST="${HOST}"
             export PORT="${PORT}"
-            cd backend
             sh ./config/ci/deploy.sh
 
 workflows:
