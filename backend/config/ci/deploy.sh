@@ -8,7 +8,6 @@ pip install --user awscli
 
 # Install AWS ECS CLI
 sudo curl -o /usr/local/bin/ecs-cli https://s3.amazonaws.com/amazon-ecs-cli/ecs-cli-linux-amd64-latest
-#echo "$(curl -s https://s3.amazonaws.com/amazon-ecs-cli/ecs-cli-linux-amd64-latest.md5) /usr/local/bin/ecs-cli" | md5sum -c -
 sudo chmod +x /usr/local/bin/ecs-cli
 
 
@@ -47,7 +46,7 @@ FIREBASE_SERVICE_ACCOUNT_EMAIL=$FIREBASE_SERVICE_ACCOUNT_EMAIL
 # Set runtime ENV.
 # These are the runtime environment variables.
 # Note that HOST needs to be set.
-HOST=$HOST # ------------------------------------------------------------- CHANGE
+HOST=$HOST 
 PORT=$PORT
 
 
@@ -80,7 +79,7 @@ docker push "$AWS_ECS_URL"/"$AWS_ECS_DOCKER_IMAGE"
 
 # Configure ECS cluster and AWS_DEFAULT_REGION so we don't have to send it
 # on every command
-#ecs-cli configure profile --profile-name ecs-deploy-user --access-key $AWS_ACCESS_KEY_ID --secret-key $AWS_SECRET_ACCESS_KEY
+
 ecs-cli configure --cluster=$AWS_ECS_CLUSTER_NAME --region=$AWS_DEFAULT_REGION
 
 # Build docker-compose.yml with our configuration.
