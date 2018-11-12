@@ -16,13 +16,12 @@ jobs:
 
     steps:
       - checkout:
-          path: ~/side-project/backend
+          path: ~/side-project
       - restore_cache:
           keys:
             - v1-mix-cache-{{ .Branch }}-{{ checksum "mix.lock" }}
             - v1-mix-cache-{{ .Branch }}
-            - v1-mix-cache
-          paths: backend      
+            - v1-mix-cache     
     
       - run: cd backend && mix local.hex --force
       - run: cd backend && mix local.rebar --force
@@ -51,12 +50,6 @@ jobs:
       - run: cd backend && mix deps.get && mix deps.compile
       - run: cd backend && mix ecto.create  && mix ecto.migrate   
       - run: cd backend && mix test
-
-      #  - setup_remote_docker:
-      #   docker_layer_caching: true 
-
-      # - store_test_results:
-      #     path: _build/test/lib/backend
 
   deploy:
     machine:
