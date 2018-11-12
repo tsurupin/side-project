@@ -39,6 +39,11 @@ environment :prod do
   set include_erts: true
   set include_src: false
   set cookie: :"HP:[}8^>/^r&4KFi$u9%Uo`HUosBv,nSD)rc3,h29$?&dG/m`nAw?^J,F;FF:8f;"
+
+  set commands: [
+    "seed": "rel/commands/seed.sh",
+    "migrate": "rel/commands/migrate.sh"
+  ]
 end
 
 # You may define one or more releases in this file.
