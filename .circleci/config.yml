@@ -17,20 +17,21 @@ jobs:
     steps:
       - checkout:
           path: ~/side-project
-      - restore_cache:
+      - restore_cache: # restores saved mix cache
           keys:
             - v1-mix-cache-{{ .Branch }}-{{ checksum "mix.lock" }}
             - v1-mix-cache-{{ .Branch }}
-            - v1-mix-cache     
-    
-      - run: cd backend && mix local.hex --force
-      - run: cd backend && mix local.rebar --force
-
-
-      - run: cd backend && mix do deps.get, compile   
+            - v1-mix-cache    
+      - restore_cache: # restores saved build cache
+          keys:
+            - v1-build-cache-{{ .Branch }}
+            - v1-build-cache 
+      - run: mix local.hex --force
+      - run: mix local.rebar --force
+      - run: mix do deps.get, compile   
       - save_cache:
           key: v1-mix-cache-{{ .Branch }}-{{ checksum "mix.lock" }}
-          paths: backend
+          paths: "deps"
       - save_cache:
           key: v1-mix-cache-{{ .Branch }}
           paths: "deps"
@@ -43,13 +44,14 @@ jobs:
       - save_cache:
           key: v1-build-cache
           paths: "_build"
-      - run:
+      - run: # special utility that stalls main process until DB is ready
           name: Wait for DB
           command: dockerize -wait tcp://localhost:5432 -timeout 1m
-
-      - run: cd backend && mix deps.get && mix deps.compile
-      - run: cd backend && mix ecto.create  && mix ecto.migrate   
-      - run: cd backend && mix test
+     
+      - run: mix ecto.create  && mix ecto.migrate   
+      - run: mix test
+      - store_test_results:  # upload junit test results for display in Test Summary
+          path: _build/test/lib/backend 
 
   deploy:
     machine:
