@@ -96,7 +96,16 @@ sed -e 's/$AWS_ECS_URL/'$AWS_ECS_URL'/g' \
   config/ci/docker-compose.yml.original \
   > config/ci/docker-compose.yml
 
-# Deregister old task definition.
+
+# Start new task which will create fresh new task definition as well.
+# This is what brings the application up with the new changes and configurations.
+ecs-cli compose --verbose\
+  --file config/ci/docker-compose.yml \
+  --project-name "$AWS_ECS_PROJECT_NAME" \
+  service up —force-deployment #--timeout 10
+
+
+  # Deregister old task definition.
 # Every deploy we want a new task definition to be created with the latest
 # configurations. Task definitions are a set of configurations that state
 # how the Docker container should run and what resources to use: https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task_definitions.html
@@ -114,10 +123,3 @@ if [ ! -z "$REVISION" ]; then
     --project-name "$AWS_ECS_PROJECT_NAME" \
     service stop
 fi
-
-# Start new task which will create fresh new task definition as well.
-# This is what brings the application up with the new changes and configurations.
-ecs-cli compose --verbose\
-  --file config/ci/docker-compose.yml \
-  --project-name "$AWS_ECS_PROJECT_NAME" \
-  service up —force-deployment #--timeout 10
