@@ -24,7 +24,8 @@ AWS_DEFAULT_REGION=$AWS_DEFAULT_REGION
 # Here you only need to set AWS_ECS_URL. I have created the others so that
 # it's easy to change for a different project. AWS_ECS_URL should be the
 # base url.
-
+# use sematic versioning instead of latest
+DOCKER_TAG_ID=eval $(echo git log -1 --pretty=%h)
 AWS_ECS_URL=$AWS_ECS_URL
 AWS_ECS_PROJECT_NAME=$AWS_ECS_PROJECT_NAME
 AWS_ECS_CONTAINER_NAME=$AWS_ECS_CONTAINER_NAME
@@ -68,14 +69,14 @@ docker build -t $AWS_ECS_CONTAINER_NAME \
   .
 
 # # Tag the new Docker image as latest on the ECS Repository.
-docker tag $AWS_ECS_DOCKER_IMAGE "$AWS_ECS_URL"/"$AWS_ECS_DOCKER_IMAGE"
+docker tag $AWS_ECS_DOCKER_IMAGE "$AWS_ECS_URL"/"$AWS_ECS_DOCKER_IMAGE:${DOCKER_TAG_ID}"
 
 
 # Login to ECS Repository.
 eval $(aws ecr get-login --no-include-email --region $AWS_DEFAULT_REGION)
 
 # Upload the Docker image to the ECS Repository.
-docker push "$AWS_ECS_URL"/"$AWS_ECS_DOCKER_IMAGE"
+docker push "$AWS_ECS_URL"/"$AWS_ECS_DOCKER_IMAGE:${DOCKER_TAG_ID}"
 
 # Configure ECS cluster and AWS_DEFAULT_REGION so we don't have to send it
 # on every command
@@ -87,7 +88,7 @@ ecs-cli configure --cluster=$AWS_ECS_CLUSTER_NAME --region=$AWS_DEFAULT_REGION
 # our app's configurations
 
 sed -e 's/$AWS_ECS_URL/'$AWS_ECS_URL'/g' \
-  -e 's/$AWS_ECS_DOCKER_IMAGE/'$AWS_ECS_DOCKER_IMAGE'/g' \
+  -e 's/$AWS_ECS_DOCKER_IMAGE/'$AWS_ECS_DOCKER_IMAGE:${DOCKER_TAG_ID}'/g' \
   -e 's/$AWS_ECS_CONTAINER_NAME/'$AWS_ECS_CONTAINER_NAME'/g' \
   -e 's/$HOST/'$HOST'/g' \
   -e 's/$PORT/'$PORT'/g' \
