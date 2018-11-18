@@ -1,5 +1,5 @@
 ## Name of the node - this is the only change
--name <%= release_name %>@${CONTAINER_IP}
+-name side_project@${CONTAINER_IP}
 
 
 ## Cookie for distributed erlang

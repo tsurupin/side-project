@@ -7,3 +7,9 @@ services:
       - PORT=$PORT
     ports:
       - '$PORT:$PORT'
+    logging:
+      driver: 'awslogs'
+      options:
+        awslogs-region: '$AWS_DEFAULT_REGION'
+        awslogs-group: '$AWS_ECS_CLUSTER_NAME'
+        awslogs-stream-prefix: 'registrator'

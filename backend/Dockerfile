@@ -50,7 +50,7 @@ RUN mix do deps.get, deps.compile
 WORKDIR /backend
 COPY rel rel
 
-RUN mix release --env=prod --name=$APP_NAME --verbose 
+RUN mix release --env=prod  --verbose 
 
 ### Release
 
