@@ -50,6 +50,8 @@ FIREBASE_SERVICE_ACCOUNT_EMAIL=$FIREBASE_SERVICE_ACCOUNT_EMAIL
 # Note that HOST needs to be set.
 HOST=$HOST 
 PORT=$PORT
+APP_NAME=$APP_NAME
+NODE_COOKIE=$NODE_COOKIE
 
 
 # Build container.
@@ -67,6 +69,9 @@ docker build -t $AWS_ECS_CONTAINER_NAME \
   --build-arg PORT=$PORT \
   --build-arg FIREBASE_SECRET_PEM_FILE_PATH=$FIREBASE_SECRET_PEM_FILE_PATH \
   --build-arg FIREBASE_SERVICE_ACCOUNT_EMAIL=$FIREBASE_SERVICE_ACCOUNT_EMAIL \
+  --build-arg APP_NAME=$APP_NAME \
+  --build-arg NODE_COOKIE=$NODE_COOKIE \
+  --build-arg AWS_ECS_SERVICE_NAME=$AWS_ECS_SERVICE_NAME \
   .
 
 # # Tag the new Docker image as latest on the ECS Repository.
