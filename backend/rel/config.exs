@@ -35,11 +35,13 @@ environment :dev do
 end
 
 environment :prod do
-  set(pre_start_hooks: "rel/pre_start_hooks")
   set include_erts: true
   set include_src: false
   set cookie: :"HP:[}8^>/^r&4KFi$u9%Uo`HUosBv,nSD)rc3,h29$?&dG/m`nAw?^J,F;FF:8f;"
-
+  set(pre_configure_hooks: "rel/pre_configure_hooks")
+  set vm_args: "rel/vm.args"
+  set(pre_start_hooks: "rel/pre_start_hooks")
+  #set(post_start_hooks: "rel/post_start_hooks")
   set commands: [
     "seed": "rel/commands/seed.sh",
     "migrate": "rel/commands/migrate.sh"
