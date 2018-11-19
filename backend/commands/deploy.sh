@@ -125,7 +125,6 @@ if [ ! -z "$REVISION" ]; then
     service stop
 fi
 
-# https://docs.docker.com/docker-cloud/migration/cloud-to-aws-ecs/#db-service
 # Start new task which will create fresh new task definition as well.
 # This is what brings the application up with the new changes and configurations.
 ecs-cli compose --verbose\

@@ -3,7 +3,7 @@
 
 
 ## Cookie for distributed erlang
--setcookie ${NODE_COOKIE}
+-setcookie side_project_cookie
 ## Heartbeat management; auto-restarts VM if it dies or becomes unresponsive
 ## (Disabled by default..use with caution!)
 ##-heart
