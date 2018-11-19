@@ -14,7 +14,6 @@ defmodule ApiWeb.Router do
     # plug Api.Guardian.AuthAccessPipeline
     plug(ApiWeb.Context)
   end
-  
 
   pipeline :graphql do
     plug(:accepts, ["json"])

@@ -14,6 +14,5 @@ config :ex_aws,
   secret_access_key: [System.get_env("AWS_SECRET_KEY"), :instance_role],
   region: System.get_env("AWS_DEFAULT_REGION")
 
-
 config :db, :app_name, System.get_env("APP_NAME")
 config :db, :aws_ecs_service_name, System.get_env("AWS_ECS_SERVICE_NAME")

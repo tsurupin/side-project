@@ -15,7 +15,7 @@ use Mix.Config
 # which you typically run after static files are built.
 config :api, ApiWeb.Endpoint,
   load_from_system_env: true,
-  http: [port:  System.get_env("PORT")],
+  http: [port: System.get_env("PORT")],
   url: [host: System.get_env("HOST"), port: System.get_env("PORT")],
   server: true,
   root: ".",
@@ -24,7 +24,6 @@ config :api, ApiWeb.Endpoint,
 
 # Do not print debug messages in production
 config :logger, level: :info
-
 
 config :api, :port, System.get_env("PORT")
 config :api, :host, System.get_env("HOST")
