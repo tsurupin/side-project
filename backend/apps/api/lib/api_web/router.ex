@@ -14,9 +14,16 @@ defmodule ApiWeb.Router do
     # plug Api.Guardian.AuthAccessPipeline
     plug(ApiWeb.Context)
   end
+  
 
   pipeline :graphql do
     plug(:accepts, ["json"])
+  end
+
+  scope "/" do
+    pipe_through(:browser)
+    get("/", ApiWeb.HealthController, :health)
+    get("/health", ApiWeb.HealthController, :health)
   end
 
   scope "/api" do

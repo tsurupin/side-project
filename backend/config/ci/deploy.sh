@@ -49,7 +49,8 @@ FIREBASE_SERVICE_ACCOUNT_EMAIL=$FIREBASE_SERVICE_ACCOUNT_EMAIL
 # These are the runtime environment variables.
 # Note that HOST needs to be set.
 HOST=$HOST 
-PORT=$PORT
+CONTAINER_PORT=$CONTAINER_PORT
+HOST_PORT=$HOST_PORT
 APP_NAME=$APP_NAME
 NODE_COOKIE=$NODE_COOKIE
 AWS_ECS_SERVICE_NAME=$AWS_ECS_SERVICE_NAME
@@ -67,7 +68,7 @@ docker build -t $AWS_ECS_CONTAINER_NAME \
   --build-arg POSTGRES_DB_URL=$POSTGRES_DB_URL \
   --build-arg POSTGRES_DB_POOL_SIZE=$POSTGRES_DB_POOL_SIZE \
   --build-arg HOST=$HOST \
-  --build-arg PORT=$PORT \
+  --build-arg PORT=$CONTAINER_PORT \
   --build-arg FIREBASE_SECRET_PEM_FILE_PATH=$FIREBASE_SECRET_PEM_FILE_PATH \
   --build-arg FIREBASE_SERVICE_ACCOUNT_EMAIL=$FIREBASE_SERVICE_ACCOUNT_EMAIL \
   --build-arg APP_NAME=$APP_NAME \
@@ -99,12 +100,23 @@ sed -e 's/$AWS_ECS_URL/'$AWS_ECS_URL'/g' \
   -e 's/$AWS_ECS_CONTAINER_NAME/'$AWS_ECS_CONTAINER_NAME'/g' \
   -e 's/$AWS_ECS_CLUSTER_NAME/'$AWS_ECS_CLUSTER_NAME'/g' \
   -e 's/$AWS_DEFAULT_REGION/'$AWS_DEFAULT_REGION'/g' \
+  -e 's/$HOST_PORT/'$HOST_PORT'/g' \
   -e 's/$HOST/'$HOST'/g' \
-  -e 's/$PORT/'$PORT'/g' \
+  -e 's/$FIREBASE_SECRET_PEM_FILE_PATH/'$FIREBASE_SECRET_PEM_FILE_PATH'/g' \
+  -e 's/$CONTAINER_PORT/'$CONTAINER_PORT'/g' \
   config/ci/docker-compose.yml.original \
   > config/ci/docker-compose.yml
 
 
+
+
+# https://docs.docker.com/docker-cloud/migration/cloud-to-aws-ecs/#db-service
+# Start new task which will create fresh new task definition as well.
+# This is what brings the application up with the new changes and configurations.
+ecs-cli compose --verbose\
+  --file config/ci/docker-compose.yml \
+  --project-name "$AWS_ECS_PROJECT_NAME" \
+  service up —force-deployment --timeout 10
 
   # Deregister old task definition.
 # Every deploy we want a new task definition to be created with the latest
@@ -124,12 +136,4 @@ if [ ! -z "$REVISION" ]; then
     --project-name "$AWS_ECS_PROJECT_NAME" \
     service stop
 fi
-
-# https://docs.docker.com/docker-cloud/migration/cloud-to-aws-ecs/#db-service
-# Start new task which will create fresh new task definition as well.
-# This is what brings the application up with the new changes and configurations.
-ecs-cli compose --verbose\
-  --file config/ci/docker-compose.yml \
-  --project-name "$AWS_ECS_PROJECT_NAME" \
-  service up —force-deployment --timeout 10
 

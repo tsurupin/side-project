@@ -4,9 +4,10 @@ services:
     image: '$AWS_ECS_URL/$AWS_ECS_DOCKER_IMAGE'
     environment:
       - HOST=$HOST
-      - PORT=$PORT
+      - PORT=$CONTAINER_PORT
+      - FIREBASE_SECRET_PEM_FILE_PATH=$FIREBASE_SECRET_PEM_FILE_PATH
     ports:
-      - '$PORT:$PORT'
+      - '$HOST_PORT:$CONTAINER_PORT'
     logging:
       driver: 'awslogs'
       options:

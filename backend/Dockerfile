@@ -34,6 +34,7 @@ ENV MIX_ENV=prod \
 WORKDIR /backend
 
 RUN echo $PORT
+RUN echo $PHOENIX_SECRET_KEY_BASE
 # Copy ssl files into builder container tmp folder
 # RUN mkdir tmp
 # RUN aws s3 sync s3://$OPENSUBS_S3_SECRETS_BUCKET/ssl tmp
