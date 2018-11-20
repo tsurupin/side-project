@@ -48,6 +48,7 @@ RUN mix do deps.get, deps.compile
 
 WORKDIR /backend
 COPY rel rel
+COPY .tool-versions .tool-versions
 
 RUN mix release --env=prod  --verbose 
 

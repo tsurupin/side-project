@@ -2,7 +2,7 @@ defmodule Db.Tasks.BootTasks do
   def connect do
     # Docker internal DNS lookup
     IO.puts("lookup result #{System.get_env("AWS_ECS_SERVICE_NAME"}")
-    {string, _} = System.cmd("nslookup", [Application.get_env(:db, :aws_ecs_service_name)])
+    {string, _} = System.cmd("nslookup", [System.get_env("AWS_ECS_SERVICE_NAME")])
 
     IO.puts(
       "lookup result #{string}, container_ip:#{System.get_env("CONTAINER_IP")}, app_name:#{
