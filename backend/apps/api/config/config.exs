@@ -31,7 +31,6 @@ config :api, Api.Guardian,
   ttl: {1, :hours},
   secret_key: {Api.Guardian.FirebaseKey, :get_key, [:secret]}
 
-config :api, :firebase_service_account_email, System.get_env("FIREBASE_SERVICE_ACCOUNT_EMAIL")
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{Mix.env()}.exs"

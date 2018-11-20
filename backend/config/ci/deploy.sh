@@ -56,6 +56,8 @@ NODE_COOKIE=$NODE_COOKIE
 AWS_ECS_SERVICE_NAME=$AWS_ECS_SERVICE_NAME
 
 
+
+
 # Build container.
 # As we did before, but now we are going to build the Docker image that will
 # be pushed to the repository.
@@ -91,32 +93,37 @@ docker push "$AWS_ECS_URL"/"$AWS_ECS_DOCKER_IMAGE":"$DOCKER_TAG_ID"
 
 ecs-cli configure --cluster=$AWS_ECS_CLUSTER_NAME --region=$AWS_DEFAULT_REGION
 
+
 # Build docker-compose.yml with our configuration.
 # Here we are going to replace the docker-compose.yml placeholders with
 # our app's configurations
+handle_quote_meta() {
+  echo $1 | perl -lne 'print quotemeta()'
+}
 
 sed -e 's/$AWS_ECS_URL/'$AWS_ECS_URL'/g' \
+  -e 's/$AWS_S3_BUCKET/'$(handle_quote_meta $AWS_S3_BUCKET)'/g' \
+  -e 's/$AWS_SECRET_ACCESS_KEY/'$(handle_quote_meta $AWS_SECRET_ACCESS_KEY)'/g' \
+  -e 's/$AWS_ACCESS_KEY_ID/'$(handle_quote_meta $AWS_ACCESS_KEY_ID)'/g' \
   -e 's/$AWS_ECS_DOCKER_IMAGE/'$AWS_ECS_DOCKER_IMAGE':'$DOCKER_TAG_ID'/g' \
   -e 's/$AWS_ECS_CONTAINER_NAME/'$AWS_ECS_CONTAINER_NAME'/g' \
   -e 's/$AWS_ECS_CLUSTER_NAME/'$AWS_ECS_CLUSTER_NAME'/g' \
   -e 's/$AWS_DEFAULT_REGION/'$AWS_DEFAULT_REGION'/g' \
+  -e 's/$AWS_ECS_SERVICE_NAME/'$AWS_ECS_SERVICE_NAME'/g' \
+  -e 's/$POSTGRES_DB_URL/'$(handle_quote_meta $POSTGRES_DB_URL)'/g' \
   -e 's/$HOST_PORT/'$HOST_PORT'/g' \
-  -e 's/$HOST/'$HOST'/g' \
-  -e 's/$FIREBASE_SECRET_PEM_FILE_PATH/'$FIREBASE_SECRET_PEM_FILE_PATH'/g' \
   -e 's/$CONTAINER_PORT/'$CONTAINER_PORT'/g' \
+  -e 's/$HOST/'$HOST'/g' \
+  -e 's/$FIREBASE_SECRET_PEM_FILE_PATH/'$(handle_quote_meta $FIREBASE_SECRET_PEM_FILE_PATH)'/g' \
+  -e 's/$PHOENIX_SECRET_KEY_BASE/'$(handle_quote_meta $PHOENIX_SECRET_KEY_BASE)'/g' \
+  -e 's/$FIREBASE_SERVICE_ACCOUNT_EMAIL/'$(handle_quote_meta $FIREBASE_SERVICE_ACCOUNT_EMAIL)'/g' \
+  -e 's/$APP_NAME/'$APP_NAME'/g' \
+  -e 's/$NODE_COOKIE/'$NODE_COOKIE'/g' \
   config/ci/docker-compose.yml.original \
   > config/ci/docker-compose.yml
 
 
 
-
-# https://docs.docker.com/docker-cloud/migration/cloud-to-aws-ecs/#db-service
-# Start new task which will create fresh new task definition as well.
-# This is what brings the application up with the new changes and configurations.
-ecs-cli compose --verbose\
-  --file config/ci/docker-compose.yml \
-  --project-name "$AWS_ECS_PROJECT_NAME" \
-  service up —force-deployment --timeout 10
 
   # Deregister old task definition.
 # Every deploy we want a new task definition to be created with the latest
@@ -136,4 +143,13 @@ if [ ! -z "$REVISION" ]; then
     --project-name "$AWS_ECS_PROJECT_NAME" \
     service stop
 fi
+
+# https://docs.docker.com/docker-cloud/migration/cloud-to-aws-ecs/#db-service
+# Start new task which will create fresh new task definition as well.
+# This is what brings the application up with the new changes and configurations.
+ecs-cli compose --verbose\
+  --file config/ci/docker-compose.yml \
+  --project-name "$AWS_ECS_PROJECT_NAME" \
+  service up —force-deployment --timeout 10
+
 

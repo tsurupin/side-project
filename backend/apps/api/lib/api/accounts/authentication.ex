@@ -21,8 +21,8 @@ defmodule Api.Accounts.Authentication do
     one_hour_later = current_time + @one_hour_in_unix
 
     custom_claims = %{
-      iss: Application.get_env(:api, :firebase_service_account_email),
-      sub: Application.get_env(:api, :firebase_service_account_email),
+      iss: System.get_env("FIREBASE_SERVICE_ACCOUNT_EMAIL"),
+      sub: System.get_env("FIREBASE_SERVICE_ACCOUNT_EMAIL"),
       aud: @aud,
       iat: current_time,
       exp: one_hour_later,

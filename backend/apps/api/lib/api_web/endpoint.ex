@@ -59,7 +59,7 @@ defmodule ApiWeb.Endpoint do
   def init(_key, config) do
     if config[:load_from_system_env] do
       port =
-        Application.get_env(:api, :port) ||
+        System.get_env("PORT")) ||
           raise "expected the PORT environment variable to be set"
 
       {:ok, Keyword.put(config, :http, [:inet6, port: port])}

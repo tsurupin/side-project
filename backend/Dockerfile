@@ -33,8 +33,6 @@ ENV MIX_ENV=prod \
     AWS_ECS_SERVICE_NAME=$AWS_ECS_SERVICE_NAME
 WORKDIR /backend
 
-RUN echo $PORT
-RUN echo $PHOENIX_SECRET_KEY_BASE
 # Copy ssl files into builder container tmp folder
 # RUN mkdir tmp
 # RUN aws s3 sync s3://$OPENSUBS_S3_SECRETS_BUCKET/ssl tmp
@@ -62,7 +60,6 @@ RUN apk upgrade --no-cache && \
     apk add --no-cache bash openssl
 
 ENV MIX_ENV=prod \
-    NODE_COOKIE=$NODE_COOKIE \
     REPLACE_OS_VARS=true \
     SHELL=/bin/bash
 

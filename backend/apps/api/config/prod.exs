@@ -24,9 +24,6 @@ config :api, ApiWeb.Endpoint,
 
 # Do not print debug messages in production
 config :logger, level: :info
-
-config :api, :port, System.get_env("PORT")
-config :api, :host, System.get_env("HOST")
 # ## SSL Support
 #
 # To get SSL working, you will need to add the `https` key
