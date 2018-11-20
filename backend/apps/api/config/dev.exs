@@ -11,7 +11,19 @@ config :api, ApiWeb.Endpoint,
   debug_errors: true,
   code_reloader: true,
   check_origin: false,
-  watchers: []
+  watchers: [],
+  url: [host: "127.0.0.1"],
+  secret_key_base: "bLpP0NF/xthZwGyfBHPmXUKzZb5iG5M8SmD0Q90+0AMHtB9Y8JuAIzC4aU+JOf1p",
+  render_errors: [view: ApiWeb.ErrorView, accepts: ~w(json)],
+  pubsub: [name: Api.PubSub, adapter: Phoenix.PubSub.PG2],
+  live_reload: [
+    patterns: [
+      ~r{priv/static/.*(js|css|png|jpeg|jpg|gif|svg)$},
+      ~r{priv/gettext/.*(po)$},
+      ~r{lib/api_web/views/.*(ex)$},
+      ~r{lib/api_web/templates/.*(eex)$}
+    ]
+  ]
 
 # ## SSL Support
 #
@@ -31,19 +43,6 @@ config :api, ApiWeb.Endpoint,
 
 # Watch static and templates for browser reloading.
 
-config :api, ApiWeb.Endpoint,
-  url: [host: "localhost"],
-  secret_key_base: "bLpP0NF/xthZwGyfBHPmXUKzZb5iG5M8SmD0Q90+0AMHtB9Y8JuAIzC4aU+JOf1p",
-  render_errors: [view: ApiWeb.ErrorView, accepts: ~w(json)],
-  pubsub: [name: Api.PubSub, adapter: Phoenix.PubSub.PG2],
-  live_reload: [
-    patterns: [
-      ~r{priv/static/.*(js|css|png|jpeg|jpg|gif|svg)$},
-      ~r{priv/gettext/.*(po)$},
-      ~r{lib/api_web/views/.*(ex)$},
-      ~r{lib/api_web/templates/.*(eex)$}
-    ]
-  ]
 
 # # Do not include metadata nor timestamps in development logs
 # config :logger, :console, format: "[$level] $message\n"

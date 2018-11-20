@@ -13,11 +13,11 @@ config :api, ecto_repos: [Db.Repo]
 # Configure phoenix generators
 config :phoenix, :generators, migration: false
 # Configures the endpoint
-config :api, ApiWeb.Endpoint,
-  url: [host: "localhost"],
-  secret_key_base: "bLpP0NF/xthZwGyfBHPmXUKzZb5iG5M8SmD0Q90+0AMHtB9Y8JuAIzC4aU+JOf1p",
-  render_errors: [view: ApiWeb.ErrorView, accepts: ~w(json)],
-  pubsub: [name: Api.PubSub, adapter: Phoenix.PubSub.PG2]
+# config :api, ApiWeb.Endpoint,
+#   url: [host: "localhost"],
+#   secret_key_base: "bLpP0NF/xthZwGyfBHPmXUKzZb5iG5M8SmD0Q90+0AMHtB9Y8JuAIzC4aU+JOf1p",
+#   render_errors: [view: ApiWeb.ErrorView, accepts: ~w(json)],
+#   pubsub: [name: Api.PubSub, adapter: Phoenix.PubSub.PG2]
 
 # Configures Elixir's Logger
 config :logger, :console,

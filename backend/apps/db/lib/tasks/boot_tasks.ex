@@ -1,12 +1,12 @@
 defmodule Db.Tasks.BootTasks do
   def connect do
     # Docker internal DNS lookup
-    IO.puts("lookup result #{Application.get_env(:db, :aws_ecs_service_name)}")
+    IO.puts("lookup result #{System.get_env("AWS_ECS_SERVICE_NAME"}")
     {string, _} = System.cmd("nslookup", [Application.get_env(:db, :aws_ecs_service_name)])
 
     IO.puts(
       "lookup result #{string}, container_ip:#{System.get_env("CONTAINER_IP")}, app_name:#{
-        Application.get_env(:db, :app_name)
+        System.get_env("APP_NAME")
       }"
     )
 
@@ -20,7 +20,7 @@ defmodule Db.Tasks.BootTasks do
 
     # Connect to Nodes
     Enum.map(ips, fn ip ->
-      Node.connect(:"#{Application.get_env(:db, :app_name)}@#{ip}")
+      Node.connect(:"#{System.get_env("APP_NAME")}@#{ip}")
     end)
   end
 end
