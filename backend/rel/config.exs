@@ -45,7 +45,8 @@ end
 environment :prod do
   set include_erts: true
   set include_src: false
-  set cookie: :"HP:[}8^>/^r&4KFi$u9%Uo`HUosBv,nSD)rc3,h29$?&dG/m`nAw?^J,F;FF:8f;"
+  #set cookie: :"HP:[}8^>/^r&4KFi$u9%Uo`HUosBv,nSD)rc3,h29$?&dG/m`nAw?^J,F;FF:8f;"
+  set cookie: :"side-project"
   set(pre_configure_hooks: "rel/pre_configure_hooks")
   set(pre_start_hooks: "rel/pre_start_hooks")
   set vm_args: "rel/vm.args"

@@ -18,7 +18,10 @@ services:
       - NODE_COOKIE=$NODE_COOKIE      
     ports:
       - '$HOST_PORT:$CONTAINER_PORT'
-      - '4369'
+      - '4369:4369'
+      - '9100:9100'
+      - '9101:9101'
+      - '9102:9102'
     logging:
       driver: 'awslogs'
       options:

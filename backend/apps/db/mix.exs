@@ -33,9 +33,9 @@ defmodule Db.MixProject do
       {:postgrex, "~> 0.13.0"},
       {:ecto, "~> 2.1.1"},
       {:ecto_enum, "~> 1.0"},
-      {:arc, "~> 0.8.0"},
-      {:arc_ecto, "~> 0.7.0"},
-      {:ex_aws, "~> 1.1.3"},
+      {:arc, "~> 0.11.0"},
+      {:arc_ecto, "~> 0.11.0"},
+      {:ex_aws, "~> 2.0"},
       # {:hackney, "~> 1.8.0", override: true},
       {:poison, "~> 3.1"},
       {:geo, "~> 2.0"},
@@ -43,8 +43,7 @@ defmodule Db.MixProject do
       {:ex_machina, "~> 2.2", only: [:test]},
       {:timex, "~> 3.1"},
       {:faker, "~> 0.9.0", only: [:test]},
-      {:dialyxir, "~> 0.5.1", only: [:dev], runtime: false},
-      {:libcluster, "~> 3.0"}
+      {:dialyxir, "~> 0.5.1", only: [:dev], runtime: false}
     ]
   end
 

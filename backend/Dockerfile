@@ -54,14 +54,14 @@ RUN mix release --env=prod
 
 ### Release
 
-FROM alpine:3.6
+FROM bitwalker/alpine-elixir
 
 
 # We need bash and openssl for Phoenix
 RUN apk upgrade --no-cache && \
     apk --no-cache add curl && \
-    apk --no-cache add python py-pip py-setuptools ca-certificates curl groff less && \
-    pip --no-cache-dir install awscli && \
+    # apk --no-cache add python py-pip py-setuptools ca-certificates curl groff less && \
+    # pip --no-cache-dir install awscli && \
     apk add --no-cache bash openssl
 
 ENV MIX_ENV=prod \

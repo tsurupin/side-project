@@ -5,19 +5,24 @@ defmodule Db.Tasks.BootTasks do
   end
 
   def connect do
-    case Node.connect(:"side_project@10.0.1.34") do
-      :ignored -> IO.puts("ignored to connect side_project@10.0.1.34")
-      true -> IO.puts("succeeded to connect side_project@10.0.1.34")
-      false -> IO.puts("failed to connect side_project@10.0.1.34")
+
+    IO.inspect(:net_adm.names)
+  
+    case Node.connect(:"side_project@ec2-13-57-228-68.us-west-1.compute.amazonaws.com") do
+      :ignored -> IO.puts("ignored to connect side_project@10.0.1.50")
+      true -> IO.puts("succeeded to connect side_project@10.0.1.50")
+      false -> IO.puts("failed to connect side_project@10.0.1.50")
     end
 
-    case Node.connect(:"side_project@10.0.0.90") do
-     :ignored -> IO.puts("ignored to connect side_project@10.0.0.90")
-      true -> IO.puts("succeeded to connect side_project@10.0.0.90")
-      false -> IO.puts("failed to connect side_project@10.0.0.90")
+    case Node.connect(:"side_project@ec2-13-56-191-131.us-west-1.compute.amazonaws.com") do
+     :ignored -> IO.puts("ignored to connect side_project@10.0.1.166")
+      true -> IO.puts("succeeded to connect side_project@10.0.1.166")
+      false -> IO.puts("failed to connect side_project@10.0.1.166")
     end
 
-    IO.inspect("Node list: #{Node.list}, self: #{Node.self}, #{Node.alive?}")
+    IO.inspect(Node.list)
+    
+    IO.inspect("self: #{Node.self}, #{Node.alive?}")
     # # Docker internal DNS lookup
     # IO.puts("lookup result #{System.get_env("AWS_ECS_SERVICE_NAME")}")
     # {string, _} = System.cmd("nslookup", [System.get_env("AWS_ECS_SERVICE_NAME")])
