@@ -1,12 +1,13 @@
 ## Name of the node - this is the only change
--name side_project@${CONTAINER_IP}
-
-
+-name ${APP_NAME}@${CONTAINER_PRIVATE_IP}
+##-name ${APP_NAME}@127.0.0.1
 ## Cookie for distributed erlang
--setcookie side_project_cookie
+-setcookie side-project
 ## Heartbeat management; auto-restarts VM if it dies or becomes unresponsive
 ## (Disabled by default..use with caution!)
-##-heart
+## -heart
+
+-kernel inet_dist_listen_min 30000 inet_dist_listen_max 34096
 
 ## Enable kernel poll and a few async threads
 ##+K true

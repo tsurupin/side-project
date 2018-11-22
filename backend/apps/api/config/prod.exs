@@ -20,10 +20,11 @@ config :api, ApiWeb.Endpoint,
   server: true,
   root: ".",
   version: Application.spec(:backend, :vsn),
-  secret_key_base: System.get_env("PHOENIX_SECRET_KEY_BASE")
+  secret_key_base: System.get_env("PHOENIX_SECRET_KEY_BASE"),
+  pubsub: [name: Api.PubSub, adapter: Phoenix.PubSub.PG2]
 
 # Do not print debug messages in production
-config :logger, level: :info
+config :logger, level: :info, metadata: [:line, :crash_rason,:nitial_call, :function]
 # ## SSL Support
 #
 # To get SSL working, you will need to add the `https` key

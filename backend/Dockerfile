@@ -41,23 +41,27 @@ WORKDIR /backend
 COPY mix.exs mix.lock ./
 COPY config config
 
-
 # Apps
 COPY apps apps
-RUN mix do deps.get, deps.compile
+RUN mix do deps.get
+RUN mix do clean, compile --force
 
 WORKDIR /backend
 COPY rel rel
 COPY .tool-versions .tool-versions
 
-RUN mix release --env=prod  --verbose 
+RUN mix release --env=prod 
 
 ### Release
 
 FROM alpine:3.6
 
+
 # We need bash and openssl for Phoenix
 RUN apk upgrade --no-cache && \
+    apk --no-cache add curl && \
+    apk --no-cache add python py-pip py-setuptools ca-certificates curl groff less && \
+    pip --no-cache-dir install awscli && \
     apk add --no-cache bash openssl
 
 ENV MIX_ENV=prod \
