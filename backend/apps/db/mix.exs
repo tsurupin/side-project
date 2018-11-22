@@ -43,7 +43,8 @@ defmodule Db.MixProject do
       {:ex_machina, "~> 2.2", only: [:test]},
       {:timex, "~> 3.1"},
       {:faker, "~> 0.9.0", only: [:test]},
-      {:dialyxir, "~> 0.5.1", only: [:dev], runtime: false}
+      {:dialyxir, "~> 0.5.1", only: [:dev], runtime: false},
+      {:libcluster, "~> 3.0"}
     ]
   end
 

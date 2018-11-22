@@ -1,4 +1,4 @@
 #!/bin/sh
 
-# Runs ecto.create, ecto.migrate and ecto.seed
-#release_ctl eval --mfa "Elixir.Db.Tasks.ReleaseTasks.setup/0"
+echo "Set CONTAINER IP! '$CONTAINER_PRIVATE_IP'"
+## "Elixir.Db.Tasks.BootTasks.test/0"
