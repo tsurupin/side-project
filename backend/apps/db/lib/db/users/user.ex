@@ -57,6 +57,8 @@ defmodule Db.Users.User do
     |> assoc_constraint(:genre)
     |> validate_required(required_attributes)
     |> check_constraint(:status, name: "valid_user_status")
+    |> check_constraint(:provider_id, name: "vusers_provider_id_and_uid_index")
+    |> check_constraint(:email, name: "users_email_index")
   end
 
   @spec edit_changeset(User.t(), map()) :: Ecto.Changeset.t()
@@ -70,6 +72,8 @@ defmodule Db.Users.User do
     |> assoc_constraint(:occupation_type)
     |> assoc_constraint(:genre)
     |> check_constraint(:status, name: "valid_user_status")
+    |> check_constraint(:provider_id, name: "users_provider_id_and_uid_index")
+    |> check_constraint(:email, name: "users_email_index")
   end
 
   @srid 4326

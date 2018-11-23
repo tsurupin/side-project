@@ -3,7 +3,7 @@ defmodule ApiWeb.Schema.Queries.MatchesTest do
   import Mock
   alias Db.Uploaders.UserPhotoUploader
 
-  describe "match query" do
+  describe "MatchList" do
     setup do
       user = Factory.insert(:user)
       liked_user1 = Factory.insert(:user)
@@ -47,7 +47,7 @@ defmodule ApiWeb.Schema.Queries.MatchesTest do
       }
     """
 
-    test "return matchList", ctx do
+    test "returns matchList", ctx do
       %{
         user_id: user_id,
         liked_user1: liked_user1,

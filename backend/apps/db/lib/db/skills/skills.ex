@@ -6,6 +6,8 @@ defmodule Db.Skills.Skills do
   alias Db.Skills.{UserSkill, ProjectSkill, Skill}
   alias __MODULE__
 
+  @default_rank 0
+
   @spec search(String.t()) :: [Skill.t()]
   def search(term), do: search(Skill, term)
 
@@ -55,11 +57,20 @@ defmodule Db.Skills.Skills do
     |> bulk_upsert_user_skills(user_id, rank + 1, tail)
   end
 
-  @spec bulk_create_project_skills(integer, integer, list(integer)) ::
+  @spec bulk_create_project_skills(integer, list(integer)) ::
           {:ok, Ecto.Multi.t()} | {:error, String.t()}
-  def bulk_create_project_skills(project_id, rank, skill_ids) do
+  def bulk_create_project_skills(project_id, skill_ids) do
     Multi.new()
-    |> bulk_create_project_skills(project_id, rank, skill_ids)
+    |> bulk_create_project_skills(project_id, @default_rank, skill_ids)
+  end
+
+  def bulk_create_project_skills(multi, project_id, rank, [skill_id | tail]) do
+    project_skill_change_set =
+      ProjectSkill.changeset(%{project_id: project_id, rank: rank, skill_id: skill_id})
+
+    multi
+    |> Multi.insert(Ecto.UUID.generate(), project_skill_change_set)
+    |> bulk_create_project_skills(project_id, rank + 1, tail)
   end
 
   @spec bulk_create_project_skills(Ecto.Multi.t(), integer, integer, list(integer)) ::
@@ -71,13 +82,9 @@ defmodule Db.Skills.Skills do
     end
   end
 
-  def bulk_create_project_skills(multi, project_id, rank, [skill_id | tail]) do
-    project_skill_change_set =
-      ProjectSkill.changeset(%{project_id: project_id, rank: rank, skill_id: skill_id})
-
-    multi
-    |> Multi.insert(Ecto.UUID.generate(), project_skill_change_set)
-    |> bulk_create_project_skills(project_id, rank + 1, tail)
+  @spec bulk_upsert_project_skills(Ecto.Multi.t(), integer, list(integer)) :: Ecto.Multi.t()
+  def bulk_upsert_project_skills(multi, project_id, skill_ids) do
+    bulk_upsert_project_skills(multi, project_id, @default_rank, skill_ids)
   end
 
   @spec bulk_upsert_project_skills(Ecto.Multi.t(), integer, integer, list(integer)) ::

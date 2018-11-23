@@ -71,7 +71,7 @@ defmodule Db.UsersTest do
 
     test "returns users that are close to the current user", %{user1: user1} do
       conditions = %{
-        distance: %{meter: 10, current_location: %Geo.Point{coordinates: {30, -90}, srid: 4326}}
+        location: %{distance: 10, latitude: 30, longitude: -90}
       }
 
       {:ok, users} = Users.Users.search(conditions)

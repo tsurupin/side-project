@@ -36,7 +36,7 @@ defmodule ApiWeb.Schema.Queries.UsersTest do
     end
 
     @query """
-      query($id: ID!) {
+      query User($id: ID!) {
         user(id: $id) {
           id
           displayName
@@ -113,8 +113,8 @@ defmodule ApiWeb.Schema.Queries.UsersTest do
     end
 
     @query """
-      query users($occupationTypeId: Int, $genreId: Int, $distance: Int, $isActive: Boolean, $skillIds: [Int]) {
-        users(conditions: {occupationTypeId: $occupationTypeId, genreId: $genreId, distance: $distance, isActive: $isActive, skillIds: $skillIds }) {
+      query Users($occupationTypeId: ID, $genreId: ID, $distance: Int, $latitude: Float, $longitude: Float, $isActive: Boolean, $skillIds: [ID]) {
+        users(conditions: {occupationTypeId: $occupationTypeId, genreId: $genreId, location: {distance: $distance, latitude: $latitude, longitude: $longitude}, isActive: $isActive, skillIds: $skillIds }) {
           id
           displayName
           schoolName

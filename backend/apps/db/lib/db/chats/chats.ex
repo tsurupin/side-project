@@ -38,7 +38,7 @@ defmodule Db.Chats.Chats do
       Group.changeset(%{source_id: project.id, source_type: "Project"})
     )
     |> Multi.run(:chat, fn %{chat_group: chat_group} ->
-      Chat.changeset(%{chat_group_id: chat_group.id, is_main: true, name: project.name})
+      Chat.changeset(%{chat_group_id: chat_group.id, is_main: true, name: project.title})
       |> Repo.insert()
     end)
     |> Multi.run(:chat_member, fn %{chat: chat} ->

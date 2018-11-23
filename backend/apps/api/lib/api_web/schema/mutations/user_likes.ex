@@ -12,7 +12,7 @@ defmodule ApiWeb.Schema.Mutations.UserLikes do
 
     @desc "withdraw given like"
     field :withdraw_user_like, :boolean do
-      arg(:target_user_id, :integer)
+      arg(:target_user_id, :id)
       middleware(Middleware.Authorize)
       resolve(&Resolvers.UserLikes.withdraw_like/3)
     end

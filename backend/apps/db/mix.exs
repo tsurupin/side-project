@@ -46,7 +46,8 @@ defmodule Db.MixProject do
       {:faker, "~> 0.9.0", only: [:test]},
       {:sweet_xml, "~> 0.6.5"},
       {:dialyxir, "~> 0.5.1", only: [:dev], runtime: false},
-      {:libcluster, "~> 3.0"}
+      {:libcluster, "~> 3.0"},
+      {:stream_data, "~> 0.1", only: :test}
     ]
   end
 

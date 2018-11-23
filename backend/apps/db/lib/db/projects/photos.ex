@@ -74,7 +74,7 @@ defmodule Db.Projects.Photos do
     end
   end
 
-  # @spec promote_photos(Ecto.Multi.t, [], integer) :: Ecto.Multi.t()
+  # @spec promote_photos(Ecto.Multi.t, []) :: Ecto.Multi.t()
   defp promote_photos(multi, []), do: multi
 
   @spec promote_photos(Ecto.Multi.t(), nonempty_list(Photo.t())) :: Ecto.Multi.t()
