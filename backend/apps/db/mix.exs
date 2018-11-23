@@ -36,6 +36,7 @@ defmodule Db.MixProject do
       {:arc, "~> 0.11.0"},
       {:arc_ecto, "~> 0.11.0"},
       {:ex_aws, "~> 2.0"},
+      {:ex_aws_ec2, "~> 2.0"},
       # {:hackney, "~> 1.8.0", override: true},
       {:poison, "~> 3.1"},
       {:geo, "~> 2.0"},
@@ -43,7 +44,9 @@ defmodule Db.MixProject do
       {:ex_machina, "~> 2.2", only: [:test]},
       {:timex, "~> 3.1"},
       {:faker, "~> 0.9.0", only: [:test]},
-      {:dialyxir, "~> 0.5.1", only: [:dev], runtime: false}
+      {:sweet_xml, "~> 0.6.5"},
+      {:dialyxir, "~> 0.5.1", only: [:dev], runtime: false},
+      {:libcluster, "~> 3.0"}
     ]
   end
 

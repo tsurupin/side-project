@@ -8,9 +8,15 @@ defmodule Db.Application do
   def start(_type, _args) do
     import Supervisor.Spec
 
+   topologies = [
+      example: [
+        strategy: Cluster.Strategy.Epmd,
+        config: [hosts: Db.Cluster.Aws.get_nodes()],
+      ]
+    ]
     
-   
     children = [
+      {Cluster.Supervisor, [topologies, [name: Db.ClusterSupervisor]]},
       supervisor(Db.Repo, [])
     ] 
 
