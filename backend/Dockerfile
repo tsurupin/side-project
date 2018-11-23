@@ -14,7 +14,6 @@ ARG FIREBASE_SECRET_PEM_FILE_PATH
 ARG FIREBASE_SERVICE_ACCOUNT_EMAIL
 ARG APP_NAME
 ARG NODE_COOKIE
-ARG AWS_ECS_SERVICE_NAME
 
 
 ENV MIX_ENV=prod \
@@ -29,8 +28,7 @@ ENV MIX_ENV=prod \
     FIREBASE_SECRET_PEM_FILE_PATH=$FIREBASE_SECRET_PEM_FILE_PATH \
     FIREBASE_SERVICE_ACCOUNT_EMAIL=$FIREBASE_SERVICE_ACCOUNT_EMAIL \
     APP_NAME=$APP_NAME \
-    NODE_COOKIE=$NODE_COOKIE \
-    AWS_ECS_SERVICE_NAME=$AWS_ECS_SERVICE_NAME
+    NODE_COOKIE=$NODE_COOKIE 
 WORKDIR /backend
 
 # Copy ssl files into builder container tmp folder
@@ -56,12 +54,9 @@ RUN mix release --env=prod
 
 FROM bitwalker/alpine-elixir
 
-
 # We need bash and openssl for Phoenix
 RUN apk upgrade --no-cache && \
     apk --no-cache add curl && \
-    # apk --no-cache add python py-pip py-setuptools ca-certificates curl groff less && \
-    # pip --no-cache-dir install awscli && \
     apk add --no-cache bash openssl
 
 ENV MIX_ENV=prod \

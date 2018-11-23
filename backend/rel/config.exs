@@ -45,7 +45,6 @@ environment :prod do
 
   set commands: [
     "seed": "rel/commands/seed.sh",
-    "nodetest": "rel/commands/test.sh",
     "migrate": "rel/commands/migrate.sh"
   ]
 end
