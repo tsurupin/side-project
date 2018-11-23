@@ -24,7 +24,7 @@ config :api, ApiWeb.Endpoint,
   pubsub: [name: Api.PubSub, adapter: Phoenix.PubSub.PG2]
 
 # Do not print debug messages in production
-config :logger, level: :info, metadata: [:line, :crash_rason,:nitial_call, :function]
+config :logger, level: :info, metadata: [:line, :crash_rason, :nitial_call, :function]
 # ## SSL Support
 #
 # To get SSL working, you will need to add the `https` key

@@ -8,22 +8,21 @@ defmodule Db.Application do
   def start(_type, _args) do
     import Supervisor.Spec
 
-   topologies = [
+    topologies = [
       example: [
         strategy: Cluster.Strategy.Epmd,
-        config: [hosts: Db.Cluster.Aws.get_nodes()],
+        config: [hosts: Db.Cluster.Aws.get_nodes()]
       ]
     ]
-    
+
     children = [
       {Cluster.Supervisor, [topologies, [name: Db.ClusterSupervisor]]},
       supervisor(Db.Repo, [])
-    ] 
+    ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
     # for other strategies and supported options
     opts = [strategy: :one_for_one, name: Db.Supervisor]
     Supervisor.start_link(children, opts)
   end
-
 end
