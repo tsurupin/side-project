@@ -14,7 +14,7 @@ defmodule ApiWeb.Schema.Mutations.ProjectsTest do
     end
 
     @mutation """
-      mutation CreateProject($title: String!, $leadSentence: String, $motivation: String, $requirement: String, $genreId: String, $skillIds: [String]) {
+      mutation CreateProject($title: String!, $leadSentence: String, $motivation: String, $requirement: String, $genreId: ID, $skillIds: [ID]) {
         createProject(projectInput: {title: $title, leadSentence: $leadSentence, motivation: $motivation, requirement: $requirement, genreId: $genreId, skillIds: $skillIds}) {
           id
           title
@@ -127,7 +127,7 @@ defmodule ApiWeb.Schema.Mutations.ProjectsTest do
     end
 
     @mutation """
-      mutation EditProject($id: String!, $title: String!, $leadSentence: String, $motivation: String, $requirement: String, $genreId: String, $skillIds: [String]) {
+      mutation EditProject($id: ID!, $title: String!, $leadSentence: String, $motivation: String, $requirement: String, $genreId: ID, $skillIds: [ID]) {
         editProject(id: $id, projectInput: {title: $title, leadSentence: $leadSentence, motivation: $motivation, requirement: $requirement, genreId: $genreId, skillIds: $skillIds}) {
           id
           title
@@ -190,7 +190,7 @@ defmodule ApiWeb.Schema.Mutations.ProjectsTest do
     end
 
     @mutation """
-      mutation DeleteProjectPhoto($photoId: String!) {
+      mutation DeleteProjectPhoto($photoId: ID!) {
         deleteProjectPhoto(photoId: $photoId) {
           id
           rank
@@ -294,7 +294,7 @@ defmodule ApiWeb.Schema.Mutations.ProjectsTest do
     end
 
     @mutation """
-      mutation ChangeProjectStatus($projectId: String!, $status: String!) {
+      mutation ChangeProjectStatus($projectId: ID!, $status: String!) {
         changeProjectStatus(projectId: $projectId, status: $status)
       }
     """

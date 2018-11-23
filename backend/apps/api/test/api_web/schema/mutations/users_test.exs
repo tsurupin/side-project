@@ -21,7 +21,7 @@ defmodule ApiWeb.Schema.Mutations.UsersTest do
     end
   end
 
-  describe "edit user info" do
+  describe "EditUser" do
     setup do
       user = Factory.insert(:user, display_name: "test")
       genre = Factory.insert(:genre)

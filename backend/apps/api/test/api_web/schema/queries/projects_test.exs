@@ -4,7 +4,7 @@ defmodule ApiWeb.Schema.Queries.ProjectsTest do
   alias Db.Uploaders.ProjectPhotoUploader
   alias Db.Uploaders.UserPhotoUploader
 
-  describe "project detail query" do
+  describe "when query Project" do
     setup do
       occupation_type = Factory.insert(:occupation_type)
 
@@ -84,7 +84,7 @@ defmodule ApiWeb.Schema.Queries.ProjectsTest do
         }
       }
     """
-    test "project fields return projects", cxt do
+    test "returns projects", cxt do
       %{
         project: project,
         skill: skill,
@@ -135,7 +135,7 @@ defmodule ApiWeb.Schema.Queries.ProjectsTest do
     end
   end
 
-  describe "project list query" do
+  describe "when query Projects" do
     setup do
       user = Factory.insert(:user)
       genre1 = Factory.insert(:genre)
@@ -178,7 +178,7 @@ defmodule ApiWeb.Schema.Queries.ProjectsTest do
         }
       }
     """
-    test "projects query return projects", cxt do
+    test "returns projects", cxt do
       %{
         user_id: user_id,
         project1: project1,
@@ -226,7 +226,7 @@ defmodule ApiWeb.Schema.Queries.ProjectsTest do
     end
   end
 
-  describe "my project list query" do
+  describe "when query MyProjects" do
     setup do
       user = Factory.insert(:user)
       genre1 = Factory.insert(:genre)
@@ -296,7 +296,7 @@ defmodule ApiWeb.Schema.Queries.ProjectsTest do
             },
             %{
               "id" => "#{project2.id}",
-              "name" => project2.name,
+              "title" => project2.title,
               "leadSentence" => project2.lead_sentence,
               "genre" => %{"id" => "#{genre2.id}", "name" => genre2.name},
               "mainPhotoUrl" => nil
