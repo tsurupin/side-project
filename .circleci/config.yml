@@ -80,6 +80,11 @@ jobs:
             export FIREBASE_SERVICE_ACCOUNT_EMAIL="${FIREBASE_SERVICE_ACCOUNT_EMAIL}"
             export HOST="${HOST}"
             export PORT="${PORT}"
+            export HOST_PORT="${HOST_PORT}"
+            export CONTAINER_PORT="${CONTAINER_PORT}"
+            export NODE_COOKIE="${NODE_COOKIE}"
+            export APP_NAME="${APP_NAME}"
+            export AWS_ECS_INSTANCE_TAG_NAME="${AWS_ECS_INSTANCE_TAG_NAME}"
             sh ./config/ci/deploy.sh
 
 workflows:
@@ -90,6 +95,6 @@ workflows:
       - deploy:
           requires:
             - build
-          # filters:
-          #   branches:
-          #     only: master
+          filters:
+            branches:
+              only: master
