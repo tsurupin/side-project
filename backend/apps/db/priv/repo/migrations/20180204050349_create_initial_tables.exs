@@ -86,7 +86,7 @@ defmodule Db.Repo.Migrations.CreateInitialTables do
     create constraint(:users, "valid_user_status", check: "status = 0 OR (status = 1 AND display_name IS NOT NULL and occupation_type_id IS NOT NULL AND geom IS NOT NULL)")
 
     create unique_index(:users, [:provider_id, :uid], name: "users_provider_id_and_uid_index")
-    create unique_index(:users, [:email], name: "users_name_index")
+    create unique_index(:users, [:email], name: "users_email_index")
     create index(:users, [:city_id])
     create index(:users, [:geom], using: "gist")
 

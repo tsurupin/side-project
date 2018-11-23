@@ -28,6 +28,7 @@ defmodule Db.Chats.Chat do
     |> cast(attrs, permitted_attrs)
     |> assoc_constraint(:chat_group)
     |> validate_required(required_attrs)
+    |> unique_constraint(:name, name: "chats_chat_group_id_and_is_main_index")
     |> unique_constraint(:name, name: "chats_chat_group_id_and_name_index")
   end
 end

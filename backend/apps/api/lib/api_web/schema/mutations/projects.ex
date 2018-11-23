@@ -12,7 +12,7 @@ defmodule ApiWeb.Schema.Mutations.Projects do
 
     @desc "Edit project"
     field :edit_project, :project do
-      arg(:id, non_null(:string))
+      arg(:id, non_null(:id))
       arg(:project_input, :project_input)
       middleware(Middleware.Authorize)
       resolve(&Resolvers.Projects.edit/3)
@@ -27,14 +27,14 @@ defmodule ApiWeb.Schema.Mutations.Projects do
 
     @desc "Delete project photo"
     field :delete_project_photo, :project_photo do
-      arg(:photo_id, non_null(:string))
+      arg(:photo_id, non_null(:id))
       middleware(Middleware.Authorize)
       resolve(&Resolvers.Projects.delete_photo/3)
     end
 
     @desc "Change project status"
     field :change_project_status, :boolean do
-      arg(:project_id, non_null(:integer))
+      arg(:project_id, non_null(:id))
       arg(:status, non_null(:string))
       middleware(Middleware.Authorize)
       resolve(&Resolvers.Projects.change_status/3)

@@ -60,7 +60,7 @@ defmodule Db.Projects.Projects do
       Multi.new()
       |> Multi.insert(:project, Project.changeset(attrs))
       |> Multi.run(:bulk_create_project_skills, fn %{project: project} ->
-        Db.Skills.Skills.bulk_create_project_skills(project.id, 0, attrs[:skill_ids] || [])
+        Db.Skills.Skills.bulk_create_project_skills(project.id, attrs[:skill_ids] || [])
       end)
       |> Multi.run(:create_master_project_member, fn %{project: project} ->
         Db.Projects.Member.changeset(%{
@@ -83,7 +83,7 @@ defmodule Db.Projects.Projects do
   def edit(%Project{} = project, attrs) do
     Multi.new()
     |> Multi.update(:project, Project.edit_changeset(project, attrs))
-    |> Db.Skills.Skills.bulk_upsert_project_skills(project.id, 0, attrs[:skill_ids] || [])
+    |> Db.Skills.Skills.bulk_upsert_project_skills(project.id, attrs[:skill_ids] || [])
     |> Repo.transaction()
   end
 

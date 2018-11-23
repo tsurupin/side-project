@@ -65,14 +65,11 @@ defmodule Db.Factory do
     }
   end
 
-  @doc """
-  User factory.
-  """
   @spec user_factory :: User.t()
   def user_factory do
     %User{
       uid: sequence(:uid, &"uid#{&1}"),
-      provider_id: "facebook",
+      provider_id: sequence(:provider_id, &"facebook#{&1}"),
       display_name: "user",
       email: sequence(:email, &"user#{&1}@gmail.com"),
       occupation: "software engineer",
