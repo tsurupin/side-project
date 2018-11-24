@@ -34,6 +34,22 @@ defmodule ApiWeb do
     end
   end
 
+  def view do
+    quote do
+      use Phoenix.View,
+        root: "lib/api_web/templates",
+        namespace: ApiWeb
+
+      # Import convenience functions from controllers
+      import Phoenix.Controller, only: [get_flash: 2, view_module: 1]
+      # Use all HTML functionality (forms, tags, etc)
+      use Phoenix.HTML
+      import ApiWeb.Router.Helpers
+      import ApiWeb.ErrorHelpers
+      import ApiWeb.Gettext
+    end
+  end
+
   def channel do
     quote do
       use Phoenix.Channel

@@ -1,6 +1,7 @@
 defmodule ApiWeb.Schema.Resolvers.Projects do
   alias Db.Projects.{Projects, Photos}
   alias Db.Genres.Genres
+  alias Db.Repo
 
   def fetch_profile(_, %{id: id}, _) do
     case Projects.get_by(%{id: id}) do
@@ -9,7 +10,7 @@ defmodule ApiWeb.Schema.Resolvers.Projects do
 
       {:ok, project} ->
         project =
-          Projects.preload(project, [
+          Repo.preload(project, [
             :photos,
             :skills,
             :city,
@@ -25,8 +26,7 @@ defmodule ApiWeb.Schema.Resolvers.Projects do
   def fetch_editable(_, _, %{context: %{current_user: current_user}}) do
     case Projects.editable(current_user.id) do
       {:ok, projects} ->
-        projects =
-          Projects.preload(projects, [:photos, :genre, :city, {:users, :occupation_type}])
+        projects = Repo.preload(projects, [:photos, :genre, :city, {:users, :occupation_type}])
 
         {:ok, projects}
     end
@@ -49,7 +49,7 @@ defmodule ApiWeb.Schema.Resolvers.Projects do
 
       {:ok, projects} ->
         projects =
-          Projects.preload(projects, [:photos, :genre, :city, :owner, {:users, :occupation_type}])
+          Repo.preload(projects, [:photos, :genre, :city, :owner, {:users, :occupation_type}])
 
         {:ok, projects}
     end
@@ -58,8 +58,7 @@ defmodule ApiWeb.Schema.Resolvers.Projects do
   def liked_by(_, _, %{context: %{current_user: current_user}}) do
     case Projects.liked_by(current_user.id) do
       {:ok, projects} ->
-        projects =
-          Projects.preload(projects, [:photos, :genre, :city, {:users, :occupation_type}])
+        projects = Repo.preload(projects, [:photos, :genre, :city, {:users, :occupation_type}])
 
         {:ok, projects}
     end
@@ -91,7 +90,7 @@ defmodule ApiWeb.Schema.Resolvers.Projects do
     case Projects.edit(current_user.id, Map.put_new(project_input, :project_id, project_id)) do
       {:ok, project} ->
         project =
-          Projects.preload(project, [
+          Repo.preload(project, [
             :photos,
             :skills,
             :city,

@@ -17,89 +17,6 @@ defmodule Db.Chats.Chats do
     end
   end
 
-  @spec create_chat_group(map) :: {:ok, any()} | {:error, Ecto.Multi.name(), any()}
-  def create_chat_group(%{like: like}) do
-    Multi.new()
-    |> Multi.insert(:chat_group, Group.changeset(%{source_id: like.id, source_type: "UserLike"}))
-    |> Multi.run(:chat, fn %{chat_group: chat_group} ->
-      Chat.changeset(%{chat_group_id: chat_group.id, is_main: true, name: "Private"})
-      |> Repo.insert()
-    end)
-    |> Multi.run(:chat_member, fn %{chat: chat} ->
-      bulk_create_members(Multi.new(), chat.id, [like.user_id, like.target_user_id])
-    end)
-    |> Repo.transaction()
-  end
-
-  def create_chat_group(%{project: project}) do
-    Multi.new()
-    |> Multi.insert(
-      :chat_group,
-      Group.changeset(%{source_id: project.id, source_type: "Project"})
-    )
-    |> Multi.run(:chat, fn %{chat_group: chat_group} ->
-      Chat.changeset(%{chat_group_id: chat_group.id, is_main: true, name: project.title})
-      |> Repo.insert()
-    end)
-    |> Multi.run(:chat_member, fn %{chat: chat} ->
-      bulk_create_members(Multi.new(), chat.id, [project.owner_id])
-    end)
-    |> Repo.transaction()
-  end
-
-  @spec bulk_create_members(multi :: Ecto.Multi.t(), integer, []) ::
-          {:ok, any()} | {:error, Ecto.Multi.name(), any()}
-  def bulk_create_members(multi, _chat_id, []) do
-    multi
-    |> Repo.transaction()
-  end
-
-  @spec bulk_create_members(multi :: Ecto.Multi.t(), integer, nonempty_list(integer)) ::
-          {:ok, any()} | {:error, Ecto.Multi.name(), any()}
-  def bulk_create_members(multi, chat_id, [user_id | remaining]) do
-    multi
-    |> Multi.insert(
-      "chat_member:#{user_id}",
-      Member.changeset(%{chat_id: chat_id, user_id: user_id})
-    )
-    |> bulk_create_members(chat_id, remaining)
-  end
-
-  @spec add_member(%{chat_id: integer, user_id: integer}) ::
-          {:ok, Ecto.Schema.t()} | {:error, Ecto.Changeset.t()}
-  def add_member(%{chat_id: chat_id, user_id: user_id}) do
-    case Repo.get_by(Member, chat_id: chat_id, user_id: user_id) do
-      %Member{} = member ->
-        Member.update_changeset(member, %{deleted_at: nil})
-
-      nil ->
-        Member.changeset(%{chat_id: chat_id, user_id: user_id})
-    end
-    |> Repo.insert_or_update()
-  end
-
-  @spec remove_member_from_chats(%{:project_id => integer, :user_id => integer}) ::
-          {:ok, any()} | {:error, String.t()}
-  def remove_member_from_chats(%{project_id: _project_id, user_id: _user_id} = attrs) do
-    transaction =
-      Multi.new()
-      |> remove_member_from_chat(attended_members_in_project(attrs))
-      |> Repo.transaction()
-
-    case transaction do
-      {:ok, _any} -> {:ok, _any}
-      {:error, _name, changeset, _prev} -> {:error, Db.FullErrorMessage.message(changeset)}
-    end
-  end
-
-  @spec create_message(map) :: {:ok, String.t()} | {:error, String.t()}
-  def create_message(attrs) do
-    case Repo.insert(Message.changeset(attrs)) do
-      {:ok, message} -> {:ok, message}
-      {:error, changeset} -> {:error, Db.FullErrorMessage.message(changeset)}
-    end
-  end
-
   @spec with_messages(Chat.t()) :: [Ecto.Schema.t()]
   def with_messages(chat) do
     Repo.preload(
@@ -110,7 +27,11 @@ defmodule Db.Chats.Chats do
 
   @spec attended_chats(integer) :: [Chat.t()] | []
   def attended_chats(user_id) do
-    attended_chats_query(user_id)
+    from(
+      c in Chat,
+      join: m in Member,
+      where: m.chat_id == c.id and m.user_id == ^user_id
+    )
     |> Repo.all()
   end
 
@@ -126,9 +47,88 @@ defmodule Db.Chats.Chats do
     |> Repo.one()
   end
 
-  @spec preload(Ecto.Queryable.t(), list(atom)) :: [Ecto.Schema.t()]
-  def preload(query, associations) do
-    Repo.preload(query, associations)
+  @spec create_chat_group(%{like: UserLike.t()}) ::
+          {:ok, any()} | {:error, Ecto.Multi.name(), any()}
+  def create_chat_group(%{like: like}) do
+    create_chat_group_from_source(%{
+      source_id: like.id,
+      source_type: "UserLike",
+      chat_name: "Private",
+      member_ids: [like.user_id, like.target_user_id]
+    })
+  end
+
+  @spec create_chat_group(%{project: Project.t()}) ::
+          {:ok, any()} | {:error, Ecto.Multi.name(), any()}
+  def create_chat_group(%{project: project}) do
+    create_chat_group_from_source(%{
+      source_id: project.id,
+      source_type: "Project",
+      chat_name: project.title,
+      member_ids: [project.owner_id]
+    })
+  end
+
+  @spec add_member(%{chat_id: integer, user_id: integer}) ::
+          {:ok, Ecto.Schema.t()} | {:error, Ecto.Changeset.t()}
+  def add_member(%{chat_id: chat_id, user_id: user_id}) do
+    case Repo.get_by(Member, chat_id: chat_id, user_id: user_id) do
+      %Member{} = member ->
+        Member.update_changeset(member, %{deleted_at: nil})
+
+      nil ->
+        Member.changeset(%{chat_id: chat_id, user_id: user_id})
+    end
+    |> Repo.insert_or_update()
+  end
+
+  @spec create_message(map) :: {:ok, String.t()} | {:error, String.t()}
+  def create_message(attrs) do
+    case Repo.insert(Message.changeset(attrs)) do
+      {:ok, message} -> {:ok, message}
+      {:error, changeset} -> {:error, Db.FullErrorMessage.message(changeset)}
+    end
+  end
+
+  @spec create_chat_group_from_source(%{
+          source_id: integer,
+          source_type: String.t(),
+          chat_name: String.t(),
+          member_ids: [integer]
+        }) :: {:ok, any()} | {:error, Ecto.Multi.name(), any()}
+  defp create_chat_group_from_source(%{
+         source_id: source_id,
+         source_type: source_type,
+         chat_name: chat_name,
+         member_ids: member_ids
+       }) do
+    Multi.new()
+    |> Multi.insert(
+      :chat_group,
+      Group.changeset(%{source_id: source_id, source_type: source_type})
+    )
+    |> Multi.run(:chat, fn %{chat_group: chat_group} ->
+      Chat.changeset(%{chat_group_id: chat_group.id, is_main: true, name: chat_name})
+      |> Repo.insert()
+    end)
+    |> Multi.run(:chat_member, fn %{chat: chat} ->
+      add_members(Multi.new(), chat.id, member_ids)
+    end)
+    |> Repo.transaction()
+  end
+
+  @spec remove_member_from_chats(%{:project_id => integer, :user_id => integer}) ::
+          {:ok, any()} | {:error, String.t()}
+  def remove_member_from_chats(%{project_id: _project_id, user_id: _user_id} = attrs) do
+    transaction =
+      Multi.new()
+      |> remove_member_from_chat(attended_members_in_project(attrs))
+      |> Repo.transaction()
+
+    case transaction do
+      {:ok, _any} -> {:ok, _any}
+      {:error, _name, changeset, _prev} -> {:error, Db.FullErrorMessage.message(changeset)}
+    end
   end
 
   @spec attended_members_in_project(%{
@@ -148,13 +148,22 @@ defmodule Db.Chats.Chats do
     |> Repo.all()
   end
 
-  @spec attended_chats_query(integer) :: Ecto.Queryable.t()
-  defp attended_chats_query(user_id) do
-    from(
-      c in Chat,
-      join: m in Member,
-      where: m.chat_id == c.id and m.user_id == ^user_id
+  @spec add_members(multi :: Ecto.Multi.t(), integer, []) ::
+          {:ok, any()} | {:error, Ecto.Multi.name(), any()}
+  defp add_members(multi, _chat_id, []) do
+    multi
+    |> Repo.transaction()
+  end
+
+  @spec add_members(multi :: Ecto.Multi.t(), integer, nonempty_list(integer)) ::
+          {:ok, any()} | {:error, Ecto.Multi.name(), any()}
+  defp add_members(multi, chat_id, [user_id | remaining]) do
+    multi
+    |> Multi.insert(
+      "chat_member:#{user_id}",
+      Member.changeset(%{chat_id: chat_id, user_id: user_id})
     )
+    |> add_members(chat_id, remaining)
   end
 
   @spec remove_member_from_chat(Ecto.Multi.t(), []) :: Ecto.Multi.t()

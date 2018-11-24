@@ -19,7 +19,7 @@ defmodule Db.Chats.Group do
     has_many(:chats, Chat)
   end
 
-  @source_types ~w(UserLike Project)a
+  @source_types ~w(UserLike Project)s
   @spec changeset(map()) :: Ecto.Changeset.t()
   def changeset(attrs) do
     permitted_attrs = ~w(source_id source_type)a

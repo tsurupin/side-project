@@ -64,22 +64,6 @@ defmodule Db.Users.Users do
     {:ok, Repo.all(Favorite, user_id: user_id)}
   end
 
-  @spec preload(Ecto.Queryable.t(), association) :: [Ecto.Schema.t()] when association: String.t()
-  def preload(query, association) when is_binary(association) do
-    Repo.preload(query, [String.to_atom(association)])
-  end
-
-  @spec preload(Ecto.Queryable.t(), association) :: [Ecto.Schema.t()] when association: atom
-  def preload(query, association) when is_atom(association) do
-    Repo.preload(query, [association])
-  end
-
-  @spec preload(Ecto.Queryable.t(), associations) :: [Ecto.Schema.t()]
-        when associations: list(atom)
-  def preload(query, associations) when is_list(associations) do
-    Repo.preload(query, associations)
-  end
-
   @spec main_photo(User.t()) :: Photo.t() | nil
   def main_photo(user) do
     Repo.get_by(Photo, user_id: user.id, rank: 0)

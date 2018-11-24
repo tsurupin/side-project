@@ -25,9 +25,9 @@ defmodule ApiWeb.Schema.Types.Users do
       :string,
       resolve: fn _, %{source: user} ->
         IO.inspect(Users.main_photo(user))
+
         case Users.main_photo(user) do
           %Photo{image_url: image_url} = photo ->
-
             {:ok, UserPhotoUploader.url({image_url, photo}, :thumb)}
 
           _ ->

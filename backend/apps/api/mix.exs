@@ -41,6 +41,7 @@ defmodule Api.Mixfile do
       {:phoenix_pubsub, "~> 1.0"},
       {:phoenix_ecto, "~> 3.2.1", only: :test},
       {:phoenix_live_reload, "~> 1.0", only: :dev},
+      {:phoenix_html, "~> 2.10"},
       {:db, in_umbrella: true},
       {:gettext, "~> 0.11"},
       {:cowboy, "~> 1.0"},

@@ -28,7 +28,7 @@ defmodule Db.Genres.Genre do
     %Genre{}
     |> cast(attrs, permitted_attrs)
     |> validate_required(required_attrs)
-    #|> validate_inclusion(:name, @names)
+    # |> validate_inclusion(:name, @names)
     |> unique_constraint(:name, name: "genres_name_index")
   end
 end
