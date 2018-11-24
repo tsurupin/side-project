@@ -25,7 +25,7 @@ defmodule Db.Projects.Photo do
 
     attrs =
       case attrs[:image] do
-        %Plug.Upload{} -> Map.merge(attrs, %{image_url: attrs[:image]})
+        #%Plug.Upload{} -> Map.merge(attrs, %{image_url: attrs[:image]})
         _ -> attrs
       end
 

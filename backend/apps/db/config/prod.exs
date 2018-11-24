@@ -14,7 +14,9 @@ config :ex_aws,
   secret_access_key: [System.get_env("AWS_SECRET_ACCESS_KEY"), :instance_role],
   region: System.get_env("AWS_DEFAULT_REGION")
 
+# https://github.com/ForzaElixir/rollbax
 config :rollbax,
   access_token: System.get_env("ROLLBAR_ACCESS_TOKEN"),
   environment: "production",
+  enabled: true,
   enable_crash_reports: true

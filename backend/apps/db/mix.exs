@@ -38,7 +38,6 @@ defmodule Db.MixProject do
       {:arc_ecto, "~> 0.11.0"},
       {:ex_aws, "~> 2.0"},
       {:ex_aws_ec2, "~> 2.0"},
-      # {:hackney, "~> 1.8.0", override: true},
       {:poison, "~> 3.1"},
       {:geo, "~> 2.0"},
       {:geo_postgis, "~> 1.1.0"},
