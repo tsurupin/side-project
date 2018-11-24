@@ -19,7 +19,7 @@ defmodule Db.Genres.Genre do
     has_many(:projects, Project)
   end
 
-  @names ~w()a
+  @names ~w()s
   @spec changeset(map()) :: Ecto.Changeset.t()
   def changeset(attrs) do
     permitted_attrs = ~w(name)a

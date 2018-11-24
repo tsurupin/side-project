@@ -72,7 +72,11 @@ defmodule Db.Chats.Chats do
   @spec add_member(%{chat_id: integer, user_id: integer}) ::
           {:ok, Ecto.Schema.t()} | {:error, Ecto.Changeset.t()}
   def add_member(%{chat_id: chat_id, user_id: user_id}) do
-    case Repo.one(from m in Member, where: m.chat_id == ^chat_id and m.user_id == ^user_id and not is_nil(m.deleted_at)) do
+    case Repo.one(
+           from(m in Member,
+             where: m.chat_id == ^chat_id and m.user_id == ^user_id and not is_nil(m.deleted_at)
+           )
+         ) do
       %Member{} = member ->
         Member.update_changeset(member, %{deleted_at: nil})
 
@@ -98,7 +102,6 @@ defmodule Db.Chats.Chats do
       {:error, changeset} -> {:error, Db.FullErrorMessage.message(changeset)}
     end
   end
-
 
   @spec remove_member_from_chats(%{:project_id => integer, :user_id => integer}) ::
           {:ok, any()} | {:error, String.t()}
@@ -140,7 +143,6 @@ defmodule Db.Chats.Chats do
     end)
     |> Repo.transaction()
   end
-
 
   @spec attended_members_in_project(%{
           :project_id => integer,

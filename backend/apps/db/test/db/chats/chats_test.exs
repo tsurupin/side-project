@@ -91,7 +91,9 @@ defmodule Db.ChatsTest do
     test "succeds to revive a member" do
       chat = Factory.insert(:chat)
       user = Factory.insert(:user)
-      deleted_chat_member = Factory.insert(:chat_member, chat: chat, user: user, deleted_at: Timex.now)
+
+      deleted_chat_member =
+        Factory.insert(:chat_member, chat: chat, user: user, deleted_at: Timex.now())
 
       {:ok, chat_member} = Chats.add_member(%{chat_id: chat.id, user_id: user.id})
       assert chat_member.id == deleted_chat_member.id
@@ -117,8 +119,9 @@ defmodule Db.ChatsTest do
       chat1_member = Factory.insert(:chat_member, chat: chat1, user: user)
       chat2_member = Factory.insert(:chat_member, chat: chat2, user: user)
 
+      {:ok, changeset} =
+        Chats.remove_member_from_chats(%{project_id: project.id, user_id: user.id})
 
-      {:ok, changeset } = Chats.remove_member_from_chats(%{project_id: project.id, user_id: user.id})
       assert changeset["remove_member:#{chat1_member.id}"].id == chat1_member.id
       assert changeset["remove_member:#{chat2_member.id}"].id == chat2_member.id
     end
@@ -129,13 +132,22 @@ defmodule Db.ChatsTest do
       chat = Factory.insert(:chat)
       user = Factory.insert(:user)
       chat_member = Factory.insert(:chat_member, chat: chat, user: user)
-      assert {:ok, message} = Chats.create_message(%{chat_id: chat.id, user_id: user.id, message_type: "comment", comment: "test"})
+
+      assert {:ok, message} =
+               Chats.create_message(%{
+                 chat_id: chat.id,
+                 user_id: user.id,
+                 message_type: "comment",
+                 comment: "test"
+               })
     end
 
     test "fails to create a message because of blank content" do
       chat = Factory.insert(:chat)
       user = Factory.insert(:user)
-      assert {:error, _error_message} = Chats.create_message(%{chat_id: chat.id, user_id: user.id})
+
+      assert {:error, _error_message} =
+               Chats.create_message(%{chat_id: chat.id, user_id: user.id})
     end
   end
 end
