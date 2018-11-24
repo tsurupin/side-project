@@ -5,13 +5,12 @@ jobs:
     parallelism: 1
     docker:
       - image: circleci/elixir:1.7.3
-        environment:
-          MIX_ENV: test
       - image: mdillon/postgis:9.6
-        environment:
-          POSTGRES_USER: postgres
-          POSTGRES_DB: app_test
-          POSTGRES_PASSWORD:
+    environment:
+      MIX_ENV: test
+      POSTGRES_USER: postgres
+      POSTGRES_DB: app_test
+      POSTGRES_PASSWORD:
     working_directory: ~/side-project/backend
 
     steps:
@@ -47,11 +46,12 @@ jobs:
       - run: # special utility that stalls main process until DB is ready
           name: Wait for DB
           command: dockerize -wait tcp://localhost:5432 -timeout 1m
-     
+      
       # - run: mix ecto.create  && mix ecto.migrate   
       # - run: mix test
       # - store_test_results: 
       #     path: _build/test/lib
+      # - run: mix coveralls.circle
 
   deploy:
     machine:

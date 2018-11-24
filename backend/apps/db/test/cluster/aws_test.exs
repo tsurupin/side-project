@@ -1,6 +1,6 @@
 defmodule Db.Cluster.AwsTest do
   use ExUnit.Case, async: false
-  #mport Mock
+  # mport Mock
 
   # test "returnes empty array in case matching to host_name" do
   #   with_mock ExAws, [request: fn(_body) -> {:error, _term} end] do

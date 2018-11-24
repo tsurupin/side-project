@@ -1,4 +1,7 @@
 defmodule Db.Chats.Group do
+  @moduledoc """
+
+  """
   use Ecto.Schema
   import Ecto.Changeset
   alias Db.Chats.{Chat}
@@ -16,6 +19,7 @@ defmodule Db.Chats.Group do
     has_many(:chats, Chat)
   end
 
+  @source_types ~w(UserLike Project)s
   @spec changeset(map()) :: Ecto.Changeset.t()
   def changeset(attrs) do
     permitted_attrs = ~w(source_id source_type)a
@@ -24,6 +28,7 @@ defmodule Db.Chats.Group do
     %__MODULE__{}
     |> cast(attrs, permitted_attrs)
     |> validate_required(required_attrs)
+    |> validate_inclusion(:source_type, @source_types)
     |> unique_constraint(:source_id, name: "chat_groups_source_id_and_source_type_index")
   end
 end

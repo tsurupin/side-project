@@ -13,14 +13,15 @@ defmodule Db.MixProject do
       start_permanent: Mix.env() == :prod,
       elixirc_paths: elixirc_paths(Mix.env()),
       deps: deps(),
-      aliases: aliases()
+      aliases: aliases(),
+      test_coverage: [tool: ExCoveralls]
     ]
   end
 
   # Run "mix help compile.app" to learn about applications.
   def application do
     [
-      extra_applications: [:logger, :postgrex],
+      extra_applications: [:logger, :postgrex, :rollbax],
       mod: {Db.Application, []}
     ]
   end
@@ -37,7 +38,6 @@ defmodule Db.MixProject do
       {:arc_ecto, "~> 0.11.0"},
       {:ex_aws, "~> 2.0"},
       {:ex_aws_ec2, "~> 2.0"},
-      # {:hackney, "~> 1.8.0", override: true},
       {:poison, "~> 3.1"},
       {:geo, "~> 2.0"},
       {:geo_postgis, "~> 1.1.0"},
@@ -47,7 +47,8 @@ defmodule Db.MixProject do
       {:sweet_xml, "~> 0.6.5"},
       {:dialyxir, "~> 0.5.1", only: [:dev], runtime: false},
       {:libcluster, "~> 3.0"},
-      {:stream_data, "~> 0.1", only: :test}
+      {:stream_data, "~> 0.1", only: :test},
+      {:rollbax, ">= 0.0.0"}
     ]
   end
 

@@ -13,7 +13,8 @@ defmodule Api.Mixfile do
       elixirc_paths: elixirc_paths(Mix.env()),
       compilers: [:phoenix, :gettext] ++ Mix.compilers(),
       start_permanent: Mix.env() == :prod,
-      deps: deps()
+      deps: deps(),
+      test_coverage: [tool: ExCoveralls]
     ]
   end
 
@@ -38,9 +39,9 @@ defmodule Api.Mixfile do
     [
       {:phoenix, "~> 1.3.0"},
       {:phoenix_pubsub, "~> 1.0"},
-      {:phoenix_html, "~> 2.10"},
       {:phoenix_ecto, "~> 3.2.1", only: :test},
       {:phoenix_live_reload, "~> 1.0", only: :dev},
+      {:phoenix_html, "~> 2.10"},
       {:db, in_umbrella: true},
       {:gettext, "~> 0.11"},
       {:cowboy, "~> 1.0"},

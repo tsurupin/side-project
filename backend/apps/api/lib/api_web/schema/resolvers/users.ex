@@ -1,4 +1,5 @@
 defmodule ApiWeb.Schema.Resolvers.Users do
+  alias Db.Repo
   alias Db.Users.{Users, Photos}
   alias Db.Genres.Genres
   alias Db.OccupationTypes.OccupationTypes
@@ -17,7 +18,7 @@ defmodule ApiWeb.Schema.Resolvers.Users do
 
     case Users.edit(current_user, user_input) do
       {:ok, %{user: user}} ->
-        user = Users.preload(user, [:photos, :skills, :city, :genre, :occupation_type])
+        user = Repo.preload(user, [:photos, :skills, :city, :genre, :occupation_type])
         {:ok, user}
 
       {:error, reason} ->
@@ -31,13 +32,13 @@ defmodule ApiWeb.Schema.Resolvers.Users do
         {:error, %{reason: "Not Found"}}
 
       {:ok, user} ->
-        user = Users.preload(user, [:photos, :skills, :city, :genre, :occupation_type])
+        user = Repo.preload(user, [:photos, :skills, :city, :genre, :occupation_type])
         {:ok, user}
     end
   end
 
   def fetch_current_user(_, _, %{context: %{current_user: current_user}}) do
-    user = Users.preload(current_user, [:photos, :skills, :city, :genre, :occupation_type])
+    user = Repo.preload(current_user, [:photos, :skills, :city, :genre, :occupation_type])
     {:ok, user}
   end
 
@@ -47,7 +48,7 @@ defmodule ApiWeb.Schema.Resolvers.Users do
         {:error, %{reason: "Not Found"}}
 
       {:ok, users} ->
-        users = Users.preload(users, [:photos, :occupation_type, :city, :genre])
+        users = Repo.preload(users, [:photos, :occupation_type, :city, :genre])
         {:ok, users}
     end
   end

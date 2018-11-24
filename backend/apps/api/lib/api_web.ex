@@ -26,6 +26,14 @@ defmodule ApiWeb do
     end
   end
 
+  def router do
+    quote do
+      use Phoenix.Router
+      import Plug.Conn
+      import Phoenix.Controller
+    end
+  end
+
   def view do
     quote do
       use Phoenix.View,
@@ -34,21 +42,11 @@ defmodule ApiWeb do
 
       # Import convenience functions from controllers
       import Phoenix.Controller, only: [get_flash: 2, view_module: 1]
-
       # Use all HTML functionality (forms, tags, etc)
       use Phoenix.HTML
-
       import ApiWeb.Router.Helpers
       import ApiWeb.ErrorHelpers
       import ApiWeb.Gettext
-    end
-  end
-
-  def router do
-    quote do
-      use Phoenix.Router
-      import Plug.Conn
-      import Phoenix.Controller
     end
   end
 
