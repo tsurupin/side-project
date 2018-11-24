@@ -71,7 +71,7 @@ defmodule Db.ChatsTest do
       assert chat_member["chat_member:#{project.owner_id}"].user_id == project.owner_id
     end
 
-    test "fails to create a chat with Project" do
+    test "fails to create a chat with Project because main chat already exists in the project" do
       project = Factory.insert(:project)
 
       Chats.create_chat_group(%{project: project})
@@ -80,11 +80,62 @@ defmodule Db.ChatsTest do
   end
 
   describe "add_member/1" do
+    test "succeeds to add a member" do
+      chat = Factory.insert(:chat)
+      user = Factory.insert(:user)
+      {:ok, chat_member} = Chats.add_member(%{chat_id: chat.id, user_id: user.id})
+      assert chat_member.user_id == user.id
+      assert chat_member.chat_id == chat.id
+    end
+
+    test "succeds to revive a member" do
+      chat = Factory.insert(:chat)
+      user = Factory.insert(:user)
+      deleted_chat_member = Factory.insert(:chat_member, chat: chat, user: user, deleted_at: Timex.now)
+
+      {:ok, chat_member} = Chats.add_member(%{chat_id: chat.id, user_id: user.id})
+      assert chat_member.id == deleted_chat_member.id
+      assert is_nil(chat_member.deleted_at)
+    end
+
+    test "fails to add a member because already member exists in the chat" do
+      chat = Factory.insert(:chat)
+      user = Factory.insert(:user)
+      existing_chat_member = Factory.insert(:chat_member, chat: chat, user: user)
+
+      assert {:error, changeset} = Chats.add_member(%{chat_id: chat.id, user_id: user.id})
+    end
   end
 
   describe "remove_member_from_chats/1" do
+    test "succeeds to remove a member" do
+      project = Factory.insert(:project)
+      user = Factory.insert(:user)
+      chat_group = Factory.insert(:chat_group, source_id: project.id, source_type: "Project")
+      chat1 = Factory.insert(:chat, chat_group: chat_group)
+      chat2 = Factory.insert(:chat, chat_group: chat_group)
+      chat1_member = Factory.insert(:chat_member, chat: chat1, user: user)
+      chat2_member = Factory.insert(:chat_member, chat: chat2, user: user)
+
+
+      {:ok, changeset } = Chats.remove_member_from_chats(%{project_id: project.id, user_id: user.id})
+      assert changeset["remove_member:#{chat1_member.id}"].id == chat1_member.id
+      assert changeset["remove_member:#{chat2_member.id}"].id == chat2_member.id
+    end
   end
 
   describe "create_message/1" do
+    test "succeeds to create a message" do
+      chat = Factory.insert(:chat)
+      user = Factory.insert(:user)
+      chat_member = Factory.insert(:chat_member, chat: chat, user: user)
+      assert {:ok, message} = Chats.create_message(%{chat_id: chat.id, user_id: user.id, message_type: "comment", comment: "test"})
+    end
+
+    test "fails to create a message because of blank content" do
+      chat = Factory.insert(:chat)
+      user = Factory.insert(:user)
+      assert {:error, _error_message} = Chats.create_message(%{chat_id: chat.id, user_id: user.id})
+    end
   end
 end

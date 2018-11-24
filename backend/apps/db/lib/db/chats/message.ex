@@ -25,6 +25,7 @@ defmodule Db.Chats.Message do
     timestamps(type: :utc_datetime)
   end
 
+  @message_types ~w(comment upload)s
   @spec changeset(map()) :: Ecto.Changeset.t()
   def changeset(attrs) do
     permitted_attrs = ~w(user_id chat_id comment uuid message_type)a
@@ -39,11 +40,12 @@ defmodule Db.Chats.Message do
     %__MODULE__{}
     |> cast(attrs, permitted_attrs)
     |> set_uuid_if_nil
-    |> validate_required(required_attrs)
-    |> validate_message_type
     |> cast_attachments(attrs, [:image_url])
     |> assoc_constraint(:chat)
     |> assoc_constraint(:user)
+    |> validate_required(required_attrs)
+    |> validate_inclusion(:message_type, @message_types)
+    |> validate_message_type
     |> validate_chat_member
     |> check_constraint(:image_url, name: "valid_chat_message")
     |> check_constraint(:comment, name: "valid_chat_message")

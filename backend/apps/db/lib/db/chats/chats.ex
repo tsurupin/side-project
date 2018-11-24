@@ -72,7 +72,7 @@ defmodule Db.Chats.Chats do
   @spec add_member(%{chat_id: integer, user_id: integer}) ::
           {:ok, Ecto.Schema.t()} | {:error, Ecto.Changeset.t()}
   def add_member(%{chat_id: chat_id, user_id: user_id}) do
-    case Repo.get_by(Member, chat_id: chat_id, user_id: user_id) do
+    case Repo.one(from m in Member, where: m.chat_id == ^chat_id and m.user_id == ^user_id and not is_nil(m.deleted_at)) do
       %Member{} = member ->
         Member.update_changeset(member, %{deleted_at: nil})
 
@@ -82,11 +82,35 @@ defmodule Db.Chats.Chats do
     |> Repo.insert_or_update()
   end
 
+  @doc """
+  create a message with input.
+  input params
+    - chat_id
+    - message_type
+    - user_id
+    - comment(optional)
+    - image(optional)
+  """
   @spec create_message(map) :: {:ok, String.t()} | {:error, String.t()}
   def create_message(attrs) do
     case Repo.insert(Message.changeset(attrs)) do
-      {:ok, message} -> {:ok, message}
+      {:ok, %Message{} = message} -> {:ok, message}
       {:error, changeset} -> {:error, Db.FullErrorMessage.message(changeset)}
+    end
+  end
+
+
+  @spec remove_member_from_chats(%{:project_id => integer, :user_id => integer}) ::
+          {:ok, any()} | {:error, String.t()}
+  def remove_member_from_chats(%{project_id: _project_id, user_id: _user_id} = attrs) do
+    transaction =
+      Multi.new()
+      |> remove_member_from_chat(attended_members_in_project(attrs))
+      |> Repo.transaction()
+
+    case transaction do
+      {:ok, result} -> {:ok, result}
+      {:error, _name, changeset, _prev} -> {:error, Db.FullErrorMessage.message(changeset)}
     end
   end
 
@@ -117,24 +141,10 @@ defmodule Db.Chats.Chats do
     |> Repo.transaction()
   end
 
-  @spec remove_member_from_chats(%{:project_id => integer, :user_id => integer}) ::
-          {:ok, any()} | {:error, String.t()}
-  def remove_member_from_chats(%{project_id: _project_id, user_id: _user_id} = attrs) do
-    transaction =
-      Multi.new()
-      |> remove_member_from_chat(attended_members_in_project(attrs))
-      |> Repo.transaction()
-
-    case transaction do
-      {:ok, _any} -> {:ok, _any}
-      {:error, _name, changeset, _prev} -> {:error, Db.FullErrorMessage.message(changeset)}
-    end
-  end
 
   @spec attended_members_in_project(%{
           :project_id => integer,
-          :user_id => integer,
-          optional(atom) => any
+          :user_id => integer
         }) :: [Member.t()] | no_return()
   defp attended_members_in_project(%{project_id: project_id, user_id: user_id}) do
     from(
