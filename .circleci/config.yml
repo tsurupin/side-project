@@ -6,13 +6,11 @@ jobs:
     docker:
       - image: circleci/elixir:1.7.3
       - image: mdillon/postgis:9.6
-        POSTGRES_USER: postgres
-        POSTGRES_DB: app_test
-        POSTGRES_PASSWORD:
     environment:
       MIX_ENV: test
-      PATH: "$HOME/.asdf/bin:$HOME/.asdf/shims:$PATH"
-      
+      POSTGRES_USER: postgres
+      POSTGRES_DB: app_test
+      POSTGRES_PASSWORD:
     working_directory: ~/side-project/backend
 
     steps:

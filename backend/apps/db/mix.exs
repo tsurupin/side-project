@@ -21,7 +21,7 @@ defmodule Db.MixProject do
   # Run "mix help compile.app" to learn about applications.
   def application do
     [
-      extra_applications: [:logger, :postgrex],
+      extra_applications: [:logger, :postgrex, :rollbax],
       mod: {Db.Application, []}
     ]
   end
@@ -48,7 +48,8 @@ defmodule Db.MixProject do
       {:sweet_xml, "~> 0.6.5"},
       {:dialyxir, "~> 0.5.1", only: [:dev], runtime: false},
       {:libcluster, "~> 3.0"},
-      {:stream_data, "~> 0.1", only: :test}
+      {:stream_data, "~> 0.1", only: :test},
+      {:rollbax, ">= 0.0.0"}
     ]
   end
 
