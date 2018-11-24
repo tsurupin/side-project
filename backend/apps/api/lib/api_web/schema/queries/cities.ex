@@ -6,7 +6,7 @@ defmodule ApiWeb.Schema.Queries.Cities do
     @desc "seach cities"
     field :city_list, list_of(:city) do
       arg(:name, :string)
-      arg(:zip_code, :string)
+      # arg(:zip_code, :string)
       middleware(Middleware.Authorize)
       resolve(&Resolvers.Cities.search/3)
     end

@@ -1,7 +1,9 @@
 defmodule ApiWeb.Schema.Resolvers.Cities do
   alias Db.Locations.Cities
+  alias Db.Locations.City
 
-  def search(_parent, attrs, _resolver) do
+  @spec search(term, %{name: String.t()}, term) :: {:ok, [City.t()]}
+  def search(_parent, %{name: name} = attrs, _resolver) do
     cities = Cities.search(attrs)
 
     {:ok, cities}

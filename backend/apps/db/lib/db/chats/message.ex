@@ -62,11 +62,11 @@ defmodule Db.Chats.Message do
     end
   end
 
-
   @spec validate_content(Ecto.Changeset.t()) :: Ecto.Changeset.t()
   defp validate_content(changeset) do
-    case {get_field(changeset, :message_type), get_field(changeset, :image_url), get_field(changeset, :comment)} do
-      {:upload, nil, _} ->  add_error(changeset, :image_url, "image_url should be present")
+    case {get_field(changeset, :message_type), get_field(changeset, :image_url),
+          get_field(changeset, :comment)} do
+      {:upload, nil, _} -> add_error(changeset, :image_url, "image_url should be present")
       {:comment, _, nil} -> add_error(changeset, :comment, "comment should be present")
       _ -> changeset
     end

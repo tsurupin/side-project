@@ -1,4 +1,8 @@
 defmodule Db.Locations.Cities do
+  @moduledoc """
+
+
+  """
   import Ecto.Changeset
   import Ecto.Query, only: [from: 1, from: 2, first: 1]
   alias Ecto.Multi
@@ -11,7 +15,7 @@ defmodule Db.Locations.Cities do
     query =
       from(
         c in City,
-        where: ilike(c.name, ^"%#{name}%")
+        where: ilike(c.name, ^"#{name}%")
       )
 
     Repo.all(query)

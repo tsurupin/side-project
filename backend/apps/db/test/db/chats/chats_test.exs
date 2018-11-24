@@ -1,6 +1,6 @@
 defmodule Db.ChatsTest do
   use Db.DataCase
-  alias Chats.Chats
+  alias Db.Chats.Chats
 
   describe "get_by/1" do
     test "returns chat with id" do
