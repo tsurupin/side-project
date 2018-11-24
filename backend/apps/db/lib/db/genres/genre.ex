@@ -19,6 +19,7 @@ defmodule Db.Genres.Genre do
     has_many(:projects, Project)
   end
 
+  @names ~w()a
   @spec changeset(map()) :: Ecto.Changeset.t()
   def changeset(attrs) do
     permitted_attrs = ~w(name)a
@@ -27,6 +28,7 @@ defmodule Db.Genres.Genre do
     %Genre{}
     |> cast(attrs, permitted_attrs)
     |> validate_required(required_attrs)
+    |> validate_inclusion(:name, @names)
     |> unique_constraint(:name, name: "genres_name_index")
   end
 end

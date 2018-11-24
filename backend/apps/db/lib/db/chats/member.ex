@@ -1,4 +1,8 @@
 defmodule Db.Chats.Member do
+  @moduledoc """
+  Members who belongs to a chat
+  """
+
   use Ecto.Schema
   import Ecto.{Changeset, Query}
   alias Db.Chats.Chat

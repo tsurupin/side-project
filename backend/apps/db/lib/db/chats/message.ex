@@ -1,4 +1,9 @@
 defmodule Db.Chats.Message do
+  @moduledoc """
+  Messages that are created in a chat.
+  Message contains image/comment or image&comment
+  """
+
   use Ecto.Schema
   use Arc.Ecto.Schema
   import Ecto.Changeset
