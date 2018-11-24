@@ -12,6 +12,8 @@ import { UPDATE_PROJECT_SEARCH_PARMS_MUTATION } from "./updateProjectSearchParam
 import { PROJECT_FRAGMENTS } from "./projectFragments";
 import { PROJECT_SEARCH_PARAMS_QUERY } from "./projectSearchParamsQuery";
 import { PROJECT_FORM_QUERY } from "./projectFormQuery";
+import { PROJECT_EDIT_FORM_QUERY } from "./projectEditFormQuery";
+
 
 export {
   CHANGE_PROJECT_STATUS_MUTATION,
@@ -27,5 +29,6 @@ export {
   UPDATE_PROJECT_SEARCH_PARMS_MUTATION,
   PROJECT_FRAGMENTS,
   PROJECT_SEARCH_PARAMS_QUERY,
-  PROJECT_FORM_QUERY
+  PROJECT_FORM_QUERY,
+  PROJECT_EDIT_FORM_QUERY
 };

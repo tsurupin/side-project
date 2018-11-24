@@ -1,15 +1,15 @@
 import * as React from "react";
 import { Query } from "react-apollo";
-import { USER_FORM_QUERY } from "../../graphql/users";
+import { USER_EDIT_FORM_QUERY } from "../../graphql/users";
 type Props = {
   children: any;
 };
 
-const UserFormQuery = (props: Props) => {
+const UserEditFormQuery = (props: Props) => {
   const { children } = props;
   return (
     <Query
-      query={USER_FORM_QUERY}
+      query={USER_EDIT_FORM_QUERY}
       context={{ needAuth: true }}
       notifyOnNetworkStatusChange
     >
@@ -24,4 +24,4 @@ const UserFormQuery = (props: Props) => {
   );
 };
 
-export default UserFormQuery;
+export default UserEditFormQuery;

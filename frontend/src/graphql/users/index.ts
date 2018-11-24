@@ -9,7 +9,8 @@ import { USER_FRAGMENTS } from './userFragments';
 import { UPDATE_USER_SEARCH_PARMS_MUTATION } from "./updateUserSearchParamsMutation";
 import { USER_SEARCH_FORM_QUERY } from "./userSearchFormQuery";
 import { USER_SEARCH_PARAMS_QUERY } from "./userSearchParamsQuery";
-import { USER_FORM_QUERY } from "./UserFormQuery";
+import { USER_EDIT_FORM_QUERY } from "./UserEditFormQuery";
+
 
 export {
   DELETE_USER_PHOTO_MUTATION,
@@ -23,5 +24,5 @@ export {
   UPDATE_USER_SEARCH_PARMS_MUTATION,
   USER_SEARCH_FORM_QUERY,
   USER_SEARCH_PARAMS_QUERY,
-  USER_FORM_QUERY
-};
+  USER_EDIT_FORM_QUERY
+}

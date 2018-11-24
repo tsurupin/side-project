@@ -8,7 +8,7 @@ import {
   PhotosEditForm
 } from "../../../components/Common";
 import { EditForm } from "../../../components/Me/Common";
-import { MyUserQuery, UserFormQuery } from "../../../queries/users";
+import { UserEditFormQuery } from "../../../queries/users";
 import { EditUserMutation } from "../../../mutations/users";
 
 import {
@@ -126,35 +126,27 @@ class UserEditScreen extends React.Component<Props, UserEditParams> {
 
   render() {
     return (
-      <UserFormQuery>
+      <UserEditFormQuery>
         {({ data, loading, error }) => {
           if (loading) return <LoadingIndicator />;
           if (error) return <ErrorMessage {...error} />;
 
           const defaultProps: DefaultProps = data.userForm;
+          const user: UserDetails = data.myUser;
+        
           return (
-            <MyUserQuery>
-              {({ data, loading, error }) => {
-                if (loading) return <LoadingIndicator />;
-                if (error) return <ErrorMessage {...error} />;
-
-                const user: UserDetails = data.myUser;
-                return (
-                  <View style={styles.container}>
-                    <ScrollView
-                      alwaysBounceVertical={true}
-                      showsVerticalScrollIndicator={false}
-                    >
-                      {this.renderMainPhoto(user)}
-                      {this.renderEditForm(user, defaultProps)}
-                    </ScrollView>
-                  </View>
-                );
-              }}
-            </MyUserQuery>
+            <View style={styles.container}>
+              <ScrollView
+                alwaysBounceVertical={true}
+                showsVerticalScrollIndicator={false}
+              >
+                {this.renderMainPhoto(user)}
+                {this.renderEditForm(user, defaultProps)}
+              </ScrollView>
+            </View>
           );
-        }}
-      </UserFormQuery>
+        }}   
+      </UserEditFormQuery>
     );
   }
 }

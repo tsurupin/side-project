@@ -4,8 +4,7 @@ import { Avatar } from "react-native-elements";
 import { ErrorMessage, LoadingIndicator } from "../../../components/Common";
 import { EditForm } from "../../../components/Project/Common";
 import {
-  ProjectFormQuery,
-  ProjectDetailsQuery
+  ProjectEditFormQuery
 } from "../../../queries/projects";
 import { ProjectDetails, ProjectEditParams, Genre } from "../../../interfaces";
 
@@ -116,36 +115,28 @@ class ProjectEditScreen extends React.Component<Props> {
   render() {
     const { id } = this.props;
     return (
-      <ProjectFormQuery>
+      <ProjectEditFormQuery variables={{ id }}>
         {({ data, loading, error }) => {
           if (loading) return <LoadingIndicator />;
           if (error) return <ErrorMessage {...error} />;
 
           const defaultProps = data.projectForm;
 
+          const project: ProjectDetails = data.project;
           return (
-            <ProjectDetailsQuery variables={{ id }}>
-              {({ data, loading, error }) => {
-                if (loading) return <LoadingIndicator />;
-                if (error) return <ErrorMessage {...error} />;
-
-                const project: ProjectDetails = data.project;
-                return (
-                  <View style={styles.container}>
-                    <ScrollView
-                      alwaysBounceVertical={true}
-                      showsVerticalScrollIndicator={false}
-                    >
-                      {this.renderMainPhoto(project)}
-                      {this.renderEditForm(project, defaultProps)}
-                    </ScrollView>
-                  </View>
-                );
-              }}
-            </ProjectDetailsQuery>
+            <View style={styles.container}>
+              <ScrollView
+                alwaysBounceVertical={true}
+                showsVerticalScrollIndicator={false}
+              >
+                {this.renderMainPhoto(project)}
+                {this.renderEditForm(project, defaultProps)}
+              </ScrollView>
+            </View>
           );
+          
         }}
-      </ProjectFormQuery>
+      </ProjectEditFormQuery>
     );
   }
 }

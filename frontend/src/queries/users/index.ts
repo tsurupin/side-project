@@ -2,11 +2,11 @@ import UserDetailsQuery from "./UserDetailsQuery";
 import UserListQuery from "./UserListQuery";
 import MyUserQuery from "./MyUserQuery";
 import UserSearchFormQuery from "./UserSearchFormQuery";
-import UserFormQuery from "./UserFormQuery";
+import UserEditFormQuery from "./UserEditFormQuery";
 export {
   UserDetailsQuery,
   UserListQuery,
   MyUserQuery,
   UserSearchFormQuery,
-  UserFormQuery
+  UserEditFormQuery
 };
