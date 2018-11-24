@@ -25,7 +25,7 @@ defmodule Db.Chats.Message do
     timestamps(type: :utc_datetime)
   end
 
-  @message_types ~w(comment upload)s
+  @message_types ~w(comment upload)a
   @spec changeset(map()) :: Ecto.Changeset.t()
   def changeset(attrs) do
     permitted_attrs = ~w(user_id chat_id comment uuid message_type)a
@@ -45,7 +45,7 @@ defmodule Db.Chats.Message do
     |> assoc_constraint(:user)
     |> validate_required(required_attrs)
     |> validate_inclusion(:message_type, @message_types)
-    |> validate_message_type
+    |> validate_content
     |> validate_chat_member
     |> check_constraint(:image_url, name: "valid_chat_message")
     |> check_constraint(:comment, name: "valid_chat_message")
@@ -62,14 +62,13 @@ defmodule Db.Chats.Message do
     end
   end
 
-  @spec validate_message_type(Ecto.Changeset.t()) :: Ecto.Changeset.t()
-  defp validate_message_type(changeset) do
-    message_type = get_field(changeset, :message_type)
 
-    if Map.has_key?(changeset, :image) && message_type == "comment" do
-      add_error(changeset, :message_type, "message_type should be upload")
-    else
-      changeset
+  @spec validate_content(Ecto.Changeset.t()) :: Ecto.Changeset.t()
+  defp validate_content(changeset) do
+    case {get_field(changeset, :message_type), get_field(changeset, :image_url), get_field(changeset, :comment)} do
+      {:upload, nil, _} ->  add_error(changeset, :image_url, "image_url should be present")
+      {:comment, _, nil} -> add_error(changeset, :comment, "comment should be present")
+      _ -> changeset
     end
   end
 
