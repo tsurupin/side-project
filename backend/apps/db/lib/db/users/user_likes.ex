@@ -1,6 +1,6 @@
 defmodule Db.Users.UserLikes do
   @moduledoc """
-  The UserLike context.
+  UserLike context.
   """
 
   import Ecto.Query, warn: false
@@ -79,7 +79,5 @@ defmodule Db.Users.UserLikes do
       _ ->
         {:error, :bad_request}
     end
-
-    # {:ok, true}
   end
 end

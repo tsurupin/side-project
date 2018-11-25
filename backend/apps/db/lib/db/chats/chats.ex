@@ -30,7 +30,8 @@ defmodule Db.Chats.Chats do
     from(
       c in Chat,
       join: m in Member,
-      where: m.chat_id == c.id and m.user_id == ^user_id
+      where: m.chat_id == c.id and m.user_id == ^user_id,
+      order_by: [desc: c.is_main]
     )
     |> Repo.all()
   end

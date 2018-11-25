@@ -1,6 +1,6 @@
 defmodule Db.Users.ProjectLikes do
   @moduledoc """
-  The ProjectLike context.
+  ProjectLike context.
   """
 
   use Timex
@@ -19,13 +19,14 @@ defmodule Db.Users.ProjectLikes do
     transaction =
       Multi.new()
       |> Multi.insert(:create_project_like, ProjectLike.changeset(attrs))
-      |> Multi.run(:change_project_status, fn %{create_project_like: project_like} ->
+      |> Multi.merge(fn %{create_project_like: project_like} ->
         approve(project_like)
       end)
       |> Repo.transaction()
 
     case transaction do
-      {:ok, %{change_project_status: %{main_chat: chat}}} -> {:ok, chat}
+      {:ok, %{main_chat: chat}} -> {:ok, chat}
+      {:error, :main_chat, reason, _changeset} -> {:error, "main chat is not found"}
       {:error, _name, changeset, _prev} -> {:error, Db.FullErrorMessage.message(changeset)}
     end
   end
@@ -36,6 +37,7 @@ defmodule Db.Users.ProjectLikes do
           | {:error, :bad_request}
   def withdraw_like(%{project_id: project_id, user_id: user_id} = attrs) do
     case Repo.get_by(ProjectLike, attrs) do
+
       %ProjectLike{status: :requested} = like ->
         case Repo.delete(like) do
           {:ok, _like} -> {:ok, _like}
@@ -58,7 +60,7 @@ defmodule Db.Users.ProjectLikes do
           |> Repo.transaction()
 
         case transaction do
-          {:ok, _map} -> {:ok, _map}
+          {:ok, changeset} -> {:ok, changeset}
           {:error, _name, changeset, _prev} -> {:error, Db.FullErrorMessage.message(changeset)}
         end
 
@@ -67,7 +69,7 @@ defmodule Db.Users.ProjectLikes do
     end
   end
 
-  @spec approve(ProjectLike.t()) :: {:ok, any} | {:error, Ecto.Multi.name(), any()}
+  @spec approve(ProjectLike.t()) :: {:ok, Chat.t} | {:error, Ecto.Multi.name(), any()}
   defp approve(%ProjectLike{project_id: project_id, user_id: user_id} = project_like) do
     Multi.new()
     |> Multi.update(:approve, ProjectLike.approve_changeset(project_like, %{status: :approved}))
@@ -84,6 +86,5 @@ defmodule Db.Users.ProjectLikes do
     |> Multi.run(:add_member_to_main_chat, fn %{main_chat: main_chat} ->
       Chats.add_member(%{chat_id: main_chat.id, user_id: user_id})
     end)
-    |> Repo.transaction()
   end
 end
