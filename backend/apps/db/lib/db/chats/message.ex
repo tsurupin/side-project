@@ -31,16 +31,11 @@ defmodule Db.Chats.Message do
     permitted_attrs = ~w(user_id chat_id comment uuid message_type)a
     required_attrs = ~w(chat_id user_id message_type)a
 
-    attrs =
-      case attrs[:image] do
-        %Plug.Upload{} -> Map.merge(attrs, %{image_url: attrs[:image]})
-        _ -> attrs
-      end
 
     %__MODULE__{}
     |> cast(attrs, permitted_attrs)
     |> set_uuid_if_nil
-    |> cast_attachments(attrs, [:image_url])
+    |> cast_attachments(add_image_url(attrs), [:image_url])
     |> assoc_constraint(:chat)
     |> assoc_constraint(:user)
     |> validate_required(required_attrs)
@@ -78,6 +73,13 @@ defmodule Db.Chats.Message do
       force_change(changeset, :uuid, Ecto.UUID.generate())
     else
       changeset
+    end
+  end
+
+  defp add_image_url(attrs) do
+    case attrs[:image] do
+      nil -> attrs
+      image -> Map.merge(attrs, %{image_url: image})
     end
   end
 end

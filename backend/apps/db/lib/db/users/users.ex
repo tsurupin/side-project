@@ -8,7 +8,7 @@ defmodule Db.Users.Users do
   alias Ecto.Multi
 
   alias Db.Repo
-  alias Db.Skills.UserSkill
+  alias Db.Skills.{UserSkill, Skills}
   alias Db.Genres.Genre
   alias Db.OccupationTypes.OccupationType
   alias Db.Users.{User, Photo, Favorite, UserLike}
@@ -37,7 +37,9 @@ defmodule Db.Users.Users do
   def edit(%User{} = user, attrs) do
     Multi.new()
     |> Multi.update(:user, User.edit_changeset(user, attrs))
-    |> Db.Skills.Skills.bulk_upsert_user_skills(user.id, 0, attrs[:skill_ids] || [])
+    |> Multi.merge(fn _ -> 
+      Skills.build_upsert_user_skills_multi(user.id, attrs[:skill_ids] || [])
+    end)
     |> Repo.transaction()
   end
 
@@ -59,10 +61,10 @@ defmodule Db.Users.Users do
     {:ok, users}
   end
 
-  @spec get_favorites(integer) :: {:ok, [User.t()]} | {:ok, []}
-  def get_favorites(user_id) do
-    {:ok, Repo.all(Favorite, user_id: user_id)}
-  end
+  # @spec get_favorites(integer) :: {:ok, [User.t()]} | {:ok, []}
+  # def get_favorites(user_id) do
+  #   {:ok, Repo.all(Favorite, user_id: user_id)}
+  # end
 
   @spec main_photo(User.t()) :: Photo.t() | nil
   def main_photo(user) do
