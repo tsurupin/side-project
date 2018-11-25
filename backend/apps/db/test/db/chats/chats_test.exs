@@ -28,12 +28,14 @@ defmodule Db.ChatsTest do
   describe "attended_chats/1" do
     test "returns chats" do
       project = Factory.insert(:project)
+
       {:ok, %{chat: main_chat, chat_group: chat_group, chat_member: chat_member}} =
         Chats.create_chat_group(%{project: project})
+
       chat2 = Factory.insert(:chat, chat_group: chat_group)
       Factory.insert(:chat_member, chat: chat2, user: project.owner)
       chats = Chats.attended_chats(project.owner_id)
-      assert Enum.map(chats, &(&1.id)) == [main_chat.id, chat2.id]
+      assert Enum.map(chats, & &1.id) == [main_chat.id, chat2.id]
     end
   end
 

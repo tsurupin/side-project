@@ -3,7 +3,7 @@ defmodule Db.Users.UserLikes do
   UserLike context.
   """
 
-  import Ecto.Query, only: [from: 1, from: 2, first: 1, limit: 2],  warn: false
+  import Ecto.Query, only: [from: 1, from: 2, first: 1, limit: 2], warn: false
 
   alias Ecto.Multi
 
@@ -38,7 +38,11 @@ defmodule Db.Users.UserLikes do
   @spec accept_like(User.t(), %{user_id: integer}) ::
           {:ok, Chat.t()} | {:error, String.t()} | {:error, :bad_request}
   def accept_like(%User{id: target_user_id}, %{user_id: user_id}) do
-    case Repo.get_by(UserLike, user_id: user_id, target_user_id: target_user_id, status: :requested) do
+    case Repo.get_by(UserLike,
+           user_id: user_id,
+           target_user_id: target_user_id,
+           status: :requested
+         ) do
       %UserLike{} = like ->
         transaction =
           Multi.new()
@@ -64,7 +68,11 @@ defmodule Db.Users.UserLikes do
   @spec reject_like(User.t(), %{user_id: integer}) ::
           {:ok, true} | {:error, String.t()} | {:error, :bad_request}
   def reject_like(%User{id: target_user_id}, %{user_id: user_id}) do
-    case Repo.get_by(UserLike, user_id: user_id, target_user_id: target_user_id, status: :requested) do
+    case Repo.get_by(UserLike,
+           user_id: user_id,
+           target_user_id: target_user_id,
+           status: :requested
+         ) do
       %UserLike{} = like ->
         transaction =
           UserLike.change_status_changeset(like, %{status: :rejected})

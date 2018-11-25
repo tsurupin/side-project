@@ -24,15 +24,17 @@ defmodule Db.Skills.Skills do
     Repo.all(query)
   end
 
-  @spec get_by(map) :: Skill.t() :: nil
+  @spec get_by(map) :: Skill.t() :: no_return
   def get_by(%{name: name}) do
     Repo.get_by(Skill, name: name)
   end
 
-  @spec create(String.t()) :: {:ok, Skill.t()} | {:error, any}
+  @spec create(String.t()) :: {:ok, Skill.t()} | {:error, String.t()}
   def create(name) do
-    Skill.changeset(%{name: name})
-    |> Repo.insert()
+    case Skill.changeset(%{name: name}) |> Repo.insert() do
+      {:ok, %Skill{} = skill} -> {:ok, skill}
+      {:error, changeset} -> {:error, Db.FullErrorMessage.message(changeset)}
+    end
   end
 
   @spec bulk_upsert_user_skills(Ecto.Multi.t(), integer, integer, []) :: Ecto.Multi.t()

@@ -36,7 +36,6 @@ defmodule Db.Users.ProjectLikes do
           | {:error, :bad_request}
   def withdraw_like(%{project_id: project_id, user_id: user_id} = attrs) do
     case Repo.get_by(ProjectLike, attrs) do
-
       %ProjectLike{status: :requested} = like ->
         case Repo.delete(like) do
           {:ok, _like} -> {:ok, _like}
@@ -68,7 +67,7 @@ defmodule Db.Users.ProjectLikes do
     end
   end
 
-  @spec approve(ProjectLike.t()) :: {:ok, Chat.t} | {:error, Ecto.Multi.name(), any()}
+  @spec approve(ProjectLike.t()) :: {:ok, Chat.t()} | {:error, Ecto.Multi.name(), any()}
   defp approve(%ProjectLike{project_id: project_id, user_id: user_id} = project_like) do
     Multi.new()
     |> Multi.update(:approve, ProjectLike.approve_changeset(project_like, %{status: :approved}))

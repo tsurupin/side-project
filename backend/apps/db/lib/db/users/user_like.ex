@@ -42,10 +42,15 @@ defmodule Db.Users.UserLike do
 
   @spec validate_reverse_like(Ecto.Changeset.t(), map) :: Ecto.Changeset.t()
   defp validate_reverse_like(changeset, attrs) do
+    case Db.Repo.get_by(__MODULE__,
+           user_id: attrs[:target_user_id],
+           target_user_id: attrs[:user_id]
+         ) do
+      %__MODULE__{} = _like ->
+        add_error(changeset, :user_id, "user is already liked by target_user")
 
-    case Db.Repo.get_by(__MODULE__, user_id: attrs[:target_user_id], target_user_id: attrs[:user_id]) do
-      %__MODULE__{} = _like -> add_error(changeset, :user_id, "user is already liked by target_user")
-      nil -> changeset
+      nil ->
+        changeset
     end
   end
 end

@@ -1,4 +1,3 @@
-
 defmodule Db.ProjectLikesTest do
   use Db.DataCase
   alias Db.Users.{ProjectLikes, ProjectLike}
@@ -22,13 +21,12 @@ defmodule Db.ProjectLikesTest do
       project = Factory.insert(:project)
       user = Factory.insert(:user)
 
-      assert {:error, "main chat is not found"} = ProjectLikes.like(%{project_id: project.id, user_id: user.id})
+      assert {:error, "main chat is not found"} =
+               ProjectLikes.like(%{project_id: project.id, user_id: user.id})
     end
-
   end
 
   describe "withdraw_like/1" do
-
     test "returns :bad_request when project_like is not found" do
       inputs = %{project_id: 1, user_id: 1}
       assert {:error, :bad_request} = ProjectLikes.withdraw_like(inputs)
@@ -51,11 +49,25 @@ defmodule Db.ProjectLikesTest do
       inputs = %{project_id: project.id, user_id: user.id}
       assert {:ok, changeset} = ProjectLikes.withdraw_like(inputs)
 
-      assert is_nil(Repo.one(from m in Db.Projects.Member, where: m.project_id == ^project.id and  m.user_id == ^user.id and is_nil(m.deleted_at)))
+      assert is_nil(
+               Repo.one(
+                 from(m in Db.Projects.Member,
+                   where:
+                     m.project_id == ^project.id and m.user_id == ^user.id and
+                       is_nil(m.deleted_at)
+                 )
+               )
+             )
 
-      assert is_nil(Repo.one(from m in Db.Chats.Member, where: m.chat_id == ^chat.id and  m.user_id == ^user.id and is_nil(m.deleted_at)))
-      assert is_nil(Repo.get_by(Db.Users.ProjectLike,  project_id: project.id, user_id: user.id))
+      assert is_nil(
+               Repo.one(
+                 from(m in Db.Chats.Member,
+                   where: m.chat_id == ^chat.id and m.user_id == ^user.id and is_nil(m.deleted_at)
+                 )
+               )
+             )
 
+      assert is_nil(Repo.get_by(Db.Users.ProjectLike, project_id: project.id, user_id: user.id))
     end
   end
 end
