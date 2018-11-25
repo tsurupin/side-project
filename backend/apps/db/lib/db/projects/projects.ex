@@ -1,6 +1,6 @@
 defmodule Db.Projects.Projects do
   @moduledoc """
-  The Accoutns context.
+  A context that is responsible for project related data
   """
 
   import Ecto.Query, warn: false
@@ -25,17 +25,19 @@ defmodule Db.Projects.Projects do
 
   @spec search(Ecto.Queryable.t(), map) :: {:ok, list(Project.t())}
   def search(query, conditions) do
-    projects = Repo.all(build_queries(query, conditions))
+    projects = Repo.all(build_query(query, conditions))
     {:ok, projects}
   end
 
-  @spec editable(String.t() | integer) :: {:ok, list(Project.t())}
+  @spec editable(integer) :: {:ok, list(Project.t())}
   def editable(user_id) do
     projects =
       from(
         p in Project,
         join: pm in Member,
-        where: p.id == pm.project_id and pm.user_id == ^user_id and pm.role > 0 and pm.status == 1
+        where:
+          p.id == pm.project_id and pm.user_id == ^user_id and pm.role in [^:admin, ^:master] and
+            pm.status == ^:approved
       )
       |> Repo.all()
 
@@ -55,8 +57,16 @@ defmodule Db.Projects.Projects do
     {:ok, projects}
   end
 
+
+  @main_photo_rank 0
+  @spec main_photo(Project.t()) :: Photo.t()
+  def main_photo(project) do
+    Repo.one(from(p in Photo, where: p.project_id == ^project.id and p.rank == ^@main_photo_rank))
+  end
+
+  @spec create(%{owner_id: integer}) :: {:ok, Project.t()} | {:error, String.t()}
   def create(%{owner_id: owner_id} = attrs) do
-    result =
+    transaction =
       Multi.new()
       |> Multi.insert(:project, Project.changeset(attrs))
       |> Multi.merge(fn %{project: project} ->
@@ -73,55 +83,32 @@ defmodule Db.Projects.Projects do
       end)
       |> Repo.transaction()
 
-    case result do
+    case transaction do
       {:ok, %{project: project}} -> {:ok, project}
       {:error, _title, changeset, _prev} -> {:error, Db.FullErrorMessage.message(changeset)}
     end
   end
 
-  @spec edit(Project.t(), map()) :: {:ok, any()} | {:error, Ecto.Multi.name(), any()}
-  def edit(%Project{} = project, attrs) do
-    Multi.new()
-    |> Multi.update(:project, Project.edit_changeset(project, attrs))
-    |> Multi.merge(fn _ ->
-      Skills.build_upsert_project_skills_multi(project.id, attrs[:skill_ids] || [])
-    end)
-    |> Repo.transaction()
-  end
-
   @spec edit(integer, %{:project_id => integer, optional(atom) => any}) ::
           {:ok, any()} | {:error, Ecto.Multi.name(), any()} | {:error, :unauthorized}
   def edit(user_id, %{project_id: project_id} = attrs) do
-    with %Project{} = project <- Repo.get(Project, project_id),
-         {:ok, %{project: project}} <- edit(project, attrs) do
-      {:ok, project}
-    else
-      {:error, _title, changeset, _prev} -> {:error, Db.FullErrorMessage.message(changeset)}
-      nil -> {:error, :unauthorized}
-    end
-  end
+    case editable?(%{project_id: project_id, user_id: user_id}) do
+      {:error, false, :unauthorized} ->
+        {:error, :unauthorized}
 
-  @spec change_status(Project.t(), %{status: String.t()}) ::
-          {:ok, Project.t()} | {:error, String.t()}
-  def change_status(%Project{} = project, %{status: "completed"} = attrs) do
-    transaction =
-      Multi.new()
-      |> Multi.update(:update_project, Project.change_status_changeset(project, attrs))
-      |> Multi.run(:create_chat, fn _ ->
-        Chats.create_chat_group(%{project: project})
-      end)
-      |> Repo.transaction()
+      {:ok, true, project} ->
+        transaction =
+          Multi.new()
+          |> Multi.update(:project, Project.edit_changeset(project, attrs))
+          |> Multi.merge(fn _ ->
+            Skills.build_upsert_project_skills_multi(project.id, attrs[:skill_ids] || [])
+          end)
+          |> Repo.transaction()
 
-    case transaction do
-      {:ok, %{update_project: project}} -> {:ok, project}
-      {:error, _name, changeset, _prev} -> {:error, Db.FullErrorMessage.message(changeset)}
-    end
-  end
-
-  def change_status(%Project{} = project, attrs) do
-    case Repo.update(Project.change_status_changeset(project, attrs)) do
-      {:ok, project} -> {:ok, project}
-      {:error, changeset} -> {:error, Db.FullErrorMessage.message(changeset)}
+        case transaction do
+          {:ok, %{project: project}} -> {:ok, project}
+          {:error, _title, changeset, _prev} -> {:error, Db.FullErrorMessage.message(changeset)}
+        end
     end
   end
 
@@ -129,7 +116,7 @@ defmodule Db.Projects.Projects do
           {:ok, Project.t()} | {:error, String.t()}
   def change_status(user_id, %{project_id: project_id, status: status}) do
     case Repo.get_by(Project, owner_id: user_id, id: project_id) do
-      %Project{} = project -> change_status(project, %{status: status})
+      %Project{} = project -> run_change_status(project, %{status: status})
       nil -> {:error, :unauthorized}
     end
   end
@@ -147,54 +134,92 @@ defmodule Db.Projects.Projects do
     end
   end
 
-  @spec main_photo(Project.t()) :: Photo.t()
-  def main_photo(project) do
-    Repo.one(from(p in Photo, where: p.project_id == ^project.id and p.rank == 0))
-  end
+  # @spec preload(Ecto.Queryable.t(), String.t()) :: [Ecto.Schema.t()]
+  # def preload(query, association) when is_binary(association) do
+  #   Repo.preload(query, [String.to_atom(association)])
+  # end
 
-  @spec preload(Ecto.Queryable.t(), String.t()) :: [Ecto.Schema.t()]
-  def preload(query, association) when is_binary(association) do
-    Repo.preload(query, [String.to_atom(association)])
-  end
+  # @spec preload(Ecto.Queryable.t(), atom) :: [Ecto.Schema.t()]
+  # def preload(query, association) when is_atom(association) do
+  #   Repo.preload(query, [association])
+  # end
 
-  @spec preload(Ecto.Queryable.t(), atom) :: [Ecto.Schema.t()]
-  def preload(query, association) when is_atom(association) do
-    Repo.preload(query, [association])
-  end
+  # @spec preload(Ecto.Queryable.t(), list(any)) :: [Ecto.Schema.t()]
+  # def preload(query, associations) when is_list(associations) do
+  #   Repo.preload(query, associations)
+  # end
 
-  @spec preload(Ecto.Queryable.t(), list(any)) :: [Ecto.Schema.t()]
-  def preload(query, associations) when is_list(associations) do
-    Repo.preload(query, associations)
+  @spec editable?(%{project_id: integer, user_id: integer}) ::
+          {:ok, true, Project.t()} | {:error, false, :unauthorized}
+  defp editable?(%{project_id: project_id, user_id: user_id} = attrs) do
+    project =
+      from(
+        p in Project,
+        join: pm in Member,
+        where:
+          p.id == ^project_id and p.id == pm.project_id and pm.user_id == ^user_id and
+            pm.role in [^:admin, ^:master] and pm.status == ^:approved
+      )
+      |> Repo.one()
+
+    case project do
+      %Project{} -> {:ok, true, project}
+      _ -> {:error, false, :unauthorized}
+    end
   end
 
   @limit_num 15
-  @spec build_queries(Ecto.Queryable.t(), map) :: Ecto.Queryable.t()
-  defp build_queries(query, conditions) do
+  @spec build_query(Ecto.Queryable.t(), map) :: Ecto.Queryable.t()
+  defp build_query(query, conditions) do
     IO.inspect(conditions)
 
-    queries =
+    query =
       Enum.reduce(conditions, query, fn
-        {:genre_id, genre_id}, queries ->
-          from(p in queries, where: p.genre_id == ^genre_id)
+        {:genre_id, genre_id}, query ->
+          from(p in query, where: p.genre_id == ^genre_id)
 
-        {:skill_ids, skill_ids}, queries ->
+        {:skill_ids, skill_ids}, query ->
           from(
-            p in queries,
+            p in query,
             join: ps in ProjectSkill,
             where: ps.project_id == p.id and ps.skill_id in ^skill_ids
           )
 
-        {:city_id, city_id}, queries ->
+        {:city_id, city_id}, query ->
           from(
-            p in queries,
+            p in query,
             where: p.city_id == ^city_id
           )
 
-        _, queries ->
-          queries
+        _, query ->
+          query
       end)
       |> limit(@limit_num)
 
-    from(p in queries, where: p.status == 1)
+    from(p in query, where: p.status == 1)
+  end
+
+  @spec run_change_status(Project.t(), %{status: String.t()}) ::
+          {:ok, Project.t()} | {:error, String.t()}
+  defp run_change_status(%Project{} = project, %{status: "completed"} = attrs) do
+    transaction =
+      Multi.new()
+      |> Multi.update(:update_project, Project.change_status_changeset(project, attrs))
+      |> Multi.run(:create_chat, fn _ ->
+        Chats.create_chat_group(%{project: project})
+      end)
+      |> Repo.transaction()
+
+    case transaction do
+      {:ok, %{update_project: project}} -> {:ok, project}
+      {:error, _name, changeset, _prev} -> {:error, Db.FullErrorMessage.message(changeset)}
+    end
+  end
+
+  defp run_change_status(%Project{} = project, %{status: _} = attrs) do
+    case Repo.update(Project.change_status_changeset(project, attrs)) do
+      {:ok, project} -> {:ok, project}
+      {:error, changeset} -> {:error, Db.FullErrorMessage.message(changeset)}
+    end
   end
 end

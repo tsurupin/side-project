@@ -31,7 +31,6 @@ defmodule Db.Chats.Message do
     permitted_attrs = ~w(user_id chat_id comment uuid message_type)a
     required_attrs = ~w(chat_id user_id message_type)a
 
-
     %__MODULE__{}
     |> cast(attrs, permitted_attrs)
     |> set_uuid_if_nil

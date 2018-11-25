@@ -68,7 +68,6 @@ defmodule Db.Skills.Skills do
     |> build_upsert_user_skills_multi(user_id, rank + 1, tail)
   end
 
-
   # def bulk_create_project_skills(multi, project_id, rank, [skill_id | tail]) do
   #   project_skill_change_set =
   #     ProjectSkill.changeset(%{project_id: project_id, rank: rank, skill_id: skill_id})
@@ -88,20 +87,19 @@ defmodule Db.Skills.Skills do
   # end
 
   @spec build_upsert_project_skills_multi(integer, nonempty_list(integer)) ::
-  {:ok, Ecto.Multi.t()} | {:error, String.t()}
+          {:ok, Ecto.Multi.t()} | {:error, String.t()}
   def build_upsert_project_skills_multi(project_id, skill_ids) do
     Multi.new()
     |> build_upsert_project_skills_multi(project_id, @default_rank, skill_ids)
   end
 
-  @spec build_upsert_project_skills_multi(Ecto.Multi.t(), integer, nonempty_list(integer)) :: Ecto.Multi.t()
+  @spec build_upsert_project_skills_multi(Ecto.Multi.t(), integer, nonempty_list(integer)) ::
+          Ecto.Multi.t()
   def build_upsert_project_skills_multi(multi, project_id, skill_ids) do
     build_upsert_project_skills_multi(multi, project_id, @default_rank, skill_ids)
   end
 
-
-  @spec build_upsert_project_skills_multi(Ecto.Multi.t(), integer, integer, []) ::
-          Ecto.Multi.t()
+  @spec build_upsert_project_skills_multi(Ecto.Multi.t(), integer, integer, []) :: Ecto.Multi.t()
   def build_upsert_project_skills_multi(multi, _project_id, _rank, []) do
     multi
   end

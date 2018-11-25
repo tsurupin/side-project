@@ -138,6 +138,14 @@ defmodule ApiWeb.Schema.Mutations.ProjectsTest do
     test "succeeds to edit a project", %{project: project, user: user} do
       user_id = user.id
       new_genre = Factory.insert(:genre)
+
+      Factory.insert(:project_member,
+        project: project,
+        user: user,
+        status: :approved,
+        role: :master
+      )
+
       attrs = %{id: project.id, title: "project neo", genreId: new_genre.id}
 
       with_mock Api.Accounts.Authentication,

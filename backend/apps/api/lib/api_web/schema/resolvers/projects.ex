@@ -87,7 +87,7 @@ defmodule ApiWeb.Schema.Resolvers.Projects do
   def edit(_, %{id: project_id, project_input: project_input} = attrs, %{
         context: %{current_user: current_user}
       }) do
-    case Projects.edit(current_user.id, Map.put_new(project_input, :project_id, project_id)) do
+    case Projects.edit(current_user.id, Map.merge(project_input, %{project_id: project_id})) do
       {:ok, project} ->
         project =
           Repo.preload(project, [

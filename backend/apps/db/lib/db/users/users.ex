@@ -37,7 +37,7 @@ defmodule Db.Users.Users do
   def edit(%User{} = user, attrs) do
     Multi.new()
     |> Multi.update(:user, User.edit_changeset(user, attrs))
-    |> Multi.merge(fn _ -> 
+    |> Multi.merge(fn _ ->
       Skills.build_upsert_user_skills_multi(user.id, attrs[:skill_ids] || [])
     end)
     |> Repo.transaction()

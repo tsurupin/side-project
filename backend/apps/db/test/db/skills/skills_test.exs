@@ -10,7 +10,7 @@ defmodule Db.SkillsTest do
       skill2 = Factory.insert(:skill, name: "Python")
 
       output = Skills.search(term)
-      assert Enum.map(output, &(&1.id)) == [skill1.id]
+      assert Enum.map(output, & &1.id) == [skill1.id]
     end
 
     test "returns matched skills with term" do
@@ -19,10 +19,8 @@ defmodule Db.SkillsTest do
 
       output = Skills.search(nil)
 
-      assert Enum.map(output, &(&1.id)) == [skill1.id, skill2.id]
+      assert Enum.map(output, & &1.id) == [skill1.id, skill2.id]
     end
-
-
   end
 
   describe "build_upsert_user_skills_multi/4" do
@@ -34,10 +32,9 @@ defmodule Db.SkillsTest do
       output = Skills.build_upsert_user_skills_multi(user.id, [skill1.id, skill2.id])
       assert {:ok, changeset} = Repo.transaction(output)
       user_skills = Repo.all(UserSkill)
-      assert Enum.map(user_skills, &(&1.skill_id)) == [skill1.id, skill2.id]
-      assert Enum.map(user_skills, &(&1.rank)) == [0, 1]
+      assert Enum.map(user_skills, & &1.skill_id) == [skill1.id, skill2.id]
+      assert Enum.map(user_skills, & &1.rank) == [0, 1]
     end
-
   end
 
   describe "bulk_upsert_project_skills/4" do
@@ -49,9 +46,8 @@ defmodule Db.SkillsTest do
       output = Skills.build_upsert_project_skills_multi(project.id, [skill1.id, skill2.id])
       assert {:ok, changeset} = Repo.transaction(output)
       project_skills = Repo.all(ProjectSkill)
-      assert Enum.map(project_skills, &(&1.skill_id)) == [skill1.id, skill2.id]
-      assert Enum.map(project_skills, &(&1.rank)) == [0, 1]
-
+      assert Enum.map(project_skills, & &1.skill_id) == [skill1.id, skill2.id]
+      assert Enum.map(project_skills, & &1.rank) == [0, 1]
     end
   end
 end
