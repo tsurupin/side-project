@@ -23,6 +23,7 @@ defmodule Db.Users.UserLike do
     %__MODULE__{}
     |> cast(attrs, permitted_attrs)
     |> validate_required(required_attrs)
+    |> validate_reverse_like(attrs)
     |> assoc_constraint(:user)
     |> assoc_constraint(:target_user)
     |> unique_constraint(:user_id, name: "user_likes_unique_index")
@@ -37,5 +38,14 @@ defmodule Db.Users.UserLike do
     |> cast(attrs, permitted_attrs)
     |> validate_required(required_attrs)
     |> unique_constraint(:user_id, name: "user_likes_unique_index")
+  end
+
+  @spec validate_reverse_like(Ecto.Changeset.t(), map) :: Ecto.Changeset.t()
+  defp validate_reverse_like(changeset, attrs) do
+
+    case Db.Repo.get_by(__MODULE__, user_id: attrs[:target_user_id], target_user_id: attrs[:user_id]) do
+      %__MODULE__{} = _like -> add_error(changeset, :user_id, "user is already liked by target_user")
+      nil -> changeset
+    end
   end
 end

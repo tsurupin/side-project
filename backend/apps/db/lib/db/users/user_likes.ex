@@ -3,8 +3,7 @@ defmodule Db.Users.UserLikes do
   UserLike context.
   """
 
-  import Ecto.Query, warn: false
-  import Ecto.Query, only: [from: 1, from: 2, first: 1, limit: 2]
+  import Ecto.Query, only: [from: 1, from: 2, first: 1, limit: 2],  warn: false
 
   alias Ecto.Multi
 
@@ -24,8 +23,8 @@ defmodule Db.Users.UserLikes do
   @spec withdraw_like(%{target_user_id: integer, user_id: integer}) ::
           {:ok, any} | {:error, String.t()} | {:error, :bad_request}
   def withdraw_like(%{target_user_id: _target_user_id, user_id: _user_id} = attrs) do
-    case Repo.get_by(UserLike, attrs) do
-      %UserLike{status: :requested} = like ->
+    case Repo.get_by(UserLike, attrs, status: :requested) do
+      %UserLike{} = like ->
         case Repo.delete(like) do
           {:ok, _user_like} -> {:ok, true}
           {:error, changeset} -> {:error, Db.FullErrorMessage.message(changeset)}
@@ -39,8 +38,8 @@ defmodule Db.Users.UserLikes do
   @spec accept_like(User.t(), %{user_id: integer}) ::
           {:ok, Chat.t()} | {:error, String.t()} | {:error, :bad_request}
   def accept_like(%User{id: target_user_id}, %{user_id: user_id}) do
-    case Repo.get_by(UserLike, user_id: user_id, target_user_id: target_user_id) do
-      %UserLike{status: :requested} = like ->
+    case Repo.get_by(UserLike, user_id: user_id, target_user_id: target_user_id, status: :requested) do
+      %UserLike{} = like ->
         transaction =
           Multi.new()
           |> Multi.update(
@@ -65,8 +64,8 @@ defmodule Db.Users.UserLikes do
   @spec reject_like(User.t(), %{user_id: integer}) ::
           {:ok, true} | {:error, String.t()} | {:error, :bad_request}
   def reject_like(%User{id: target_user_id}, %{user_id: user_id}) do
-    case Repo.get_by(UserLike, user_id: user_id, target_user_id: target_user_id) do
-      %UserLike{status: :requested} = like ->
+    case Repo.get_by(UserLike, user_id: user_id, target_user_id: target_user_id, status: :requested) do
+      %UserLike{} = like ->
         transaction =
           UserLike.change_status_changeset(like, %{status: :rejected})
           |> Repo.update()

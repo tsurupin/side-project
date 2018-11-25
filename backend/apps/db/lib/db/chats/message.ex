@@ -72,6 +72,7 @@ defmodule Db.Chats.Message do
     end
   end
 
+  @spec set_uuid_if_nil(Ecto.Changeset.t()) :: Ecto.Changeset.t()
   defp set_uuid_if_nil(changeset) do
     if get_field(changeset, :uuid) == nil do
       force_change(changeset, :uuid, Ecto.UUID.generate())
