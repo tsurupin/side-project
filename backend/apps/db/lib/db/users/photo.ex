@@ -21,21 +21,15 @@ defmodule Db.Users.Photo do
   @spec changeset(map()) :: Ecto.Changeset.t()
   def changeset(attrs) do
     permitted_attrs = ~w(user_id rank uuid)a
-    required_attrs = ~w(user_id rank)a
+    required_attrs = ~w(user_id rank image_url)a
 
     IO.inspect(attrs)
-
-    attrs =
-      case attrs[:image] do
-        %Db.CustomUpload{} -> Map.merge(attrs, %{image_url: attrs[:image]})
-        _ -> attrs
-      end
 
     %Photo{}
     |> cast(attrs, permitted_attrs)
     |> set_uuid_if_nil
     |> assoc_constraint(:user)
-    |> cast_attachments(attrs, [:image_url])
+    |> cast_attachments(add_image_url(attrs), [:image_url])
     |> validate_required(required_attrs)
     |> unique_constraint(:user_id, name: "user_photos_user_id_and_rank_index")
     |> check_constraint(:rank, name: "valid_user_photo_rank")
@@ -54,10 +48,17 @@ defmodule Db.Users.Photo do
   end
 
   defp set_uuid_if_nil(changeset) do
-    if get_field(changeset, :uuid) == nil do
+    if is_nil(get_field(changeset, :uuid)) do
       force_change(changeset, :uuid, Ecto.UUID.generate())
     else
       changeset
+    end
+  end
+
+  defp add_image_url(attrs) do
+    case attrs[:image] do
+      nil -> attrs
+      image -> Map.merge(attrs, %{image_url: image})
     end
   end
 end

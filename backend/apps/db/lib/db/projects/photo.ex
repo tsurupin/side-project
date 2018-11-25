@@ -23,17 +23,11 @@ defmodule Db.Projects.Photo do
     permitted_attrs = ~w(project_id rank uuid)a
     required_attrs = ~w(project_id rank image_url)a
 
-    attrs =
-      case attrs[:image] do
-        data when not is_nil(data) -> Map.merge(attrs, %{image_url: attrs[:image]})
-        _ -> attrs
-      end
-
     %Photo{}
     |> cast(attrs, permitted_attrs)
     |> set_uuid_if_nil
     |> assoc_constraint(:project)
-    |> cast_attachments(attrs, [:image_url])
+    |> cast_attachments(add_image_url(attrs), [:image_url])
     |> validate_required(required_attrs)
     |> unique_constraint(:project_id, name: "project_photos_project_id_and_rank_index")
     |> check_constraint(:rank, name: "valid_project_photo_rank")
@@ -56,6 +50,13 @@ defmodule Db.Projects.Photo do
       force_change(changeset, :uuid, Ecto.UUID.generate())
     else
       changeset
+    end
+  end
+
+  defp add_image_url(attrs) do
+    case attrs[:image] do
+      nil -> attrs
+      image -> Map.merge(attrs, %{image_url: image})
     end
   end
 end

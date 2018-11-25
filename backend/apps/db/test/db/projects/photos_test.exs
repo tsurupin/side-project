@@ -53,23 +53,22 @@ defmodule Db.ProjectPhotosTest do
     test "fails to delete because photo doesn't exist" do
       project = Factory.insert(:project)
 
-
-      assert {:error, :not_found} = Projects.Photos.delete_photo(%{
-          user_id: project.owner_id,
-          photo_id: 1000000
-        })
+      assert {:error, :not_found} =
+               Projects.Photos.delete_photo(%{
+                 user_id: project.owner_id,
+                 photo_id: 1_000_000
+               })
     end
 
     test "fails to delete because user is not project owner" do
       project = Factory.insert(:project)
       photo = Factory.insert(:project_photo, project: project, rank: 0)
 
-
-      assert {:error, :unauthorized} = Projects.Photos.delete_photo(%{
-          user_id: project.owner_id + 1,
-          photo_id: photo.id
-        })
-
+      assert {:error, :unauthorized} =
+               Projects.Photos.delete_photo(%{
+                 user_id: project.owner_id + 1,
+                 photo_id: photo.id
+               })
     end
 
     test "succeeds to delete a photo" do

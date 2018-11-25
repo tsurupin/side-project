@@ -14,8 +14,6 @@ defmodule ApiWeb.Schema.Resolvers.Users do
   end
 
   def edit(_, %{user_input: user_input}, %{context: %{current_user: current_user}}) do
-    IO.inspect(user_input)
-
     case Users.edit(current_user, user_input) do
       {:ok, %{user: user}} ->
         user = Repo.preload(user, [:photos, :skills, :city, :genre, :occupation_type])
@@ -73,7 +71,7 @@ defmodule ApiWeb.Schema.Resolvers.Users do
   def upload_photo(ctx, %{user_upload_input: attrs}, %{
         context: %{current_user: current_user}
       }) do
-    case Photos.upload_photo(current_user, attrs) do
+    case Photos.upload_photo(Map.merge(attrs, %{user_id: current_user.id})) do
       {:ok, photo} -> {:ok, photo}
       {:error, reason} -> {:error, reason}
     end
@@ -81,7 +79,7 @@ defmodule ApiWeb.Schema.Resolvers.Users do
 
   def delete_photo(_ctx, %{photo_id: photo_id}, %{context: %{current_user: current_user}}) do
     case Photos.delete_photo(photo_id) do
-      {:ok, %{deleted_photo: photo}} -> {:ok, photo}
+      {:ok, photo} -> {:ok, photo}
       {:error, reason} -> {:error, reason}
     end
   end

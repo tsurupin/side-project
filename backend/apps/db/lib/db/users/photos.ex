@@ -1,6 +1,6 @@
 defmodule Db.Users.Photos do
   @moduledoc """
-  The UserPhotos context.
+  User Photos context.
   """
 
   import Ecto.Query, warn: false
@@ -12,11 +12,13 @@ defmodule Db.Users.Photos do
   alias Db.Users.{User, Photo}
   alias Db.Uploaders.UserPhotoUploader
 
-  @spec upload_photo(User.t(), %{image: any, rank: integer}) ::
+  @spec upload_photo(%{user_id: integer, image: any, rank: integer}) ::
           {:ok, Photo.t()} | {:error, Ecto.Changeset.t()}
-  def upload_photo(%User{} = user, %{photo: image, rank: rank} = attrs) do
-    Photo.changeset(%{image: image, user_id: user.id, rank: rank})
-    |> Repo.insert()
+  def upload_photo(%{user_id: user_id, photo: image, rank: rank}) do
+    case Repo.insert(Photo.changeset(%{image: image, user_id: user_id, rank: rank})) do
+      {:ok, photo} -> {:ok, photo}
+      {:error, changeset} -> {:error, Db.FullErrorMessage.message(changeset)}
+    end
   end
 
   @spec delete_photo(integer) ::
@@ -30,13 +32,22 @@ defmodule Db.Users.Photos do
         photos =
           Repo.all(from(p in Photo, where: p.user_id == ^photo.user_id and p.rank > ^photo.rank))
 
-        Multi.new()
-        |> Multi.delete(:deleted_photo, photo)
-        |> promote_photos(photos, photo.rank)
-        |> Multi.run(:delete_image_file, fn %{deleted_photo: deleted_photo} ->
-          delete_image_file(deleted_photo)
-        end)
-        |> Repo.transaction()
+        transaction =
+          Multi.new()
+          |> Multi.delete(:deleted_photo, photo)
+          |> promote_photos(photos, photo.rank)
+          |> Multi.run(:delete_image_file, fn %{deleted_photo: deleted_photo} ->
+            delete_image_file(deleted_photo)
+          end)
+          |> Repo.transaction()
+
+        case transaction do
+          {:ok, _} ->
+            {:ok, photo}
+
+          {:error, _name, changeset, _prev} ->
+            {:error, Db.FullErrorMessage.message(changeset)}
+        end
     end
   end
 
