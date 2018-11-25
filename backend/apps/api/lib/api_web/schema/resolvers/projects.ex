@@ -113,7 +113,7 @@ defmodule ApiWeb.Schema.Resolvers.Projects do
           context: %{current_user: current_user}
         }
       ) do
-    case Photos.upload_photo(current_user.id, attrs) do
+    case Photos.upload_photo(%{user_id: current_user.id, photo_inputs: attrs}) do
       {:ok, photo} ->
         {:ok, photo}
 
@@ -124,7 +124,7 @@ defmodule ApiWeb.Schema.Resolvers.Projects do
   end
 
   def delete_photo(_ctx, %{photo_id: photo_id}, %{context: %{current_user: current_user}}) do
-    case Photos.delete_photo(current_user.id, photo_id) do
+    case Photos.delete_photo(%{user_id: current_user.id, photo_id: photo_id}) do
       {:ok, photo} ->
         {:ok, photo}
 

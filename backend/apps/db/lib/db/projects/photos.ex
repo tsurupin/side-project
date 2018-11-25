@@ -1,6 +1,6 @@
 defmodule Db.Projects.Photos do
   @moduledoc """
-  The ProjectPhotos context.
+  Project Photo context.
   """
 
   import Ecto.Query, warn: false
@@ -12,12 +12,12 @@ defmodule Db.Projects.Photos do
   alias Db.Projects.{Project, Photo}
   alias Db.Uploaders.ProjectPhotoUploader
 
-  @spec upload_photo(integer, map) ::
+  @spec upload_photo(%{required(:user_id) => integer, photo_inputs: map}) ::
           {:ok, Project.t()} | {:error, String.t()} :: {:error, :unauthorized}
-  def upload_photo(
-        user_id,
-        %{project_id: project_id, photo: photo, rank: rank} = attrs
-      ) do
+  def upload_photo(%{
+        user_id: user_id,
+        photo_inputs: %{project_id: project_id, photo: photo, rank: rank} = attrs
+      }) do
     with %Project{} = project <- Repo.get_by(Project, owner_id: user_id, id: project_id),
          {:ok, photo} <-
            Repo.insert(Photo.changeset(%{project_id: project_id, image: photo, rank: rank})) do
@@ -31,12 +31,18 @@ defmodule Db.Projects.Photos do
     end
   end
 
-  @spec delete_photo(integer, integer) ::
+  @spec delete_photo(%{required(:user_id) => integer, required(:photo_id) => integer}) ::
           {:ok, any()} | {:error, String.t()} | {:error, :unauthorized} | {:error, :not_found}
-  def delete_photo(user_id, photo_id) do
+  def delete_photo(%{user_id: user_id, photo_id: photo_id}) do
     case Repo.get(Photo, photo_id) do
+      nil ->
+        {:error, :not_found}
+
       %Photo{} = photo ->
-        case Repo.get_by(Project, owner_id: user_id, id: photo.project_id) do
+        case(Repo.get_by(Project, owner_id: user_id, id: photo.project_id)) do
+          nil ->
+            {:error, :unauthorized}
+
           %Project{} = _project ->
             photos =
               Repo.all(
@@ -50,7 +56,7 @@ defmodule Db.Projects.Photos do
             transaction =
               Multi.new()
               |> Multi.delete(:deleted_photo, photo)
-              |> promote_photos(photos)
+              |> promote_photos(photos, photo.rank)
               |> Multi.run(:delete_image_file, fn %{deleted_photo: deleted_photo} ->
                 delete_image_file(deleted_photo)
               end)
@@ -64,27 +70,21 @@ defmodule Db.Projects.Photos do
                 IO.inspect(changeset)
                 {:error, Db.FullErrorMessage.message(changeset)}
             end
-
-          _ ->
-            {:error, :unauthorized}
         end
-
-      _ ->
-        {:error, :not_found}
     end
   end
 
-  # @spec promote_photos(Ecto.Multi.t, []) :: Ecto.Multi.t()
-  defp promote_photos(multi, []), do: multi
+  # @spec promote_photos(Ecto.Multi.t, [], integer) :: Ecto.Multi.t()
+  defp promote_photos(multi, [], _rank), do: multi
 
-  @spec promote_photos(Ecto.Multi.t(), nonempty_list(Photo.t())) :: Ecto.Multi.t()
-  defp promote_photos(multi, [photo | remaining]) do
+  @spec promote_photos(Ecto.Multi.t(), nonempty_list(Photo.t()), integer) :: Ecto.Multi.t()
+  defp promote_photos(multi, [photo | remaining], rank) do
     multi
     |> Multi.update(
       "promote_photos:#{photo.id}",
-      Photo.promote_changeset(photo, %{rank: photo.rank - 1})
+      Photo.promote_changeset(photo, %{rank: rank})
     )
-    |> promote_photos(remaining)
+    |> promote_photos(remaining, rank + 1)
   end
 
   @spec delete_image_file(Photo.t()) :: {:ok, Photo.t()}

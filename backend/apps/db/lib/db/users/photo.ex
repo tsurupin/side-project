@@ -23,9 +23,11 @@ defmodule Db.Users.Photo do
     permitted_attrs = ~w(user_id rank uuid)a
     required_attrs = ~w(user_id rank)a
 
+    IO.inspect(attrs)
+
     attrs =
       case attrs[:image] do
-        %Plug.Upload{} -> Map.merge(attrs, %{image_url: attrs[:image]})
+        %Db.CustomUpload{} -> Map.merge(attrs, %{image_url: attrs[:image]})
         _ -> attrs
       end
 

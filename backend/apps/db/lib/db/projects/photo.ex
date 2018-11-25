@@ -21,11 +21,11 @@ defmodule Db.Projects.Photo do
   @spec changeset(map()) :: Ecto.Changeset.t()
   def changeset(attrs) do
     permitted_attrs = ~w(project_id rank uuid)a
-    required_attrs = ~w(project_id rank)a
+    required_attrs = ~w(project_id rank image_url)a
 
     attrs =
       case attrs[:image] do
-        %Plug.Upload{} -> Map.merge(attrs, %{image_url: attrs[:image]})
+        data when not is_nil(data) -> Map.merge(attrs, %{image_url: attrs[:image]})
         _ -> attrs
       end
 
@@ -52,7 +52,7 @@ defmodule Db.Projects.Photo do
   end
 
   defp set_uuid_if_nil(changeset) do
-    if get_field(changeset, :uuid) == nil do
+    if is_nil(get_field(changeset, :uuid)) do
       force_change(changeset, :uuid, Ecto.UUID.generate())
     else
       changeset

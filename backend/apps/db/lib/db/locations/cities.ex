@@ -1,7 +1,6 @@
 defmodule Db.Locations.Cities do
   @moduledoc """
-
-
+  City related context
   """
   import Ecto.Changeset
   import Ecto.Query, only: [from: 1, from: 2, first: 1]
@@ -21,17 +20,18 @@ defmodule Db.Locations.Cities do
     Repo.all(query)
   end
 
-  @spec search(%{zip_code: String.t()}) :: [City.t()]
-  def search(%{zip_code: zip_code}) do
-    query =
-      from(
-        c in City,
-        join: z in ZipCode,
-        where: z.city_id == c.id and z.zip_code == ^zip_code
-      )
+  # TODO: zip_code can associate to multiple cities
+  # @spec search(%{zip_code: String.t()}) :: [City.t()]
+  # def search(%{zip_code: zip_code}) do
+  #   query =
+  #     from(
+  #       c in City,
+  #       join: z in ZipCode,
+  #       where: z.city_id == c.id and z.zip_code == ^zip_code
+  #     )
 
-    Repo.all(query)
-  end
+  #   Repo.all(query)
+  # end
 
   @spec get_by(%{
           name: Stiring.t(),
