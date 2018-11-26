@@ -34,7 +34,7 @@ defmodule Db.MessageTest do
 
       changeset = Message.changeset(%{chat_id: chat.id, user_id: user.id, message_type: "upload"})
 
-      assert Db.FullErrorMessage.message(changeset) == "image_url: image_url should be present"
+      assert Db.FullErrorMessage.message(changeset) == "image_url: should be present"
     end
 
     test "validate if message_type is comment and comment is nil" do
@@ -45,7 +45,7 @@ defmodule Db.MessageTest do
       changeset =
         Message.changeset(%{chat_id: chat.id, user_id: user.id, message_type: "comment"})
 
-      assert Db.FullErrorMessage.message(changeset) == "comment: comment should be present"
+      assert Db.FullErrorMessage.message(changeset) == "comment: should be present"
     end
   end
 end

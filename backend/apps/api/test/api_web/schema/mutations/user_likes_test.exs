@@ -3,7 +3,7 @@ defmodule ApiWeb.Schema.Mutations.UserLikessTest do
 
   import Mock
 
-  describe "user_like" do
+  describe "mutation LikeUser" do
     setup do
       user = Factory.insert(:user)
 
@@ -14,11 +14,11 @@ defmodule ApiWeb.Schema.Mutations.UserLikessTest do
     end
 
     @mutation """
-      mutation ($targetUserId: ID!) {
+      mutation LikeUser($targetUserId: ID!) {
         likeUser(targetUserId: $targetUserId)
       }
     """
-    test "create like", %{user: user} do
+    test "succeeds to creates like", %{user: user} do
       user_id = user.id
       target_user = Factory.insert(:user)
 
@@ -47,7 +47,7 @@ defmodule ApiWeb.Schema.Mutations.UserLikessTest do
       end
     end
 
-    test "fail to create like because the like exists", %{user: user} do
+    test "fails to create like because the like exists", %{user: user} do
       user_id = user.id
       target_user = Factory.insert(:user)
       existing_like = Factory.insert(:user_like, target_user: target_user, user: user)
@@ -67,7 +67,7 @@ defmodule ApiWeb.Schema.Mutations.UserLikessTest do
       end
     end
 
-    test "fail to create like because the target_user doesn't exist", %{user: user} do
+    test "fails to create like because the target_user doesn't exist", %{user: user} do
       user_id = user.id
 
       attrs = %{targetUserId: 10}
@@ -86,7 +86,7 @@ defmodule ApiWeb.Schema.Mutations.UserLikessTest do
     end
   end
 
-  describe "withdraw_user_like" do
+  describe "mutation WithdrawUserLike" do
     setup do
       user = Factory.insert(:user)
 
@@ -97,7 +97,7 @@ defmodule ApiWeb.Schema.Mutations.UserLikessTest do
     end
 
     @mutation """
-      mutation ($targetUserId: ID!) {
+      mutation WithdrawUserLike($targetUserId: ID!) {
         withdrawUserLike(targetUserId: $targetUserId)
       }
     """
@@ -124,7 +124,7 @@ defmodule ApiWeb.Schema.Mutations.UserLikessTest do
       end
     end
 
-    test "fail to delete like because like is rejected", %{user: user} do
+    test "fails to delete like because like is rejected", %{user: user} do
       user_id = user.id
       target_user = Factory.insert(:user)
       like = Factory.insert(:user_like, target_user: target_user, user: user, status: :rejected)
@@ -145,7 +145,7 @@ defmodule ApiWeb.Schema.Mutations.UserLikessTest do
       end
     end
 
-    test "fail to delete like because like is not found", %{user: user} do
+    test "fails to delete like because like is not found", %{user: user} do
       user_id = user.id
       target_user = Factory.insert(:user)
 
@@ -166,7 +166,7 @@ defmodule ApiWeb.Schema.Mutations.UserLikessTest do
     end
   end
 
-  describe "accept_user_like" do
+  describe "mutation AcceptUserLike" do
     setup do
       user = Factory.insert(:user)
 
@@ -177,7 +177,7 @@ defmodule ApiWeb.Schema.Mutations.UserLikessTest do
     end
 
     @mutation """
-      mutation ($userId: ID!) {
+      mutation AcceptUserLike($userId: ID!) {
         acceptUserLike(userId: $userId) {
           id
           name
@@ -185,7 +185,7 @@ defmodule ApiWeb.Schema.Mutations.UserLikessTest do
       }
     """
 
-    test "mark like accepted and creates chat group", %{user: user} do
+    test "marks like accepted and creates chat group", %{user: user} do
       user_id = user.id
       like = Factory.insert(:user_like, target_user: user, status: :requested)
 
@@ -212,7 +212,7 @@ defmodule ApiWeb.Schema.Mutations.UserLikessTest do
       end
     end
 
-    test "fail to accept like because current_user is not liked user", %{user: user} do
+    test "fails to accept like because current_user is not liked user", %{user: user} do
       user_id = user.id
       like = Factory.insert(:user_like)
 
@@ -231,7 +231,7 @@ defmodule ApiWeb.Schema.Mutations.UserLikessTest do
     end
   end
 
-  describe "reject_user_like" do
+  describe "mutation RejectUserLike" do
     setup do
       user = Factory.insert(:user)
 
@@ -242,11 +242,11 @@ defmodule ApiWeb.Schema.Mutations.UserLikessTest do
     end
 
     @mutation """
-      mutation ($userId: ID!) {
+      mutation RejectUserLike($userId: ID!) {
         rejectUserLike(userId: $userId)
       }
     """
-    test "mark like rejected", %{user: user} do
+    test "marks like rejected", %{user: user} do
       user_id = user.id
       like = Factory.insert(:user_like, target_user: user)
 
@@ -267,7 +267,7 @@ defmodule ApiWeb.Schema.Mutations.UserLikessTest do
       end
     end
 
-    test "fail to reject like because current_user is not liked user", %{user: user} do
+    test "fails to reject like because current_user is not liked user", %{user: user} do
       user_id = user.id
       like = Factory.insert(:user_like)
 

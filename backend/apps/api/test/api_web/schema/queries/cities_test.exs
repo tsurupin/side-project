@@ -3,7 +3,7 @@ defmodule ApiWeb.Schema.Queries.CitiesTest do
 
   import Mock
 
-  describe "cities query" do
+  describe "query CityList" do
     setup do
       san_francisco = Factory.insert(:city, name: "San Francisco", state_name: "California")
       Factory.insert(:zip_code, zip_code: "94103", city_id: san_francisco.id)
@@ -22,8 +22,8 @@ defmodule ApiWeb.Schema.Queries.CitiesTest do
     end
 
     @query """
-      query CityList($name: String, $zipCode: String) {
-        cityList(name: $name, zipCode: $zipCode) {
+      query CityList($name: String) {
+        cityList(name: $name) {
          ... on City {
             id
             fullName
@@ -32,7 +32,7 @@ defmodule ApiWeb.Schema.Queries.CitiesTest do
       }
     """
 
-    test "return cities with name", %{san_francisco: san_francisco} do
+    test "returns cities with name", %{san_francisco: san_francisco} do
       user = Factory.insert(:user, display_name: "test")
 
       with_mock Api.Accounts.Authentication,
@@ -71,24 +71,24 @@ defmodule ApiWeb.Schema.Queries.CitiesTest do
       end
     end
 
-    test "return cities with zip_code", %{new_york: new_york} do
-      user = Factory.insert(:user, display_name: "test")
+    # test "return cities with zip_code", %{new_york: new_york} do
+    #   user = Factory.insert(:user, display_name: "test")
 
-      with_mock Api.Accounts.Authentication,
-        verify: fn user_id -> {:ok, Db.Repo.get(Db.Users.User, user_id)} end do
-        conn =
-          build_conn()
-          |> put_req_header("authorization", "Bearer #{user.id}")
-          |> get("/api", %{query: @query, variables: %{zipCode: "941001"}})
+    #   with_mock Api.Accounts.Authentication,
+    #     verify: fn user_id -> {:ok, Db.Repo.get(Db.Users.User, user_id)} end do
+    #     conn =
+    #       build_conn()
+    #       |> put_req_header("authorization", "Bearer #{user.id}")
+    #       |> get("/api", %{query: @query, variables: %{zipCode: "941001"}})
 
-        response = json_response(conn, 200)
+    #     response = json_response(conn, 200)
 
-        expected_result = %{
-          "cityList" => [%{"id" => "#{new_york.id}", "fullName" => "New York, NY"}]
-        }
+    #     expected_result = %{
+    #       "cityList" => [%{"id" => "#{new_york.id}", "fullName" => "New York, NY"}]
+    #     }
 
-        assert response["data"] == expected_result
-      end
-    end
+    #     assert response["data"] == expected_result
+    #   end
+    #end
   end
 end

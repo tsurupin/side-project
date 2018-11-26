@@ -61,7 +61,7 @@ defmodule ApiWeb.Schema.Mutations.ChatsTest do
 
         %{"errors" => [%{"message" => message} | _tail]} = json_response(conn, 200)
 
-        assert message == "comment: is invalid"
+        assert message == "comment: should be present"
       end
     end
   end
