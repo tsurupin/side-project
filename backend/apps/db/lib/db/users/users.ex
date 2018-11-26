@@ -1,6 +1,6 @@
 defmodule Db.Users.Users do
   @moduledoc """
-  The Accoutns context.
+  A context that is responsible fo user related data
   """
   import Ecto.Query, warn: false
   import Ecto.Query, only: [from: 1, from: 2, first: 1, limit: 2]
@@ -16,7 +16,7 @@ defmodule Db.Users.Users do
 
   @spec get_by(%{id: integer}) :: {:ok, User.t()} | {:error, :not_found}
   def get_by(%{id: id}) do
-    case Repo.get_by(User, id: id) do
+    case Repo.get(User, id) do
       %User{} = user -> {:ok, user}
       _ -> {:error, :not_found}
     end
@@ -28,27 +28,36 @@ defmodule Db.Users.Users do
       from(
         u in User,
         join: l in UserLike,
-        where: l.user_id == u.id and l.target_user_id == ^user_id and l.status == 0
+        where:
+          l.user_id == u.id and
+          l.target_user_id == ^user_id and
+          l.status == ^:requested
       )
     )
   end
 
   @spec edit(User.t(), map()) :: {:ok, any} | {:error, Ecto.Multi.name(), any()}
-  def edit(%User{} = user, attrs) do
-    Multi.new()
-    |> Multi.update(:user, User.edit_changeset(user, attrs))
-    |> Multi.merge(fn _ ->
-      Skills.build_upsert_user_skills_multi(user.id, attrs[:skill_ids] || [])
-    end)
-    |> Repo.transaction()
+  def edit(%User{} = user, user_input) do
+    transaction =
+      Multi.new()
+      |> Multi.update(:user, User.edit_changeset(user, user_input))
+      |> Multi.merge(fn _ ->
+        Skills.build_upsert_user_skills_multi(user.id, user_input[:skill_ids] || [])
+      end)
+      |> Repo.transaction()
+    case transaction do
+      {:ok, %{user: edited_user}} -> {:ok, edited_user}
+      {:error, _name, changeset, _prev} ->
+        {:error, Db.FullErrorMessage.message(changeset)}
+    end
   end
 
-  # @spec edit(User.t(), map()) :: {:ok, User.t()} | {:error, Ecto.Changeset.t()}
-  def edit(%User{} = user, user_input) do
-    user
-    |> User.edit_changeset(user_input)
-    |> Repo.update()
-  end
+  # # @spec edit(User.t(), map()) :: {:ok, User.t()} | {:error, Ecto.Changeset.t()}
+  # def edit(%User{} = user, user_input) do
+  #   user
+  #   |> User.edit_changeset(user_input)
+  #   |> Repo.update()
+  # end
 
   @spec search(map) :: {:ok, [User.t()]} | {:ok, []}
   def search(conditions), do: search(User, conditions)
@@ -66,9 +75,10 @@ defmodule Db.Users.Users do
   #   {:ok, Repo.all(Favorite, user_id: user_id)}
   # end
 
-  @spec main_photo(integer) :: Photo.t() | nil
+  @main_photo_rank 0
+  @spec main_photo(integer) :: Photo.t() | no_return
   def main_photo(user_id) do
-    Repo.get_by(Photo, user_id: user_id, rank: 0)
+    Repo.get_by(Photo, user_id: user_id, rank: @main_photo_rank)
   end
 
   @active_duration_days 3

@@ -69,6 +69,7 @@ defmodule Db.Users.User do
     user
     |> cast(attrs, permitted_attributes)
     |> convert_point_to_geometry
+    |> validate_blank
     |> assoc_constraint(:occupation_type)
     |> assoc_constraint(:genre)
     |> check_constraint(:status, name: "valid_user_status")
@@ -87,6 +88,14 @@ defmodule Db.Users.User do
     else
       geo = %Geo.Point{coordinates: {latitude, longitude}, srid: @srid}
       put_change(changeset, :geom, geo)
+    end
+  end
+
+  def validate_blank(changeset) do
+    if is_nil(get_field(changeset, :display_name)) do
+      add_error(changeset, :display_name, "can't be blank")
+    else
+      changeset
     end
   end
 end

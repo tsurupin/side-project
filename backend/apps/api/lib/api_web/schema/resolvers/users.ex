@@ -15,7 +15,7 @@ defmodule ApiWeb.Schema.Resolvers.Users do
 
   def edit(_, %{user_input: user_input}, %{context: %{current_user: current_user}}) do
     case Users.edit(current_user, user_input) do
-      {:ok, %{user: user}} ->
+      {:ok, user} ->
         user = Repo.preload(user, [:photos, :skills, :city, :genre, :occupation_type])
         {:ok, user}
 
@@ -51,14 +51,15 @@ defmodule ApiWeb.Schema.Resolvers.Users do
     end
   end
 
+  @placeholder %{id: nil, name: "All"}
   def fetch_search_form(_, _, _) do
     genres = Genres.all()
     occupation_types = OccupationTypes.all()
 
     {:ok,
      %{
-       genres: [%{id: nil, name: "All"}] ++ genres,
-       occupation_types: [%{id: nil, name: "All"}] ++ occupation_types
+       genres: [@placeholder] ++ genres,
+       occupation_types: [@placeholder] ++ occupation_types
      }}
   end
 

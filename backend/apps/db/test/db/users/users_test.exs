@@ -1,12 +1,21 @@
 defmodule Db.UsersTest do
   use Db.DataCase
+  alias Db.Users.Users
+  alias Db.Skills.UserSkill
 
-  describe "changeset/1" do
-    test "with invalid required attributes" do
-      invalid_attrs = %{provider_id: "facebook"}
-      %Changeset{valid?: valid_changeset?} = User.changeset(invalid_attrs)
+  describe "edit/2" do
+    test "succeeds to edit a user" do
+      skill = Factory.insert(:skill)
+      existing_user = Factory.insert(:user)
+      assert {:ok, user} = Users.edit(existing_user, %{display_name: "new name", skill_ids: [skill.id]})
 
-      refute valid_changeset?
+      assert user.display_name == "new name"
+      assert Repo.get_by(UserSkill, user_id: user.id, skill_id: skill.id)
+    end
+
+    test "fails to edit a user because of unexpected input" do
+      user = Factory.insert(:user)
+      assert {:error, "display_name: can't be blank"} = Users.edit(user, %{display_name: ""})
     end
   end
 
@@ -54,7 +63,7 @@ defmodule Db.UsersTest do
 
     test "returns all records, when conditions is empty", %{user1: user1, user2: user2} do
       conditions = %{}
-      {:ok, users} = Users.Users.search(conditions)
+      {:ok, users} = Users.search(conditions)
 
       assert Enum.map(users, & &1.id) == [user1.id, user2.id]
     end
@@ -64,7 +73,7 @@ defmodule Db.UsersTest do
       user2: user2
     } do
       conditions = %{test_id: 1}
-      {:ok, users} = Users.Users.search(conditions)
+      {:ok, users} = Users.search(conditions)
 
       assert Enum.map(users, & &1.id) == [user1.id, user2.id]
     end
@@ -74,7 +83,7 @@ defmodule Db.UsersTest do
         location: %{distance: 10, latitude: 30, longitude: -90}
       }
 
-      {:ok, users} = Users.Users.search(conditions)
+      {:ok, users} = Users.search(conditions)
 
       assert Enum.map(users, & &1.id) == [user1.id]
     end
@@ -84,7 +93,7 @@ defmodule Db.UsersTest do
       genre_id: genre_id
     } do
       conditions = %{genre_id: genre_id}
-      {:ok, users} = Users.Users.search(conditions)
+      {:ok, users} = Users.search(conditions)
 
       assert Enum.map(users, & &1.id) == [user1.id]
     end
@@ -94,7 +103,7 @@ defmodule Db.UsersTest do
       occupation_type_id: occupation_type_id
     } do
       conditions = %{occupation_type_id: occupation_type_id}
-      {:ok, users} = Users.Users.search(conditions)
+      {:ok, users} = Users.search(conditions)
 
       assert Enum.map(users, & &1.id) == [user2.id]
     end
@@ -102,7 +111,7 @@ defmodule Db.UsersTest do
     test "returns users that was activated app within the last 3 days, when is_active is included",
          %{user2: user2} do
       conditions = %{is_active: true}
-      {:ok, users} = Users.Users.search(conditions)
+      {:ok, users} = Users.search(conditions)
 
       assert Enum.map(users, & &1.id) == [user2.id]
     end
@@ -112,7 +121,7 @@ defmodule Db.UsersTest do
       skill1_id: skill1_id
     } do
       conditions = %{skill_ids: [skill1_id]}
-      {:ok, users} = Users.Users.search(conditions)
+      {:ok, users} = Users.search(conditions)
 
       assert Enum.map(users, & &1.id) == [user1.id]
     end
@@ -120,12 +129,12 @@ defmodule Db.UsersTest do
     test "returns users matches to the multiple conditions, when multiple conditions are included",
          %{user2: user2, genre_id: genre_id, occupation_type_id: occupation_type_id} do
       conditions = %{genre_id: genre_id, is_active: true}
-      {:ok, users} = Users.Users.search(conditions)
+      {:ok, users} = Users.search(conditions)
 
       assert Enum.map(users, & &1.id) == []
 
       conditions = %{occupation_type_id: occupation_type_id, is_active: true}
-      {:ok, users} = Users.Users.search(conditions)
+      {:ok, users} = Users.search(conditions)
 
       assert Enum.map(users, & &1.id) == [user2.id]
     end
