@@ -4,8 +4,6 @@ defmodule ApiWeb.Schema.Resolvers.Skills do
   def search(_parent, %{name: name}, _resolver) do
     skills = Skills.search(name)
 
-    # skills = [%Db.Skills.Skill{id: 1, name: "hoge"}]
-
     {:ok, skills}
   end
 

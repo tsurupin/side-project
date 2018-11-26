@@ -24,7 +24,7 @@ defmodule ApiWeb.Schema.Subscriptions.ChatsTest do
     """
 
     @mutation """
-      mutation ($chatId: ID!, $comment: String, $image: Upload) {
+      mutation CreateMessage($chatId: ID!, $comment: String, $image: Upload) {
         createMessage(messageInput: {chatId: $chatId, comment: $comment, image: $image}) {
           chatId
           comment

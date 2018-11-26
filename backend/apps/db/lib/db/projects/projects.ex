@@ -127,20 +127,6 @@ defmodule Db.Projects.Projects do
     end
   end
 
-  # @spec preload(Ecto.Queryable.t(), String.t()) :: [Ecto.Schema.t()]
-  # def preload(query, association) when is_binary(association) do
-  #   Repo.preload(query, [String.to_atom(association)])
-  # end
-
-  # @spec preload(Ecto.Queryable.t(), atom) :: [Ecto.Schema.t()]
-  # def preload(query, association) when is_atom(association) do
-  #   Repo.preload(query, [association])
-  # end
-
-  # @spec preload(Ecto.Queryable.t(), list(any)) :: [Ecto.Schema.t()]
-  # def preload(query, associations) when is_list(associations) do
-  #   Repo.preload(query, associations)
-  # end
 
   @spec editable?(%{project_id: integer, user_id: integer}) ::
           {:ok, true, Project.t()} | {:error, false, :unauthorized}

@@ -110,7 +110,7 @@ defmodule Db.Repo.Migrations.CreateInitialTables do
       timestamps()
     end
     create unique_index(:user_skills, [:skill_id, :user_id], name: "user_skills_skill_id_and_user_id_index")
-    create unique_index(:user_skills, [:user_id, :rank], name: "user_skills_user_id_and_rank_index")
+    #create unique_index(:user_skills, [:user_id, :rank], name: "user_skills_user_id_and_rank_index")
 
     create table(:user_likes) do
        add :user_id, references(:users, on_delete: :delete_all), null: false
@@ -157,7 +157,7 @@ defmodule Db.Repo.Migrations.CreateInitialTables do
       timestamps()
     end
     create unique_index(:project_skills, [:skill_id, :project_id], name: "project_skills_skill_id_and_project_id_index")
-    create unique_index(:project_skills, [:project_id, :rank], name: "project_skills_project_id_and_rank_index")
+    #create unique_index(:project_skills, [:project_id, :rank], name: "project_skills_project_id_and_rank_index")
 
     create table(:project_photos, comment: "always main photo is displayed first and the others are displayed in recent order") do
       add :project_id, references(:projects, on_delete: :delete_all), null: false

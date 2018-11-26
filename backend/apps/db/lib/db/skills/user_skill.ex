@@ -28,7 +28,7 @@ defmodule Db.Skills.UserSkill do
     |> assoc_constraint(:skill)
     |> assoc_constraint(:user)
     |> unique_constraint(:skill_id, name: "user_skills_skill_id_and_user_id_index")
-    |> unique_constraint(:rank, name: "user_skills_user_id_and_rank_index")
+    #|> unique_constraint(:rank, name: "user_skills_user_id_and_rank_index")
   end
 
   @spec edit_changeset(UserSkill.t(), map()) :: Ecto.Changeset.t()
@@ -39,6 +39,6 @@ defmodule Db.Skills.UserSkill do
     user_skill
     |> cast(attrs, permitted_attrs)
     |> validate_required(required_attrs)
-    |> unique_constraint(:rank, name: "user_skills_user_id_and_rank_index")
+    #|> unique_constraint(:rank, name: "user_skills_user_id_and_rank_index")
   end
 end

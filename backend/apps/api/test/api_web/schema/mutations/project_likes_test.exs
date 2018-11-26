@@ -61,7 +61,7 @@ defmodule ApiWeb.Schema.Mutations.ProjectLikesTest do
         withdrawProjectLike(projectId: $projectId)
       }
     """
-    test "likes project", %{user: user, project: project} do
+    test "succceeds to withdraw like_project", %{user: user, project: project} do
       user_id = user.id
       chat_group = Factory.insert(:chat_group, source_id: project.id, source_type: "Project")
       chat = Factory.insert(:chat, chat_group: chat_group, is_main: true)
