@@ -68,24 +68,6 @@ defmodule Db.Skills.Skills do
     |> build_upsert_user_skills_multi(user_id, rank + 1, tail)
   end
 
-  # def bulk_create_project_skills(multi, project_id, rank, [skill_id | tail]) do
-  #   project_skill_change_set =
-  #     ProjectSkill.changeset(%{project_id: project_id, rank: rank, skill_id: skill_id})
-
-  #   multi
-  #   |> Multi.insert(Ecto.UUID.generate(), project_skill_change_set)
-  #   |> bulk_create_project_skills(project_id, rank + 1, tail)
-  # end
-
-  # @spec bulk_create_project_skills(Ecto.Multi.t(), integer, integer, []) ::
-  #         {:ok, Ecto.Multi.t()} | {:error, String.t()}
-  # def bulk_create_project_skills(multi, _project_id, _rank, []) do
-  #   case Repo.transaction(multi) do
-  #     {:ok, multi} -> {:ok, multi}
-  #     {:error, __name, changeset, _} -> {:error, Db.FullErrorMessage.message(changeset)}
-  #   end
-  # end
-
   @spec build_upsert_project_skills_multi(integer, nonempty_list(integer)) ::
           {:ok, Ecto.Multi.t()} | {:error, String.t()}
   def build_upsert_project_skills_multi(project_id, skill_ids) do

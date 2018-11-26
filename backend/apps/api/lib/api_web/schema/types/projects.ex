@@ -23,7 +23,7 @@ defmodule ApiWeb.Schema.Types.Projects do
       :main_photo_url,
       :string,
       resolve: fn _, %{source: project} ->
-        case Projects.main_photo(project) do
+        case Projects.main_photo(project.id) do
           %Photo{image_url: image_url} = photo ->
             {:ok, ProjectPhotoUploader.url({image_url, photo}, :thumb)}
 

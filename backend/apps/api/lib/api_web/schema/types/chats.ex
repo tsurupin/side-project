@@ -38,7 +38,7 @@ defmodule ApiWeb.Schema.Types.Chats do
     field :image_url, :string do
       resolve(fn %Chat{messages: messages}, _, _ ->
         with %Message{user: user} <- List.last(messages),
-             %Photo{image_url: image_url} = photo <- Users.main_photo(user) do
+             %Photo{image_url: image_url} = photo <- Users.main_photo(user.id) do
           {:ok, UserPhotoUploader.url({image_url, photo}, :thumb)}
         else
           _ -> {:ok, UserPhotoUploader.missing_url(:thumb)}

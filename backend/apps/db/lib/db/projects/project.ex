@@ -53,6 +53,7 @@ defmodule Db.Projects.Project do
 
     project
     |> cast(attrs, permitted_attrs)
+    |> validate_blank
     |> assoc_constraint(:genre)
     |> assoc_constraint(:city)
     |> unique_constraint(:title, name: "projects_owner_id_and_title_index")
@@ -68,4 +69,13 @@ defmodule Db.Projects.Project do
     |> validate_required(required_attrs)
     |> check_constraint(:status, name: "valid_project_status")
   end
+
+  def validate_blank(changeset) do
+    if is_nil(get_field(changeset, :title)) do
+      add_error(changeset, :title, "can't be blank")
+    else
+      changeset
+    end
+  end
+
 end

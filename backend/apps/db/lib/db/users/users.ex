@@ -66,9 +66,9 @@ defmodule Db.Users.Users do
   #   {:ok, Repo.all(Favorite, user_id: user_id)}
   # end
 
-  @spec main_photo(User.t()) :: Photo.t() | nil
-  def main_photo(user) do
-    Repo.get_by(Photo, user_id: user.id, rank: 0)
+  @spec main_photo(integer) :: Photo.t() | nil
+  def main_photo(user_id) do
+    Repo.get_by(Photo, user_id: user_id, rank: 0)
   end
 
   @active_duration_days 3

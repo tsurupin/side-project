@@ -25,20 +25,14 @@ defmodule Db.Projects.Projects do
 
   @spec search(Ecto.Queryable.t(), map) :: {:ok, list(Project.t())}
   def search(query, conditions) do
-    projects = Repo.all(build_query(query, conditions))
+    projects = Repo.all(build_search_queries(query, conditions))
     {:ok, projects}
   end
 
   @spec editable(integer) :: {:ok, list(Project.t())}
   def editable(user_id) do
     projects =
-      from(
-        p in Project,
-        join: pm in Member,
-        where:
-          p.id == pm.project_id and pm.user_id == ^user_id and pm.role in [^:admin, ^:master] and
-            pm.status == ^:approved
-      )
+      editable_by_user(user_id)
       |> Repo.all()
 
     {:ok, projects}
@@ -50,18 +44,17 @@ defmodule Db.Projects.Projects do
       from(
         p in Project,
         join: pl in ProjectLike,
-        where: p.id == pl.project_id and pl.user_id == ^user_id and p.status == 1
+        where: p.id == pl.project_id and pl.user_id == ^user_id and p.status == ^:completed
       )
       |> Repo.all()
 
     {:ok, projects}
   end
 
-
   @main_photo_rank 0
-  @spec main_photo(Project.t()) :: Photo.t()
-  def main_photo(project) do
-    Repo.one(from(p in Photo, where: p.project_id == ^project.id and p.rank == ^@main_photo_rank))
+  @spec main_photo(integer) :: Photo.t()
+  def main_photo(project_id) do
+    Repo.one(from(p in Photo, where: p.project_id == ^project_id and p.rank == ^@main_photo_rank))
   end
 
   @spec create(%{owner_id: integer}) :: {:ok, Project.t()} | {:error, String.t()}
@@ -153,13 +146,8 @@ defmodule Db.Projects.Projects do
           {:ok, true, Project.t()} | {:error, false, :unauthorized}
   defp editable?(%{project_id: project_id, user_id: user_id} = attrs) do
     project =
-      from(
-        p in Project,
-        join: pm in Member,
-        where:
-          p.id == ^project_id and p.id == pm.project_id and pm.user_id == ^user_id and
-            pm.role in [^:admin, ^:master] and pm.status == ^:approved
-      )
+      editable_by_user(user_id)
+      |> by_project(project_id)
       |> Repo.one()
 
     case project do
@@ -168,35 +156,52 @@ defmodule Db.Projects.Projects do
     end
   end
 
+  @spec editable_by_user(integer) :: Ecto.Queryable.t()
+  defp editable_by_user(user_id) do
+    from(
+      p in Project,
+      join: pm in Member,
+      where:
+        p.id == pm.project_id and pm.user_id == ^user_id and pm.role in [^:admin, ^:master] and
+          pm.status == ^:approved
+    )
+  end
+
+  @spec by_project(Ecto.Queryable.t(), integer) :: Ecto.Queryable.t()
+  defp by_project(query, project_id) do
+    from(
+      p in query,
+      where: p.id == ^project_id
+    )
+  end
+
   @limit_num 15
-  @spec build_query(Ecto.Queryable.t(), map) :: Ecto.Queryable.t()
-  defp build_query(query, conditions) do
-    IO.inspect(conditions)
-
-    query =
+  @spec build_search_queries(Ecto.Queryable.t(), map) :: Ecto.Queryable.t()
+  defp build_search_queries(query, conditions) do
+    queries =
       Enum.reduce(conditions, query, fn
-        {:genre_id, genre_id}, query ->
-          from(p in query, where: p.genre_id == ^genre_id)
+        {:genre_id, genre_id}, queries ->
+          from(p in queries, where: p.genre_id == ^genre_id)
 
-        {:skill_ids, skill_ids}, query ->
+        {:skill_ids, skill_ids}, queries ->
           from(
-            p in query,
+            p in queries,
             join: ps in ProjectSkill,
             where: ps.project_id == p.id and ps.skill_id in ^skill_ids
           )
 
-        {:city_id, city_id}, query ->
+        {:city_id, city_id}, queries ->
           from(
-            p in query,
+            p in queries,
             where: p.city_id == ^city_id
           )
 
-        _, query ->
-          query
+        _, queries ->
+          queries
       end)
       |> limit(@limit_num)
 
-    from(p in query, where: p.status == 1)
+    from(p in queries, where: p.status == ^:completed)
   end
 
   @spec run_change_status(Project.t(), %{status: String.t()}) ::
@@ -209,6 +214,7 @@ defmodule Db.Projects.Projects do
         Chats.create_chat_group(%{project: project})
       end)
       |> Repo.transaction()
+      IO.inspect(transaction)
 
     case transaction do
       {:ok, %{update_project: project}} -> {:ok, project}
