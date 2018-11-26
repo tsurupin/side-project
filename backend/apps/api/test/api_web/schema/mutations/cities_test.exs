@@ -3,7 +3,7 @@ defmodule ApiWeb.Schema.Mutations.CitiesTest do
 
   import Mock
 
-  describe "find_or_create" do
+  describe "mutation FindOrCreateCity" do
     setup do
       user = Factory.insert(:user)
       country = Factory.insert(:country)
@@ -34,7 +34,7 @@ defmodule ApiWeb.Schema.Mutations.CitiesTest do
       }
     }
     """
-    test "find existing city", %{user_id: user_id, country: country} do
+    test "succeeds to find an existing city", %{user_id: user_id, country: country} do
       city = Factory.insert(:city, country: country, state_abbreviation: "CA")
 
       attrs = %{
@@ -57,7 +57,7 @@ defmodule ApiWeb.Schema.Mutations.CitiesTest do
       end
     end
 
-    test "create a city", %{user_id: user_id, country: country} do
+    test "succeeds to create a new city", %{user_id: user_id, country: country} do
       attrs = %{
         name: "Shibuya",
         stateName: "Tokyo",

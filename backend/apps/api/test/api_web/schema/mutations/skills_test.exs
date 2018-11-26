@@ -3,7 +3,7 @@ defmodule ApiWeb.Schema.Mutations.SkillsTest do
 
   import Mock
 
-  describe "create" do
+  describe "mutation CreateSkill" do
     setup do
       user = Factory.insert(:user)
 
@@ -21,7 +21,7 @@ defmodule ApiWeb.Schema.Mutations.SkillsTest do
         }
       }
     """
-    test "creates a new skill", %{user_id: user_id} do
+    test "succeeds to create a new skill", %{user_id: user_id} do
       with_mock Api.Accounts.Authentication,
         verify: fn user_id -> {:ok, Db.Repo.get(Db.Users.User, user_id)} end do
         conn =
@@ -37,7 +37,7 @@ defmodule ApiWeb.Schema.Mutations.SkillsTest do
       end
     end
 
-    test "return existing skill when the skill exist", %{user_id: user_id} do
+    test "returns existing skill when the skill exist", %{user_id: user_id} do
       existing_skill = Factory.insert(:skill, name: "existing_name")
 
       with_mock Api.Accounts.Authentication,

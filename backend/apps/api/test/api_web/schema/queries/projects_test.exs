@@ -4,7 +4,7 @@ defmodule ApiWeb.Schema.Queries.ProjectsTest do
   alias Db.Uploaders.ProjectPhotoUploader
   alias Db.Uploaders.UserPhotoUploader
 
-  describe "when query Project" do
+  describe "query Project" do
     setup do
       occupation_type = Factory.insert(:occupation_type)
 
@@ -135,7 +135,7 @@ defmodule ApiWeb.Schema.Queries.ProjectsTest do
     end
   end
 
-  describe "when query Projects" do
+  describe "query Projects" do
     setup do
       user = Factory.insert(:user)
       genre1 = Factory.insert(:genre)
@@ -226,7 +226,7 @@ defmodule ApiWeb.Schema.Queries.ProjectsTest do
     end
   end
 
-  describe "when query MyProjects" do
+  describe "query MyProjects" do
     setup do
       user = Factory.insert(:user)
       genre1 = Factory.insert(:genre)

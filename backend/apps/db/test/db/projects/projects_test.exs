@@ -126,9 +126,21 @@ defmodule Db.ProjectsTest do
       skill = Factory.insert(:skill)
 
       project = Factory.insert(:project, title: "old title")
-      Factory.insert(:project_member, user: user, project: project, role: :admin, status: :approved)
 
-      assert {:ok, project} = Projects.edit(user.id, %{project_id: project.id, title: "new title", skill_ids: [skill.id]})
+      Factory.insert(:project_member,
+        user: user,
+        project: project,
+        role: :admin,
+        status: :approved
+      )
+
+      assert {:ok, project} =
+               Projects.edit(user.id, %{
+                 project_id: project.id,
+                 title: "new title",
+                 skill_ids: [skill.id]
+               })
+
       assert Repo.get_by(ProjectSkill, project_id: project.id, skill_id: skill.id)
       assert project.title == "new title"
     end
@@ -136,16 +148,25 @@ defmodule Db.ProjectsTest do
     test "fails to edit a project because the user is not owner of the project" do
       user = Factory.insert(:user)
       project = Factory.insert(:project)
-      assert {:error, :unauthorized} = Projects.edit(user.id, %{project_id: project.id, title: "title"})
+
+      assert {:error, :unauthorized} =
+               Projects.edit(user.id, %{project_id: project.id, title: "title"})
     end
 
     test "fails to edit a project because of unexpected input" do
       user = Factory.insert(:user)
       project = Factory.insert(:project)
       project = Factory.insert(:project, title: "same title", owner: user)
-      Factory.insert(:project_member, user: user, project: project, role: :admin, status: :approved)
 
-      assert {:error, "title: can't be blank"} = Projects.edit(user.id, %{project_id: project.id, title: ""})
+      Factory.insert(:project_member,
+        user: user,
+        project: project,
+        role: :admin,
+        status: :approved
+      )
+
+      assert {:error, "title: can't be blank"} =
+               Projects.edit(user.id, %{project_id: project.id, title: ""})
     end
   end
 
@@ -153,19 +174,29 @@ defmodule Db.ProjectsTest do
     test "fails to change status and returns :unauthorized" do
       user = Factory.insert(:user)
       project = Factory.insert(:project)
-      assert {:error, :unauthorized} = Projects.change_status(user.id, %{project_id: project.id, status: "completed"})
+
+      assert {:error, :unauthorized} =
+               Projects.change_status(user.id, %{project_id: project.id, status: "completed"})
     end
 
     test "fails to change status and returns error reason" do
-
       project = Factory.insert(:project, lead_sentence: nil)
-      assert {:error, "status: is invalid"} = Projects.change_status(project.owner_id, %{project_id: project.id, status: "completed"})
+
+      assert {:error, "status: is invalid"} =
+               Projects.change_status(project.owner_id, %{
+                 project_id: project.id,
+                 status: "completed"
+               })
     end
 
     test "succceeds to change status to completed" do
       project = Factory.insert(:project, status: :editing)
 
-      assert {:ok, updated_project} = Projects.change_status(project.owner_id, %{project_id: project.id, status: "completed"})
+      assert {:ok, updated_project} =
+               Projects.change_status(project.owner_id, %{
+                 project_id: project.id,
+                 status: "completed"
+               })
 
       assert Repo.get_by(Db.Chats.Group, source_id: updated_project.id, source_type: "Project")
       assert updated_project.status == :completed
@@ -174,9 +205,13 @@ defmodule Db.ProjectsTest do
     test "succeeds to change status to inactive" do
       project = Factory.insert(:project, status: :editing)
 
-      assert {:ok, updated_project} = Projects.change_status(project.owner_id, %{project_id: project.id, status: "inactive"})
-      assert updated_project.status == :inactive
+      assert {:ok, updated_project} =
+               Projects.change_status(project.owner_id, %{
+                 project_id: project.id,
+                 status: "inactive"
+               })
 
+      assert updated_project.status == :inactive
     end
   end
 
@@ -187,14 +222,18 @@ defmodule Db.ProjectsTest do
 
       Factory.insert(:project_member, user: user, project: project)
 
-      assert {:ok, member} = Projects.remove_member_from_project(%{project_id: project.id, user_id: user.id})
+      assert {:ok, member} =
+               Projects.remove_member_from_project(%{project_id: project.id, user_id: user.id})
+
       refute is_nil(member.deleted_at)
     end
 
     test "fails to remove a member" do
       user = Factory.insert(:user)
       project = Factory.insert(:project)
-      assert {:error, :not_found} = Projects.remove_member_from_project(%{project_id: project.id, user_id: user.id})
+
+      assert {:error, :not_found} =
+               Projects.remove_member_from_project(%{project_id: project.id, user_id: user.id})
     end
   end
 end

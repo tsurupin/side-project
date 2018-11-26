@@ -3,13 +3,13 @@ defmodule ApiWeb.Schema.Subscriptions.ChatsTest do
 
   import Mock
 
-  describe "new_message" do
+  describe "subscription NewMessage" do
     setup do
       :ok
     end
 
     @subscription """
-      subscription ($chatId: Int!) {
+      subscription NewMessage($chatId: ID!) {
         newMessage(chatId: $chatId) {
           id
           comment
@@ -24,7 +24,7 @@ defmodule ApiWeb.Schema.Subscriptions.ChatsTest do
     """
 
     @mutation """
-      mutation ($chatId: Int!, $comment: String, $image: Upload) {
+      mutation ($chatId: ID!, $comment: String, $image: Upload) {
         createMessage(messageInput: {chatId: $chatId, comment: $comment, image: $image}) {
           chatId
           comment
@@ -47,16 +47,20 @@ defmodule ApiWeb.Schema.Subscriptions.ChatsTest do
         {:ok, socket} = Phoenix.ChannelTest.connect(ApiWeb.UserSocket, %{token: user.id})
         {:ok, socket} = Absinthe.Phoenix.SubscriptionTest.join_absinthe(socket)
 
-        ref = push_doc(socket, @subscription, variables: %{"chatId" => chat1.id})
+        ref = push_doc(socket, @subscription, variables: %{"chatId" => "#{chat1.id}"})
         assert_reply(ref, :ok, %{subscriptionId: subscription_id})
 
         ref =
-          push_doc(socket, @mutation, variables: %{"chatId" => chat1.id, comment: "New Comment"})
+          push_doc(socket, @mutation,
+            variables: %{"chatId" => "#{chat1.id}", comment: "New Comment"}
+          )
 
         assert_reply(ref, :ok, reply)
 
         ref =
-          push_doc(socket, @mutation, variables: %{"chatId" => chat2.id, comment: "New Comment2"})
+          push_doc(socket, @mutation,
+            variables: %{"chatId" => "#{chat2.id}", comment: "New Comment2"}
+          )
 
         assert_reply(ref, :ok, reply)
 

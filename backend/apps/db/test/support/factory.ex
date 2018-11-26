@@ -108,7 +108,6 @@ defmodule Db.Factory do
     }
   end
 
-
   @spec user_photo_factory :: Users.Photo.t()
   def user_photo_factory() do
     %Users.Photo{

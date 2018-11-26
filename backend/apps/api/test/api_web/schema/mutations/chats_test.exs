@@ -3,7 +3,7 @@ defmodule ApiWeb.Schema.Mutations.ChatsTest do
 
   import Mock
 
-  describe "create" do
+  describe "mutation CreateMessage" do
     setup do
       user = Factory.insert(:user)
 
@@ -14,7 +14,7 @@ defmodule ApiWeb.Schema.Mutations.ChatsTest do
     end
 
     @mutation """
-      mutation ($chatId: Int!, $comment: String, $image: Upload) {
+      mutation CreateMessage($chatId: Int!, $comment: String, $image: Upload) {
         createMessage(messageInput: {chatId: $chatId, comment: $comment, image: $image}) {
           chatId
           comment

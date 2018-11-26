@@ -214,7 +214,8 @@ defmodule Db.Projects.Projects do
         Chats.create_chat_group(%{project: project})
       end)
       |> Repo.transaction()
-      IO.inspect(transaction)
+
+    IO.inspect(transaction)
 
     case transaction do
       {:ok, %{update_project: project}} -> {:ok, project}

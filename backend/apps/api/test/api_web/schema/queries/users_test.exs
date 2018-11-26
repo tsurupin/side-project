@@ -3,38 +3,38 @@ defmodule ApiWeb.Schema.Queries.UsersTest do
   import Mock
   alias Db.Uploaders.UserPhotoUploader
 
-  describe "users query" do
-    setup do
-      occupation_type = Factory.insert(:occupation_type)
+  setup do
+    occupation_type = Factory.insert(:occupation_type)
 
-      san_francisco =
-        Factory.insert(
-          :city,
-          name: "San Francisco",
-          state_name: "California",
-          state_abbreviation: "CA"
-        )
+    san_francisco =
+      Factory.insert(
+        :city,
+        name: "San Francisco",
+        state_name: "California",
+        state_abbreviation: "CA"
+      )
 
-      genre = Factory.insert(:genre)
+    genre = Factory.insert(:genre)
 
-      user =
-        Factory.insert(:user, genre: genre, city: san_francisco, occupation_type: occupation_type)
+    user =
+      Factory.insert(:user, genre: genre, city: san_francisco, occupation_type: occupation_type)
 
-      skill = Factory.insert(:skill)
-      Factory.insert(:user_skill, user: user, skill: skill)
-      photo = Factory.insert(:user_photo, user: user, rank: 0)
+    skill = Factory.insert(:skill)
+    Factory.insert(:user_skill, user: user, skill: skill)
+    photo = Factory.insert(:user_photo, user: user, rank: 0)
 
-      {
-        :ok,
-        user: user,
-        skill: skill,
-        city: san_francisco,
-        genre: genre,
-        occupation_type: occupation_type,
-        photo_url: UserPhotoUploader.url({photo.image_url, photo}, :thumb)
-      }
-    end
+    {
+      :ok,
+      user: user,
+      skill: skill,
+      city: san_francisco,
+      genre: genre,
+      occupation_type: occupation_type,
+      photo_url: UserPhotoUploader.url({photo.image_url, photo}, :thumb)
+    }
+  end
 
+  describe "query User" do
     @query """
       query User($id: ID!) {
         user(id: $id) {
@@ -65,9 +65,8 @@ defmodule ApiWeb.Schema.Queries.UsersTest do
           }
         }
       }
-
     """
-    test "user fields return user", cxt do
+    test "returns user", cxt do
       %{
         user: user,
         skill: skill,
@@ -111,7 +110,9 @@ defmodule ApiWeb.Schema.Queries.UsersTest do
         assert response["data"] == expected_result
       end
     end
+  end
 
+  describe "query Users" do
     @query """
       query Users($occupationTypeId: ID, $genreId: ID, $distance: Int, $latitude: Float, $longitude: Float, $isActive: Boolean, $skillIds: [ID]) {
         users(conditions: {occupationTypeId: $occupationTypeId, genreId: $genreId, location: {distance: $distance, latitude: $latitude, longitude: $longitude}, isActive: $isActive, skillIds: $skillIds }) {
@@ -136,7 +137,7 @@ defmodule ApiWeb.Schema.Queries.UsersTest do
         }
       }
     """
-    test "users queries return users", cxt do
+    test "returns users", cxt do
       %{
         user: user,
         occupation_type: occupation_type,
@@ -182,7 +183,9 @@ defmodule ApiWeb.Schema.Queries.UsersTest do
         assert response["data"] == expected_result
       end
     end
+  end
 
+  describe "query MyUsers" do
     @query """
       query MyUser {
         myUser {
@@ -208,7 +211,7 @@ defmodule ApiWeb.Schema.Queries.UsersTest do
       }
     """
 
-    test "myUser queries return users", cxt do
+    test "returns users", cxt do
       %{
         user: user,
         occupation_type: occupation_type,

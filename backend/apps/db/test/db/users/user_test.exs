@@ -11,4 +11,3 @@ defmodule Db.UserTest do
     end
   end
 end
-

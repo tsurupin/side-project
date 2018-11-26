@@ -28,10 +28,7 @@ defmodule Db.Users.Users do
       from(
         u in User,
         join: l in UserLike,
-        where:
-          l.user_id == u.id and
-          l.target_user_id == ^user_id and
-          l.status == ^:requested
+        where: l.user_id == u.id and l.target_user_id == ^user_id and l.status == ^:requested
       )
     )
   end
@@ -45,8 +42,11 @@ defmodule Db.Users.Users do
         Skills.build_upsert_user_skills_multi(user.id, user_input[:skill_ids] || [])
       end)
       |> Repo.transaction()
+
     case transaction do
-      {:ok, %{user: edited_user}} -> {:ok, edited_user}
+      {:ok, %{user: edited_user}} ->
+        {:ok, edited_user}
+
       {:error, _name, changeset, _prev} ->
         {:error, Db.FullErrorMessage.message(changeset)}
     end

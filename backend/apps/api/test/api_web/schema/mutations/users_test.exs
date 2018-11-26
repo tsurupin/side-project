@@ -3,7 +3,7 @@ defmodule ApiWeb.Schema.Mutations.UsersTest do
 
   import Mock
 
-  describe "signup" do
+  describe "mutation SignUp" do
     @mutation """
       mutation SignUp($providerId: String!, $uid: String!) {
         signUp(providerId: $providerId, uid: $uid) {
@@ -21,7 +21,7 @@ defmodule ApiWeb.Schema.Mutations.UsersTest do
     end
   end
 
-  describe "EditUser" do
+  describe "mutation EditUser" do
     setup do
       user = Factory.insert(:user, display_name: "test")
       genre = Factory.insert(:genre)
@@ -148,7 +148,7 @@ defmodule ApiWeb.Schema.Mutations.UsersTest do
   #   end
   # end
 
-  describe "delete user photo" do
+  describe "mutation DeleteUserPhoto" do
     setup do
       user = Factory.insert(:user)
 

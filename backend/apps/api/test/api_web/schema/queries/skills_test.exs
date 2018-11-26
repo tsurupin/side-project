@@ -3,7 +3,7 @@ defmodule ApiWeb.Schema.Queries.SkillsTest do
 
   import Mock
 
-  describe "skills query" do
+  describe "query Skills" do
     setup do
       ruby_skill = Factory.insert(:skill, name: "Ruby")
       python_skill = Factory.insert(:skill, name: "Python")

@@ -3,7 +3,7 @@ defmodule ApiWeb.Schema.Mutations.ProjectsTest do
 
   import Mock
 
-  describe "CreateProject" do
+  describe "mutation CreateProject" do
     setup do
       user = Factory.insert(:user)
 
@@ -114,7 +114,7 @@ defmodule ApiWeb.Schema.Mutations.ProjectsTest do
     end
   end
 
-  describe "EditProject" do
+  describe "mutation EditProject" do
     setup do
       old_genre = Factory.insert(:genre)
       user = Factory.insert(:user)
@@ -186,7 +186,7 @@ defmodule ApiWeb.Schema.Mutations.ProjectsTest do
     end
   end
 
-  describe "DeleteProjectPhoto" do
+  describe "mutation DeleteProjectPhoto" do
     setup do
       user = Factory.insert(:user)
       project = Factory.insert(:project, owner: user)
@@ -291,7 +291,7 @@ defmodule ApiWeb.Schema.Mutations.ProjectsTest do
     end
   end
 
-  describe "ChangeProjectStatus" do
+  describe "mutation ChangeProjectStatus" do
     setup do
       user = Factory.insert(:user)
 

@@ -54,7 +54,7 @@ defmodule ApiWeb.Schema.Queries.CitiesTest do
       end
     end
 
-    test "return empty array", _ do
+    test "returns empty array", _ do
       user = Factory.insert(:user, display_name: "test")
 
       with_mock Api.Accounts.Authentication,
@@ -89,6 +89,6 @@ defmodule ApiWeb.Schema.Queries.CitiesTest do
 
     #     assert response["data"] == expected_result
     #   end
-    #end
+    # end
   end
 end

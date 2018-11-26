@@ -77,5 +77,4 @@ defmodule Db.Projects.Project do
       changeset
     end
   end
-
 end

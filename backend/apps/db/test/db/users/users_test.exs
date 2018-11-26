@@ -7,7 +7,9 @@ defmodule Db.UsersTest do
     test "succeeds to edit a user" do
       skill = Factory.insert(:skill)
       existing_user = Factory.insert(:user)
-      assert {:ok, user} = Users.edit(existing_user, %{display_name: "new name", skill_ids: [skill.id]})
+
+      assert {:ok, user} =
+               Users.edit(existing_user, %{display_name: "new name", skill_ids: [skill.id]})
 
       assert user.display_name == "new name"
       assert Repo.get_by(UserSkill, user_id: user.id, skill_id: skill.id)

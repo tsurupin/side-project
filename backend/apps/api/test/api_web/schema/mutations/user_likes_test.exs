@@ -101,7 +101,7 @@ defmodule ApiWeb.Schema.Mutations.UserLikessTest do
         withdrawUserLike(targetUserId: $targetUserId)
       }
     """
-    test "delete like", %{user: user} do
+    test "deletes like", %{user: user} do
       user_id = user.id
       target_user = Factory.insert(:user)
       like = Factory.insert(:user_like, target_user: target_user, user: user, status: :requested)

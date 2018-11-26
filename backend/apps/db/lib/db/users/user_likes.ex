@@ -23,7 +23,11 @@ defmodule Db.Users.UserLikes do
   @spec withdraw_like(%{target_user_id: integer, user_id: integer}) ::
           {:ok, any} | {:error, String.t()} | {:error, :bad_request}
   def withdraw_like(%{target_user_id: target_user_id, user_id: user_id}) do
-    case Repo.get_by(UserLike, target_user_id: target_user_id, user_id: user_id, status: :requested) do
+    case Repo.get_by(UserLike,
+           target_user_id: target_user_id,
+           user_id: user_id,
+           status: :requested
+         ) do
       %UserLike{} = like ->
         case Repo.delete(like) do
           {:ok, _user_like} -> {:ok, true}

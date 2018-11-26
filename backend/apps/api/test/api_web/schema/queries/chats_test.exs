@@ -3,7 +3,7 @@ defmodule ApiWeb.Schema.Queries.ChatsTest do
   import Mock
   alias Db.Uploaders.ChatImageUploader
 
-  describe "chat query" do
+  describe "query Chat" do
     setup do
       user = Factory.insert(:user)
       chat = Factory.insert(:chat)
@@ -21,7 +21,7 @@ defmodule ApiWeb.Schema.Queries.ChatsTest do
     end
 
     @query """
-      query($id: ID!) {
+      query Chat($id: ID!) {
         chat(id: $id) {
           id
           name
@@ -39,7 +39,7 @@ defmodule ApiWeb.Schema.Queries.ChatsTest do
       }
     """
 
-    test "return chat with messages", %{
+    test "returns chat with messages", %{
       user: user,
       chat: chat,
       message1: message1,
