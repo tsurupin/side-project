@@ -52,13 +52,6 @@ defmodule Db.Users.Users do
     end
   end
 
-  # # @spec edit(User.t(), map()) :: {:ok, User.t()} | {:error, Ecto.Changeset.t()}
-  # def edit(%User{} = user, user_input) do
-  #   user
-  #   |> User.edit_changeset(user_input)
-  #   |> Repo.update()
-  # end
-
   @spec search(map) :: {:ok, [User.t()]} | {:ok, []}
   def search(conditions), do: search(User, conditions)
 
@@ -69,11 +62,6 @@ defmodule Db.Users.Users do
     users = Repo.all(build_queries(query, conditions))
     {:ok, users}
   end
-
-  # @spec get_favorites(integer) :: {:ok, [User.t()]} | {:ok, []}
-  # def get_favorites(user_id) do
-  #   {:ok, Repo.all(Favorite, user_id: user_id)}
-  # end
 
   @main_photo_rank 0
   @spec main_photo(integer) :: Photo.t() | no_return

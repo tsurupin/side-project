@@ -108,12 +108,6 @@ defmodule Db.Factory do
     }
   end
 
-  @spec user_favorite_factory :: Favorite.t()
-  def user_favorite_factory() do
-    %Favorite{
-      user: build(:user)
-    }
-  end
 
   @spec user_photo_factory :: Users.Photo.t()
   def user_photo_factory() do

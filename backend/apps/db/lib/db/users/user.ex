@@ -8,7 +8,6 @@ defmodule Db.Users.User do
   alias Db.Skills.{Skill, UserSkill}
   alias Db.Chats.Chat
   alias Db.Genres.Genre
-  alias Db.Users.Favorite
 
   alias __MODULE__
 
@@ -35,7 +34,6 @@ defmodule Db.Users.User do
     belongs_to(:genre, Genre)
 
     has_many(:photos, Photo)
-    has_many(:favorites, Favorite)
     has_many(:user_skills, UserSkill)
     many_to_many(:skills, Skill, join_through: "user_skills")
     many_to_many(:projects, Project, join_through: "project_members")

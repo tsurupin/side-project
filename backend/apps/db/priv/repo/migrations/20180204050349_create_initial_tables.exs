@@ -149,17 +149,6 @@ defmodule Db.Repo.Migrations.CreateInitialTables do
 
     create unique_index(:project_likes, [:user_id, :project_id], name: "project_likes_unique_index")
 
-    create table(:user_favorites) do
-      add :user_id, references(:users, on_delete: :delete_all), null: false
-      add :target_user_id, references(:users, on_delete: :delete_all)
-      add :target_project_id, references(:projects, on_delete: :delete_all)
-
-      add :deleted_at, :utc_datetime
-      timestamps()
-    end
-
-    create unique_index(:user_favorites, [:user_id, :target_user_id, :target_project_id], name: "user_favorites_unique_index")
-
     create table(:project_skills) do
       add :skill_id, references(:skills, on_delete: :delete_all), null: false
       add :project_id, references(:projects, on_delete: :delete_all), null: false

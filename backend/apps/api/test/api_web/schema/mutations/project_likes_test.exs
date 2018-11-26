@@ -1,9 +1,8 @@
 defmodule ApiWeb.Schema.Mutations.ProjectLikesTest do
   use ApiWeb.ConnCase, async: false
-  require IEx
   import Mock
 
-  describe "project_like" do
+  describe "mutation LikeProject" do
     setup do
       user = Factory.insert(:user)
       project = Factory.insert(:project)
@@ -21,7 +20,7 @@ defmodule ApiWeb.Schema.Mutations.ProjectLikesTest do
         }
       }
     """
-    test "like project", %{user: user, project: project} do
+    test "likes project", %{user: user, project: project} do
       user_id = user.id
       chat_group = Factory.insert(:chat_group, source_id: project.id, source_type: "Project")
       chat = Factory.insert(:chat, chat_group: chat_group, is_main: true)
@@ -46,7 +45,7 @@ defmodule ApiWeb.Schema.Mutations.ProjectLikesTest do
     end
   end
 
-  describe "withdraw project_like" do
+  describe "mutation WithdrawProjectLike" do
     setup do
       user = Factory.insert(:user)
       project = Factory.insert(:project)
@@ -62,7 +61,7 @@ defmodule ApiWeb.Schema.Mutations.ProjectLikesTest do
         withdrawProjectLike(projectId: $projectId)
       }
     """
-    test "like project", %{user: user, project: project} do
+    test "likes project", %{user: user, project: project} do
       user_id = user.id
       chat_group = Factory.insert(:chat_group, source_id: project.id, source_type: "Project")
       chat = Factory.insert(:chat, chat_group: chat_group, is_main: true)
