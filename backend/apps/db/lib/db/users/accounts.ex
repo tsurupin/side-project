@@ -1,6 +1,6 @@
 defmodule Db.Users.Accounts do
   @moduledoc """
-  The Accoutns context.
+  A context that is responsible for login/signup
   """
 
   import Ecto.Query, warn: false
