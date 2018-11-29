@@ -9,7 +9,7 @@ defmodule Db.Projects.Projects do
   alias Db.Projects.{Project, Member}
   alias Db.Users.{ProjectLike}
   alias Db.Projects.Photo
-  alias Db.Skills.{Skills, ProjectSkill}
+  alias Db.Skills.{ProjectSkills, ProjectSkill}
   alias Db.Chats.Chats
 
   @spec get_by(%{id: integer}) :: {:ok, Project.t()} | {:error, :not_found}
@@ -63,7 +63,7 @@ defmodule Db.Projects.Projects do
       Multi.new()
       |> Multi.insert(:project, Project.changeset(attrs))
       |> Multi.merge(fn %{project: project} ->
-        Skills.build_upsert_project_skills_multi(project.id, attrs[:skill_ids] || [])
+        ProjectSkills.build_upsert_project_skills_multi(project.id, attrs[:skill_ids] || [])
       end)
       |> Multi.run(:create_master_project_member, fn %{project: project} ->
         Db.Projects.Member.changeset(%{
@@ -94,7 +94,7 @@ defmodule Db.Projects.Projects do
           Multi.new()
           |> Multi.update(:project, Project.edit_changeset(project, attrs))
           |> Multi.merge(fn _ ->
-            Skills.build_upsert_project_skills_multi(project.id, attrs[:skill_ids] || [])
+            ProjectSkills.build_upsert_project_skills_multi(project.id, attrs[:skill_ids] || [])
           end)
           |> Repo.transaction()
 

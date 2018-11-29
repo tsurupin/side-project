@@ -8,7 +8,7 @@ defmodule Db.Users.Users do
   alias Ecto.Multi
 
   alias Db.Repo
-  alias Db.Skills.{UserSkill, Skills}
+  alias Db.Skills.{UserSkill, UserSkills}
   alias Db.Genres.Genre
   alias Db.OccupationTypes.OccupationType
   alias Db.Users.{User, Photo, Favorite, UserLike}
@@ -39,7 +39,7 @@ defmodule Db.Users.Users do
       Multi.new()
       |> Multi.update(:user, User.edit_changeset(user, user_input))
       |> Multi.merge(fn _ ->
-        Skills.build_upsert_user_skills_multi(user.id, user_input[:skill_ids] || [])
+        UserSkills.build_upsert_user_skills_multi(user.id, user_input[:skill_ids] || [])
       end)
       |> Repo.transaction()
 
