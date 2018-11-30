@@ -3,7 +3,6 @@ defmodule Db.Users.ProjectLikes do
   ProjectLike context.
   """
 
-  use Timex
   import Ecto.Query, only: [from: 1, from: 2, first: 1, limit: 2], warn: false
 
   alias Ecto.Multi

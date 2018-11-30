@@ -69,7 +69,7 @@ defmodule Db.Users.Users do
     Repo.get_by(Photo, user_id: user_id, rank: @main_photo_rank)
   end
 
-  @active_duration_days 3
+  @active_duration_days 60 * 60 * 24 * 3
   @limit_num 15
   @srid 4326
   @spec build_queries(Ecto.Queryable.t(), map) :: Ecto.Queyable.t()
@@ -82,9 +82,10 @@ defmodule Db.Users.Users do
         from(u in queries, where: u.occupation_type_id == ^occupation_type_id)
 
       {:is_active, true}, queries ->
+    
         from(
           u in queries,
-          where: u.last_activated_at > datetime_add(^Ecto.DateTime.utc(), -3, "day")
+          where: u.last_activated_at > ^NaiveDateTime.add(NaiveDateTime.utc_now, -@active_duration_days, :second)
         )
 
       {:skill_ids, skill_ids}, queries ->

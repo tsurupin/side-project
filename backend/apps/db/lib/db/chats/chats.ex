@@ -187,7 +187,7 @@ defmodule Db.Chats.Chats do
     Multi.update(
       multi,
       "remove_member:#{member.id}",
-      Member.delete_changeset(member, %{deleted_at: Timex.now()})
+      Member.delete_changeset(member, %{deleted_at: NaiveDateTime.utc_now})
     )
     |> remove_member_from_chat(remainings)
   end

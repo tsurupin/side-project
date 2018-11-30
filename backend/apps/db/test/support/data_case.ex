@@ -21,7 +21,6 @@ defmodule Db.DataCase do
       alias Db.Factory
 
       import Db.DataCase
-      use Timex
 
       alias Db.{
         Repo,

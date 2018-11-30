@@ -23,7 +23,7 @@ defmodule Db.Users.User do
     field(:company_name, :string)
     field(:school_name, :string)
     field(:status, UserStatusEnum, default: :editing)
-    field(:geom, Geo.Geometry)
+    field(:geom, Geo.PostGIS.Geometry)
     field(:last_activated_at, :utc_datetime, null: false)
     field(:zip_code, :string)
     field(:longitude, :float, virtual: true)

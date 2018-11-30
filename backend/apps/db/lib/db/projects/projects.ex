@@ -119,7 +119,7 @@ defmodule Db.Projects.Projects do
   def remove_member_from_project(%{project_id: project_id, user_id: user_id}) do
     case Repo.get_by(Member, project_id: project_id, user_id: user_id) do
       %Member{} = member ->
-        Member.delete_changeset(member, %{deleted_at: Timex.now()})
+        Member.delete_changeset(member, %{deleted_at: NaiveDateTime.utc_now})
         |> Repo.update()
 
       _ ->

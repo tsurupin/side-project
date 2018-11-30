@@ -37,14 +37,15 @@ defmodule Api.Mixfile do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
-      {:phoenix, "~> 1.3.0"},
+      {:phoenix, "~> 1.4.0"},
       {:phoenix_pubsub, "~> 1.0"},
-      {:phoenix_ecto, "~> 3.2.1", only: :test},
+      {:phoenix_ecto, "~> 4.0", only: :test},
       {:phoenix_live_reload, "~> 1.0", only: :dev},
       {:phoenix_html, "~> 2.10"},
       {:db, in_umbrella: true},
       {:gettext, "~> 0.11"},
-      {:cowboy, "~> 1.0"},
+      {:cowboy, "~> 2.6.1"},
+      {:plug_cowboy, "~> 2.0"},
       {:absinthe, "~> 1.4.2"},
       {:absinthe_plug, "~> 1.4.0"},
       {:absinthe_phoenix, "~> 1.4.0"},
@@ -54,10 +55,7 @@ defmodule Api.Mixfile do
       {:cachex, "~> 3.0"},
       {:briefly, "~> 0.3"},
       {:dataloader, "~> 1.0.0"},
-      {:ex_machina, "~> 2.2", only: [:test]},
       {:mock, "~> 0.3.0", only: :test},
-      {:faker, "~> 0.9.0", only: [:test]},
-      {:dialyxir, "~> 0.5.1", only: [:dev], runtime: false},
       {:stream_data, "~> 0.1", only: :test}
     ]
   end

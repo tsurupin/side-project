@@ -6,6 +6,11 @@ config :db, ecto_repos: [Db.Repo]
 
 config :rollbax, enabled: :log
 
+
+# Postgrex.Types.define(Db.PostgresTypes,
+#               [Geo.PostGIS.Extension] ++ Ecto.Adapters.Postgres.extensions(),
+#               json: Poison)
+
 # This configuration is loaded before any dependency and is restricted
 # to this project. If another project depends on this project, this
 # file won't be loaded nor affect the parent project. For this reason,
