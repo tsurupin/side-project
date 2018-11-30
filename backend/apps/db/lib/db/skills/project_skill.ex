@@ -27,8 +27,8 @@ defmodule Db.Skills.ProjectSkill do
     |> assoc_constraint(:skill)
     |> assoc_constraint(:project)
     |> unique_constraint(:skill_id, name: "project_skills_project_id_and_product_id_index")
-    #|> unique_constraint(:rank, name: "project_skills_project_id_and_rank_index")
 
+    # |> unique_constraint(:rank, name: "project_skills_project_id_and_rank_index")
   end
 
   @spec edit_changeset(ProjectSkill.t(), map()) :: Ecto.Changeset.t()
@@ -39,6 +39,7 @@ defmodule Db.Skills.ProjectSkill do
     project_skill
     |> cast(attrs, permitted_attrs)
     |> validate_required(required_attrs)
-  #|> unique_constraint(:rank, name: "project_skills_project_id_and_rank_index")
+
+    # |> unique_constraint(:rank, name: "project_skills_project_id_and_rank_index")
   end
 end

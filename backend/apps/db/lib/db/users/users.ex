@@ -82,10 +82,11 @@ defmodule Db.Users.Users do
         from(u in queries, where: u.occupation_type_id == ^occupation_type_id)
 
       {:is_active, true}, queries ->
-    
         from(
           u in queries,
-          where: u.last_activated_at > ^NaiveDateTime.add(NaiveDateTime.utc_now, -@active_duration_days, :second)
+          where:
+            u.last_activated_at >
+              ^NaiveDateTime.add(NaiveDateTime.utc_now(), -@active_duration_days, :second)
         )
 
       {:skill_ids, skill_ids}, queries ->

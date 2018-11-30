@@ -6,7 +6,6 @@ config :db, ecto_repos: [Db.Repo]
 
 config :rollbax, enabled: :log
 
-
 # Postgrex.Types.define(Db.PostgresTypes,
 #               [Geo.PostGIS.Extension] ++ Ecto.Adapters.Postgres.extensions(),
 #               json: Poison)

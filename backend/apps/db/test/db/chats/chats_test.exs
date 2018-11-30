@@ -100,7 +100,7 @@ defmodule Db.ChatsTest do
       user = Factory.insert(:user)
 
       deleted_chat_member =
-        Factory.insert(:chat_member, chat: chat, user: user, deleted_at: NaiveDateTime.utc_now)
+        Factory.insert(:chat_member, chat: chat, user: user, deleted_at: NaiveDateTime.utc_now())
 
       {:ok, chat_member} = Chats.add_member(%{chat_id: chat.id, user_id: user.id})
       assert chat_member.id == deleted_chat_member.id

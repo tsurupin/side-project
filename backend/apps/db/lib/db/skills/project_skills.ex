@@ -9,7 +9,6 @@ defmodule Db.Skills.ProjectSkills do
   alias Db.Repo
   alias Db.Skills.{ProjectSkill}
 
-
   @default_rank 0
   @spec build_upsert_project_skills_multi(integer, nonempty_list(integer)) ::
           {:ok, Multi.t()} | {:error, String.t()}
@@ -18,13 +17,15 @@ defmodule Db.Skills.ProjectSkills do
     |> build_upsert_project_skills_multi(project_id, skill_ids)
   end
 
-  @spec build_upsert_project_skills_multi(Multi.t(), integer, nonempty_list(integer)) ::
-          Multi.t()
+  @spec build_upsert_project_skills_multi(Multi.t(), integer, nonempty_list(integer)) :: Multi.t()
   def build_upsert_project_skills_multi(multi, project_id, skill_ids) do
-    deleted_skill_query = from(ps in ProjectSkill, where: ps.project_id == ^project_id and not ps.skill_id in ^skill_ids)
+    deleted_skill_query =
+      from(ps in ProjectSkill,
+        where: ps.project_id == ^project_id and ps.skill_id not in ^skill_ids
+      )
 
     multi
-    |> Multi.delete_all(:deleted_project_skills,  deleted_skill_query)
+    |> Multi.delete_all(:deleted_project_skills, deleted_skill_query)
     |> build_upsert_project_skills_multi(project_id, @default_rank, skill_ids)
   end
 
@@ -49,4 +50,3 @@ defmodule Db.Skills.ProjectSkills do
     |> build_upsert_project_skills_multi(project_id, rank + 1, tail)
   end
 end
-

@@ -28,7 +28,7 @@ defmodule Db.UsersTest do
 
       genre1 = Factory.insert(:genre)
       genre2 = Factory.insert(:genre)
-      datetime = NaiveDateTime.utc_now
+      datetime = NaiveDateTime.utc_now()
       seconds_in_day = 60 * 60 * 24
 
       user1 =
@@ -47,7 +47,7 @@ defmodule Db.UsersTest do
           occupation_type: occupation_type2,
           last_activated_at: NaiveDateTime.add(datetime, -(seconds_in_day * 2), :second)
         )
-  
+
       skill1 = Factory.insert(:skill)
       skill2 = Factory.insert(:skill)
       Factory.insert(:user_skill, user: user1, skill: skill1)

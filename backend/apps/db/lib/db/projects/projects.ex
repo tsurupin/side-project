@@ -119,14 +119,13 @@ defmodule Db.Projects.Projects do
   def remove_member_from_project(%{project_id: project_id, user_id: user_id}) do
     case Repo.get_by(Member, project_id: project_id, user_id: user_id) do
       %Member{} = member ->
-        Member.delete_changeset(member, %{deleted_at: NaiveDateTime.utc_now})
+        Member.delete_changeset(member, %{deleted_at: NaiveDateTime.utc_now()})
         |> Repo.update()
 
       _ ->
         {:error, :not_found}
     end
   end
-
 
   @spec editable?(%{project_id: integer, user_id: integer}) ::
           {:ok, true, Project.t()} | {:error, false, :unauthorized}

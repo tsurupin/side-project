@@ -8,7 +8,6 @@ defmodule Db.Skills.Skills do
   alias Db.Repo
   alias Db.Skills.{UserSkill, ProjectSkill, Skill}
 
-
   @default_rank 0
 
   @spec search(String.t()) :: [Skill.t()]
@@ -39,7 +38,4 @@ defmodule Db.Skills.Skills do
       {:error, changeset} -> {:error, Db.FullErrorMessage.message(changeset)}
     end
   end
-
-
-
 end

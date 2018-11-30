@@ -2,7 +2,11 @@ defmodule ApiWeb.Endpoint do
   use Phoenix.Endpoint, otp_app: :api
   use Absinthe.Phoenix.Endpoint
 
-  socket("/socket", ApiWeb.UserSocket)
+  socket(
+    "/socket",
+    ApiWeb.UserSocket,
+    websocket: true
+  )
 
   # Serve at "/" the static files from "priv/static" directory.
   #

@@ -22,6 +22,4 @@ defmodule Db.SkillsTest do
       assert Enum.map(output, & &1.id) == [skill1.id, skill2.id]
     end
   end
-
-
 end
