@@ -1,4 +1,4 @@
-import LikeProjectMutation from "./LikeProjectMutation";
-import WithdrawProjectLikeMutation from "./WithdrawProjectLikeMutation";
+import LikeProjectMutation from './LikeProjectMutation';
+import WithdrawProjectLikeMutation from './WithdrawProjectLikeMutation';
 
 export { LikeProjectMutation, WithdrawProjectLikeMutation };

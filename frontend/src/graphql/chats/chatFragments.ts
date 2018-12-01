@@ -1,5 +1,5 @@
-import gql from "graphql-tag";
-import { parseFragment } from "../utilities/parseFragment";
+import graphqlTag from 'graphql-tag';
+import { parseFragment } from '../utilities/parseFragment';
 
 const MESSAGE_DETAIL_FRAGMENT = parseFragment(gql`
 fragment MessageDetail on Message {
@@ -14,7 +14,7 @@ fragment MessageDetail on Message {
     mainPhotoUrl
   }
 }
-`)
+`);
 
 const CHAT_DETAIL_FRAGMENT = parseFragment(gql`
     fragment ChatDetail on Chat {
@@ -25,11 +25,10 @@ const CHAT_DETAIL_FRAGMENT = parseFragment(gql`
         ${MESSAGE_DETAIL_FRAGMENT}
       }
     }
-  `
+  `,
 );
 
 export {
   MESSAGE_DETAIL_FRAGMENT,
-  CHAT_DETAIL_FRAGMENT
-}
-
+  CHAT_DETAIL_FRAGMENT,
+};

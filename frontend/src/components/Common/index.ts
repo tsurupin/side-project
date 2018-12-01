@@ -1,23 +1,23 @@
+import CarouselPanel from './CarouselPanel';
+import ErrorAlert from './ErrorAlert';
 import ErrorMessage from './ErrorMessage';
-import LoadingIndicator from "./LoadingIndicator";
-import UserDetailsView from "./UserDetailsView";
-import ErrorAlert from "./ErrorAlert";
-import SelectBox from "./SelectBox";
-import TextGroup from "./TextGroup";
-import SkillList from "./SkillList";
-import CarouselPanel from "./CarouselPanel";
+import LoadingIndicator from './LoadingIndicator';
+import SelectBox from './SelectBox';
+import SkillList from './SkillList';
+import TextGroup from './TextGroup';
+import UserDetailsView from './UserDetailsView';
 
-import InnerTextInput from "./InnerTextInput";
-import InnerDetailsInput from "./InnerDetailsInput";
-import InnerSelectInput from "./InnerSelectInput";
-import Chevron from "./Chevron";
-import SectionHeader from "./SectionHeader";
-import Photo from "./Photo";
-import PhotosEditForm from "./PhotosEditForm";
-import RemoteImage from "./RemoteImage";
-import CustomizedSegmentedControlTab from "./CustomizedSegmentedControlTab";
-import SearchInput from "./SearchInput";
-import  TextAreaListItem from "./TextAreaListItem";
+import Chevron from './Chevron';
+import CustomizedSegmentedControlTab from './CustomizedSegmentedControlTab';
+import InnerDetailsInput from './InnerDetailsInput';
+import InnerSelectInput from './InnerSelectInput';
+import InnerTextInput from './InnerTextInput';
+import Photo from './Photo';
+import PhotosEditForm from './PhotosEditForm';
+import RemoteImage from './RemoteImage';
+import SearchInput from './SearchInput';
+import SectionHeader from './SectionHeader';
+import  TextAreaListItem from './TextAreaListItem';
 
 export {
     ErrorMessage,
@@ -38,5 +38,5 @@ export {
     RemoteImage,
     CustomizedSegmentedControlTab,
     SearchInput,
-    TextAreaListItem
+    TextAreaListItem,
 };

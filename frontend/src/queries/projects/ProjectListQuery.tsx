@@ -1,12 +1,12 @@
-import * as React from "react";
-import { Query } from "react-apollo";
-import { PROJECT_LIST_QUERY } from "../../graphql/projects";
-import { ProjectSearchSubmitParams } from "../../interfaces";
+import * as React from 'react';
+import { Query } from 'react-apollo';
+import { PROJECT_LIST_QUERY } from '../../graphql/projects';
+import { ProjectSearchSubmitParams } from '../../interfaces';
 
-type Props = {
+interface Props {
   variables: ProjectSearchSubmitParams;
   children: any;
-};
+}
 
 const ProjectListQuery = (props: Props) => {
   const { variables, children } = props;

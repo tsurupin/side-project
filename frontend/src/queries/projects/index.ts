@@ -1,10 +1,10 @@
-import ProjectDetailsQuery from "./ProjectDetailsQuery";
-import ProjectListQuery from "./ProjectListQuery";
-import MyProjectListQuery from "./MyProjectListQuery";
-import EditableProjectListQuery from "./EditableProjectListQuery";
-import ProjectSearchFormQuery from "./ProjectSearchFormQuery";
-import ProjectFormQuery from "./ProjectFormQuery";
-import ProjectEditFormQuery from "./ProjectEditFormQuery";
+import EditableProjectListQuery from './EditableProjectListQuery';
+import MyProjectListQuery from './MyProjectListQuery';
+import ProjectDetailsQuery from './ProjectDetailsQuery';
+import ProjectEditFormQuery from './ProjectEditFormQuery';
+import ProjectFormQuery from './ProjectFormQuery';
+import ProjectListQuery from './ProjectListQuery';
+import ProjectSearchFormQuery from './ProjectSearchFormQuery';
 
 export {
   ProjectDetailsQuery,
@@ -13,5 +13,5 @@ export {
   EditableProjectListQuery,
   ProjectSearchFormQuery,
   ProjectFormQuery,
-  ProjectEditFormQuery
-}
+  ProjectEditFormQuery,
+};

@@ -1,11 +1,11 @@
-import * as React from "react";
-import { Query } from "react-apollo";
-import { CITY_LIST_QUERY } from "../../graphql/cities";
+import * as React from 'react';
+import { Query } from 'react-apollo';
+import { CITY_LIST_QUERY } from '../../graphql/cities';
 
-type Props = {
+interface Props {
   variables: { name: string };
   children: any;
-};
+}
 
 const CityListQuery = (props: Props) => {
   const { variables, children } = props;

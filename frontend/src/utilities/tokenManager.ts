@@ -1,12 +1,12 @@
-import { AsyncStorage } from "react-native";
-const REFRESH_TOKEN = "REFRESH_TOKEN";
-const EXPIRED_AT_IN_UNIX = "EXPIRED_AT_IN_UNIX";
-const TOKEN = "TOKEN";
+import { AsyncStorage } from 'react-native';
+const REFRESH_TOKEN = 'REFRESH_TOKEN';
+const EXPIRED_AT_IN_UNIX = 'EXPIRED_AT_IN_UNIX';
+const TOKEN = 'TOKEN';
 
 class TokenManager {
-  token: string | undefined;
-  expiredAtInUnix: number | undefined;
-  observers: any[];
+  public token: string | undefined;
+  public expiredAtInUnix: number | undefined;
+  public observers: any[];
 
   constructor() {
     this.token = undefined;
@@ -16,7 +16,7 @@ class TokenManager {
 
   public registerObserver = (observer: any) => {
     this.observers.push(observer);
-  };
+  }
 
   public removeToken = async () => {
     await AsyncStorage.removeItem(TOKEN);
@@ -28,12 +28,12 @@ class TokenManager {
     });
     this.expiredAtInUnix = undefined;
     this.token = undefined;
-  };
+  }
 
   public setToken = async (
     token: string,
     refreshToken: string,
-    validTimeInUnix: number = 3600
+    validTimeInUnix: number = 3600,
   ) => {
     if (this.token && this.token === token) {
       return;
@@ -49,14 +49,10 @@ class TokenManager {
 
     this.expiredAtInUnix = expiredAtInUnix;
     this.token = token;
-  };
-
-  private getCurrentTimeInUnix = (): number => {
-    return Math.floor(Date.now() / 1000);
-  };
+  }
 
   public getCachedToken = (): string | undefined => {
-    if (!this.token) return undefined;
+    if (!this.token) { return undefined; }
 
     if (
       this.expiredAtInUnix &&
@@ -66,7 +62,7 @@ class TokenManager {
     } else {
       return undefined;
     }
-  };
+  }
 
   public getToken = async (): Promise<string | undefined> => {
     const currentToken = await AsyncStorage.getItem(TOKEN);
@@ -86,16 +82,20 @@ class TokenManager {
       return currentToken;
     }
     return undefined;
-  };
+  }
 
   public getRefreshToken = async (): Promise<string | undefined> => {
     return await AsyncStorage.getItem(REFRESH_TOKEN);
-  };
+  }
 
   public hasActiveToken = async (): Promise<boolean> => {
     const token = await this.getToken();
     return token ? true : false;
-  };
+  }
+
+  private getCurrentTimeInUnix = (): number => {
+    return Math.floor(Date.now() / 1000);
+  }
 }
 
 export default new TokenManager();

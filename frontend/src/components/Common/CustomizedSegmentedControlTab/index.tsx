@@ -1,13 +1,13 @@
-import * as React from "react";
-import SegmentedControlTab from "react-native-segmented-control-tab";
-import styles from "./styles";
+import * as React from 'react';
+import reactNativeSegmentedControlTab from 'react-native-segmented-control-tab';
+import styles from './styles';
 
-type Props = {
+interface Props {
   selectedIndex: number;
   onTabPress: (number) => void;
   borderRadius: number;
   values: number[] | string[];
-};
+}
 
 const CustomizedSegmentedControlTab: React.SFC<Props> = (props) => {
   const { selectedIndex, borderRadius, values, onTabPress } = props;

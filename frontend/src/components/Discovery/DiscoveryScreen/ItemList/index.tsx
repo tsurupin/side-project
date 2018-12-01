@@ -1,20 +1,20 @@
-import * as React from "react";
-import { View, Text } from "react-native";
-import { ProjectCore, UserCore } from "../../../../interfaces";
-import UserCard from "../UserCard";
-import ProjectCard from "../ProjectCard";
+import * as React from 'react';
+import { Text, View } from 'react-native';
+import { ProjectCore, UserCore } from '../../../../interfaces';
+import ProjectCard from '../ProjectCard';
+import UserCard from '../UserCard';
 
-import styles from "./styles";
+import styles from './styles';
 
 type Item = UserCore | ProjectCore;
-type Props = {
+interface Props {
   type: string;
   items: Item[];
   onPressCard: (id: string) => void;
-};
+}
 
 const renderItem = (type: string, item: Item, fnc) => {
-  if (type === "User") {
+  if (type === 'User') {
     const user = item as UserCore;
     return <UserCard key={item.id} user={user} onPressCard={fnc} />;
   } else {

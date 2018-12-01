@@ -1,10 +1,10 @@
-import * as React from "react";
-import { Mutation } from "react-apollo";
-import { LOGOUT_MUTATION } from "../../graphql/accounts";
+import * as React from 'react';
+import { Mutation } from 'react-apollo';
+import { LOGOUT_MUTATION } from '../../graphql/accounts';
 
-type Props = {
+interface Props {
   children: any;
-};
+}
 
 const LogoutMutation = (props: Props) => {
   const { children } = props;

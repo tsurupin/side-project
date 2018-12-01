@@ -1,35 +1,35 @@
-import * as React from "react";
-import { View, ScrollView } from "react-native";
-import { Divider, Badge, Text, Icon } from "react-native-elements";
+import * as React from 'react';
+import { ScrollView, View } from 'react-native';
+import { Badge, Divider, Icon, Text } from 'react-native-elements';
 
-import MemberListItem from "../MemberListItem";
-import MemberList from "../MemberList";
-import { SkillList, CarouselPanel, TextGroup } from "../../../Common";
-import { ProjectDetails, City } from "../../../../interfaces";
-import { ActiveMainColor } from "../../../../constants/colors";
+import { ActiveMainColor } from '../../../../constants/colors';
 import {
-  CLOSE_ICON,
   CHECK_ICON,
-  HEART_OUTLINE_ICON,
   CHECK_OUTLINE_ICON,
-  ICON_MAIN_TYPE
-} from "../../../../constants/icons";
-import styles from "./styles";
+  CLOSE_ICON,
+  HEART_OUTLINE_ICON,
+  ICON_MAIN_TYPE,
+} from '../../../../constants/icons';
+import { City, ProjectDetails } from '../../../../interfaces';
+import { CarouselPanel, SkillList, TextGroup } from '../../../Common';
+import MemberList from '../MemberList';
+import MemberListItem from '../MemberListItem';
+import styles from './styles';
 
-type Props = {
+interface Props {
   liked: boolean;
   project: ProjectDetails;
   like?: () => void;
   onPressUser: (userId: string) => void;
-};
+}
 
 const renderCityName = (city: City | undefined) => {
-  if (!city) return undefined;
+  if (!city) { return undefined; }
   return <Text style={styles.subText}>{city.fullName} </Text>;
 };
 
 const renderBadge = (badgeName: string | undefined) => {
-  if (!badgeName) return undefined;
+  if (!badgeName) { return undefined; }
   return (
     <Badge
       value={badgeName}
@@ -40,7 +40,7 @@ const renderBadge = (badgeName: string | undefined) => {
 };
 
 const renderLikeButton = (liked: boolean, like: any) => {
-  if (liked) return <View />;
+  if (liked) { return <View />; }
   return (
     <View style={styles.likeContainer}>
       <Icon
@@ -67,10 +67,10 @@ const ProjectDetailsBox: React.SFC<Props> = (props) => {
     owner,
     users,
     skills,
-    photos
+    photos,
   } = project;
-  title = "Block Chain 2.0";
-  leadSentence = "This project is for creating new internet";
+  title = 'Block Chain 2.0';
+  leadSentence = 'This project is for creating new internet';
   motivation =
     "I'm a genuine technology lover who codes literally everyday.\nFor most of my past career, Ive worked for a small team. I love to wear many hats - from backend and front-end to mobile or DevOps, and I am happy to take on any role to make a better product.\nMy true passion is not to learn a new technology itself, but to create a great product with ambitious teammates which contributes to our life.\nI'm a full stack engineer, who is especially proficient in Ruby, Rails and React/Redux.\nMy recent project, built in Rails and React/Redux,  got over 500 stars in GitHub.";
 

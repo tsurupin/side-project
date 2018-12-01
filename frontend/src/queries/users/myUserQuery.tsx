@@ -1,10 +1,10 @@
-import * as React from "react";
-import { Query } from "react-apollo";
-import { MY_USER_QUERY } from "../../graphql/users";
+import * as React from 'react';
+import { Query } from 'react-apollo';
+import { MY_USER_QUERY } from '../../graphql/users';
 
-type Props = {
+interface Props {
   children: any;
-};
+}
 
 const MyUserQuery = (props: Props) => {
   const { children } = props;

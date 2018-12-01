@@ -1,6 +1,6 @@
-import gql from "graphql-tag";
-import { USER_FRAGMENTS } from "./userFragments";
-import { parseFragment } from "../utilities/parseFragment";
+import graphqlTag from 'graphql-tag';
+import { parseFragment } from '../utilities/parseFragment';
+import { USER_FRAGMENTS } from './userFragments';
 
 export const USER_LIST_QUERY = gql`
 query Users($occupationTypeId: ID, $genreId: ID, $distance: Int, $latitude: Float, $longitude: Float, $isActive: Boolean, $skillIds: [ID]) {

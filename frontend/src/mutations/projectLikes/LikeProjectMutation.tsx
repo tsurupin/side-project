@@ -1,10 +1,10 @@
-import * as React from "react";
-import { Mutation } from "react-apollo";
-import { LIKE_PROJECT_MUTATION } from "../../graphql/projectLikes";
+import * as React from 'react';
+import { Mutation } from 'react-apollo';
+import { LIKE_PROJECT_MUTATION } from '../../graphql/projectLikes';
 
-type Props = {
+interface Props {
   children: any;
-};
+}
 
 const LikeProjectMutation = (props: Props) => {
   const { children } = props;

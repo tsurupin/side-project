@@ -1,4 +1,4 @@
-import { NumberValue } from "apollo-utilities";
+import { NumberValue } from 'apollo-utilities';
 
 export interface City {
   id: string;
@@ -78,7 +78,6 @@ export interface UserSearchSubmitParams {
   skills?: Skill[];
 }
 
-
 export interface UserEditParams {
   displayName?: string;
   introduction?: string;
@@ -115,7 +114,7 @@ export interface ProjectDetails extends ProjectCore {
   motivation: string | undefined;
   requirement: string | undefined;
   owner: UserCore;
-  users: UserCore[],
+  users: UserCore[];
   genre: Genre;
   skills: Skill[];
   photos: ProjectPhoto[];
@@ -156,7 +155,7 @@ export interface Chat {
   name: string;
   lastComment?: string | undefined;
   lastCommentedAt?: string | undefined;
-  imageUrl?: string
+  imageUrl?: string;
 }
 
 export interface Message {
@@ -173,4 +172,3 @@ export interface MessageParams {
   image?: string;
   messageType: string;
 }
-

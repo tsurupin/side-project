@@ -1,6 +1,6 @@
-import gql from "graphql-tag";
-import { SKILL_FRAGMENTS } from "./skillFragments";
-import { parseFragment } from "../utilities/parseFragment";
+import graphqlTag from 'graphql-tag';
+import { parseFragment } from '../utilities/parseFragment';
+import { SKILL_FRAGMENTS } from './skillFragments';
 
 export const SKILLS_QUERY = gql`
 query Skills($name: String!) {

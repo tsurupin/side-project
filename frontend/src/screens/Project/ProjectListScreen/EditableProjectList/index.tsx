@@ -1,13 +1,13 @@
-import * as React from "react";
-import { View, Text } from "react-native";
-import { EditableProjectListQuery } from "../../../../queries/projects";
-import { ProjectCore } from "../../../../interfaces";
-import { ProjectList } from "../../../../components/Project/Common";
-import { LoadingIndicator, ErrorMessage } from "../../../../components/Common";
+import * as React from 'react';
+import { Text, View } from 'react-native';
+import { ErrorMessage, LoadingIndicator } from '../../../../components/Common';
+import { ProjectList } from '../../../../components/Project/Common';
+import { ProjectCore } from '../../../../interfaces';
+import { EditableProjectListQuery } from '../../../../queries/projects';
 
-type Props = {
+interface Props {
   onPress: (string) => void;
-};
+}
 
 const EditableProjectList: React.SFC<Props> = (props) => {
   const { onPress } = props;
@@ -16,8 +16,8 @@ const EditableProjectList: React.SFC<Props> = (props) => {
       <EditableProjectListQuery>
         {({ data, loading, error }) => {
           console.log(error, data);
-          if (loading) return <LoadingIndicator />;
-          if (error) return <ErrorMessage {...error} />;
+          if (loading) { return <LoadingIndicator />; }
+          if (error) { return <ErrorMessage {...error} />; }
 
           const projects: ProjectCore[] = data.editableProjects;
 

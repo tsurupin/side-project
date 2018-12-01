@@ -1,3 +1,3 @@
-import MatchListQuery from "./MatchListQuery";
+import MatchListQuery from './MatchListQuery';
 
 export { MatchListQuery };

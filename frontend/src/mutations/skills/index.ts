@@ -1,3 +1,3 @@
-import CreateSkillMutation from "./CreateSkillMutation";
+import CreateSkillMutation from './CreateSkillMutation';
 
 export { CreateSkillMutation };

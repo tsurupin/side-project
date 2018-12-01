@@ -1,75 +1,39 @@
-import * as React from "react";
+import * as React from 'react';
 import {
-  View,
-  Text,
-  TouchableOpacity,
   AsyncStorage,
   ScrollView,
-  SectionList
-} from "react-native";
-import { MatchListQuery } from "../../../queries/matches";
-import { CHAT_SCREEN, USER_DETAILS_SCREEN } from "../../../constants/screens";
+  SectionList,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
+import { ErrorMessage, LoadingIndicator } from '../../../components/Common';
 import {
+  ChatList,
   MatchQueueList,
-  ChatList
-} from "../../../components/Match/MatchScreen";
-import { Chat, UserCore } from "../../../interfaces";
+} from '../../../components/Match/MatchScreen';
 import {
   BACK_BUTTON,
-} from "../../../constants/buttons";
-import { BACK_ICON } from "../../../constants/icons";
-import IconLoader from "../../../utilities/iconLoader";
-import styles from "./styles";
-import { LoadingIndicator, ErrorMessage } from "../../../components/Common";
+} from '../../../constants/buttons';
+import { BACK_ICON } from '../../../constants/icons';
+import { CHAT_SCREEN, USER_DETAILS_SCREEN } from '../../../constants/screens';
+import { Chat, UserCore } from '../../../interfaces';
+import { MatchListQuery } from '../../../queries/matches';
+import iconLoader from '../../../utilities/iconLoader';
+import styles from './styles';
 
-type Props = {
+interface Props {
   navigator: any;
-};
+}
 
-type State = {};
+interface State {}
 
 class MatchScreen extends React.Component<Props, State> {
   constructor(props) {
     super(props);
   }
 
-  protected handleChatPress = (id: string, name: string): void => {
-   
-    this.props.navigator.push({
-      screen: CHAT_SCREEN,
-      title: name,
-      passProps: { id },
-      navigatorButtons: {
-        leftButtons: [
-          {
-            icon: IconLoader.getIcon(BACK_ICON),
-            id: BACK_BUTTON
-          }
-        ]
-      }
-    });
-  };
-
-  protected handleUserPress = (
-    userId: number,
-    userDisplayName: string
-  ): void => {
-    this.props.navigator.push({
-      screen: USER_DETAILS_SCREEN,
-      title: userDisplayName,
-      passProps: { id: userId, liked: true },
-      navigatorButtons: {
-        leftButtons: [
-          {
-            icon: IconLoader.getIcon(BACK_ICON),
-            id: BACK_BUTTON
-          }
-        ]
-      }
-    });
-  };
-
-  render() {
+  public render() {
     return (
       <View style={styles.container}>
         <MatchListQuery>
@@ -97,6 +61,42 @@ class MatchScreen extends React.Component<Props, State> {
         </MatchListQuery>
       </View>
     );
+  }
+
+  protected handleChatPress = (id: string, name: string): void => {
+
+    this.props.navigator.push({
+      screen: CHAT_SCREEN,
+      title: name,
+      passProps: { id },
+      navigatorButtons: {
+        leftButtons: [
+          {
+            icon: IconLoader.getIcon(BACK_ICON),
+            id: BACK_BUTTON,
+          },
+        ],
+      },
+    });
+  }
+
+  protected handleUserPress = (
+    userId: number,
+    userDisplayName: string,
+  ): void => {
+    this.props.navigator.push({
+      screen: USER_DETAILS_SCREEN,
+      title: userDisplayName,
+      passProps: { id: userId, liked: true },
+      navigatorButtons: {
+        leftButtons: [
+          {
+            icon: IconLoader.getIcon(BACK_ICON),
+            id: BACK_BUTTON,
+          },
+        ],
+      },
+    });
   }
 }
 

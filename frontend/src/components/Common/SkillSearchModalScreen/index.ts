@@ -1,3 +1,3 @@
-import SkillList from "./SkillList";
+import SkillList from './SkillList';
 
 export { SkillList };

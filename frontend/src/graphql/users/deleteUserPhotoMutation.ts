@@ -1,4 +1,4 @@
-import gql from "graphql-tag";
+import graphqlTag from 'graphql-tag';
 
 export const DELETE_USER_PHOTO_MUTATION = gql`
   mutation DeleteUserPhoto($photoId: ID!) {
@@ -8,4 +8,3 @@ export const DELETE_USER_PHOTO_MUTATION = gql`
     }
   }
 `;
-

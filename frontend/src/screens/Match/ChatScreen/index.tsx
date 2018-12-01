@@ -1,53 +1,43 @@
-import * as React from "react";
+import * as React from 'react';
 import {
-  View,
+  AsyncStorage,
+  ScrollView,
   Text,
   TouchableOpacity,
-  AsyncStorage,
-  ScrollView
-} from "react-native";
-import { ChatDetailsQuery } from "../../../queries/chats";
-import { CreateMessageMutation } from "../../../mutations/chats";
-import { MessageParams } from "../../../interfaces";
+  View,
+} from 'react-native';
+import { ErrorMessage, LoadingIndicator } from '../../../components/Common';
+import { MessageForm, MessageList } from '../../../components/Match/ChatScreen';
 import {
   BACK_BUTTON,
-} from "../../../constants/buttons";
-import { MessageList, MessageForm } from "../../../components/Match/ChatScreen";
-import styles from "./styles";
-import { LoadingIndicator, ErrorMessage } from "../../../components/Common";
+} from '../../../constants/buttons';
+import { MessageParams } from '../../../interfaces';
+import { CreateMessageMutation } from '../../../mutations/chats';
+import { ChatDetailsQuery } from '../../../queries/chats';
+import styles from './styles';
 
-type Props = {
+interface Props {
   id: string;
   navigator: any;
-};
+}
 
-type State = {};
+interface State {}
 class ChatScreen extends React.Component<Props, State> {
   constructor(props) {
     super(props);
     this.props.navigator.setOnNavigatorEvent(this.handleNavigatorEvent);
   }
 
-  private handleNavigatorEvent = (e) => {
-    if (e.type !== "NavBarButtonPress") return;
-
-    switch (e.id) {
-      case BACK_BUTTON:
-      this.props.navigator.pop();
-    }
-  };
-
-
-  handlePress = (variables: MessageParams, mutation) => {
+  public handlePress = (variables: MessageParams, mutation) => {
     mutation({ variables });
-  };
+  }
 
-  render() {
+  public render() {
     const id = this.props.id;
     return (
       <ChatDetailsQuery variables={{ id }}>
         {({ subscribeMessages, error, data, loading }) => {
-          if (loading) return <LoadingIndicator />;
+          if (loading) { return <LoadingIndicator />; }
           if (error) {
             return <ErrorMessage {...error} />;
           }
@@ -82,6 +72,15 @@ class ChatScreen extends React.Component<Props, State> {
         }}
       </ChatDetailsQuery>
     );
+  }
+
+  private handleNavigatorEvent = (e) => {
+    if (e.type !== 'NavBarButtonPress') { return; }
+
+    switch (e.id) {
+      case BACK_BUTTON:
+        this.props.navigator.pop();
+    }
   }
 }
 

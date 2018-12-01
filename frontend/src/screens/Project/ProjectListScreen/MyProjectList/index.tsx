@@ -1,13 +1,13 @@
-import * as React from "react";
-import { View } from "react-native";
-import { MyProjectListQuery } from "../../../../queries/projects";
-import { ProjectCore } from "../../../../interfaces";
-import { ProjectList } from "../../../../components/Project/Common";
-import { LoadingIndicator, ErrorMessage } from "../../../../components/Common";
+import * as React from 'react';
+import { View } from 'react-native';
+import { ErrorMessage, LoadingIndicator } from '../../../../components/Common';
+import { ProjectList } from '../../../../components/Project/Common';
+import { ProjectCore } from '../../../../interfaces';
+import { MyProjectListQuery } from '../../../../queries/projects';
 
-type Props = {
+interface Props {
   onPress: (string) => void;
-};
+}
 
 const MyProjectList: React.SFC<Props> = (props) => {
   const { onPress } = props;
@@ -15,8 +15,8 @@ const MyProjectList: React.SFC<Props> = (props) => {
     <View>
       <MyProjectListQuery>
         {({ data, loading, error }) => {
-          if (loading) return <LoadingIndicator />;
-          if (error) return <ErrorMessage {...error} />;
+          if (loading) { return <LoadingIndicator />; }
+          if (error) { return <ErrorMessage {...error} />; }
 
           const projects: ProjectCore[] = data.myProjects;
 

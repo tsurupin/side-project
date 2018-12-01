@@ -1,17 +1,17 @@
-import * as React from "react";
-import { View } from "react-native";
-import { Input, Icon } from "react-native-elements";
+import * as React from 'react';
+import { View } from 'react-native';
+import { Icon, Input } from 'react-native-elements';
 import {
-  ICON_MAIN_TYPE,
   CLOSE_CIRCLE_ICON,
-  MAGNIFY_ICON
-} from "../../../constants/icons";
-import styles from "./styles";
+  ICON_MAIN_TYPE,
+  MAGNIFY_ICON,
+} from '../../../constants/icons';
+import styles from './styles';
 
-type Props = {
+interface Props {
   name: string;
   onChangeText: (name) => void;
-};
+}
 
 const SearchInput: React.SFC<Props> = (props) => {
   return (
@@ -33,14 +33,14 @@ const SearchInput: React.SFC<Props> = (props) => {
             name={CLOSE_CIRCLE_ICON}
             size={24}
             color="black"
-            onPress={() => props.onChangeText("")}
+            onPress={() => props.onChangeText('')}
           />
         }
         rightIconContainerStyle={styles.rightIconContainer}
         containerStyle={styles.inputContainer}
         inputContainerStyle={[
           styles.inputTextContainer,
-          { borderBottomWidth: 0 }
+          { borderBottomWidth: 0 },
         ]}
         value={props.name}
         onChangeText={(val: string) => props.onChangeText(val)}

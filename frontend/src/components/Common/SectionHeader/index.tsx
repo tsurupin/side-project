@@ -1,10 +1,10 @@
-import * as React from "react";
-import { View, Text } from "react-native";
-import styles from "./styles";
+import * as React from 'react';
+import { Text, View } from 'react-native';
+import styles from './styles';
 
-type Props = {
+interface Props {
   title: string;
-};
+}
 
 const SectionHeader: React.SFC<Props> = (props) => {
   const { title } = props;

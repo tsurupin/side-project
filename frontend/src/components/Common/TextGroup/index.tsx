@@ -1,12 +1,12 @@
-import * as React from "react";
-import { View } from "react-native";
-import { Text } from "react-native-elements";
-import styles from "./styles";
+import * as React from 'react';
+import { View } from 'react-native';
+import { Text } from 'react-native-elements';
+import styles from './styles';
 
-type Props = {
+interface Props {
   labelName: string;
   text: string | undefined;
-};
+}
 
 const TextGroup: React.SFC<Props> = (props) => {
   const { labelName, text } = props;

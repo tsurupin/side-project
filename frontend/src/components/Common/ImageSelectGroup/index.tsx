@@ -1,11 +1,11 @@
-import * as React from "react";
-import { View } from "react-native"
-type Props = {
+import * as React from 'react';
+import { View } from 'react-native';
+interface Props {
 
 }
 
-type State = {
-  
+interface State {
+
 }
 
 // add editab;e images like Tinder
@@ -13,8 +13,8 @@ class ImageSelectGroup extends React.Component<Props> {
   constructor(props) {
     super(props);
   }
-  render() {
-    return <View />
+  public render() {
+    return <View />;
   }
 
 }

@@ -1,19 +1,19 @@
-import * as React from "react";
-import { View, Text } from "react-native";
+import * as React from 'react';
+import { Text, View } from 'react-native';
 
-import styles from "./styles";
+import styles from './styles';
 
-type GraphQLError = {
+interface GraphQLError {
   locations: any[];
   message: string;
   path: string[];
-};
-type Props = {
+}
+interface Props {
   graphQLErrors: GraphQLError[];
   message: string;
   networkError: string | undefined;
   extraInfo: string | undefined;
-};
+}
 
 const ErrorMessage: React.SFC<Props> = (props) => {
   const { graphQLErrors, message, networkError, extraInfo } = props;

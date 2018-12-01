@@ -1,20 +1,20 @@
-import * as React from "react";
-import { View } from "react-native";
-import PhotoEdit from "../PhotoEdit";
-import { ProjectPhoto, UserPhoto } from "../../../interfaces";
-import styles from "./styles";
+import * as React from 'react';
+import { View } from 'react-native';
+import { ProjectPhoto, UserPhoto } from '../../../interfaces';
+import PhotoEdit from '../PhotoEdit';
+import styles from './styles';
 
-type Props = {
+interface Props {
   photos: ProjectPhoto[] | UserPhoto[];
   onPressPhoto: (string) => void;
   onPressNewPhoto: (rank: number) => void;
-};
+}
 
 const CHUNK_SIZE = 3;
 
 const renderPhotoList = (photos: ProjectPhoto[], fnc) => {
   return photos.map((photo, i) => {
-    let hasRightEdge = i % CHUNK_SIZE === 0;
+    const hasRightEdge = i % CHUNK_SIZE === 0;
     return (
       <PhotoEdit
         hasRightEdge={hasRightEdge}
@@ -30,9 +30,9 @@ const renderItems = (items: any[]) => {
   const maxChunkIndex = Math.ceil(items.length / CHUNK_SIZE);
   console.log(maxChunkIndex);
 
-  let itemList: any[] = [];
+  const itemList: any[] = [];
   for (let i = 1; i <= maxChunkIndex; i++) {
-    let sectionItems = items.slice((i - 1) * CHUNK_SIZE, i * CHUNK_SIZE);
+    const sectionItems = items.slice((i - 1) * CHUNK_SIZE, i * CHUNK_SIZE);
     itemList.push(renderPhotoListSection(i, sectionItems));
   }
   return itemList;
@@ -58,7 +58,7 @@ const PhotosEditForm: React.SFC<Props> = (props) => {
   const hasRightEdge = (photos.length + 1) % CHUNK_SIZE === 0;
   const items = [
     ...renderPhotoList(photos, onPressPhoto),
-    renderNewItem(availableRank, hasRightEdge, onPressNewPhoto)
+    renderNewItem(availableRank, hasRightEdge, onPressNewPhoto),
   ];
   return <View style={styles.container}>{renderItems(items)}</View>;
 };

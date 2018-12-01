@@ -1,44 +1,44 @@
-import { StyleSheet, Dimensions } from "react-native";
-import { BackgroundColor, LabelTextColor, MainTextColor,BorderColor } from "../../../constants/colors";
+import { Dimensions, StyleSheet } from 'react-native';
+import { BackgroundColor, BorderColor, LabelTextColor, MainTextColor } from '../../../constants/colors';
 
-const height = Dimensions.get("window").height;
+const height = Dimensions.get('window').height;
 const styles = StyleSheet.create({
   container: {
     backgroundColor: BackgroundColor,
-    height: height
+    height,
   },
   text: {
-    width: "80%"
+    width: '80%',
   },
   divider: {
 
   },
   icon: {
-    width: "20%"
+    width: '20%',
   },
   selectedItemContainer: {
     marginTop: 40,
-    marginBottom: 40
+    marginBottom: 40,
   },
   optionsContainer: {
-    flexDirection: "row",
+    flexDirection: 'row',
     maxHeight: height,
-    justifyContent: "space-between",
+    justifyContent: 'space-between',
   },
   itemContainer: {
     height: 48,
-    borderColor: BorderColor
+    borderColor: BorderColor,
   },
   title: {
     color: MainTextColor,
-    fontSize: 16
+    fontSize: 16,
   },
   label: {
     color: LabelTextColor,
     fontSize: 12,
     marginLeft: 10,
-    marginBottom: 5
-  }
+    marginBottom: 5,
+  },
 });
 
 export default styles;

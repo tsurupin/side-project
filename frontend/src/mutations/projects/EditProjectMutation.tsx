@@ -1,13 +1,13 @@
-import * as React from "react";
-import { Mutation } from "react-apollo";
+import * as React from 'react';
+import { Mutation } from 'react-apollo';
 import {
   EDIT_PROJECT_MUTATION,
-} from "../../graphql/projects";
-import { ProjectDetails } from "../../interfaces";
+} from '../../graphql/projects';
+import { ProjectDetails } from '../../interfaces';
 
-type Props = {
+interface Props {
   children: any;
-};
+}
 
 const EditProjectMutation = (props: Props) => {
   const { children } = props;
@@ -19,7 +19,7 @@ const EditProjectMutation = (props: Props) => {
           editProjectMutation,
           loading,
           error,
-          data
+          data,
         });
       }}
     </Mutation>

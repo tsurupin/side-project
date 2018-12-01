@@ -1,7 +1,7 @@
-import MatchScreen from "./MatchScreen";
-import ChatScreen from "./ChatScreen";
+import ChatScreen from './ChatScreen';
+import MatchScreen from './MatchScreen';
 
 export {
   MatchScreen,
-  ChatScreen
-}
+  ChatScreen,
+};

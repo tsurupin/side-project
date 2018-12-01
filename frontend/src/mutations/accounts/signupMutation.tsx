@@ -1,10 +1,10 @@
-import * as React from "react";
-import { Mutation } from "react-apollo";
-import { SIGN_UP_MUTATION, LOGIN_MUTATION } from "../../graphql/accounts";
+import * as React from 'react';
+import { Mutation } from 'react-apollo';
+import { LOGIN_MUTATION, SIGN_UP_MUTATION } from '../../graphql/accounts';
 
-type Props = {
+interface Props {
   children: any;
-};
+}
 
 const SignUpMutation = (props: Props) => {
   const { children } = props;
@@ -12,12 +12,12 @@ const SignUpMutation = (props: Props) => {
   return (
     <Mutation mutation={SIGN_UP_MUTATION}>
       {(signUpMutation, signUpData) => {
-        console.log("signupMutation", signUpData);
+        console.log('signupMutation', signUpData);
 
         return (
           <Mutation mutation={LOGIN_MUTATION}>
             {(loginMutation, loginData) => {
-              console.log("loginMutation", loginData);
+              console.log('loginMutation', loginData);
               const error = signUpData.error || loginData.error;
               const loading = signUpData.loading;
               return children({
@@ -26,7 +26,7 @@ const SignUpMutation = (props: Props) => {
                 loading,
                 error,
                 signUpData: signUpData.data,
-                loginData: loginData.data
+                loginData: loginData.data,
               });
             }}
           </Mutation>

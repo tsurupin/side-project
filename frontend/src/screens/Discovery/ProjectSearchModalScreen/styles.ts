@@ -1,9 +1,9 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
   pickerContainer: {},
   buttonFormBox: {},
-  textLabel: {}
+  textLabel: {},
 });
 
 export default styles;

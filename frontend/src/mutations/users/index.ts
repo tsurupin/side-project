@@ -1,10 +1,10 @@
-import DeleteUserPhotoMutation from "./DeleteUserPhotoMutation";
-import EditUserMutation from "./EditUserMutation";
-import UploadUserPhotoMutation from "./UploadUserPhotoMutation";
-import UpdateUserSearchParamsMutation from "./UpdateUserSearchParamsMutation";
+import DeleteUserPhotoMutation from './DeleteUserPhotoMutation';
+import EditUserMutation from './EditUserMutation';
+import UpdateUserSearchParamsMutation from './UpdateUserSearchParamsMutation';
+import UploadUserPhotoMutation from './UploadUserPhotoMutation';
 export {
   DeleteUserPhotoMutation,
   EditUserMutation,
   UploadUserPhotoMutation,
-  UpdateUserSearchParamsMutation
+  UpdateUserSearchParamsMutation,
 };

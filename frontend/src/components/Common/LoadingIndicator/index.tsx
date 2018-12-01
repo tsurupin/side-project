@@ -1,8 +1,8 @@
-import * as React from "react";
-import { View, ActivityIndicator } from "react-native";
-import styles from "./styles";
+import * as React from 'react';
+import { ActivityIndicator, View } from 'react-native';
+import styles from './styles';
 
-const INDICATOR_COLOR = "#0000ff";
+const INDICATOR_COLOR = '#0000ff';
 const LoadingIndicator = () => {
   return (
     <View style={styles.container}>

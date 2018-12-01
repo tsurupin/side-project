@@ -1,15 +1,15 @@
-import * as React from "react";
-import { Image } from "react-native";
+import * as React from 'react';
+import { Image } from 'react-native';
 
-type Props = {
+interface Props {
   imageUrl: string;
   styles: object;
-};
+}
 
-type State = {
+interface State {
   imageWidth: number;
   imageHeight: number;
-};
+}
 
 class RemoteImage extends React.Component<Props, State> {
   constructor(props) {
@@ -17,11 +17,11 @@ class RemoteImage extends React.Component<Props, State> {
 
     this.state = {
       width: 0,
-      height: 0
+      height: 0,
     };
   }
 
-  componentDidMount() {
+  public componentDidMount() {
     const { imageUrl } = this.props;
     Image.getSize(
       imageUrl,
@@ -29,19 +29,19 @@ class RemoteImage extends React.Component<Props, State> {
         this.setState({ width, height });
       },
       (errorMessage) => {
-        console.log("imageLoad error", errorMessage);
-      }
+        console.log('imageLoad error', errorMessage);
+      },
     );
   }
 
-  render() {
+  public render() {
     const { imageUrl, styles } = this.props;
     return (
       <Image
         style={[styles, this.state]}
         resizeMode="contain"
         source={{
-          uri: imageUrl
+          uri: imageUrl,
         }}
       />
     );

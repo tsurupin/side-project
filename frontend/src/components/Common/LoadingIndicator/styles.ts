@@ -1,22 +1,21 @@
 
-import { StyleSheet, Dimensions } from "react-native";
-const windowWidth = Math.trunc(Dimensions.get("window").width);
-const windowHeight = Math.trunc(Dimensions.get("window").height);
+import { Dimensions, StyleSheet } from 'react-native';
+const windowWidth = Math.trunc(Dimensions.get('window').width);
+const windowHeight = Math.trunc(Dimensions.get('window').height);
 
 const styles = StyleSheet.create({
   container: {
-    width: windowWidth,  
+    width: windowWidth,
     height: windowHeight,
-    flexDirection: "column",
+    flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
   },
   indicatorContainer: {
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center'
-  }
+    alignItems: 'center',
+  },
 });
 
 export default styles;
-

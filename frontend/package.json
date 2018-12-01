@@ -45,6 +45,7 @@
     "tslib": "^1.9.3",
     "tslint": "^5.11.0",
     "tslint-config-airbnb": "^5.11.1",
+    "tslint-config-prettier": "^1.17.0",
     "typescript": "^3.2.1"
   },
   "main": "./node_modules/react-native-scripts-ts/build/bin/crna-entry.js",

@@ -1,12 +1,12 @@
-import * as React from "react";
-import { Query } from "react-apollo";
-import { PROJECT_DETAILS_QUERY } from "../../graphql/projects";
-import { ProjectSearchParams } from "../../interfaces";
+import * as React from 'react';
+import { Query } from 'react-apollo';
+import { PROJECT_DETAILS_QUERY } from '../../graphql/projects';
+import { ProjectSearchParams } from '../../interfaces';
 
-type Props = {
+interface Props {
   variables: { id: string };
   children: any;
-};
+}
 
 const ProjectDetailsQuery = (props: Props) => {
   const { variables, children } = props;

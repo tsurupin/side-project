@@ -1,6 +1,6 @@
-import gql from "graphql-tag";
-import { USER_FRAGMENTS } from "./userFragments";
-import { parseFragment } from "../utilities/parseFragment";
+import graphqlTag from 'graphql-tag';
+import { parseFragment } from '../utilities/parseFragment';
+import { USER_FRAGMENTS } from './userFragments';
 
 export const EDIT_USER_MUTATION = gql`
   mutation EditUser(

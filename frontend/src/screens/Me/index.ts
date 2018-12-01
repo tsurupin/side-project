@@ -1,9 +1,9 @@
-import SettingListScreen from "./SettingListScreen";
-import MyProfileScreen from "./MyProfileScreen";
-import UserEditScreen from "./UserEditScreen";
+import MyProfileScreen from './MyProfileScreen';
+import SettingListScreen from './SettingListScreen';
+import UserEditScreen from './UserEditScreen';
 
 export {
   SettingListScreen,
   MyProfileScreen,
-  UserEditScreen
-}
+  UserEditScreen,
+};

@@ -1,10 +1,10 @@
-import * as React from "react";
-import { ProjectCore } from "../../../../interfaces";
-import ItemCard from "../ItemCard";
-type Props = {
+import * as React from 'react';
+import { ProjectCore } from '../../../../interfaces';
+import ItemCard from '../ItemCard';
+interface Props {
   project: ProjectCore;
   onPressCard: (id: string) => void;
-};
+}
 
 const ProjectCard: React.SFC<Props> = (props) => {
   const { project, onPressCard } = props;

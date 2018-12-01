@@ -1,18 +1,18 @@
-import * as React from "react";
-import { View, Text, TouchableOpacity } from "react-native";
-import { Chevron } from "..";
+import * as React from 'react';
+import { Text, TouchableOpacity, View } from 'react-native';
+import { Chevron } from '..';
 
-import styles from "./styles";
+import styles from './styles';
 
-type Props = {
+interface Props {
   label: string;
   value: string | undefined;
   placeholder: string | undefined;
   style?: object;
   onPress: () => void;
-};
+}
 
-const placeholderTextColor = "blue";
+const placeholderTextColor = 'blue';
 
 const InnnerSelectInput: React.SFC<Props> = (props) => {
   const { label, value, placeholder, onPress, style } = props;
@@ -24,7 +24,7 @@ const InnnerSelectInput: React.SFC<Props> = (props) => {
         <Text
           style={[
             styles.inputText,
-            value ? {} : { color: placeholderTextColor }
+            value ? {} : { color: placeholderTextColor },
           ]}
         >
           {value || placeholder}

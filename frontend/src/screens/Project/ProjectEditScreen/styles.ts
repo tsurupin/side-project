@@ -1,20 +1,20 @@
-import { StyleSheet, Dimensions } from "react-native";
-import { BackgroundColor } from "../../../constants/colors";
+import { Dimensions, StyleSheet } from 'react-native';
+import { BackgroundColor } from '../../../constants/colors';
 
-const height = Dimensions.get("window").height;
+const height = Dimensions.get('window').height;
 
 const styles = StyleSheet.create({
   container: {
     backgroundColor: BackgroundColor,
-    height
+    height,
   },
   avatarContainer: {
-    flexDirection: "column",
+    flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
     paddingTop: 40,
     paddingBottom: 20,
-    width: "100%"
-  }
+    width: '100%',
+  },
 });
 export default styles;

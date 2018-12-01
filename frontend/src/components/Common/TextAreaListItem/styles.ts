@@ -1,12 +1,11 @@
-import { StyleSheet } from "react-native";
-import {  SubTextColor, LabelTextColor, BorderColor, WhiteColor } from "../../../constants/colors";
-
+import { StyleSheet } from 'react-native';
+import {  BorderColor, LabelTextColor, SubTextColor, WhiteColor } from '../../../constants/colors';
 
 const styles = StyleSheet.create({
 
   container: {
     marginTop: 10,
-    marginBottom: 20
+    marginBottom: 20,
 
   },
   label: {
@@ -14,22 +13,22 @@ const styles = StyleSheet.create({
     color: LabelTextColor,
     fontSize: 12,
     marginLeft: 10,
-    marginBottom: 5
+    marginBottom: 5,
   },
   itemContainer: {
     height: 48,
     borderColor: BorderColor,
-    backgroundColor: WhiteColor
+    backgroundColor: WhiteColor,
   },
   placeholder: {
 
   },
   title: {
     color: SubTextColor,
-    fontSize: 16
+    fontSize: 16,
 
-  }
+  },
 
-})
+});
 
 export default styles;

@@ -1,11 +1,11 @@
-import * as React from "react";
-import { Query } from "react-apollo";
-import { USER_DETAILS_QUERY } from "../../graphql/users";
+import * as React from 'react';
+import { Query } from 'react-apollo';
+import { USER_DETAILS_QUERY } from '../../graphql/users';
 
-type Props = {
+interface Props {
   variables: { id: number };
   children: any;
-};
+}
 
 const UserDetailsQuery = (props: Props) => {
   const { variables, children } = props;

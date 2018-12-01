@@ -1,10 +1,10 @@
-import * as React from "react";
-import { Query } from "react-apollo";
-import { MY_PROJECT_LIST_QUERY } from "../../graphql/projects";
+import * as React from 'react';
+import { Query } from 'react-apollo';
+import { MY_PROJECT_LIST_QUERY } from '../../graphql/projects';
 
-type Props = {
-   children: any;
-};
+interface Props {
+  children: any;
+}
 
 const MyProjectListQuery = (props: Props) => {
   const { children } = props;

@@ -1,6 +1,6 @@
-import gql from "graphql-tag";
-import { CITY_FRAGMENTS } from "./cityFragments";
-import { parseFragment } from "../utilities/parseFragment";
+import graphqlTag from 'graphql-tag';
+import { parseFragment } from '../utilities/parseFragment';
+import { CITY_FRAGMENTS } from './cityFragments';
 
 export const FIND_OR_CREATE_CITY_MUTATION = gql`
   mutation FindOrCreateCity(

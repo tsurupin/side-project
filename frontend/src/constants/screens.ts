@@ -1,4 +1,4 @@
-const APP_NAME = "side-project";
+const APP_NAME = 'side-project';
 const TOP_SCREEN = `${APP_NAME}.TopScreen`;
 const USER_DISCOVERY_SCREEN = `${APP_NAME}.UserDisccoveryScreen`;
 const USER_DETAILS_SCREEN = `${APP_NAME}.UserDetailsScreen`;
@@ -26,7 +26,7 @@ const SKILL_SEARCH_MODAL_SCREEN = `${APP_NAME}.SkillSearchModalScreen`;
 const CITY_SEARCH_MODAL_SCREEN = `${APP_NAME}.CitySearchModalScreen`;
 const SELECT_BOX_PICKER_SCREEN = `${APP_NAME}.SelectBoxPickerScreen`;
 const TEXT_INPUT_SCREEN = `${APP_NAME}.TextInputScreen`;
-const PHOTOS_EDIT_SCREEN = `${APP_NAME}.PhotosEditScreen`; 
+const PHOTOS_EDIT_SCREEN = `${APP_NAME}.PhotosEditScreen`;
 
 export {
   USER_DISCOVERY_SCREEN,
@@ -38,7 +38,7 @@ export {
   AUTH_SCREEN,
   USER_DETAILS_SCREEN,
   PROJECT_DETAILS_SCREEN,
-  
+
   MATCH_SCREEN,
   CHAT_SCREEN,
 
@@ -53,5 +53,5 @@ export {
 
   SELECT_BOX_PICKER_SCREEN,
   TEXT_INPUT_SCREEN,
-  PHOTOS_EDIT_SCREEN
+  PHOTOS_EDIT_SCREEN,
 };

@@ -1,8 +1,8 @@
-import * as React from "react";
-import { ListItem } from "react-native-elements";
-import styles from "./styles";
+import * as React from 'react';
+import { ListItem } from 'react-native-elements';
+import styles from './styles';
 
-type Props = {
+interface Props {
   keyName: string;
   label: string;
   placeholder: string;
@@ -13,9 +13,9 @@ type Props = {
     items: any[],
     key: string,
     label: string,
-    selectedValue: string | number | undefined
+    selectedValue: string | number | undefined,
   ) => void;
-};
+}
 
 const SelectBox = (props: Props) => {
   const {
@@ -25,14 +25,14 @@ const SelectBox = (props: Props) => {
     keyName,
     label,
     needTopDivider,
-    onPress
+    onPress,
   } = props;
 
   const item = items.find((item) => {
-    return (item["id"] || item["value"]) == value;
+    return (item.id || item.value) == value;
   });
 
-  const title: string = item ? item["name"] : placeholder;
+  const title: string = item ? item.name : placeholder;
 
   return (
     <ListItem

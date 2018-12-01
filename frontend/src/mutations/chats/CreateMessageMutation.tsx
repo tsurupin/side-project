@@ -1,10 +1,10 @@
-import * as React from "react";
-import { Mutation } from "react-apollo";
-import { CREATE_MESSAGE_MUTATION } from "../../graphql/chats";
+import * as React from 'react';
+import { Mutation } from 'react-apollo';
+import { CREATE_MESSAGE_MUTATION } from '../../graphql/chats';
 
-type Props = {
+interface Props {
   children: any;
-};
+}
 
 const CreateMessageMutation = (props: Props) => {
   const { children } = props;

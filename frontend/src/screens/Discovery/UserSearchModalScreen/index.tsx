@@ -1,45 +1,36 @@
-import * as React from "react";
-import { View } from "react-native";
-import { OccupationType, Genre, Skill, Location } from "../../../interfaces";
-import { UserSearchFormQuery } from "../../../queries/users";
-import { UpdateUserSearchParamsMutation } from "../../../mutations/users";
-import SearchForm from "./SearchForm";
+import * as React from 'react';
+import { View } from 'react-native';
+import { Genre, Location, OccupationType, Skill } from '../../../interfaces';
+import { UpdateUserSearchParamsMutation } from '../../../mutations/users';
+import { UserSearchFormQuery } from '../../../queries/users';
+import SearchForm from './SearchForm';
 
-import styles from "./styles";
+import styles from './styles';
 
-type UserSearchParams = {
+interface UserSearchParams {
   occupationTypeId: string | undefined;
   genreId: string | undefined;
   location: Location | undefined;
   isActive: boolean;
   skills: Skill[];
-};
+}
 
-type Props = {
+interface Props {
   navigator: any;
   onSubmit: (searchParams: UserSearchParams) => void;
-};
+}
 
 class UserSearchFormScreen extends React.Component<Props> {
   constructor(props) {
     super(props);
   }
 
-  private onSubmit = (
-    searchParams: UserSearchParams,
-    updateUserSearchParamsMutation
-  ) => {
-    console.log("OnSubmit", searchParams);
-    updateUserSearchParamsMutation({ variables: searchParams });
-    this.props.onSubmit(searchParams);
-  };
-
-  render() {
+  public render() {
     return (
       <UserSearchFormQuery>
         {({ data, loading, error }) => {
           if (loading) {
-            console.log("loading");
+            console.log('loading');
             return <View />;
           }
 
@@ -50,7 +41,7 @@ class UserSearchFormScreen extends React.Component<Props> {
 
           const {
             userSearchForm: { genres, occupationTypes },
-            userSearchParams
+            userSearchParams,
           } = data;
 
           return (
@@ -70,7 +61,7 @@ class UserSearchFormScreen extends React.Component<Props> {
                     onSubmit={(searchParams: UserSearchParams) =>
                       this.onSubmit(
                         searchParams,
-                        updateUserSearchParamsMutation
+                        updateUserSearchParamsMutation,
                       )
                     }
                   />
@@ -81,6 +72,15 @@ class UserSearchFormScreen extends React.Component<Props> {
         }}
       </UserSearchFormQuery>
     );
+  }
+
+  private onSubmit = (
+    searchParams: UserSearchParams,
+    updateUserSearchParamsMutation,
+  ) => {
+    console.log('OnSubmit', searchParams);
+    updateUserSearchParamsMutation({ variables: searchParams });
+    this.props.onSubmit(searchParams);
   }
 }
 

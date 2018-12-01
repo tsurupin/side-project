@@ -1,15 +1,15 @@
-import * as React from "react";
-import { View, ScrollView } from "react-native";
-import MessageItem from "../MessageItem";
-import { Message } from "../../../../interfaces";
-import styles from "./styles";
+import * as React from 'react';
+import { ScrollView, View } from 'react-native';
+import { Message } from '../../../../interfaces';
+import MessageItem from '../MessageItem';
+import styles from './styles';
 
-type Props = {
+interface Props {
   messages: Message[];
   subscribeMessages?: () => void;
-};
+}
 
-type State = {};
+interface State {}
 
 class MessageList extends React.Component<Props, State> {
   private scrollView;
@@ -17,13 +17,13 @@ class MessageList extends React.Component<Props, State> {
     super(props);
   }
 
-  componentWillMount() {
+  public componentWillMount() {
     this.props.subscribeMessages();
   }
 
-  render() {
+  public render() {
     const { messages } = this.props;
-    console.log("MessageList", messages);
+    console.log('MessageList', messages);
     return (
       <ScrollView
         style={styles.container}

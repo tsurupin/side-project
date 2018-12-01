@@ -1,18 +1,14 @@
-import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
-const ICON_COLOR = "white";
+const ICON_COLOR = 'white';
 const ICON_SIZE = 32;
 
 class IconLoader {
-  icons: object;
+  public icons: object;
 
   constructor() {
     this.icons = {};
   }
-
-  private loadIcon = (name: string) => {
-    return MaterialCommunityIcons.getImageSource(name, ICON_SIZE, ICON_COLOR);
-  };
 
   public loadIcons = async (names: string[]) => {
     const tasks = names.map((name) => this.loadIcon(name));
@@ -22,11 +18,15 @@ class IconLoader {
     });
 
     return this.icons;
-  };
+  }
 
   public getIcon = (name: string) => {
     return this.icons[name];
-  };
+  }
+
+  private loadIcon = (name: string) => {
+    return MaterialCommunityIcons.getImageSource(name, ICON_SIZE, ICON_COLOR);
+  }
 }
 
 export default new IconLoader();

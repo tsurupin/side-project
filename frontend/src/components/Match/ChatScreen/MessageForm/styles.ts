@@ -1,7 +1,7 @@
-import { StyleSheet, Dimensions } from "react-native";
-import { ActiveMainColor, BackgroundColor } from "../../../../constants/colors";
-const width = Math.trunc(Dimensions.get("window").width);
-const windowHeight = Math.trunc(Dimensions.get("window").height);
+import { Dimensions, StyleSheet } from 'react-native';
+import { ActiveMainColor, BackgroundColor } from '../../../../constants/colors';
+const width = Math.trunc(Dimensions.get('window').width);
+const windowHeight = Math.trunc(Dimensions.get('window').height);
 const height = Math.trunc(windowHeight * 0.85);
 
 const styles = StyleSheet.create({
@@ -11,55 +11,55 @@ const styles = StyleSheet.create({
     paddingBottom: 8,
     paddingLeft: 10,
     paddingRight: 10,
-    flexDirection: "row",
- 
-    backgroundColor: "grey"
+    flexDirection: 'row',
+
+    backgroundColor: 'grey',
   },
   iconContainer: {
-    
+
   },
   icon: {
     width: 40,
-    height: 40
-  
+    height: 40,
+
   },
   inputContainer:{
     height: 36,
-    width: Math.trunc((width-56) * 0.75),
+    width: Math.trunc((width - 56) * 0.75),
     padding: 0,
     marginLeft: 5,
     marginRight: 10,
-    borderWidth: 0
+    borderWidth: 0,
   },
   inputInnerContainer: {
-    height: "100%",
+    height: '100%',
     borderWidth: 0,
-    backgroundColor: "white",
+    backgroundColor: 'white',
     paddingLeft: 5,
     paddingRight: 5,
     paddingTop: 0,
     paddingBottom: 0,
-    borderRadius: 5
+    borderRadius: 5,
   },
   input: {
-    fontSize: 16
+    fontSize: 16,
   },
   buttonContainer: {
     height: 36,
-    width: Math.trunc((width-56) * 0.22),
-    paddingRight: 10
+    width: Math.trunc((width - 56) * 0.22),
+    paddingRight: 10,
   },
   buttonTitle: {
     fontSize: 12,
-    fontWeight: "bold"
+    fontWeight: 'bold',
   },
   button: {
     height: 36,
-    backgroundColor: ActiveMainColor
+    backgroundColor: ActiveMainColor,
   },
   buttonDisabled: {
-    opacity: 0.2
-  }
+    opacity: 0.2,
+  },
 
 });
 

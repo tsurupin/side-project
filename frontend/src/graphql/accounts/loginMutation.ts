@@ -1,4 +1,4 @@
-import gql from "graphql-tag";
+import graphqlTag from 'graphql-tag';
 
 export const LOGIN_MUTATION = gql`
   mutation Login($logined: Boolean!) {

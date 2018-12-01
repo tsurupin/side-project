@@ -1,16 +1,16 @@
-import * as React from "react";
-import { View, FlatList, Text } from "react-native";
-import { ListItem } from "react-native-elements";
-import { CLOSE_BUTTON } from "../../../constants/buttons";
+import * as React from 'react';
+import { FlatList, Text, View } from 'react-native';
+import { ListItem } from 'react-native-elements';
+import { CLOSE_BUTTON } from '../../../constants/buttons';
 
-import styles from "./styles";
-type Item = {
+import styles from './styles';
+interface Item {
   id?: string;
   name: string;
   value?: string | number;
-};
+}
 
-type Props = {
+interface Props {
   items: Item[];
   keyName: string;
   navigator: any;
@@ -18,7 +18,7 @@ type Props = {
 
   selectedValue: string | number | undefined;
   onPress: (key: string, value: string | number | undefined) => void;
-};
+}
 
 class PickerScreen extends React.Component<Props> {
   constructor(props) {
@@ -26,20 +26,29 @@ class PickerScreen extends React.Component<Props> {
     this.props.navigator.setOnNavigatorEvent(this.handleNavigatorEvent);
   }
 
+  public render() {
+    return (
+      <View style={styles.container}>
+        {this.renderSelectedItem()}
+        {this.renderOptionItems()}
+      </View>
+    );
+  }
+
   private handleNavigatorEvent = (e) => {
-    if (e.type !== "NavBarButtonPress") return;
+    if (e.type !== 'NavBarButtonPress') { return; }
 
     switch (e.id) {
       case CLOSE_BUTTON:
         this.props.navigator.dismissModal();
         break;
     }
-  };
+  }
 
   private handlePress = (key: string, value: string | number) => {
     this.props.onPress(key, value);
     this.props.navigator.dismissModal();
-  };
+  }
 
   private renderSelectedItem = () => {
     const { selectedValue, label } = this.props;
@@ -48,7 +57,7 @@ class PickerScreen extends React.Component<Props> {
       <View style={styles.selectedItemContainer}>
         <Text style={styles.label}>{label}</Text>
         <ListItem
-          title={(selectedValue || "").toString()}
+          title={(selectedValue || '').toString()}
           topDivider
           bottomDivider
           containerStyle={styles.itemContainer}
@@ -56,7 +65,7 @@ class PickerScreen extends React.Component<Props> {
         />
       </View>
     );
-  };
+  }
 
   private renderOptionItems = () => {
     return (
@@ -64,7 +73,7 @@ class PickerScreen extends React.Component<Props> {
         <FlatList data={this.props.items} renderItem={this.renderItem} />
       </View>
     );
-  };
+  }
 
   private renderItem = (data) => {
     const index = data.index;
@@ -80,15 +89,6 @@ class PickerScreen extends React.Component<Props> {
         containerStyle={styles.itemContainer}
         titleStyle={styles.title}
       />
-    );
-  };
-
-  render() {
-    return (
-      <View style={styles.container}>
-        {this.renderSelectedItem()}
-        {this.renderOptionItems()}
-      </View>
     );
   }
 }

@@ -1,4 +1,4 @@
-import gql from "graphql-tag";
+import graphqlTag from 'graphql-tag';
 
 export const MATCH_LIST_QUERY = gql`
   query MatchList {

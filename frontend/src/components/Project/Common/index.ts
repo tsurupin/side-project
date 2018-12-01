@@ -1,6 +1,6 @@
-import EditForm from "./EditForm";
-import ProjectList from "./ProjectList";
-export { 
+import EditForm from './EditForm';
+import ProjectList from './ProjectList';
+export {
   EditForm,
-  ProjectList
+  ProjectList,
 };

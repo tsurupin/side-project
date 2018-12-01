@@ -1,28 +1,28 @@
-import * as React from "react";
-import { View } from "react-native";
-import { ListItem } from "react-native-elements";
-import { PENCIL_ICON, LOGOUT_ICON } from "../../../../constants/icons";
-import { firebaseSignOut } from "../../../../utilities/firebase";
-import styles from "./styles";
+import * as React from 'react';
+import { View } from 'react-native';
+import { ListItem } from 'react-native-elements';
+import { LOGOUT_ICON, PENCIL_ICON } from '../../../../constants/icons';
+import { firebaseSignOut } from '../../../../utilities/firebase';
+import styles from './styles';
 
-type Item = {
+interface Item {
   title: string;
   iconName: string;
   screen?: string;
   fnc?: any;
-};
+}
 
 const SETTINS_LIST: Item[] = [
   {
-    title: "Log Out",
+    title: 'Log Out',
     iconName: LOGOUT_ICON,
-    fnc: () => firebaseSignOut()
-  }
+    fnc: () => firebaseSignOut(),
+  },
 ];
 
-type Props = {
+interface Props {
   onPress: (string) => void;
-};
+}
 
 const SettingList: React.SFC<Props> = (props) => {
   const { onPress } = props;

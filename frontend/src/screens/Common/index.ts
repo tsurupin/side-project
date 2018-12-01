@@ -1,12 +1,12 @@
-import SelectBoxPickerScreen  from "./SelectBoxPickerScreen";
-import TextInputScreen from "./TextInputScreen";
-import CitySearchModalScreen from "./CitySearchModalScreen";
-import SkillSearchModalScreen from "./SkillSearchModalScreen";
-import PhotosEditScreen from "./PhotosEditScreen";
+import CitySearchModalScreen from './CitySearchModalScreen';
+import PhotosEditScreen from './PhotosEditScreen';
+import SelectBoxPickerScreen  from './SelectBoxPickerScreen';
+import SkillSearchModalScreen from './SkillSearchModalScreen';
+import TextInputScreen from './TextInputScreen';
 export {
   SelectBoxPickerScreen,
   TextInputScreen,
   CitySearchModalScreen,
   SkillSearchModalScreen,
-  PhotosEditScreen
-}
+  PhotosEditScreen,
+};

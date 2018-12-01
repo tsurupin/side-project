@@ -1,15 +1,15 @@
-import * as React from "react";
-import { Input } from "react-native-elements";
-import styles from "./styles";
+import * as React from 'react';
+import { Input } from 'react-native-elements';
+import styles from './styles';
 
-type Props = {
+interface Props {
   label: string;
   value: string | undefined;
   placeholder: string | undefined;
   onChange: (key: string, value: string | undefined) => void;
-};
+}
 
-const placeholderTextColor = "blue";
+const placeholderTextColor = 'blue';
 
 const InnnerTextInput: React.SFC<Props> = (props) => {
   const { label, value, placeholder, onChange } = props;
@@ -23,7 +23,7 @@ const InnnerTextInput: React.SFC<Props> = (props) => {
       inputContainerStyle={styles.inputContainer}
       inputStyle={[
         styles.inputText,
-        value ? {} : { color: placeholderTextColor }
+        value ? {} : { color: placeholderTextColor },
       ]}
       errorStyle={styles.errorText}
       value={value}

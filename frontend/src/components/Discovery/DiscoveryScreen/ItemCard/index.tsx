@@ -1,12 +1,12 @@
-import * as React from "react";
-import { View, TouchableOpacity } from "react-native";
+import * as React from 'react';
+import { TouchableOpacity, View } from 'react-native';
 
-import { Card, Text, Divider, Badge } from "react-native-elements";
+import { Badge, Card, Divider, Text } from 'react-native-elements';
 
-import styles from "./styles";
-import { City } from "../../../../interfaces";
+import { City } from '../../../../interfaces';
+import styles from './styles';
 
-type Props = {
+interface Props {
   id: string;
   mainPhotoUrl: string;
   details: string | undefined;
@@ -15,26 +15,26 @@ type Props = {
   badgeText: string | undefined;
   city: City | undefined;
   onPressCard: (id: string) => void;
-};
+}
 
 const renderCityName = (city: City | undefined) => {
-  if (!city) return null;
+  if (!city) { return null; }
   return <Text style={styles.subText}>{city.fullName}</Text>;
 };
 
 const renderSubText = (subText: string | undefined) => {
-  if (!subText) return undefined;
+  if (!subText) { return undefined; }
   return <Text style={styles.subText}>{subText}</Text>;
 };
 
 const renderBadge = (badgeName: string | undefined) => {
-  if (!badgeName) return undefined;
+  if (!badgeName) { return undefined; }
   return (
     <Badge
       value={badgeName}
       containerStyle={styles.badgeContainer}
       textStyle={styles.badgeText}
-      
+
     />
   );
 };
@@ -48,7 +48,7 @@ const ItemCard: React.SFC<Props> = (props) => {
     subText,
     badgeText,
     city,
-    onPressCard
+    onPressCard,
   } = props;
 
   return (
@@ -72,8 +72,8 @@ const ItemCard: React.SFC<Props> = (props) => {
 
             <View style={styles.subTextContainer}>
               <Divider style={styles.divider} />
-              
-              <Text style={styles.leadSentence}>{details || "This is details about this project. There are three steps to achive this project"}</Text>
+
+              <Text style={styles.leadSentence}>{details || 'This is details about this project. There are three steps to achive this project'}</Text>
             </View>
           </View>
         </Card>

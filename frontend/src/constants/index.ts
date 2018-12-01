@@ -1,1 +1,1 @@
-const APP_NAME: string = "side-project";
+const APP_NAME: string = 'side-project';

@@ -1,13 +1,13 @@
-import * as React from "react";
-import { View, FlatList, Text } from "react-native";
-import { ListItem } from "react-native-elements";
-import { Chat } from "../../../../interfaces";
-import styles from "./styles";
+import * as React from 'react';
+import { FlatList, Text, View } from 'react-native';
+import { ListItem } from 'react-native-elements';
+import { Chat } from '../../../../interfaces';
+import styles from './styles';
 
-type Props = {
+interface Props {
   chats: Chat[];
   onPress: (id: string, name: string) => void;
-};
+}
 
 let onPress;
 const keyExtractor = (item, index) => index;
@@ -16,7 +16,7 @@ const renderChat = ({ item }) => {
   return (
     <ListItem
       title={item.name}
-      subtitle={item.lastComment || ""}
+      subtitle={item.lastComment || ''}
       leftAvatar={{ source: { uri: item.imageUrl } }}
       chevron
       bottomDivider
@@ -24,7 +24,7 @@ const renderChat = ({ item }) => {
       onPress={() => onPress(item.id, item.name)}
       containerStyle={styles.itemContainer}
       titleStyle={styles.itemTitle}
-      rightSubtitle={item.lastCommentedAt || ""}
+      rightSubtitle={item.lastCommentedAt || ''}
     />
   );
 };

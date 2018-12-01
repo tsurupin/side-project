@@ -1,20 +1,20 @@
-import * as React from "react";
-import { Image, View } from "react-native";
-import { Icon } from "react-native-elements";
-import { UserPhoto, ProjectPhoto } from "../../../interfaces";
+import * as React from 'react';
+import { Image, View } from 'react-native';
+import { Icon } from 'react-native-elements';
+import { ActiveMainColor } from '../../../constants/colors';
 import {
-  PLUS_CIRCLE_ICON,
   ICON_MAIN_TYPE,
-  MINUS_CIRCLE_ICON
-} from "../../../constants/icons";
-import { ActiveMainColor } from "../../../constants/colors";
-import styles from "./styles";
+  MINUS_CIRCLE_ICON,
+  PLUS_CIRCLE_ICON,
+} from '../../../constants/icons';
+import { ProjectPhoto, UserPhoto } from '../../../interfaces';
+import styles from './styles';
 
-type Props = {
+interface Props {
   photo?: UserPhoto | ProjectPhoto;
   hasRightEdge: boolean;
   onPress: (id?: string) => void;
-};
+}
 
 const renderPhoto = (photo: UserPhoto | ProjectPhoto | undefined) => {
   if (photo) {
