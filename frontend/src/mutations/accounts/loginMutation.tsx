@@ -2,7 +2,11 @@ import * as React from "react";
 import { Mutation } from "react-apollo";
 import { LOGIN_MUTATION } from "../../graphql/accounts";
 
-const LoginMutation = (props: any) => {
+type Props = {
+  children: any;
+};
+
+const LoginMutation = (props: Props) => {
   const { children } = props;
   console.log(children);
   return (
