@@ -21,7 +21,7 @@ defmodule Db.MixProject do
   # Run "mix help compile.app" to learn about applications.
   def application do
     [
-      extra_applications: [:logger, :postgrex, :rollbax, :timex],
+      extra_applications: [:logger, :postgrex, :rollbax],
       mod: {Db.Application, []}
     ]
   end
@@ -31,19 +31,18 @@ defmodule Db.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      {:postgrex, "~> 0.13.0"},
-      {:ecto, "~> 2.1.1"},
+      {:ecto_sql, "~> 3.0"},
+      {:postgrex, ">= 0.14.0"},
       {:ecto_enum, "~> 1.0"},
       {:arc, "~> 0.11.0"},
       {:arc_ecto, "~> 0.11.0"},
       {:ex_aws, "~> 2.0"},
       {:ex_aws_ec2, "~> 2.0"},
       {:poison, "~> 3.1"},
-      {:geo, "~> 2.0"},
-      {:geo_postgis, "~> 1.1.0"},
-      {:ex_machina, "~> 2.2", only: [:test]},
-      {:timex, "~> 3.1"},
-      {:faker, "~> 0.9.0", only: [:test]},
+      {:geo, "~> 3.0"},
+      {:geo_postgis, "~> 2.0"},
+      {:ex_machina, "~> 2.2.2", only: [:test]},
+      {:faker, "~> 0.11.2", only: [:test]},
       {:sweet_xml, "~> 0.6.5"},
       {:dialyxir, "~> 0.5.1", only: [:dev], runtime: false},
       {:libcluster, "~> 3.0"},

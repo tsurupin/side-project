@@ -135,11 +135,11 @@ defmodule Db.Chats.Chats do
       :chat_group,
       Group.changeset(%{source_id: source_id, source_type: source_type})
     )
-    |> Multi.run(:chat, fn %{chat_group: chat_group} ->
+    |> Multi.run(:chat, fn _repo, %{chat_group: chat_group} ->
       Chat.changeset(%{chat_group_id: chat_group.id, is_main: true, name: chat_name})
       |> Repo.insert()
     end)
-    |> Multi.run(:chat_member, fn %{chat: chat} ->
+    |> Multi.run(:chat_member, fn _repo, %{chat: chat} ->
       add_members(Multi.new(), chat.id, member_ids)
     end)
     |> Repo.transaction()
@@ -187,7 +187,7 @@ defmodule Db.Chats.Chats do
     Multi.update(
       multi,
       "remove_member:#{member.id}",
-      Member.delete_changeset(member, %{deleted_at: Timex.now()})
+      Member.delete_changeset(member, %{deleted_at: NaiveDateTime.utc_now()})
     )
     |> remove_member_from_chat(remainings)
   end

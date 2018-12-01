@@ -24,6 +24,8 @@ config :logger, :console,
   format: "$time $metadata[$level] $message\n",
   metadata: [:request_id]
 
+config :phoenix, :json_library, Jason
+
 config :api, Api.Guardian,
   allowed_algos: ["RS256"],
   verify_module: Api.Guardian.JWT,

@@ -57,7 +57,7 @@ defmodule Db.Projects.Photos do
               Multi.new()
               |> Multi.delete(:deleted_photo, photo)
               |> promote_photos(photos, photo.rank)
-              |> Multi.run(:delete_image_file, fn %{deleted_photo: deleted_photo} ->
+              |> Multi.run(:delete_image_file, fn _repo,  %{deleted_photo: deleted_photo} ->
                 delete_image_file(deleted_photo)
               end)
               |> Repo.transaction()

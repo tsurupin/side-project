@@ -3,7 +3,6 @@ defmodule Db.Users.ProjectLikes do
   ProjectLike context.
   """
 
-  use Timex
   import Ecto.Query, only: [from: 1, from: 2, first: 1, limit: 2], warn: false
 
   alias Ecto.Multi
@@ -45,10 +44,10 @@ defmodule Db.Users.ProjectLikes do
       %ProjectLike{status: :approved} = like ->
         transaction =
           Multi.new()
-          |> Multi.run(:delete_chat_member, fn _ ->
+          |> Multi.run(:delete_chat_member, fn _repo, _ ->
             Chats.remove_member_from_chats(%{project_id: project_id, user_id: user_id})
           end)
-          |> Multi.run(:delete_project_member, fn _ ->
+          |> Multi.run(:delete_project_member, fn _repo, _ ->
             Projects.Projects.remove_member_from_project(%{
               project_id: project_id,
               user_id: user_id
@@ -75,13 +74,13 @@ defmodule Db.Users.ProjectLikes do
       :add_member_to_project,
       Db.Projects.Member.changeset(%{project_id: project_id, user_id: user_id})
     )
-    |> Multi.run(:main_chat, fn _ ->
+    |> Multi.run(:main_chat, fn _repo, _ ->
       case Chats.main_chat(%{source_id: project_id, source_type: "Project"}) do
         %Chat{} = chat -> {:ok, chat}
         nil -> {:error, :not_found_main_chat}
       end
     end)
-    |> Multi.run(:add_member_to_main_chat, fn %{main_chat: main_chat} ->
+    |> Multi.run(:add_member_to_main_chat, fn _repo, %{main_chat: main_chat} ->
       Chats.add_member(%{chat_id: main_chat.id, user_id: user_id})
     end)
   end

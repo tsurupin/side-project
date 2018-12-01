@@ -16,7 +16,6 @@ defmodule Db.UserSkillsTest do
 
       output = UserSkills.build_upsert_user_skills_multi(user.id, [skill1.id, skill2.id])
 
-
       assert {:ok, changeset} = Repo.transaction(output)
 
       user_skills = Repo.all(from(us in UserSkill, where: us.user_id == ^user.id))

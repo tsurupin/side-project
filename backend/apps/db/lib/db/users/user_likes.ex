@@ -54,7 +54,7 @@ defmodule Db.Users.UserLikes do
             :accept_like,
             UserLike.change_status_changeset(like, %{status: :approved})
           )
-          |> Multi.run(:create_chat, fn _ ->
+          |> Multi.run(:create_chat, fn _repo, _ ->
             Chats.create_chat_group(%{like: like})
           end)
           |> Repo.transaction()

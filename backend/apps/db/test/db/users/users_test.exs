@@ -28,14 +28,15 @@ defmodule Db.UsersTest do
 
       genre1 = Factory.insert(:genre)
       genre2 = Factory.insert(:genre)
-      datetime = Timex.now()
+      datetime = NaiveDateTime.utc_now()
+      seconds_in_day = 60 * 60 * 24
 
       user1 =
         Factory.insert(
           :user,
           genre: genre1,
           occupation_type: occupation_type1,
-          last_activated_at: Timex.shift(datetime, days: -5),
+          last_activated_at: NaiveDateTime.add(datetime, -(seconds_in_day * 5), :second),
           geom: %Geo.Point{coordinates: {29, -90}, srid: 4326}
         )
 
@@ -44,7 +45,7 @@ defmodule Db.UsersTest do
           :user,
           genre: genre2,
           occupation_type: occupation_type2,
-          last_activated_at: Timex.shift(datetime, days: -3)
+          last_activated_at: NaiveDateTime.add(datetime, -(seconds_in_day * 2), :second)
         )
 
       skill1 = Factory.insert(:skill)
