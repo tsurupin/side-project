@@ -38,8 +38,8 @@ defmodule Db.MixProject do
       {:arc_ecto, "~> 0.11.0"},
       {:ex_aws, "~> 2.0"},
       {:ex_aws_ec2, "~> 2.0"},
-      {:poison, "~> 3.1"},
       {:geo, "~> 3.0"},
+      {:jason, "~> 1.0"},
       {:geo_postgis, "~> 2.0"},
       {:ex_machina, "~> 2.2.2", only: [:test]},
       {:faker, "~> 0.11.2", only: [:test]},
@@ -47,7 +47,8 @@ defmodule Db.MixProject do
       {:dialyxir, "~> 0.5.1", only: [:dev], runtime: false},
       {:libcluster, "~> 3.0"},
       {:stream_data, "~> 0.1", only: :test},
-      {:rollbax, ">= 0.0.0"}
+      {:rollbax, ">= 0.0.0"},
+      {:cachex, "~> 3.0"}
     ]
   end
 

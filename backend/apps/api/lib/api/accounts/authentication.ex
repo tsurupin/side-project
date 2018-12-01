@@ -84,7 +84,7 @@ defmodule Api.Accounts.Authentication do
   @spec get_google_cert(String.t()) :: {:ok, any} | {:error, String.t()}
   defp get_google_cert(kid) do
     with {:ok, http} <- HTTPoison.get(@google_cert_url),
-         {:ok, data} <- Poison.decode(http.body),
+         {:ok, data} <- Jason.decode(http.body),
          {:ok, cert} <- Map.fetch(data, kid) do
       {:ok, cert}
     else

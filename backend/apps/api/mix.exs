@@ -51,9 +51,7 @@ defmodule Api.Mixfile do
       {:absinthe_phoenix, "~> 1.4.0"},
       {:guardian, "~> 1.0"},
       {:httpoison, "~> 1.4.0"},
-      {:cachex, "~> 3.0"},
       {:briefly, "~> 0.3"},
-      {:jason, "~> 1.0"},
       {:dataloader, "~> 1.0.0"},
       {:mock, "~> 0.3.0", only: :test},
       {:stream_data, "~> 0.1", only: :test}
