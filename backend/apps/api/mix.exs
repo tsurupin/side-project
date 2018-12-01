@@ -39,8 +39,6 @@ defmodule Api.Mixfile do
     [
       {:phoenix, "~> 1.4.0"},
       {:phoenix_pubsub, "~> 1.0"},
-      {:phoenix_ecto, "~> 4.0", only: :test},
-      {:phoenix_live_reload, "~> 1.2.0", only: :dev},
       {:phoenix_html, "~> 2.10"},
       {:db, in_umbrella: true},
       {:gettext, "~> 0.11"},
@@ -53,8 +51,7 @@ defmodule Api.Mixfile do
       {:httpoison, "~> 1.4.0"},
       {:briefly, "~> 0.3"},
       {:dataloader, "~> 1.0.0"},
-      {:mock, "~> 0.3.0", only: :test},
-      {:stream_data, "~> 0.1", only: :test}
+      {:phoenix_live_reload, "~> 1.2.0", only: :dev}
     ]
   end
 end

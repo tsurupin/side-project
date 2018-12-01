@@ -41,14 +41,15 @@ defmodule Db.MixProject do
       {:geo, "~> 3.0"},
       {:jason, "~> 1.0"},
       {:geo_postgis, "~> 2.0"},
+      {:sweet_xml, "~> 0.6.5"},
+      {:libcluster, "~> 3.0"},
+      {:rollbax, ">= 0.0.0"},
+      {:cachex, "~> 3.0"},
+      {:dialyxir, "~> 0.5.1", only: [:dev], runtime: false},
       {:ex_machina, "~> 2.2.2", only: [:test]},
       {:faker, "~> 0.11.2", only: [:test]},
-      {:sweet_xml, "~> 0.6.5"},
-      {:dialyxir, "~> 0.5.1", only: [:dev], runtime: false},
-      {:libcluster, "~> 3.0"},
-      {:stream_data, "~> 0.1", only: :test},
-      {:rollbax, ">= 0.0.0"},
-      {:cachex, "~> 3.0"}
+      {:mock, "~> 0.3.0", only: :test},
+      {:stream_data, "~> 0.1", only: :test}
     ]
   end
 
