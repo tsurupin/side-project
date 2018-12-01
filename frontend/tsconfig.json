@@ -15,15 +15,19 @@
     "strict": true,
     "noImplicitReturns": true, */
     // "noEmit": true,
+
     "forceConsistentCasingInFileNames": true,
     // "noImplicitReturns": true,
+    "noImplicitAny": true,
+    "strictFunctionTypes": true,
     "noUnusedLocals": true,
-    //"strict": true,
+    "strictBindCallApply": true,
     "strictNullChecks": true,
     "noImplicitThis": true,
     "pretty": true,
     "removeComments": true,
     "skipLibCheck": true,
+    "alwaysStrict": true,
     "allowJs": true,
     "moduleResolution": "node"
   },

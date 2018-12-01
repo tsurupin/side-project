@@ -32,6 +32,7 @@
     "graphql-tag": "^2.10.0",
     "jest": "^23.6.0",
     "jest-react-native": "^18.0.0",
+    "prettier": "^1.15.3",
     "react-apollo": "^2.3.2",
     "react-native-fbsdk": "^0.8.0",
     "react-native-image-picker": "^0.27.1",
@@ -54,7 +55,8 @@
     "test": "jest --verbose --color",
     "build": "tsc",
     "build:watch": "tsc --watch",
-    "lint": "tslint 'src/**/*.ts{,x}'"
+    "lint": "tslint 'src/**/*.ts{,x}'",
+    "lint-fix": "tslint --fix -c ./tslint.json 'src/**/*.ts{,x}'"
   },
   "jest": {
     "preset": "react-native",

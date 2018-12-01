@@ -41,6 +41,7 @@ const MainTab = () => {
     Icon.getImageSource("ios-share-alt", 30),
     Icon.getImageSource("ios-menu", 30)
   ]).then((sources) => {
+    
     Navigation.startTabBasedApp({
       appStyle: {
         bottomTabBadgeBackgroundColor: NotificationBadgeColor,
