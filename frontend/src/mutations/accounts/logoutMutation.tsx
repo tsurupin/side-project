@@ -2,7 +2,11 @@ import * as React from "react";
 import { Mutation } from "react-apollo";
 import { LOGOUT_MUTATION } from "../../graphql/accounts";
 
-const LogoutMutation = (props: any) => {
+type Props = {
+  children: any;
+};
+
+const LogoutMutation = (props: Props) => {
   const { children } = props;
 
   return (
