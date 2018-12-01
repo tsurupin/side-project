@@ -65,7 +65,7 @@ defmodule Db.Projects.Projects do
       |> Multi.merge(fn %{project: project} ->
         ProjectSkills.build_upsert_project_skills_multi(project.id, attrs[:skill_ids] || [])
       end)
-      |> Multi.run(:create_master_project_member, fn %{project: project} ->
+      |> Multi.run(:create_master_project_member, fn _repo, %{project: project} ->
         Db.Projects.Member.changeset(%{
           project_id: project.id,
           user_id: owner_id,
@@ -195,7 +195,7 @@ defmodule Db.Projects.Projects do
     transaction =
       Multi.new()
       |> Multi.update(:update_project, Project.change_status_changeset(project, attrs))
-      |> Multi.run(:create_chat, fn _ ->
+      |> Multi.run(:create_chat, fn _repo, _ ->
         Chats.create_chat_group(%{project: project})
       end)
       |> Repo.transaction()
