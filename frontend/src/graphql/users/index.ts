@@ -9,7 +9,7 @@ import { USER_FRAGMENTS } from './userFragments';
 import { UPDATE_USER_SEARCH_PARMS_MUTATION } from "./updateUserSearchParamsMutation";
 import { USER_SEARCH_FORM_QUERY } from "./userSearchFormQuery";
 import { USER_SEARCH_PARAMS_QUERY } from "./userSearchParamsQuery";
-import { USER_EDIT_FORM_QUERY } from "./UserEditFormQuery";
+import { USER_EDIT_FORM_QUERY } from "./userEditFormQuery";
 
 
 export {
