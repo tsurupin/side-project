@@ -1,11 +1,11 @@
-import { Icon, Button } from "react-native-elements";
+import { Icon, Button } from 'react-native-elements';
 
 const SearchNavBarButton = () => {
   return (
     <Button
       icon={<Icon name="filter" />}
       onPress={() => {
-        console.log("hogg");
+        console.log('hogg');
       }}
     />
   );

@@ -1,3 +1,3 @@
-import CityListQuery from "./CityListQuery";
+import CityListQuery from './CityListQuery';
 
 export { CityListQuery };

@@ -1,3 +1,3 @@
-import ChatDetailsQuery from "./ChatDetailsQuery";
+import ChatDetailsQuery from './ChatDetailsQuery';
 
 export { ChatDetailsQuery };

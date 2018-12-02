@@ -1,7 +1,7 @@
-import * as React from "react";
-import { Mutation } from "react-apollo";
-import { ACCEPT_USER_LIKE_MUTATION } from "../../graphql/userLikes";
-import { MATCH_LIST_QUERY } from "../../graphql/matches";
+import * as React from 'react';
+import { Mutation } from 'react-apollo';
+import { ACCEPT_USER_LIKE_MUTATION } from '../../graphql/userLikes';
+import { MATCH_LIST_QUERY } from '../../graphql/matches';
 
 type Props = {
   children: any;
@@ -20,8 +20,8 @@ const AcceptUserLikeMutation = (props: Props) => {
         cache.writeQuery({
           query: MATCH_LIST_QUERY,
           data: {
-            matchList: { ...matchList, chatList: [...matchList.chatList, chat] }
-          }
+            matchList: { ...matchList, chatList: [...matchList.chatList, chat] },
+          },
         });
       }}
     >
@@ -31,7 +31,7 @@ const AcceptUserLikeMutation = (props: Props) => {
           loading,
           error,
           data,
-          name: "acceptUserLike"
+          name: 'acceptUserLike',
         });
       }}
     </Mutation>

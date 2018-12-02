@@ -5,6 +5,7 @@
         "object-shorthand-properties-first": false,
         "radix": false,
         "ter-arrow-parens": false,
-        "trailing-cmma": false
+        "trailing-cmma": false,
+        "import-name": false
     }
 }

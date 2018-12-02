@@ -1,17 +1,17 @@
-import * as React from "react";
-import { View, ScrollView } from "react-native";
-import { Divider, Badge, Text, Icon } from "react-native-elements";
-import { SkillList, CarouselPanel, TextGroup } from "../../../Common";
-import { ActiveMainColor } from "../../../../constants/colors";
-import { UserDetails, City } from "../../../../interfaces";
+import * as React from 'react';
+import { View, ScrollView } from 'react-native';
+import { Divider, Badge, Text, Icon } from 'react-native-elements';
+import { SkillList, CarouselPanel, TextGroup } from '../../../Common';
+import { ActiveMainColor } from '../../../../constants/colors';
+import { UserDetails, City } from '../../../../interfaces';
 import {
   CLOSE_ICON,
   CHECK_ICON,
   HEART_OUTLINE_ICON,
   CHECK_OUTLINE_ICON,
-  ICON_MAIN_TYPE
-} from "../../../../constants/icons";
-import styles from "./styles";
+  ICON_MAIN_TYPE,
+} from '../../../../constants/icons';
+import styles from './styles';
 
 type Props = {
   liked?: boolean;
@@ -22,7 +22,7 @@ type Props = {
 };
 
 const renderActionContainer = (liked, like, rejectLike, acceptLike) => {
-  console.log(liked)
+  console.log(liked);
   if (liked === undefined) return <View />;
   if (liked) return renderLikeContainer(like);
   return renderResponseLikeContainer(rejectLike, acceptLike);
@@ -97,21 +97,21 @@ const UserDetailsBox: React.SFC<Props> = (props) => {
     occupationType,
     skills,
     introduction,
-    photos
+    photos,
   } = user;
-  occupation = "Software Engineer";
-  companyName = "Google";
-  schoolName = "UC Berkley";
+  occupation = 'Software Engineer';
+  companyName = 'Google';
+  schoolName = 'UC Berkley';
   introduction =
     "I'm a genuine technology lover who codes literally everyday.\nFor most of my past career, Ive worked for a small team. I love to wear many hats - from backend and front-end to mobile or DevOps, and I am happy to take on any role to make a better product.\nMy true passion is not to learn a new technology itself, but to create a great product with ambitious teammates which contributes to our life.\nI'm a full stack engineer, who is especially proficient in Ruby, Rails and React/Redux.\nMy recent project, built in Rails and React/Redux,  got over 500 stars in GitHub.";
   skills = [
-    {id: "1", name: "Python"},
-    {id: "2", name: "Ruby"},
-    {id: "3", name: "MySQL"},
-    {id: "4", name: "GraphQL"},
-    {id: "5", name: "Python"},
+    { id: '1', name: 'Python' },
+    { id: '2', name: 'Ruby' },
+    { id: '3', name: 'MySQL' },
+    { id: '4', name: 'GraphQL' },
+    { id: '5', name: 'Python' },
   ];
-    return (
+  return (
       <View style={styles.container}>
         <ScrollView
           alwaysBounceVertical={false}
@@ -145,7 +145,7 @@ const UserDetailsBox: React.SFC<Props> = (props) => {
           </View>
         </ScrollView>
       </View>
-  );
+    );
 };
 
 export default UserDetailsBox;

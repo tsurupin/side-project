@@ -1,9 +1,9 @@
-import * as React from "react";
-import { View, Text, Image } from "react-native";
-import { Avatar } from "react-native-elements";
-import { RemoteImage } from "../../../Common";
-import { UserCore } from "../../../../interfaces";
-import styles from "./styles";
+import * as React from 'react';
+import { View, Text, Image } from 'react-native';
+import { Avatar } from 'react-native-elements';
+import { RemoteImage } from '../../../Common';
+import { UserCore } from '../../../../interfaces';
+import styles from './styles';
 
 type Props = {
   id: string;
@@ -15,10 +15,10 @@ type Props = {
 
 const renderMessage = (
   imageUrl: string | undefined,
-  comment: string | undefined
+  comment: string | undefined,
 ) => {
   if (imageUrl) {
-    
+
     return (
       <RemoteImage
         imageUrl="https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg"
@@ -28,7 +28,7 @@ const renderMessage = (
     return <Text style={styles.description}>{comment}</Text>;
   }
 };
-//TODO:
+// TODO:
 // Add day divider
 // make scrollview reverse
 // Add pagination not to load all the messages
@@ -46,7 +46,7 @@ const MessageItem: React.SFC<Props> = (props) => {
           rounded
           source={{
             uri:
-              "https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg"
+              'https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg',
           }}
           onPress={() => console.log(user.id)}
           activeOpacity={0.7}

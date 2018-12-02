@@ -1,6 +1,6 @@
-import * as React from "react";
-import { Mutation } from "react-apollo";
-import { LIKE_USER_MUTATION } from "../../graphql/userLikes";
+import * as React from 'react';
+import { Mutation } from 'react-apollo';
+import { LIKE_USER_MUTATION } from '../../graphql/userLikes';
 
 type Props = {
   children: any;
@@ -17,7 +17,7 @@ const LikeUserMutation = (props: Props) => {
           loading,
           error,
           data,
-          name: "likeUser"
+          name: 'likeUser',
         });
       }}
     </Mutation>

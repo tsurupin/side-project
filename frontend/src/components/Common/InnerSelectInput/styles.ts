@@ -1,39 +1,39 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
   container: {
-    flexDirection: "row",
-    justifyContent: "flex-start",
-    width: "100%",
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    width: '100%',
     height: 50,
     fontSize: 14,
     borderBottomWidth: 1,
-    borderColor: "grey"
+    borderColor: 'grey',
   },
   label: {
     flex: 1,
-    color: "gray",
-    fontWeight: "bold",
+    color: 'gray',
+    fontWeight: 'bold',
     paddingTop: 18,
     paddingLeft: 10,
   },
   inputContainer: {
     height: 50,
-    flexDirection: "row",
-    justifyContent: "space-between",
+    flexDirection: 'row',
+    justifyContent: 'space-between',
     flex: 3,
     paddingTop: 18,
-    width: "100%",
+    width: '100%',
   },
   inputText: {
-    color: "black",    
+    color: 'black',
   },
   chevronContainer: {
-    paddingRight: 10
+    paddingRight: 10,
   },
   errorText: {
-    color: "red"
-  }
+    color: 'red',
+  },
 });
 
 export default styles;

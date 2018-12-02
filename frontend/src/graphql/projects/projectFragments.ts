@@ -1,4 +1,4 @@
-import gql from "graphql-tag";
+import gql from 'graphql-tag';
 
 export const PROJECT_FRAGMENTS = {
   projectDetails: gql`
@@ -61,5 +61,5 @@ export const PROJECT_FRAGMENTS = {
       title
       status
     }
-  `
+  `,
 };

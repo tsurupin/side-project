@@ -1,12 +1,12 @@
-import { GOOGLE_MAP_API_KEY } from "../config";
+import { GOOGLE_MAP_API_KEY } from '../config';
 const GOOGLE_MAP_REVERSE_GEOCIDING_API =
-  "https://maps.googleapis.com/maps/api/geocode/json";
+  'https://maps.googleapis.com/maps/api/geocode/json';
 
-const STREET_ADDRESS_TYPE = "street_address";
-const AREA_TYPE = "administrative_area_level_1";
-const LOCAL_TYPE = "locality";
-const POSTAL_CODE_TYPE = "postal_code";
-const COUNTRY_TYPE = "country";
+const STREET_ADDRESS_TYPE = 'street_address';
+const AREA_TYPE = 'administrative_area_level_1';
+const LOCAL_TYPE = 'locality';
+const POSTAL_CODE_TYPE = 'postal_code';
+const COUNTRY_TYPE = 'country';
 type AddressComponent = {
   types: string[];
   long_name: string;
@@ -37,17 +37,17 @@ type Address = {
 
 export const fetchAddress = async (
   latitude: number,
-  longitude: number
+  longitude: number,
 ): Promise<{ result: boolean; address?: Address; error?: any }> => {
   const url = `${GOOGLE_MAP_REVERSE_GEOCIDING_API}?latlng=${latitude},${longitude}&key=${GOOGLE_MAP_API_KEY}`;
   try {
     const response = await fetch(url);
     const { results } = await response.json();
- 
+
     const streetAddress: StreetAddress = results.filter(({ types }) =>
-      types.includes(STREET_ADDRESS_TYPE)
+      types.includes(STREET_ADDRESS_TYPE),
     )[0];
-    
+
     let postalCode;
     let stateName;
     let stateAbbreviation;
@@ -65,7 +65,7 @@ export const fetchAddress = async (
         } else if (types.includes(COUNTRY_TYPE)) {
           countryName = long_name;
         }
-      }
+      },
     );
 
     const { lat, lng } = streetAddress.geometry.location;
@@ -79,14 +79,14 @@ export const fetchAddress = async (
         stateName,
         stateAbbreviation,
         cityName,
-        countryName
-      }
+        countryName,
+      },
     };
   } catch (error) {
     console.error(error);
     return {
       result: false,
-      error: error
+      error,
     };
   }
 };

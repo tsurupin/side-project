@@ -1,6 +1,6 @@
-import * as React from "react";
-import { ProjectCore } from "../../../../interfaces";
-import ItemCard from "../ItemCard";
+import * as React from 'react';
+import { ProjectCore } from '../../../../interfaces';
+import ItemCard from '../ItemCard';
 type Props = {
   project: ProjectCore;
   onPressCard: (id: string) => void;

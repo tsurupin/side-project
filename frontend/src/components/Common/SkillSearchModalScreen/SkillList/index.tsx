@@ -1,9 +1,9 @@
-import * as React from "react";
-import { View, Text } from "react-native";
-import { ListItem } from "react-native-elements";
-import styles from "./styles";
+import * as React from 'react';
+import { View, Text } from 'react-native';
+import { ListItem } from 'react-native-elements';
+import styles from './styles';
 
-import { Skill } from "../../../../interfaces";
+import { Skill } from '../../../../interfaces';
 
 type Props = {
   skills: Skill[];

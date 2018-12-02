@@ -1,3 +1,3 @@
-import CityList from "./CityList";
+import CityList from './CityList';
 
 export { CityList };

@@ -1,30 +1,30 @@
-import * as React from "react";
-import { FlatList, ScrollView } from "react-native";
+import * as React from 'react';
+import { FlatList, ScrollView } from 'react-native';
 import {
   ProjectEditParams,
   Skill,
   City,
   Genre,
-  ProjectDetails
-} from "../../../../interfaces";
-import { ListItem, Icon } from "react-native-elements";
-import { CLOSE_ICON } from "../../../../constants/icons";
-import IconLoader from "../../../../utilities/iconLoader";
-import { SelectBox, TextAreaListItem } from "../../../Common";
-import { CLOSE_BUTTON, SUBMIT_BUTTON } from "../../../../constants/buttons";
+  ProjectDetails,
+} from '../../../../interfaces';
+import { ListItem, Icon } from 'react-native-elements';
+import { CLOSE_ICON } from '../../../../constants/icons';
+import IconLoader from '../../../../utilities/IconLoader';
+import { SelectBox, TextAreaListItem } from '../../../Common';
+import { CLOSE_BUTTON, SUBMIT_BUTTON } from '../../../../constants/buttons';
 import {
   SKILL_SEARCH_MODAL_SCREEN,
   CITY_SEARCH_MODAL_SCREEN,
   SELECT_BOX_PICKER_SCREEN,
-  TEXT_INPUT_SCREEN
-} from "../../../../constants/screens";
+  TEXT_INPUT_SCREEN,
+} from '../../../../constants/screens';
 import {
   PLUS_ICON,
   MINUS_CIRCLE_ICON,
-  ICON_MAIN_TYPE
-} from "../../../../constants/icons";
+  ICON_MAIN_TYPE,
+} from '../../../../constants/icons';
 
-import styles from "./styles";
+import styles from './styles';
 
 type Props = {
   genres: Genre[];
@@ -55,8 +55,8 @@ class EditForm extends React.Component<Props, State> {
       requirement: undefined,
       genreId: undefined,
       city: undefined,
-      skills: []
-    }
+      skills: [],
+    },
   };
 
   constructor(props) {
@@ -70,7 +70,7 @@ class EditForm extends React.Component<Props, State> {
       requirement: project.requirement,
       genreId: project.genre ? project.genre.id : undefined,
       city: project.city,
-      skills: project.skills
+      skills: project.skills,
     };
 
     this.props.navigator.setOnNavigatorEvent(this.handleNavigatorEvent);
@@ -78,19 +78,19 @@ class EditForm extends React.Component<Props, State> {
 
   private buildProjectEditParams = (): ProjectEditParams => {
     const { project } = this.props;
-    let params = {};
+    const params = {};
     const stringKeys = [
-      "title",
-      "leadSentence",
-      "motivation",
-      "requirement",
-      "genreId"
+      'title',
+      'leadSentence',
+      'motivation',
+      'requirement',
+      'genreId',
     ];
-    const objectKeys = ["city"];
-    const arrayObjectKeys = ["skills"];
+    const objectKeys = ['city'];
+    const arrayObjectKeys = ['skills'];
 
     stringKeys.forEach((key) => {
-      let currentValue = this.state[key];
+      const currentValue = this.state[key];
 
       if (!(currentValue === project[key])) {
         params[key] = currentValue;
@@ -105,13 +105,13 @@ class EditForm extends React.Component<Props, State> {
 
     arrayObjectKeys.forEach((key) => {
       if (this.arrayObjectValueChanged(key)) {
-        let keyName = key === "skills" ? "skillIds" : `${key}Ids`;
+        const keyName = key === 'skills' ? 'skillIds' : `${key}Ids`;
         params[keyName] = this.state[key].map((item) => item.id);
       }
     });
 
     return params;
-  };
+  }
 
   private objectValueChanged = (key: string): boolean => {
     const currentValue = this.state[key];
@@ -124,24 +124,24 @@ class EditForm extends React.Component<Props, State> {
     } else {
       return true;
     }
-  };
+  }
 
   private arrayObjectValueChanged = (key: string): boolean => {
     const currentObjectIds = this.state[key].map((item) => item.id);
     const previousObjectIds = this.props.project[key].map((item) => item.id);
 
     const intersectionCount = currentObjectIds.filter((id) =>
-      previousObjectIds.includes(id)
+      previousObjectIds.includes(id),
     ).length;
 
     return (
       previousObjectIds.length !== intersectionCount ||
       currentObjectIds.length !== intersectionCount
     );
-  };
+  }
 
   private handleNavigatorEvent = (e) => {
-    if (e.type !== "NavBarButtonPress") return;
+    if (e.type !== 'NavBarButtonPress') return;
     switch (e.id) {
       case SUBMIT_BUTTON:
         this.props.onSubmit(this.buildProjectEditParams());
@@ -150,12 +150,12 @@ class EditForm extends React.Component<Props, State> {
         this.props.navigator.dismissModal();
         break;
     }
-  };
+  }
 
   private handlePressShowModal = (
     items: any[],
     keyName: string,
-    selectedValue: string | number | undefined
+    selectedValue: string | number | undefined,
   ) => {
     this.props.navigator.showModal({
       screen: SELECT_BOX_PICKER_SCREEN,
@@ -163,119 +163,119 @@ class EditForm extends React.Component<Props, State> {
         items,
         keyName,
         selectedValue,
-        onPress: this.handleChangeValue
+        onPress: this.handleChangeValue,
       },
       navigatorButtons: {
         leftButtons: [
           {
             icon: IconLoader.getIcon(CLOSE_ICON),
-            title: "CLOSE",
-            id: CLOSE_BUTTON
-          }
-        ]
-      }
+            title: 'CLOSE',
+            id: CLOSE_BUTTON,
+          },
+        ],
+      },
     });
-  };
+  }
 
   private handleTextInputModal = (
     keyName: string,
     value: string | undefined,
-    placeholder: string
+    placeholder: string,
   ) => {
     this.props.navigator.showModal({
       screen: TEXT_INPUT_SCREEN,
       title: keyName.toUpperCase(),
-      animationType: "slide-up",
+      animationType: 'slide-up',
       passProps: {
         keyName,
         value,
         placeholder,
-        onPress: this.handleChangeValue
+        onPress: this.handleChangeValue,
       },
       navigatorButtons: {
         leftButtons: [
           {
             icon: IconLoader.getIcon(CLOSE_ICON),
-            title: "Close",
-            id: CLOSE_BUTTON
-          }
-        ]
-      }
+            title: 'Close',
+            id: CLOSE_BUTTON,
+          },
+        ],
+      },
     });
-  };
+  }
 
   private handleChangeValue = (
     keyName: string,
-    value: string | number | undefined
+    value: string | number | undefined,
   ) => {
-    let changedAttr = {};
+    const changedAttr = {};
     changedAttr[keyName] = value;
-    console.log("updated key", changedAttr);
+    console.log('updated key', changedAttr);
     this.setState(changedAttr);
-  };
+  }
 
   private handleSkillSearchShowModal = () => {
     this.props.navigator.showModal({
       screen: SKILL_SEARCH_MODAL_SCREEN,
-      title: "Skill Search",
-      animationType: "slide-up",
+      title: 'Skill Search',
+      animationType: 'slide-up',
       passProps: { onPress: this.handleAddSkill },
       navigatorButtons: {
         leftButtons: [
           {
             icon: IconLoader.getIcon(CLOSE_ICON),
-            title: "Close",
-            id: CLOSE_BUTTON
-          }
-        ]
-      }
+            title: 'Close',
+            id: CLOSE_BUTTON,
+          },
+        ],
+      },
     });
-  };
+  }
 
   private handleAddSkill = (skill: Skill) => {
     if (this.state.skills.find((skill) => skill.id === skill.id)) return;
     const skills = Array.from(new Set(this.state.skills.concat(skill)));
     this.setState({ skills });
-  };
+  }
 
   protected handleDeleteSkill = (id: string) => {
     const skills = this.state.skills.filter((skill) => skill.id !== id);
     this.setState({ skills });
-  };
+  }
 
   private handleCitySearchShowModal = () => {
     this.props.navigator.showModal({
       screen: CITY_SEARCH_MODAL_SCREEN,
-      title: "City Search",
-      animationType: "slide-up",
+      title: 'City Search',
+      animationType: 'slide-up',
       passProps: {
         onPress: this.handleUpdateLocation,
-        needLocationSearch: true
+        needLocationSearch: true,
       },
       navigatorButtons: {
         leftButtons: [
           {
             icon: IconLoader.getIcon(CLOSE_ICON),
-            title: "Close",
-            id: CLOSE_BUTTON
-          }
-        ]
-      }
+            title: 'Close',
+            id: CLOSE_BUTTON,
+          },
+        ],
+      },
     });
-  };
+  }
 
   private handleUpdateLocation = (
     city: City,
     longitude: number | undefined = undefined,
-    latitude: number | undefined = undefined
+    latitude: number | undefined = undefined,
   ) => {
     console.log(city);
     this.setState({ city });
-  };
+  }
 
   private renderSkillList = () => {
     return <FlatList data={this.state.skills} renderItem={this.renderSkill} />;
-  };
+  }
 
   private renderSkill = (data) => {
     const skill: Skill = data.item;
@@ -287,13 +287,13 @@ class EditForm extends React.Component<Props, State> {
         rightIcon={this.renderSkillRemoveIcon(skill.id)}
       />
     );
-  };
+  }
 
   private renderSkillAddIcon = () => {
     return (
       <Icon type={ICON_MAIN_TYPE} name={PLUS_ICON} size={24} color="black" />
     );
-  };
+  }
 
   private renderSkillRemoveIcon = (skillId: string) => {
     return (
@@ -305,7 +305,7 @@ class EditForm extends React.Component<Props, State> {
         onPress={() => this.handleDeleteSkill(skillId)}
       />
     );
-  };
+  }
 
   render() {
     const { genres } = this.props;
@@ -315,7 +315,7 @@ class EditForm extends React.Component<Props, State> {
       genreId,
       motivation,
       requirement,
-      city
+      city,
     } = this.state;
 
     return (
@@ -335,7 +335,7 @@ class EditForm extends React.Component<Props, State> {
           topDivider
           bottomDivider
           onPress={() =>
-            this.handleTextInputModal("title", title, "Enter title")
+            this.handleTextInputModal('title', title, 'Enter title')
           }
         />
         <SelectBox
@@ -352,7 +352,7 @@ class EditForm extends React.Component<Props, State> {
           containerStyle={styles.itemContainer}
           title="City"
           titleStyle={styles.itemTitle}
-          rightTitle={city ? city.fullName : ""}
+          rightTitle={city ? city.fullName : ''}
           rightTitleStyle={styles.rightTitle}
           chevron
           bottomDivider

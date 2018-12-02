@@ -1,10 +1,10 @@
-import * as React from "react";
-import { FlatList } from "react-native";
-import { ListItem } from "react-native-elements";
+import * as React from 'react';
+import { FlatList } from 'react-native';
+import { ListItem } from 'react-native-elements';
 
-import { ProjectCore } from "../../../../interfaces";
-import styles from "./styles";
-import { BackgroundColor } from "../../../../constants/colors";
+import { ProjectCore } from '../../../../interfaces';
+import styles from './styles';
+import { BackgroundColor } from '../../../../constants/colors';
 
 type Props = {
   projects: ProjectCore[];
@@ -15,12 +15,12 @@ let onPress;
 const keyExtractor = (_item, index) => index;
 
 const renderProject = ({ item }) => {
- 
-  const editing = item.status === "EDITING";
+
+  const editing = item.status === 'EDITING';
   return (
     <ListItem
       title={editing ? `${item.title} (Editing)` : item.title}
-      subtitle={item.genre ? item.genre.name : ""}
+      subtitle={item.genre ? item.genre.name : ''}
       leftAvatar={{ source: { uri: item.main_photo_url } }}
       chevron
       bottomDivider
@@ -39,7 +39,7 @@ const ProjectList: React.SFC<Props> = (props) => {
       data={props.projects}
       renderItem={renderProject}
       endFillColor={BackgroundColor}
-     
+
     />
   );
 };

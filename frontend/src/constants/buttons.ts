@@ -1,27 +1,27 @@
-const USER_SEARCH_BUTTON = "UserSearchButton";
-const SUBMIT_USER_EDIT_BUTTON = "SubmitUserEditButton";
-const CANCEL_USER_EDIT_BUTTON = "CancelUserEditButton";
-const CANCEL_USER_SEARCH_BUTTON = "CancelUserSearchButton";
-const SUBMIT_USER_SEARCH_BUTTON = "SubmitUserSearchButton";
-const USER_EDIT_BUTTON = "UserEditButton";
+const USER_SEARCH_BUTTON = 'UserSearchButton';
+const SUBMIT_USER_EDIT_BUTTON = 'SubmitUserEditButton';
+const CANCEL_USER_EDIT_BUTTON = 'CancelUserEditButton';
+const CANCEL_USER_SEARCH_BUTTON = 'CancelUserSearchButton';
+const SUBMIT_USER_SEARCH_BUTTON = 'SubmitUserSearchButton';
+const USER_EDIT_BUTTON = 'UserEditButton';
 
-const CANCEL_PROJECT_SEARCH_BUTTON = "CancelProjectSearchButton";
-const SUBMIT_PROJECT_SEARCH_BUTTON = "SubmitProjectSearchButton";
-const PROJECT_EDIT_BUTTON = "ProjectEditButton";
-const CANCEL_PROJECT_EDIT_BUTTON = "CancelProjectEditButton";
-const SUBMIT_PROJECT_EDIT_BUTTON = "SubmitProjectEditButton";
-const PROJECT_NEW_BUTTON = "ProjectNewButton";
-const CANCEL_PROJECT_NEW_BUTTON = "CancelProjectNewButton";
-const SUBMIT_PROJECT_NEW_BUTTON = "SubmitProjectNewButton";
+const CANCEL_PROJECT_SEARCH_BUTTON = 'CancelProjectSearchButton';
+const SUBMIT_PROJECT_SEARCH_BUTTON = 'SubmitProjectSearchButton';
+const PROJECT_EDIT_BUTTON = 'ProjectEditButton';
+const CANCEL_PROJECT_EDIT_BUTTON = 'CancelProjectEditButton';
+const SUBMIT_PROJECT_EDIT_BUTTON = 'SubmitProjectEditButton';
+const PROJECT_NEW_BUTTON = 'ProjectNewButton';
+const CANCEL_PROJECT_NEW_BUTTON = 'CancelProjectNewButton';
+const SUBMIT_PROJECT_NEW_BUTTON = 'SubmitProjectNewButton';
 
-const PROJECT_ACTION_SHEET_BUTTON = "ProjectActionSheetButton";
-const BACK_BUTTON = "BackButton";
-const SUBMIT_BUTTON = "SubmitButton";
-const APPLY_BUTTON = "ApplyButton";
-const SEARCH_BUTTON = "SearchButton";
-const FILTER_BUTTON = "FilterButton";
-const CANCEL_BUTTON = "CancelButton";
-const CLOSE_BUTTON = "CloseButton";
+const PROJECT_ACTION_SHEET_BUTTON = 'ProjectActionSheetButton';
+const BACK_BUTTON = 'BackButton';
+const SUBMIT_BUTTON = 'SubmitButton';
+const APPLY_BUTTON = 'ApplyButton';
+const SEARCH_BUTTON = 'SearchButton';
+const FILTER_BUTTON = 'FilterButton';
+const CANCEL_BUTTON = 'CancelButton';
+const CLOSE_BUTTON = 'CloseButton';
 
 export {
   USER_SEARCH_BUTTON,
@@ -45,5 +45,5 @@ export {
   SEARCH_BUTTON,
   CLOSE_BUTTON,
   FILTER_BUTTON,
-  CANCEL_BUTTON
+  CANCEL_BUTTON,
 };

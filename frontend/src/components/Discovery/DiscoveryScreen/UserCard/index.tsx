@@ -1,6 +1,6 @@
-import * as React from "react";
-import ItemCard from "../ItemCard";
-import { UserCore } from "../../../../interfaces";
+import * as React from 'react';
+import ItemCard from '../ItemCard';
+import { UserCore } from '../../../../interfaces';
 
 type Props = {
   user: UserCore;
@@ -9,7 +9,7 @@ type Props = {
 
 const buildProfessionText = (
   occupation: string | undefined,
-  companyName: string | undefined
+  companyName: string | undefined,
 ) => {
   if (occupation && companyName) {
     return `${occupation}, ${companyName}`;
@@ -29,7 +29,7 @@ const UserCard: React.SFC<Props> = (props) => {
     occupation,
     companyName,
     city,
-    displayName
+    displayName,
   } = user;
 
   const profession = buildProfessionText(occupation, companyName);

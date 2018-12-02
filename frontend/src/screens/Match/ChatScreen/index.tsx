@@ -1,20 +1,20 @@
-import * as React from "react";
+import * as React from 'react';
 import {
   View,
   Text,
   TouchableOpacity,
   AsyncStorage,
-  ScrollView
-} from "react-native";
-import { ChatDetailsQuery } from "../../../queries/chats";
-import { CreateMessageMutation } from "../../../mutations/chats";
-import { MessageParams } from "../../../interfaces";
+  ScrollView,
+} from 'react-native';
+import { ChatDetailsQuery } from '../../../queries/chats';
+import { CreateMessageMutation } from '../../../mutations/chats';
+import { MessageParams } from '../../../interfaces';
 import {
   BACK_BUTTON,
-} from "../../../constants/buttons";
-import { MessageList, MessageForm } from "../../../components/Match/ChatScreen";
-import styles from "./styles";
-import { LoadingIndicator, ErrorMessage } from "../../../components/Common";
+} from '../../../constants/buttons';
+import { MessageList, MessageForm } from '../../../components/Match/ChatScreen';
+import styles from './styles';
+import { LoadingIndicator, ErrorMessage } from '../../../components/Common';
 
 type Props = {
   id: string;
@@ -29,18 +29,17 @@ class ChatScreen extends React.Component<Props, State> {
   }
 
   private handleNavigatorEvent = (e) => {
-    if (e.type !== "NavBarButtonPress") return;
+    if (e.type !== 'NavBarButtonPress') return;
 
     switch (e.id) {
       case BACK_BUTTON:
-      this.props.navigator.pop();
+        this.props.navigator.pop();
     }
-  };
-
+  }
 
   handlePress = (variables: MessageParams, mutation) => {
     mutation({ variables });
-  };
+  }
 
   render() {
     const id = this.props.id;

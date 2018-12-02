@@ -1,5 +1,5 @@
-import UserDetailsBox from "./UserDetailsBox";
+import UserDetailsBox from './UserDetailsBox';
 
 export {
-  UserDetailsBox
-}
+  UserDetailsBox,
+};

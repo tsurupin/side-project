@@ -1,8 +1,8 @@
-import * as React from "react";
-import { View, ScrollView } from "react-native";
-import MessageItem from "../MessageItem";
-import { Message } from "../../../../interfaces";
-import styles from "./styles";
+import * as React from 'react';
+import { View, ScrollView } from 'react-native';
+import MessageItem from '../MessageItem';
+import { Message } from '../../../../interfaces';
+import styles from './styles';
 
 type Props = {
   messages: Message[];
@@ -23,7 +23,7 @@ class MessageList extends React.Component<Props, State> {
 
   render() {
     const { messages } = this.props;
-    console.log("MessageList", messages);
+    console.log('MessageList', messages);
     return (
       <ScrollView
         style={styles.container}

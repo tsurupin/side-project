@@ -1,6 +1,6 @@
-import * as React from "react";
-import { ApolloProvider } from "react-apollo";
-import client from "./client";
+import * as React from 'react';
+import { ApolloProvider } from 'react-apollo';
+import client from './client';
 
 const ApolloWrapper = AppComponent => {
   class Enhance extends React.Component {

@@ -1,19 +1,19 @@
-import * as React from "react";
-import { View, ScrollView } from "react-native";
-import { Avatar } from "react-native-elements";
-import { ErrorMessage, LoadingIndicator } from "../../../components/Common";
-import { EditForm } from "../../../components/Project/Common";
+import * as React from 'react';
+import { View, ScrollView } from 'react-native';
+import { Avatar } from 'react-native-elements';
+import { ErrorMessage, LoadingIndicator } from '../../../components/Common';
+import { EditForm } from '../../../components/Project/Common';
 import {
-  ProjectEditFormQuery
-} from "../../../queries/projects";
-import { ProjectDetails, ProjectEditParams, Genre } from "../../../interfaces";
+  ProjectEditFormQuery,
+} from '../../../queries/projects';
+import { ProjectDetails, ProjectEditParams, Genre } from '../../../interfaces';
 
-import { EditProjectMutation } from "../../../mutations/projects";
-import { CLOSE_ICON } from "../../../constants/icons";
-import { CLOSE_BUTTON } from "../../../constants/buttons";
-import IconLoader from "../../../utilities/iconLoader";
-import styles from "./styles";
-import { PHOTOS_EDIT_SCREEN } from "../../../constants/screens";
+import { EditProjectMutation } from '../../../mutations/projects';
+import { CLOSE_ICON } from '../../../constants/icons';
+import { CLOSE_BUTTON } from '../../../constants/buttons';
+import IconLoader from '../../../utilities/IconLoader';
+import styles from './styles';
+import { PHOTOS_EDIT_SCREEN } from '../../../constants/screens';
 
 type Props = {
   id: string;
@@ -24,7 +24,6 @@ type DefaultProps = {
   genres: Genre[];
 };
 
-
 class ProjectEditScreen extends React.Component<Props> {
   constructor(props) {
     super(props);
@@ -32,37 +31,37 @@ class ProjectEditScreen extends React.Component<Props> {
 
   private handleSubmit = (
     variables: ProjectEditParams,
-    editProjectMutation: any
+    editProjectMutation: any,
   ) => {
     editProjectMutation({ variables: { id: this.props.id, ...variables } });
-  };
+  }
 
   private handlePressPhoto = (id: string, photos: any[]) => {
     this.props.navigator.showModal({
       screen: PHOTOS_EDIT_SCREEN,
-      title: "Edit Photos",
+      title: 'Edit Photos',
       passProps: {
         id,
         photos,
-        photoType: "Project"
+        photoType: 'Project',
       },
       navigatorButtons: {
         leftButtons: [
           {
             icon: IconLoader.getIcon(CLOSE_ICON),
-            title: "Close",
-            id: CLOSE_BUTTON
-          }
+            title: 'Close',
+            id: CLOSE_BUTTON,
+          },
         ],
         rightButtons: [
           {
-            title: "Done",
-            id: CLOSE_BUTTON
-          }
-        ]
-      }
+            title: 'Done',
+            id: CLOSE_BUTTON,
+          },
+        ],
+      },
     });
-  };
+  }
 
   private renderMainPhoto = (project: ProjectDetails) => {
     const { id, photos } = project;
@@ -74,14 +73,14 @@ class ProjectEditScreen extends React.Component<Props> {
           rounded
           source={{
             uri:
-              "https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg"
+              'https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg',
           }}
           onPress={() => this.handlePressPhoto(id, photos)}
           activeOpacity={0.7}
         />
       </View>
     );
-  };
+  }
 
   private renderEditForm = (project: ProjectDetails, defaultProps: DefaultProps) => {
     const { genres } = defaultProps;
@@ -91,7 +90,7 @@ class ProjectEditScreen extends React.Component<Props> {
           if (loading) return <LoadingIndicator />;
           if (error) return <ErrorMessage {...error} />;
           if (data) {
-            console.log(data, 'aa')
+            console.log(data, 'aa');
             this.props.navigator.dismissModal();
             return <View />;
           }
@@ -110,7 +109,7 @@ class ProjectEditScreen extends React.Component<Props> {
         }}
       </EditProjectMutation>
     );
-  };
+  }
 
   render() {
     const { id } = this.props;
@@ -134,7 +133,7 @@ class ProjectEditScreen extends React.Component<Props> {
               </ScrollView>
             </View>
           );
-          
+
         }}
       </ProjectEditFormQuery>
     );

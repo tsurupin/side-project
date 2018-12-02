@@ -1,6 +1,6 @@
-import * as React from "react";
-import { Query } from "react-apollo";
-import { MATCH_LIST_QUERY } from "../../graphql/matches";
+import * as React from 'react';
+import { Query } from 'react-apollo';
+import { MATCH_LIST_QUERY } from '../../graphql/matches';
 
 type Props = {
   children: any;

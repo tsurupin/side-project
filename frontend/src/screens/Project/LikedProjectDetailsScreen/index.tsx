@@ -1,21 +1,21 @@
-import * as React from "react";
-import { View, TouchableOpacity, Text, Button } from "react-native";
-import { ProjectDetailsQuery } from "../../../queries/projects";
-import ActionSheet from "react-native-actionsheet";
+import * as React from 'react';
+import { View, TouchableOpacity, Text, Button } from 'react-native';
+import { ProjectDetailsQuery } from '../../../queries/projects';
+import ActionSheet from 'react-native-actionsheet';
 import {
   BACK_BUTTON,
   PROJECT_ACTION_SHEET_BUTTON,
   CLOSE_BUTTON,
-  SUBMIT_BUTTON
-} from "../../../constants/buttons";
-import styles from "./styles";
-import { ProjectDetailsBox } from "../../../components/Discovery/ProjectDetailsScreen";
+  SUBMIT_BUTTON,
+} from '../../../constants/buttons';
+import styles from './styles';
+import { ProjectDetailsBox } from '../../../components/Discovery/ProjectDetailsScreen';
 import {
   PROJECT_EDIT_SCREEN,
-  USER_DETAILS_SCREEN
-} from "../../../constants/screens";
-import { WithdrawProjectLikeMutation } from "../../../mutations/projectLikes";
-import { LoadingIndicator, ErrorMessage } from "../../../components/Common";
+  USER_DETAILS_SCREEN,
+} from '../../../constants/screens';
+import { WithdrawProjectLikeMutation } from '../../../mutations/projectLikes';
+import { LoadingIndicator, ErrorMessage } from '../../../components/Common';
 
 type Props = {
   id: string;
@@ -28,11 +28,11 @@ type State = {};
 const CANCEL_INDEX = 0;
 const WITHDRAW_PROJECT_LIKE_INDEX = 1;
 // handle options dynamically
-const ACTION_SHEET_OPTIONS = ["Cancel", "Leave project"];
+const ACTION_SHEET_OPTIONS = ['Cancel', 'Leave project'];
 
 class LikedProjectDetailsScreen extends React.Component<Props, State> {
   public refs = {
-    actionSheet: ActionSheet
+    actionSheet: ActionSheet,
   };
 
   constructor(props: Props) {
@@ -41,7 +41,7 @@ class LikedProjectDetailsScreen extends React.Component<Props, State> {
   }
 
   private handleNavigatorEvent = (e) => {
-    if (e.type !== "NavBarButtonPress") return;
+    if (e.type !== 'NavBarButtonPress') return;
 
     console.log(e);
     switch (e.id) {
@@ -50,11 +50,11 @@ class LikedProjectDetailsScreen extends React.Component<Props, State> {
       case BACK_BUTTON:
         this.props.navigator.pop();
     }
-  };
+  }
 
   private handlePressActionSheet = (
     index: number,
-    withdrawProjectLikeMutation: any
+    withdrawProjectLikeMutation: any,
   ) => {
     const { id } = this.props;
     switch (index) {
@@ -62,16 +62,16 @@ class LikedProjectDetailsScreen extends React.Component<Props, State> {
         withdrawProjectLikeMutation({ variables: { projectId: id } });
         break;
     }
-  };
+  }
 
   private handleUserPress = (userId: string) => {
     this.props.navigator.push({
       screen: USER_DETAILS_SCREEN,
       passProps: {
-        id: userId
-      }
+        id: userId,
+      },
     });
-  };
+  }
 
   render() {
     const { id } = this.props;
@@ -102,14 +102,14 @@ class LikedProjectDetailsScreen extends React.Component<Props, State> {
                     />
                     <ActionSheet
                       ref={(o) => (this.ActionSheet = o)}
-                      title={"Title"}
+                      title={'Title'}
                       options={ACTION_SHEET_OPTIONS}
                       cancelButtonIndex={CANCEL_INDEX}
                       destructiveButtonIndex={CANCEL_INDEX}
                       onPress={(index) =>
                         this.handlePressActionSheet(
                           index,
-                          withdraProjectLikeMutation
+                          withdraProjectLikeMutation,
                         )
                       }
                     />
@@ -118,7 +118,7 @@ class LikedProjectDetailsScreen extends React.Component<Props, State> {
                 );
               }}
             </WithdrawProjectLikeMutation>
-          
+
           );
         }}
       </ProjectDetailsQuery>

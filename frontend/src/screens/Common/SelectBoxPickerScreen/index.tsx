@@ -1,9 +1,9 @@
-import * as React from "react";
-import { View, FlatList, Text } from "react-native";
-import { ListItem } from "react-native-elements";
-import { CLOSE_BUTTON } from "../../../constants/buttons";
+import * as React from 'react';
+import { View, FlatList, Text } from 'react-native';
+import { ListItem } from 'react-native-elements';
+import { CLOSE_BUTTON } from '../../../constants/buttons';
 
-import styles from "./styles";
+import styles from './styles';
 type Item = {
   id?: string;
   name: string;
@@ -27,19 +27,19 @@ class PickerScreen extends React.Component<Props> {
   }
 
   private handleNavigatorEvent = (e) => {
-    if (e.type !== "NavBarButtonPress") return;
+    if (e.type !== 'NavBarButtonPress') return;
 
     switch (e.id) {
       case CLOSE_BUTTON:
         this.props.navigator.dismissModal();
         break;
     }
-  };
+  }
 
   private handlePress = (key: string, value: string | number) => {
     this.props.onPress(key, value);
     this.props.navigator.dismissModal();
-  };
+  }
 
   private renderSelectedItem = () => {
     const { selectedValue, label } = this.props;
@@ -48,7 +48,7 @@ class PickerScreen extends React.Component<Props> {
       <View style={styles.selectedItemContainer}>
         <Text style={styles.label}>{label}</Text>
         <ListItem
-          title={(selectedValue || "").toString()}
+          title={(selectedValue || '').toString()}
           topDivider
           bottomDivider
           containerStyle={styles.itemContainer}
@@ -56,7 +56,7 @@ class PickerScreen extends React.Component<Props> {
         />
       </View>
     );
-  };
+  }
 
   private renderOptionItems = () => {
     return (
@@ -64,7 +64,7 @@ class PickerScreen extends React.Component<Props> {
         <FlatList data={this.props.items} renderItem={this.renderItem} />
       </View>
     );
-  };
+  }
 
   private renderItem = (data) => {
     const index = data.index;
@@ -81,7 +81,7 @@ class PickerScreen extends React.Component<Props> {
         titleStyle={styles.title}
       />
     );
-  };
+  }
 
   render() {
     return (

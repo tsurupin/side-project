@@ -1,26 +1,26 @@
-import * as React from "react";
+import * as React from 'react';
 import {
   View,
   Text,
   TouchableOpacity,
   AsyncStorage,
   ScrollView,
-  SectionList
-} from "react-native";
-import { MatchListQuery } from "../../../queries/matches";
-import { CHAT_SCREEN, USER_DETAILS_SCREEN } from "../../../constants/screens";
+  SectionList,
+} from 'react-native';
+import { MatchListQuery } from '../../../queries/matches';
+import { CHAT_SCREEN, USER_DETAILS_SCREEN } from '../../../constants/screens';
 import {
   MatchQueueList,
-  ChatList
-} from "../../../components/Match/MatchScreen";
-import { Chat, UserCore } from "../../../interfaces";
+  ChatList,
+} from '../../../components/Match/MatchScreen';
+import { Chat, UserCore } from '../../../interfaces';
 import {
   BACK_BUTTON,
-} from "../../../constants/buttons";
-import { BACK_ICON } from "../../../constants/icons";
-import IconLoader from "../../../utilities/iconLoader";
-import styles from "./styles";
-import { LoadingIndicator, ErrorMessage } from "../../../components/Common";
+} from '../../../constants/buttons';
+import { BACK_ICON } from '../../../constants/icons';
+import IconLoader from '../../../utilities/IconLoader';
+import styles from './styles';
+import { LoadingIndicator, ErrorMessage } from '../../../components/Common';
 
 type Props = {
   navigator: any;
@@ -34,7 +34,7 @@ class MatchScreen extends React.Component<Props, State> {
   }
 
   protected handleChatPress = (id: string, name: string): void => {
-   
+
     this.props.navigator.push({
       screen: CHAT_SCREEN,
       title: name,
@@ -43,16 +43,16 @@ class MatchScreen extends React.Component<Props, State> {
         leftButtons: [
           {
             icon: IconLoader.getIcon(BACK_ICON),
-            id: BACK_BUTTON
-          }
-        ]
-      }
+            id: BACK_BUTTON,
+          },
+        ],
+      },
     });
-  };
+  }
 
   protected handleUserPress = (
     userId: number,
-    userDisplayName: string
+    userDisplayName: string,
   ): void => {
     this.props.navigator.push({
       screen: USER_DETAILS_SCREEN,
@@ -62,12 +62,12 @@ class MatchScreen extends React.Component<Props, State> {
         leftButtons: [
           {
             icon: IconLoader.getIcon(BACK_ICON),
-            id: BACK_BUTTON
-          }
-        ]
-      }
+            id: BACK_BUTTON,
+          },
+        ],
+      },
     });
-  };
+  }
 
   render() {
     return (

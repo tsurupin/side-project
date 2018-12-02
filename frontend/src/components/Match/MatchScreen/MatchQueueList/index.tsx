@@ -1,9 +1,9 @@
-import * as React from "react";
-import { View, ScrollView, Text } from "react-native";
-import { Avatar } from "react-native-elements";
-import styles from "./styles";
+import * as React from 'react';
+import { View, ScrollView, Text } from 'react-native';
+import { Avatar } from 'react-native-elements';
+import styles from './styles';
 
-import { UserCore } from "../../../../interfaces";
+import { UserCore } from '../../../../interfaces';
 
 type Props = {
   likedUserList: UserCore[];
@@ -24,7 +24,7 @@ const MatchQueueList: React.SFC<Props> = (props) => {
               rounded
               source={{
                 uri:
-                  "https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg"
+                  'https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg',
               }}
               onPress={() => props.onPress(user.id, user.displayName)}
               activeOpacity={0.7}

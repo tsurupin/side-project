@@ -1,4 +1,4 @@
-import gql from "graphql-tag";
+import gql from 'graphql-tag';
 
 export const USER_FRAGMENTS = {
   userDetails: gql`
@@ -55,5 +55,5 @@ export const USER_FRAGMENTS = {
       }
       mainPhotoUrl
     }
-  `
+  `,
 };

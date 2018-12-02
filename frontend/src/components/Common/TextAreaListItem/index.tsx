@@ -1,7 +1,7 @@
-import * as React from "react";
-import { View, Text } from "react-native";
-import { ListItem } from "react-native-elements";
-import styles from "./styles";
+import * as React from 'react';
+import { View, Text } from 'react-native';
+import { ListItem } from 'react-native-elements';
+import styles from './styles';
 
 type Props = {
   label: string;
@@ -11,7 +11,7 @@ type Props = {
   onPress: (
     keyName: string,
     value: string | undefined,
-    placeholder: string
+    placeholder: string,
   ) => void;
 };
 

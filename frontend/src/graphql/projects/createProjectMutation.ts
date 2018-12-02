@@ -1,6 +1,6 @@
-import gql from "graphql-tag";
-import { PROJECT_FRAGMENTS } from "./projectFragments";
-import { parseFragment } from "../utilities/parseFragment";
+import gql from 'graphql-tag';
+import { PROJECT_FRAGMENTS } from './projectFragments';
+import { parseFragment } from '../utilities/parseFragment';
 
 export const CREATE_PROJECT_MUTATION = gql`
 mutation CreateProject($title: String!, $leadSentence: String, $motivation: String, $requirement: String, $genreId: ID, $skillIds: [ID]) {

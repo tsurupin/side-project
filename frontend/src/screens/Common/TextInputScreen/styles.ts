@@ -1,37 +1,37 @@
-import { StyleSheet, Dimensions } from "react-native";
-import { BackgroundColor, WhiteColor, MainTextColor,BorderColor, ActiveMainColor } from "../../../constants/colors";
-const height = Dimensions.get("window").height;
+import { StyleSheet, Dimensions } from 'react-native';
+import { BackgroundColor, WhiteColor, MainTextColor, BorderColor, ActiveMainColor } from '../../../constants/colors';
+const height = Dimensions.get('window').height;
 
 const styles = StyleSheet.create({
   container: {
     backgroundColor: BackgroundColor,
-    height: height,
+    height,
     paddingTop: 30,
     paddingBottom: 30,
     paddingLeft: 15,
-    paddingRight: 15
+    paddingRight: 15,
   },
   inputContainer: {
-    width: "100%",
+    width: '100%',
     marginBottom: 15,
   },
   inputTextContainer: {
     borderColor: BorderColor,
     backgroundColor: WhiteColor,
-    padding: 10
+    padding: 10,
   },
   inputText: {
     color: MainTextColor,
     fontSize: 16,
-    paddingRight: 5
+    paddingRight: 5,
   },
   buttonContainer: {
-    flexDirection: "column",
+    flexDirection: 'column',
     alignItems: 'center',
-    justifyContent:'center'
+    justifyContent:'center',
   },
   button: {
-    borderColor: "transparent",
+    borderColor: 'transparent',
     borderWidth: 0,
     borderRadius: 5,
     height: 48,
@@ -41,10 +41,10 @@ const styles = StyleSheet.create({
   buttonTitle: {
     color: WhiteColor,
     fontSize: 16,
-    fontWeight: "bold",
-    textAlign: "center"
+    fontWeight: 'bold',
+    textAlign: 'center',
   },
 
-})
+});
 
 export default styles;

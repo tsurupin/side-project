@@ -1,4 +1,4 @@
-import gql from "graphql-tag";
+import gql from 'graphql-tag';
 
 export const LIKE_USER_MUTATION = gql`
   mutation LikeUser($targetUserId: ID!) {

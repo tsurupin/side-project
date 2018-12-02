@@ -1,4 +1,4 @@
-import EditForm from "./EditForm";
-export { 
-  EditForm 
+import EditForm from './EditForm';
+export {
+  EditForm,
 };

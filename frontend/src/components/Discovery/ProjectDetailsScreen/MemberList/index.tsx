@@ -1,16 +1,16 @@
-import * as React from "react";
+import * as React from 'react';
 
-import { Animated, View, Text, FlatList } from "react-native";
-import { UserCore } from "../../../../interfaces";
-import MemberListItem from "../MemberListItem";
-import {Icon} from "react-native-elements";
+import { Animated, View, Text, FlatList } from 'react-native';
+import { UserCore } from '../../../../interfaces';
+import MemberListItem from '../MemberListItem';
+import { Icon } from 'react-native-elements';
 import {
   FORMAT_HORIZONTAL_ALIGN_LEFT_ICON,
   FORMAT_HORIZONTAL_ALIGN_RIGHT_ICON,
-  ICON_MAIN_TYPE
-} from "../../../../constants/icons";
-import { ActiveMainColor} from "../../../../constants/colors";
-import styles from "./styles";
+  ICON_MAIN_TYPE,
+} from '../../../../constants/icons';
+import { ActiveMainColor } from '../../../../constants/colors';
+import styles from './styles';
 
 type Props = {
   members: UserCore[];
@@ -31,7 +31,7 @@ class MemberList extends React.Component<Props, State> {
     this.state = {
       isOpen: false,
       maxHeight:  MIN_HEIGHT + (props.members.length * 60) - 10,
-      currentHeight: new Animated.Value(2) 
+      currentHeight: new Animated.Value(2),
     };
   }
 
@@ -41,11 +41,11 @@ class MemberList extends React.Component<Props, State> {
     const finalValue = isOpen ? MIN_HEIGHT : maxHeight;
 
     this.setState({ isOpen: !this.state.isOpen });
-  
+
     Animated.spring(this.state.currentHeight, {
       toValue: finalValue,
     }).start();
-  };
+  }
 
   private renderUserListToggleIcon = () => {
     return (
@@ -63,7 +63,7 @@ class MemberList extends React.Component<Props, State> {
         onPress={() => this.toggle()}
       />
     );
-  };
+  }
 
   render() {
     const { members, onPressUser } = this.props;
@@ -75,8 +75,8 @@ class MemberList extends React.Component<Props, State> {
             {this.renderUserListToggleIcon()}
         </View>
       <Animated.View
-        style={[styles.container, { height: this.state.currentHeight}]}
-      > 
+        style={[styles.container, { height: this.state.currentHeight }]}
+      >
         <FlatList
           data={members}
           renderItem={({ item }) => {

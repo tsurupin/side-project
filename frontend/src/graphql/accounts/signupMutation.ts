@@ -1,4 +1,4 @@
-import gql from "graphql-tag";
+import gql from 'graphql-tag';
 
 export const SIGN_UP_MUTATION = gql`
   mutation SignUp($providerId: String!, $uid: String!) {
