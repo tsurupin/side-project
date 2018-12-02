@@ -1,5 +1,5 @@
 import { Navigation } from "react-native-navigation";
-import ApolloWrapper from "./appolloWrapper";
+import ApolloWrapper from "./AppolloWrapper";
 import {
   AUTH_SCREEN,
   TOP_SCREEN,
@@ -24,8 +24,7 @@ import {
   PHOTOS_EDIT_SCREEN
 } from "./constants/screens";
 import AuthScreen from "./screens/Auth";
-//import TopScreen from "./screens/Top";
-
+/
 import { MatchScreen, ChatScreen } from "./screens/Match";
 
 import {
