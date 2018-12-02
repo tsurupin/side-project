@@ -15,7 +15,6 @@ const AcceptUserLikeMutation = (props: Props) => {
       mutation={ACCEPT_USER_LIKE_MUTATION}
       context={{ needAuth: true }}
       update={(cache, { data: { acceptUserLike: chat } }) => {
-        console.log("ACCEPT_USER_LIKE", chat);
         const { matchList } = cache.readQuery({ query: MATCH_LIST_QUERY });
 
         cache.writeQuery({
