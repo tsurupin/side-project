@@ -1,4 +1,4 @@
-import DiscoveryScreen from "./DiscoverScreen";
+import DiscoveryScreen from "./DiscoveryScreen";
 import UserSearchModalScreen from "./UserSearchModalScreen";
 import UserDetailsScreen from "./UserDetailsScreen";
 import ProjectDetailsScreen from "./ProjectDetailsScreen";
