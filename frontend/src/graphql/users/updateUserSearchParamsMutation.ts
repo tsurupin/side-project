@@ -1,4 +1,4 @@
-import gql from "graphql-tag";
+import gql from 'graphql-tag';
 // type Location = {
 //   distance: Int!;
 //   latitude: Float!;

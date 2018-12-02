@@ -1,7 +1,7 @@
-import * as React from "react";
-import { Query } from "react-apollo";
-import { USER_SEARCH_FORM_QUERY } from "../../graphql/users";
-import { USER_SEARCH_PARAMS_QUERY } from "../../graphql/users";
+import * as React from 'react';
+import { Query } from 'react-apollo';
+import { USER_SEARCH_FORM_QUERY } from '../../graphql/users';
+import { USER_SEARCH_PARAMS_QUERY } from '../../graphql/users';
 
 type Props = {
   children: any;
@@ -20,11 +20,11 @@ const UserSearchFormQuery = (props: Props) => {
         return (
           <Query query={USER_SEARCH_PARAMS_QUERY}>
             {({ data }) => {
-              console.log("search params", { ...data, ...formData })
+              console.log('search params', { ...data, ...formData });
               return children({
                 data: { ...data, ...formData },
                 loading,
-                error
+                error,
               });
             }}
           </Query>

@@ -1,5 +1,5 @@
-import CreateMessageMutation from "./CreateMessageMutation";
+import CreateMessageMutation from './CreateMessageMutation';
 
 export {
-  CreateMessageMutation
-}
+  CreateMessageMutation,
+};

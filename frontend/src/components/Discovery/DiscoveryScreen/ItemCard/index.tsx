@@ -1,10 +1,10 @@
-import * as React from "react";
-import { View, TouchableOpacity } from "react-native";
+import * as React from 'react';
+import { View, TouchableOpacity } from 'react-native';
 
-import { Card, Text, Divider, Badge } from "react-native-elements";
+import { Card, Text, Divider, Badge } from 'react-native-elements';
 
-import styles from "./styles";
-import { City } from "../../../../interfaces";
+import styles from './styles';
+import { City } from '../../../../interfaces';
 
 type Props = {
   id: string;
@@ -34,7 +34,7 @@ const renderBadge = (badgeName: string | undefined) => {
       value={badgeName}
       containerStyle={styles.badgeContainer}
       textStyle={styles.badgeText}
-      
+
     />
   );
 };
@@ -48,7 +48,7 @@ const ItemCard: React.SFC<Props> = (props) => {
     subText,
     badgeText,
     city,
-    onPressCard
+    onPressCard,
   } = props;
 
   return (
@@ -72,8 +72,8 @@ const ItemCard: React.SFC<Props> = (props) => {
 
             <View style={styles.subTextContainer}>
               <Divider style={styles.divider} />
-              
-              <Text style={styles.leadSentence}>{details || "This is details about this project. There are three steps to achive this project"}</Text>
+
+              <Text style={styles.leadSentence}>{details || 'This is details about this project. There are three steps to achive this project'}</Text>
             </View>
           </View>
         </Card>

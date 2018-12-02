@@ -1,32 +1,32 @@
-import * as React from "react";
-import { View, ScrollView } from "react-native";
-import { Avatar } from "react-native-elements";
+import * as React from 'react';
+import { View, ScrollView } from 'react-native';
+import { Avatar } from 'react-native-elements';
 
 import {
   ErrorMessage,
   LoadingIndicator,
-  PhotosEditForm
-} from "../../../components/Common";
-import { EditForm } from "../../../components/Me/Common";
-import { UserEditFormQuery } from "../../../queries/users";
-import { EditUserMutation } from "../../../mutations/users";
+  PhotosEditForm,
+} from '../../../components/Common';
+import { EditForm } from '../../../components/Me/Common';
+import { UserEditFormQuery } from '../../../queries/users';
+import { EditUserMutation } from '../../../mutations/users';
 
 import {
   UploadUserPhotoMutation,
-  DeleteUserPhotoMutation
-} from "../../../mutations/users";
+  DeleteUserPhotoMutation,
+} from '../../../mutations/users';
 import {
   UserDetails,
   UserEditParams,
   OccupationType,
-  Genre
-} from "../../../interfaces";
-import { uploadImage } from "../../../utilities/imagePickerHandler";
-import styles from "./styles";
-import { PHOTOS_EDIT_SCREEN } from "../../../constants/screens";
-import iconLoader from "../../../utilities/iconLoader";
-import { CLOSE_ICON } from "../../../constants/icons";
-import { CLOSE_BUTTON } from "../../../constants/buttons";
+  Genre,
+} from '../../../interfaces';
+import { uploadImage } from '../../../utilities/imagePickerHandler';
+import styles from './styles';
+import { PHOTOS_EDIT_SCREEN } from '../../../constants/screens';
+import IconLoader from '../../../utilities/IconLoader';
+import { CLOSE_ICON } from '../../../constants/icons';
+import { CLOSE_BUTTON } from '../../../constants/buttons';
 
 type Props = {
   id: number;
@@ -43,37 +43,36 @@ class UserEditScreen extends React.Component<Props, UserEditParams> {
     super(props);
   }
 
- 
   private handleSubmit = (variables: UserEditParams, editUserMutation: any) => {
     editUserMutation({ variables });
-  };
+  }
 
   private handlePressPhoto = (id: string, photos: any[]) => {
     this.props.navigator.showModal({
       screen: PHOTOS_EDIT_SCREEN,
-      title: "Edit Photos",
+      title: 'Edit Photos',
       passProps: {
         id,
         photos,
-        photoType: "User"
+        photoType: 'User',
       },
       navigatorButtons: {
         leftButtons: [
           {
-            icon: iconLoader.getIcon(CLOSE_ICON),
-            title: "Close",
-            id: CLOSE_BUTTON
-          }
+            icon: IconLoader.getIcon(CLOSE_ICON),
+            title: 'Close',
+            id: CLOSE_BUTTON,
+          },
         ],
         rightButtons: [
           {
-            title: "Done",
-            id: CLOSE_BUTTON
-          }
-        ]
-      }
+            title: 'Done',
+            id: CLOSE_BUTTON,
+          },
+        ],
+      },
     });
-  };
+  }
 
   private renderMainPhoto = (user: UserDetails) => {
     const { id, photos } = user;
@@ -85,14 +84,14 @@ class UserEditScreen extends React.Component<Props, UserEditParams> {
           rounded
           source={{
             uri:
-              "https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg"
+              'https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg',
           }}
           onPress={() => this.handlePressPhoto(id, photos)}
           activeOpacity={0.7}
         />
       </View>
     );
-  };
+  }
 
   private renderEditForm = (user: UserDetails, defaultProps: DefaultProps) => {
     const { genres, occupationTypes } = defaultProps;
@@ -122,7 +121,7 @@ class UserEditScreen extends React.Component<Props, UserEditParams> {
         }}
       </EditUserMutation>
     );
-  };
+  }
 
   render() {
     return (
@@ -133,7 +132,7 @@ class UserEditScreen extends React.Component<Props, UserEditParams> {
 
           const defaultProps: DefaultProps = data.userForm;
           const user: UserDetails = data.myUser;
-        
+
           return (
             <View style={styles.container}>
               <ScrollView
@@ -145,7 +144,7 @@ class UserEditScreen extends React.Component<Props, UserEditParams> {
               </ScrollView>
             </View>
           );
-        }}   
+        }}
       </UserEditFormQuery>
     );
   }

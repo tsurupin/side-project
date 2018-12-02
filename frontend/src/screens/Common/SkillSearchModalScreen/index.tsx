@@ -1,18 +1,18 @@
-import * as React from "react";
-import { View, Text } from "react-native";
+import * as React from 'react';
+import { View, Text } from 'react-native';
 
-import { USER_SEARCH_MODAL_SCREEN } from "../../../constants/screens";
-import { SkillList } from "../../../components/Common/SkillSearchModalScreen";
-import { CLOSE_BUTTON, BACK_BUTTON } from "../../../constants/buttons";
-import { SkillsQuery } from "../../../queries/skills";
+import { USER_SEARCH_MODAL_SCREEN } from '../../../constants/screens';
+import { SkillList } from '../../../components/Common/SkillSearchModalScreen';
+import { CLOSE_BUTTON, BACK_BUTTON } from '../../../constants/buttons';
+import { SkillsQuery } from '../../../queries/skills';
 import {
   LoadingIndicator,
   ErrorMessage,
-  SearchInput
-} from "../../../components/Common";
-import { Skill } from "../../../interfaces";
+  SearchInput,
+} from '../../../components/Common';
+import { Skill } from '../../../interfaces';
 
-import styles from "./styles";
+import styles from './styles';
 
 type Props = {
   navigator?: any;
@@ -28,7 +28,7 @@ type State = {
 
 class SkillSearchModalScreen extends React.Component<Props, State> {
   static defaultProps = {
-    skills: []
+    skills: [],
   };
 
   constructor(props) {
@@ -36,15 +36,15 @@ class SkillSearchModalScreen extends React.Component<Props, State> {
 
     this.state = {
       loading: false,
-      name: "",
-      errorMessage: ""
+      name: '',
+      errorMessage: '',
     };
 
     this.props.navigator.setOnNavigatorEvent(this.handleNavigationEvent);
   }
 
   private handleNavigationEvent = (e) => {
-    if (e.type !== "NavBarButtonPress") {
+    if (e.type !== 'NavBarButtonPress') {
       return;
     }
     switch (e.id) {
@@ -52,16 +52,16 @@ class SkillSearchModalScreen extends React.Component<Props, State> {
         this.props.navigator.dismissModal();
         break;
     }
-  };
+  }
 
   private onPressSkill = (skill: Skill) => {
     this.props.onPress(skill);
     this.props.navigator.dismissModal();
-  };
+  }
 
   private handleChangeText = (name: string) => {
     this.setState({ name });
-  };
+  }
 
   private renderSkillList = () => {
     const { name } = this.state;
@@ -71,8 +71,8 @@ class SkillSearchModalScreen extends React.Component<Props, State> {
           if (loading) return <LoadingIndicator />;
 
           if (error) return <ErrorMessage {...error} />;
-  
-          if (!data) return <View/>
+
+          if (!data) return <View/>;
 
           return (
             <SkillList skills={data.skills} onPressSkill={this.onPressSkill} />
@@ -80,12 +80,12 @@ class SkillSearchModalScreen extends React.Component<Props, State> {
         }}
       </SkillsQuery>
     );
-  };
+  }
 
   private renderTextForm = () => {
     const { name } = this.state;
     return <SearchInput name={name} onChangeText={this.handleChangeText} />;
-  };
+  }
 
   render() {
     return (

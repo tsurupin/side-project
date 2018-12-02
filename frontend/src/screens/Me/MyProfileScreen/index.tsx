@@ -1,19 +1,19 @@
-import * as React from "react";
-import { ErrorMessage, LoadingIndicator } from "../../../components/Common";
-import { UserDetailsBox } from "../../../components/Discovery/UserDetailsScreen";
-import { USER_EDIT_SCREEN } from "../../../constants/screens";
-import { MyUserQuery } from "../../../queries/users";
-import { UserDetails } from "../../../interfaces";
+import * as React from 'react';
+import { ErrorMessage, LoadingIndicator } from '../../../components/Common';
+import { UserDetailsBox } from '../../../components/Discovery/UserDetailsScreen';
+import { USER_EDIT_SCREEN } from '../../../constants/screens';
+import { MyUserQuery } from '../../../queries/users';
+import { UserDetails } from '../../../interfaces';
 import {
   USER_EDIT_BUTTON,
   BACK_BUTTON,
   SUBMIT_BUTTON,
-  CLOSE_BUTTON
-} from "../../../constants/buttons";
+  CLOSE_BUTTON,
+} from '../../../constants/buttons';
 
-import styles from "./styles";
-import { CLOSE_ICON } from "../../../constants/icons";
-import iconLoader from "../../../utilities/iconLoader";
+import styles from './styles';
+import { CLOSE_ICON } from '../../../constants/icons';
+import iconLoader from '../../../utilities/IconLoader';
 
 type Props = {
   navigator: any;
@@ -27,7 +27,7 @@ class MyProfileScreen extends React.Component<Props, State> {
   }
 
   private handleNavigatorEvent = (e) => {
-    if (e.type !== "NavBarButtonPress") return;
+    if (e.type !== 'NavBarButtonPress') return;
 
     console.log(e);
     switch (e.id) {
@@ -38,21 +38,21 @@ class MyProfileScreen extends React.Component<Props, State> {
             leftButtons: [
               {
                 icon: iconLoader.getIcon(CLOSE_ICON),
-                id: CLOSE_BUTTON
-              }
+                id: CLOSE_BUTTON,
+              },
             ],
             rightButtons: [
               {
-                title: "Submit",
-                id: SUBMIT_BUTTON
-              }
-            ]
-          }
+                title: 'Submit',
+                id: SUBMIT_BUTTON,
+              },
+            ],
+          },
         });
       case BACK_BUTTON:
         this.props.navigator.pop();
     }
-  };
+  }
 
   render() {
     return (

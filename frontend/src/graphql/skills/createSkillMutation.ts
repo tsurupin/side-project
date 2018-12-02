@@ -1,4 +1,4 @@
-import gql from "graphql-tag";
+import gql from 'graphql-tag';
 
 export const CREATE_SKILL_MUTATION = gql`
 mutation CreateSkill($name: String!) {

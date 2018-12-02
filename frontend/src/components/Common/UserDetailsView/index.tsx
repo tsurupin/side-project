@@ -1,14 +1,14 @@
-import * as React from "react";
-import { UserDetails } from "../../../interfaces";
-import { Card, Divider, Text } from "react-native-elements";
-import { View } from "react-native";
-import styles from "./styles";
+import * as React from 'react';
+import { UserDetails } from '../../../interfaces';
+import { Card, Divider, Text } from 'react-native-elements';
+import { View } from 'react-native';
+import styles from './styles';
 
 type Props = {
   user: UserDetails;
 };
 
-const DEFAULR_URL = "https://placehold.it/100x100";
+const DEFAULR_URL = 'https://placehold.it/100x100';
 
 const UserDetailsView: React.SFC<Props> = (props) => {
   const { user } = props;

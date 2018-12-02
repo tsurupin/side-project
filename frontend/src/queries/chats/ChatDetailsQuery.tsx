@@ -1,6 +1,6 @@
-import * as React from "react";
-import { Query } from "react-apollo";
-import { CHAT_QUERY, NEW_MESSAGE_SUBSCRIPTION } from "../../graphql/chats";
+import * as React from 'react';
+import { Query } from 'react-apollo';
+import { CHAT_QUERY, NEW_MESSAGE_SUBSCRIPTION } from '../../graphql/chats';
 
 type Props = {
   children: any;
@@ -26,12 +26,12 @@ const ChatDetailsQuery = (props: Props) => {
               const newMessage = subscriptionData.data.newMessage;
               const chat = {
                 ...prev.chat,
-                messages: [...prev.chat.messages, newMessage]
+                messages: [...prev.chat.messages, newMessage],
               };
 
               return { ...prev, chat };
             },
-            onError: err => console.info(err, data, loading)
+            onError: err => console.info(err, data, loading),
           });
         };
 
@@ -39,7 +39,7 @@ const ChatDetailsQuery = (props: Props) => {
           error,
           data,
           loading,
-          subscribeMessages
+          subscribeMessages,
         });
       }}
     </Query>

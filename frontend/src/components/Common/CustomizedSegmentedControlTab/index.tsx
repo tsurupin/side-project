@@ -1,6 +1,6 @@
-import * as React from "react";
-import SegmentedControlTab from "react-native-segmented-control-tab";
-import styles from "./styles";
+import * as React from 'react';
+import SegmentedControlTab from 'react-native-segmented-control-tab';
+import styles from './styles';
 
 type Props = {
   selectedIndex: number;

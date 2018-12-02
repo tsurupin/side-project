@@ -1,6 +1,6 @@
-import * as React from "react";
-import { Mutation } from "react-apollo";
-import { LOGIN_MUTATION } from "../../graphql/accounts";
+import * as React from 'react';
+import { Mutation } from 'react-apollo';
+import { LOGIN_MUTATION } from '../../graphql/accounts';
 
 type Props = {
   children: any;

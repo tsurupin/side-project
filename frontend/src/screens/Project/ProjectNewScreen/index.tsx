@@ -1,13 +1,13 @@
-import * as React from "react";
-import { View, ScrollView } from "react-native";
-import { ErrorMessage, LoadingIndicator } from "../../../components/Common";
-import { EditForm } from "../../../components/Project/Common";
-import { ProjectEditParams } from "../../../interfaces";
-import { ProjectFormQuery } from "../../../queries/projects";
-import { CreateProjectMutation } from "../../../mutations/projects";
-import { PROJECT_DETAILS_SCREEN } from "../../../constants/screens";
-import { BACK_BUTTON } from "../../../constants/buttons";
-import styles from "./styles";
+import * as React from 'react';
+import { View, ScrollView } from 'react-native';
+import { ErrorMessage, LoadingIndicator } from '../../../components/Common';
+import { EditForm } from '../../../components/Project/Common';
+import { ProjectEditParams } from '../../../interfaces';
+import { ProjectFormQuery } from '../../../queries/projects';
+import { CreateProjectMutation } from '../../../mutations/projects';
+import { PROJECT_DETAILS_SCREEN } from '../../../constants/screens';
+import { BACK_BUTTON } from '../../../constants/buttons';
+import styles from './styles';
 
 type Props = {
   navigator: any;
@@ -20,10 +20,10 @@ class ProjectNewScreen extends React.Component<Props> {
 
   private handleSubmit = (
     variables: ProjectEditParams,
-    createProjectMutation: any
+    createProjectMutation: any,
   ) => {
     createProjectMutation({ variables });
-  };
+  }
 
   render() {
     return (
@@ -46,7 +46,7 @@ class ProjectNewScreen extends React.Component<Props> {
                     if (error) return <ErrorMessage {...error} />;
                     if (data) {
                       this.props.navigator.dismissAllModals({
-                        animationType: "none"
+                        animationType: 'none',
                       });
                       this.props.navigator.push({
                         screen: PROJECT_DETAILS_SCREEN,
@@ -54,11 +54,11 @@ class ProjectNewScreen extends React.Component<Props> {
                         navigatorButtons: {
                           leftButtons: [
                             {
-                              title: "Back",
-                              id: BACK_BUTTON
-                            }
-                          ]
-                        }
+                              title: 'Back',
+                              id: BACK_BUTTON,
+                            },
+                          ],
+                        },
                       });
                     }
 
@@ -67,7 +67,7 @@ class ProjectNewScreen extends React.Component<Props> {
                         onSubmit={(projectEditParams: ProjectEditParams) =>
                           this.handleSubmit(
                             projectEditParams,
-                            createProjectMutation
+                            createProjectMutation,
                           )
                         }
                         genres={projectFormData.genres}

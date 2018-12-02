@@ -1,11 +1,11 @@
-import { observe, notifier, create } from "@absinthe/socket";
-import { createAbsintheSocketLink } from "@absinthe/socket-apollo-link";
-import { Socket as PhoenixSocket } from "phoenix";
-import { ApolloLink } from "apollo-link";
-import TokenManager from "./tokenManager";
+import { observe, notifier, create } from '@absinthe/socket';
+import { createAbsintheSocketLink } from '@absinthe/socket-apollo-link';
+import { Socket as PhoenixSocket } from 'phoenix';
+import { ApolloLink } from 'apollo-link';
+import TokenManager from './TokenManager';
 
-const PHOENIX_SOCKET_URL = "ws://localhost:4000/socket/websocket?vsn=2.0.0";
-const SOCKET_VERSION = "2.0.0";
+const PHOENIX_SOCKET_URL = 'ws://localhost:4000/socket/websocket?vsn=2.0.0';
+const SOCKET_VERSION = '2.0.0';
 
 const socketParams = (token: string | undefined) => {
   const defaultParams = { vsn: SOCKET_VERSION };
@@ -15,8 +15,8 @@ const socketParams = (token: string | undefined) => {
 const createAbsintheSocket = (token: string | undefined): PhoenixSocket => {
   return create(
     new PhoenixSocket(PHOENIX_SOCKET_URL, {
-      params: socketParams(token)
-    })
+      params: socketParams(token),
+    }),
   );
 };
 
@@ -31,11 +31,11 @@ class AbsintheSocketLink extends ApolloLink {
     this.randomId = Math.random();
 
     const token = TokenManager.getCachedToken();
-    console.log("token", token);
+    console.log('token', token);
     this.token = token;
     this.socket = createAbsintheSocket(this.token);
     this.link = createAbsintheSocketLink(this.socket);
-    console.info("intial socket link!!!");
+    console.info('intial socket link!!!');
     console.log(this.socket, token);
   }
 
@@ -48,15 +48,15 @@ class AbsintheSocketLink extends ApolloLink {
       return;
     }
 
-    console.log("updateToken", token, this.socket);
+    console.log('updateToken', token, this.socket);
     this.token = token;
 
     this.socket.phoenixSocket.disconnect();
     this.socket.phoenixSocket.connect(socketParams(token));
-    //this.socket = createAbsintheSocket(token);
+    // this.socket = createAbsintheSocket(token);
     console.log(this.socket);
-    //this.link = createAbsintheSocketLink(this.socket);
-  };
+    // this.link = createAbsintheSocketLink(this.socket);
+  }
 }
 
 const absintheSocketLink = new AbsintheSocketLink();

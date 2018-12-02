@@ -4,6 +4,8 @@
         "max-line-length": [true, 120],
         "object-shorthand-properties-first": false,
         "radix": false,
-        "ter-arrow-parens": false
+        "ter-arrow-parens": false,
+        "trailing-cmma": false,
+        "import-name": false
     }
 }

@@ -1,12 +1,12 @@
-import { StyleSheet, Dimensions } from "react-native";
-import { BackgroundColor } from "../../../constants/colors";
-const height = Dimensions.get("window").height;
+import { StyleSheet, Dimensions } from 'react-native';
+import { BackgroundColor } from '../../../constants/colors';
+const height = Dimensions.get('window').height;
 const styles = StyleSheet.create({
   container: {
     backgroundColor: BackgroundColor,
     padding: 10,
-    height
-  }
-})
+    height,
+  },
+});
 
 export default styles;

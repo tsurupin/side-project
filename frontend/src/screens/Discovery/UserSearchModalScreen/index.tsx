@@ -1,11 +1,11 @@
-import * as React from "react";
-import { View } from "react-native";
-import { OccupationType, Genre, Skill, Location } from "../../../interfaces";
-import { UserSearchFormQuery } from "../../../queries/users";
-import { UpdateUserSearchParamsMutation } from "../../../mutations/users";
-import SearchForm from "./SearchForm";
+import * as React from 'react';
+import { View } from 'react-native';
+import { OccupationType, Genre, Skill, Location } from '../../../interfaces';
+import { UserSearchFormQuery } from '../../../queries/users';
+import { UpdateUserSearchParamsMutation } from '../../../mutations/users';
+import SearchForm from './SearchForm';
 
-import styles from "./styles";
+import styles from './styles';
 
 type UserSearchParams = {
   occupationTypeId: string | undefined;
@@ -27,19 +27,19 @@ class UserSearchFormScreen extends React.Component<Props> {
 
   private onSubmit = (
     searchParams: UserSearchParams,
-    updateUserSearchParamsMutation
+    updateUserSearchParamsMutation,
   ) => {
-    console.log("OnSubmit", searchParams);
+    console.log('OnSubmit', searchParams);
     updateUserSearchParamsMutation({ variables: searchParams });
     this.props.onSubmit(searchParams);
-  };
+  }
 
   render() {
     return (
       <UserSearchFormQuery>
         {({ data, loading, error }) => {
           if (loading) {
-            console.log("loading");
+            console.log('loading');
             return <View />;
           }
 
@@ -50,7 +50,7 @@ class UserSearchFormScreen extends React.Component<Props> {
 
           const {
             userSearchForm: { genres, occupationTypes },
-            userSearchParams
+            userSearchParams,
           } = data;
 
           return (
@@ -70,7 +70,7 @@ class UserSearchFormScreen extends React.Component<Props> {
                     onSubmit={(searchParams: UserSearchParams) =>
                       this.onSubmit(
                         searchParams,
-                        updateUserSearchParamsMutation
+                        updateUserSearchParamsMutation,
                       )
                     }
                   />

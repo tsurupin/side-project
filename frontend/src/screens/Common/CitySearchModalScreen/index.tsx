@@ -1,18 +1,18 @@
-import * as React from "react";
-import { View, Text, Button } from "react-native";
+import * as React from 'react';
+import { View, Text, Button } from 'react-native';
 
-import { CityList } from "../../../components/Common/CitySearchModalScreen";
-import { CLOSE_BUTTON } from "../../../constants/buttons";
-import { CityListQuery } from "../../../queries/cities";
+import { CityList } from '../../../components/Common/CitySearchModalScreen';
+import { CLOSE_BUTTON } from '../../../constants/buttons';
+import { CityListQuery } from '../../../queries/cities';
 import {
   SearchInput,
   ErrorMessage,
-  LoadingIndicator
-} from "../../../components/Common";
-import { FindOrCreateCityMutation } from "../../../mutations/cities";
-import { City, CityEditParams } from "../../../interfaces";
-import { fetchAddress } from "../../../utilities/geocoder";
-import styles from "./styles";
+  LoadingIndicator,
+} from '../../../components/Common';
+import { FindOrCreateCityMutation } from '../../../mutations/cities';
+import { City, CityEditParams } from '../../../interfaces';
+import { fetchAddress } from '../../../utilities/geocoder';
+import styles from './styles';
 
 type Props = {
   navigator?: any;
@@ -30,7 +30,7 @@ type State = {
 
 class CitySearchModalScreen extends React.Component<Props, State> {
   static defaultProps = {
-    needLocationSearch: false
+    needLocationSearch: false,
   };
 
   constructor(props) {
@@ -39,29 +39,29 @@ class CitySearchModalScreen extends React.Component<Props, State> {
     this.state = {
       loading: false,
       name: undefined,
-      errorMessage: ""
+      errorMessage: '',
     };
 
     this.props.navigator.setOnNavigatorEvent(this.handleNavigatorEvent);
   }
 
   private handleNavigatorEvent = (e) => {
-    if (e.type !== "NavBarButtonPress") return;
+    if (e.type !== 'NavBarButtonPress') return;
 
     switch (e.id) {
       case CLOSE_BUTTON:
         this.props.navigator.dismissModal();
     }
-  };
+  }
 
   private onPress = (city: City) => {
     this.props.onPress(city);
     this.props.navigator.dismissModal();
-  };
+  }
 
   private handleChangeText = (name: string) => {
     this.setState({ name });
-  };
+  }
 
   private handlePressCurrentLocation = (findOrCreateCityMutation) => {
     navigator.geolocation.getCurrentPosition(async ({ coords }) => {
@@ -77,19 +77,19 @@ class CitySearchModalScreen extends React.Component<Props, State> {
             name: address.cityName,
             stateName: address.stateName,
             stateAbbreviation: address.stateAbbreviation,
-            countryName: address.countryName
+            countryName: address.countryName,
           };
           this.setState({
             longitude: address.longitude,
-            latitude: address.latitude
+            latitude: address.latitude,
           });
           findOrCreateCityMutation({ variables: cityParams });
         }
       } catch (e) {
-        console.log("geocode failed", e);
+        console.log('geocode failed', e);
       }
     });
-  };
+  }
 
   private renderCityList = () => {
     const { name } = this.state;
@@ -108,7 +108,7 @@ class CitySearchModalScreen extends React.Component<Props, State> {
         }}
       </CityListQuery>
     );
-  };
+  }
 
   private renderCurrentLocationButtton = (): undefined | JSX.Element => {
     if (!this.props.needLocationSearch) return undefined;
@@ -118,7 +118,7 @@ class CitySearchModalScreen extends React.Component<Props, State> {
         {({ findOrCreateCityMutation, data, loading, error }) => {
           if (loading) return <View />;
           if (error) {
-            console.log("FindOrCreateCityMutationError", error);
+            console.log('FindOrCreateCityMutationError', error);
             return <View />;
           }
           if (data) {
@@ -138,11 +138,11 @@ class CitySearchModalScreen extends React.Component<Props, State> {
         }}
       </FindOrCreateCityMutation>
     );
-  };
+  }
   private renderTextForm = () => {
     const { name } = this.state;
     return <SearchInput name={name} onChangeText={this.handleChangeText} />;
-  };
+  }
 
   render() {
     return (

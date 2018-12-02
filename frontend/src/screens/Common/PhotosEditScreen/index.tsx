@@ -1,23 +1,23 @@
-import * as React from "react";
-import { View, Alert } from "react-native";
+import * as React from 'react';
+import { View, Alert } from 'react-native';
 import {
   ErrorMessage,
   PhotosEditForm,
-  LoadingIndicator
-} from "../../../components/Common";
+  LoadingIndicator,
+} from '../../../components/Common';
 import {
   UploadProjectPhotoMutation,
-  DeleteProjectPhotoMutation
-} from "../../../mutations/projects";
+  DeleteProjectPhotoMutation,
+} from '../../../mutations/projects';
 import {
   UploadUserPhotoMutation,
-  DeleteUserPhotoMutation
-} from "../../../mutations/users";
-import { CLOSE_BUTTON } from "../../../constants/buttons";
+  DeleteUserPhotoMutation,
+} from '../../../mutations/users';
+import { CLOSE_BUTTON } from '../../../constants/buttons';
 
-import * as ImagePickerHandler from "../../../utilities/imagePickerHandler";
-import styles from "./styles";
-import { UserPhoto, ProjectPhoto } from "../../../interfaces";
+import * as ImagePickerHandler from '../../../utilities/imagePickerHandler';
+import styles from './styles';
+import { UserPhoto, ProjectPhoto } from '../../../interfaces';
 
 type Props = {
   navigator: any;
@@ -33,7 +33,7 @@ class PhotosEditScreen extends React.Component<Props> {
   }
 
   private handleNavigationEvent = (e) => {
-    if (e.type !== "NavBarButtonPress") {
+    if (e.type !== 'NavBarButtonPress') {
       return;
     }
     switch (e.id) {
@@ -41,28 +41,28 @@ class PhotosEditScreen extends React.Component<Props> {
         this.props.navigator.dismissModal();
         break;
     }
-  };
+  }
 
   private handlePressDeletion = (mutation, photoId: string) => {
     mutation({ variables: { photoId } });
-  };
+  }
 
   private handlePress = (rank: number, mutation) => {
     const { id } = this.props;
     ImagePickerHandler.uploadImage({
       variables: { rank, projectId: id },
       onCallback: mutation,
-      onError: (message: string) => Alert.alert(message)
+      onError: (message: string) => Alert.alert(message),
     });
-  };
+  }
 
   private renderMutation = () => {
     const { photos, photoType } = this.props;
-    if (photoType === "User") {
+    if (photoType === 'User') {
       return this.renderUserPhotoMutation(photos);
     }
     return this.renderProjectPhotoMutation(photos);
-  };
+  }
 
   private renderUserPhotoMutation = (photos: UserPhoto[]) => {
     return (
@@ -86,7 +86,7 @@ class PhotosEditScreen extends React.Component<Props> {
                 return this.renderEditForm(
                   photos,
                   deleteUserPhotoMutation,
-                  uploadUserPhotoMutation
+                  uploadUserPhotoMutation,
                 );
               }}
             </UploadUserPhotoMutation>
@@ -94,7 +94,7 @@ class PhotosEditScreen extends React.Component<Props> {
         }}
       </DeleteUserPhotoMutation>
     );
-  };
+  }
 
   private renderProjectPhotoMutation = (photos: ProjectPhoto[]) => {
     return (
@@ -105,7 +105,7 @@ class PhotosEditScreen extends React.Component<Props> {
           if (data) {
             const { deleteProjectPhoto } = data;
             photos = photos.filter(
-              (photo) => photo.id !== deleteProjectPhoto.id
+              (photo) => photo.id !== deleteProjectPhoto.id,
             );
           }
           return (
@@ -120,7 +120,7 @@ class PhotosEditScreen extends React.Component<Props> {
                 return this.renderEditForm(
                   photos,
                   deleteProjectPhotoMutation,
-                  uploadProjectPhotoMutation
+                  uploadProjectPhotoMutation,
                 );
               }}
             </UploadProjectPhotoMutation>
@@ -128,7 +128,7 @@ class PhotosEditScreen extends React.Component<Props> {
         }}
       </DeleteProjectPhotoMutation>
     );
-  };
+  }
 
   private renderEditForm = (photos, deleteMutation, uploadMutation) => {
     return (
@@ -142,7 +142,7 @@ class PhotosEditScreen extends React.Component<Props> {
         }
       />
     );
-  };
+  }
 
   render() {
     return <View style={styles.container}>{this.renderMutation()}</View>;

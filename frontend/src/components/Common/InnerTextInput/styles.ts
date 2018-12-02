@@ -1,33 +1,33 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet } from 'react-native';
 const styles = StyleSheet.create({
   container: {
-    flexDirection: "row",
-    justifyContent: "flex-start",
-    width: "100%",
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    width: '100%',
     height: 50,
     fontSize: 14,
     borderBottomWidth: 1,
-    borderColor: "grey"
-    
+    borderColor: 'grey',
+
   },
   label: {
     flex: 1,
-    color: "gray",
-    fontWeight: "bold",
+    color: 'gray',
+    fontWeight: 'bold',
     paddingTop: 23,
     paddingLeft: 10,
   },
   inputContainer: {
     flex: 3,
-    borderBottomWidth: 0
+    borderBottomWidth: 0,
   },
   inputText: {
-    color: "black"
+    color: 'black',
 
   },
   errorText: {
-    color: "red"
-  }
+    color: 'red',
+  },
 });
 
 export default styles;

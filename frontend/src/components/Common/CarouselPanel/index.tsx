@@ -1,7 +1,7 @@
-import * as React from "react";
-import { Image, ScrollView } from "react-native";
-import { UserPhoto } from "../../../../interfaces";
-import styles from "./styles";
+import * as React from 'react';
+import { Image, ScrollView } from 'react-native';
+import { UserPhoto } from '../../../../interfaces';
+import styles from './styles';
 
 type Props = {
   photos: UserPhoto[];
@@ -32,12 +32,12 @@ const CarouselPanel: React.SFC<Props> = (props) => {
       [
         {
           id: 1,
-          imageUrl: "https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg"
+          imageUrl: 'https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg',
         },
         {
           id: 2,
-          imageUrl: "https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg"
-        }
+          imageUrl: 'https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg',
+        },
       ].map((photo) => renderImage(photo))}
     </ScrollView>
   );

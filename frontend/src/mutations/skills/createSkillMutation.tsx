@@ -1,11 +1,11 @@
-import * as React from "react";
-import { Mutation } from "react-apollo";
-import { CREATE_SKILL_MUTATION } from "../../graphql/skills";
+import * as React from 'react';
+import { Mutation } from 'react-apollo';
+import { CREATE_SKILL_MUTATION } from '../../graphql/skills';
 
 const CreateSkillMutation = (
   variables: { name: string },
   parentProps,
-  ChildComponent
+  ChildComponent,
 ) => (
   <Mutation mutation={CREATE_SKILL_MUTATION}>
     {(createSkillMutation, { data, error, loading }) => {
@@ -16,8 +16,8 @@ const CreateSkillMutation = (
       if (error) {
         errorMessage = error.message;
       }
-      if (data && data["createSkill"]) {
-        skill = data["createSkill"];
+      if (data && data['createSkill']) {
+        skill = data['createSkill'];
       }
       return (
         <ChildComponent

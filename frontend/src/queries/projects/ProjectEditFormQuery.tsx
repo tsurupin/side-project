@@ -1,12 +1,11 @@
-import * as React from "react";
-import { Query } from "react-apollo";
-import { PROJECT_EDIT_FORM_QUERY } from "../../graphql/projects";
+import * as React from 'react';
+import { Query } from 'react-apollo';
+import { PROJECT_EDIT_FORM_QUERY } from '../../graphql/projects';
 
 type Props = {
   variables: { id: string };
   children: any;
 };
-
 
 const ProjectEditFormQuery = (props: Props) => {
   const { variables, children } = props;
@@ -21,7 +20,7 @@ const ProjectEditFormQuery = (props: Props) => {
         return children({
           data,
           loading,
-          error
+          error,
         });
       }}
     </Query>
@@ -29,4 +28,3 @@ const ProjectEditFormQuery = (props: Props) => {
 };
 
 export default ProjectEditFormQuery;
-

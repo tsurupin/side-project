@@ -1,18 +1,18 @@
-import * as React from "react";
-import { View, TouchableOpacity, Text, Button } from "react-native";
-import { ErrorMessage, LoadingIndicator } from "../../../components/Common";
-import { UserDetailsBox } from "../../../components/Discovery/UserDetailsScreen";
-import { USER_DISCOVERY_SCREEN, CHAT_SCREEN } from "../../../constants/screens";
-import { BACK_BUTTON } from "../../../constants/buttons";
-import { UserDetailsQuery } from "../../../queries/users";
+import * as React from 'react';
+import { View, TouchableOpacity, Text, Button } from 'react-native';
+import { ErrorMessage, LoadingIndicator } from '../../../components/Common';
+import { UserDetailsBox } from '../../../components/Discovery/UserDetailsScreen';
+import { USER_DISCOVERY_SCREEN, CHAT_SCREEN } from '../../../constants/screens';
+import { BACK_BUTTON } from '../../../constants/buttons';
+import { UserDetailsQuery } from '../../../queries/users';
 import {
   LikeUserMutation,
   AcceptUserLikeMutation,
-  RejectUserLikeMutation
-} from "../../../mutations/userLikes";
+  RejectUserLikeMutation,
+} from '../../../mutations/userLikes';
 
-import styles from "./styles";
-import { UserDetails } from "../../../interfaces";
+import styles from './styles';
+import { UserDetails } from '../../../interfaces';
 
 type Props = {
   id: number;
@@ -22,26 +22,26 @@ type Props = {
 
 type State = {};
 class UserDetailsScreen extends React.Component<Props, State> {
- 
+
   constructor(props: Props) {
     super(props);
     this.props.navigator.setOnNavigatorEvent(this.handleNavigatorEvent);
   }
 
   private handleNavigatorEvent = (e) => {
-    if (e.type !== "NavBarButtonPress") return;
+    if (e.type !== 'NavBarButtonPress') return;
     switch (e.id) {
       case BACK_BUTTON:
         this.props.navigator.pop();
     }
-  };
+  }
 
   private handlePress = (mutation) => {
     const { id, liked } = this.props;
     const variables = liked ? { userId: id } : { targetUserId: id };
 
     mutation({ variables });
-  };
+  }
 
   private renderLikedUserDetails = (user: UserDetails) => {
     return (
@@ -51,7 +51,7 @@ class UserDetailsScreen extends React.Component<Props, State> {
           if (error) return <ErrorMessage {...error} />;
           if (data) {
             this.props.navigator.push({
-              screen: USER_DISCOVERY_SCREEN
+              screen: USER_DISCOVERY_SCREEN,
             });
             return <View />;
           }
@@ -64,7 +64,7 @@ class UserDetailsScreen extends React.Component<Props, State> {
                 if (data) {
                   this.props.navigator.push({
                     screen: CHAT_SCREEN,
-                    passProps: { id: data.acceptUserLike.id }
+                    passProps: { id: data.acceptUserLike.id },
                   });
                   return <View />;
                 }
@@ -82,7 +82,7 @@ class UserDetailsScreen extends React.Component<Props, State> {
         }}
       </RejectUserLikeMutation>
     );
-  };
+  }
 
   private renderUserDetails = (user: UserDetails) => {
     return (
@@ -92,7 +92,7 @@ class UserDetailsScreen extends React.Component<Props, State> {
           if (error) return <ErrorMessage {...error} />;
           if (data) {
             this.props.navigator.push({
-              screen: USER_DISCOVERY_SCREEN
+              screen: USER_DISCOVERY_SCREEN,
             });
             return <View />;
           }
@@ -106,7 +106,7 @@ class UserDetailsScreen extends React.Component<Props, State> {
         }}
       </LikeUserMutation>
     );
-  };
+  }
 
   render() {
     const { id, liked } = this.props;

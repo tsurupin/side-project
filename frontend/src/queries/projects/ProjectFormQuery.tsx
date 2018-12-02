@@ -1,6 +1,6 @@
-import * as React from "react";
-import { Query } from "react-apollo";
-import { PROJECT_FORM_QUERY } from "../../graphql/projects";
+import * as React from 'react';
+import { Query } from 'react-apollo';
+import { PROJECT_FORM_QUERY } from '../../graphql/projects';
 type Props = {
   children: any;
 };
@@ -17,7 +17,7 @@ const ProjectFormQuery = (props: Props) => {
         return children({
           data,
           loading,
-          error
+          error,
         });
       }}
     </Query>

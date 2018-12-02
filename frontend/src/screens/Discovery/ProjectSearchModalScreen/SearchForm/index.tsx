@@ -1,29 +1,29 @@
-import * as React from "react";
+import * as React from 'react';
 import {
   SKILL_SEARCH_MODAL_SCREEN,
   CITY_SEARCH_MODAL_SCREEN,
-  SELECT_BOX_PICKER_SCREEN
-} from "../../../../constants/screens";
+  SELECT_BOX_PICKER_SCREEN,
+} from '../../../../constants/screens';
 
-import { View, FlatList, Alert } from "react-native";
-import { ListItem, Icon } from "react-native-elements";
-import { SelectBox } from "../../../../components/Common";
-import { APPLY_BUTTON, CLOSE_BUTTON } from "../../../../constants/buttons";
+import { View, FlatList, Alert } from 'react-native';
+import { ListItem, Icon } from 'react-native-elements';
+import { SelectBox } from '../../../../components/Common';
+import { APPLY_BUTTON, CLOSE_BUTTON } from '../../../../constants/buttons';
 
 import {
   Skill,
   Genre,
   City,
-  ProjectSearchParams
-} from "../../../../interfaces";
-import IconLoader from "../../../../utilities/iconLoader";
+  ProjectSearchParams,
+} from '../../../../interfaces';
+import IconLoader from '../../../../utilities/IconLoader';
 import {
   CLOSE_ICON,
   MINUS_CIRCLE_ICON,
   PLUS_ICON,
-  ICON_MAIN_TYPE
-} from "../../../../constants/icons";
-import styles from "./styles";
+  ICON_MAIN_TYPE,
+} from '../../../../constants/icons';
+import styles from './styles';
 
 type Props = {
   navigator: any;
@@ -46,22 +46,22 @@ class SearchForm extends React.Component<Props, State> {
     this.state = {
       genreId: props.genreId,
       city: props.city,
-      skills: props.skills
+      skills: props.skills,
     };
 
     this.props.navigator.setOnNavigatorEvent(this.handleNavigationEvent);
   }
   private handleNavigationEvent = (e) => {
     const { genreId, city, skills } = this.state;
-    if (e.type !== "NavBarButtonPress") {
+    if (e.type !== 'NavBarButtonPress') {
       return;
     }
     switch (e.id) {
       case APPLY_BUTTON:
         this.props.onSubmit({
-          genreId: genreId,
-          city: city,
-          skills: skills
+          genreId,
+          city,
+          skills,
         });
         this.props.navigator.dismissModal();
         break;
@@ -69,50 +69,50 @@ class SearchForm extends React.Component<Props, State> {
         this.props.navigator.dismissModal();
         break;
     }
-  };
+  }
 
   private handleSkillSearchShowModal = () => {
     this.props.navigator.showModal({
       screen: SKILL_SEARCH_MODAL_SCREEN,
-      title: "Skill Search",
-      animationType: "slide-up",
+      title: 'Skill Search',
+      animationType: 'slide-up',
       passProps: { onPress: this.handleAddSkill },
       navigatorButtons: {
         leftButtons: [
           {
             icon: IconLoader.getIcon(CLOSE_ICON),
-            title: "CLOSE",
-            id: CLOSE_BUTTON
-          }
-        ]
-      }
+            title: 'CLOSE',
+            id: CLOSE_BUTTON,
+          },
+        ],
+      },
     });
-  };
+  }
 
   private handleChangeValue = (
     key: string,
-    value: string | number | boolean
+    value: string | number | boolean,
   ) => {
-    let changeAttr = {};
+    const changeAttr = {};
     changeAttr[key] = value;
 
     this.setState(changeAttr);
-  };
+  }
 
   private handleAddSkill = (skill: Skill) => {
     const skills = Array.from(new Set(this.state.skills.concat(skill)));
     this.setState({ skills });
-  };
+  }
 
   private handleDeleteSkill = (id: string) => {
     const skills = this.state.skills.filter((skill) => skill.id !== id);
     this.setState({ skills });
-  };
+  }
 
   private handlePressShowModal = (
     items: any[],
     keyName: string,
-    selectedValue: string | number | undefined
+    selectedValue: string | number | undefined,
   ) => {
     this.props.navigator.showModal({
       screen: SELECT_BOX_PICKER_SCREEN,
@@ -120,44 +120,44 @@ class SearchForm extends React.Component<Props, State> {
         items,
         keyName,
         selectedValue,
-        onPress: this.handleChangeValue
+        onPress: this.handleChangeValue,
       },
       navigatorButtons: {
         leftButtons: [
           {
             icon: IconLoader.getIcon(CLOSE_ICON),
-            title: "CLOSE",
-            id: CLOSE_BUTTON
-          }
-        ]
-      }
+            title: 'CLOSE',
+            id: CLOSE_BUTTON,
+          },
+        ],
+      },
     });
-  };
+  }
 
   private handleCitySearchShowModal = () => {
     this.props.navigator.showModal({
       screen: CITY_SEARCH_MODAL_SCREEN,
-      title: "City Search",
-      animationType: "slide-up",
+      title: 'City Search',
+      animationType: 'slide-up',
       passProps: { onPress: this.handleAddCity },
       navigatorButtons: {
         leftButtons: [
           {
-            title: "Close",
-            id: CLOSE_BUTTON
-          }
-        ]
-      }
+            title: 'Close',
+            id: CLOSE_BUTTON,
+          },
+        ],
+      },
     });
-  };
+  }
 
   private handleAddCity = (city: City) => {
     this.setState({ city });
-  };
+  }
 
   private renderSkillList = () => {
     return <FlatList data={this.state.skills} renderItem={this.renderSkill} />;
-  };
+  }
 
   private renderSkill = (data) => {
     const skill: Skill = data.item;
@@ -169,13 +169,13 @@ class SearchForm extends React.Component<Props, State> {
         rightIcon={this.renderSkillRemoveIcon(skill.id)}
       />
     );
-  };
+  }
 
   private renderSkillAddIcon = () => {
     return (
       <Icon type={ICON_MAIN_TYPE} name={PLUS_ICON} size={24} color="black" />
     );
-  };
+  }
 
   private renderSkillRemoveIcon = (skillId: string) => {
     return (
@@ -187,14 +187,14 @@ class SearchForm extends React.Component<Props, State> {
         onPress={() => this.handleDeleteSkill(skillId)}
       />
     );
-  };
+  }
 
   render() {
     const { genreId, city } = this.state;
 
     const { genres } = this.props;
 
-    console.log("city search form", city);
+    console.log('city search form', city);
 
     return (
       <View style={styles.container}>
@@ -208,7 +208,7 @@ class SearchForm extends React.Component<Props, State> {
         />
         <ListItem
           key="city"
-          title={city ? city.fullName || "Select City" : "Select City"}
+          title={city ? city.fullName || 'Select City' : 'Select City'}
           chevron
           bottomDivider
           onPress={() => this.handleCitySearchShowModal()}

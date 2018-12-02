@@ -1,4 +1,4 @@
-import gql from "graphql-tag";
+import gql from 'graphql-tag';
 
 export const UPLOAD_PROJECT_PHOTO_MUTATION = gql`
   mutation UploadProjectPhoto($projectId: ID!, $photo: Upload!, $rank: Int!) {

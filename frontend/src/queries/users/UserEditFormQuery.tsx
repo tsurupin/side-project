@@ -1,6 +1,6 @@
-import * as React from "react";
-import { Query } from "react-apollo";
-import { USER_EDIT_FORM_QUERY } from "../../graphql/users";
+import * as React from 'react';
+import { Query } from 'react-apollo';
+import { USER_EDIT_FORM_QUERY } from '../../graphql/users';
 type Props = {
   children: any;
 };
@@ -17,7 +17,7 @@ const UserEditFormQuery = (props: Props) => {
         return children({
           data,
           loading,
-          error
+          error,
         });
       }}
     </Query>

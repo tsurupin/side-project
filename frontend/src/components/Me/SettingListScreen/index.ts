@@ -1,7 +1,7 @@
-import UserCard from "./UserCard";
-import SettingList from "./SettingList";
+import UserCard from './UserCard';
+import SettingList from './SettingList';
 
 export {
   UserCard,
-  SettingList
+  SettingList,
 };

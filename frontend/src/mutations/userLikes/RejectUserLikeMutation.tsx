@@ -1,7 +1,7 @@
-import * as React from "react";
-import { Mutation } from "react-apollo";
-import { REJECT_USER_LIKE_MUTATION } from "../../graphql/userLikes";
-import { MATCH_LIST_QUERY } from "../../graphql/matches";
+import * as React from 'react';
+import { Mutation } from 'react-apollo';
+import { REJECT_USER_LIKE_MUTATION } from '../../graphql/userLikes';
+import { MATCH_LIST_QUERY } from '../../graphql/matches';
 
 type Props = {
   children: any;
@@ -17,12 +17,12 @@ const RejectUserLikeMutation = (props: Props) => {
       update={(cache, { data: { rejectUserLike: userId } }) => {
         const { matchList } = cache.readQuery({ query: MATCH_LIST_QUERY });
         const likedUserList = matchList.likedUserList.filter(
-          (user) => user.id !== userId
+          (user) => user.id !== userId,
         );
 
         cache.writeQuery({
           query: MATCH_LIST_QUERY,
-          data: { matchList: { ...matchList, likedUserList } }
+          data: { matchList: { ...matchList, likedUserList } },
         });
       }}
     >
@@ -32,7 +32,7 @@ const RejectUserLikeMutation = (props: Props) => {
           loading,
           error,
           data,
-          name: "rejectUserLike"
+          name: 'rejectUserLike',
         });
       }}
     </Mutation>

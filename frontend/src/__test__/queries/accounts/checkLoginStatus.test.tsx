@@ -4,45 +4,44 @@ import * as renderer from 'react-test-renderer';
 import { LOGIN_STATUS_QUERY } from '../../../graphql/accounts';
 import checkLoginStatus from '../../../queries/accounts/checkLoginStatus';
 
-jest.mock('react-dom/server', () => {}, {virtual: true});
+jest.mock('react-dom/server', () => {}, { virtual: true });
 
 const mocks = [
-    {
-      request: {
-        query: LOGIN_STATUS_QUERY
+  {
+    request: {
+        query: LOGIN_STATUS_QUERY,
       },
-      result: {
+    result: {
         data: {
           loginStatus: {
-            logined: false
-          }
-        }
-      }
-    }
-  ];
- 
-  
+            logined: false,
+          },
+        },
+      },
+  },
+];
+
 describe('CheckLoginStatusQuery', () => {
-    it("checkLoginStatus", done => {
+  it('checkLoginStatus', done => {
       class Container extends React.Component<any, any, any> {
-          componentWillReceiveProps(nextProps) {
+        componentWillReceiveProps(nextProps) {
             expect(nextProps.loginStatus.loading).toBeFalsy;
             done();
           }
-      
-          render() {
+
+        render() {
             return null;
           }
-        }
-      
-        const ContainerWithData :any = checkLoginStatus(Container);
-      
-        renderer.create(
+      }
+
+      const ContainerWithData :any = checkLoginStatus(Container);
+
+      renderer.create(
           <MockedProvider mocks={mocks}>
             <ContainerWithData />
-          </MockedProvider>
+          </MockedProvider>,
         );
-     
+
     });
 
-})
+});

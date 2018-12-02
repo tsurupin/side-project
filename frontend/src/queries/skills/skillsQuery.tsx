@@ -1,6 +1,6 @@
-import * as React from "react";
-import { Query } from "react-apollo";
-import { SKILLS_QUERY } from "../../graphql/skills";
+import * as React from 'react';
+import { Query } from 'react-apollo';
+import { SKILLS_QUERY } from '../../graphql/skills';
 
 type Props = {
   variables: { name: string };
