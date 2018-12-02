@@ -24,7 +24,6 @@ import {
   PHOTOS_EDIT_SCREEN
 } from "./constants/screens";
 import AuthScreen from "./screens/Auth";
-/
 import { MatchScreen, ChatScreen } from "./screens/Match";
 
 import {
@@ -66,7 +65,7 @@ import {
   LIBRARY_BOOKS_ICON,
   BACK_ICON
 } from "./constants/icons";
-import IconLoader from "./utilities/iconLoader";
+import IconLoader from "./utilities/IconLoader";
 
 const registerComponents = () => {
   Navigation.registerComponent(AUTH_SCREEN, () => ApolloWrapper(AuthScreen));

@@ -24,7 +24,7 @@ import {
 import { uploadImage } from "../../../utilities/imagePickerHandler";
 import styles from "./styles";
 import { PHOTOS_EDIT_SCREEN } from "../../../constants/screens";
-import iconLoader from "../../../utilities/iconLoader";
+import IconLoader from "../../../utilities/IconLoader";
 import { CLOSE_ICON } from "../../../constants/icons";
 import { CLOSE_BUTTON } from "../../../constants/buttons";
 
@@ -60,7 +60,7 @@ class UserEditScreen extends React.Component<Props, UserEditParams> {
       navigatorButtons: {
         leftButtons: [
           {
-            icon: iconLoader.getIcon(CLOSE_ICON),
+            icon: IconLoader.getIcon(CLOSE_ICON),
             title: "Close",
             id: CLOSE_BUTTON
           }

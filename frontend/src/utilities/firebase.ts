@@ -6,7 +6,7 @@ import {
   FIREBASE_DATABASE_URL,
   FIREBASE_PROJECT_ID
 } from "../config";
-import TokenManager from "./tokenManager";
+import TokenManager from "./TokenManager";
 
 const firebaseConfig = {
   apiKey: FIREBASE_API_KEY,

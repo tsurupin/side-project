@@ -14,7 +14,7 @@ import {
   SUBMIT_BUTTON
 } from "../../../constants/buttons";
 import { CLOSE_ICON, BACK_ICON } from "../../../constants/icons";
-import IconLoader from "../../../utilities/iconLoader";
+import IconLoader from "../../../utilities/IconLoader";
 import { PROJECT_NEW_SCREEN } from "../../../constants/screens";
 import { CustomizedSegmentedControlTab } from "../../../components/Common";
 import styles from "./styles";

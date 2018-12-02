@@ -9,8 +9,8 @@ import { createUploadLink } from "@richeterre/apollo-upload-client";
 
 import { onError } from "apollo-link-error";
 //import Retry from 'apollo-link-retry';
-import TokenManager from "./utilities/tokenManager";
-import AbsintheSocketLink from "./utilities/absintheSocketLink";
+import TokenManager from "./utilities/TokenManager";
+import AbsintheSocketLink from "./utilities/AbsintheSocketLink";
 import { firebaseRefreshToken } from "./utilities/firebase";
 import { getMainDefinition } from "apollo-utilities";
 import resolvers from "./resolvers";
