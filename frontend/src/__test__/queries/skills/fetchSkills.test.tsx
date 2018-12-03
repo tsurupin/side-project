@@ -11,11 +11,11 @@ const variables =  { term: 'name' };
 const mocks = [
   {
     request: {
-        query: SKILLS_QUERY,
-        variables,
-      },
+      query: SKILLS_QUERY,
+      variables,
+    },
     result: {
-        data: {
+      data: {
           skills: [
             {
               id: 1,
@@ -23,34 +23,34 @@ const mocks = [
             },
           ],
         },
-      },
+    },
   },
 ];
 console.log(SKILLS_QUERY);
 describe('fetchSkills', () => {
   it('succeeds to fetch skills', done => {
-      class Container extends React.Component<any, any, any> {
+    class Container extends React.Component<any, any, any> {
         componentWillReceiveProps({ skills }) {
 
-            expect(skills.length).toBe(1);
-            expect(skills[0].name).toEqual('name1');
-            done();
-          }
+          expect(skills.length).toBe(1);
+          expect(skills[0].name).toEqual('name1');
+          done();
+        }
 
         render() {
 
-            return null;
-          }
+          return null;
+        }
       }
 
-      const ContainerWithData = fetchSkills(Container);
+    const ContainerWithData = fetchSkills(Container);
 
-      renderer.create(
+    renderer.create(
          <MockedProvider mocks={mocks}>
             <ContainerWithData {...variables} />
           </MockedProvider>,
         );
 
-    });
+  });
 
 });

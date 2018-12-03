@@ -1,5 +1,5 @@
-import { StyleSheet, Dimensions } from 'react-native';
-import { BackgroundColor, SubTextColor, MainTextColor, BorderColor } from '../../../../constants/colors';
+import { StyleSheet } from 'react-native';
+import { SubTextColor, MainTextColor, BorderColor } from '../../../../constants/colors';
 
 const styles = StyleSheet.create({
   container: {

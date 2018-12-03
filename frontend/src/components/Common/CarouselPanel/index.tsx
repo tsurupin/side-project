@@ -27,7 +27,7 @@ const CarouselPanel: React.SFC<Props> = ({ photos }) => {
       contentContainerStyle={styles.container}
       showsHorizontalScrollIndicator={true}
     >
-      {photos.map((photo) => renderImage(photo))} 
+      {photos.map((photo) => renderImage(photo))}
     </ScrollView>
   );
 };

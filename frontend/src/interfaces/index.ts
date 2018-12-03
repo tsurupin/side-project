@@ -1,5 +1,3 @@
-import { NumberValue } from 'apollo-utilities';
-
 export interface City {
   id: string;
   fullName: string;

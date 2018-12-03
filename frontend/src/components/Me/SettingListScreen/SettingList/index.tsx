@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { View } from 'react-native';
 import { ListItem } from 'react-native-elements';
-import { PENCIL_ICON, LOGOUT_ICON } from '../../../../constants/icons';
+import { LOGOUT_ICON } from '../../../../constants/icons';
 import { firebaseSignOut } from '../../../../utilities/firebase';
 import styles from './styles';
 
@@ -21,11 +21,10 @@ const SETTINS_LIST: Item[] = [
 ];
 
 type Props = {
-  onPress: (string) => void;
+  onPress: (screen: string) => void;
 };
 
-const SettingList: React.SFC<Props> = (props) => {
-  const { onPress } = props;
+const SettingList: React.SFC<Props> = ({ onPress }) => {
   return (
     <View>
       {SETTINS_LIST.map((item) => {

@@ -15,7 +15,9 @@ import {
   CLOSE_ICON,
   PLUS_ICON,
   MINUS_CIRCLE_ICON,
-  ICON_MAIN_TYPE
+  ICON_MAIN_TYPE,
+  ICON_BLACK_COLOR,
+  SMALL_ICON_SIZE
 } from '../../../../constants/icons';
 import IconLoader from '../../../../utilities/IconLoader';
 
@@ -37,7 +39,6 @@ type Props = {
   error: any;
   onSubmit: (userEditParams: UserEditParams) => void;
 };
-
 
 // const initiateState = {
 //   displayName: undefined;
@@ -247,7 +248,7 @@ class EditForm extends React.Component<Props, State> {
     keyName: string,
     value: string | number | undefined,
   ) => {
-    const changedAttr = {};
+    const changedAttr: any = {};
     changedAttr[keyName] = value;
     console.log('updated key', changedAttr);
     this.setState(changedAttr);
@@ -319,7 +320,7 @@ class EditForm extends React.Component<Props, State> {
     return <FlatList data={this.state.skills} renderItem={this.renderSkill} />;
   }
 
-  private renderSkill = (data) => {
+  private renderSkill = (data: {item: Skill}) => {
     const skill: Skill = data.item;
     return (
       <ListItem
@@ -333,7 +334,7 @@ class EditForm extends React.Component<Props, State> {
 
   private renderSkillAddIcon = () => {
     return (
-      <Icon type={ICON_MAIN_TYPE} name={PLUS_ICON} size={24} color="black" />
+      <Icon type={ICON_MAIN_TYPE} name={PLUS_ICON} size={SMALL_ICON_SIZE} color={ICON_BLACK_COLOR} />
     );
   }
 
@@ -342,8 +343,8 @@ class EditForm extends React.Component<Props, State> {
       <Icon
         type={ICON_MAIN_TYPE}
         name={MINUS_CIRCLE_ICON}
-        size={24}
-        color="black"
+        size={SMALL_ICON_SIZE}
+        color={ICON_BLACK_COLOR}
         onPress={() => this.handleDeleteSkill(skillId)}
       />
     );

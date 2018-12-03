@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import { Text, TouchableOpacity } from 'react-native';
 import { Avatar } from 'react-native-elements';
 import { UserCore } from '../../../../interfaces';
 import styles from './styles';
@@ -19,7 +19,8 @@ const UserCard: React.SFC<Props> = (props) => {
         avatarStyle={styles.avatar}
         rounded
         source={{
-          uri: 'https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg',
+          uri: user.mainPhotoUrl
+          // uri: 'https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg',
         }}
         onPress={onPress}
         activeOpacity={0.7}
