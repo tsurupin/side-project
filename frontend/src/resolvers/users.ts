@@ -13,8 +13,8 @@ const updateUserSearchParams = (_prev, { userSearchParams }, { cache }) => {
   cache.writeQuery({
     query: USER_SEARCH_PARAMS_QUERY,
     data: {
-      userSearchParams: data.userSearchParams,
-    },
+      userSearchParams: data.userSearchParams
+    }
   });
 
   return null;

@@ -5,8 +5,8 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: BackgroundColor,
     height,
-    paddingTop: 40,
-  },
+    paddingTop: 40
+  }
 });
 
 export default styles;

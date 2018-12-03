@@ -16,7 +16,7 @@ const EditUserMutation = (props: Props) => {
           editUserMutation,
           loading,
           error,
-          data,
+          data
         });
       }}
     </Mutation>

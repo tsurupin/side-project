@@ -11,12 +11,7 @@ type Props = {
 const ProjectDetailsQuery = (props: Props) => {
   const { variables, children } = props;
   return (
-    <Query
-      query={PROJECT_DETAILS_QUERY}
-      variables={variables}
-      context={{ needAuth: true }}
-      notifyOnNetworkStatusChange
-    >
+    <Query query={PROJECT_DETAILS_QUERY} variables={variables} context={{ needAuth: true }} notifyOnNetworkStatusChange>
       {({ data, loading, error }) => children({ data, loading, error })}
     </Query>
   );

@@ -7,8 +7,8 @@ const resolvers = {
   Mutation: {
     changeLoginStatus,
     updateUserSearchParams,
-    updateProjectSearchParams,
-  },
+    updateProjectSearchParams
+  }
 };
 
 export default resolvers;

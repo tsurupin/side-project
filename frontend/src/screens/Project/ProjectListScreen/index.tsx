@@ -2,16 +2,13 @@ import * as React from 'react';
 import { View, Text } from 'react-native';
 import MyProjectList from './MyProjectList';
 import EditableProjectList from './EditableProjectList';
-import {
-  LIKED_PROJECT_DETAILS_SCREEN,
-  PROJECT_EDIT_SCREEN,
-} from '../../../constants/screens';
+import { LIKED_PROJECT_DETAILS_SCREEN, PROJECT_EDIT_SCREEN } from '../../../constants/screens';
 import {
   PROJECT_NEW_BUTTON,
   PROJECT_ACTION_SHEET_BUTTON,
   BACK_BUTTON,
   CLOSE_BUTTON,
-  SUBMIT_BUTTON,
+  SUBMIT_BUTTON
 } from '../../../constants/buttons';
 import { CLOSE_ICON, BACK_ICON } from '../../../constants/icons';
 import IconLoader from '../../../utilities/IconLoader';
@@ -34,7 +31,7 @@ class ProjectListScreen extends React.Component<Props, State> {
     super(props);
 
     this.state = {
-      selectedIndex: LIKED_PROJECT_INDEX,
+      selectedIndex: LIKED_PROJECT_INDEX
     };
     this.props.navigator.setOnNavigatorEvent(this.handleNavigatorEvent);
   }
@@ -50,16 +47,16 @@ class ProjectListScreen extends React.Component<Props, State> {
             leftButtons: [
               {
                 icon: IconLoader.getIcon(CLOSE_ICON),
-                id: CLOSE_BUTTON,
-              },
+                id: CLOSE_BUTTON
+              }
             ],
             rightButtons: [
               {
                 title: 'Create',
-                id: SUBMIT_BUTTON,
-              },
-            ],
-          },
+                id: SUBMIT_BUTTON
+              }
+            ]
+          }
         });
     }
   }
@@ -76,16 +73,16 @@ class ProjectListScreen extends React.Component<Props, State> {
         leftButtons: [
           {
             icon: IconLoader.getIcon(BACK_ICON),
-            id: BACK_BUTTON,
-          },
+            id: BACK_BUTTON
+          }
         ],
         rightButtons: [
           {
             title: 'ACTION',
-            id: PROJECT_ACTION_SHEET_BUTTON,
-          },
-        ],
-      },
+            id: PROJECT_ACTION_SHEET_BUTTON
+          }
+        ]
+      }
     });
   }
 
@@ -97,16 +94,16 @@ class ProjectListScreen extends React.Component<Props, State> {
         leftButtons: [
           {
             icon: IconLoader.getIcon(CLOSE_ICON),
-            id: CLOSE_BUTTON,
-          },
+            id: CLOSE_BUTTON
+          }
         ],
         rightButtons: [
           {
             title: 'Submit',
-            id: SUBMIT_BUTTON,
-          },
-        ],
-      },
+            id: SUBMIT_BUTTON
+          }
+        ]
+      }
     });
   }
 
@@ -127,9 +124,7 @@ class ProjectListScreen extends React.Component<Props, State> {
           selectedIndex={this.state.selectedIndex}
           onTabPress={this.handleIndexChange}
         />
-        <View style={styles.listContainer}>
-        {this.renderProjectList()}
-        </View>
+        <View style={styles.listContainer}>{this.renderProjectList()}</View>
       </View>
     );
   }

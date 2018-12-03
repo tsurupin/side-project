@@ -13,7 +13,6 @@ const SkillList: React.SFC<Props> = ({ skills }) => {
       <Text style={styles.labelText}>Skills</Text>
       <View style={styles.badgeListContainer}>
         {skills.map((skill, i) => {
-
           return (
             <Badge
               key={skill.id}
@@ -22,8 +21,8 @@ const SkillList: React.SFC<Props> = ({ skills }) => {
                 styles.badgeContainer,
                 {
                   width: 16 * skill.name.length,
-                  marginLeft: i === 0 ? 0 : 10,
-                },
+                  marginLeft: i === 0 ? 0 : 10
+                }
               ]}
               textStyle={styles.badgeText}
             />

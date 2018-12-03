@@ -6,10 +6,7 @@ import { BACK_ICON } from '../../../constants/icons';
 
 import styles from './styles';
 import { LikeProjectMutation } from '../../../mutations/projectLikes';
-import {
-  LIKED_PROJECT_DETAILS_SCREEN,
-  USER_DETAILS_SCREEN,
-} from '../../../constants/screens';
+import { LIKED_PROJECT_DETAILS_SCREEN, USER_DETAILS_SCREEN } from '../../../constants/screens';
 import { ProjectDetailsBox } from '../../../components/Discovery/ProjectDetailsScreen';
 import { ProjectDetails } from '../../../interfaces';
 import { LoadingIndicator, ErrorMessage } from '../../../components/Common';
@@ -43,16 +40,16 @@ class ProjectDetailsScreen extends React.Component<Props> {
     this.props.navigator.push({
       screen: USER_DETAILS_SCREEN,
       passProps: {
-        id: userId,
+        id: userId
       },
       navigatorButtons: {
         leftButtons: [
           {
-            icon:IconLoader.getIcon(BACK_ICON),
-            id: BACK_BUTTON,
-          },
-        ],
-      },
+            icon: IconLoader.getIcon(BACK_ICON),
+            id: BACK_BUTTON
+          }
+        ]
+      }
     });
   }
 
@@ -74,7 +71,7 @@ class ProjectDetailsScreen extends React.Component<Props> {
                 if (data) {
                   this.props.navigator.push({
                     screen: LIKED_PROJECT_DETAILS_SCREEN,
-                    passProps: { id },
+                    passProps: { id }
                   });
                   return <View />;
                 }
@@ -89,7 +86,6 @@ class ProjectDetailsScreen extends React.Component<Props> {
                 );
               }}
             </LikeProjectMutation>
-
           );
         }}
       </ProjectDetailsQuery>

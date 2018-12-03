@@ -27,7 +27,7 @@ class MessageForm extends React.Component<Props, State> {
     this.state = {
       comment: undefined,
       image: undefined,
-      messageType: undefined,
+      messageType: undefined
     };
   }
 
@@ -43,17 +43,11 @@ class MessageForm extends React.Component<Props, State> {
         console.log('User tapped custom button: ', response.customButton);
       } else {
         try {
-          const uri = await ImageResizer.createResizedImage(
-            response.uri,
-            600,
-            600,
-            'JPEG',
-            100,
-          );
+          const uri = await ImageResizer.createResizedImage(response.uri, 600, 600, 'JPEG', 100);
           const photo = new ReactNativeFile({
             uri,
             type: 'image/jpeg',
-            name: 'photo.jpg',
+            name: 'photo.jpg'
           });
 
           console.log(photo);
@@ -62,10 +56,7 @@ class MessageForm extends React.Component<Props, State> {
           this.onPress();
         } catch (err) {
           console.log(err);
-          return Alert.alert(
-            'Unable to resize the photo',
-            'Check the console for full the error message',
-          );
+          return Alert.alert('Unable to resize the photo', 'Check the console for full the error message');
         }
       }
     });
@@ -101,9 +92,7 @@ class MessageForm extends React.Component<Props, State> {
           inputStyle={styles.input}
           placeholder="Message"
           value={comment}
-          onChangeText={(v) =>
-            this.setState({ comment: v, messageType: 'comment' })
-          }
+          onChangeText={(v) => this.setState({ comment: v, messageType: 'comment' })}
         />
         <Button
           containerStyle={styles.buttonContainer}

@@ -27,7 +27,7 @@ const renderActionContainer = (
   like: () => void | undefined,
   rejectLike: () => void,
   acceptLike: () => void
-  ) => {
+) => {
   if (liked === undefined) return <View />;
   if (liked) return renderLikeContainer(like);
   return renderResponseLikeContainer(rejectLike, acceptLike);
@@ -81,28 +81,12 @@ const renderCityName = (city: City | undefined) => {
 
 const renderBadge = (badgeName: string | undefined) => {
   if (!badgeName) return undefined;
-  return (
-    <Badge
-      value={badgeName}
-      containerStyle={styles.badgeContainer}
-      textStyle={styles.badgeText}
-    />
-  );
+  return <Badge value={badgeName} containerStyle={styles.badgeContainer} textStyle={styles.badgeText} />;
 };
 
 const UserDetailsBox: React.SFC<Props> = (props) => {
   const { liked, rejectLike, acceptLike, like, user } = props;
-  const {
-    displayName,
-    occupation,
-    city,
-    companyName,
-    schoolName,
-    occupationType,
-    skills,
-    introduction,
-    photos,
-  } = user;
+  const { displayName, occupation, city, companyName, schoolName, occupationType, skills, introduction, photos } = user;
   // occupation = 'Software Engineer';
   // companyName = 'Google';
   // schoolName = 'UC Berkley';
@@ -116,39 +100,36 @@ const UserDetailsBox: React.SFC<Props> = (props) => {
   //   { id: '5', name: 'Python' },
   // ];
   return (
-      <View style={styles.container}>
-        <ScrollView
-          alwaysBounceVertical={false}
-          showsVerticalScrollIndicator={false}
-          contentContainerStyle={styles.scrollContainer}
-        >
-          <View style={styles.carouselWrapper}>
-            <CarouselPanel photos={photos} />
-          </View>
-          <View style={styles.contentContainer}>
-            <View style={styles.headerContainer}>
-              <View style={styles.mainTextContainer}>
-                <Text style={styles.titleText}>{displayName} </Text>
-                {renderCityName(city)}
-              </View>
-              {renderBadge(occupationType ? occupationType.name : undefined)}
+    <View style={styles.container}>
+      <ScrollView
+        alwaysBounceVertical={false}
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={styles.scrollContainer}
+      >
+        <View style={styles.carouselWrapper}>
+          <CarouselPanel photos={photos} />
+        </View>
+        <View style={styles.contentContainer}>
+          <View style={styles.headerContainer}>
+            <View style={styles.mainTextContainer}>
+              <Text style={styles.titleText}>{displayName} </Text>
+              {renderCityName(city)}
             </View>
-            <Divider style={styles.divider} />
-            <View style={styles.detailsContainer}>
-              <TextGroup labelName="Occupation" text={occupation} />
-              <TextGroup
-                labelName="Company / School"
-                text={`${companyName} /  ${schoolName}`}
-              />
-              <TextGroup labelName="Introduction" text={introduction} />
-              <View>
-                <SkillList skills={skills} />
-              </View>
-            </View>
-            {renderActionContainer(liked, like, rejectLike, acceptLike)}
+            {renderBadge(occupationType ? occupationType.name : undefined)}
           </View>
-        </ScrollView>
-      </View>
+          <Divider style={styles.divider} />
+          <View style={styles.detailsContainer}>
+            <TextGroup labelName="Occupation" text={occupation} />
+            <TextGroup labelName="Company / School" text={`${companyName} /  ${schoolName}`} />
+            <TextGroup labelName="Introduction" text={introduction} />
+            <View>
+              <SkillList skills={skills} />
+            </View>
+          </View>
+          {renderActionContainer(liked, like, rejectLike, acceptLike)}
+        </View>
+      </ScrollView>
+    </View>
   );
 };
 

@@ -1,6 +1,3 @@
 import MessageForm from './MessageForm';
 import MessageList from './MessageList';
-export {
-  MessageForm,
-  MessageList,
-};
+export { MessageForm, MessageList };

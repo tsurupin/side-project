@@ -3,9 +3,4 @@ import ProjectEditScreen from './ProjectEditScreen';
 import ProjectListScreen from './ProjectListScreen';
 import ProjectNewScreen from './ProjectNewScreen';
 
-export {
-  LikedProjectDetailsScreen,
-  ProjectEditScreen,
-  ProjectNewScreen,
-  ProjectListScreen,
-};
+export { LikedProjectDetailsScreen, ProjectEditScreen, ProjectNewScreen, ProjectListScreen };

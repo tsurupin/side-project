@@ -10,10 +10,7 @@ const WithdrawProjectLikeMutation = (props: Props) => {
   const { children } = props;
 
   return (
-    <Mutation
-      mutation={WITHDRAW_PROJECT_LIKE_MUTATION}
-      context={{ needAuth: true }}
-    >
+    <Mutation mutation={WITHDRAW_PROJECT_LIKE_MUTATION} context={{ needAuth: true }}>
       {(withdrawProjectLikeMutation, { loading, error, data }) => {
         return children({ withdrawProjectLikeMutation, loading, error, data });
       }}

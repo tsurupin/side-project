@@ -9,14 +9,7 @@ type Props = {
 
 const renderImage = (photo: UserPhoto) => {
   const { imageUrl, id } = photo;
-  return (
-    <Image
-      key={id}
-      resizeMode="cover"
-      source={{ uri: imageUrl }}
-      style={styles.image}
-    />
-  );
+  return <Image key={id} resizeMode="cover" source={{ uri: imageUrl }} style={styles.image} />;
 };
 const CarouselPanel: React.SFC<Props> = ({ photos }) => {
   return (

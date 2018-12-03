@@ -19,15 +19,13 @@ const uri = 'http://localhost:4000/api/graphiql';
 
 const uploadLink = createUploadLink({
   uri,
-  credentials: 'include',
+  credentials: 'include'
 });
 
 const errorLink = onError(({ graphQLErrors, networkError }) => {
   if (graphQLErrors) {
     graphQLErrors.map(({ message, locations, path }) =>
-      console.log(
-        `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`,
-      ),
+      console.log(`[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`)
     );
   }
 
@@ -46,8 +44,8 @@ const authLink = setContext(async (_, context) => {
     return {
       headers: {
         ...context.headers,
-        authorization: token ? `Bearer ${token}` : '',
-      },
+        authorization: token ? `Bearer ${token}` : ''
+      }
     };
   } catch (e) {
     console.log('error raised', e);
@@ -72,8 +70,8 @@ const stateLink = withClientState({
         __typename: 'UserSearchParamsLocation',
         latitude: null,
         longitude: null,
-        distance: null,
-      },
+        distance: null
+      }
     },
     projectSearchParams: {
       __typename: 'ProjectSearchParams',
@@ -82,9 +80,9 @@ const stateLink = withClientState({
       city: {
         __typename: 'ProjectSearchParamsCity',
         id: null,
-        fullName: null,
-      },
-    },
+        fullName: null
+      }
+    }
   },
   typeDefs: `
     type Skill {
@@ -100,7 +98,7 @@ const stateLink = withClientState({
       id: ID!
       fullName: String!
     }
-  `,
+  `
 });
 
 const link = split(
@@ -109,12 +107,12 @@ const link = split(
     return kind === 'OperationDefinition' && operation === 'subscription';
   },
   AbsintheSocketLink,
-  ApolloLink.from([stateLink, errorLink, authLink, uploadLink]),
+  ApolloLink.from([stateLink, errorLink, authLink, uploadLink])
 );
 
 const client = new ApolloClient({
   cache,
-  link,
+  link
 });
 
 export default client;

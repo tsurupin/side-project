@@ -7,7 +7,7 @@ import { Icon } from 'react-native-elements';
 import {
   FORMAT_HORIZONTAL_ALIGN_LEFT_ICON,
   FORMAT_HORIZONTAL_ALIGN_RIGHT_ICON,
-  ICON_MAIN_TYPE,
+  ICON_MAIN_TYPE
 } from '../../../../constants/icons';
 import { ACTIVE_MAIN_COLOR } from '../../../../constants/colors';
 import styles from './styles';
@@ -32,7 +32,7 @@ class MemberList extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
 
-    this.setState({ maxHeight: MIN_HEIGHT + (props.members.length * 60) - 10 });
+    this.setState({ maxHeight: MIN_HEIGHT + props.members.length * 60 - 10 });
   }
 
   private toggle = () => {
@@ -43,23 +43,18 @@ class MemberList extends React.Component<Props, State> {
     this.setState({ isOpen: !this.state.isOpen });
 
     Animated.spring(this.state.currentHeight, {
-      toValue: finalValue,
+      toValue: finalValue
     }).start();
   }
 
   private renderUserListToggleIcon = () => {
     return (
-
       <Icon
         size={20}
         color={ACTIVE_MAIN_COLOR}
         containerStyle={styles.iconContainer}
         type={ICON_MAIN_TYPE}
-        name={
-          this.state.isOpen
-            ? FORMAT_HORIZONTAL_ALIGN_LEFT_ICON
-            : FORMAT_HORIZONTAL_ALIGN_RIGHT_ICON
-        }
+        name={this.state.isOpen ? FORMAT_HORIZONTAL_ALIGN_LEFT_ICON : FORMAT_HORIZONTAL_ALIGN_RIGHT_ICON}
         onPress={() => this.toggle()}
       />
     );
@@ -70,20 +65,18 @@ class MemberList extends React.Component<Props, State> {
 
     return (
       <View>
-        <View  style={styles.header}>
-            <Text style={styles.label}>{`Members (${members.length})`}</Text>
-            {this.renderUserListToggleIcon()}
+        <View style={styles.header}>
+          <Text style={styles.label}>{`Members (${members.length})`}</Text>
+          {this.renderUserListToggleIcon()}
         </View>
-      <Animated.View
-        style={[styles.container, { height: this.state.currentHeight }]}
-      >
-        <FlatList
-          data={members}
-          renderItem={({ item }) => {
-            return <MemberListItem member={item} onPress={onPressUser} />;
-          }}
-        />
-      </Animated.View>
+        <Animated.View style={[styles.container, { height: this.state.currentHeight }]}>
+          <FlatList
+            data={members}
+            renderItem={({ item }) => {
+              return <MemberListItem member={item} onPress={onPressUser} />;
+            }}
+          />
+        </Animated.View>
       </View>
     );
   }

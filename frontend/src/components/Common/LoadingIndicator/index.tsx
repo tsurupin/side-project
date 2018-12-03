@@ -3,10 +3,10 @@ import { View, ActivityIndicator } from 'react-native';
 import styles from './styles';
 
 type Props = {
-  color?: string
+  color?: string;
 };
 
-const LoadingIndicator : React.SFC<Props> = ({ color }) => {
+const LoadingIndicator: React.SFC<Props> = ({ color }) => {
   return (
     <View style={styles.container}>
       <View style={styles.indicatorContainer}>

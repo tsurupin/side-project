@@ -7,10 +7,7 @@ type Props = {
   onPressCard: (id: string) => void;
 };
 
-const buildProfessionText = (
-  occupation: string | undefined,
-  companyName: string | undefined,
-) : string => {
+const buildProfessionText = (occupation: string | undefined, companyName: string | undefined): string => {
   if (occupation && companyName) {
     return `${occupation}, ${companyName}`;
   }
@@ -20,16 +17,7 @@ const buildProfessionText = (
 const UserCard: React.SFC<Props> = (props) => {
   const { user, onPressCard } = props;
 
-  const {
-    id,
-    mainPhotoUrl,
-    introduction,
-    occupationType,
-    occupation,
-    companyName,
-    city,
-    displayName,
-  } = user;
+  const { id, mainPhotoUrl, introduction, occupationType, occupation, companyName, city, displayName } = user;
 
   const profession = buildProfessionText(occupation, companyName);
 

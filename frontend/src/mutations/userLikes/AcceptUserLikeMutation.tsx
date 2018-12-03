@@ -20,8 +20,8 @@ const AcceptUserLikeMutation = (props: Props) => {
         cache.writeQuery({
           query: MATCH_LIST_QUERY,
           data: {
-            matchList: { ...matchList, chatList: [...matchList.chatList, chat] },
-          },
+            matchList: { ...matchList, chatList: [...matchList.chatList, chat] }
+          }
         });
       }}
     >
@@ -31,7 +31,7 @@ const AcceptUserLikeMutation = (props: Props) => {
           loading,
           error,
           data,
-          name: 'acceptUserLike',
+          name: 'acceptUserLike'
         });
       }}
     </Mutation>

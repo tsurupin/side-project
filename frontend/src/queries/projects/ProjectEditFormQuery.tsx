@@ -20,7 +20,7 @@ const ProjectEditFormQuery = (props: Props) => {
         return children({
           data,
           loading,
-          error,
+          error
         });
       }}
     </Query>

@@ -19,7 +19,7 @@ const MemberListItem: React.SFC<Props> = ({ member, onPress }) => {
       subtitleStyle={styles.subTitle}
       subtitle={occupationType ? occupationType.name : ''}
       leftAvatar={{
-        source: { uri: mainPhotoUrl },
+        source: { uri: mainPhotoUrl }
       }}
       onPress={() => onPress(member.id)}
     />

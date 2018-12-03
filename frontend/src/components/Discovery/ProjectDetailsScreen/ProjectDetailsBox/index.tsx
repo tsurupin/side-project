@@ -7,10 +7,7 @@ import MemberList from '../MemberList';
 import { SkillList, CarouselPanel, TextGroup } from '../../../Common';
 import { ProjectDetails, City } from '../../../../interfaces';
 import { ActiveMainColor } from '../../../../constants/colors';
-import {
-  CHECK_ICON,
-  ICON_MAIN_TYPE,
-} from '../../../../constants/icons';
+import { CHECK_ICON, ICON_MAIN_TYPE } from '../../../../constants/icons';
 import styles from './styles';
 
 type Props = {
@@ -27,13 +24,7 @@ const renderCityName = (city: City | undefined) => {
 
 const renderBadge = (badgeName: string | undefined) => {
   if (!badgeName) return undefined;
-  return (
-    <Badge
-      value={badgeName}
-      containerStyle={styles.badgeContainer}
-      textStyle={styles.badgeText}
-    />
-  );
+  return <Badge value={badgeName} containerStyle={styles.badgeContainer} textStyle={styles.badgeText} />;
 };
 
 const renderLikeButton = (liked: boolean, like: any) => {
@@ -55,17 +46,7 @@ const renderLikeButton = (liked: boolean, like: any) => {
 
 const ProjectDetailsBox: React.SFC<Props> = (props) => {
   const { project, onPressUser, liked, like } = props;
-  const {
-    title,
-    genre,
-    city,
-    leadSentence,
-    motivation,
-    owner,
-    users,
-    skills,
-    photos,
-  } = project;
+  const { title, genre, city, leadSentence, motivation, owner, users, skills, photos } = project;
   // title = 'Block Chain 2.0';
   // leadSentence = 'This project is for creating new internet';
   // motivation =

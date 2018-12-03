@@ -10,11 +10,7 @@ type Props = {
 const ProjectSearchFormQuery = (props: Props) => {
   const { children } = props;
   return (
-    <Query
-      query={PROJECT_SEARCH_FORM_QUERY}
-      context={{ needAuth: true }}
-      notifyOnNetworkStatusChange
-    >
+    <Query query={PROJECT_SEARCH_FORM_QUERY} context={{ needAuth: true }} notifyOnNetworkStatusChange>
       {({ data, error, loading }) => {
         const formData = data;
         return (
@@ -24,7 +20,7 @@ const ProjectSearchFormQuery = (props: Props) => {
               return children({
                 data: { ...data, ...formData },
                 loading,
-                error,
+                error
               });
             }}
           </Query>

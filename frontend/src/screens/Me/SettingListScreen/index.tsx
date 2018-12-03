@@ -2,10 +2,7 @@ import * as React from 'react';
 import { ErrorMessage, LoadingIndicator } from '../../../components/Common';
 import { View, Button } from 'react-native';
 import { ListItem } from 'react-native-elements';
-import {
-  UserCard,
-  SettingList,
-} from '../../../components/Me/SettingListScreen';
+import { UserCard, SettingList } from '../../../components/Me/SettingListScreen';
 import { MY_PROFILE_SCREEN } from '../../../constants/screens';
 import { BACK_BUTTON, USER_EDIT_BUTTON } from '../../../constants/buttons';
 import { PENCIL_ICON, BACK_ICON } from '../../../constants/icons';
@@ -31,17 +28,17 @@ class SettingsListScreen extends React.Component<Props> {
         leftButtons: [
           {
             icon: IconLoader.getIcon(BACK_ICON),
-            id: BACK_BUTTON,
-          },
+            id: BACK_BUTTON
+          }
         ],
         rightButtons: [
           {
             icon: IconLoader.getIcon(PENCIL_ICON),
             title: 'Edit',
-            id: USER_EDIT_BUTTON,
-          },
-        ],
-      },
+            id: USER_EDIT_BUTTON
+          }
+        ]
+      }
     });
   }
 
@@ -56,10 +53,7 @@ class SettingsListScreen extends React.Component<Props> {
             const myUser: UserDetails = data.myUser;
             return (
               <View>
-                <UserCard
-                  user={myUser}
-                  onPress={() => this.onPress(MY_PROFILE_SCREEN)}
-                />
+                <UserCard user={myUser} onPress={() => this.onPress(MY_PROFILE_SCREEN)} />
                 <SettingList onPress={this.onPress} />
               </View>
             );

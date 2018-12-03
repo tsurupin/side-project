@@ -13,5 +13,5 @@ export {
   EditableProjectListQuery,
   ProjectSearchFormQuery,
   ProjectFormQuery,
-  ProjectEditFormQuery,
+  ProjectEditFormQuery
 };

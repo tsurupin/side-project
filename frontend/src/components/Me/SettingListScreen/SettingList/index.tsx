@@ -16,8 +16,8 @@ const SETTINS_LIST: Item[] = [
   {
     title: 'Log Out',
     iconName: LOGOUT_ICON,
-    fnc: () => firebaseSignOut(),
-  },
+    fnc: () => firebaseSignOut()
+  }
 ];
 
 type Props = {

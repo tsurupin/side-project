@@ -15,8 +15,8 @@ const socketParams = (token: string | undefined) => {
 const createAbsintheSocket = (token: string | undefined): PhoenixSocket => {
   return create(
     new PhoenixSocket(PHOENIX_SOCKET_URL, {
-      params: socketParams(token),
-    }),
+      params: socketParams(token)
+    })
   );
 };
 

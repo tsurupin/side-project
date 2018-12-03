@@ -4,11 +4,7 @@ import { View, Text, Button } from 'react-native';
 import { CityList } from '../../../components/Common/CitySearchModalScreen';
 import { CLOSE_BUTTON } from '../../../constants/buttons';
 import { CityListQuery } from '../../../queries/cities';
-import {
-  SearchInput,
-  ErrorMessage,
-  LoadingIndicator,
-} from '../../../components/Common';
+import { SearchInput, ErrorMessage, LoadingIndicator } from '../../../components/Common';
 import { FindOrCreateCityMutation } from '../../../mutations/cities';
 import { City, CityEditParams } from '../../../interfaces';
 import { fetchAddress } from '../../../utilities/geocoder';
@@ -30,7 +26,7 @@ type State = {
 
 class CitySearchModalScreen extends React.Component<Props, State> {
   static defaultProps = {
-    needLocationSearch: false,
+    needLocationSearch: false
   };
 
   constructor(props) {
@@ -39,7 +35,7 @@ class CitySearchModalScreen extends React.Component<Props, State> {
     this.state = {
       loading: false,
       name: undefined,
-      errorMessage: '',
+      errorMessage: ''
     };
 
     this.props.navigator.setOnNavigatorEvent(this.handleNavigatorEvent);
@@ -77,11 +73,11 @@ class CitySearchModalScreen extends React.Component<Props, State> {
             name: address.cityName,
             stateName: address.stateName,
             stateAbbreviation: address.stateAbbreviation,
-            countryName: address.countryName,
+            countryName: address.countryName
           };
           this.setState({
             longitude: address.longitude,
-            latitude: address.latitude,
+            latitude: address.latitude
           });
           findOrCreateCityMutation({ variables: cityParams });
         }
@@ -130,9 +126,7 @@ class CitySearchModalScreen extends React.Component<Props, State> {
           return (
             <Button
               title="Current Location"
-              onPress={() =>
-                this.handlePressCurrentLocation(findOrCreateCityMutation)
-              }
+              onPress={() => this.handlePressCurrentLocation(findOrCreateCityMutation)}
             />
           );
         }}

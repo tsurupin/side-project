@@ -2,18 +2,18 @@ import gql from 'graphql-tag';
 import { parseFragment } from '../utilities/parseFragment';
 
 const MESSAGE_DETAIL_FRAGMENT = parseFragment(gql`
-fragment MessageDetail on Message {
-  __typename
-  id
-  comment
-  imageUrl
-  insertedAt
-  user {
+  fragment MessageDetail on Message {
+    __typename
     id
-    displayName
-    mainPhotoUrl
+    comment
+    imageUrl
+    insertedAt
+    user {
+      id
+      displayName
+      mainPhotoUrl
+    }
   }
-}
 `);
 
 const CHAT_DETAIL_FRAGMENT = parseFragment(gql`
@@ -25,10 +25,6 @@ const CHAT_DETAIL_FRAGMENT = parseFragment(gql`
         ${MESSAGE_DETAIL_FRAGMENT}
       }
     }
-  `,
-);
+  `);
 
-export {
-  MESSAGE_DETAIL_FRAGMENT,
-  CHAT_DETAIL_FRAGMENT,
-};
+export { MESSAGE_DETAIL_FRAGMENT, CHAT_DETAIL_FRAGMENT };

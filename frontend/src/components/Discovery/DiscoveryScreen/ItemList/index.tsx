@@ -33,11 +33,7 @@ const ItemList: React.SFC<Props> = (props) => {
     );
   }
 
-  return (
-    <View style={styles.container}>
-      {items.map((item) => renderItem(type, item, onPressCard))}
-    </View>
-  );
+  return <View style={styles.container}>{items.map((item) => renderItem(type, item, onPressCard))}</View>;
 };
 
 export default ItemList;

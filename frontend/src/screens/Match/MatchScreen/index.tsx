@@ -1,22 +1,10 @@
 import * as React from 'react';
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  AsyncStorage,
-  ScrollView,
-  SectionList,
-} from 'react-native';
+import { View, Text, TouchableOpacity, AsyncStorage, ScrollView, SectionList } from 'react-native';
 import { MatchListQuery } from '../../../queries/matches';
 import { CHAT_SCREEN, USER_DETAILS_SCREEN } from '../../../constants/screens';
-import {
-  MatchQueueList,
-  ChatList,
-} from '../../../components/Match/MatchScreen';
+import { MatchQueueList, ChatList } from '../../../components/Match/MatchScreen';
 import { Chat, UserCore } from '../../../interfaces';
-import {
-  BACK_BUTTON,
-} from '../../../constants/buttons';
+import { BACK_BUTTON } from '../../../constants/buttons';
 import { BACK_ICON } from '../../../constants/icons';
 import IconLoader from '../../../utilities/IconLoader';
 import styles from './styles';
@@ -34,7 +22,6 @@ class MatchScreen extends React.Component<Props, State> {
   }
 
   protected handleChatPress = (id: string, name: string): void => {
-
     this.props.navigator.push({
       screen: CHAT_SCREEN,
       title: name,
@@ -43,17 +30,14 @@ class MatchScreen extends React.Component<Props, State> {
         leftButtons: [
           {
             icon: IconLoader.getIcon(BACK_ICON),
-            id: BACK_BUTTON,
-          },
-        ],
-      },
+            id: BACK_BUTTON
+          }
+        ]
+      }
     });
   }
 
-  protected handleUserPress = (
-    userId: number,
-    userDisplayName: string,
-  ): void => {
+  protected handleUserPress = (userId: number, userDisplayName: string): void => {
     this.props.navigator.push({
       screen: USER_DETAILS_SCREEN,
       title: userDisplayName,
@@ -62,10 +46,10 @@ class MatchScreen extends React.Component<Props, State> {
         leftButtons: [
           {
             icon: IconLoader.getIcon(BACK_ICON),
-            id: BACK_BUTTON,
-          },
-        ],
-      },
+            id: BACK_BUTTON
+          }
+        ]
+      }
     });
   }
 
@@ -86,10 +70,7 @@ class MatchScreen extends React.Component<Props, State> {
 
             return (
               <View>
-                <MatchQueueList
-                  likedUserList={likedUserList}
-                  onPress={this.handleUserPress}
-                />
+                <MatchQueueList likedUserList={likedUserList} onPress={this.handleUserPress} />
                 <ChatList chats={chatList} onPress={this.handleChatPress} />
               </View>
             );

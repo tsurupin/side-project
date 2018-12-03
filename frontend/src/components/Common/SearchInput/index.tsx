@@ -6,7 +6,7 @@ import {
   SMALL_ICON_SIZE,
   ICON_BLACK_COLOR,
   CLOSE_CIRCLE_ICON,
-  MAGNIFY_ICON,
+  MAGNIFY_ICON
 } from '../../../constants/icons';
 import styles from './styles';
 
@@ -20,14 +20,7 @@ const SearchInput: React.SFC<Props> = (props) => {
     <View style={styles.container}>
       <Input
         placeholder="Search"
-        leftIcon={
-          <Icon
-            type={ICON_MAIN_TYPE}
-            name={MAGNIFY_ICON}
-            size={SMALL_ICON_SIZE}
-            color={ICON_BLACK_COLOR}
-          />
-        }
+        leftIcon={<Icon type={ICON_MAIN_TYPE} name={MAGNIFY_ICON} size={SMALL_ICON_SIZE} color={ICON_BLACK_COLOR} />}
         leftIconContainerStyle={styles.leftIconContainer}
         rightIcon={
           <Icon
@@ -40,10 +33,7 @@ const SearchInput: React.SFC<Props> = (props) => {
         }
         rightIconContainerStyle={styles.rightIconContainer}
         containerStyle={styles.inputContainer}
-        inputContainerStyle={[
-          styles.inputTextContainer,
-          { borderBottomWidth: 0 },
-        ]}
+        inputContainerStyle={[styles.inputTextContainer, { borderBottomWidth: 0 }]}
         value={props.name}
         onChangeText={(val: string) => props.onChangeText(val)}
       />

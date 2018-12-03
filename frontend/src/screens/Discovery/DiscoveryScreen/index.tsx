@@ -5,16 +5,11 @@ import {
   USER_SEARCH_MODAL_SCREEN,
   PROJECT_SEARCH_MODAL_SCREEN,
   PROJECT_DETAILS_SCREEN,
-  USER_DETAILS_SCREEN,
+  USER_DETAILS_SCREEN
 } from '../../../constants/screens';
 import { CLOSE_ICON, FILTER_ICON, BACK_ICON } from '../../../constants/icons';
 
-import {
-  BACK_BUTTON,
-  CLOSE_BUTTON,
-  APPLY_BUTTON,
-  SEARCH_BUTTON,
-} from '../../../constants/buttons';
+import { BACK_BUTTON, CLOSE_BUTTON, APPLY_BUTTON, SEARCH_BUTTON } from '../../../constants/buttons';
 import ItemList from '../../../components/Discovery/DiscoveryScreen/ItemList';
 import { UserListQuery } from '../../../queries/users';
 import { ProjectListQuery } from '../../../queries/projects';
@@ -25,13 +20,9 @@ import {
   UserSearchParams,
   UserSearchSubmitParams,
   ProjectSearchParams,
-  ProjectSearchSubmitParams,
+  ProjectSearchSubmitParams
 } from '../../../interfaces';
-import {
-  ErrorMessage,
-  LoadingIndicator,
-  CustomizedSegmentedControlTab,
-} from '../../../components/Common';
+import { ErrorMessage, LoadingIndicator, CustomizedSegmentedControlTab } from '../../../components/Common';
 import styles from './styles';
 import IconLoader from '../../../utilities/IconLoader';
 
@@ -63,14 +54,14 @@ class DiscoveryScreen extends React.Component<Props, State> {
         genreId: undefined,
         isActive: undefined,
         location: undefined,
-        skills: [],
+        skills: []
       },
       projectSearchParams: {
         genreId: undefined,
         city: undefined,
-        skills: [],
+        skills: []
       },
-      selectedIndex: USER_INDEX,
+      selectedIndex: USER_INDEX
     };
 
     this.props.navigator.setOnNavigatorEvent(this.handleNavigatorEvent);
@@ -94,9 +85,7 @@ class DiscoveryScreen extends React.Component<Props, State> {
     switch (e.id) {
       case SEARCH_BUTTON:
         this.props.navigator.showModal({
-          screen: this.isUserOriented()
-            ? USER_SEARCH_MODAL_SCREEN
-            : PROJECT_SEARCH_MODAL_SCREEN,
+          screen: this.isUserOriented() ? USER_SEARCH_MODAL_SCREEN : PROJECT_SEARCH_MODAL_SCREEN,
           title: 'Filter',
           passProps: { onSubmit: this.handleUpdateSearchParams },
           navigatorButtons: {
@@ -104,35 +93,33 @@ class DiscoveryScreen extends React.Component<Props, State> {
               {
                 icon: IconLoader.getIcon(CLOSE_ICON),
                 title: 'Close',
-                id: CLOSE_BUTTON,
-              },
+                id: CLOSE_BUTTON
+              }
             ],
             rightButtons: [
               {
                 icon: IconLoader.getIcon(FILTER_ICON),
                 title: 'Apply',
-                id: APPLY_BUTTON,
-              },
-            ],
-          },
+                id: APPLY_BUTTON
+              }
+            ]
+          }
         });
     }
   }
 
   protected handlePressCard = (id: string) => {
     this.props.navigator.push({
-      screen: this.isUserOriented()
-        ? USER_DETAILS_SCREEN
-        : PROJECT_DETAILS_SCREEN,
+      screen: this.isUserOriented() ? USER_DETAILS_SCREEN : PROJECT_DETAILS_SCREEN,
       passProps: { id, liked: false },
       navigatorButtons: {
         leftButtons: [
           {
             icon: IconLoader.getIcon(BACK_ICON),
-            id: BACK_BUTTON,
-          },
-        ],
-      },
+            id: BACK_BUTTON
+          }
+        ]
+      }
     });
   }
 
@@ -197,13 +184,7 @@ class DiscoveryScreen extends React.Component<Props, State> {
           }
           if (data && data.users) {
             console.log('users', data.users);
-            return (
-              <ItemList
-                type="User"
-                items={data.users}
-                onPressCard={this.handlePressCard}
-              />
-            );
+            return <ItemList type="User" items={data.users} onPressCard={this.handlePressCard} />;
           } else {
             return (
               <View>
@@ -223,19 +204,12 @@ class DiscoveryScreen extends React.Component<Props, State> {
         {({ loading, error, data }) => {
           if (loading) {
             return <LoadingIndicator />;
-
           }
           if (error) {
             return <ErrorMessage {...error} />;
           }
           if (data && data.projects) {
-            return (
-              <ItemList
-                type="Project"
-                items={data.projects}
-                onPressCard={this.handlePressCard}
-              />
-            );
+            return <ItemList type="Project" items={data.projects} onPressCard={this.handlePressCard} />;
           } else {
             return (
               <View>

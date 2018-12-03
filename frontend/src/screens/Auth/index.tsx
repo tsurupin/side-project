@@ -32,7 +32,7 @@ class AuthScreen extends React.Component<Props, State> {
               throw 'No accessToken';
             }
             signUpMutation({
-              variables: { providerId: FACEBOOK, uid: accessTokenData.userID },
+              variables: { providerId: FACEBOOK, uid: accessTokenData.userID }
             });
           })
           .catch((error) => console.log('getcurrentaccesserror', error));
@@ -68,14 +68,7 @@ class AuthScreen extends React.Component<Props, State> {
           return (
             <View>
               <SignUpMutation>
-                {({
-                  signUpMutation,
-                  loginMutation,
-                  loading,
-                  error,
-                  signUpData,
-                  loginData,
-                }) => {
+                {({ signUpMutation, loginMutation, loading, error, signUpData, loginData }) => {
                   if (loading) {
                     return <View>Loading</View>;
                   }
@@ -90,9 +83,7 @@ class AuthScreen extends React.Component<Props, State> {
                   }
 
                   return (
-                    <TouchableOpacity
-                      onPress={() => this.handleFbLogin(signUpMutation)}
-                    >
+                    <TouchableOpacity onPress={() => this.handleFbLogin(signUpMutation)}>
                       <Text> Facebook SignIn </Text>
                     </TouchableOpacity>
                   );

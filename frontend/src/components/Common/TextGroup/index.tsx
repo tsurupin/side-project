@@ -9,7 +9,6 @@ type Props = {
 };
 
 const TextGroup: React.SFC<Props> = ({ labelName, text }) => {
-
   return (
     <View style={styles.container}>
       <Text style={styles.labelText}>{labelName}</Text>

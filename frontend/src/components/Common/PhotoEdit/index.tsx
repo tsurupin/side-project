@@ -2,11 +2,7 @@ import * as React from 'react';
 import { Image, View } from 'react-native';
 import { Icon } from 'react-native-elements';
 import { UserPhoto, ProjectPhoto } from '../../../interfaces';
-import {
-  PLUS_CIRCLE_ICON,
-  ICON_MAIN_TYPE,
-  MINUS_CIRCLE_ICON,
-} from '../../../constants/icons';
+import { PLUS_CIRCLE_ICON, ICON_MAIN_TYPE, MINUS_CIRCLE_ICON } from '../../../constants/icons';
 import { ACTIVE_MAIN_COLOR } from '../../../constants/colors';
 import styles from './styles';
 
@@ -24,7 +20,6 @@ const renderPhoto = (photo: UserPhoto | ProjectPhoto | undefined) => {
 };
 
 const PhotoEdit: React.SFC<Props> = ({ photo, onPress, hasRightEdge }) => {
-
   const isNew = photo ? false : true;
   return (
     <View style={[styles.container, { marginRight: hasRightEdge ? 0 : 5 }]}>

@@ -26,7 +26,7 @@ const SignUpMutation = (props: Props) => {
                 loading,
                 error,
                 signUpData: signUpData.data,
-                loginData: loginData.data,
+                loginData: loginData.data
               });
             }}
           </Mutation>

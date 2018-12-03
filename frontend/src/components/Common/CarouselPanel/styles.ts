@@ -10,12 +10,12 @@ const styles = StyleSheet.create<Style>({
     height: '100%',
     flexDirection: 'row',
     borderBottomWidth: 0,
-    backgroundColor: 'black',
+    backgroundColor: 'black'
   },
   image: {
     width,
-    height: '100%',
-  },
+    height: '100%'
+  }
 });
 
 export default styles;

@@ -1,18 +1,8 @@
 import * as React from 'react';
 import { View, Alert } from 'react-native';
-import {
-  ErrorMessage,
-  PhotosEditForm,
-  LoadingIndicator,
-} from '../../../components/Common';
-import {
-  UploadProjectPhotoMutation,
-  DeleteProjectPhotoMutation,
-} from '../../../mutations/projects';
-import {
-  UploadUserPhotoMutation,
-  DeleteUserPhotoMutation,
-} from '../../../mutations/users';
+import { ErrorMessage, PhotosEditForm, LoadingIndicator } from '../../../components/Common';
+import { UploadProjectPhotoMutation, DeleteProjectPhotoMutation } from '../../../mutations/projects';
+import { UploadUserPhotoMutation, DeleteUserPhotoMutation } from '../../../mutations/users';
 import { CLOSE_BUTTON } from '../../../constants/buttons';
 
 import * as ImagePickerHandler from '../../../utilities/imagePickerHandler';
@@ -52,7 +42,7 @@ class PhotosEditScreen extends React.Component<Props> {
     ImagePickerHandler.uploadImage({
       variables: { rank, projectId: id },
       onCallback: mutation,
-      onError: (message: string) => Alert.alert(message),
+      onError: (message: string) => Alert.alert(message)
     });
   }
 
@@ -83,11 +73,7 @@ class PhotosEditScreen extends React.Component<Props> {
                   const { uploadUserPhoto } = data;
                   photos = [...photos, uploadUserPhoto];
                 }
-                return this.renderEditForm(
-                  photos,
-                  deleteUserPhotoMutation,
-                  uploadUserPhotoMutation,
-                );
+                return this.renderEditForm(photos, deleteUserPhotoMutation, uploadUserPhotoMutation);
               }}
             </UploadUserPhotoMutation>
           );
@@ -104,9 +90,7 @@ class PhotosEditScreen extends React.Component<Props> {
           if (error) return <ErrorMessage {...error} />;
           if (data) {
             const { deleteProjectPhoto } = data;
-            photos = photos.filter(
-              (photo) => photo.id !== deleteProjectPhoto.id,
-            );
+            photos = photos.filter((photo) => photo.id !== deleteProjectPhoto.id);
           }
           return (
             <UploadProjectPhotoMutation>
@@ -117,11 +101,7 @@ class PhotosEditScreen extends React.Component<Props> {
                   const { uploadProjectPhoto } = data;
                   photos = [...photos, uploadProjectPhoto];
                 }
-                return this.renderEditForm(
-                  photos,
-                  deleteProjectPhotoMutation,
-                  uploadProjectPhotoMutation,
-                );
+                return this.renderEditForm(photos, deleteProjectPhotoMutation, uploadProjectPhotoMutation);
               }}
             </UploadProjectPhotoMutation>
           );
@@ -134,12 +114,8 @@ class PhotosEditScreen extends React.Component<Props> {
     return (
       <PhotosEditForm
         photos={photos}
-        onPressPhoto={(id: string) =>
-          this.handlePressDeletion(deleteMutation, id)
-        }
-        onPressNewPhoto={(rank: number) =>
-          this.handlePress(rank, uploadMutation)
-        }
+        onPressPhoto={(id: string) => this.handlePressDeletion(deleteMutation, id)}
+        onPressNewPhoto={(rank: number) => this.handlePress(rank, uploadMutation)}
       />
     );
   }

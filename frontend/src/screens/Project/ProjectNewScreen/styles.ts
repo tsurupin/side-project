@@ -5,11 +5,11 @@ const height = Dimensions.get('window').height;
 const styles = StyleSheet.create({
   container: {
     backgroundColor: BackgroundColor,
-    height,
+    height
   },
   innerContainer: {
-    paddingTop: 40,
-  },
+    paddingTop: 40
+  }
 });
 
 export default styles;

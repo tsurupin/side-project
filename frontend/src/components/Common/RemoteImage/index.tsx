@@ -34,7 +34,7 @@ class RemoteImage extends React.Component<Props, State> {
       },
       (errorMessage) => {
         console.log('imageLoad error', errorMessage);
-      },
+      }
     );
   }
 
@@ -45,7 +45,7 @@ class RemoteImage extends React.Component<Props, State> {
         style={[styles, this.state]}
         resizeMode="contain"
         source={{
-          uri: imageUrl,
+          uri: imageUrl
         }}
       />
     );

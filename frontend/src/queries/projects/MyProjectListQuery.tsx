@@ -9,11 +9,7 @@ type Props = {
 const MyProjectListQuery = (props: Props) => {
   const { children } = props;
   return (
-    <Query
-      query={MY_PROJECT_LIST_QUERY}
-      context={{ needAuth: true }}
-      notifyOnNetworkStatusChange
-    >
+    <Query query={MY_PROJECT_LIST_QUERY} context={{ needAuth: true }} notifyOnNetworkStatusChange>
       {({ data, loading, error }) => children({ data, loading, error })}
     </Query>
   );

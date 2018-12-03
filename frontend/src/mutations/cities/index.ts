@@ -1,4 +1,2 @@
 import FindOrCreateCityMutation from './FindOrCreateCityMutation';
-export {
-  FindOrCreateCityMutation,
-};
+export { FindOrCreateCityMutation };

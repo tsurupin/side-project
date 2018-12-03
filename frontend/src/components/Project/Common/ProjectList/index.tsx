@@ -15,7 +15,6 @@ let onPress;
 const keyExtractor = (_item, index) => index;
 
 const renderProject = ({ item }) => {
-
   const editing = item.status === 'EDITING';
   return (
     <ListItem
@@ -39,7 +38,6 @@ const ProjectList: React.SFC<Props> = (props) => {
       data={props.projects}
       renderItem={renderProject}
       endFillColor={BackgroundColor}
-
     />
   );
 };

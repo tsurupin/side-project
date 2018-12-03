@@ -1,4 +1,4 @@
-import { StyleSheet, ViewStyle, Dimensions  } from 'react-native';
+import { StyleSheet, ViewStyle, Dimensions } from 'react-native';
 import { BackgroundColor } from '../../../../constants/colors';
 const width = Math.trunc(Dimensions.get('window').width);
 const height = Math.trunc(Dimensions.get('window').height);
@@ -10,19 +10,19 @@ type Style = {
 const styles = StyleSheet.create<Style>({
   container: {
     flex: 1,
-    flexDirection: 'row',
+    flexDirection: 'row'
   },
   blankContainer: {
     backgroundColor: BackgroundColor,
     width,
     height: '100%',
     justifyContent: 'center',
-    alignItems: 'center',
+    alignItems: 'center'
   },
   text: {
     fontSize: 20,
-    fontWeight: 'bold',
-  },
+    fontWeight: 'bold'
+  }
 });
 
 export default styles;

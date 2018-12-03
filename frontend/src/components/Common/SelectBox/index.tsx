@@ -9,24 +9,11 @@ type Props = {
   value: string | number | undefined;
   items: any[];
   needTopDivider?: boolean;
-  onPress: (
-    items: any[],
-    key: string,
-    label: string,
-    selectedValue: string | number | undefined,
-  ) => void;
+  onPress: (items: any[], key: string, label: string, selectedValue: string | number | undefined) => void;
 };
 
 const SelectBox = (props: Props) => {
-  const {
-    placeholder,
-    value,
-    items,
-    keyName,
-    label,
-    needTopDivider,
-    onPress,
-  } = props;
+  const { placeholder, value, items, keyName, label, needTopDivider, onPress } = props;
 
   const item = items.find((item) => {
     return (item['id'] || item['value']) == value;

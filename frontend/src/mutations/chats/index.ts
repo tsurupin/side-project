@@ -1,5 +1,3 @@
 import CreateMessageMutation from './CreateMessageMutation';
 
-export {
-  CreateMessageMutation,
-};
+export { CreateMessageMutation };

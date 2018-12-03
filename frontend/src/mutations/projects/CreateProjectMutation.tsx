@@ -1,9 +1,6 @@
 import * as React from 'react';
 import { Mutation } from 'react-apollo';
-import {
-  CREATE_PROJECT_MUTATION,
-  PROJECT_FRAGMENTS,
-} from '../../graphql/projects';
+import { CREATE_PROJECT_MUTATION, PROJECT_FRAGMENTS } from '../../graphql/projects';
 import { EDITABLE_PROJECT_LIST_QUERY } from '../../graphql/projects';
 type Props = {
   children: any;
@@ -21,22 +18,21 @@ const CreateProjectMutation = (props: Props) => {
         // NOTE: reqdQuery cannot return optimistic data yet
         // https://github.com/apollographql/apollo-feature-requests/issues/14
         try {
-
           const projectData = cache.readQuery({
-            query: EDITABLE_PROJECT_LIST_QUERY,
+            query: EDITABLE_PROJECT_LIST_QUERY
           });
 
           const projects = projectData.editableProjects;
           const newProject = {
             __typename: 'Project',
             id: createProject.id,
-            ...createProject,
+            ...createProject
           };
           const editableProjects = [...projects, newProject];
 
           cache.writeQuery({
             query: EDITABLE_PROJECT_LIST_QUERY,
-            data: { editableProjects },
+            data: { editableProjects }
           });
         } catch (e) {
           console.log('error', e);
@@ -48,7 +44,7 @@ const CreateProjectMutation = (props: Props) => {
           createProjectMutation,
           loading,
           error,
-          data,
+          data
         });
       }}
     </Mutation>

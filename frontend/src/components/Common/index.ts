@@ -10,20 +10,20 @@ import PhotosEditForm from './PhotosEditForm';
 import RemoteImage from './RemoteImage';
 import CustomizedSegmentedControlTab from './CustomizedSegmentedControlTab';
 import SearchInput from './SearchInput';
-import  TextAreaListItem from './TextAreaListItem';
+import TextAreaListItem from './TextAreaListItem';
 
 export {
-    ErrorMessage,
-    ErrorAlert,
-    LoadingIndicator,
-    SelectBox,
-    TextGroup,
-    SkillList,
-    CarouselPanel,
-    Photo,
-    PhotosEditForm,
-    RemoteImage,
-    CustomizedSegmentedControlTab,
-    SearchInput,
-    TextAreaListItem,
+  ErrorMessage,
+  ErrorAlert,
+  LoadingIndicator,
+  SelectBox,
+  TextGroup,
+  SkillList,
+  CarouselPanel,
+  Photo,
+  PhotosEditForm,
+  RemoteImage,
+  CustomizedSegmentedControlTab,
+  SearchInput,
+  TextAreaListItem
 };

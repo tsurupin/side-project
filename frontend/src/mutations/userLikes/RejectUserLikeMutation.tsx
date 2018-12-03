@@ -16,13 +16,11 @@ const RejectUserLikeMutation = (props: Props) => {
       context={{ needAuth: true }}
       update={(cache, { data: { rejectUserLike: userId } }) => {
         const { matchList } = cache.readQuery({ query: MATCH_LIST_QUERY });
-        const likedUserList = matchList.likedUserList.filter(
-          (user) => user.id !== userId,
-        );
+        const likedUserList = matchList.likedUserList.filter((user) => user.id !== userId);
 
         cache.writeQuery({
           query: MATCH_LIST_QUERY,
-          data: { matchList: { ...matchList, likedUserList } },
+          data: { matchList: { ...matchList, likedUserList } }
         });
       }}
     >
@@ -32,7 +30,7 @@ const RejectUserLikeMutation = (props: Props) => {
           loading,
           error,
           data,
-          name: 'rejectUserLike',
+          name: 'rejectUserLike'
         });
       }}
     </Mutation>

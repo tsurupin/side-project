@@ -23,18 +23,14 @@ class TokenManager {
     await AsyncStorage.removeItem(REFRESH_TOKEN);
     await AsyncStorage.removeItem(EXPIRED_AT_IN_UNIX);
 
-    this.observers.forEach(observer => {
+    this.observers.forEach((observer) => {
       observer.watchToken(undefined);
     });
     this.expiredAtInUnix = undefined;
     this.token = undefined;
   }
 
-  public setToken = async (
-    token: string,
-    refreshToken: string,
-    validTimeInUnix: number = 3600,
-  ) => {
+  public setToken = async (token: string, refreshToken: string, validTimeInUnix: number = 3600) => {
     if (this.token && this.token === token) {
       return;
     }
@@ -43,7 +39,7 @@ class TokenManager {
     await AsyncStorage.setItem(TOKEN, token);
     await AsyncStorage.setItem(REFRESH_TOKEN, refreshToken);
     await AsyncStorage.setItem(EXPIRED_AT_IN_UNIX, `${expiredAtInUnix}`);
-    this.observers.forEach(observer => {
+    this.observers.forEach((observer) => {
       observer.watchToken(token);
     });
 
@@ -58,10 +54,7 @@ class TokenManager {
   public getCachedToken = (): string | undefined => {
     if (!this.token) return undefined;
 
-    if (
-      this.expiredAtInUnix &&
-      this.expiredAtInUnix > this.getCurrentTimeInUnix()
-    ) {
+    if (this.expiredAtInUnix && this.expiredAtInUnix > this.getCurrentTimeInUnix()) {
       return this.token;
     } else {
       return undefined;
@@ -72,14 +65,11 @@ class TokenManager {
     const currentToken = await AsyncStorage.getItem(TOKEN);
     const expiredAtInUnix = await AsyncStorage.getItem(EXPIRED_AT_IN_UNIX);
 
-    if (
-      expiredAtInUnix &&
-      parseInt(expiredAtInUnix) > this.getCurrentTimeInUnix()
-    ) {
+    if (expiredAtInUnix && parseInt(expiredAtInUnix) > this.getCurrentTimeInUnix()) {
       if (!this.token) {
         this.token = currentToken;
         this.expiredAtInUnix = parseInt(expiredAtInUnix);
-        this.observers.forEach(observer => {
+        this.observers.forEach((observer) => {
           observer.watchToken(this.token);
         });
       }

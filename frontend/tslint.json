@@ -8,7 +8,7 @@
         "object-shorthand-properties-first": false,
         "radix": false,
         "ter-arrow-parens": false,
-        // "trailing-comma": false,
+        "trailing-comma": false,
         "import-name": false,
         "prettier": true,
         "variable-name": [true, "ban-keywords", "check-format", "allow-pascal-case"]

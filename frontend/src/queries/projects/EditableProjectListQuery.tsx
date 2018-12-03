@@ -9,11 +9,7 @@ type Props = {
 const EditableProjectListQuery = (props: Props) => {
   const { children } = props;
   return (
-    <Query
-      query={EDITABLE_PROJECT_LIST_QUERY}
-      context={{ needAuth: true }}
-      notifyOnNetworkStatusChange
-    >
+    <Query query={EDITABLE_PROJECT_LIST_QUERY} context={{ needAuth: true }} notifyOnNetworkStatusChange>
       {({ data, loading, error }) => children({ data, loading, error })}
     </Query>
   );

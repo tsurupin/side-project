@@ -2,25 +2,13 @@ import * as React from 'react';
 import { View, ScrollView } from 'react-native';
 import { Avatar } from 'react-native-elements';
 
-import {
-  ErrorMessage,
-  LoadingIndicator,
-  PhotosEditForm,
-} from '../../../components/Common';
+import { ErrorMessage, LoadingIndicator, PhotosEditForm } from '../../../components/Common';
 import { EditForm } from '../../../components/Me/Common';
 import { UserEditFormQuery } from '../../../queries/users';
 import { EditUserMutation } from '../../../mutations/users';
 
-import {
-  UploadUserPhotoMutation,
-  DeleteUserPhotoMutation,
-} from '../../../mutations/users';
-import {
-  UserDetails,
-  UserEditParams,
-  OccupationType,
-  Genre,
-} from '../../../interfaces';
+import { UploadUserPhotoMutation, DeleteUserPhotoMutation } from '../../../mutations/users';
+import { UserDetails, UserEditParams, OccupationType, Genre } from '../../../interfaces';
 import { uploadImage } from '../../../utilities/imagePickerHandler';
 import styles from './styles';
 import { PHOTOS_EDIT_SCREEN } from '../../../constants/screens';
@@ -54,23 +42,23 @@ class UserEditScreen extends React.Component<Props, UserEditParams> {
       passProps: {
         id,
         photos,
-        photoType: 'User',
+        photoType: 'User'
       },
       navigatorButtons: {
         leftButtons: [
           {
             icon: IconLoader.getIcon(CLOSE_ICON),
             title: 'Close',
-            id: CLOSE_BUTTON,
-          },
+            id: CLOSE_BUTTON
+          }
         ],
         rightButtons: [
           {
             title: 'Done',
-            id: CLOSE_BUTTON,
-          },
-        ],
-      },
+            id: CLOSE_BUTTON
+          }
+        ]
+      }
     });
   }
 
@@ -83,8 +71,7 @@ class UserEditScreen extends React.Component<Props, UserEditParams> {
           size="xlarge"
           rounded
           source={{
-            uri:
-              'https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg',
+            uri: 'https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg'
           }}
           onPress={() => this.handlePressPhoto(id, photos)}
           activeOpacity={0.7}
@@ -108,9 +95,7 @@ class UserEditScreen extends React.Component<Props, UserEditParams> {
           return (
             <EditForm
               user={user}
-              onSubmit={(userEditParams: UserEditParams) =>
-                this.handleSubmit(userEditParams, editUserMutation)
-              }
+              onSubmit={(userEditParams: UserEditParams) => this.handleSubmit(userEditParams, editUserMutation)}
               loading={loading}
               genres={genres}
               occupationTypes={occupationTypes}
@@ -135,10 +120,7 @@ class UserEditScreen extends React.Component<Props, UserEditParams> {
 
           return (
             <View style={styles.container}>
-              <ScrollView
-                alwaysBounceVertical={true}
-                showsVerticalScrollIndicator={false}
-              >
+              <ScrollView alwaysBounceVertical={true} showsVerticalScrollIndicator={false}>
                 {this.renderMainPhoto(user)}
                 {this.renderEditForm(user, defaultProps)}
               </ScrollView>

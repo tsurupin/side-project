@@ -2,7 +2,7 @@ import * as React from 'react';
 import {
   SKILL_SEARCH_MODAL_SCREEN,
   CITY_SEARCH_MODAL_SCREEN,
-  SELECT_BOX_PICKER_SCREEN,
+  SELECT_BOX_PICKER_SCREEN
 } from '../../../../constants/screens';
 
 import { View, FlatList, Alert } from 'react-native';
@@ -10,19 +10,9 @@ import { ListItem, Icon } from 'react-native-elements';
 import { SelectBox } from '../../../../components/Common';
 import { APPLY_BUTTON, CLOSE_BUTTON } from '../../../../constants/buttons';
 
-import {
-  Skill,
-  Genre,
-  City,
-  ProjectSearchParams,
-} from '../../../../interfaces';
+import { Skill, Genre, City, ProjectSearchParams } from '../../../../interfaces';
 import IconLoader from '../../../../utilities/IconLoader';
-import {
-  CLOSE_ICON,
-  MINUS_CIRCLE_ICON,
-  PLUS_ICON,
-  ICON_MAIN_TYPE,
-} from '../../../../constants/icons';
+import { CLOSE_ICON, MINUS_CIRCLE_ICON, PLUS_ICON, ICON_MAIN_TYPE } from '../../../../constants/icons';
 import styles from './styles';
 
 type Props = {
@@ -46,7 +36,7 @@ class SearchForm extends React.Component<Props, State> {
     this.state = {
       genreId: props.genreId,
       city: props.city,
-      skills: props.skills,
+      skills: props.skills
     };
 
     this.props.navigator.setOnNavigatorEvent(this.handleNavigationEvent);
@@ -61,7 +51,7 @@ class SearchForm extends React.Component<Props, State> {
         this.props.onSubmit({
           genreId,
           city,
-          skills,
+          skills
         });
         this.props.navigator.dismissModal();
         break;
@@ -82,17 +72,14 @@ class SearchForm extends React.Component<Props, State> {
           {
             icon: IconLoader.getIcon(CLOSE_ICON),
             title: 'CLOSE',
-            id: CLOSE_BUTTON,
-          },
-        ],
-      },
+            id: CLOSE_BUTTON
+          }
+        ]
+      }
     });
   }
 
-  private handleChangeValue = (
-    key: string,
-    value: string | number | boolean,
-  ) => {
+  private handleChangeValue = (key: string, value: string | number | boolean) => {
     const changeAttr = {};
     changeAttr[key] = value;
 
@@ -109,28 +96,24 @@ class SearchForm extends React.Component<Props, State> {
     this.setState({ skills });
   }
 
-  private handlePressShowModal = (
-    items: any[],
-    keyName: string,
-    selectedValue: string | number | undefined,
-  ) => {
+  private handlePressShowModal = (items: any[], keyName: string, selectedValue: string | number | undefined) => {
     this.props.navigator.showModal({
       screen: SELECT_BOX_PICKER_SCREEN,
       passProps: {
         items,
         keyName,
         selectedValue,
-        onPress: this.handleChangeValue,
+        onPress: this.handleChangeValue
       },
       navigatorButtons: {
         leftButtons: [
           {
             icon: IconLoader.getIcon(CLOSE_ICON),
             title: 'CLOSE',
-            id: CLOSE_BUTTON,
-          },
-        ],
-      },
+            id: CLOSE_BUTTON
+          }
+        ]
+      }
     });
   }
 
@@ -144,10 +127,10 @@ class SearchForm extends React.Component<Props, State> {
         leftButtons: [
           {
             title: 'Close',
-            id: CLOSE_BUTTON,
-          },
-        ],
-      },
+            id: CLOSE_BUTTON
+          }
+        ]
+      }
     });
   }
 
@@ -162,19 +145,12 @@ class SearchForm extends React.Component<Props, State> {
   private renderSkill = (data) => {
     const skill: Skill = data.item;
     return (
-      <ListItem
-        key={skill.id}
-        title={skill.name}
-        bottomDivider
-        rightIcon={this.renderSkillRemoveIcon(skill.id)}
-      />
+      <ListItem key={skill.id} title={skill.name} bottomDivider rightIcon={this.renderSkillRemoveIcon(skill.id)} />
     );
   }
 
   private renderSkillAddIcon = () => {
-    return (
-      <Icon type={ICON_MAIN_TYPE} name={PLUS_ICON} size={24} color="black" />
-    );
+    return <Icon type={ICON_MAIN_TYPE} name={PLUS_ICON} size={24} color="black" />;
   }
 
   private renderSkillRemoveIcon = (skillId: string) => {

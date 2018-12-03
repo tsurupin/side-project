@@ -5,7 +5,7 @@ const styles = StyleSheet.create({
   inputContainer: {},
   listContainer: {},
   listItemContainer: {},
-  errorMessage: {},
+  errorMessage: {}
 });
 
 export default styles;
