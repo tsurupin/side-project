@@ -5,7 +5,8 @@
         "object-shorthand-properties-first": false,
         "radix": false,
         "ter-arrow-parens": false,
-        "trailing-cmma": false,
-        "import-name": false
+        "trailing-comma": false,
+        "import-name": false,
+        "variable-name": [true, "ban-keywords", "check-format", "allow-pascal-case"]
     }
 }

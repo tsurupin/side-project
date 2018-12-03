@@ -2,7 +2,6 @@ import { Navigation } from 'react-native-navigation';
 import ApolloWrapper from './AppolloWrapper';
 import {
   AUTH_SCREEN,
-  TOP_SCREEN,
   USER_DISCOVERY_SCREEN,
   USER_SEARCH_MODAL_SCREEN,
   SKILL_SEARCH_MODAL_SCREEN,
@@ -69,8 +68,6 @@ import IconLoader from './utilities/IconLoader';
 
 const registerComponents = () => {
   Navigation.registerComponent(AUTH_SCREEN, () => ApolloWrapper(AuthScreen));
-
-  // Navigation.registerComponent(TOP_SCREEN, () => ApolloWrapper(TopScreen));
 
   Navigation.registerComponent(USER_DISCOVERY_SCREEN, () =>
     ApolloWrapper(DiscoveryScreen),
@@ -142,8 +139,9 @@ const tabIcons = [
   MESSAGE_OUTLINE_ICON,
   ACCOUNT_ICON,
 ];
+
 const preloadTasks = [IconLoader.loadIcons(navIcons.concat(tabIcons))];
-Promise.all(preloadTasks).then((result) => {
+Promise.all(preloadTasks).then(() => {
   Navigation.startSingleScreenApp({
     screen: {
       screen: AUTH_SCREEN,

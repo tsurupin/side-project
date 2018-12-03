@@ -2,8 +2,8 @@ import * as React from 'react';
 import { ApolloProvider } from 'react-apollo';
 import client from './client';
 
-const ApolloWrapper = AppComponent => {
-  class Enhance extends React.Component {
+const ApolloWrapper = (AppComponent) => {
+  return class extends React.Component {
     render() {
       return (
         <ApolloProvider client={client}>
@@ -11,8 +11,7 @@ const ApolloWrapper = AppComponent => {
         </ApolloProvider>
       );
     }
-  }
-  return Enhance;
+  };
 };
 
 export default ApolloWrapper;

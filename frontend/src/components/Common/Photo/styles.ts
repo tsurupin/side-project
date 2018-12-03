@@ -8,5 +8,6 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: 'grey',
   },
+  image: {}
 });
 export default styles;

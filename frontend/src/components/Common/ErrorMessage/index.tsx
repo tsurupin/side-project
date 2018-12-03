@@ -21,7 +21,7 @@ const ErrorMessage: React.SFC<Props> = (props) => {
   const errorMessage = graphQLErrors[0].message;
   return (
     <View>
-      <Text>{errorMessage}</Text>
+      <Text style={styles.text}>{errorMessage}</Text>
     </View>
   );
 };

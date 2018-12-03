@@ -4,7 +4,7 @@ import styles from './styles';
 
 type Props = {
   selectedIndex: number;
-  onTabPress: (number) => void;
+  onTabPress: (number!) => any;
   borderRadius: number;
   values: number[] | string[];
 };

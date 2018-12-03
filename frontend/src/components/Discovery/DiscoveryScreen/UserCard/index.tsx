@@ -10,12 +10,11 @@ type Props = {
 const buildProfessionText = (
   occupation: string | undefined,
   companyName: string | undefined,
-) => {
+) : string => {
   if (occupation && companyName) {
     return `${occupation}, ${companyName}`;
-  } else {
-    return `${occupation || companyName}`;
   }
+  return `${occupation || companyName}`;
 };
 
 const UserCard: React.SFC<Props> = (props) => {

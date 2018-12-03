@@ -10,17 +10,17 @@ type Props = {
   onPress: (city: City) => void;
 };
 
-const CityList: React.SFC<Props> = (props) => {
+const CityList: React.SFC<Props> = ({ cities, onPress }) => {
   return (
     <View style={styles.listContainer}>
-      {props.cities.map((city: City) => {
+      {cities.map((city: City) => {
         return (
           <ListItem
             key={city.id}
             containerStyle={styles.listItemContainer}
             title={city.fullName}
             bottomDivider
-            onPress={() => props.onPress(city)}
+            onPress={() => onPress(city)}
           />
         );
       })}

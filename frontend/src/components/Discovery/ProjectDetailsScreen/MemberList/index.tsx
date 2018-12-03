@@ -9,7 +9,7 @@ import {
   FORMAT_HORIZONTAL_ALIGN_RIGHT_ICON,
   ICON_MAIN_TYPE,
 } from '../../../../constants/icons';
-import { ActiveMainColor } from '../../../../constants/colors';
+import { ACTIVE_MAIN_COLOR } from '../../../../constants/colors';
 import styles from './styles';
 
 type Props = {
@@ -25,7 +25,7 @@ type State = {
 const MIN_HEIGHT = 2;
 
 class MemberList extends React.Component<Props, State> {
-  constructor(props) {
+  constructor(props: Props) {
     super(props);
 
     this.state = {
@@ -52,7 +52,7 @@ class MemberList extends React.Component<Props, State> {
 
       <Icon
         size={20}
-        color={ActiveMainColor}
+        color={ACTIVE_MAIN_COLOR}
         containerStyle={styles.iconContainer}
         type={ICON_MAIN_TYPE}
         name={

@@ -9,8 +9,6 @@ const CreateSkillMutation = (
 ) => (
   <Mutation mutation={CREATE_SKILL_MUTATION}>
     {(createSkillMutation, { data, error, loading }) => {
-      console.log(data);
-      console.log(error);
       let errorMessage;
       let skill;
       if (error) {

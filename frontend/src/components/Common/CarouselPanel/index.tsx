@@ -1,15 +1,14 @@
 import * as React from 'react';
 import { Image, ScrollView } from 'react-native';
-import { UserPhoto } from '../../../../interfaces';
+import { UserPhoto } from '../../../interfaces';
 import styles from './styles';
 
 type Props = {
   photos: UserPhoto[];
 };
 
-const renderImage = (photo: any) => {
+const renderImage = (photo: UserPhoto) => {
   const { imageUrl, id } = photo;
-  console.log(imageUrl);
   return (
     <Image
       key={id}
@@ -19,7 +18,7 @@ const renderImage = (photo: any) => {
     />
   );
 };
-const CarouselPanel: React.SFC<Props> = (props) => {
+const CarouselPanel: React.SFC<Props> = ({ photos }) => {
   return (
     <ScrollView
       horizontal
@@ -28,19 +27,19 @@ const CarouselPanel: React.SFC<Props> = (props) => {
       contentContainerStyle={styles.container}
       showsHorizontalScrollIndicator={true}
     >
-      {// props.photos.map((photo) => renderImage(photo))
-      [
-        {
-          id: 1,
-          imageUrl: 'https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg',
-        },
-        {
-          id: 2,
-          imageUrl: 'https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg',
-        },
-      ].map((photo) => renderImage(photo))}
+      {photos.map((photo) => renderImage(photo))} 
     </ScrollView>
   );
 };
+// {/*[
+//   {
+//     id: 1,
+//     imageUrl: 'https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg',
+//   },
+//   {
+//     id: 2,
+//     imageUrl: 'https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg',
+//   },
+// ].map((photo) => renderImage(photo))} */}
 
 export default CarouselPanel;

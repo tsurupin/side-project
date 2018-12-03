@@ -21,6 +21,7 @@ const BackgroundColor = '#EFEFF4';
 const LabelTextColor = '#6F6E74';
 const SubTextColor = '#8F8F94';
 const ActiveMainColor = '#55B237';
+const ACTIVE_MAIN_COLOR = '#55B237';
 
 export {
   MainColor,
@@ -42,6 +43,7 @@ export {
   LabelTextColor,
   SubTextColor,
   ActiveMainColor,
+  ACTIVE_MAIN_COLOR,
   DetailTextColor,
   DetailLabelColor,
   DividerColor,

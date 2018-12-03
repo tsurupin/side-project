@@ -13,14 +13,13 @@ type Props = {
   onPressCard: (id: string) => void;
 };
 
-const renderItem = (type: string, item: Item, fnc) => {
+const renderItem = (type: string, item: Item, fnc: (id: string) => void) => {
   if (type === 'User') {
     const user = item as UserCore;
     return <UserCard key={item.id} user={user} onPressCard={fnc} />;
-  } else {
-    const project = item as ProjectCore;
-    return <ProjectCard key={project.id} project={project} onPressCard={fnc} />;
   }
+  const project = item as ProjectCore;
+  return <ProjectCard key={project.id} project={project} onPressCard={fnc} />;
 };
 
 const ItemList: React.SFC<Props> = (props) => {

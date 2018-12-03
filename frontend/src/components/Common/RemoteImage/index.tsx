@@ -6,20 +6,24 @@ type Props = {
   styles: object;
 };
 
-type State = {
-  imageWidth: number;
-  imageHeight: number;
+// type State = {
+//   imageWidth: number;
+//   imageHeight: number;
+// };
+
+const initialState = {
+  width: 0,
+  height: 0
 };
 
-class RemoteImage extends React.Component<Props, State> {
-  constructor(props) {
-    super(props);
+type State = Readonly<typeof initialState>;
 
-    this.state = {
-      width: 0,
-      height: 0,
-    };
+class RemoteImage extends React.Component<Props, State> {
+  constructor(props: Props) {
+    super(props);
   }
+
+  readonly state: State = initialState;
 
   componentDidMount() {
     const { imageUrl } = this.props;

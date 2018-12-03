@@ -4,6 +4,7 @@ import {
   SegmentControlColor,
   WhiteColor,
 } from '../../../constants/colors';
+
 const styles = StyleSheet.create({
   tabContainerStyle: {
 

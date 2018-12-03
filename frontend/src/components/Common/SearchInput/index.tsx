@@ -3,6 +3,8 @@ import { View } from 'react-native';
 import { Input, Icon } from 'react-native-elements';
 import {
   ICON_MAIN_TYPE,
+  SMALL_ICON_SIZE,
+  ICON_BLACK_COLOR,
   CLOSE_CIRCLE_ICON,
   MAGNIFY_ICON,
 } from '../../../constants/icons';
@@ -10,7 +12,7 @@ import styles from './styles';
 
 type Props = {
   name: string;
-  onChangeText: (name) => void;
+  onChangeText: (val: string) => void;
 };
 
 const SearchInput: React.SFC<Props> = (props) => {
@@ -22,8 +24,8 @@ const SearchInput: React.SFC<Props> = (props) => {
           <Icon
             type={ICON_MAIN_TYPE}
             name={MAGNIFY_ICON}
-            size={24}
-            color="black"
+            size={SMALL_ICON_SIZE}
+            color={ICON_BLACK_COLOR}
           />
         }
         leftIconContainerStyle={styles.leftIconContainer}
@@ -31,8 +33,8 @@ const SearchInput: React.SFC<Props> = (props) => {
           <Icon
             type={ICON_MAIN_TYPE}
             name={CLOSE_CIRCLE_ICON}
-            size={24}
-            color="black"
+            size={SMALL_ICON_SIZE}
+            color={ICON_BLACK_COLOR}
             onPress={() => props.onChangeText('')}
           />
         }

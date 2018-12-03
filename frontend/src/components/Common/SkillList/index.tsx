@@ -7,12 +7,12 @@ import styles from './styles';
 type Props = {
   skills: Skill[];
 };
-const SkillList: React.SFC<Props> = (props) => {
+const SkillList: React.SFC<Props> = ({ skills }) => {
   return (
     <View style={styles.container}>
       <Text style={styles.labelText}>Skills</Text>
       <View style={styles.badgeListContainer}>
-        {props.skills.map((skill, i) => {
+        {skills.map((skill, i) => {
 
           return (
             <Badge
