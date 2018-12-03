@@ -17,22 +17,22 @@ type Props = {
   onPressUser: (userId: string) => void;
 };
 
-type State = {
-  isOpen: boolean;
-  currentHeight?: any;
-  maxHeight: number;
-};
 const MIN_HEIGHT = 2;
+const initialState = {
+  isOpen: false,
+  maxHeight: MIN_HEIGHT,
+  currentHeight: new Animated.Value(2)
+};
+
+type State = Readonly<typeof initialState>;
 
 class MemberList extends React.Component<Props, State> {
+  readonly state: State = initialState;
+
   constructor(props: Props) {
     super(props);
 
-    this.state = {
-      isOpen: false,
-      maxHeight:  MIN_HEIGHT + (props.members.length * 60) - 10,
-      currentHeight: new Animated.Value(2),
-    };
+    this.setState({ maxHeight: MIN_HEIGHT + (props.members.length * 60) - 10 });
   }
 
   private toggle = () => {

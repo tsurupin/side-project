@@ -2,7 +2,7 @@ import * as React from 'react';
 import { ApolloProvider } from 'react-apollo';
 import client from './client';
 
-const ApolloWrapper = (AppComponent) => {
+const ApolloWrapper = (AppComponent: any) => {
   return class extends React.Component {
     render() {
       return (

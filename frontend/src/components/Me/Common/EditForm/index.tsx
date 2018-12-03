@@ -11,7 +11,12 @@ import {
 import { ListItem, Icon } from 'react-native-elements';
 import { SelectBox, TextAreaListItem } from '../../../Common';
 import { SUBMIT_BUTTON, CLOSE_BUTTON } from '../../../../constants/buttons';
-import { CLOSE_ICON } from '../../../../constants/icons';
+import {
+  CLOSE_ICON,
+  PLUS_ICON,
+  MINUS_CIRCLE_ICON,
+  ICON_MAIN_TYPE
+} from '../../../../constants/icons';
 import IconLoader from '../../../../utilities/IconLoader';
 
 import {
@@ -20,12 +25,6 @@ import {
   SELECT_BOX_PICKER_SCREEN,
   TEXT_INPUT_SCREEN,
 } from '../../../../constants/screens';
-
-import {
-  PLUS_ICON,
-  MINUS_CIRCLE_ICON,
-  ICON_MAIN_TYPE,
-} from '../../../../constants/icons';
 
 import styles from './styles';
 
@@ -39,6 +38,22 @@ type Props = {
   onSubmit: (userEditParams: UserEditParams) => void;
 };
 
+
+// const initiateState = {
+//   displayName: undefined;
+//   introduction: string | undefined;
+//   occupation: string | undefined;
+//   occupationTypeId: string | undefined;
+//   genreId: string | undefined;
+//   companyName: string | undefined;
+//   schoolName: string | undefined;
+//   city: City | undefined;
+//   skills: Skill[];
+//   longitude?: number;
+//   latitude?: number;
+// }
+
+// type State = Readonly<typeof initiateState>;
 type State = {
   displayName: string;
   introduction: string | undefined;
@@ -69,7 +84,7 @@ class EditForm extends React.Component<Props, State> {
     },
   };
 
-  constructor(props) {
+  constructor(props: Props) {
     super(props);
     const { user } = this.props;
 
@@ -106,7 +121,7 @@ class EditForm extends React.Component<Props, State> {
     const arrayObjectKeys = ['skills'];
     const statePrioritizedKeys = ['longitude', 'latitude'];
 
-    stringKeys.forEach((key) => {
+    stringKeys.forEach((key: string) => {
       const currentValue = this.state[key];
       if (!(currentValue === user[key])) {
         params[key] = currentValue;
@@ -140,11 +155,11 @@ class EditForm extends React.Component<Props, State> {
 
     if (currentValue && previousValue && currentValue.id === previousValue.id) {
       return false;
-    } else if (!currentValue && !previousValue) {
-      return false;
-    } else {
-      return true;
     }
+    if (!currentValue && !previousValue) {
+      return false;
+    }
+    return true;
   }
 
   private arrayObjectValueChanged = (key: string): boolean => {
@@ -345,9 +360,7 @@ class EditForm extends React.Component<Props, State> {
       occupationTypeId,
       companyName,
       schoolName,
-      city,
-      latitude,
-      longitude,
+      city
     } = this.state;
 
     return (

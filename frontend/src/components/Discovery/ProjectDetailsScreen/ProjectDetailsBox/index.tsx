@@ -8,10 +8,7 @@ import { SkillList, CarouselPanel, TextGroup } from '../../../Common';
 import { ProjectDetails, City } from '../../../../interfaces';
 import { ActiveMainColor } from '../../../../constants/colors';
 import {
-  CLOSE_ICON,
   CHECK_ICON,
-  HEART_OUTLINE_ICON,
-  CHECK_OUTLINE_ICON,
   ICON_MAIN_TYPE,
 } from '../../../../constants/icons';
 import styles from './styles';
@@ -58,7 +55,7 @@ const renderLikeButton = (liked: boolean, like: any) => {
 
 const ProjectDetailsBox: React.SFC<Props> = (props) => {
   const { project, onPressUser, liked, like } = props;
-  let {
+  const {
     title,
     genre,
     city,
@@ -69,10 +66,10 @@ const ProjectDetailsBox: React.SFC<Props> = (props) => {
     skills,
     photos,
   } = project;
-  title = 'Block Chain 2.0';
-  leadSentence = 'This project is for creating new internet';
-  motivation =
-    "I'm a genuine technology lover who codes literally everyday.\nFor most of my past career, Ive worked for a small team. I love to wear many hats - from backend and front-end to mobile or DevOps, and I am happy to take on any role to make a better product.\nMy true passion is not to learn a new technology itself, but to create a great product with ambitious teammates which contributes to our life.\nI'm a full stack engineer, who is especially proficient in Ruby, Rails and React/Redux.\nMy recent project, built in Rails and React/Redux,  got over 500 stars in GitHub.";
+  // title = 'Block Chain 2.0';
+  // leadSentence = 'This project is for creating new internet';
+  // motivation =
+  //   "I'm a genuine technology lover who codes literally everyday.\nFor most of my past career, Ive worked for a small team. I love to wear many hats - from backend and front-end to mobile or DevOps, and I am happy to take on any role to make a better product.\nMy true passion is not to learn a new technology itself, but to create a great product with ambitious teammates which contributes to our life.\nI'm a full stack engineer, who is especially proficient in Ruby, Rails and React/Redux.\nMy recent project, built in Rails and React/Redux,  got over 500 stars in GitHub.";
 
   return (
     <View style={styles.container}>
@@ -102,7 +99,7 @@ const ProjectDetailsBox: React.SFC<Props> = (props) => {
             </View>
             <MemberList members={users} onPressUser={onPressUser} />
 
-            <View style={styles.skillListWrapper}>
+            <View>
               <SkillList skills={skills} />
             </View>
           </View>

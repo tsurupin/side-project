@@ -8,8 +8,7 @@ type Props = {
   onPress: (userId: string) => void;
 };
 
-const MemberListItem: React.SFC<Props> = (props) => {
-  const { member, onPress } = props;
+const MemberListItem: React.SFC<Props> = ({ member, onPress }) => {
   const { displayName, mainPhotoUrl, occupationType } = member;
   return (
     <ListItem
