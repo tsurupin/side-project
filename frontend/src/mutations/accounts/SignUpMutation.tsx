@@ -12,12 +12,9 @@ const SignUpMutation = (props: Props) => {
   return (
     <Mutation mutation={SIGN_UP_MUTATION}>
       {(signUpMutation, signUpData) => {
-        console.log('signupMutation', signUpData);
-
         return (
           <Mutation mutation={LOGIN_MUTATION}>
             {(loginMutation, loginData) => {
-              console.log('loginMutation', loginData);
               const error = signUpData.error || loginData.error;
               const loading = signUpData.loading;
               return children({

@@ -15,7 +15,7 @@ const ChatDetailsQuery = (props: Props) => {
         const subscribeMessages = () => {
           return subscribeToMore({
             document: NEW_MESSAGE_SUBSCRIPTION,
-            variables: { chatId: variables.id },
+            variables: { chatId: variables!.id },
             updateQuery: (prev: any, { subscriptionData }) => {
               if (!subscriptionData.data) return prev;
               const newMessage = subscriptionData.data.newMessage;

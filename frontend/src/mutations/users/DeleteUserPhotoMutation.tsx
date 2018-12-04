@@ -16,11 +16,11 @@ const DeleteUserPhotoMutation = (props: Props) => {
       context={{ needAuth: true }}
       update={(cache, { data: { deleteUserPhoto } }) => {
         const fragmentId: string = `User:${deleteUserPhoto.userId}`;
-        const user: any = cache.readFragment({
+        const user: UserDetails | null = cache.readFragment({
           id: fragmentId,
           fragment: USER_FRAGMENTS.userDetails
         });
-        const photos = user.photos.filter((photo) => photo.id != deleteUserPhoto.id);
+        const photos = user!.photos.filter((photo) => photo.id !== deleteUserPhoto.id);
 
         cache.writeFragment({
           id: fragmentId,

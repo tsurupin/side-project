@@ -164,6 +164,11 @@ export interface Message {
   user: UserCore;
 }
 
+export interface MatchList {
+  likedUserList: UserCore[];
+  chatList: Chat[];
+}
+
 export interface MessageParams {
   chatId: string;
   comment?: string;

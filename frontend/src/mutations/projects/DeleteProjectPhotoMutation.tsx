@@ -23,7 +23,7 @@ const DeleteProjectPhotoMutation = (props: Props) => {
         if (!project) {
           return console.error(project);
         }
-        const photos = project.photos.filter((photo) => photo.id != deleteProjectPhoto.id);
+        const photos = project.photos.filter((photo) => photo.id !== deleteProjectPhoto.id);
 
         cache.writeFragment({
           id: fragmentId,

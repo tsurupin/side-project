@@ -50,8 +50,8 @@ const ProjectDetailsBox: React.SFC<Props> = (props) => {
   // title = 'Block Chain 2.0';
   // leadSentence = 'This project is for creating new internet';
   // motivation =
-  //   "I'm a genuine technology lover who codes literally everyday.\nFor most of my past career, Ive worked for a small team. I love to wear many hats - from backend and front-end to mobile or DevOps, and I am happy to take on any role to make a better product.\nMy true passion is not to learn a new technology itself, but to create a great product with ambitious teammates which contributes to our life.\nI'm a full stack engineer, who is especially proficient in Ruby, Rails and React/Redux.\nMy recent project, built in Rails and React/Redux,  got over 500 stars in GitHub.";
-
+  //   "I'm a genuine technology lover who codes literally everyday.\nFor most of my past career,
+  // Ive worked for a small team. I love to wear many hats - from backend and front-end to mobile
   return (
     <View style={styles.container}>
       <ScrollView

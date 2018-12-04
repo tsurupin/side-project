@@ -3,7 +3,7 @@ import { Mutation } from 'react-apollo';
 import { LOGIN_MUTATION } from '../../graphql/accounts';
 
 type Props = {
-  children: React.ReactNode;
+  children: any;
 };
 
 const LoginMutation = (props: Props) => {

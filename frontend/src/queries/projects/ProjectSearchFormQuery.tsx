@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { Query } from 'react-apollo';
-import { PROJECT_SEARCH_FORM_QUERY } from '../../graphql/projects';
-import { PROJECT_SEARCH_PARAMS_QUERY } from '../../graphql/projects';
+import { PROJECT_SEARCH_FORM_QUERY, PROJECT_SEARCH_PARAMS_QUERY } from '../../graphql/projects';
 
 type Props = {
   children: any;
