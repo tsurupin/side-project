@@ -1,5 +1,12 @@
-const changeLoginStatus = (_, { logined }, { cache }) => {
-  console.log('changeloginc');
+type LoginData = {
+  logined: boolean;
+};
+
+type CacheData = {
+  cache: any;
+};
+
+const changeLoginStatus = (_: any, { logined }: LoginData, { cache }: CacheData) => {
   cache.writeData({ data: { logined } });
   return null;
 };

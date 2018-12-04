@@ -1,6 +1,14 @@
 import { USER_SEARCH_PARAMS_QUERY } from '../graphql/users';
+import { UserSearchParams } from '../interfaces';
+type InputData = {
+  userSearchParams: UserSearchParams;
+};
 
-const updateUserSearchParams = (_prev, { userSearchParams }, { cache }) => {
+type CacheData = {
+  cache: any;
+};
+
+const updateUserSearchParams = (_, { userSearchParams }: InputData, { cache }: CacheData) => {
   const data = cache.readQuery({ query: USER_SEARCH_PARAMS_QUERY });
 
   for (const [k, v] of Object.entries(userSearchParams)) {

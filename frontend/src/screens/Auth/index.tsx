@@ -11,10 +11,8 @@ const FB_READ_PERMISSIONS = ['public_profile', 'email'];
 
 type Props = {};
 
-type State = {};
-
-class AuthScreen extends React.Component<Props, State> {
-  constructor(props) {
+class AuthScreen extends React.Component<Props> {
+  constructor(props: Props) {
     super(props);
   }
 

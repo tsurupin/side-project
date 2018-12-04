@@ -1,6 +1,14 @@
 import { PROJECT_SEARCH_PARAMS_QUERY } from '../graphql/projects';
+import { ProjectSearchParams } from '../interfaces';
+type InputData = {
+  projectSearchParams: ProjectSearchParams;
+};
 
-const updateProjectSearchParams = (_prev, { projectSearchParams }, { cache }) => {
+type CacheData = {
+  cache: any;
+};
+
+const updateProjectSearchParams = (_: any, { projectSearchParams }: InputData, { cache }: CacheData) => {
   const data = cache.readQuery({ query: PROJECT_SEARCH_PARAMS_QUERY });
 
   for (const [k, v] of Object.entries(projectSearchParams)) {
