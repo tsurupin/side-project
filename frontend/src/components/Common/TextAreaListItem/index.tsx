@@ -8,11 +8,7 @@ type Props = {
   keyName: string;
   value: string | undefined;
   placeholder: string;
-  onPress: (
-    keyName: string,
-    value: string | undefined,
-    placeholder: string,
-  ) => void;
+  onPress: (keyName: string, value: string | undefined, placeholder: string) => void;
 };
 
 const TextAreaListItem: React.SFC<Props> = (props) => {

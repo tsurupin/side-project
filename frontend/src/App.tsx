@@ -2,7 +2,6 @@ import { Navigation } from 'react-native-navigation';
 import ApolloWrapper from './AppolloWrapper';
 import {
   AUTH_SCREEN,
-  TOP_SCREEN,
   USER_DISCOVERY_SCREEN,
   USER_SEARCH_MODAL_SCREEN,
   SKILL_SEARCH_MODAL_SCREEN,
@@ -21,7 +20,7 @@ import {
   SETTING_LIST_SCREEN,
   SELECT_BOX_PICKER_SCREEN,
   TEXT_INPUT_SCREEN,
-  PHOTOS_EDIT_SCREEN,
+  PHOTOS_EDIT_SCREEN
 } from './constants/screens';
 import AuthScreen from './screens/Auth';
 import { MatchScreen, ChatScreen } from './screens/Match';
@@ -31,28 +30,19 @@ import {
   UserSearchModalScreen,
   ProjectSearchModalScreen,
   UserDetailsScreen,
-  ProjectDetailsScreen,
+  ProjectDetailsScreen
 } from './screens/Discovery';
 
-import {
-  UserEditScreen,
-  MyProfileScreen,
-  SettingListScreen,
-} from './screens/Me';
+import { UserEditScreen, MyProfileScreen, SettingListScreen } from './screens/Me';
 
-import {
-  LikedProjectDetailsScreen,
-  ProjectListScreen,
-  ProjectEditScreen,
-  ProjectNewScreen,
-} from './screens/Project';
+import { LikedProjectDetailsScreen, ProjectListScreen, ProjectEditScreen, ProjectNewScreen } from './screens/Project';
 
 import {
   TextInputScreen,
   SelectBoxPickerScreen,
   SkillSearchModalScreen,
   CitySearchModalScreen,
-  PhotosEditScreen,
+  PhotosEditScreen
 } from './screens/Common';
 
 import {
@@ -63,92 +53,52 @@ import {
   PENCIL_ICON,
   ACCOUNT_ICON,
   LIBRARY_BOOKS_ICON,
-  BACK_ICON,
+  BACK_ICON
 } from './constants/icons';
 import IconLoader from './utilities/IconLoader';
 
 const registerComponents = () => {
   Navigation.registerComponent(AUTH_SCREEN, () => ApolloWrapper(AuthScreen));
 
-  // Navigation.registerComponent(TOP_SCREEN, () => ApolloWrapper(TopScreen));
+  Navigation.registerComponent(USER_DISCOVERY_SCREEN, () => ApolloWrapper(DiscoveryScreen));
+  Navigation.registerComponent(USER_SEARCH_MODAL_SCREEN, () => ApolloWrapper(UserSearchModalScreen));
 
-  Navigation.registerComponent(USER_DISCOVERY_SCREEN, () =>
-    ApolloWrapper(DiscoveryScreen),
-  );
-  Navigation.registerComponent(USER_SEARCH_MODAL_SCREEN, () =>
-    ApolloWrapper(UserSearchModalScreen),
-  );
+  Navigation.registerComponent(PROJECT_SEARCH_MODAL_SCREEN, () => ApolloWrapper(ProjectSearchModalScreen));
+  Navigation.registerComponent(SKILL_SEARCH_MODAL_SCREEN, () => ApolloWrapper(SkillSearchModalScreen));
 
-  Navigation.registerComponent(PROJECT_SEARCH_MODAL_SCREEN, () =>
-    ApolloWrapper(ProjectSearchModalScreen),
-  );
-  Navigation.registerComponent(SKILL_SEARCH_MODAL_SCREEN, () =>
-    ApolloWrapper(SkillSearchModalScreen),
-  );
-
-  Navigation.registerComponent(CITY_SEARCH_MODAL_SCREEN, () =>
-    ApolloWrapper(CitySearchModalScreen),
-  );
-  Navigation.registerComponent(USER_DETAILS_SCREEN, () =>
-    ApolloWrapper(UserDetailsScreen),
-  );
-  Navigation.registerComponent(MY_PROFILE_SCREEN, () =>
-    ApolloWrapper(MyProfileScreen),
-  );
-  Navigation.registerComponent(USER_EDIT_SCREEN, () =>
-    ApolloWrapper(UserEditScreen),
-  );
+  Navigation.registerComponent(CITY_SEARCH_MODAL_SCREEN, () => ApolloWrapper(CitySearchModalScreen));
+  Navigation.registerComponent(USER_DETAILS_SCREEN, () => ApolloWrapper(UserDetailsScreen));
+  Navigation.registerComponent(MY_PROFILE_SCREEN, () => ApolloWrapper(MyProfileScreen));
+  Navigation.registerComponent(USER_EDIT_SCREEN, () => ApolloWrapper(UserEditScreen));
 
   Navigation.registerComponent(MATCH_SCREEN, () => ApolloWrapper(MatchScreen));
   Navigation.registerComponent(CHAT_SCREEN, () => ApolloWrapper(ChatScreen));
-  Navigation.registerComponent(PROJECT_DETAILS_SCREEN, () =>
-    ApolloWrapper(ProjectDetailsScreen),
-  );
-  Navigation.registerComponent(PROJECT_EDIT_SCREEN, () =>
-    ApolloWrapper(ProjectEditScreen),
-  );
-  Navigation.registerComponent(PROJECT_NEW_SCREEN, () =>
-    ApolloWrapper(ProjectNewScreen),
-  );
+  Navigation.registerComponent(PROJECT_DETAILS_SCREEN, () => ApolloWrapper(ProjectDetailsScreen));
+  Navigation.registerComponent(PROJECT_EDIT_SCREEN, () => ApolloWrapper(ProjectEditScreen));
+  Navigation.registerComponent(PROJECT_NEW_SCREEN, () => ApolloWrapper(ProjectNewScreen));
 
-  Navigation.registerComponent(LIKED_PROJECT_DETAILS_SCREEN, () =>
-    ApolloWrapper(LikedProjectDetailsScreen),
-  );
-  Navigation.registerComponent(PROJECT_LIST_SCREEN, () =>
-    ApolloWrapper(ProjectListScreen),
-  );
-  Navigation.registerComponent(SETTING_LIST_SCREEN, () =>
-    ApolloWrapper(SettingListScreen),
-  );
+  Navigation.registerComponent(LIKED_PROJECT_DETAILS_SCREEN, () => ApolloWrapper(LikedProjectDetailsScreen));
+  Navigation.registerComponent(PROJECT_LIST_SCREEN, () => ApolloWrapper(ProjectListScreen));
+  Navigation.registerComponent(SETTING_LIST_SCREEN, () => ApolloWrapper(SettingListScreen));
 
-  Navigation.registerComponent(SELECT_BOX_PICKER_SCREEN, () =>
-    ApolloWrapper(SelectBoxPickerScreen),
-  );
-  Navigation.registerComponent(TEXT_INPUT_SCREEN, () =>
-    ApolloWrapper(TextInputScreen),
-  );
+  Navigation.registerComponent(SELECT_BOX_PICKER_SCREEN, () => ApolloWrapper(SelectBoxPickerScreen));
+  Navigation.registerComponent(TEXT_INPUT_SCREEN, () => ApolloWrapper(TextInputScreen));
 
-  Navigation.registerComponent(PHOTOS_EDIT_SCREEN, () =>
-    ApolloWrapper(PhotosEditScreen),
-  );
+  Navigation.registerComponent(PHOTOS_EDIT_SCREEN, () => ApolloWrapper(PhotosEditScreen));
 };
 
 registerComponents();
 
 const navIcons = [CLOSE_ICON, FILTER_ICON, FILTER_OUTLINE_ICON, BACK_ICON];
-const tabIcons = [
-  LIBRARY_BOOKS_ICON,
-  PENCIL_ICON,
-  MESSAGE_OUTLINE_ICON,
-  ACCOUNT_ICON,
-];
+const tabIcons = [LIBRARY_BOOKS_ICON, PENCIL_ICON, MESSAGE_OUTLINE_ICON, ACCOUNT_ICON];
+
 const preloadTasks = [IconLoader.loadIcons(navIcons.concat(tabIcons))];
-Promise.all(preloadTasks).then((result) => {
+Promise.all(preloadTasks).then(() => {
   Navigation.startSingleScreenApp({
     screen: {
       screen: AUTH_SCREEN,
-      title: 'Login',
-    },
+      title: 'Login'
+    }
   });
 });
 

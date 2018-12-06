@@ -7,8 +7,8 @@ const styles = StyleSheet.create({
     backgroundColor: BackgroundColor,
     height,
     paddingTop: 30,
-    paddingBottom: 30,
-  },
+    paddingBottom: 30
+  }
 });
 
 export default styles;

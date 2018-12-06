@@ -4,20 +4,19 @@ import { SubTextColor } from '../../../../constants/colors';
 const styles = StyleSheet.create({
   container: {
     height: 50,
-    marginBottom: 10,
+    marginBottom: 10
   },
   contentContainer: {
-    height: '100%',
+    height: '100%'
   },
   title: {
     color: SubTextColor,
     fontWeight: 'bold',
     fontSize: 16,
-    marginBottom: 5,
+    marginBottom: 5
   },
   subTitle: {
-    fontSize: 16,
-  },
-
+    fontSize: 16
+  }
 });
 export default styles;

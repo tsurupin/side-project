@@ -1,31 +1,25 @@
 import * as React from 'react';
 import { FlatList, ScrollView } from 'react-native';
-import {
-  UserDetails,
-  UserEditParams,
-  Skill,
-  City,
-  Genre,
-  OccupationType,
-} from '../../../../interfaces';
+import { UserDetails, UserEditParams, Skill, City, Genre, OccupationType } from '../../../../interfaces';
 import { ListItem, Icon } from 'react-native-elements';
 import { SelectBox, TextAreaListItem } from '../../../Common';
 import { SUBMIT_BUTTON, CLOSE_BUTTON } from '../../../../constants/buttons';
-import { CLOSE_ICON } from '../../../../constants/icons';
+import {
+  CLOSE_ICON,
+  PLUS_ICON,
+  MINUS_CIRCLE_ICON,
+  ICON_MAIN_TYPE,
+  ICON_BLACK_COLOR,
+  SMALL_ICON_SIZE
+} from '../../../../constants/icons';
 import IconLoader from '../../../../utilities/IconLoader';
 
 import {
   SKILL_SEARCH_MODAL_SCREEN,
   CITY_SEARCH_MODAL_SCREEN,
   SELECT_BOX_PICKER_SCREEN,
-  TEXT_INPUT_SCREEN,
+  TEXT_INPUT_SCREEN
 } from '../../../../constants/screens';
-
-import {
-  PLUS_ICON,
-  MINUS_CIRCLE_ICON,
-  ICON_MAIN_TYPE,
-} from '../../../../constants/icons';
 
 import styles from './styles';
 
@@ -39,6 +33,21 @@ type Props = {
   onSubmit: (userEditParams: UserEditParams) => void;
 };
 
+// const initiateState = {
+//   displayName: undefined;
+//   introduction: string | undefined;
+//   occupation: string | undefined;
+//   occupationTypeId: string | undefined;
+//   genreId: string | undefined;
+//   companyName: string | undefined;
+//   schoolName: string | undefined;
+//   city: City | undefined;
+//   skills: Skill[];
+//   longitude?: number;
+//   latitude?: number;
+// }
+
+// type State = Readonly<typeof initiateState>;
 type State = {
   displayName: string;
   introduction: string | undefined;
@@ -65,11 +74,11 @@ class EditForm extends React.Component<Props, State> {
       occupationTypeId: undefined,
       genreId: undefined,
       city: undefined,
-      skills: [],
-    },
+      skills: []
+    }
   };
 
-  constructor(props) {
+  constructor(props: Props) {
     super(props);
     const { user } = this.props;
 
@@ -77,14 +86,12 @@ class EditForm extends React.Component<Props, State> {
       displayName: user.displayName,
       introduction: user.introduction,
       occupation: user.occupation,
-      occupationTypeId: user.occupationType
-        ? user.occupationType.id
-        : undefined,
+      occupationTypeId: user.occupationType ? user.occupationType.id : undefined,
       genreId: user.genre ? user.genre.id : undefined,
       companyName: user.companyName,
       schoolName: user.schoolName,
       city: user.city,
-      skills: user.skills,
+      skills: user.skills
     };
 
     this.props.navigator.setOnNavigatorEvent(this.handleNavigatorEvent);
@@ -100,13 +107,13 @@ class EditForm extends React.Component<Props, State> {
       'companyName',
       'schoolName',
       'genreId',
-      'occupationTypeId',
+      'occupationTypeId'
     ];
     const objectKeys = ['city'];
     const arrayObjectKeys = ['skills'];
     const statePrioritizedKeys = ['longitude', 'latitude'];
 
-    stringKeys.forEach((key) => {
+    stringKeys.forEach((key: string) => {
       const currentValue = this.state[key];
       if (!(currentValue === user[key])) {
         params[key] = currentValue;
@@ -140,29 +147,23 @@ class EditForm extends React.Component<Props, State> {
 
     if (currentValue && previousValue && currentValue.id === previousValue.id) {
       return false;
-    } else if (!currentValue && !previousValue) {
-      return false;
-    } else {
-      return true;
     }
+    if (!currentValue && !previousValue) {
+      return false;
+    }
+    return true;
   }
 
   private arrayObjectValueChanged = (key: string): boolean => {
     const currentObjectIds = this.state[key].map((item) => item.id);
     const previousObjectIds = this.props.user[key].map((item) => item.id);
 
-    const intersectionCount = currentObjectIds.filter((id) =>
-      previousObjectIds.includes(id),
-    ).length;
+    const intersectionCount = currentObjectIds.filter((id) => previousObjectIds.includes(id)).length;
 
-    return (
-      previousObjectIds.length !== intersectionCount ||
-      currentObjectIds.length !== intersectionCount
-    );
+    return previousObjectIds.length !== intersectionCount || currentObjectIds.length !== intersectionCount;
   }
 
   private handleNavigatorEvent = (e) => {
-
     if (e.type !== 'NavBarButtonPress') return;
 
     switch (e.id) {
@@ -176,36 +177,28 @@ class EditForm extends React.Component<Props, State> {
     }
   }
 
-  private handlePressShowModal = (
-    items: any[],
-    keyName: string,
-    selectedValue: string | number | undefined,
-  ) => {
+  private handlePressShowModal = (items: any[], keyName: string, selectedValue: string | number | undefined) => {
     this.props.navigator.showModal({
       screen: SELECT_BOX_PICKER_SCREEN,
       passProps: {
         items,
         keyName,
         selectedValue,
-        onPress: this.handleChangeValue,
+        onPress: this.handleChangeValue
       },
       navigatorButtons: {
         leftButtons: [
           {
             icon: IconLoader.getIcon(CLOSE_ICON),
             title: 'CLOSE',
-            id: CLOSE_BUTTON,
-          },
-        ],
-      },
+            id: CLOSE_BUTTON
+          }
+        ]
+      }
     });
   }
 
-  private handleTextInputModal = (
-    keyName: string,
-    value: string | undefined,
-    placeholder: string,
-  ) => {
+  private handleTextInputModal = (keyName: string, value: string | undefined, placeholder: string) => {
     this.props.navigator.showModal({
       screen: TEXT_INPUT_SCREEN,
       title: keyName.toUpperCase(),
@@ -214,25 +207,22 @@ class EditForm extends React.Component<Props, State> {
         keyName,
         value,
         placeholder,
-        onPress: this.handleChangeValue,
+        onPress: this.handleChangeValue
       },
       navigatorButtons: {
         leftButtons: [
           {
             icon: IconLoader.getIcon(CLOSE_ICON),
             title: 'Close',
-            id: CLOSE_BUTTON,
-          },
-        ],
-      },
+            id: CLOSE_BUTTON
+          }
+        ]
+      }
     });
   }
 
-  private handleChangeValue = (
-    keyName: string,
-    value: string | number | undefined,
-  ) => {
-    const changedAttr = {};
+  private handleChangeValue = (keyName: string, value: string | number | undefined) => {
+    const changedAttr: any = {};
     changedAttr[keyName] = value;
     console.log('updated key', changedAttr);
     this.setState(changedAttr);
@@ -249,10 +239,10 @@ class EditForm extends React.Component<Props, State> {
           {
             icon: IconLoader.getIcon(CLOSE_ICON),
             title: 'Close',
-            id: CLOSE_BUTTON,
-          },
-        ],
-      },
+            id: CLOSE_BUTTON
+          }
+        ]
+      }
     });
   }
 
@@ -274,24 +264,24 @@ class EditForm extends React.Component<Props, State> {
       animationType: 'slide-up',
       passProps: {
         onPress: this.handleUpdateLocation,
-        needLocationSearch: true,
+        needLocationSearch: true
       },
       navigatorButtons: {
         leftButtons: [
           {
             icon: IconLoader.getIcon(CLOSE_ICON),
             title: 'Close',
-            id: CLOSE_BUTTON,
-          },
-        ],
-      },
+            id: CLOSE_BUTTON
+          }
+        ]
+      }
     });
   }
 
   private handleUpdateLocation = (
     city: City,
     longitude: number | undefined = undefined,
-    latitude: number | undefined = undefined,
+    latitude: number | undefined = undefined
   ) => {
     if (longitude && latitude) {
       this.setState({ city, longitude, latitude });
@@ -304,22 +294,15 @@ class EditForm extends React.Component<Props, State> {
     return <FlatList data={this.state.skills} renderItem={this.renderSkill} />;
   }
 
-  private renderSkill = (data) => {
+  private renderSkill = (data: { item: Skill }) => {
     const skill: Skill = data.item;
     return (
-      <ListItem
-        key={skill.id}
-        title={skill.name}
-        bottomDivider
-        rightIcon={this.renderSkillRemoveIcon(skill.id)}
-      />
+      <ListItem key={skill.id} title={skill.name} bottomDivider rightIcon={this.renderSkillRemoveIcon(skill.id)} />
     );
   }
 
   private renderSkillAddIcon = () => {
-    return (
-      <Icon type={ICON_MAIN_TYPE} name={PLUS_ICON} size={24} color="black" />
-    );
+    return <Icon type={ICON_MAIN_TYPE} name={PLUS_ICON} size={SMALL_ICON_SIZE} color={ICON_BLACK_COLOR} />;
   }
 
   private renderSkillRemoveIcon = (skillId: string) => {
@@ -327,8 +310,8 @@ class EditForm extends React.Component<Props, State> {
       <Icon
         type={ICON_MAIN_TYPE}
         name={MINUS_CIRCLE_ICON}
-        size={24}
-        color="black"
+        size={SMALL_ICON_SIZE}
+        color={ICON_BLACK_COLOR}
         onPress={() => this.handleDeleteSkill(skillId)}
       />
     );
@@ -345,9 +328,7 @@ class EditForm extends React.Component<Props, State> {
       occupationTypeId,
       companyName,
       schoolName,
-      city,
-      latitude,
-      longitude,
+      city
     } = this.state;
 
     return (
@@ -366,13 +347,7 @@ class EditForm extends React.Component<Props, State> {
           chevron
           topDivider
           bottomDivider
-          onPress={() =>
-            this.handleTextInputModal(
-              'displayName',
-              displayName,
-              'Enter Display Name',
-            )
-          }
+          onPress={() => this.handleTextInputModal('displayName', displayName, 'Enter Display Name')}
         />
 
         <TextAreaListItem
@@ -393,13 +368,7 @@ class EditForm extends React.Component<Props, State> {
           chevron
           topDivider
           bottomDivider
-          onPress={() =>
-            this.handleTextInputModal(
-              'occupation',
-              occupation,
-              'Enter Occupation',
-            )
-          }
+          onPress={() => this.handleTextInputModal('occupation', occupation, 'Enter Occupation')}
         />
 
         <SelectBox
@@ -429,13 +398,7 @@ class EditForm extends React.Component<Props, State> {
           chevron
           topDivider
           bottomDivider
-          onPress={() =>
-            this.handleTextInputModal(
-              'companyName',
-              companyName,
-              'Enter Company Name',
-            )
-          }
+          onPress={() => this.handleTextInputModal('companyName', companyName, 'Enter Company Name')}
         />
 
         <ListItem
@@ -448,13 +411,7 @@ class EditForm extends React.Component<Props, State> {
           chevron
           topDivider
           bottomDivider
-          onPress={() =>
-            this.handleTextInputModal(
-              'schoolName',
-              schoolName,
-              'Enter School Name',
-            )
-          }
+          onPress={() => this.handleTextInputModal('schoolName', schoolName, 'Enter School Name')}
         />
 
         <ListItem

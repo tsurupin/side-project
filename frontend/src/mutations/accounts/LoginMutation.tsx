@@ -8,7 +8,6 @@ type Props = {
 
 const LoginMutation = (props: Props) => {
   const { children } = props;
-  console.log(children);
   return (
     <Mutation mutation={LOGIN_MUTATION}>
       {(loginMutation, { data, error }) => {

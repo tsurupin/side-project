@@ -1,9 +1,6 @@
 import * as React from 'react';
 import { Mutation } from 'react-apollo';
-import {
-  UPLOAD_PROJECT_PHOTO_MUTATION,
-  PROJECT_FRAGMENTS,
-} from '../../graphql/projects';
+import { UPLOAD_PROJECT_PHOTO_MUTATION, PROJECT_FRAGMENTS } from '../../graphql/projects';
 import { ProjectDetails } from '../../interfaces';
 
 type Props = {
@@ -18,11 +15,10 @@ const UploadProjectPhotoMutation = (props: Props) => {
       mutation={UPLOAD_PROJECT_PHOTO_MUTATION}
       context={{ needAuth: true }}
       update={(cache, { data: { uploadProjectPhoto } }) => {
-        console.log('uploadProjectPhoto', uploadProjectPhoto);
         const fragmentId: string = `Project:${uploadProjectPhoto.projectId}`;
         const project: ProjectDetails | null = cache.readFragment({
           id: fragmentId,
-          fragment: PROJECT_FRAGMENTS.projectDetails,
+          fragment: PROJECT_FRAGMENTS.projectDetails
         });
 
         if (!project) {
@@ -37,7 +33,7 @@ const UploadProjectPhotoMutation = (props: Props) => {
         cache.writeFragment({
           id: fragmentId,
           fragment: PROJECT_FRAGMENTS.projectDetails,
-          data: { ...project, photos },
+          data: { ...project, photos }
         });
       }}
     >
@@ -46,7 +42,7 @@ const UploadProjectPhotoMutation = (props: Props) => {
           uploadProjectPhotoMutation,
           loading,
           error,
-          data,
+          data
         });
       }}
     </Mutation>

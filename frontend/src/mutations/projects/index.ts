@@ -5,10 +5,10 @@ import UploadProjectPhotoMutation from './UploadProjectPhotoMutation';
 import ChangeProjectStatusMutation from './ChangeProjectStatusMutation';
 import UpdateProjectSearchParamsMutation from './UpdateProjectSearchParamsMutation';
 export {
- CreateProjectMutation,
- EditProjectMutation,
- DeleteProjectPhotoMutation,
- UploadProjectPhotoMutation,
- ChangeProjectStatusMutation,
- UpdateProjectSearchParamsMutation,
+  CreateProjectMutation,
+  EditProjectMutation,
+  DeleteProjectPhotoMutation,
+  UploadProjectPhotoMutation,
+  ChangeProjectStatusMutation,
+  UpdateProjectSearchParamsMutation
 };

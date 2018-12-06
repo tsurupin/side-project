@@ -34,11 +34,7 @@ const ChatList: React.SFC<Props> = (props) => {
   return (
     <View style={styles.container}>
       <Text style={styles.label}>Chat List</Text>
-      <FlatList
-        keyExtractor={keyExtractor}
-        data={props.chats}
-        renderItem={renderChat}
-      />
+      <FlatList keyExtractor={keyExtractor} data={props.chats} renderItem={renderChat} />
     </View>
   );
 };

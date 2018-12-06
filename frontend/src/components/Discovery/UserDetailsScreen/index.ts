@@ -1,5 +1,3 @@
 import UserDetailsBox from './UserDetailsBox';
 
-export {
-  UserDetailsBox,
-};
+export { UserDetailsBox };

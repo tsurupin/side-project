@@ -1,5 +1,3 @@
-import { NumberValue } from 'apollo-utilities';
-
 export interface City {
   id: string;
   fullName: string;
@@ -166,9 +164,27 @@ export interface Message {
   user: UserCore;
 }
 
+export interface MatchList {
+  likedUserList: UserCore[];
+  chatList: Chat[];
+}
+
 export interface MessageParams {
   chatId: string;
   comment?: string;
   image?: string;
   messageType: string;
+}
+
+export interface GraphQLError {
+  locations: any[];
+  message: string;
+  path: string[];
+}
+
+export interface GraphQLErrorMessage {
+  graphQLErrors: GraphQLError[];
+  message: string;
+  networkError: string | undefined;
+  extraInfo: string | undefined;
 }

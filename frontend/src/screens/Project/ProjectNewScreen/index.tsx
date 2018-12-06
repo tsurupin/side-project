@@ -18,10 +18,7 @@ class ProjectNewScreen extends React.Component<Props> {
     super(props);
   }
 
-  private handleSubmit = (
-    variables: ProjectEditParams,
-    createProjectMutation: any,
-  ) => {
+  private handleSubmit = (variables: ProjectEditParams, createProjectMutation: any) => {
     createProjectMutation({ variables });
   }
 
@@ -46,7 +43,7 @@ class ProjectNewScreen extends React.Component<Props> {
                     if (error) return <ErrorMessage {...error} />;
                     if (data) {
                       this.props.navigator.dismissAllModals({
-                        animationType: 'none',
+                        animationType: 'none'
                       });
                       this.props.navigator.push({
                         screen: PROJECT_DETAILS_SCREEN,
@@ -55,20 +52,17 @@ class ProjectNewScreen extends React.Component<Props> {
                           leftButtons: [
                             {
                               title: 'Back',
-                              id: BACK_BUTTON,
-                            },
-                          ],
-                        },
+                              id: BACK_BUTTON
+                            }
+                          ]
+                        }
                       });
                     }
 
                     return (
                       <EditForm
                         onSubmit={(projectEditParams: ProjectEditParams) =>
-                          this.handleSubmit(
-                            projectEditParams,
-                            createProjectMutation,
-                          )
+                          this.handleSubmit(projectEditParams, createProjectMutation)
                         }
                         genres={projectFormData.genres}
                         loading={loading}

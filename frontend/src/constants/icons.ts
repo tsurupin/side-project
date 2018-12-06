@@ -19,6 +19,10 @@ const PLUS_CIRCLE_ICON = 'plus-circle';
 const CLOSE_CIRCLE_ICON = 'close-circle';
 const MAGNIFY_ICON = 'magnify';
 const ICON_MAIN_TYPE = 'material-community';
+const SMALL_ICON_SIZE = 24;
+const MEDIUM_ICON_SIZE = 30;
+const ICON_BLACK_COLOR = 'black';
+const ICON_GRAY_COLOR = 'gray';
 
 export {
   CHECK_ICON,
@@ -42,4 +46,8 @@ export {
   CLOSE_CIRCLE_ICON,
   MAGNIFY_ICON,
   ICON_MAIN_TYPE,
+  MEDIUM_ICON_SIZE,
+  SMALL_ICON_SIZE,
+  ICON_BLACK_COLOR,
+  ICON_GRAY_COLOR
 };

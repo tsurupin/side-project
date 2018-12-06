@@ -9,39 +9,37 @@ jest.mock('react-dom/server', () => {}, { virtual: true });
 const mocks = [
   {
     request: {
-        query: LOGIN_STATUS_QUERY,
-      },
+      query: LOGIN_STATUS_QUERY
+    },
     result: {
-        data: {
-          loginStatus: {
-            logined: false,
-          },
-        },
-      },
-  },
+      data: {
+        loginStatus: {
+          logined: false
+        }
+      }
+    }
+  }
 ];
 
 describe('CheckLoginStatusQuery', () => {
-  it('checkLoginStatus', done => {
-      class Container extends React.Component<any, any, any> {
-        componentWillReceiveProps(nextProps) {
-            expect(nextProps.loginStatus.loading).toBeFalsy;
-            done();
-          }
-
-        render() {
-            return null;
-          }
+  it('checkLoginStatus', (done) => {
+    class Container extends React.Component<any, any, any> {
+      componentWillReceiveProps(nextProps) {
+        expect(nextProps.loginStatus.loading).toBeFalsy;
+        done();
       }
 
-      const ContainerWithData :any = checkLoginStatus(Container);
+      render() {
+        return null;
+      }
+    }
 
-      renderer.create(
-          <MockedProvider mocks={mocks}>
-            <ContainerWithData />
-          </MockedProvider>,
-        );
+    const ContainerWithData: any = checkLoginStatus(Container);
 
-    });
-
+    renderer.create(
+      <MockedProvider mocks={mocks}>
+        <ContainerWithData />
+      </MockedProvider>
+    );
+  });
 });

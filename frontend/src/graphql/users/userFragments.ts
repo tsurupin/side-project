@@ -55,5 +55,5 @@ export const USER_FRAGMENTS = {
       }
       mainPhotoUrl
     }
-  `,
+  `
 };

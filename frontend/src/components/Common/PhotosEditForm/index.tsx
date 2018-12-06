@@ -6,32 +6,23 @@ import styles from './styles';
 
 type Props = {
   photos: ProjectPhoto[] | UserPhoto[];
-  onPressPhoto: (string) => void;
+  onPressPhoto: (id?: string) => void;
   onPressNewPhoto: (rank: number) => void;
 };
 
 const CHUNK_SIZE = 3;
 
-const renderPhotoList = (photos: ProjectPhoto[], fnc) => {
+const renderPhotoList = (photos: ProjectPhoto[], fnc: (id?: string) => void) => {
   return photos.map((photo, i) => {
     const hasRightEdge = i % CHUNK_SIZE === 0;
-    return (
-      <PhotoEdit
-        hasRightEdge={hasRightEdge}
-        key={photo.id}
-        photo={photo}
-        onPress={fnc}
-      />
-    );
+    return <PhotoEdit hasRightEdge={hasRightEdge} key={photo.id} photo={photo} onPress={fnc} />;
   });
 };
 
 const renderItems = (items: any[]) => {
   const maxChunkIndex = Math.ceil(items.length / CHUNK_SIZE);
-  console.log(maxChunkIndex);
-
   const itemList: any[] = [];
-  for (let i = 1; i <= maxChunkIndex; i++) {
+  for (let i = 1; i <= maxChunkIndex; i += 1) {
     const sectionItems = items.slice((i - 1) * CHUNK_SIZE, i * CHUNK_SIZE);
     itemList.push(renderPhotoListSection(i, sectionItems));
   }
@@ -46,20 +37,15 @@ const renderPhotoListSection = (index: number, items: any[]) => {
   );
 };
 
-const renderNewItem = (availableRank: number, hasRightEdge: boolean, fnc) => {
-  return (
-    <PhotoEdit hasRightEdge={hasRightEdge} onPress={() => fnc(availableRank)} />
-  );
+const renderNewItem = (availableRank: number, hasRightEdge: boolean, fnc: (rank: number) => void) => {
+  return <PhotoEdit hasRightEdge={hasRightEdge} onPress={() => fnc(availableRank)} />;
 };
 
 const PhotosEditForm: React.SFC<Props> = (props) => {
   const { photos, onPressPhoto, onPressNewPhoto } = props;
   const availableRank = photos.length;
   const hasRightEdge = (photos.length + 1) % CHUNK_SIZE === 0;
-  const items = [
-    ...renderPhotoList(photos, onPressPhoto),
-    renderNewItem(availableRank, hasRightEdge, onPressNewPhoto),
-  ];
+  const items = [...renderPhotoList(photos, onPressPhoto), renderNewItem(availableRank, hasRightEdge, onPressNewPhoto)];
   return <View style={styles.container}>{renderItems(items)}</View>;
 };
 

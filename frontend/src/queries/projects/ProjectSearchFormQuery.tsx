@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { Query } from 'react-apollo';
-import { PROJECT_SEARCH_FORM_QUERY } from '../../graphql/projects';
-import { PROJECT_SEARCH_PARAMS_QUERY } from '../../graphql/projects';
+import { PROJECT_SEARCH_FORM_QUERY, PROJECT_SEARCH_PARAMS_QUERY } from '../../graphql/projects';
 
 type Props = {
   children: any;
@@ -10,11 +9,7 @@ type Props = {
 const ProjectSearchFormQuery = (props: Props) => {
   const { children } = props;
   return (
-    <Query
-      query={PROJECT_SEARCH_FORM_QUERY}
-      context={{ needAuth: true }}
-      notifyOnNetworkStatusChange
-    >
+    <Query query={PROJECT_SEARCH_FORM_QUERY} context={{ needAuth: true }} notifyOnNetworkStatusChange>
       {({ data, error, loading }) => {
         const formData = data;
         return (
@@ -24,7 +19,7 @@ const ProjectSearchFormQuery = (props: Props) => {
               return children({
                 data: { ...data, ...formData },
                 loading,
-                error,
+                error
               });
             }}
           </Query>

@@ -7,50 +7,46 @@ import { fetchSkills } from '../../../queries/skills';
 
 jest.mock('react-dom/server', () => {}, { virtual: true });
 
-const variables =  { term: 'name' };
+const variables = { term: 'name' };
 const mocks = [
   {
     request: {
-        query: SKILLS_QUERY,
-        variables,
-      },
+      query: SKILLS_QUERY,
+      variables
+    },
     result: {
-        data: {
-          skills: [
-            {
-              id: 1,
-              name: 'name1',
-            },
-          ],
-        },
-      },
-  },
+      data: {
+        skills: [
+          {
+            id: 1,
+            name: 'name1'
+          }
+        ]
+      }
+    }
+  }
 ];
 console.log(SKILLS_QUERY);
 describe('fetchSkills', () => {
-  it('succeeds to fetch skills', done => {
-      class Container extends React.Component<any, any, any> {
-        componentWillReceiveProps({ skills }) {
-
-            expect(skills.length).toBe(1);
-            expect(skills[0].name).toEqual('name1');
-            done();
-          }
-
-        render() {
-
-            return null;
-          }
+  it('succeeds to fetch skills', (done) => {
+    class Container extends React.Component<any, any, any> {
+      componentWillReceiveProps({ skills }) {
+        expect(skills.length).toBe(1);
+        expect(skills[0].name).toEqual('name1');
+        done();
       }
 
-      const ContainerWithData = fetchSkills(Container);
+      render() {
+        return null;
+      }
+    }
 
-      renderer.create(
-         <MockedProvider mocks={mocks}>
-            <ContainerWithData {...variables} />
-          </MockedProvider>,
-        );
+    const ContainerWithData = fetchSkills(Container);
 
-    });
-
+    renderer.create(
+      <MockedProvider mocks={mocks}>
+        <ContainerWithData {...variables} />
+      </MockedProvider>
+    );
+  });
 });

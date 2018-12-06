@@ -24,10 +24,7 @@ class ProjectSearchFormScreen extends React.Component<Props> {
     super(props);
   }
 
-  private onSubmit = (
-    searchParams: ProjectSearchParams,
-    updateProjectSearchParamsMutation,
-  ) => {
+  private onSubmit = (searchParams: ProjectSearchParams, updateProjectSearchParamsMutation) => {
     console.log('OnSubmit', searchParams);
     updateProjectSearchParamsMutation({ variables: searchParams });
     this.props.onSubmit(searchParams);
@@ -47,7 +44,7 @@ class ProjectSearchFormScreen extends React.Component<Props> {
 
           const {
             projectSearchForm: { genres },
-            projectSearchParams,
+            projectSearchParams
           } = data;
 
           console.log('current search', projectSearchParams);
@@ -64,10 +61,7 @@ class ProjectSearchFormScreen extends React.Component<Props> {
                     genres={genres}
                     navigator={this.props.navigator}
                     onSubmit={(searchParams: ProjectSearchParams) =>
-                      this.onSubmit(
-                        searchParams,
-                        updateProjectSearchParamsMutation,
-                      )
+                      this.onSubmit(searchParams, updateProjectSearchParamsMutation)
                     }
                   />
                 );

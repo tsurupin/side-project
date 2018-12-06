@@ -61,5 +61,5 @@ export const PROJECT_FRAGMENTS = {
       title
       status
     }
-  `,
+  `
 };

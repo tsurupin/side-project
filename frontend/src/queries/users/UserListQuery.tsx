@@ -12,12 +12,7 @@ const UserListQuery = (props: Props) => {
   const { variables, children } = props;
 
   return (
-    <Query
-      query={USER_LIST_QUERY}
-      variables={variables}
-      context={{ needAuth: true }}
-      notifyOnNetworkStatusChange
-    >
+    <Query query={USER_LIST_QUERY} variables={variables} context={{ needAuth: true }} notifyOnNetworkStatusChange>
       {({ error, loading, data }) => {
         return children({ data, error, loading });
       }}

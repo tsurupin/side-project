@@ -5,11 +5,7 @@ import { USER_SEARCH_MODAL_SCREEN } from '../../../constants/screens';
 import { SkillList } from '../../../components/Common/SkillSearchModalScreen';
 import { CLOSE_BUTTON, BACK_BUTTON } from '../../../constants/buttons';
 import { SkillsQuery } from '../../../queries/skills';
-import {
-  LoadingIndicator,
-  ErrorMessage,
-  SearchInput,
-} from '../../../components/Common';
+import { LoadingIndicator, ErrorMessage, SearchInput } from '../../../components/Common';
 import { Skill } from '../../../interfaces';
 
 import styles from './styles';
@@ -28,7 +24,7 @@ type State = {
 
 class SkillSearchModalScreen extends React.Component<Props, State> {
   static defaultProps = {
-    skills: [],
+    skills: []
   };
 
   constructor(props) {
@@ -37,7 +33,7 @@ class SkillSearchModalScreen extends React.Component<Props, State> {
     this.state = {
       loading: false,
       name: '',
-      errorMessage: '',
+      errorMessage: ''
     };
 
     this.props.navigator.setOnNavigatorEvent(this.handleNavigationEvent);
@@ -72,11 +68,9 @@ class SkillSearchModalScreen extends React.Component<Props, State> {
 
           if (error) return <ErrorMessage {...error} />;
 
-          if (!data) return <View/>;
+          if (!data) return <View />;
 
-          return (
-            <SkillList skills={data.skills} onPressSkill={this.onPressSkill} />
-          );
+          return <SkillList skills={data.skills} onPressSkill={this.onPressSkill} />;
         }}
       </SkillsQuery>
     );

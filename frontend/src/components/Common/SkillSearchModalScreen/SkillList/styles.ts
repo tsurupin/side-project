@@ -2,7 +2,7 @@ import { StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
   listContainer: {},
-  listItemContainer: {},
+  listItemContainer: {}
 });
 
 export default styles;

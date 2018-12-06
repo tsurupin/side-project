@@ -21,24 +21,16 @@ export const uploadImage = (props: Props) => {
       onError(`User tapped custom button: ${response.customButton}`);
     } else {
       try {
-        const uri = await ImageResizer.createResizedImage(
-          response.uri,
-          600,
-          600,
-          'JPEG',
-          100,
-        );
+        const uri = await ImageResizer.createResizedImage(response.uri, 600, 600, 'JPEG', 100);
         const photo = new ReactNativeFile({
           uri,
           type: 'image/jpeg',
-          name: 'photo.jpg',
+          name: 'photo.jpg'
         });
 
         onCallback({ variables: { ...variables, photo } });
       } catch (err) {
-        onError(
-          'Unable to resize the photo, Check the console for full the error message',
-        );
+        onError('Unable to resize the photo, Check the console for full the error message');
       }
     }
   });

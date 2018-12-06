@@ -6,7 +6,7 @@ const height = Dimensions.get('window').height;
 const styles = StyleSheet.create({
   container: {
     backgroundColor: BackgroundColor,
-    height,
+    height
   },
   avatarContainer: {
     flexDirection: 'column',
@@ -14,7 +14,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingTop: 40,
     paddingBottom: 20,
-    width: '100%',
-  },
+    width: '100%'
+  }
 });
 export default styles;

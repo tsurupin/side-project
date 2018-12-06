@@ -25,10 +25,7 @@ class UserSearchFormScreen extends React.Component<Props> {
     super(props);
   }
 
-  private onSubmit = (
-    searchParams: UserSearchParams,
-    updateUserSearchParamsMutation,
-  ) => {
+  private onSubmit = (searchParams: UserSearchParams, updateUserSearchParamsMutation) => {
     console.log('OnSubmit', searchParams);
     updateUserSearchParamsMutation({ variables: searchParams });
     this.props.onSubmit(searchParams);
@@ -50,7 +47,7 @@ class UserSearchFormScreen extends React.Component<Props> {
 
           const {
             userSearchForm: { genres, occupationTypes },
-            userSearchParams,
+            userSearchParams
           } = data;
 
           return (
@@ -68,10 +65,7 @@ class UserSearchFormScreen extends React.Component<Props> {
                     occupationTypes={occupationTypes}
                     navigator={this.props.navigator}
                     onSubmit={(searchParams: UserSearchParams) =>
-                      this.onSubmit(
-                        searchParams,
-                        updateUserSearchParamsMutation,
-                      )
+                      this.onSubmit(searchParams, updateUserSearchParamsMutation)
                     }
                   />
                 );

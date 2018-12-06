@@ -7,20 +7,16 @@ import {
   USER_DISCOVERY_SCREEN,
   MY_PROFILE_SCREEN,
   PROJECT_LIST_SCREEN,
-  SETTING_LIST_SCREEN,
+  SETTING_LIST_SCREEN
 } from '../../constants/screens';
-import {
-  SEARCH_BUTTON,
-  USER_EDIT_BUTTON,
-  PROJECT_NEW_BUTTON,
-} from '../../constants/buttons';
+import { SEARCH_BUTTON, USER_EDIT_BUTTON, PROJECT_NEW_BUTTON } from '../../constants/buttons';
 import IconLoader from '../../utilities/IconLoader';
 import {
   LIBRARY_BOOKS_ICON,
   MESSAGE_OUTLINE_ICON,
   PENCIL_ICON,
   ACCOUNT_ICON,
-  FILTER_OUTLINE_ICON,
+  FILTER_OUTLINE_ICON
 } from '../../constants/icons';
 import {
   TabBarBackgroundColor,
@@ -31,7 +27,7 @@ import {
   NotificationBadgeColor,
   NavBarBackgroundColor,
   NavBarButtonColor,
-  NavBarTextColor,
+  NavBarTextColor
 } from '../../constants/colors';
 
 const MainTab = () => {
@@ -39,9 +35,8 @@ const MainTab = () => {
     Icon.getImageSource('md-map', 30),
     Icon.getImageSource('filter-outline', 30),
     Icon.getImageSource('ios-share-alt', 30),
-    Icon.getImageSource('ios-menu', 30),
+    Icon.getImageSource('ios-menu', 30)
   ]).then((sources) => {
-
     Navigation.startTabBasedApp({
       appStyle: {
         bottomTabBadgeBackgroundColor: NotificationBadgeColor,
@@ -50,12 +45,12 @@ const MainTab = () => {
         navBarButtonColor: NavBarButtonColor,
         statusBarTextColorScheme: 'light',
         statusBarColor: NavBarButtonColor,
-        statusBarTextColorSchemeSingleScreen: 'light',
+        statusBarTextColorSchemeSingleScreen: 'light'
       },
       tabsStyle: {
         tabBarButtonColor: TabBarButtonColor,
         tabBarBackgroundColor: TabBarBackgroundColor,
-        tabBarSelectedButtonColor: TabBarSelectedButtonColor,
+        tabBarSelectedButtonColor: TabBarSelectedButtonColor
       },
       tabs: [
         {
@@ -68,16 +63,16 @@ const MainTab = () => {
               {
                 icon: IconLoader.getIcon(FILTER_OUTLINE_ICON),
                 title: 'Search',
-                id: SEARCH_BUTTON,
-              },
-            ],
-          },
+                id: SEARCH_BUTTON
+              }
+            ]
+          }
         },
         {
           screen: MATCH_SCREEN,
           label: 'Match',
           title: 'Match',
-          icon: IconLoader.getIcon(MESSAGE_OUTLINE_ICON),
+          icon: IconLoader.getIcon(MESSAGE_OUTLINE_ICON)
         },
         {
           screen: PROJECT_LIST_SCREEN,
@@ -89,19 +84,19 @@ const MainTab = () => {
               {
                 icon: IconLoader.getIcon(PENCIL_ICON),
                 title: 'New',
-                id: PROJECT_NEW_BUTTON,
-              },
-            ],
-          },
+                id: PROJECT_NEW_BUTTON
+              }
+            ]
+          }
         },
         {
           screen: SETTING_LIST_SCREEN,
           label: 'Settings',
           title: 'Settings',
-          icon: IconLoader.getIcon(ACCOUNT_ICON),
-        },
+          icon: IconLoader.getIcon(ACCOUNT_ICON)
+        }
       ],
-      drawer: {},
+      drawer: {}
     });
   });
 };

@@ -26,7 +26,7 @@ class TextInputScreen extends React.Component<Props, State> {
     super(props);
     this.state = {
       value: props.value,
-      height: 0,
+      height: 0
     };
     console.log(props);
 
@@ -64,13 +64,10 @@ class TextInputScreen extends React.Component<Props, State> {
             styles.inputTextContainer,
             {
               height: Math.max(DEFAULT_HEIGHT, height) + 20,
-              borderBottomWidth: 0,
-            },
+              borderBottomWidth: 0
+            }
           ]}
-          inputStyle={[
-            styles.inputText,
-            { height: Math.max(DEFAULT_HEIGHT, height) },
-          ]}
+          inputStyle={[styles.inputText, { height: Math.max(DEFAULT_HEIGHT, height) }]}
           placeholder={placeholder}
           placeholderTextColor={LabelTextColor}
           value={value}

@@ -4,13 +4,9 @@ import { View, Text, Button } from 'react-native';
 import { CityList } from '../../../components/Common/CitySearchModalScreen';
 import { CLOSE_BUTTON } from '../../../constants/buttons';
 import { CityListQuery } from '../../../queries/cities';
-import {
-  SearchInput,
-  ErrorMessage,
-  LoadingIndicator,
-} from '../../../components/Common';
+import { SearchInput, ErrorMessage, LoadingIndicator } from '../../../components/Common';
 import { FindOrCreateCityMutation } from '../../../mutations/cities';
-import { City, CityEditParams } from '../../../interfaces';
+import { City, CityEditParams, GraphQLErrorMessage } from '../../../interfaces';
 import { fetchAddress } from '../../../utilities/geocoder';
 import styles from './styles';
 
@@ -28,18 +24,43 @@ type State = {
   errorMessage: string;
 };
 
+type CityMutation = {
+  variables: CityEditParams;
+};
+
+type CityListData = {
+  cityList: City[];
+};
+
+type CityData = {
+  findOrCreateCity: City;
+};
+
+type CityListOutput = {
+  data: CityListData | undefined;
+  loading: boolean;
+  error: GraphQLErrorMessage | undefined;
+};
+
+type FindOrCreateCityMutationOutput = {
+  findOrCreateCityMutation: (input: CityMutation) => void;
+  data: CityData | undefined;
+  loading: boolean;
+  error: GraphQLErrorMessage | undefined;
+};
+
 class CitySearchModalScreen extends React.Component<Props, State> {
   static defaultProps = {
-    needLocationSearch: false,
+    needLocationSearch: false
   };
 
-  constructor(props) {
+  constructor(props: Props) {
     super(props);
 
     this.state = {
       loading: false,
       name: undefined,
-      errorMessage: '',
+      errorMessage: ''
     };
 
     this.props.navigator.setOnNavigatorEvent(this.handleNavigatorEvent);
@@ -63,7 +84,7 @@ class CitySearchModalScreen extends React.Component<Props, State> {
     this.setState({ name });
   }
 
-  private handlePressCurrentLocation = (findOrCreateCityMutation) => {
+  private handlePressCurrentLocation = (findOrCreateCityMutation: ({ variables }: CityMutation) => void) => {
     navigator.geolocation.getCurrentPosition(async ({ coords }) => {
       const { latitude, longitude } = coords;
 
@@ -71,17 +92,16 @@ class CitySearchModalScreen extends React.Component<Props, State> {
         const data = await fetchAddress(latitude, longitude);
         if (data.address) {
           const { address } = data;
-          console.log(address);
 
           const cityParams: CityEditParams = {
             name: address.cityName,
             stateName: address.stateName,
             stateAbbreviation: address.stateAbbreviation,
-            countryName: address.countryName,
+            countryName: address.countryName
           };
           this.setState({
             longitude: address.longitude,
-            latitude: address.latitude,
+            latitude: address.latitude
           });
           findOrCreateCityMutation({ variables: cityParams });
         }
@@ -96,14 +116,14 @@ class CitySearchModalScreen extends React.Component<Props, State> {
     if (!name) return <View />;
     return (
       <CityListQuery variables={{ name }}>
-        {({ data, error, loading }) => {
+        {({ data, error, loading }: CityListOutput) => {
           if (loading) {
             return <LoadingIndicator />;
           }
           if (error) {
             return <ErrorMessage {...error} />;
           }
-          const { cityList } = data;
+          const cityList = data!.cityList;
           return <CityList cities={cityList} onPress={this.onPress} />;
         }}
       </CityListQuery>
@@ -115,7 +135,7 @@ class CitySearchModalScreen extends React.Component<Props, State> {
     const { onPress, navigator } = this.props;
     return (
       <FindOrCreateCityMutation>
-        {({ findOrCreateCityMutation, data, loading, error }) => {
+        {({ findOrCreateCityMutation, data, loading, error }: FindOrCreateCityMutationOutput) => {
           if (loading) return <View />;
           if (error) {
             console.log('FindOrCreateCityMutationError', error);
@@ -130,9 +150,7 @@ class CitySearchModalScreen extends React.Component<Props, State> {
           return (
             <Button
               title="Current Location"
-              onPress={() =>
-                this.handlePressCurrentLocation(findOrCreateCityMutation)
-              }
+              onPress={() => this.handlePressCurrentLocation(findOrCreateCityMutation)}
             />
           );
         }}

@@ -5,8 +5,8 @@ const height = Dimensions.get('window').height;
 const styles = StyleSheet.create({
   listContainer: {
     height: height - 40,
-    backgroundColor: BackgroundColor,
-  },
+    backgroundColor: BackgroundColor
+  }
 });
 
 export default styles;

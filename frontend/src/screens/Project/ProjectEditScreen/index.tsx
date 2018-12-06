@@ -3,9 +3,7 @@ import { View, ScrollView } from 'react-native';
 import { Avatar } from 'react-native-elements';
 import { ErrorMessage, LoadingIndicator } from '../../../components/Common';
 import { EditForm } from '../../../components/Project/Common';
-import {
-  ProjectEditFormQuery,
-} from '../../../queries/projects';
+import { ProjectEditFormQuery } from '../../../queries/projects';
 import { ProjectDetails, ProjectEditParams, Genre } from '../../../interfaces';
 
 import { EditProjectMutation } from '../../../mutations/projects';
@@ -29,10 +27,7 @@ class ProjectEditScreen extends React.Component<Props> {
     super(props);
   }
 
-  private handleSubmit = (
-    variables: ProjectEditParams,
-    editProjectMutation: any,
-  ) => {
+  private handleSubmit = (variables: ProjectEditParams, editProjectMutation: any) => {
     editProjectMutation({ variables: { id: this.props.id, ...variables } });
   }
 
@@ -43,23 +38,23 @@ class ProjectEditScreen extends React.Component<Props> {
       passProps: {
         id,
         photos,
-        photoType: 'Project',
+        photoType: 'Project'
       },
       navigatorButtons: {
         leftButtons: [
           {
             icon: IconLoader.getIcon(CLOSE_ICON),
             title: 'Close',
-            id: CLOSE_BUTTON,
-          },
+            id: CLOSE_BUTTON
+          }
         ],
         rightButtons: [
           {
             title: 'Done',
-            id: CLOSE_BUTTON,
-          },
-        ],
-      },
+            id: CLOSE_BUTTON
+          }
+        ]
+      }
     });
   }
 
@@ -72,8 +67,7 @@ class ProjectEditScreen extends React.Component<Props> {
           size="xlarge"
           rounded
           source={{
-            uri:
-              'https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg',
+            uri: 'https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg'
           }}
           onPress={() => this.handlePressPhoto(id, photos)}
           activeOpacity={0.7}
@@ -124,16 +118,12 @@ class ProjectEditScreen extends React.Component<Props> {
           const project: ProjectDetails = data.project;
           return (
             <View style={styles.container}>
-              <ScrollView
-                alwaysBounceVertical={true}
-                showsVerticalScrollIndicator={false}
-              >
+              <ScrollView alwaysBounceVertical={true} showsVerticalScrollIndicator={false}>
                 {this.renderMainPhoto(project)}
                 {this.renderEditForm(project, defaultProps)}
               </ScrollView>
             </View>
           );
-
         }}
       </ProjectEditFormQuery>
     );

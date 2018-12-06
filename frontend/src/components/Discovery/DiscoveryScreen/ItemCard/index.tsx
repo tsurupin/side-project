@@ -9,7 +9,7 @@ import { City } from '../../../../interfaces';
 type Props = {
   id: string;
   mainPhotoUrl: string;
-  details: string | undefined;
+  details?: string;
   title: string;
   subText?: string | undefined;
   badgeText: string | undefined;
@@ -29,27 +29,11 @@ const renderSubText = (subText: string | undefined) => {
 
 const renderBadge = (badgeName: string | undefined) => {
   if (!badgeName) return undefined;
-  return (
-    <Badge
-      value={badgeName}
-      containerStyle={styles.badgeContainer}
-      textStyle={styles.badgeText}
-
-    />
-  );
+  return <Badge value={badgeName} containerStyle={styles.badgeContainer} textStyle={styles.badgeText} />;
 };
 
 const ItemCard: React.SFC<Props> = (props) => {
-  const {
-    id,
-    mainPhotoUrl,
-    details,
-    title,
-    subText,
-    badgeText,
-    city,
-    onPressCard,
-  } = props;
+  const { id, mainPhotoUrl, details, title, subText, badgeText, city, onPressCard } = props;
 
   return (
     <View style={styles.container}>
@@ -73,13 +57,17 @@ const ItemCard: React.SFC<Props> = (props) => {
             <View style={styles.subTextContainer}>
               <Divider style={styles.divider} />
 
-              <Text style={styles.leadSentence}>{details || 'This is details about this project. There are three steps to achive this project'}</Text>
+              <Text style={styles.leadSentence}>{details}</Text>
             </View>
           </View>
         </Card>
       </TouchableOpacity>
     </View>
   );
+};
+
+ItemCard.defaultProps = {
+  details: 'This is details about this project. There are three steps to achive this project'
 };
 
 export default ItemCard;

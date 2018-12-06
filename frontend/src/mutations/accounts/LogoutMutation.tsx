@@ -11,7 +11,7 @@ const LogoutMutation = (props: Props) => {
 
   return (
     <Mutation mutation={LOGOUT_MUTATION}>
-      {(logoutMutation, { data, error, loading }) => {
+      {(logoutMutation, { error, loading }) => {
         if (loading) {
           return children({ loading });
         }

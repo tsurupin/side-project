@@ -17,7 +17,7 @@ const LikeUserMutation = (props: Props) => {
           loading,
           error,
           data,
-          name: 'likeUser',
+          name: 'likeUser'
         });
       }}
     </Mutation>

@@ -1,17 +1,9 @@
 import * as React from 'react';
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  AsyncStorage,
-  ScrollView,
-} from 'react-native';
+import { View, Text, TouchableOpacity, AsyncStorage, ScrollView } from 'react-native';
 import { ChatDetailsQuery } from '../../../queries/chats';
 import { CreateMessageMutation } from '../../../mutations/chats';
 import { MessageParams } from '../../../interfaces';
-import {
-  BACK_BUTTON,
-} from '../../../constants/buttons';
+import { BACK_BUTTON } from '../../../constants/buttons';
 import { MessageList, MessageForm } from '../../../components/Match/ChatScreen';
 import styles from './styles';
 import { LoadingIndicator, ErrorMessage } from '../../../components/Common';
@@ -54,10 +46,7 @@ class ChatScreen extends React.Component<Props, State> {
 
           return (
             <View style={styles.container}>
-              <MessageList
-                subscribeMessages={subscribeMessages}
-                messages={chat.messages}
-              />
+              <MessageList subscribeMessages={subscribeMessages} messages={chat.messages} />
 
               <CreateMessageMutation>
                 {({ createMessageMutation, loading, error, data }) => {
@@ -67,9 +56,7 @@ class ChatScreen extends React.Component<Props, State> {
 
                   return (
                     <MessageForm
-                      onPress={(variables) =>
-                        this.handlePress(variables, createMessageMutation)
-                      }
+                      onPress={(variables) => this.handlePress(variables, createMessageMutation)}
                       chatId={chat.id}
                       submitting={loading}
                     />

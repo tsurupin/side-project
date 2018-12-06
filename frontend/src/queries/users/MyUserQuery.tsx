@@ -9,11 +9,7 @@ type Props = {
 const MyUserQuery = (props: Props) => {
   const { children } = props;
   return (
-    <Query
-      query={MY_USER_QUERY}
-      context={{ needAuth: true }}
-      notifyOnNetworkStatusChange
-    >
+    <Query query={MY_USER_QUERY} context={{ needAuth: true }} notifyOnNetworkStatusChange>
       {({ data, loading, error }) => children({ data, loading, error })}
     </Query>
   );

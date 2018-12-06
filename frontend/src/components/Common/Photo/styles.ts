@@ -6,7 +6,8 @@ const styles = StyleSheet.create({
     height: 100,
     margin: 1,
     borderWidth: 1,
-    borderColor: 'grey',
+    borderColor: 'grey'
   },
+  image: {}
 });
 export default styles;

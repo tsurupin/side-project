@@ -13,17 +13,9 @@ type Props = {
   user: UserCore;
 };
 
-const renderMessage = (
-  imageUrl: string | undefined,
-  comment: string | undefined,
-) => {
+const renderMessage = (imageUrl: string | undefined, comment: string | undefined) => {
   if (imageUrl) {
-
-    return (
-      <RemoteImage
-        imageUrl="https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg"
-      />
-    );
+    return <RemoteImage imageUrl="https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg" />;
   } else {
     return <Text style={styles.description}>{comment}</Text>;
   }
@@ -45,8 +37,7 @@ const MessageItem: React.SFC<Props> = (props) => {
           avatarStyle={styles.avatar}
           rounded
           source={{
-            uri:
-              'https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg',
+            uri: 'https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg'
           }}
           onPress={() => console.log(user.id)}
           activeOpacity={0.7}

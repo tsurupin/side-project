@@ -4,7 +4,7 @@ const TabBarSelectedButtonColor = '#263144';
 const TabBarSelectedLabelColor = '#30394C';
 const TabBarButtonColor = '#A5A7AE';
 const TabBarLabelColor = '#A5A7AE';
-const NavBarBackgroundColor =  '#283145';
+const NavBarBackgroundColor = '#283145';
 const NavBarButtonColor = '#FFFFFF';
 const NavBarTextColor = '#FFFFFF';
 const NotificationBadgeColor = '#EC4926';
@@ -21,6 +21,7 @@ const BackgroundColor = '#EFEFF4';
 const LabelTextColor = '#6F6E74';
 const SubTextColor = '#8F8F94';
 const ActiveMainColor = '#55B237';
+const ACTIVE_MAIN_COLOR = '#55B237';
 
 export {
   MainColor,
@@ -42,7 +43,8 @@ export {
   LabelTextColor,
   SubTextColor,
   ActiveMainColor,
+  ACTIVE_MAIN_COLOR,
   DetailTextColor,
   DetailLabelColor,
-  DividerColor,
+  DividerColor
 };

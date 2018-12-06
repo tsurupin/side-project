@@ -9,42 +9,35 @@ const styles = StyleSheet.create({
     paddingTop: 15,
     paddingBottom: 15,
     paddingLeft: 10,
-    paddingRight: 10,
+    paddingRight: 10
   },
   userImageContainer: {
     width: 36,
-    marginRight: 10,
+    marginRight: 10
   },
-  avatarContainer: {
-
-  },
-  avatar: {
-
-  },
+  avatarContainer: {},
+  avatar: {},
   mainContainer: {
-    width: Math.trunc(width - 66),
+    width: Math.trunc(width - 66)
   },
   header: {
     flexDirection: 'row',
-    marginBottom: 5,
+    marginBottom: 5
   },
   mainText: {
     fontWeight: 'bold',
-    fontSize: 16,
+    fontSize: 16
   },
   subText: {
     fontSize: 12,
     color: 'grey',
     marginLeft: 5,
-    marginTop: 2,
+    marginTop: 2
   },
-  body: {
-
-  },
+  body: {},
   description: {
-    fontSize: 16,
-  },
-
+    fontSize: 16
+  }
 });
 
 export default styles;

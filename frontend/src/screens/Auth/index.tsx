@@ -1,20 +1,19 @@
 import * as React from 'react';
-import { Text, TouchableOpacity, View, AsyncStorage } from 'react-native';
+import { Text, TouchableOpacity, View } from 'react-native';
 import { AccessToken, LoginManager } from 'react-native-fbsdk';
 import { SignUpMutation } from '../../mutations/accounts';
 import { LoginStatusQuery } from '../../queries/accounts';
 import MainTab from '../MainTab';
 import { firebaseSignIn } from '../../utilities/firebase';
+import { LoadingIndicator, ErrorMessage } from '../../components/Common';
 
 const FACEBOOK = 'facebook';
 const FB_READ_PERMISSIONS = ['public_profile', 'email'];
 
 type Props = {};
 
-type State = {};
-
-class AuthScreen extends React.Component<Props, State> {
-  constructor(props) {
+class AuthScreen extends React.Component<Props> {
+  constructor(props: Props) {
     super(props);
   }
 
@@ -32,7 +31,7 @@ class AuthScreen extends React.Component<Props, State> {
               throw 'No accessToken';
             }
             signUpMutation({
-              variables: { providerId: FACEBOOK, uid: accessTokenData.userID },
+              variables: { providerId: FACEBOOK, uid: accessTokenData.userID }
             });
           })
           .catch((error) => console.log('getcurrentaccesserror', error));
@@ -40,7 +39,7 @@ class AuthScreen extends React.Component<Props, State> {
       .catch((error) => console.log('loginError', error));
   }
 
-  loginFirebase = async (token: string, loginMutation: any): Promise<void> => {
+  private loginFirebase = async (token: string, loginMutation: any): Promise<void> => {
     try {
       await firebaseSignIn(token);
 
@@ -52,7 +51,7 @@ class AuthScreen extends React.Component<Props, State> {
     }
   }
 
-  openMainTab = () => {
+  private openMainTab = () => {
     MainTab();
   }
 
@@ -68,19 +67,12 @@ class AuthScreen extends React.Component<Props, State> {
           return (
             <View>
               <SignUpMutation>
-                {({
-                  signUpMutation,
-                  loginMutation,
-                  loading,
-                  error,
-                  signUpData,
-                  loginData,
-                }) => {
+                {({ signUpMutation, loginMutation, loading, error, signUpData }) => {
                   if (loading) {
-                    return <View>Loading</View>;
+                    return <LoadingIndicator />;
                   }
                   if (error) {
-                    return <View>Error</View>;
+                    return <ErrorMessage {...error} />;
                   }
 
                   if (signUpData && signUpData.signUp) {
@@ -90,9 +82,7 @@ class AuthScreen extends React.Component<Props, State> {
                   }
 
                   return (
-                    <TouchableOpacity
-                      onPress={() => this.handleFbLogin(signUpMutation)}
-                    >
+                    <TouchableOpacity onPress={() => this.handleFbLogin(signUpMutation)}>
                       <Text> Facebook SignIn </Text>
                     </TouchableOpacity>
                   );

@@ -1,18 +1,13 @@
 import * as firebase from 'firebase';
 import { AsyncStorage } from 'react-native';
-import {
-  FIREBASE_API_KEY,
-  FIREBASE_AUTH_DOMAIN,
-  FIREBASE_DATABASE_URL,
-  FIREBASE_PROJECT_ID,
-} from '../config';
+import { FIREBASE_API_KEY, FIREBASE_AUTH_DOMAIN, FIREBASE_DATABASE_URL, FIREBASE_PROJECT_ID } from '../config';
 import TokenManager from './TokenManager';
 
 const firebaseConfig = {
   apiKey: FIREBASE_API_KEY,
   authDomain: FIREBASE_AUTH_DOMAIN,
   databaseURL: FIREBASE_DATABASE_URL,
-  projectId: FIREBASE_PROJECT_ID,
+  projectId: FIREBASE_PROJECT_ID
 };
 firebase.initializeApp(firebaseConfig);
 
@@ -79,26 +74,19 @@ export const firebaseRefreshToken = async () => {
     method: 'POST',
     headers: {
       Accept: 'application/json',
-      'Content-Type': 'application/json',
+      'Content-Type': 'application/json'
     },
     body: JSON.stringify({
       grant_type: 'refresh_token',
-      refresh_token: refreshToken,
-    }),
+      refresh_token: refreshToken
+    })
   };
 
-  const result = await fetch(
-    `${FIREBASE_TOKEN_URL}?key=${FIREBASE_API_KEY}`,
-    config,
-  )
+  const result = await fetch(`${FIREBASE_TOKEN_URL}?key=${FIREBASE_API_KEY}`, config)
     .then((result) => result.json())
     .then(async (result) => {
       const token = result.id_token;
-      await TokenManager.setToken(
-        token,
-        result.refresh_token,
-        parseInt(result.expires_in),
-      );
+      await TokenManager.setToken(token, result.refresh_token, parseInt(result.expires_in));
 
       return token;
     })

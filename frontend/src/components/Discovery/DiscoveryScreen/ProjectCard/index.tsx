@@ -6,9 +6,7 @@ type Props = {
   onPressCard: (id: string) => void;
 };
 
-const ProjectCard: React.SFC<Props> = (props) => {
-  const { project, onPressCard } = props;
-
+const ProjectCard: React.SFC<Props> = ({ project, onPressCard }) => {
   const { id, mainPhotoUrl, leadSentence, genre, city, title } = project;
 
   return (

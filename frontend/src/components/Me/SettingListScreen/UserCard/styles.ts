@@ -7,22 +7,20 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     paddingBottom: 20,
-    width: '100%',
+    width: '100%'
   },
-  avatar: {
-
-  },
+  avatar: {},
   mainText: {
     marginTop: 10,
     color: MainTextColor,
     fontWeight: 'bold',
-    fontSize: 20,
+    fontSize: 20
   },
   subText: {
     marginTop: 5,
     color: SubTextColor,
-    fontSize: 14,
-  },
+    fontSize: 14
+  }
 });
 
 export default styles;

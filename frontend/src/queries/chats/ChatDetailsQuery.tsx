@@ -10,12 +10,7 @@ const ChatDetailsQuery = (props: Props) => {
   const { children, variables } = props;
 
   return (
-    <Query
-      query={CHAT_QUERY}
-      variables={variables}
-      context={{ needAuth: true }}
-      notifyOnNetworkStatusChange
-    >
+    <Query query={CHAT_QUERY} variables={variables} context={{ needAuth: true }} notifyOnNetworkStatusChange>
       {({ subscribeToMore, error, data, loading }) => {
         const subscribeMessages = () => {
           return subscribeToMore({
@@ -26,12 +21,12 @@ const ChatDetailsQuery = (props: Props) => {
               const newMessage = subscriptionData.data.newMessage;
               const chat = {
                 ...prev.chat,
-                messages: [...prev.chat.messages, newMessage],
+                messages: [...prev.chat.messages, newMessage]
               };
 
               return { ...prev, chat };
             },
-            onError: err => console.info(err, data, loading),
+            onError: (err) => console.info(err, data, loading)
           });
         };
 
@@ -39,7 +34,7 @@ const ChatDetailsQuery = (props: Props) => {
           error,
           data,
           loading,
-          subscribeMessages,
+          subscribeMessages
         });
       }}
     </Query>
