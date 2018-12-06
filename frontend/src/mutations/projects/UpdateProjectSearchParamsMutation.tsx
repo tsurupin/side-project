@@ -6,7 +6,6 @@ type Props = {
   children: any;
 };
 
-
 const UpdateProjectSearchParamsMutation = (props: Props) => {
   const { children } = props;
   return (

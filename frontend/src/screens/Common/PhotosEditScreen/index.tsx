@@ -17,7 +17,7 @@ type Props = {
 };
 
 class PhotosEditScreen extends React.Component<Props> {
-  constructor(props) {
+  constructor(props: Props) {
     super(props);
     this.props.navigator.setOnNavigatorEvent(this.handleNavigationEvent);
   }
@@ -33,7 +33,7 @@ class PhotosEditScreen extends React.Component<Props> {
     }
   }
 
-  private handlePressDeletion = (mutation, photoId: string) => {
+  private handlePressDeletion = (mutation: (variables:) => void, photoId: string) => {
     mutation({ variables: { photoId } });
   }
 

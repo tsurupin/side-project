@@ -1,10 +1,11 @@
 import * as React from 'react';
-import { Text, TouchableOpacity, View, AsyncStorage } from 'react-native';
+import { Text, TouchableOpacity, View } from 'react-native';
 import { AccessToken, LoginManager } from 'react-native-fbsdk';
 import { SignUpMutation } from '../../mutations/accounts';
 import { LoginStatusQuery } from '../../queries/accounts';
 import MainTab from '../MainTab';
 import { firebaseSignIn } from '../../utilities/firebase';
+import { LoadingIndicator, ErrorMessage } from '../../components/Common';
 
 const FACEBOOK = 'facebook';
 const FB_READ_PERMISSIONS = ['public_profile', 'email'];
@@ -38,7 +39,7 @@ class AuthScreen extends React.Component<Props> {
       .catch((error) => console.log('loginError', error));
   }
 
-  loginFirebase = async (token: string, loginMutation: any): Promise<void> => {
+  private loginFirebase = async (token: string, loginMutation: any): Promise<void> => {
     try {
       await firebaseSignIn(token);
 
@@ -50,7 +51,7 @@ class AuthScreen extends React.Component<Props> {
     }
   }
 
-  openMainTab = () => {
+  private openMainTab = () => {
     MainTab();
   }
 
@@ -66,12 +67,12 @@ class AuthScreen extends React.Component<Props> {
           return (
             <View>
               <SignUpMutation>
-                {({ signUpMutation, loginMutation, loading, error, signUpData, loginData }) => {
+                {({ signUpMutation, loginMutation, loading, error, signUpData }) => {
                   if (loading) {
-                    return <View>Loading</View>;
+                    return <LoadingIndicator />;
                   }
                   if (error) {
-                    return <View>Error</View>;
+                    return <ErrorMessage {...error} />;
                   }
 
                   if (signUpData && signUpData.signUp) {

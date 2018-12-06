@@ -175,3 +175,16 @@ export interface MessageParams {
   image?: string;
   messageType: string;
 }
+
+export interface GraphQLError {
+  locations: any[];
+  message: string;
+  path: string[];
+}
+
+export interface GraphQLErrorMessage {
+  graphQLErrors: GraphQLError[];
+  message: string;
+  networkError: string | undefined;
+  extraInfo: string | undefined;
+}

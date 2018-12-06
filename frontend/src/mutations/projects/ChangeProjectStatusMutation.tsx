@@ -8,7 +8,7 @@ type Props = {
 };
 
 type ProjectData = {
-  project: ProjectDetails
+  project: ProjectDetails;
 };
 
 const ChangeProjectStatusMutation = (props: Props) => {

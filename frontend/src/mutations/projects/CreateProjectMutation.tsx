@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Mutation } from 'react-apollo';
-import { CREATE_PROJECT_MUTATION, EDITABLE_PROJECT_LIST_QUERY} from '../../graphql/projects';
+import { CREATE_PROJECT_MUTATION, EDITABLE_PROJECT_LIST_QUERY } from '../../graphql/projects';
 import { ProjectCore } from '../../interfaces';
 type Props = {
   children: any;
@@ -18,7 +18,6 @@ const CreateProjectMutation = (props: Props) => {
       mutation={CREATE_PROJECT_MUTATION}
       context={{ needAuth: true }}
       update={(cache, { data: { createProject } }) => {
-
         // NOTE: reqdQuery cannot return optimistic data yet
         // https://github.com/apollographql/apollo-feature-requests/issues/14
         try {

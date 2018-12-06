@@ -11,7 +11,7 @@ import {
 import styles from './styles';
 
 type Props = {
-  name: string;
+  name: string | undefined;
   onChangeText: (val: string) => void;
 };
 
