@@ -4,7 +4,7 @@ import { ReactNativeFile } from '@richeterre/apollo-upload-client';
 
 type Props = {
   variables: object;
-  onCallback: (object) => void;
+  onCallback: (input: any) => void;
   onError: (message: string) => void;
 };
 

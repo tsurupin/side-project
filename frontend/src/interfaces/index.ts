@@ -144,6 +144,10 @@ export interface UploadPhotoParams {
   rank: number;
 }
 
+export interface DeletePhotoParams {
+  photoId: string;
+}
+
 export interface ProjectUploadParams extends UploadPhotoParams {
   projectId: string;
 }
