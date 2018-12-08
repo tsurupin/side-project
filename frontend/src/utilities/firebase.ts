@@ -1,5 +1,4 @@
 import * as firebase from 'firebase';
-import { AsyncStorage } from 'react-native';
 import { FIREBASE_API_KEY, FIREBASE_AUTH_DOMAIN, FIREBASE_DATABASE_URL, FIREBASE_PROJECT_ID } from '../config';
 import TokenManager from './TokenManager';
 
@@ -11,17 +10,11 @@ const firebaseConfig = {
 };
 firebase.initializeApp(firebaseConfig);
 
-const REFRESH_TOKEN = 'REFRESH_TOKEN';
-const EXPIRED_AT_IN_UNIX = 'EXPIRED_AT_IN_UNIX';
-const TOKEN = 'TOKEN';
 const FIREBASE_TOKEN_URL = 'https://securetoken.googleapis.com/v1/token';
 
-export const firebaseSignIn = (firebaseToken) => {
-  console.log('before FB signIn');
-
+export const firebaseSignIn = (firebaseToken: string) => {
   return new Promise((resolve, reject) => {
     try {
-      console.log('firebase before auth');
       firebase
         .auth()
         .signInWithCustomToken(firebaseToken)

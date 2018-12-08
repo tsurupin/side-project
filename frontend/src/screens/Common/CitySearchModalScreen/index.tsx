@@ -24,27 +24,15 @@ type State = {
   errorMessage: string;
 };
 
-type CityMutation = {
-  variables: CityEditParams;
-};
-
-type CityListData = {
-  cityList: City[];
-};
-
-type CityData = {
-  findOrCreateCity: City;
-};
-
 type CityListOutput = {
-  data: CityListData | undefined;
+  data: { cityList: City[] } | undefined;
   loading: boolean;
   error: GraphQLErrorMessage | undefined;
 };
 
 type FindOrCreateCityMutationOutput = {
-  findOrCreateCityMutation: (input: CityMutation) => void;
-  data: CityData | undefined;
+  findOrCreateCityMutation: (input: { variables: CityEditParams }) => void;
+  data: { findOrCreateCity: City } | undefined;
   loading: boolean;
   error: GraphQLErrorMessage | undefined;
 };
@@ -84,7 +72,7 @@ class CitySearchModalScreen extends React.Component<Props, State> {
     this.setState({ name });
   };
 
-  private handlePressCurrentLocation = (findOrCreateCityMutation: ({ variables }: CityMutation) => void) => {
+  private handlePressCurrentLocation = (findOrCreateCityMutation: (input: { variables: CityEditParams }) => void) => {
     navigator.geolocation.getCurrentPosition(async ({ coords }) => {
       const { latitude, longitude } = coords;
 

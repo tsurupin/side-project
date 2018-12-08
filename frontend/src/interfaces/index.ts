@@ -188,3 +188,12 @@ export interface GraphQLErrorMessage {
   networkError: string | undefined;
   extraInfo: string | undefined;
 }
+
+export interface SignUpParams {
+  providerId: string;
+  uid: string;
+}
+
+export interface LoginParams {
+  logined: boolean;
+}

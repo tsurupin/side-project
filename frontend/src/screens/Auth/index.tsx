@@ -6,18 +6,31 @@ import { LoginStatusQuery } from '../../queries/accounts';
 import MainTab from '../MainTab';
 import { firebaseSignIn } from '../../utilities/firebase';
 import { LoadingIndicator, ErrorMessage } from '../../components/Common';
+import { SignUpParams, LoginParams, GraphQLErrorMessage } from '../../interfaces';
 
 const FACEBOOK = 'facebook';
 const FB_READ_PERMISSIONS = ['public_profile', 'email'];
 
 type Props = {};
 
+type LoginStatusOutput = {
+  data: { logined: boolean };
+};
+
+type SignUpOutput = {
+  signUpMutation: (input: { variables: SignUpParams }) => void;
+  loginMutation: (input: { variables: LoginParams }) => void;
+  loading: boolean;
+  error: GraphQLErrorMessage | undefined;
+  signUpData?: { signUp: { token: string } };
+};
+
 class AuthScreen extends React.Component<Props> {
   constructor(props: Props) {
     super(props);
   }
 
-  private handleFbLogin = (signUpMutation: any): void => {
+  private handleFbLogin = (signUpMutation: (input: { variables: SignUpParams }) => void) => {
     LoginManager.logInWithReadPermissions(FB_READ_PERMISSIONS)
       .then((result) => {
         if (result.isCancelled) {
@@ -39,7 +52,10 @@ class AuthScreen extends React.Component<Props> {
       .catch((error) => console.log('loginError', error));
   };
 
-  private loginFirebase = async (token: string, loginMutation: any): Promise<void> => {
+  private loginFirebase = async (
+    token: string,
+    loginMutation: (input: { variables: LoginParams }) => void
+  ): Promise<void> => {
     try {
       await firebaseSignIn(token);
 
@@ -58,7 +74,7 @@ class AuthScreen extends React.Component<Props> {
   render() {
     return (
       <LoginStatusQuery>
-        {({ data }) => {
+        {({ data }: LoginStatusOutput) => {
           if (data && data.logined) {
             this.openMainTab();
             return <View />;
@@ -67,7 +83,7 @@ class AuthScreen extends React.Component<Props> {
           return (
             <View>
               <SignUpMutation>
-                {({ signUpMutation, loginMutation, loading, error, signUpData }) => {
+                {({ signUpMutation, loginMutation, loading, error, signUpData }: SignUpOutput) => {
                   if (loading) {
                     return <LoadingIndicator />;
                   }
