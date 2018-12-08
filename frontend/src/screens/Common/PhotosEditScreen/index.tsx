@@ -7,7 +7,13 @@ import { CLOSE_BUTTON } from '../../../constants/buttons';
 
 import * as ImagePickerHandler from '../../../utilities/imagePickerHandler';
 import styles from './styles';
-import { UserPhoto, ProjectPhoto, DeletePhotoParams, UploadPhotoParams, GraphQLErrorMessage } from '../../../interfaces';
+import {
+  UserPhoto,
+  ProjectPhoto,
+  DeletePhotoParams,
+  UploadPhotoParams,
+  GraphQLErrorMessage
+} from '../../../interfaces';
 
 type Props = {
   navigator: any;

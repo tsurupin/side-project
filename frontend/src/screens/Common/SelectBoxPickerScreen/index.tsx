@@ -5,9 +5,9 @@ import { CLOSE_BUTTON } from '../../../constants/buttons';
 
 import styles from './styles';
 type Item = {
-  id?: string;
+  id: string | undefined;
   name: string;
-  value?: string | number;
+  value: string | number | undefined;
 };
 
 type Props = {
@@ -20,8 +20,14 @@ type Props = {
   onPress: (key: string, value: string | number | undefined) => void;
 };
 
+type ItemData = {
+  id: string | undefined;
+  name: string;
+  value: string | number | undefined;
+};
+
 class PickerScreen extends React.Component<Props> {
-  constructor(props) {
+  constructor(props: Props) {
     super(props);
     this.props.navigator.setOnNavigatorEvent(this.handleNavigatorEvent);
   }
@@ -66,7 +72,7 @@ class PickerScreen extends React.Component<Props> {
     );
   };
 
-  private renderItem = (data) => {
+  private renderItem = (data: { index: number; item: ItemData }) => {
     const index = data.index;
     const { id, name, value } = data.item;
 
@@ -74,7 +80,7 @@ class PickerScreen extends React.Component<Props> {
       <ListItem
         key={name}
         title={name}
-        onPress={() => this.handlePress(this.props.keyName, id || value)}
+        onPress={() => this.handlePress(this.props.keyName, (id || value)!)}
         topDivider={index === 0 ? true : false}
         bottomDivider
         containerStyle={styles.itemContainer}

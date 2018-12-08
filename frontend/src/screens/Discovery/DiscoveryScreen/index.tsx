@@ -14,55 +14,91 @@ import ItemList from '../../../components/Discovery/DiscoveryScreen/ItemList';
 import { UserListQuery } from '../../../queries/users';
 import { ProjectListQuery } from '../../../queries/projects';
 import {
-  UserDetails,
   Skill,
-  ProjectDetails,
   UserSearchParams,
   UserSearchSubmitParams,
   ProjectSearchParams,
-  ProjectSearchSubmitParams
+  ProjectSearchSubmitParams,
+  GraphQLErrorMessage,
+  UserCore,
+  ProjectCore
 } from '../../../interfaces';
 import { ErrorMessage, LoadingIndicator, CustomizedSegmentedControlTab } from '../../../components/Common';
 import styles from './styles';
 import IconLoader from '../../../utilities/IconLoader';
+
+
+const USER_INDEX = 0;
 
 type Props = {
   navigator: any;
   client: any;
 };
 
-type State = {
+const initialState = {
+  loading: false,
+  errorMessage: '',
+  userSearchParams: {
+    occupationTypeId: undefined,
+    genreId: undefined,
+    isActive: undefined,
+    location: undefined,
+    skills: []
+  },
+  projectSearchParams: {
+    genreId: undefined,
+    city: undefined,
+    skills: []
+  },
+  selectedIndex: USER_INDEX
+};
+type State = Readonly<typeof initialState>;
+
+// type State = {
+//   loading: boolean;
+//   errorMessage: string;
+//   userSearchParams: UserSearchParams;
+//   projectSearchParams: ProjectSearchParams;
+//   selectedIndex: number;
+// };
+
+
+type UserListOutput = {
   loading: boolean;
-  errorMessage: string;
-  userSearchParams: UserSearchParams;
-  projectSearchParams: ProjectSearchParams;
-  selectedIndex: number;
+  error: GraphQLErrorMessage | undefined;
+  data: { users: UserCore[] };
+}
+
+type ProjectListOutput = {
+  loading: boolean;
+  error: GraphQLErrorMessage | undefined;
+  data: { projects: ProjectCore[] };
 };
 
-const USER_INDEX = 0;
-const PROJECT_INDEX = 1;
+
 const CONTROL_TABS = ['People', 'Projects'];
 
 class DiscoveryScreen extends React.Component<Props, State> {
-  constructor(props) {
+  state = initialState;
+  constructor(props: Props) {
     super(props);
-    this.state = {
-      loading: false,
-      errorMessage: '',
-      userSearchParams: {
-        occupationTypeId: undefined,
-        genreId: undefined,
-        isActive: undefined,
-        location: undefined,
-        skills: []
-      },
-      projectSearchParams: {
-        genreId: undefined,
-        city: undefined,
-        skills: []
-      },
-      selectedIndex: USER_INDEX
-    };
+    // this.state = {
+    //   loading: false,
+    //   errorMessage: '',
+    //   userSearchParams: {
+    //     occupationTypeId: undefined,
+    //     genreId: undefined,
+    //     isActive: undefined,
+    //     location: undefined,
+    //     skills: []
+    //   },
+    //   projectSearchParams: {
+    //     genreId: undefined,
+    //     city: undefined,
+    //     skills: []
+    //   },
+    //   selectedIndex: USER_INDEX
+    // };
 
     this.props.navigator.setOnNavigatorEvent(this.handleNavigatorEvent);
   }
@@ -71,7 +107,7 @@ class DiscoveryScreen extends React.Component<Props, State> {
     return this.state.selectedIndex === USER_INDEX;
   };
 
-  private handleUpdateSearchParams = (searchParams) => {
+  private handleUpdateSearchParams = (searchParams: UserSearchParams | ProjectSearchParams) => {
     if (this.isUserOriented()) {
       this.setState({ userSearchParams: searchParams });
     } else {
@@ -133,9 +169,8 @@ class DiscoveryScreen extends React.Component<Props, State> {
     return this.cleanupParams(searchParams);
   };
 
-  private cleanupParams = (searchParams): any => {
-    let conditions = {};
-    console.log(searchParams);
+  private cleanupParams = (searchParams: (UserSearchParams | ProjectSearchParams) & { [key: string]: any }) => {
+    let conditions = {} as { [key: string]: any };
 
     for (const key in searchParams) {
       const value = searchParams[key];
@@ -175,7 +210,7 @@ class DiscoveryScreen extends React.Component<Props, State> {
     const conditions: UserSearchSubmitParams = this.buildUserSearchParams();
     return (
       <UserListQuery variables={conditions}>
-        {({ loading, error, data }) => {
+        {({ loading, error, data }: UserListOutput) => {
           if (loading) {
             return <LoadingIndicator />;
           }
@@ -183,15 +218,13 @@ class DiscoveryScreen extends React.Component<Props, State> {
             return <ErrorMessage {...error} />;
           }
           if (data && data.users) {
-            console.log('users', data.users);
             return <ItemList type="User" items={data.users} onPressCard={this.handlePressCard} />;
-          } else {
-            return (
-              <View>
-                <Text>No data</Text>
-              </View>
-            );
           }
+          return (
+            <View>
+              <Text>No data</Text>
+            </View>
+          );
         }}
       </UserListQuery>
     );
@@ -201,7 +234,7 @@ class DiscoveryScreen extends React.Component<Props, State> {
     const conditions: ProjectSearchSubmitParams = this.buildProjectSearchParams();
     return (
       <ProjectListQuery variables={conditions}>
-        {({ loading, error, data }) => {
+        {({ loading, error, data }: ProjectListOutput) => {
           if (loading) {
             return <LoadingIndicator />;
           }
@@ -210,13 +243,12 @@ class DiscoveryScreen extends React.Component<Props, State> {
           }
           if (data && data.projects) {
             return <ItemList type="Project" items={data.projects} onPressCard={this.handlePressCard} />;
-          } else {
-            return (
-              <View>
-                <Text>No data</Text>
-              </View>
-            );
           }
+          return (
+            <View>
+              <Text>No data</Text>
+            </View>
+          );
         }}
       </ProjectListQuery>
     );

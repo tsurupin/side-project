@@ -52,7 +52,7 @@ const DISTANCES = [
 
 class SearchForm extends React.Component<Props, State> {
   static defaultProps = {};
-  constructor(props) {
+  constructor(props: Props) {
     super(props);
     this.state = {
       genreId: props.genreId,

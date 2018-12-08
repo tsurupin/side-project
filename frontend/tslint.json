@@ -10,6 +10,7 @@
         "ter-arrow-parens": false,
         "trailing-comma": false,
         "import-name": false,
+        "no-null-keyword": true,
         "semicolon": [true, "always", "strict-bound-class-methods"],
         "prettier": true,
         "variable-name": [true, "ban-keywords", "check-format", "allow-pascal-case"]

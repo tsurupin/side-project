@@ -9,7 +9,7 @@ import styles from './styles';
 type Props = {
   photo?: UserPhoto | ProjectPhoto;
   hasRightEdge: boolean;
-  onPress: (id?: string) => void;
+  onPress: (photoId: string | undefined) => void;
 };
 
 const renderPhoto = (photo: UserPhoto | ProjectPhoto | undefined) => {
