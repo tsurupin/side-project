@@ -84,7 +84,7 @@ class SearchForm extends React.Component<Props, State> {
         this.props.navigator.dismissModal();
         break;
     }
-  }
+  };
 
   private handleSkillSearchShowModal = () => {
     this.props.navigator.showModal({
@@ -102,7 +102,7 @@ class SearchForm extends React.Component<Props, State> {
         ]
       }
     });
-  }
+  };
 
   private handleChangeValue = (key: string, value: string | number | boolean) => {
     if (key === 'distance') {
@@ -113,7 +113,7 @@ class SearchForm extends React.Component<Props, State> {
 
       this.setState(changeAttr);
     }
-  }
+  };
 
   private handleChangeLocationValue = (distance: number) => {
     navigator.geolocation.getCurrentPosition(
@@ -131,17 +131,17 @@ class SearchForm extends React.Component<Props, State> {
         Alert.alert('Needs to turn location on');
       }
     );
-  }
+  };
 
   private handleAddSkill = (skill: Skill) => {
     const skills = Array.from(new Set(this.state.skills.concat(skill)));
     this.setState({ skills });
-  }
+  };
 
   private handleDeleteSkill = (id: string) => {
     const skills = this.state.skills.filter((skill) => skill.id !== id);
     this.setState({ skills });
-  }
+  };
 
   private handlePressShowModal = (
     items: any[],
@@ -168,22 +168,22 @@ class SearchForm extends React.Component<Props, State> {
         ]
       }
     });
-  }
+  };
 
   private renderSkillList = () => {
     return <FlatList data={this.state.skills} renderItem={this.renderSkill} />;
-  }
+  };
 
   private renderSkill = (data) => {
     const skill: Skill = data.item;
     return (
       <ListItem key={skill.id} title={skill.name} bottomDivider rightIcon={this.renderSkillRemoveIcon(skill.id)} />
     );
-  }
+  };
 
   private renderSkillAddIcon = () => {
     return <Icon type={ICON_MAIN_TYPE} name={PLUS_ICON} size={24} color="black" />;
-  }
+  };
 
   private renderSkillRemoveIcon = (skillId: string) => {
     return (
@@ -195,7 +195,7 @@ class SearchForm extends React.Component<Props, State> {
         onPress={() => this.handleDeleteSkill(skillId)}
       />
     );
-  }
+  };
 
   render() {
     const { genreId, occupationTypeId, location, isActive } = this.state;

@@ -33,7 +33,7 @@ class UserEditScreen extends React.Component<Props, UserEditParams> {
 
   private handleSubmit = (variables: UserEditParams, editUserMutation: any) => {
     editUserMutation({ variables });
-  }
+  };
 
   private handlePressPhoto = (id: string, photos: any[]) => {
     this.props.navigator.showModal({
@@ -60,7 +60,7 @@ class UserEditScreen extends React.Component<Props, UserEditParams> {
         ]
       }
     });
-  }
+  };
 
   private renderMainPhoto = (user: UserDetails) => {
     const { id, photos } = user;
@@ -78,7 +78,7 @@ class UserEditScreen extends React.Component<Props, UserEditParams> {
         />
       </View>
     );
-  }
+  };
 
   private renderEditForm = (user: UserDetails, defaultProps: DefaultProps) => {
     const { genres, occupationTypes } = defaultProps;
@@ -106,7 +106,7 @@ class UserEditScreen extends React.Component<Props, UserEditParams> {
         }}
       </EditUserMutation>
     );
-  }
+  };
 
   render() {
     return (

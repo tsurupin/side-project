@@ -35,7 +35,7 @@ class MatchScreen extends React.Component<Props, State> {
         ]
       }
     });
-  }
+  };
 
   protected handleUserPress = (userId: number, userDisplayName: string): void => {
     this.props.navigator.push({
@@ -51,7 +51,7 @@ class MatchScreen extends React.Component<Props, State> {
         ]
       }
     });
-  }
+  };
 
   render() {
     return (

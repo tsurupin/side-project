@@ -30,11 +30,11 @@ class ProjectDetailsScreen extends React.Component<Props> {
       case BACK_BUTTON:
         this.props.navigator.pop();
     }
-  }
+  };
 
   private handlePress = (likeProjectMutation) => {
     likeProjectMutation({ variables: { projectId: this.props.id } });
-  }
+  };
 
   private handleUserPress = (userId: string) => {
     this.props.navigator.push({
@@ -51,7 +51,7 @@ class ProjectDetailsScreen extends React.Component<Props> {
         ]
       }
     });
-  }
+  };
 
   render() {
     const { id } = this.props;

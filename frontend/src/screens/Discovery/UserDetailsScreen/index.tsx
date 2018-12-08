@@ -29,14 +29,14 @@ class UserDetailsScreen extends React.Component<Props, State> {
       case BACK_BUTTON:
         this.props.navigator.pop();
     }
-  }
+  };
 
   private handlePress = (mutation) => {
     const { id, liked } = this.props;
     const variables = liked ? { userId: id } : { targetUserId: id };
 
     mutation({ variables });
-  }
+  };
 
   private renderLikedUserDetails = (user: UserDetails) => {
     return (
@@ -77,7 +77,7 @@ class UserDetailsScreen extends React.Component<Props, State> {
         }}
       </RejectUserLikeMutation>
     );
-  }
+  };
 
   private renderUserDetails = (user: UserDetails) => {
     return (
@@ -95,7 +95,7 @@ class UserDetailsScreen extends React.Component<Props, State> {
         }}
       </LikeUserMutation>
     );
-  }
+  };
 
   render() {
     const { id, liked } = this.props;

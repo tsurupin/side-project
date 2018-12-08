@@ -56,7 +56,7 @@ class AbsintheSocketLink extends ApolloLink {
     // this.socket = createAbsintheSocket(token);
     console.log(this.socket);
     // this.link = createAbsintheSocketLink(this.socket);
-  }
+  };
 }
 
 const absintheSocketLink = new AbsintheSocketLink();

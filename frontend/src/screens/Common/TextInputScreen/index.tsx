@@ -41,7 +41,7 @@ class TextInputScreen extends React.Component<Props, State> {
         this.props.navigator.dismissModal();
         break;
     }
-  }
+  };
 
   private onPress = () => {
     const { keyName, onPress } = this.props;
@@ -49,7 +49,7 @@ class TextInputScreen extends React.Component<Props, State> {
     onPress(keyName, value);
     console.log(keyName, value);
     this.props.navigator.dismissModal();
-  }
+  };
 
   render() {
     const { placeholder } = this.props;

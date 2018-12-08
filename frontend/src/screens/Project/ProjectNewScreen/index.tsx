@@ -20,7 +20,7 @@ class ProjectNewScreen extends React.Component<Props> {
 
   private handleSubmit = (variables: ProjectEditParams, createProjectMutation: any) => {
     createProjectMutation({ variables });
-  }
+  };
 
   render() {
     return (

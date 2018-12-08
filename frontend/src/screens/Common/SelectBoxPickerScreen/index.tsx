@@ -34,12 +34,12 @@ class PickerScreen extends React.Component<Props> {
         this.props.navigator.dismissModal();
         break;
     }
-  }
+  };
 
   private handlePress = (key: string, value: string | number) => {
     this.props.onPress(key, value);
     this.props.navigator.dismissModal();
-  }
+  };
 
   private renderSelectedItem = () => {
     const { selectedValue, label } = this.props;
@@ -56,7 +56,7 @@ class PickerScreen extends React.Component<Props> {
         />
       </View>
     );
-  }
+  };
 
   private renderOptionItems = () => {
     return (
@@ -64,7 +64,7 @@ class PickerScreen extends React.Component<Props> {
         <FlatList data={this.props.items} renderItem={this.renderItem} />
       </View>
     );
-  }
+  };
 
   private renderItem = (data) => {
     const index = data.index;
@@ -81,7 +81,7 @@ class PickerScreen extends React.Component<Props> {
         titleStyle={styles.title}
       />
     );
-  }
+  };
 
   render() {
     return (

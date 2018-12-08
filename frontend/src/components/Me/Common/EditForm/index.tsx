@@ -139,7 +139,7 @@ class EditForm extends React.Component<Props, State> {
     });
     console.log('user edit', params);
     return params;
-  }
+  };
 
   private objectValueChanged = (key: string): boolean => {
     const currentValue = this.state[key];
@@ -152,7 +152,7 @@ class EditForm extends React.Component<Props, State> {
       return false;
     }
     return true;
-  }
+  };
 
   private arrayObjectValueChanged = (key: string): boolean => {
     const currentObjectIds = this.state[key].map((item) => item.id);
@@ -161,7 +161,7 @@ class EditForm extends React.Component<Props, State> {
     const intersectionCount = currentObjectIds.filter((id) => previousObjectIds.includes(id)).length;
 
     return previousObjectIds.length !== intersectionCount || currentObjectIds.length !== intersectionCount;
-  }
+  };
 
   private handleNavigatorEvent = (e) => {
     if (e.type !== 'NavBarButtonPress') return;
@@ -175,7 +175,7 @@ class EditForm extends React.Component<Props, State> {
         this.props.navigator.dismissModal();
         break;
     }
-  }
+  };
 
   private handlePressShowModal = (items: any[], keyName: string, selectedValue: string | number | undefined) => {
     this.props.navigator.showModal({
@@ -196,7 +196,7 @@ class EditForm extends React.Component<Props, State> {
         ]
       }
     });
-  }
+  };
 
   private handleTextInputModal = (keyName: string, value: string | undefined, placeholder: string) => {
     this.props.navigator.showModal({
@@ -219,14 +219,14 @@ class EditForm extends React.Component<Props, State> {
         ]
       }
     });
-  }
+  };
 
   private handleChangeValue = (keyName: string, value: string | number | undefined) => {
     const changedAttr: any = {};
     changedAttr[keyName] = value;
     console.log('updated key', changedAttr);
     this.setState(changedAttr);
-  }
+  };
 
   private handleSkillSearchShowModal = () => {
     this.props.navigator.showModal({
@@ -244,18 +244,18 @@ class EditForm extends React.Component<Props, State> {
         ]
       }
     });
-  }
+  };
 
   private handleAddSkill = (skill: Skill) => {
     if (this.state.skills.find((skill) => skill.id === skill.id)) return;
     const skills = Array.from(new Set(this.state.skills.concat(skill)));
     this.setState({ skills });
-  }
+  };
 
   protected handleDeleteSkill = (id: string) => {
     const skills = this.state.skills.filter((skill) => skill.id !== id);
     this.setState({ skills });
-  }
+  };
 
   private handleCitySearchShowModal = () => {
     this.props.navigator.showModal({
@@ -276,7 +276,7 @@ class EditForm extends React.Component<Props, State> {
         ]
       }
     });
-  }
+  };
 
   private handleUpdateLocation = (
     city: City,
@@ -288,22 +288,22 @@ class EditForm extends React.Component<Props, State> {
     } else {
       this.setState({ city });
     }
-  }
+  };
 
   private renderSkillList = () => {
     return <FlatList data={this.state.skills} renderItem={this.renderSkill} />;
-  }
+  };
 
   private renderSkill = (data: { item: Skill }) => {
     const skill: Skill = data.item;
     return (
       <ListItem key={skill.id} title={skill.name} bottomDivider rightIcon={this.renderSkillRemoveIcon(skill.id)} />
     );
-  }
+  };
 
   private renderSkillAddIcon = () => {
     return <Icon type={ICON_MAIN_TYPE} name={PLUS_ICON} size={SMALL_ICON_SIZE} color={ICON_BLACK_COLOR} />;
-  }
+  };
 
   private renderSkillRemoveIcon = (skillId: string) => {
     return (
@@ -315,7 +315,7 @@ class EditForm extends React.Component<Props, State> {
         onPress={() => this.handleDeleteSkill(skillId)}
       />
     );
-  }
+  };
 
   render() {
     const { occupationTypes, genres } = this.props;

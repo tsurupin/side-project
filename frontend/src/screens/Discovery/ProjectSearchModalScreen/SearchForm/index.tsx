@@ -59,7 +59,7 @@ class SearchForm extends React.Component<Props, State> {
         this.props.navigator.dismissModal();
         break;
     }
-  }
+  };
 
   private handleSkillSearchShowModal = () => {
     this.props.navigator.showModal({
@@ -77,24 +77,24 @@ class SearchForm extends React.Component<Props, State> {
         ]
       }
     });
-  }
+  };
 
   private handleChangeValue = (key: string, value: string | number | boolean) => {
     const changeAttr = {};
     changeAttr[key] = value;
 
     this.setState(changeAttr);
-  }
+  };
 
   private handleAddSkill = (skill: Skill) => {
     const skills = Array.from(new Set(this.state.skills.concat(skill)));
     this.setState({ skills });
-  }
+  };
 
   private handleDeleteSkill = (id: string) => {
     const skills = this.state.skills.filter((skill) => skill.id !== id);
     this.setState({ skills });
-  }
+  };
 
   private handlePressShowModal = (items: any[], keyName: string, selectedValue: string | number | undefined) => {
     this.props.navigator.showModal({
@@ -115,7 +115,7 @@ class SearchForm extends React.Component<Props, State> {
         ]
       }
     });
-  }
+  };
 
   private handleCitySearchShowModal = () => {
     this.props.navigator.showModal({
@@ -132,26 +132,26 @@ class SearchForm extends React.Component<Props, State> {
         ]
       }
     });
-  }
+  };
 
   private handleAddCity = (city: City) => {
     this.setState({ city });
-  }
+  };
 
   private renderSkillList = () => {
     return <FlatList data={this.state.skills} renderItem={this.renderSkill} />;
-  }
+  };
 
   private renderSkill = (data) => {
     const skill: Skill = data.item;
     return (
       <ListItem key={skill.id} title={skill.name} bottomDivider rightIcon={this.renderSkillRemoveIcon(skill.id)} />
     );
-  }
+  };
 
   private renderSkillAddIcon = () => {
     return <Icon type={ICON_MAIN_TYPE} name={PLUS_ICON} size={24} color="black" />;
-  }
+  };
 
   private renderSkillRemoveIcon = (skillId: string) => {
     return (
@@ -163,7 +163,7 @@ class SearchForm extends React.Component<Props, State> {
         onPress={() => this.handleDeleteSkill(skillId)}
       />
     );
-  }
+  };
 
   render() {
     const { genreId, city } = this.state;

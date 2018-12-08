@@ -28,7 +28,7 @@ class ProjectSearchFormScreen extends React.Component<Props> {
     console.log('OnSubmit', searchParams);
     updateProjectSearchParamsMutation({ variables: searchParams });
     this.props.onSubmit(searchParams);
-  }
+  };
 
   render() {
     return (

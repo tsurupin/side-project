@@ -73,16 +73,16 @@ class CitySearchModalScreen extends React.Component<Props, State> {
       case CLOSE_BUTTON:
         this.props.navigator.dismissModal();
     }
-  }
+  };
 
   private onPress = (city: City) => {
     this.props.onPress(city);
     this.props.navigator.dismissModal();
-  }
+  };
 
   private handleChangeText = (name: string) => {
     this.setState({ name });
-  }
+  };
 
   private handlePressCurrentLocation = (findOrCreateCityMutation: ({ variables }: CityMutation) => void) => {
     navigator.geolocation.getCurrentPosition(async ({ coords }) => {
@@ -109,7 +109,7 @@ class CitySearchModalScreen extends React.Component<Props, State> {
         console.log('geocode failed', e);
       }
     });
-  }
+  };
 
   private renderCityList = () => {
     const { name } = this.state;
@@ -128,7 +128,7 @@ class CitySearchModalScreen extends React.Component<Props, State> {
         }}
       </CityListQuery>
     );
-  }
+  };
 
   private renderCurrentLocationButtton = (): undefined | JSX.Element => {
     if (!this.props.needLocationSearch) return undefined;
@@ -156,11 +156,11 @@ class CitySearchModalScreen extends React.Component<Props, State> {
         }}
       </FindOrCreateCityMutation>
     );
-  }
+  };
   private renderTextForm = () => {
     const { name } = this.state;
     return <SearchInput name={name} onChangeText={this.handleChangeText} />;
-  }
+  };
 
   render() {
     return (

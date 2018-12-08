@@ -37,7 +37,7 @@ class AuthScreen extends React.Component<Props> {
           .catch((error) => console.log('getcurrentaccesserror', error));
       })
       .catch((error) => console.log('loginError', error));
-  }
+  };
 
   private loginFirebase = async (token: string, loginMutation: any): Promise<void> => {
     try {
@@ -49,11 +49,11 @@ class AuthScreen extends React.Component<Props> {
     } catch (e) {
       console.log('error', e);
     }
-  }
+  };
 
   private openMainTab = () => {
     MainTab();
-  }
+  };
 
   render() {
     return (

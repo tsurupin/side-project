@@ -29,7 +29,7 @@ class ProjectEditScreen extends React.Component<Props> {
 
   private handleSubmit = (variables: ProjectEditParams, editProjectMutation: any) => {
     editProjectMutation({ variables: { id: this.props.id, ...variables } });
-  }
+  };
 
   private handlePressPhoto = (id: string, photos: any[]) => {
     this.props.navigator.showModal({
@@ -56,7 +56,7 @@ class ProjectEditScreen extends React.Component<Props> {
         ]
       }
     });
-  }
+  };
 
   private renderMainPhoto = (project: ProjectDetails) => {
     const { id, photos } = project;
@@ -74,7 +74,7 @@ class ProjectEditScreen extends React.Component<Props> {
         />
       </View>
     );
-  }
+  };
 
   private renderEditForm = (project: ProjectDetails, defaultProps: DefaultProps) => {
     const { genres } = defaultProps;
@@ -103,7 +103,7 @@ class ProjectEditScreen extends React.Component<Props> {
         }}
       </EditProjectMutation>
     );
-  }
+  };
 
   render() {
     const { id } = this.props;

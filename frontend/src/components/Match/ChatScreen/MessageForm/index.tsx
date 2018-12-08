@@ -60,7 +60,7 @@ class MessageForm extends React.Component<Props, State> {
         }
       }
     });
-  }
+  };
 
   private onPress = () => {
     const { comment, image, messageType } = this.state;
@@ -68,7 +68,7 @@ class MessageForm extends React.Component<Props, State> {
     if (submitting) return;
     this.props.onPress({ chatId, comment, image, messageType });
     this.setState({ comment: undefined, image: undefined });
-  }
+  };
 
   render() {
     const { comment } = this.state;

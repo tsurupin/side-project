@@ -59,11 +59,11 @@ class ProjectListScreen extends React.Component<Props, State> {
           }
         });
     }
-  }
+  };
 
   private handleIndexChange = (selectedIndex: number): void => {
     this.setState({ selectedIndex });
-  }
+  };
 
   private handleLikedProjectPress = (id: string) => {
     this.props.navigator.push({
@@ -84,7 +84,7 @@ class ProjectListScreen extends React.Component<Props, State> {
         ]
       }
     });
-  }
+  };
 
   private handleEditableProjectPress = (id: string) => {
     this.props.navigator.showModal({
@@ -105,7 +105,7 @@ class ProjectListScreen extends React.Component<Props, State> {
         ]
       }
     });
-  }
+  };
 
   private renderProjectList = () => {
     if (this.state.selectedIndex === 0) {
@@ -113,7 +113,7 @@ class ProjectListScreen extends React.Component<Props, State> {
     } else {
       return <EditableProjectList onPress={this.handleEditableProjectPress} />;
     }
-  }
+  };
 
   render() {
     return (

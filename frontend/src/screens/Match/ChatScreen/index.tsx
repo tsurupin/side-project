@@ -27,11 +27,11 @@ class ChatScreen extends React.Component<Props, State> {
       case BACK_BUTTON:
         this.props.navigator.pop();
     }
-  }
+  };
 
   handlePress = (variables: MessageParams, mutation) => {
     mutation({ variables });
-  }
+  };
 
   render() {
     const id = this.props.id;

@@ -42,7 +42,7 @@ class LikedProjectDetailsScreen extends React.Component<Props, State> {
       case BACK_BUTTON:
         this.props.navigator.pop();
     }
-  }
+  };
 
   private handlePressActionSheet = (index: number, withdrawProjectLikeMutation: any) => {
     const { id } = this.props;
@@ -51,7 +51,7 @@ class LikedProjectDetailsScreen extends React.Component<Props, State> {
         withdrawProjectLikeMutation({ variables: { projectId: id } });
         break;
     }
-  }
+  };
 
   private handleUserPress = (userId: string) => {
     this.props.navigator.push({
@@ -60,7 +60,7 @@ class LikedProjectDetailsScreen extends React.Component<Props, State> {
         id: userId
       }
     });
-  }
+  };
 
   render() {
     const { id } = this.props;

@@ -48,16 +48,16 @@ class SkillSearchModalScreen extends React.Component<Props, State> {
         this.props.navigator.dismissModal();
         break;
     }
-  }
+  };
 
   private onPressSkill = (skill: Skill) => {
     this.props.onPress(skill);
     this.props.navigator.dismissModal();
-  }
+  };
 
   private handleChangeText = (name: string) => {
     this.setState({ name });
-  }
+  };
 
   private renderSkillList = () => {
     const { name } = this.state;
@@ -74,12 +74,12 @@ class SkillSearchModalScreen extends React.Component<Props, State> {
         }}
       </SkillsQuery>
     );
-  }
+  };
 
   private renderTextForm = () => {
     const { name } = this.state;
     return <SearchInput name={name} onChangeText={this.handleChangeText} />;
-  }
+  };
 
   render() {
     return (

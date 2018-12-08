@@ -31,11 +31,11 @@ class PhotosEditScreen extends React.Component<Props> {
         this.props.navigator.dismissModal();
         break;
     }
-  }
+  };
 
   private handlePressDeletion = (mutation: (variables:) => void, photoId: string) => {
     mutation({ variables: { photoId } });
-  }
+  };
 
   private handlePress = (rank: number, mutation) => {
     const { id } = this.props;
@@ -44,7 +44,7 @@ class PhotosEditScreen extends React.Component<Props> {
       onCallback: mutation,
       onError: (message: string) => Alert.alert(message)
     });
-  }
+  };
 
   private renderMutation = () => {
     const { photos, photoType } = this.props;
@@ -52,7 +52,7 @@ class PhotosEditScreen extends React.Component<Props> {
       return this.renderUserPhotoMutation(photos);
     }
     return this.renderProjectPhotoMutation(photos);
-  }
+  };
 
   private renderUserPhotoMutation = (photos: UserPhoto[]) => {
     return (
@@ -80,7 +80,7 @@ class PhotosEditScreen extends React.Component<Props> {
         }}
       </DeleteUserPhotoMutation>
     );
-  }
+  };
 
   private renderProjectPhotoMutation = (photos: ProjectPhoto[]) => {
     return (
@@ -108,7 +108,7 @@ class PhotosEditScreen extends React.Component<Props> {
         }}
       </DeleteProjectPhotoMutation>
     );
-  }
+  };
 
   private renderEditForm = (photos, deleteMutation, uploadMutation) => {
     return (
@@ -118,7 +118,7 @@ class PhotosEditScreen extends React.Component<Props> {
         onPressNewPhoto={(rank: number) => this.handlePress(rank, uploadMutation)}
       />
     );
-  }
+  };
 
   render() {
     return <View style={styles.container}>{this.renderMutation()}</View>;

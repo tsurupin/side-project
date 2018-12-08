@@ -40,7 +40,7 @@ class SettingsListScreen extends React.Component<Props> {
         ]
       }
     });
-  }
+  };
 
   render() {
     return (

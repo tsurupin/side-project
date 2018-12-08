@@ -69,7 +69,7 @@ class DiscoveryScreen extends React.Component<Props, State> {
 
   private isUserOriented = (): boolean => {
     return this.state.selectedIndex === USER_INDEX;
-  }
+  };
 
   private handleUpdateSearchParams = (searchParams) => {
     if (this.isUserOriented()) {
@@ -77,7 +77,7 @@ class DiscoveryScreen extends React.Component<Props, State> {
     } else {
       this.setState({ projectSearchParams: searchParams });
     }
-  }
+  };
 
   private handleNavigatorEvent = (e) => {
     if (e.type !== 'NavBarButtonPress') return;
@@ -106,7 +106,7 @@ class DiscoveryScreen extends React.Component<Props, State> {
           }
         });
     }
-  }
+  };
 
   protected handlePressCard = (id: string) => {
     this.props.navigator.push({
@@ -121,17 +121,17 @@ class DiscoveryScreen extends React.Component<Props, State> {
         ]
       }
     });
-  }
+  };
 
   private buildUserSearchParams = (): UserSearchSubmitParams => {
     const searchParams: UserSearchParams = this.state.userSearchParams;
     return this.cleanupParams(searchParams);
-  }
+  };
 
   private buildProjectSearchParams = (): ProjectSearchSubmitParams => {
     const searchParams: ProjectSearchParams = this.state.projectSearchParams;
     return this.cleanupParams(searchParams);
-  }
+  };
 
   private cleanupParams = (searchParams): any => {
     let conditions = {};
@@ -160,16 +160,16 @@ class DiscoveryScreen extends React.Component<Props, State> {
     }
 
     return conditions;
-  }
+  };
 
   private handleIndexChange = (selectedIndex: number): void => {
     this.setState({ selectedIndex });
-  }
+  };
 
   private renderCards = () => {
     if (this.isUserOriented()) return this.renderUserCards();
     return this.renderProjectCards();
-  }
+  };
 
   private renderUserCards = () => {
     const conditions: UserSearchSubmitParams = this.buildUserSearchParams();
@@ -195,7 +195,7 @@ class DiscoveryScreen extends React.Component<Props, State> {
         }}
       </UserListQuery>
     );
-  }
+  };
 
   private renderProjectCards = () => {
     const conditions: ProjectSearchSubmitParams = this.buildProjectSearchParams();
@@ -220,7 +220,7 @@ class DiscoveryScreen extends React.Component<Props, State> {
         }}
       </ProjectListQuery>
     );
-  }
+  };
 
   render() {
     return (

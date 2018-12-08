@@ -12,7 +12,7 @@ class IconLoader {
 
   private loadIcon = (name: string) => {
     return MaterialCommunityIcons.getImageSource(name, ICON_SIZE, ICON_COLOR);
-  }
+  };
 
   public loadIcons = async (names: string[]) => {
     const tasks = names.map((name) => this.loadIcon(name));
@@ -22,11 +22,11 @@ class IconLoader {
     });
 
     return this.icons;
-  }
+  };
 
   public getIcon = (name: string) => {
     return this.icons[name];
-  }
+  };
 }
 
 export default new IconLoader();
