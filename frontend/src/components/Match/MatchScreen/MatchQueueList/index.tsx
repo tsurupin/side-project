@@ -7,7 +7,7 @@ import { UserCore } from '../../../../interfaces';
 
 type Props = {
   likedUserList: UserCore[];
-  onPress: (number, string) => void;
+  onPress: (userId: string, displayName: string) => void;
 };
 
 const MatchQueueList: React.SFC<Props> = (props) => {

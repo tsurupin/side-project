@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { View, Text, Image } from 'react-native';
+import { View, Text } from 'react-native';
 import { Avatar } from 'react-native-elements';
 import { RemoteImage } from '../../../Common';
 import { UserCore } from '../../../../interfaces';
@@ -16,9 +16,8 @@ type Props = {
 const renderMessage = (imageUrl: string | undefined, comment: string | undefined) => {
   if (imageUrl) {
     return <RemoteImage imageUrl="https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg" />;
-  } else {
-    return <Text style={styles.description}>{comment}</Text>;
   }
+  return <Text style={styles.description}>{comment}</Text>;
 };
 // TODO:
 // Add day divider

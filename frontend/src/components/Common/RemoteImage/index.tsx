@@ -3,7 +3,7 @@ import { Image } from 'react-native';
 
 type Props = {
   imageUrl: string;
-  styles: object;
+  styles?: object;
 };
 
 // type State = {

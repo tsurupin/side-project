@@ -16,7 +16,7 @@ const SelectBox = (props: Props) => {
   const { placeholder, value, items, keyName, label, needTopDivider, onPress } = props;
 
   const item = items.find((item) => {
-    return (item['id'] || item['value']) == value;
+    return (item['id'] || item['value']) === value;
   });
 
   const title: string = item ? item['name'] : placeholder;

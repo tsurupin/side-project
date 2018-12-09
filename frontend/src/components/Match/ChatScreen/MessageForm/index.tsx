@@ -6,7 +6,6 @@ import * as ImagePicker from 'react-native-image-picker';
 import ImageResizer from 'react-native-image-resizer';
 import { ReactNativeFile } from '@richeterre/apollo-upload-client';
 import { IMAGE_ICON, ICON_MAIN_TYPE } from '../../../../constants/icons';
-import IconLoader from '../../../../utilities/IconLoader';
 import styles from './styles';
 
 type Props = {
@@ -18,16 +17,16 @@ type Props = {
 type State = {
   comment: string | undefined;
   image: any | undefined;
-  messageType: string | undefined;
+  messageType: string;
 };
 
 class MessageForm extends React.Component<Props, State> {
-  constructor(props) {
+  constructor(props: Props) {
     super(props);
     this.state = {
       comment: undefined,
       image: undefined,
-      messageType: undefined
+      messageType: ''
     };
   }
 
@@ -50,8 +49,6 @@ class MessageForm extends React.Component<Props, State> {
             name: 'photo.jpg'
           });
 
-          console.log(photo);
-
           this.setState({ image: photo, messageType: 'upload' });
           this.onPress();
         } catch (err) {
@@ -73,7 +70,7 @@ class MessageForm extends React.Component<Props, State> {
   render() {
     const { comment } = this.state;
     const { submitting } = this.props;
-    const disabled = submitting || comment == undefined || comment == '';
+    const disabled = submitting || comment === undefined || comment === '';
 
     return (
       <View style={styles.container}>

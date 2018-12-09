@@ -2,7 +2,6 @@ import * as React from 'react';
 import { FlatList, ScrollView } from 'react-native';
 import { ProjectEditParams, Skill, City, Genre, ProjectDetails } from '../../../../interfaces';
 import { ListItem, Icon } from 'react-native-elements';
-import { CLOSE_ICON } from '../../../../constants/icons';
 import IconLoader from '../../../../utilities/IconLoader';
 import { SelectBox, TextAreaListItem } from '../../../Common';
 import { CLOSE_BUTTON, SUBMIT_BUTTON } from '../../../../constants/buttons';
@@ -12,7 +11,7 @@ import {
   SELECT_BOX_PICKER_SCREEN,
   TEXT_INPUT_SCREEN
 } from '../../../../constants/screens';
-import { PLUS_ICON, MINUS_CIRCLE_ICON, ICON_MAIN_TYPE } from '../../../../constants/icons';
+import { CLOSE_ICON, PLUS_ICON, MINUS_CIRCLE_ICON, ICON_MAIN_TYPE } from '../../../../constants/icons';
 
 import styles from './styles';
 
@@ -103,11 +102,11 @@ class EditForm extends React.Component<Props, State> {
 
     if (currentValue && previousValue && currentValue.id === previousValue.id) {
       return false;
-    } else if (!currentValue && !previousValue) {
-      return false;
-    } else {
-      return true;
     }
+    if (!currentValue && !previousValue) {
+      return false;
+    }
+    return true;
   };
 
   private arrayObjectValueChanged = (key: string): boolean => {
@@ -176,7 +175,7 @@ class EditForm extends React.Component<Props, State> {
   };
 
   private handleChangeValue = (keyName: string, value: string | number | undefined) => {
-    const changedAttr = {};
+    const changedAttr = {} as { [key: string]: string | number | undefined };
     changedAttr[keyName] = value;
     console.log('updated key', changedAttr);
     this.setState(changedAttr);

@@ -18,7 +18,7 @@ type Props = {
 };
 
 const renderCityName = (city: City | undefined) => {
-  if (!city) return null;
+  if (!city) return undefined;
   return <Text style={styles.subText}>{city.fullName}</Text>;
 };
 
