@@ -1,28 +1,35 @@
 import * as React from 'react';
-import { View, TouchableOpacity, Text, Button } from 'react-native';
+import { View } from 'react-native';
 import { ProjectDetailsQuery } from '../../../queries/projects';
 import ActionSheet from 'react-native-actionsheet';
-import { BACK_BUTTON, PROJECT_ACTION_SHEET_BUTTON, CLOSE_BUTTON, SUBMIT_BUTTON } from '../../../constants/buttons';
-import styles from './styles';
+import { BACK_BUTTON, PROJECT_ACTION_SHEET_BUTTON } from '../../../constants/buttons';
 import { ProjectDetailsBox } from '../../../components/Discovery/ProjectDetailsScreen';
-import { PROJECT_EDIT_SCREEN, USER_DETAILS_SCREEN } from '../../../constants/screens';
+import { USER_DETAILS_SCREEN } from '../../../constants/screens';
 import { WithdrawProjectLikeMutation } from '../../../mutations/projectLikes';
 import { LoadingIndicator, ErrorMessage } from '../../../components/Common';
+import { MinimumOutput, ProjectDetails } from '../../../interfaces';
 
 type Props = {
   id: string;
   navigator: any;
 };
 
-type State = {};
 // add like button for newcomer
-
 const CANCEL_INDEX = 0;
 const WITHDRAW_PROJECT_LIKE_INDEX = 1;
 // handle options dynamically
 const ACTION_SHEET_OPTIONS = ['Cancel', 'Leave project'];
 
-class LikedProjectDetailsScreen extends React.Component<Props, State> {
+type ProjectDetailsOutput = {
+  data: { project: ProjectDetails };
+} & MinimumOutput;
+
+type WithdrawProjectLikeOutput = {
+  data: any;
+  withdrawProjectLikeMutation: (input: { varialbles: { projectId: string } }) => void;
+} & MinimumOutput;
+
+class LikedProjectDetailsScreen extends React.Component<Props> {
   public refs = {
     actionSheet: ActionSheet
   };
@@ -44,7 +51,10 @@ class LikedProjectDetailsScreen extends React.Component<Props, State> {
     }
   };
 
-  private handlePressActionSheet = (index: number, withdrawProjectLikeMutation: any) => {
+  private handlePressActionSheet = (
+    index: number,
+    withdrawProjectLikeMutation: (input: { variables: { projectId: string } }) => void
+  ) => {
     const { id } = this.props;
     switch (index) {
       case WITHDRAW_PROJECT_LIKE_INDEX:
@@ -66,7 +76,7 @@ class LikedProjectDetailsScreen extends React.Component<Props, State> {
     const { id } = this.props;
     return (
       <ProjectDetailsQuery variables={{ id }}>
-        {({ data, loading, error }) => {
+        {({ data, loading, error }: ProjectDetailsOutput) => {
           if (loading) return <LoadingIndicator />;
           if (error) return <ErrorMessage {...error} />;
 
@@ -74,7 +84,7 @@ class LikedProjectDetailsScreen extends React.Component<Props, State> {
 
           return (
             <WithdrawProjectLikeMutation>
-              {({ withdraProjectLikeMutation, data, loading, error }) => {
+              {({ withdrawProjectLikeMutation, data, loading, error }: WithdrawProjectLikeOutput) => {
                 if (loading) return <LoadingIndicator />;
                 if (error) return <ErrorMessage {...error} />;
                 if (data) {
@@ -86,12 +96,12 @@ class LikedProjectDetailsScreen extends React.Component<Props, State> {
                   <View>
                     <ProjectDetailsBox project={project} liked={true} onPressUser={this.handleUserPress} />
                     <ActionSheet
-                      ref={(o) => (this.ActionSheet = o)}
+                      ref={(o: any) => (this.ActionSheet = o)}
                       title={'Title'}
                       options={ACTION_SHEET_OPTIONS}
                       cancelButtonIndex={CANCEL_INDEX}
                       destructiveButtonIndex={CANCEL_INDEX}
-                      onPress={(index) => this.handlePressActionSheet(index, withdraProjectLikeMutation)}
+                      onPress={(index: number) => this.handlePressActionSheet(index, withdrawProjectLikeMutation)}
                     />
                     ;
                   </View>

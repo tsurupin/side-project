@@ -4,7 +4,7 @@ import { Avatar } from 'react-native-elements';
 import { ErrorMessage, LoadingIndicator } from '../../../components/Common';
 import { EditForm } from '../../../components/Project/Common';
 import { ProjectEditFormQuery } from '../../../queries/projects';
-import { ProjectDetails, ProjectEditParams, Genre } from '../../../interfaces';
+import { ProjectDetails, ProjectEditParams, Genre, MinimumOutput } from '../../../interfaces';
 
 import { EditProjectMutation } from '../../../mutations/projects';
 import { CLOSE_ICON } from '../../../constants/icons';
@@ -22,12 +22,27 @@ type DefaultProps = {
   genres: Genre[];
 };
 
+type EditProjectOutput = {
+  editProjectMutation: (input: { variables: ProjectEditParams }) => void;
+  data: any;
+} & MinimumOutput;
+
+type ProjectEditFormOutput = {
+  data: {
+    projectForm: DefaultProps;
+    project: ProjectDetails;
+  };
+} & MinimumOutput;
+
 class ProjectEditScreen extends React.Component<Props> {
-  constructor(props) {
+  constructor(props: Props) {
     super(props);
   }
 
-  private handleSubmit = (variables: ProjectEditParams, editProjectMutation: any) => {
+  private handleSubmit = (
+    variables: ProjectEditParams,
+    editProjectMutation: (input: { variables: ProjectEditParams }) => void
+  ) => {
     editProjectMutation({ variables: { id: this.props.id, ...variables } });
   };
 
@@ -80,11 +95,10 @@ class ProjectEditScreen extends React.Component<Props> {
     const { genres } = defaultProps;
     return (
       <EditProjectMutation>
-        {({ editProjectMutation, loading, error, data }) => {
+        {({ editProjectMutation, loading, error, data }: EditProjectOutput) => {
           if (loading) return <LoadingIndicator />;
           if (error) return <ErrorMessage {...error} />;
           if (data) {
-            console.log(data, 'aa');
             this.props.navigator.dismissModal();
             return <View />;
           }
@@ -109,11 +123,11 @@ class ProjectEditScreen extends React.Component<Props> {
     const { id } = this.props;
     return (
       <ProjectEditFormQuery variables={{ id }}>
-        {({ data, loading, error }) => {
+        {({ data, loading, error }: ProjectEditFormOutput) => {
           if (loading) return <LoadingIndicator />;
           if (error) return <ErrorMessage {...error} />;
 
-          const defaultProps = data.projectForm;
+          const defaultProps: DefaultProps = data.projectForm;
 
           const project: ProjectDetails = data.project;
           return (

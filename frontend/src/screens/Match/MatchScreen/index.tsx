@@ -1,9 +1,9 @@
 import * as React from 'react';
-import { View, Text, TouchableOpacity, AsyncStorage, ScrollView, SectionList } from 'react-native';
+import { View } from 'react-native';
 import { MatchListQuery } from '../../../queries/matches';
 import { CHAT_SCREEN, USER_DETAILS_SCREEN } from '../../../constants/screens';
 import { MatchQueueList, ChatList } from '../../../components/Match/MatchScreen';
-import { Chat, UserCore } from '../../../interfaces';
+import { Chat, UserCore, MatchList, MinimumOutput } from '../../../interfaces';
 import { BACK_BUTTON } from '../../../constants/buttons';
 import { BACK_ICON } from '../../../constants/icons';
 import IconLoader from '../../../utilities/IconLoader';
@@ -14,10 +14,12 @@ type Props = {
   navigator: any;
 };
 
-type State = {};
+type MatchListOutput = {
+  data: { matchList: MatchList };
+} & MinimumOutput;
 
-class MatchScreen extends React.Component<Props, State> {
-  constructor(props) {
+class MatchScreen extends React.Component<Props> {
+  constructor(props: Props) {
     super(props);
   }
 
@@ -57,7 +59,7 @@ class MatchScreen extends React.Component<Props, State> {
     return (
       <View style={styles.container}>
         <MatchListQuery>
-          {({ data, error, loading }) => {
+          {({ data, error, loading }: MatchListOutput) => {
             if (loading) {
               return <LoadingIndicator />;
             }

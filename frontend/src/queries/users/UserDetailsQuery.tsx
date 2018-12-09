@@ -1,19 +1,19 @@
 import * as React from 'react';
 import { Query } from 'react-apollo';
-import { PROJECT_DETAIL_QUERY } from '../../graphql/projects';
+import { USER_DETAILS_QUERY } from '../../graphql/users';
 
 type Props = {
   variables: { id: string };
   children: any;
 };
 
-const ProjectDetailQuery = (props: Props) => {
+const UserDetailsQuery = (props: Props) => {
   const { variables, children } = props;
   return (
-    <Query query={PROJECT_DETAIL_QUERY} variables={variables} context={{ needAuth: true }} notifyOnNetworkStatusChange>
+    <Query query={USER_DETAILS_QUERY} variables={variables} context={{ needAuth: true }} notifyOnNetworkStatusChange>
       {({ data, loading, error }) => children({ data, loading, error })}
     </Query>
   );
 };
 
-export default ProjectDetailQuery;
+export default UserDetailsQuery;

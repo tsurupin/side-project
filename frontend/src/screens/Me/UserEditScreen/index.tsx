@@ -2,14 +2,11 @@ import * as React from 'react';
 import { View, ScrollView } from 'react-native';
 import { Avatar } from 'react-native-elements';
 
-import { ErrorMessage, LoadingIndicator, PhotosEditForm } from '../../../components/Common';
+import { ErrorMessage, LoadingIndicator } from '../../../components/Common';
 import { EditForm } from '../../../components/Me/Common';
 import { UserEditFormQuery } from '../../../queries/users';
 import { EditUserMutation } from '../../../mutations/users';
-
-import { UploadUserPhotoMutation, DeleteUserPhotoMutation } from '../../../mutations/users';
-import { UserDetails, UserEditParams, OccupationType, Genre } from '../../../interfaces';
-import { uploadImage } from '../../../utilities/imagePickerHandler';
+import { UserDetails, UserEditParams, OccupationType, Genre, MinimumOutput } from '../../../interfaces';
 import styles from './styles';
 import { PHOTOS_EDIT_SCREEN } from '../../../constants/screens';
 import IconLoader from '../../../utilities/IconLoader';
@@ -17,7 +14,7 @@ import { CLOSE_ICON } from '../../../constants/icons';
 import { CLOSE_BUTTON } from '../../../constants/buttons';
 
 type Props = {
-  id: number;
+  id: string;
   navigator: any;
 };
 
@@ -26,12 +23,24 @@ type DefaultProps = {
   genres: Genre[];
 };
 
+type EditUserOutput = {
+  data: any;
+  editUserMutation: (input: { variables: UserEditParams }) => void;
+} & MinimumOutput;
+
+type UserEditFormOutput = {
+  data: { userForm: DefaultProps; myUser: UserDetails };
+} & MinimumOutput;
+
 class UserEditScreen extends React.Component<Props, UserEditParams> {
-  constructor(props) {
+  constructor(props: Props) {
     super(props);
   }
 
-  private handleSubmit = (variables: UserEditParams, editUserMutation: any) => {
+  private handleSubmit = (
+    variables: UserEditParams,
+    editUserMutation: (input: { variables: UserEditParams }) => void
+  ) => {
     editUserMutation({ variables });
   };
 
@@ -84,7 +93,7 @@ class UserEditScreen extends React.Component<Props, UserEditParams> {
     const { genres, occupationTypes } = defaultProps;
     return (
       <EditUserMutation>
-        {({ editUserMutation, loading, error, data }) => {
+        {({ editUserMutation, loading, error, data }: EditUserOutput) => {
           if (loading) return <LoadingIndicator />;
           if (error) return <ErrorMessage {...error} />;
 
@@ -111,7 +120,7 @@ class UserEditScreen extends React.Component<Props, UserEditParams> {
   render() {
     return (
       <UserEditFormQuery>
-        {({ data, loading, error }) => {
+        {({ data, loading, error }: UserEditFormOutput) => {
           if (loading) return <LoadingIndicator />;
           if (error) return <ErrorMessage {...error} />;
 

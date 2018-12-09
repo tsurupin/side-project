@@ -1,8 +1,8 @@
 import * as React from 'react';
-import { View, Text, TouchableOpacity, AsyncStorage, ScrollView } from 'react-native';
+import { View } from 'react-native';
 import { ChatDetailsQuery } from '../../../queries/chats';
 import { CreateMessageMutation } from '../../../mutations/chats';
-import { MessageParams } from '../../../interfaces';
+import { MessageParams, MinimumOutput, Chat } from '../../../interfaces';
 import { BACK_BUTTON } from '../../../constants/buttons';
 import { MessageList, MessageForm } from '../../../components/Match/ChatScreen';
 import styles from './styles';
@@ -13,9 +13,17 @@ type Props = {
   navigator: any;
 };
 
-type State = {};
-class ChatScreen extends React.Component<Props, State> {
-  constructor(props) {
+type ChatDetailsOutput = {
+  data: { chat: Chat };
+  subscribeMessages: () => void;
+} & MinimumOutput;
+
+type CreateMessageOutput = {
+  createMessageMutation: (input: { variables: MessageParams }) => void;
+} & MinimumOutput;
+
+class ChatScreen extends React.Component<Props> {
+  constructor(props: Props) {
     super(props);
     this.props.navigator.setOnNavigatorEvent(this.handleNavigatorEvent);
   }
@@ -29,7 +37,7 @@ class ChatScreen extends React.Component<Props, State> {
     }
   };
 
-  handlePress = (variables: MessageParams, mutation) => {
+  handlePress = (variables: MessageParams, mutation: (input: { variables: MessageParams }) => void) => {
     mutation({ variables });
   };
 
@@ -37,7 +45,7 @@ class ChatScreen extends React.Component<Props, State> {
     const id = this.props.id;
     return (
       <ChatDetailsQuery variables={{ id }}>
-        {({ subscribeMessages, error, data, loading }) => {
+        {({ subscribeMessages, error, data, loading }: ChatDetailsOutput) => {
           if (loading) return <LoadingIndicator />;
           if (error) {
             return <ErrorMessage {...error} />;
@@ -49,7 +57,7 @@ class ChatScreen extends React.Component<Props, State> {
               <MessageList subscribeMessages={subscribeMessages} messages={chat.messages} />
 
               <CreateMessageMutation>
-                {({ createMessageMutation, loading, error, data }) => {
+                {({ createMessageMutation, loading, error }: CreateMessageOutput) => {
                   if (error) {
                     return <ErrorMessage {...error} />;
                   }

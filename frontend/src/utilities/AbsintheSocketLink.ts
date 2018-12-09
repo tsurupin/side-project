@@ -1,4 +1,4 @@
-import { observe, notifier, create } from '@absinthe/socket';
+import { create } from '@absinthe/socket';
 import { createAbsintheSocketLink } from '@absinthe/socket-apollo-link';
 import { Socket as PhoenixSocket } from 'phoenix';
 import { ApolloLink } from 'apollo-link';

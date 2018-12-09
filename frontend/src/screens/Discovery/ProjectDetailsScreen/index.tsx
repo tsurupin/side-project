@@ -7,7 +7,7 @@ import { BACK_ICON } from '../../../constants/icons';
 import { LikeProjectMutation } from '../../../mutations/projectLikes';
 import { LIKED_PROJECT_DETAILS_SCREEN, USER_DETAILS_SCREEN } from '../../../constants/screens';
 import { ProjectDetailsBox } from '../../../components/Discovery/ProjectDetailsScreen';
-import { ProjectDetail, GraphQLErrorMessage, LikeProjectParams } from '../../../interfaces';
+import { ProjectDetails, GraphQLErrorMessage, LikeProjectParams } from '../../../interfaces';
 import { LoadingIndicator, ErrorMessage } from '../../../components/Common';
 import IconLoader from '../../../utilities/IconLoader';
 type Props = {
@@ -16,7 +16,7 @@ type Props = {
 };
 
 type ProjectDetailOutput = {
-  data: { project: ProjectDetail };
+  data: { project: ProjectDetails };
   error: GraphQLErrorMessage | undefined;
   loading: boolean;
 };
@@ -73,7 +73,7 @@ class ProjectDetailsScreen extends React.Component<Props> {
           if (loading) return <LoadingIndicator />;
           if (error) return <ErrorMessage {...error} />;
 
-          const project: ProjectDetail = data.project;
+          const project: ProjectDetails = data.project;
 
           return (
             <LikeProjectMutation>

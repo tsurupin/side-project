@@ -28,7 +28,7 @@ class TextInputScreen extends React.Component<Props, State> {
       value: props.value,
       height: 0
     };
-    
+
     this.props.navigator.setOnNavigatorEvent(this.handleNavigatorEvent);
   }
 

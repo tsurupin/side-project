@@ -1,7 +1,7 @@
 import { DELETE_USER_PHOTO_MUTATION } from './deleteUserPhotoMutation';
 import { UPLOAD_USER_PHOTO_MUTATION } from './uploadUserPhotoMutation';
 import { EDIT_USER_MUTATION } from './editUserMutation';
-import { USER_DETAIL_QUERY } from './userDetailQuery';
+import { USER_DETAILS_QUERY } from './userDetailsQuery';
 import { MY_USER_QUERY } from './myUserQuery';
 import { USER_LIST_QUERY } from './userListQuery';
 import { USER_FRAGMENTS } from './userFragments';
@@ -15,7 +15,7 @@ export {
   UPLOAD_USER_PHOTO_MUTATION,
   EDIT_USER_MUTATION,
   USER_FRAGMENTS,
-  USER_DETAIL_QUERY,
+  USER_DETAILS_QUERY,
   USER_LIST_QUERY,
   MY_USER_QUERY,
   UPDATE_USER_SEARCH_PARMS_MUTATION,

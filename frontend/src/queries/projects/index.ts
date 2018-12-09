@@ -1,4 +1,4 @@
-import ProjectDetailsQuery from './ProjectDetailQuery';
+import ProjectDetailsQuery from './ProjectDetailsQuery';
 import ProjectListQuery from './ProjectListQuery';
 import MyProjectListQuery from './MyProjectListQuery';
 import EditableProjectListQuery from './EditableProjectListQuery';

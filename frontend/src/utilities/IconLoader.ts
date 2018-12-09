@@ -7,7 +7,7 @@ class IconLoader {
   icons: object;
 
   constructor() {
-    this.icons = {};
+    this.icons = {} as { [key: string]: any };
   }
 
   private loadIcon = (name: string) => {

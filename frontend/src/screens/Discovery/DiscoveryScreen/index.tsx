@@ -72,7 +72,6 @@ type ProjectListOutput = {
   data: { projects: ProjectCore[] };
 };
 
-
 const CONTROL_TABS = ['People', 'Projects'];
 
 class DiscoveryScreen extends React.Component<Props, State> {

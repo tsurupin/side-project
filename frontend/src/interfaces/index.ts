@@ -28,7 +28,7 @@ export interface UserPhoto {
   userId?: string;
 }
 
-export interface UserDetail extends UserCore {
+export interface UserDetails extends UserCore {
   introduction: string | undefined;
   occupation: string | undefined;
   genre: Genre | undefined;
@@ -106,7 +106,7 @@ export interface ProjectPhoto {
   projectId?: string;
 }
 
-export interface ProjectDetail extends ProjectCore {
+export interface ProjectDetails extends ProjectCore {
   leadSentence: string;
   status: string;
   motivation: string | undefined;
@@ -130,6 +130,7 @@ export interface ProjectSearchSubmitParams {
   skillIds?: string[];
 }
 export interface ProjectEditParams {
+  id: string;
   title?: string;
   leadSentence?: string;
   motivation?: string;
@@ -162,6 +163,7 @@ export interface Chat {
   lastComment?: string | undefined;
   lastCommentedAt?: string | undefined;
   imageUrl?: string;
+  messages: Message[];
 }
 
 export interface Message {
@@ -204,4 +206,9 @@ export interface SignUpParams {
 
 export interface LoginParams {
   logined: boolean;
+}
+
+export interface MinimumOutput {
+  loading: boolean;
+  error: GraphQLErrorMessage | undefined;
 }

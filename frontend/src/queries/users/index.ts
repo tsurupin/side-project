@@ -1,4 +1,4 @@
-import UserDetailsQuery from './UserDetailQuery';
+import UserDetailsQuery from './UserDetailsQuery';
 import UserListQuery from './UserListQuery';
 import MyUserQuery from './MyUserQuery';
 import UserSearchFormQuery from './UserSearchFormQuery';

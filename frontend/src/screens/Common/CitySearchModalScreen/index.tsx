@@ -1,12 +1,12 @@
 import * as React from 'react';
-import { View, Text, Button } from 'react-native';
+import { View, Button } from 'react-native';
 
 import { CityList } from '../../../components/Common/CitySearchModalScreen';
 import { CLOSE_BUTTON } from '../../../constants/buttons';
 import { CityListQuery } from '../../../queries/cities';
 import { SearchInput, ErrorMessage, LoadingIndicator } from '../../../components/Common';
 import { FindOrCreateCityMutation } from '../../../mutations/cities';
-import { City, CityEditParams, GraphQLErrorMessage } from '../../../interfaces';
+import { City, CityEditParams, MinimumOutput } from '../../../interfaces';
 import { fetchAddress } from '../../../utilities/geocoder';
 import styles from './styles';
 
@@ -26,16 +26,12 @@ type State = {
 
 type CityListOutput = {
   data: { cityList: City[] } | undefined;
-  loading: boolean;
-  error: GraphQLErrorMessage | undefined;
-};
+} & MinimumOutput;
 
 type FindOrCreateCityMutationOutput = {
   findOrCreateCityMutation: (input: { variables: CityEditParams }) => void;
   data: { findOrCreateCity: City } | undefined;
-  loading: boolean;
-  error: GraphQLErrorMessage | undefined;
-};
+} & MinimumOutput;
 
 class CitySearchModalScreen extends React.Component<Props, State> {
   static defaultProps = {

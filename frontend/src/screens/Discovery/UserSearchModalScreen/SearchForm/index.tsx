@@ -8,7 +8,7 @@ import { APPLY_BUTTON, CLOSE_BUTTON } from '../../../../constants/buttons';
 
 import { Skill, Genre, Location, OccupationType, UserSearchParams } from '../../../../interfaces';
 import IconLoader from '../../../../utilities/IconLoader';
-import { CLOSE_ICON, PLUS_ICON, MINUS_CIRCLE_ICON, ICON_MAIN_TYPE } from '../../../../constants/icons';
+import { CLOSE_ICON, PLUS_ICON, MINUS_CIRCLE_ICON, ICON_MAIN_TYPE, SMALL_ICON_SIZE, ICON_BLACK_COLOR } from '../../../../constants/icons';
 import styles from './styles';
 
 type Props = {
@@ -31,6 +31,8 @@ type State = {
   skills: Skill[];
 };
 
+type KeyNames = "genreId" | "occupationTypeId" | "location" | "isActive" | "skills" | "distance";
+
 const DISTANCES = [
   {
     name: '5 miles',
@@ -49,6 +51,11 @@ const DISTANCES = [
     value: undefined
   }
 ];
+
+const updateState = (key: keyof State, value: string | number | boolean) => (prevState: State): State => ({
+  ...prevState,
+  [key]: value
+});
 
 class SearchForm extends React.Component<Props, State> {
   static defaultProps = {};
@@ -104,14 +111,11 @@ class SearchForm extends React.Component<Props, State> {
     });
   };
 
-  private handleChangeValue = (key: string, value: string | number | boolean) => {
+  private handleChangeValue = (key: KeyNames, value: string | number | boolean) => {
     if (key === 'distance') {
       this.handleChangeLocationValue(value as number);
     } else {
-      const changeAttr = {};
-      changeAttr[key] = value;
-
-      this.setState(changeAttr);
+      this.setState(updateState(key, value));
     }
   };
 
@@ -126,8 +130,7 @@ class SearchForm extends React.Component<Props, State> {
         };
         this.setState({ location });
       },
-      async (error) => {
-        console.log(error);
+      async () => {
         Alert.alert('Needs to turn location on');
       }
     );
@@ -174,7 +177,7 @@ class SearchForm extends React.Component<Props, State> {
     return <FlatList data={this.state.skills} renderItem={this.renderSkill} />;
   };
 
-  private renderSkill = (data) => {
+  private renderSkill = (data: { item: Skill }) => {
     const skill: Skill = data.item;
     return (
       <ListItem key={skill.id} title={skill.name} bottomDivider rightIcon={this.renderSkillRemoveIcon(skill.id)} />
@@ -182,7 +185,7 @@ class SearchForm extends React.Component<Props, State> {
   };
 
   private renderSkillAddIcon = () => {
-    return <Icon type={ICON_MAIN_TYPE} name={PLUS_ICON} size={24} color="black" />;
+    return <Icon type={ICON_MAIN_TYPE} name={PLUS_ICON} size={SMALL_ICON_SIZE} color={ICON_BLACK_COLOR} />;
   };
 
   private renderSkillRemoveIcon = (skillId: string) => {
@@ -190,8 +193,8 @@ class SearchForm extends React.Component<Props, State> {
       <Icon
         type={ICON_MAIN_TYPE}
         name={MINUS_CIRCLE_ICON}
-        size={24}
-        color="black"
+        size={SMALL_ICON_SIZE}
+        color={ICON_BLACK_COLOR}
         onPress={() => this.handleDeleteSkill(skillId)}
       />
     );
