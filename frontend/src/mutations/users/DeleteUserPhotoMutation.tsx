@@ -19,7 +19,7 @@ const DeleteUserPhotoMutation = (props: Props) => {
         const user: UserDetails | null = cache.readFragment({
           id: fragmentId,
           fragment: USER_FRAGMENTS.userDetails
-        }); 
+        });
         const photos = user!.photos.filter((photo: UserPhoto) => photo.id !== deleteUserPhoto.id);
 
         cache.writeFragment({

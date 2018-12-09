@@ -56,9 +56,8 @@ class TokenManager {
 
     if (this.expiredAtInUnix && this.expiredAtInUnix > this.getCurrentTimeInUnix()) {
       return this.token;
-    } else {
-      return undefined;
     }
+    return undefined;
   };
 
   public getToken = async (): Promise<string | undefined> => {

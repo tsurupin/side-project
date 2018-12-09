@@ -8,7 +8,14 @@ import { APPLY_BUTTON, CLOSE_BUTTON } from '../../../../constants/buttons';
 
 import { Skill, Genre, Location, OccupationType, UserSearchParams } from '../../../../interfaces';
 import IconLoader from '../../../../utilities/IconLoader';
-import { CLOSE_ICON, PLUS_ICON, MINUS_CIRCLE_ICON, ICON_MAIN_TYPE, SMALL_ICON_SIZE, ICON_BLACK_COLOR } from '../../../../constants/icons';
+import {
+  CLOSE_ICON,
+  PLUS_ICON,
+  MINUS_CIRCLE_ICON,
+  ICON_MAIN_TYPE,
+  SMALL_ICON_SIZE,
+  ICON_BLACK_COLOR
+} from '../../../../constants/icons';
 import styles from './styles';
 
 type Props = {
@@ -31,7 +38,7 @@ type State = {
   skills: Skill[];
 };
 
-type KeyNames = "genreId" | "occupationTypeId" | "location" | "isActive" | "skills" | "distance";
+type KeyNames = 'genreId' | 'occupationTypeId' | 'location' | 'isActive' | 'skills' | 'distance';
 
 const DISTANCES = [
   {

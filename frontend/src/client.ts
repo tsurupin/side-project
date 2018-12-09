@@ -4,7 +4,6 @@ import { InMemoryCache } from 'apollo-cache-inmemory';
 import { ApolloLink, split } from 'apollo-link';
 import { ApolloClient } from 'apollo-client';
 import { withClientState } from 'apollo-link-state';
-import { createHttpLink } from 'apollo-link-http';
 import { createUploadLink } from '@richeterre/apollo-upload-client';
 
 import { onError } from 'apollo-link-error';
@@ -62,25 +61,25 @@ const stateLink = withClientState({
     logined: false,
     userSearchParams: {
       __typename: 'UserSearchParams',
-      genreId: null,
-      occupationTypeId: null,
+      genreId: undefined,
+      occupationTypeId: undefined,
       isActive: false,
       skills: [],
       location: {
         __typename: 'UserSearchParamsLocation',
-        latitude: null,
-        longitude: null,
-        distance: null
+        latitude: undefined,
+        longitude: undefined,
+        distance: undefined
       }
     },
     projectSearchParams: {
       __typename: 'ProjectSearchParams',
-      genreId: null,
+      genreId: undefined,
       skills: [],
       city: {
         __typename: 'ProjectSearchParamsCity',
-        id: null,
-        fullName: null
+        id: undefined,
+        fullName: undefined
       }
     }
   },

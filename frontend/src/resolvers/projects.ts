@@ -28,7 +28,7 @@ const updateProjectSearchParams = (_: any, { projectSearchParams }: InputData, {
     }
   });
 
-  return null;
+  return undefined;
 };
 
 export { updateProjectSearchParams };

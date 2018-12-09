@@ -99,7 +99,7 @@ class EditForm extends React.Component<Props, State> {
 
   private buildUserEditParams = (): UserEditParams => {
     const { user } = this.props;
-    const params = {};
+    const params = {} as { [key: string]: any };
     const stringKeys = [
       'displayName',
       'introduction',

@@ -25,7 +25,7 @@ const updateUserSearchParams = (_, { userSearchParams }: InputData, { cache }: C
     }
   });
 
-  return null;
+  return undefined;
 };
 
 export { updateUserSearchParams };
