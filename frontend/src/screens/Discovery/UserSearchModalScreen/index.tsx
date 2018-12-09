@@ -29,7 +29,7 @@ class UserSearchFormScreen extends React.Component<Props> {
     console.log('OnSubmit', searchParams);
     updateUserSearchParamsMutation({ variables: searchParams });
     this.props.onSubmit(searchParams);
-  }
+  };
 
   render() {
     return (

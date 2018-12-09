@@ -2,7 +2,7 @@ import * as React from 'react';
 import { View, ScrollView } from 'react-native';
 import { ErrorMessage, LoadingIndicator } from '../../../components/Common';
 import { EditForm } from '../../../components/Project/Common';
-import { ProjectEditParams } from '../../../interfaces';
+import { ProjectEditParams, Genre, MinimumOutput } from '../../../interfaces';
 import { ProjectFormQuery } from '../../../queries/projects';
 import { CreateProjectMutation } from '../../../mutations/projects';
 import { PROJECT_DETAILS_SCREEN } from '../../../constants/screens';
@@ -13,19 +13,34 @@ type Props = {
   navigator: any;
 };
 
+type DefaultProps = {
+  genres: Genre[];
+};
+
+type ProjectFormOutput = {
+  data: { projectForm: DefaultProps };
+} & MinimumOutput;
+
+type CreateProjectOutput = {
+  createProjectMutation: (input: { variables: ProjectEditParams }) => void;
+  data: { createProject: { id: string } };
+} & MinimumOutput;
 class ProjectNewScreen extends React.Component<Props> {
-  constructor(props) {
+  constructor(props: Props) {
     super(props);
   }
 
-  private handleSubmit = (variables: ProjectEditParams, createProjectMutation: any) => {
+  private handleSubmit = (
+    variables: ProjectEditParams,
+    createProjectMutation: (input: { variables: ProjectEditParams }) => void
+  ) => {
     createProjectMutation({ variables });
-  }
+  };
 
   render() {
     return (
       <ProjectFormQuery>
-        {({ data, loading, error }) => {
+        {({ data, loading, error }: ProjectFormOutput) => {
           if (loading) return <LoadingIndicator />;
           if (error) return <ErrorMessage {...error} />;
 
@@ -38,7 +53,7 @@ class ProjectNewScreen extends React.Component<Props> {
                 style={styles.innerContainer}
               >
                 <CreateProjectMutation>
-                  {({ createProjectMutation, data, loading, error }) => {
+                  {({ createProjectMutation, data, loading, error }: CreateProjectOutput) => {
                     if (loading) return <LoadingIndicator />;
                     if (error) return <ErrorMessage {...error} />;
                     if (data) {

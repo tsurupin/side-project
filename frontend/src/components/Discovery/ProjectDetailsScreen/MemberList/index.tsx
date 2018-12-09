@@ -45,7 +45,7 @@ class MemberList extends React.Component<Props, State> {
     Animated.spring(this.state.currentHeight, {
       toValue: finalValue
     }).start();
-  }
+  };
 
   private renderUserListToggleIcon = () => {
     return (
@@ -58,7 +58,7 @@ class MemberList extends React.Component<Props, State> {
         onPress={() => this.toggle()}
       />
     );
-  }
+  };
 
   render() {
     const { members, onPressUser } = this.props;

@@ -5,14 +5,21 @@ import {
   SELECT_BOX_PICKER_SCREEN
 } from '../../../../constants/screens';
 
-import { View, FlatList, Alert } from 'react-native';
+import { View, FlatList } from 'react-native';
 import { ListItem, Icon } from 'react-native-elements';
 import { SelectBox } from '../../../../components/Common';
 import { APPLY_BUTTON, CLOSE_BUTTON } from '../../../../constants/buttons';
 
 import { Skill, Genre, City, ProjectSearchParams } from '../../../../interfaces';
 import IconLoader from '../../../../utilities/IconLoader';
-import { CLOSE_ICON, MINUS_CIRCLE_ICON, PLUS_ICON, ICON_MAIN_TYPE } from '../../../../constants/icons';
+import {
+  CLOSE_ICON,
+  MINUS_CIRCLE_ICON,
+  PLUS_ICON,
+  ICON_MAIN_TYPE,
+  SMALL_ICON_SIZE,
+  ICON_BLACK_COLOR
+} from '../../../../constants/icons';
 import styles from './styles';
 
 type Props = {
@@ -30,8 +37,13 @@ type State = {
   skills: Skill[];
 };
 
+const updateState = (key: keyof State, value: string | number | boolean) => (prevState: State): State => ({
+  ...prevState,
+  [key]: value
+});
+
 class SearchForm extends React.Component<Props, State> {
-  constructor(props) {
+  constructor(props: Props) {
     super(props);
     this.state = {
       genreId: props.genreId,
@@ -59,7 +71,7 @@ class SearchForm extends React.Component<Props, State> {
         this.props.navigator.dismissModal();
         break;
     }
-  }
+  };
 
   private handleSkillSearchShowModal = () => {
     this.props.navigator.showModal({
@@ -77,24 +89,21 @@ class SearchForm extends React.Component<Props, State> {
         ]
       }
     });
-  }
+  };
 
-  private handleChangeValue = (key: string, value: string | number | boolean) => {
-    const changeAttr = {};
-    changeAttr[key] = value;
-
-    this.setState(changeAttr);
-  }
+  private handleChangeValue = (key: keyof State, value: string | number | boolean) => {
+    this.setState(updateState(key, value));
+  };
 
   private handleAddSkill = (skill: Skill) => {
     const skills = Array.from(new Set(this.state.skills.concat(skill)));
     this.setState({ skills });
-  }
+  };
 
-  private handleDeleteSkill = (id: string) => {
-    const skills = this.state.skills.filter((skill) => skill.id !== id);
+  private handleDeleteSkill = (skillId: string) => {
+    const skills = this.state.skills.filter((skill) => skill.id !== skillId);
     this.setState({ skills });
-  }
+  };
 
   private handlePressShowModal = (items: any[], keyName: string, selectedValue: string | number | undefined) => {
     this.props.navigator.showModal({
@@ -115,7 +124,7 @@ class SearchForm extends React.Component<Props, State> {
         ]
       }
     });
-  }
+  };
 
   private handleCitySearchShowModal = () => {
     this.props.navigator.showModal({
@@ -132,45 +141,43 @@ class SearchForm extends React.Component<Props, State> {
         ]
       }
     });
-  }
+  };
 
   private handleAddCity = (city: City) => {
     this.setState({ city });
-  }
+  };
 
   private renderSkillList = () => {
     return <FlatList data={this.state.skills} renderItem={this.renderSkill} />;
-  }
+  };
 
-  private renderSkill = (data) => {
+  private renderSkill = (data: { item: Skill }) => {
     const skill: Skill = data.item;
     return (
       <ListItem key={skill.id} title={skill.name} bottomDivider rightIcon={this.renderSkillRemoveIcon(skill.id)} />
     );
-  }
+  };
 
   private renderSkillAddIcon = () => {
-    return <Icon type={ICON_MAIN_TYPE} name={PLUS_ICON} size={24} color="black" />;
-  }
+    return <Icon type={ICON_MAIN_TYPE} name={PLUS_ICON} size={SMALL_ICON_SIZE} color={ICON_BLACK_COLOR} />;
+  };
 
   private renderSkillRemoveIcon = (skillId: string) => {
     return (
       <Icon
         type={ICON_MAIN_TYPE}
         name={MINUS_CIRCLE_ICON}
-        size={24}
-        color="black"
+        size={SMALL_ICON_SIZE}
+        color={ICON_BLACK_COLOR}
         onPress={() => this.handleDeleteSkill(skillId)}
       />
     );
-  }
+  };
 
   render() {
     const { genreId, city } = this.state;
 
     const { genres } = this.props;
-
-    console.log('city search form', city);
 
     return (
       <View style={styles.container}>

@@ -1,20 +1,24 @@
 import * as React from 'react';
 import { View } from 'react-native';
 import { MyProjectListQuery } from '../../../../queries/projects';
-import { ProjectCore } from '../../../../interfaces';
+import { ProjectCore, MinimumOutput } from '../../../../interfaces';
 import { ProjectList } from '../../../../components/Project/Common';
 import { LoadingIndicator, ErrorMessage } from '../../../../components/Common';
 
 type Props = {
-  onPress: (string) => void;
+  onPress: (id: string) => void;
 };
+
+type MyProjectOutput = {
+  data: { myProjects: ProjectCore[] };
+} & MinimumOutput;
 
 const MyProjectList: React.SFC<Props> = (props) => {
   const { onPress } = props;
   return (
     <View>
       <MyProjectListQuery>
-        {({ data, loading, error }) => {
+        {({ data, loading, error }: MyProjectOutput) => {
           if (loading) return <LoadingIndicator />;
           if (error) return <ErrorMessage {...error} />;
 

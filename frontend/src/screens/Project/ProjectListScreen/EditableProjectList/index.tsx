@@ -1,21 +1,24 @@
 import * as React from 'react';
-import { View, Text } from 'react-native';
+import { View } from 'react-native';
 import { EditableProjectListQuery } from '../../../../queries/projects';
-import { ProjectCore } from '../../../../interfaces';
+import { ProjectCore, MinimumOutput } from '../../../../interfaces';
 import { ProjectList } from '../../../../components/Project/Common';
 import { LoadingIndicator, ErrorMessage } from '../../../../components/Common';
 
 type Props = {
-  onPress: (string) => void;
+  onPress: (id: string) => void;
 };
+
+type EditableProjectListOutput = {
+  data: { editableProjects: ProjectCore[] };
+} & MinimumOutput;
 
 const EditableProjectList: React.SFC<Props> = (props) => {
   const { onPress } = props;
   return (
     <View>
       <EditableProjectListQuery>
-        {({ data, loading, error }) => {
-          console.log(error, data);
+        {({ data, loading, error }: EditableProjectListOutput) => {
           if (loading) return <LoadingIndicator />;
           if (error) return <ErrorMessage {...error} />;
 

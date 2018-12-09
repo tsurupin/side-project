@@ -3,7 +3,7 @@ import { Query } from 'react-apollo';
 import { USER_DETAILS_QUERY } from '../../graphql/users';
 
 type Props = {
-  variables: { id: number };
+  variables: { id: string };
   children: any;
 };
 

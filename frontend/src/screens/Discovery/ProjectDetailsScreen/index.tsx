@@ -1,19 +1,31 @@
 import * as React from 'react';
-import { View, TouchableOpacity, Text, Button } from 'react-native';
+import { View } from 'react-native';
 import { ProjectDetailsQuery } from '../../../queries/projects';
 import { BACK_BUTTON } from '../../../constants/buttons';
 import { BACK_ICON } from '../../../constants/icons';
 
-import styles from './styles';
 import { LikeProjectMutation } from '../../../mutations/projectLikes';
 import { LIKED_PROJECT_DETAILS_SCREEN, USER_DETAILS_SCREEN } from '../../../constants/screens';
 import { ProjectDetailsBox } from '../../../components/Discovery/ProjectDetailsScreen';
-import { ProjectDetails } from '../../../interfaces';
+import { ProjectDetails, GraphQLErrorMessage, LikeProjectParams } from '../../../interfaces';
 import { LoadingIndicator, ErrorMessage } from '../../../components/Common';
 import IconLoader from '../../../utilities/IconLoader';
 type Props = {
   id: string;
   navigator: any;
+};
+
+type ProjectDetailOutput = {
+  data: { project: ProjectDetails };
+  error: GraphQLErrorMessage | undefined;
+  loading: boolean;
+};
+
+type LikeProjectOutput = {
+  data: any;
+  likeProjectMutation: (input: { variables: LikeProjectParams }) => void;
+  error: GraphQLErrorMessage | undefined;
+  loading: boolean;
 };
 
 class ProjectDetailsScreen extends React.Component<Props> {
@@ -30,11 +42,11 @@ class ProjectDetailsScreen extends React.Component<Props> {
       case BACK_BUTTON:
         this.props.navigator.pop();
     }
-  }
+  };
 
-  private handlePress = (likeProjectMutation) => {
+  private handlePress = (likeProjectMutation: (input: { variables: LikeProjectParams }) => void) => {
     likeProjectMutation({ variables: { projectId: this.props.id } });
-  }
+  };
 
   private handleUserPress = (userId: string) => {
     this.props.navigator.push({
@@ -51,13 +63,13 @@ class ProjectDetailsScreen extends React.Component<Props> {
         ]
       }
     });
-  }
+  };
 
   render() {
     const { id } = this.props;
     return (
       <ProjectDetailsQuery variables={{ id }}>
-        {({ data, loading, error }) => {
+        {({ data, loading, error }: ProjectDetailOutput) => {
           if (loading) return <LoadingIndicator />;
           if (error) return <ErrorMessage {...error} />;
 
@@ -65,7 +77,7 @@ class ProjectDetailsScreen extends React.Component<Props> {
 
           return (
             <LikeProjectMutation>
-              {({ likeProjectMutation, data, loading, error }) => {
+              {({ likeProjectMutation, data, loading, error }: LikeProjectOutput) => {
                 if (loading) return <LoadingIndicator />;
                 if (error) return <ErrorMessage {...error} />;
                 if (data) {

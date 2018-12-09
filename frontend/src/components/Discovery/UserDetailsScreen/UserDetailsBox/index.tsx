@@ -58,7 +58,7 @@ const renderResponseLikeContainer = (rejectLike: () => void, acceptLike: () => v
   );
 };
 
-const renderLikeContainer = (like: () => void | undefined) => {
+const renderLikeContainer = (like: () => void) => {
   return (
     <View style={styles.likeContainer}>
       <Icon

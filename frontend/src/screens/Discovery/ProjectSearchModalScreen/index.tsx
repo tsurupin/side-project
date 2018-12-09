@@ -1,11 +1,9 @@
 import * as React from 'react';
-import { View } from 'react-native';
-import { Genre, Skill, City } from '../../../interfaces';
+import { Skill, City, Genre, GraphQLErrorMessage } from '../../../interfaces';
 import { ProjectSearchFormQuery } from '../../../queries/projects';
 import { UpdateProjectSearchParamsMutation } from '../../../mutations/projects';
 import SearchForm from './SearchForm';
 
-import styles from './styles';
 import { ErrorMessage, LoadingIndicator } from '../../../components/Common';
 
 type ProjectSearchParams = {
@@ -19,21 +17,37 @@ type Props = {
   onSubmit: (searchParams: ProjectSearchParams) => void;
 };
 
+type ProjectSearchFormOutput = {
+  loading: boolean;
+  error: GraphQLErrorMessage | undefined;
+  data: {
+    projectSearchForm: { genres: Genre[] };
+    projectSearchParams: ProjectSearchParams;
+  };
+};
+
+type UpdateProjectSearchOutput = {
+  error: GraphQLErrorMessage | undefined;
+  updateProjectSearchParamsMutation: (input: { variables: ProjectSearchParams }) => void;
+};
+
 class ProjectSearchFormScreen extends React.Component<Props> {
-  constructor(props) {
+  constructor(props: Props) {
     super(props);
   }
 
-  private onSubmit = (searchParams: ProjectSearchParams, updateProjectSearchParamsMutation) => {
-    console.log('OnSubmit', searchParams);
-    updateProjectSearchParamsMutation({ variables: searchParams });
+  private onSubmit = (
+    searchParams: ProjectSearchParams,
+    mutation: (input: { variables: ProjectSearchParams }) => void
+  ) => {
+    mutation({ variables: searchParams });
     this.props.onSubmit(searchParams);
-  }
+  };
 
   render() {
     return (
       <ProjectSearchFormQuery>
-        {({ data, loading, error }) => {
+        {({ data, loading, error }: ProjectSearchFormOutput) => {
           if (loading) {
             return <LoadingIndicator />;
           }
@@ -47,10 +61,9 @@ class ProjectSearchFormScreen extends React.Component<Props> {
             projectSearchParams
           } = data;
 
-          console.log('current search', projectSearchParams);
           return (
             <UpdateProjectSearchParamsMutation>
-              {({ updateProjectSearchParamsMutation, error }) => {
+              {({ updateProjectSearchParamsMutation, error }: UpdateProjectSearchOutput) => {
                 if (error) {
                   return <ErrorMessage {...error} />;
                 }

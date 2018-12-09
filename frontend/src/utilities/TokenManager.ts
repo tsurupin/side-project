@@ -16,7 +16,7 @@ class TokenManager {
 
   public registerObserver = (observer: any) => {
     this.observers.push(observer);
-  }
+  };
 
   public removeToken = async () => {
     await AsyncStorage.removeItem(TOKEN);
@@ -28,7 +28,7 @@ class TokenManager {
     });
     this.expiredAtInUnix = undefined;
     this.token = undefined;
-  }
+  };
 
   public setToken = async (token: string, refreshToken: string, validTimeInUnix: number = 3600) => {
     if (this.token && this.token === token) {
@@ -45,21 +45,20 @@ class TokenManager {
 
     this.expiredAtInUnix = expiredAtInUnix;
     this.token = token;
-  }
+  };
 
   private getCurrentTimeInUnix = (): number => {
     return Math.floor(Date.now() / 1000);
-  }
+  };
 
   public getCachedToken = (): string | undefined => {
     if (!this.token) return undefined;
 
     if (this.expiredAtInUnix && this.expiredAtInUnix > this.getCurrentTimeInUnix()) {
       return this.token;
-    } else {
-      return undefined;
     }
-  }
+    return undefined;
+  };
 
   public getToken = async (): Promise<string | undefined> => {
     const currentToken = await AsyncStorage.getItem(TOKEN);
@@ -76,16 +75,16 @@ class TokenManager {
       return currentToken;
     }
     return undefined;
-  }
+  };
 
   public getRefreshToken = async (): Promise<string | undefined> => {
     return await AsyncStorage.getItem(REFRESH_TOKEN);
-  }
+  };
 
   public hasActiveToken = async (): Promise<boolean> => {
     const token = await this.getToken();
     return token ? true : false;
-  }
+  };
 }
 
 export default new TokenManager();

@@ -1,12 +1,11 @@
 import * as React from 'react';
-import { View, Text } from 'react-native';
+import { View } from 'react-native';
 
-import { USER_SEARCH_MODAL_SCREEN } from '../../../constants/screens';
 import { SkillList } from '../../../components/Common/SkillSearchModalScreen';
-import { CLOSE_BUTTON, BACK_BUTTON } from '../../../constants/buttons';
+import { CLOSE_BUTTON } from '../../../constants/buttons';
 import { SkillsQuery } from '../../../queries/skills';
 import { LoadingIndicator, ErrorMessage, SearchInput } from '../../../components/Common';
-import { Skill } from '../../../interfaces';
+import { Skill, GraphQLErrorMessage } from '../../../interfaces';
 
 import styles from './styles';
 
@@ -16,10 +15,18 @@ type Props = {
   onPress: (skill: Skill) => void;
 };
 
-type State = {
+const initialState = {
+  loading: false,
+  name: '',
+  errorMessage: ''
+};
+
+type State = Readonly<typeof initialState>;
+
+type SkillsQueryOutput = {
+  data: { skills: Skill[] };
+  error: GraphQLErrorMessage | undefined;
   loading: boolean;
-  name: string;
-  errorMessage: string;
 };
 
 class SkillSearchModalScreen extends React.Component<Props, State> {
@@ -27,14 +34,10 @@ class SkillSearchModalScreen extends React.Component<Props, State> {
     skills: []
   };
 
-  constructor(props) {
-    super(props);
+  state = initialState;
 
-    this.state = {
-      loading: false,
-      name: '',
-      errorMessage: ''
-    };
+  constructor(props: Props) {
+    super(props);
 
     this.props.navigator.setOnNavigatorEvent(this.handleNavigationEvent);
   }
@@ -48,22 +51,22 @@ class SkillSearchModalScreen extends React.Component<Props, State> {
         this.props.navigator.dismissModal();
         break;
     }
-  }
+  };
 
   private onPressSkill = (skill: Skill) => {
     this.props.onPress(skill);
     this.props.navigator.dismissModal();
-  }
+  };
 
   private handleChangeText = (name: string) => {
     this.setState({ name });
-  }
+  };
 
   private renderSkillList = () => {
     const { name } = this.state;
     return (
       <SkillsQuery variables={{ name }}>
-        {({ data, error, loading }) => {
+        {({ data, error, loading }: SkillsQueryOutput) => {
           if (loading) return <LoadingIndicator />;
 
           if (error) return <ErrorMessage {...error} />;
@@ -74,12 +77,12 @@ class SkillSearchModalScreen extends React.Component<Props, State> {
         }}
       </SkillsQuery>
     );
-  }
+  };
 
   private renderTextForm = () => {
     const { name } = this.state;
     return <SearchInput name={name} onChangeText={this.handleChangeText} />;
-  }
+  };
 
   render() {
     return (

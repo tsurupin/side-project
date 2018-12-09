@@ -1,4 +1,4 @@
-import { observe, notifier, create } from '@absinthe/socket';
+import { create } from '@absinthe/socket';
 import { createAbsintheSocketLink } from '@absinthe/socket-apollo-link';
 import { Socket as PhoenixSocket } from 'phoenix';
 import { ApolloLink } from 'apollo-link';
@@ -56,7 +56,7 @@ class AbsintheSocketLink extends ApolloLink {
     // this.socket = createAbsintheSocket(token);
     console.log(this.socket);
     // this.link = createAbsintheSocketLink(this.socket);
-  }
+  };
 }
 
 const absintheSocketLink = new AbsintheSocketLink();

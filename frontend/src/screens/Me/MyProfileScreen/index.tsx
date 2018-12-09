@@ -3,10 +3,9 @@ import { ErrorMessage, LoadingIndicator } from '../../../components/Common';
 import { UserDetailsBox } from '../../../components/Discovery/UserDetailsScreen';
 import { USER_EDIT_SCREEN } from '../../../constants/screens';
 import { MyUserQuery } from '../../../queries/users';
-import { UserDetails } from '../../../interfaces';
+import { UserDetails, MinimumOutput } from '../../../interfaces';
 import { USER_EDIT_BUTTON, BACK_BUTTON, SUBMIT_BUTTON, CLOSE_BUTTON } from '../../../constants/buttons';
 
-import styles from './styles';
 import { CLOSE_ICON } from '../../../constants/icons';
 import iconLoader from '../../../utilities/IconLoader';
 
@@ -14,9 +13,12 @@ type Props = {
   navigator: any;
 };
 
-type State = {};
-class MyProfileScreen extends React.Component<Props, State> {
-  constructor(props) {
+type MyUserOutput = {
+  data: { myUser: UserDetails };
+} & MinimumOutput;
+
+class MyProfileScreen extends React.Component<Props> {
+  constructor(props: Props) {
     super(props);
     this.props.navigator.setOnNavigatorEvent(this.handleNavigatorEvent);
   }
@@ -24,7 +26,6 @@ class MyProfileScreen extends React.Component<Props, State> {
   private handleNavigatorEvent = (e) => {
     if (e.type !== 'NavBarButtonPress') return;
 
-    console.log(e);
     switch (e.id) {
       case USER_EDIT_BUTTON:
         this.props.navigator.showModal({
@@ -47,12 +48,12 @@ class MyProfileScreen extends React.Component<Props, State> {
       case BACK_BUTTON:
         this.props.navigator.pop();
     }
-  }
+  };
 
   render() {
     return (
       <MyUserQuery>
-        {({ data, loading, error }) => {
+        {({ data, loading, error }: MyUserOutput) => {
           if (loading) return <LoadingIndicator />;
           if (error) return <ErrorMessage {...error} />;
 

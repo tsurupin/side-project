@@ -130,6 +130,7 @@ export interface ProjectSearchSubmitParams {
   skillIds?: string[];
 }
 export interface ProjectEditParams {
+  id: string;
   title?: string;
   leadSentence?: string;
   motivation?: string;
@@ -139,9 +140,17 @@ export interface ProjectEditParams {
   skillIds?: string[];
 }
 
+export interface LikeProjectParams {
+  projectId: string;
+}
+
 export interface UploadPhotoParams {
   photo: string;
   rank: number;
+}
+
+export interface DeletePhotoParams {
+  photoId: string;
 }
 
 export interface ProjectUploadParams extends UploadPhotoParams {
@@ -154,6 +163,7 @@ export interface Chat {
   lastComment?: string | undefined;
   lastCommentedAt?: string | undefined;
   imageUrl?: string;
+  messages: Message[];
 }
 
 export interface Message {
@@ -187,4 +197,18 @@ export interface GraphQLErrorMessage {
   message: string;
   networkError: string | undefined;
   extraInfo: string | undefined;
+}
+
+export interface SignUpParams {
+  providerId: string;
+  uid: string;
+}
+
+export interface LoginParams {
+  logined: boolean;
+}
+
+export interface MinimumOutput {
+  loading: boolean;
+  error: GraphQLErrorMessage | undefined;
 }

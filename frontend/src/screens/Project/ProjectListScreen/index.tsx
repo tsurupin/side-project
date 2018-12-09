@@ -1,8 +1,8 @@
 import * as React from 'react';
-import { View, Text } from 'react-native';
+import { View } from 'react-native';
 import MyProjectList from './MyProjectList';
 import EditableProjectList from './EditableProjectList';
-import { LIKED_PROJECT_DETAILS_SCREEN, PROJECT_EDIT_SCREEN } from '../../../constants/screens';
+import { LIKED_PROJECT_DETAILS_SCREEN, PROJECT_EDIT_SCREEN, PROJECT_NEW_SCREEN } from '../../../constants/screens';
 import {
   PROJECT_NEW_BUTTON,
   PROJECT_ACTION_SHEET_BUTTON,
@@ -12,7 +12,6 @@ import {
 } from '../../../constants/buttons';
 import { CLOSE_ICON, BACK_ICON } from '../../../constants/icons';
 import IconLoader from '../../../utilities/IconLoader';
-import { PROJECT_NEW_SCREEN } from '../../../constants/screens';
 import { CustomizedSegmentedControlTab } from '../../../components/Common';
 import styles from './styles';
 
@@ -27,7 +26,7 @@ const LIKED_PROJECT_INDEX = 0;
 const CONTROL_TABS = ['Liked', 'Admin'];
 
 class ProjectListScreen extends React.Component<Props, State> {
-  constructor(props) {
+  constructor(props: Props) {
     super(props);
 
     this.state = {
@@ -59,11 +58,11 @@ class ProjectListScreen extends React.Component<Props, State> {
           }
         });
     }
-  }
+  };
 
   private handleIndexChange = (selectedIndex: number): void => {
     this.setState({ selectedIndex });
-  }
+  };
 
   private handleLikedProjectPress = (id: string) => {
     this.props.navigator.push({
@@ -84,7 +83,7 @@ class ProjectListScreen extends React.Component<Props, State> {
         ]
       }
     });
-  }
+  };
 
   private handleEditableProjectPress = (id: string) => {
     this.props.navigator.showModal({
@@ -105,15 +104,14 @@ class ProjectListScreen extends React.Component<Props, State> {
         ]
       }
     });
-  }
+  };
 
   private renderProjectList = () => {
     if (this.state.selectedIndex === 0) {
       return <MyProjectList onPress={this.handleLikedProjectPress} />;
-    } else {
-      return <EditableProjectList onPress={this.handleEditableProjectPress} />;
     }
-  }
+    return <EditableProjectList onPress={this.handleEditableProjectPress} />;
+  };
 
   render() {
     return (

@@ -1,13 +1,12 @@
 import * as React from 'react';
 import { ErrorMessage, LoadingIndicator } from '../../../components/Common';
-import { View, Button } from 'react-native';
-import { ListItem } from 'react-native-elements';
+import { View } from 'react-native';
 import { UserCard, SettingList } from '../../../components/Me/SettingListScreen';
 import { MY_PROFILE_SCREEN } from '../../../constants/screens';
 import { BACK_BUTTON, USER_EDIT_BUTTON } from '../../../constants/buttons';
 import { PENCIL_ICON, BACK_ICON } from '../../../constants/icons';
 import { MyUserQuery } from '../../../queries/users';
-import { UserDetails } from '../../../interfaces';
+import { UserDetails, MinimumOutput } from '../../../interfaces';
 import IconLoader from '../../../utilities/IconLoader';
 
 import styles from './styles';
@@ -16,8 +15,12 @@ type Props = {
   navigator: any;
 };
 
+type MyUserOutput = {
+  data: { myUser: UserDetails };
+} & MinimumOutput;
+
 class SettingsListScreen extends React.Component<Props> {
-  constructor(props) {
+  constructor(props: Props) {
     super(props);
   }
 
@@ -40,13 +43,13 @@ class SettingsListScreen extends React.Component<Props> {
         ]
       }
     });
-  }
+  };
 
   render() {
     return (
       <View style={styles.container}>
         <MyUserQuery>
-          {({ data, loading, error }) => {
+          {({ data, loading, error }: MyUserOutput) => {
             if (loading) return <LoadingIndicator />;
             if (error) return <ErrorMessage {...error} />;
 

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Mutation } from 'react-apollo';
 import { DELETE_USER_PHOTO_MUTATION, USER_FRAGMENTS } from '../../graphql/users';
-import { UserDetails } from '../../interfaces';
+import { UserDetails, UserPhoto } from '../../interfaces';
 
 type Props = {
   children: any;
@@ -20,7 +20,7 @@ const DeleteUserPhotoMutation = (props: Props) => {
           id: fragmentId,
           fragment: USER_FRAGMENTS.userDetails
         });
-        const photos = user!.photos.filter((photo) => photo.id !== deleteUserPhoto.id);
+        const photos = user!.photos.filter((photo: UserPhoto) => photo.id !== deleteUserPhoto.id);
 
         cache.writeFragment({
           id: fragmentId,

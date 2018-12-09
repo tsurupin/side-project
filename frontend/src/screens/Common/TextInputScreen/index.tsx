@@ -3,7 +3,7 @@ import * as React from 'react';
 import { View } from 'react-native';
 import { Input, Button, Icon } from 'react-native-elements';
 import { CLOSE_BUTTON } from '../../../constants/buttons';
-import { ICON_MAIN_TYPE, CLOSE_CIRCLE_ICON } from '../../../constants/icons';
+import { ICON_MAIN_TYPE, CLOSE_CIRCLE_ICON, ICON_BLACK_COLOR, SMALL_ICON_SIZE } from '../../../constants/icons';
 import styles from './styles';
 import { LabelTextColor } from '../../../constants/colors';
 
@@ -22,13 +22,12 @@ type State = {
 
 const DEFAULT_HEIGHT = 20;
 class TextInputScreen extends React.Component<Props, State> {
-  constructor(props) {
+  constructor(props: Props) {
     super(props);
     this.state = {
       value: props.value,
       height: 0
     };
-    console.log(props);
 
     this.props.navigator.setOnNavigatorEvent(this.handleNavigatorEvent);
   }
@@ -41,20 +40,18 @@ class TextInputScreen extends React.Component<Props, State> {
         this.props.navigator.dismissModal();
         break;
     }
-  }
+  };
 
   private onPress = () => {
     const { keyName, onPress } = this.props;
     const { value } = this.state;
     onPress(keyName, value);
-    console.log(keyName, value);
     this.props.navigator.dismissModal();
-  }
+  };
 
   render() {
     const { placeholder } = this.props;
     const { value, height } = this.state;
-    console.log(`value:${value}, height: ${height}`);
     return (
       <View style={styles.container}>
         <Input
@@ -75,8 +72,8 @@ class TextInputScreen extends React.Component<Props, State> {
             <Icon
               type={ICON_MAIN_TYPE}
               name={CLOSE_CIRCLE_ICON}
-              size={24}
-              color="black"
+              size={SMALL_ICON_SIZE}
+              color={ICON_BLACK_COLOR}
               onPress={() => this.setState({ value: '', height: 0 })}
             />
           }

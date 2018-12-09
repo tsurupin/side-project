@@ -8,7 +8,7 @@ type CacheData = {
 
 const changeLoginStatus = (_: any, { logined }: LoginData, { cache }: CacheData) => {
   cache.writeData({ data: { logined } });
-  return null;
+  return undefined;
 };
 
 export { changeLoginStatus };

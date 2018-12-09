@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { View, TouchableOpacity, Text, Button } from 'react-native';
+import { View } from 'react-native';
 import { ErrorMessage, LoadingIndicator } from '../../../components/Common';
 import { UserDetailsBox } from '../../../components/Discovery/UserDetailsScreen';
 import { USER_DISCOVERY_SCREEN, CHAT_SCREEN } from '../../../constants/screens';
@@ -7,14 +7,32 @@ import { BACK_BUTTON } from '../../../constants/buttons';
 import { UserDetailsQuery } from '../../../queries/users';
 import { LikeUserMutation, AcceptUserLikeMutation, RejectUserLikeMutation } from '../../../mutations/userLikes';
 
-import styles from './styles';
-import { UserDetails } from '../../../interfaces';
+import { UserDetails, MinimumOutput } from '../../../interfaces';
 
 type Props = {
   id: number;
   liked: boolean | undefined;
   navigator: any;
 };
+
+type RejectUserLikeOutput = {
+  rejectUserLikeMutation: () => void;
+  data: any;
+} & MinimumOutput;
+
+type AcceptUserLikeOutput = {
+  acceptUserLikeMutation: () => void;
+  data: any;
+} & MinimumOutput;
+
+type LikeUserOutput = {
+  likeUserMutation: () => void;
+  data: any;
+} & MinimumOutput;
+
+type UserDetailsOutput = {
+  data: { user: UserDetails };
+} & MinimumOutput;
 
 type State = {};
 class UserDetailsScreen extends React.Component<Props, State> {
@@ -29,19 +47,19 @@ class UserDetailsScreen extends React.Component<Props, State> {
       case BACK_BUTTON:
         this.props.navigator.pop();
     }
-  }
+  };
 
-  private handlePress = (mutation) => {
+  private handlePress = (mutation: (input: { variables: { userId?: string; targetUserId?: string } }) => void) => {
     const { id, liked } = this.props;
     const variables = liked ? { userId: id } : { targetUserId: id };
 
     mutation({ variables });
-  }
+  };
 
   private renderLikedUserDetails = (user: UserDetails) => {
     return (
       <RejectUserLikeMutation>
-        {({ rejectUserLikeMutation, data, loading, error }) => {
+        {({ rejectUserLikeMutation, data, loading, error }: RejectUserLikeOutput) => {
           if (loading) return <LoadingIndicator />;
           if (error) return <ErrorMessage {...error} />;
           if (data) {
@@ -53,9 +71,9 @@ class UserDetailsScreen extends React.Component<Props, State> {
 
           return (
             <AcceptUserLikeMutation>
-              {({ acceptUserLikeMutation, data, loading, error }) => {
-                if (loading) return <View />;
-                if (error) return <View />;
+              {({ acceptUserLikeMutation, data, loading, error }: AcceptUserLikeOutput) => {
+                if (loading) return <LoadingIndicator />;
+                if (error) return <ErrorMessage {...error} />;
                 if (data) {
                   this.props.navigator.push({
                     screen: CHAT_SCREEN,
@@ -77,12 +95,12 @@ class UserDetailsScreen extends React.Component<Props, State> {
         }}
       </RejectUserLikeMutation>
     );
-  }
+  };
 
   private renderUserDetails = (user: UserDetails) => {
     return (
       <LikeUserMutation>
-        {({ likeUserMutation, data, loading, error }) => {
+        {({ likeUserMutation, data, loading, error }: LikeUserOutput) => {
           if (loading) return <LoadingIndicator />;
           if (error) return <ErrorMessage {...error} />;
           if (data) {
@@ -95,14 +113,14 @@ class UserDetailsScreen extends React.Component<Props, State> {
         }}
       </LikeUserMutation>
     );
-  }
+  };
 
   render() {
     const { id, liked } = this.props;
 
     return (
       <UserDetailsQuery variables={{ id }}>
-        {({ data, loading, error }) => {
+        {({ data, loading, error }: UserDetailsOutput) => {
           if (loading) return <LoadingIndicator />;
           if (error) {
             return <ErrorMessage {...error} />;
@@ -110,13 +128,9 @@ class UserDetailsScreen extends React.Component<Props, State> {
 
           const user: UserDetails = data.user;
 
-          if (liked == undefined) {
-            return <UserDetailsBox user={user} />;
-          } else if (liked) {
-            return this.renderLikedUserDetails(user);
-          } else {
-            return this.renderUserDetails(user);
-          }
+          if (liked === undefined) return <UserDetailsBox user={user} />;
+          if (liked) return this.renderLikedUserDetails(user);
+          return this.renderUserDetails(user);
         }}
       </UserDetailsQuery>
     );

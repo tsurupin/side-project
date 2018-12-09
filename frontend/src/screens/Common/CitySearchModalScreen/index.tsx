@@ -1,12 +1,12 @@
 import * as React from 'react';
-import { View, Text, Button } from 'react-native';
+import { View, Button } from 'react-native';
 
 import { CityList } from '../../../components/Common/CitySearchModalScreen';
 import { CLOSE_BUTTON } from '../../../constants/buttons';
 import { CityListQuery } from '../../../queries/cities';
 import { SearchInput, ErrorMessage, LoadingIndicator } from '../../../components/Common';
 import { FindOrCreateCityMutation } from '../../../mutations/cities';
-import { City, CityEditParams, GraphQLErrorMessage } from '../../../interfaces';
+import { City, CityEditParams, MinimumOutput } from '../../../interfaces';
 import { fetchAddress } from '../../../utilities/geocoder';
 import styles from './styles';
 
@@ -24,30 +24,14 @@ type State = {
   errorMessage: string;
 };
 
-type CityMutation = {
-  variables: CityEditParams;
-};
-
-type CityListData = {
-  cityList: City[];
-};
-
-type CityData = {
-  findOrCreateCity: City;
-};
-
 type CityListOutput = {
-  data: CityListData | undefined;
-  loading: boolean;
-  error: GraphQLErrorMessage | undefined;
-};
+  data: { cityList: City[] } | undefined;
+} & MinimumOutput;
 
 type FindOrCreateCityMutationOutput = {
-  findOrCreateCityMutation: (input: CityMutation) => void;
-  data: CityData | undefined;
-  loading: boolean;
-  error: GraphQLErrorMessage | undefined;
-};
+  findOrCreateCityMutation: (input: { variables: CityEditParams }) => void;
+  data: { findOrCreateCity: City } | undefined;
+} & MinimumOutput;
 
 class CitySearchModalScreen extends React.Component<Props, State> {
   static defaultProps = {
@@ -73,18 +57,18 @@ class CitySearchModalScreen extends React.Component<Props, State> {
       case CLOSE_BUTTON:
         this.props.navigator.dismissModal();
     }
-  }
+  };
 
   private onPress = (city: City) => {
     this.props.onPress(city);
     this.props.navigator.dismissModal();
-  }
+  };
 
   private handleChangeText = (name: string) => {
     this.setState({ name });
-  }
+  };
 
-  private handlePressCurrentLocation = (findOrCreateCityMutation: ({ variables }: CityMutation) => void) => {
+  private handlePressCurrentLocation = (findOrCreateCityMutation: (input: { variables: CityEditParams }) => void) => {
     navigator.geolocation.getCurrentPosition(async ({ coords }) => {
       const { latitude, longitude } = coords;
 
@@ -109,7 +93,7 @@ class CitySearchModalScreen extends React.Component<Props, State> {
         console.log('geocode failed', e);
       }
     });
-  }
+  };
 
   private renderCityList = () => {
     const { name } = this.state;
@@ -128,7 +112,7 @@ class CitySearchModalScreen extends React.Component<Props, State> {
         }}
       </CityListQuery>
     );
-  }
+  };
 
   private renderCurrentLocationButtton = (): undefined | JSX.Element => {
     if (!this.props.needLocationSearch) return undefined;
@@ -156,11 +140,11 @@ class CitySearchModalScreen extends React.Component<Props, State> {
         }}
       </FindOrCreateCityMutation>
     );
-  }
+  };
   private renderTextForm = () => {
     const { name } = this.state;
     return <SearchInput name={name} onChangeText={this.handleChangeText} />;
-  }
+  };
 
   render() {
     return (

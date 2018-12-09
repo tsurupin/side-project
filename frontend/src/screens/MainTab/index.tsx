@@ -1,15 +1,7 @@
 import { Navigation } from 'react-native-navigation';
 import Icon from 'react-native-vector-icons/Ionicons';
-import {
-  AUTH_SCREEN,
-  TOP_SCREEN,
-  MATCH_SCREEN,
-  USER_DISCOVERY_SCREEN,
-  MY_PROFILE_SCREEN,
-  PROJECT_LIST_SCREEN,
-  SETTING_LIST_SCREEN
-} from '../../constants/screens';
-import { SEARCH_BUTTON, USER_EDIT_BUTTON, PROJECT_NEW_BUTTON } from '../../constants/buttons';
+import { MATCH_SCREEN, USER_DISCOVERY_SCREEN, PROJECT_LIST_SCREEN, SETTING_LIST_SCREEN } from '../../constants/screens';
+import { SEARCH_BUTTON, PROJECT_NEW_BUTTON } from '../../constants/buttons';
 import IconLoader from '../../utilities/IconLoader';
 import {
   LIBRARY_BOOKS_ICON,
@@ -21,9 +13,7 @@ import {
 import {
   TabBarBackgroundColor,
   TabBarSelectedButtonColor,
-  TabBarSelectedLabelColor,
   TabBarButtonColor,
-  TabBarLabelColor,
   NotificationBadgeColor,
   NavBarBackgroundColor,
   NavBarButtonColor,
@@ -36,7 +26,7 @@ const MainTab = () => {
     Icon.getImageSource('filter-outline', 30),
     Icon.getImageSource('ios-share-alt', 30),
     Icon.getImageSource('ios-menu', 30)
-  ]).then((sources) => {
+  ]).then(() => {
     Navigation.startTabBasedApp({
       appStyle: {
         bottomTabBadgeBackgroundColor: NotificationBadgeColor,
