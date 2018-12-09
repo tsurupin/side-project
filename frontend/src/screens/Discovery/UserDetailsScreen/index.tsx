@@ -10,7 +10,7 @@ import { LikeUserMutation, AcceptUserLikeMutation, RejectUserLikeMutation } from
 import { UserDetails, MinimumOutput } from '../../../interfaces';
 
 type Props = {
-  id: number;
+  id: string;
   liked: boolean | undefined;
   navigator: any;
 };
