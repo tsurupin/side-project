@@ -10,7 +10,7 @@ import { LikeUserMutation, AcceptUserLikeMutation, RejectUserLikeMutation } from
 import { UserDetails, MinimumOutput } from '../../../interfaces';
 
 type Props = {
-  id: number;
+  id: string;
   liked: boolean | undefined;
   navigator: any;
 };
@@ -49,9 +49,11 @@ class UserDetailsScreen extends React.Component<Props, State> {
     }
   };
 
-  private handlePress = (mutation: (input: { variables: { userId?: string; targetUserId?: string } }) => void) => {
+  private handlePress = (
+    mutation: (input: { variables: { userId: string | undefined; targetUserId: string | undefined } }) => void
+  ) => {
     const { id, liked } = this.props;
-    const variables = liked ? { userId: id } : { targetUserId: id };
+    const variables = liked ? { userId: id, targetUserId: undefined } : { userId: undefined, targetUserId: id };
 
     mutation({ variables });
   };
