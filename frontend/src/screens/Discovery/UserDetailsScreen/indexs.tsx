@@ -20,12 +20,12 @@ type RejectUserLikeOutput = {
   data: any;
 } & MinimumOutput;
 
-type AcceptUserLikeOutput =  {
+type AcceptUserLikeOutput = {
   acceptUserLikeMutation: () => void;
   data: any;
 } & MinimumOutput;
 
-type LikeUserOutput =  {
+type LikeUserOutput = {
   likeUserMutation: () => void;
   data: any;
 } & MinimumOutput;
