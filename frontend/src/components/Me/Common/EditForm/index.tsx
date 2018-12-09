@@ -49,6 +49,7 @@ type Props = {
 
 // type State = Readonly<typeof initiateState>;
 type State = {
+  readonly [key: string]: string;
   displayName: string;
   introduction: string | undefined;
   occupation: string | undefined;
@@ -132,7 +133,7 @@ class EditForm extends React.Component<Props, State> {
       }
     });
 
-    statePrioritizedKeys.forEach((key) => {
+    statePrioritizedKeys.forEach((key: string) => {
       if (this.state[key]) {
         params[key] = this.state[key];
       }
