@@ -15,7 +15,7 @@ type Props = {
   navigator: any;
 };
 
-type RejectUserLikeOutput =  {
+type RejectUserLikeOutput = {
   rejectUserLikeMutation: () => void;
   data: any;
 } & MinimumOutput;
@@ -30,7 +30,7 @@ type LikeUserOutput =  {
   data: any;
 } & MinimumOutput;
 
-type UserDetailsOutput =  {
+type UserDetailsOutput = {
   data: { user: UserDetails };
 } & MinimumOutput;
 
@@ -49,7 +49,7 @@ class UserDetailsScreen extends React.Component<Props, State> {
     }
   };
 
-  private handlePress = (mutation:  (input: { variables: { userId?: string; targetUserId?: string } }) => void) => {
+  private handlePress = (mutation: (input: { variables: { userId?: string; targetUserId?: string } }) => void) => {
     const { id, liked } = this.props;
     const variables = liked ? { userId: id } : { targetUserId: id };
 
@@ -59,7 +59,7 @@ class UserDetailsScreen extends React.Component<Props, State> {
   private renderLikedUserDetails = (user: UserDetails) => {
     return (
       <RejectUserLikeMutation>
-        {({ rejectUserLikeMutation, data, loading, error }:  RejectUserLikeOutput) => {
+        {({ rejectUserLikeMutation, data, loading, error }: RejectUserLikeOutput) => {
           if (loading) return <LoadingIndicator />;
           if (error) return <ErrorMessage {...error} />;
           if (data) {
@@ -71,7 +71,7 @@ class UserDetailsScreen extends React.Component<Props, State> {
 
           return (
             <AcceptUserLikeMutation>
-              {({ acceptUserLikeMutation, data, loading, error }:  AcceptUserLikeOutput) => {
+              {({ acceptUserLikeMutation, data, loading, error }: AcceptUserLikeOutput) => {
                 if (loading) return <LoadingIndicator />;
                 if (error) return <ErrorMessage {...error} />;
                 if (data) {
@@ -100,7 +100,7 @@ class UserDetailsScreen extends React.Component<Props, State> {
   private renderUserDetails = (user: UserDetails) => {
     return (
       <LikeUserMutation>
-        {({ likeUserMutation, data, loading, error }:  LikeUserOutput) => {
+        {({ likeUserMutation, data, loading, error }: LikeUserOutput) => {
           if (loading) return <LoadingIndicator />;
           if (error) return <ErrorMessage {...error} />;
           if (data) {
@@ -120,7 +120,7 @@ class UserDetailsScreen extends React.Component<Props, State> {
 
     return (
       <UserDetailsQuery variables={{ id }}>
-        {({ data, loading, error }:  UserDetailsOutput) => {
+        {({ data, loading, error }: UserDetailsOutput) => {
           if (loading) return <LoadingIndicator />;
           if (error) {
             return <ErrorMessage {...error} />;
