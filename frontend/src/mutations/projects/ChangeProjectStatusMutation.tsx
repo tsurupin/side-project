@@ -22,14 +22,14 @@ const ChangeProjectStatusMutation = (props: Props) => {
         const fragmentId: string = `Project:${changeProjectStatus.id}`;
         const projectData: ProjectData | null = cache.readFragment({
           id: fragmentId,
-          fragment: PROJECT_FRAGMENTS.projectDetail
+          fragment: PROJECT_FRAGMENTS.projectDetails
         });
 
         const project = projectData!.project;
 
         cache.writeFragment({
           id: fragmentId,
-          fragment: PROJECT_FRAGMENTS.projectDetail,
+          fragment: PROJECT_FRAGMENTS.projectDetails,
           data: { project: { ...project, changeProjectStatus } }
         });
       }}

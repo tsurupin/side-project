@@ -11,6 +11,6 @@ query ProjectEditForm($id: ID!){
     }
   }
   project(id: $id) {
-    ${parseFragment(PROJECT_FRAGMENTS.projectDetail)}
+    ${parseFragment(PROJECT_FRAGMENTS.projectDetails)}
   }
 }`;
