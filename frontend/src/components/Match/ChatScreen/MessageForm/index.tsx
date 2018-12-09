@@ -2,7 +2,7 @@ import * as React from 'react';
 import { View, Alert } from 'react-native';
 import { Input, Button, Icon } from 'react-native-elements';
 import { MessageParams } from '../../../../interfaces';
-import * as ImagePicker from 'react-native-image-picker';
+import ImagePicker from 'react-native-image-picker';
 import ImageResizer from 'react-native-image-resizer';
 import { ReactNativeFile } from '@richeterre/apollo-upload-client';
 import { IMAGE_ICON, ICON_MAIN_TYPE } from '../../../../constants/icons';

@@ -49,7 +49,6 @@ type Props = {
 
 // type State = Readonly<typeof initiateState>;
 type State = {
-  readonly [key: string]: string;
   displayName: string;
   introduction: string | undefined;
   occupation: string | undefined;
@@ -129,7 +128,7 @@ class EditForm extends React.Component<Props, State> {
     arrayObjectKeys.forEach((key) => {
       if (this.arrayObjectValueChanged(key)) {
         const keyName = key === 'skills' ? 'skillIds' : `${key}Ids`;
-        params[keyName] = this.state[key].map((item) => item.id);
+        params[keyName] = this.state[key].map((item: { id: string }) => item.id);
       }
     });
 
@@ -156,10 +155,10 @@ class EditForm extends React.Component<Props, State> {
   };
 
   private arrayObjectValueChanged = (key: string): boolean => {
-    const currentObjectIds = this.state[key].map((item) => item.id);
-    const previousObjectIds = this.props.user[key].map((item) => item.id);
+    const currentObjectIds = this.state[key].map((item: { id: string }) => item.id);
+    const previousObjectIds = this.props.user[key].map((item: { id: string }) => item.id);
 
-    const intersectionCount = currentObjectIds.filter((id) => previousObjectIds.includes(id)).length;
+    const intersectionCount = currentObjectIds.filter((id: string) => previousObjectIds.includes(id)).length;
 
     return previousObjectIds.length !== intersectionCount || currentObjectIds.length !== intersectionCount;
   };

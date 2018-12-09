@@ -11,7 +11,14 @@ import {
   SELECT_BOX_PICKER_SCREEN,
   TEXT_INPUT_SCREEN
 } from '../../../../constants/screens';
-import { CLOSE_ICON, PLUS_ICON, MINUS_CIRCLE_ICON, ICON_MAIN_TYPE } from '../../../../constants/icons';
+import {
+  CLOSE_ICON,
+  PLUS_ICON,
+  MINUS_CIRCLE_ICON,
+  ICON_MAIN_TYPE,
+  ICON_BLACK_COLOR,
+  SMALL_ICON_SIZE
+} from '../../../../constants/icons';
 
 import styles from './styles';
 
@@ -21,7 +28,7 @@ type Props = {
   loading: boolean;
   error: any;
   project: ProjectDetails;
-  onSubmit: (projectEditParams: ProjectEditParams) => void;
+  onSubmit: (projectEditParams: Partial<ProjectEditParams>) => void;
 };
 
 type State = {
@@ -33,6 +40,11 @@ type State = {
   city: City | undefined;
   skills: Skill[];
 };
+
+const updateState = (key: keyof State, value: string | number | undefined) => (prevState: State): State => ({
+  ...prevState,
+  [key]: value
+});
 
 class EditForm extends React.Component<Props, State> {
   static defaultProps = {
@@ -48,7 +60,7 @@ class EditForm extends React.Component<Props, State> {
     }
   };
 
-  constructor(props) {
+  constructor(props: Props) {
     super(props);
 
     const { project } = props;
@@ -65,7 +77,7 @@ class EditForm extends React.Component<Props, State> {
     this.props.navigator.setOnNavigatorEvent(this.handleNavigatorEvent);
   }
 
-  private buildProjectEditParams = (): ProjectEditParams => {
+  private buildProjectEditParams = (): Partial<ProjectEditParams> => {
     const { project } = this.props;
     const params = {};
     const stringKeys = ['title', 'leadSentence', 'motivation', 'requirement', 'genreId'];
@@ -89,7 +101,7 @@ class EditForm extends React.Component<Props, State> {
     arrayObjectKeys.forEach((key) => {
       if (this.arrayObjectValueChanged(key)) {
         const keyName = key === 'skills' ? 'skillIds' : `${key}Ids`;
-        params[keyName] = this.state[key].map((item) => item.id);
+        params[keyName] = this.state[key].map((item: { id: string }) => item.id);
       }
     });
 
@@ -110,10 +122,10 @@ class EditForm extends React.Component<Props, State> {
   };
 
   private arrayObjectValueChanged = (key: string): boolean => {
-    const currentObjectIds = this.state[key].map((item) => item.id);
-    const previousObjectIds = this.props.project[key].map((item) => item.id);
+    const currentObjectIds = this.state[key].map((item: { id: string }) => item.id);
+    const previousObjectIds = this.props.project[key].map((item: { id: string }) => item.id);
 
-    const intersectionCount = currentObjectIds.filter((id) => previousObjectIds.includes(id)).length;
+    const intersectionCount = currentObjectIds.filter((id: string) => previousObjectIds.includes(id)).length;
 
     return previousObjectIds.length !== intersectionCount || currentObjectIds.length !== intersectionCount;
   };
@@ -174,11 +186,8 @@ class EditForm extends React.Component<Props, State> {
     });
   };
 
-  private handleChangeValue = (keyName: string, value: string | number | undefined) => {
-    const changedAttr = {} as { [key: string]: string | number | undefined };
-    changedAttr[keyName] = value;
-    console.log('updated key', changedAttr);
-    this.setState(changedAttr);
+  private handleChangeValue = (keyName: keyof State, value: string | number | undefined) => {
+    this.setState(updateState(keyName, value));
   };
 
   private handleSkillSearchShowModal = () => {
@@ -244,7 +253,7 @@ class EditForm extends React.Component<Props, State> {
     return <FlatList data={this.state.skills} renderItem={this.renderSkill} />;
   };
 
-  private renderSkill = (data) => {
+  private renderSkill = (data: any) => {
     const skill: Skill = data.item;
     return (
       <ListItem key={skill.id} title={skill.name} bottomDivider rightIcon={this.renderSkillRemoveIcon(skill.id)} />
@@ -260,8 +269,8 @@ class EditForm extends React.Component<Props, State> {
       <Icon
         type={ICON_MAIN_TYPE}
         name={MINUS_CIRCLE_ICON}
-        size={24}
-        color="black"
+        size={SMALL_ICON_SIZE}
+        color={ICON_BLACK_COLOR}
         onPress={() => this.handleDeleteSkill(skillId)}
       />
     );

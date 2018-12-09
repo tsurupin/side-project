@@ -2,7 +2,7 @@ import * as React from 'react';
 import { View, ScrollView } from 'react-native';
 import { ErrorMessage, LoadingIndicator } from '../../../components/Common';
 import { EditForm } from '../../../components/Project/Common';
-import { ProjectEditParams, Genre, MinimumOutput } from '../../../interfaces';
+import { ProjectCreateParams, Genre, MinimumOutput } from '../../../interfaces';
 import { ProjectFormQuery } from '../../../queries/projects';
 import { CreateProjectMutation } from '../../../mutations/projects';
 import { PROJECT_DETAILS_SCREEN } from '../../../constants/screens';
@@ -22,17 +22,18 @@ type ProjectFormOutput = {
 } & MinimumOutput;
 
 type CreateProjectOutput = {
-  createProjectMutation: (input: { variables: ProjectEditParams }) => void;
+  createProjectMutation: (input: { variables: ProjectCreateParams }) => void;
   data: { createProject: { id: string } };
 } & MinimumOutput;
+
 class ProjectNewScreen extends React.Component<Props> {
   constructor(props: Props) {
     super(props);
   }
 
   private handleSubmit = (
-    variables: ProjectEditParams,
-    createProjectMutation: (input: { variables: ProjectEditParams }) => void
+    variables: ProjectCreateParams,
+    createProjectMutation: (input: { variables: ProjectCreateParams }) => void
   ) => {
     createProjectMutation({ variables });
   };
@@ -76,8 +77,8 @@ class ProjectNewScreen extends React.Component<Props> {
 
                     return (
                       <EditForm
-                        onSubmit={(projectEditParams: ProjectEditParams) =>
-                          this.handleSubmit(projectEditParams, createProjectMutation)
+                        onSubmit={(projectCreateParams: ProjectCreateParams) =>
+                          this.handleSubmit(projectCreateParams, createProjectMutation)
                         }
                         genres={projectFormData.genres}
                         loading={loading}

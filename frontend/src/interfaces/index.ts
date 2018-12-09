@@ -129,8 +129,8 @@ export interface ProjectSearchSubmitParams {
   cityId?: string;
   skillIds?: string[];
 }
-export interface ProjectEditParams {
-  id: string;
+
+export interface ProjectCreateParams {
   title?: string;
   leadSentence?: string;
   motivation?: string;
@@ -138,6 +138,10 @@ export interface ProjectEditParams {
   genreId?: string;
   cityId?: string;
   skillIds?: string[];
+}
+
+export interface ProjectEditParams extends ProjectCreateParams {
+  id: string;
 }
 
 export interface LikeProjectParams {

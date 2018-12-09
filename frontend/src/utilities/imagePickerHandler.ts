@@ -1,4 +1,4 @@
-import * as ImagePicker from 'react-native-image-picker';
+import ImagePicker from 'react-native-image-picker';
 import * as ImageResizer from 'react-native-image-resizer';
 import { ReactNativeFile } from '@richeterre/apollo-upload-client';
 

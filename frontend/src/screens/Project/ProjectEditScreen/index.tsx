@@ -40,7 +40,7 @@ class ProjectEditScreen extends React.Component<Props> {
   }
 
   private handleSubmit = (
-    variables: ProjectEditParams,
+    variables: Partial<ProjectEditParams>,
     editProjectMutation: (input: { variables: ProjectEditParams }) => void
   ) => {
     editProjectMutation({ variables: { id: this.props.id, ...variables } });
@@ -105,7 +105,7 @@ class ProjectEditScreen extends React.Component<Props> {
           return (
             <EditForm
               project={project}
-              onSubmit={(projectEditParams: ProjectEditParams) =>
+              onSubmit={(projectEditParams: Partial<ProjectEditParams>) =>
                 this.handleSubmit(projectEditParams, editProjectMutation)
               }
               loading={loading}

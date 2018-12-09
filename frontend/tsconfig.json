@@ -29,6 +29,7 @@
     "allowSyntheticDefaultImports": true,
     "noImplicitThis": true,
     "alwaysStrict": true,
+    "suppressImplicitAnyIndexErrors": true,
     "pretty": true,
     "removeComments": true,
     "skipLibCheck": true,
