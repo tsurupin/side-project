@@ -1,10 +1,10 @@
 import * as ImagePicker from 'react-native-image-picker';
-import ImageResizer from 'react-native-image-resizer';
+import * as ImageResizer from 'react-native-image-resizer';
 import { ReactNativeFile } from '@richeterre/apollo-upload-client';
 
 type Props = {
   variables: object;
-  onCallback: (input: any) => void;
+  onCallback: (object: any) => void;
   onError: (message: string) => void;
 };
 

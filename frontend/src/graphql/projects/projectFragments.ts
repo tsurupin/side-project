@@ -2,7 +2,7 @@ import gql from 'graphql-tag';
 
 export const PROJECT_FRAGMENTS = {
   projectDetails: gql`
-    fragment ProjectDetail on Project {
+    fragment ProjectDetails on Project {
       id
       title
       leadSentence

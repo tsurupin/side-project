@@ -26,6 +26,7 @@
     "strictNullChecks": true,
     "strictFunctionTypes": true,
     "strictPropertyInitialization": true,
+    "allowSyntheticDefaultImports": true,
     "noImplicitThis": true,
     "alwaysStrict": true,
     "pretty": true,

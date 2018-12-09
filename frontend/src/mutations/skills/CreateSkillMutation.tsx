@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Mutation } from 'react-apollo';
 import { CREATE_SKILL_MUTATION } from '../../graphql/skills';
 
-const CreateSkillMutation = (variables: { name: string }, parentProps, ChildComponent) => (
+const CreateSkillMutation = (variables: { name: string }, parentProps: any, ChildComponent: any) => (
   <Mutation mutation={CREATE_SKILL_MUTATION}>
     {(createSkillMutation, { data, error, loading }) => {
       let errorMessage;

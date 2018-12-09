@@ -10,7 +10,7 @@ type Props = {
 };
 
 class MessageList extends React.Component<Props> {
-  private scrollView;
+  private scrollView: any;
   constructor(props: Props) {
     super(props);
   }

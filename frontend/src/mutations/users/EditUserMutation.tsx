@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Mutation } from 'react-apollo';
-import { EDIT_USER_MUTATION, USER_FRAGMENTS } from '../../graphql/users';
+import { EDIT_USER_MUTATION } from '../../graphql/users';
 
 type Props = {
   children: any;

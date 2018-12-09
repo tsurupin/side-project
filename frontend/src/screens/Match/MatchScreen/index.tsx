@@ -39,10 +39,10 @@ class MatchScreen extends React.Component<Props> {
     });
   };
 
-  protected handleUserPress = (userId: number, userDisplayName: string): void => {
+  protected handleUserPress = (userId: string, displayName: string): void => {
     this.props.navigator.push({
       screen: USER_DETAILS_SCREEN,
-      title: userDisplayName,
+      title: displayName,
       passProps: { id: userId, liked: true },
       navigatorButtons: {
         leftButtons: [

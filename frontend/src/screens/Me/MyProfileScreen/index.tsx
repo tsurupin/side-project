@@ -45,6 +45,7 @@ class MyProfileScreen extends React.Component<Props> {
             ]
           }
         });
+        break;
       case BACK_BUTTON:
         this.props.navigator.pop();
     }

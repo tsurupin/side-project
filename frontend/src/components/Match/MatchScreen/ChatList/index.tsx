@@ -9,10 +9,11 @@ type Props = {
   onPress: (id: string, name: string) => void;
 };
 
-let onPress;
-const keyExtractor = (item, index) => index;
+let onPress: any;
+const keyExtractor = (item: Chat, _: number) => item.id;
 
-const renderChat = ({ item }) => {
+const renderChat = (data: any) => {
+  const item: Chat = data.item;
   return (
     <ListItem
       title={item.name}
@@ -30,7 +31,7 @@ const renderChat = ({ item }) => {
 };
 
 const ChatList: React.SFC<Props> = (props) => {
-  onPress = (id, name) => props.onPress(id, name);
+  onPress = (id: string, name: string): void => props.onPress(id, name);
   return (
     <View style={styles.container}>
       <Text style={styles.label}>Chat List</Text>

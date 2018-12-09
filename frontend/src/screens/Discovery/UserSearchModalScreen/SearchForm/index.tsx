@@ -25,7 +25,7 @@ type Props = {
   occupationTypeId: string | undefined;
   genreId: string | undefined;
   location: Location | undefined;
-  isActive: boolean;
+  isActive: boolean | undefined;
   skills: Skill[];
   onSubmit: (searchParams: UserSearchParams) => void;
 };
@@ -34,7 +34,7 @@ type State = {
   genreId: string | undefined;
   occupationTypeId: string | undefined;
   location: Location | undefined;
-  isActive: boolean;
+  isActive: boolean | undefined;
   skills: Skill[];
 };
 

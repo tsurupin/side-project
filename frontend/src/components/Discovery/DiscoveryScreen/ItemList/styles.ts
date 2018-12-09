@@ -1,13 +1,8 @@
-import { StyleSheet, ViewStyle, Dimensions } from 'react-native';
+import { StyleSheet, Dimensions } from 'react-native';
 import { BackgroundColor } from '../../../../constants/colors';
 const width = Math.trunc(Dimensions.get('window').width);
-const height = Math.trunc(Dimensions.get('window').height);
 
-type Style = {
-  container: ViewStyle;
-};
-
-const styles = StyleSheet.create<Style>({
+const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: 'row'

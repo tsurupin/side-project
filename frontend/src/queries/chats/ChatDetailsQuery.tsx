@@ -4,18 +4,18 @@ import { CHAT_QUERY, NEW_MESSAGE_SUBSCRIPTION } from '../../graphql/chats';
 
 type Props = {
   children: any;
-  variables: { id: string };
+  variables: { chatId: string };
 };
-const ChatDetailsQuery = (props: Props) => {
-  const { children, variables } = props;
 
+const ChatDetailsQuery = ({ children, variables }: Props) => {
+  const { chatId } = variables;
   return (
     <Query query={CHAT_QUERY} variables={variables} context={{ needAuth: true }} notifyOnNetworkStatusChange>
       {({ subscribeToMore, error, data, loading }) => {
         const subscribeMessages = () => {
           return subscribeToMore({
             document: NEW_MESSAGE_SUBSCRIPTION,
-            variables: { chatId: variables.id },
+            variables: { chatId },
             updateQuery: (prev: any, { subscriptionData }) => {
               if (!subscriptionData.data) return prev;
               const newMessage = subscriptionData.data.newMessage;

@@ -1,8 +1,6 @@
 import { StyleSheet, Dimensions } from 'react-native';
-import { ActiveMainColor, BackgroundColor } from '../../../../constants/colors';
+import { ActiveMainColor } from '../../../../constants/colors';
 const width = Math.trunc(Dimensions.get('window').width);
-const windowHeight = Math.trunc(Dimensions.get('window').height);
-const height = Math.trunc(windowHeight * 0.85);
 
 const styles = StyleSheet.create({
   container: {

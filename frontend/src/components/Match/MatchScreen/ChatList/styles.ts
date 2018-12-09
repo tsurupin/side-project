@@ -1,5 +1,5 @@
-import { StyleSheet, Dimensions } from 'react-native';
-import { BorderColor, LabelTextColor, WhiteColor } from '../../../../constants/colors';
+import { StyleSheet } from 'react-native';
+import { BorderColor, LabelTextColor } from '../../../../constants/colors';
 
 const styles = StyleSheet.create({
   container: {},

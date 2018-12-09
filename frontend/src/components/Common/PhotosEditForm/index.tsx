@@ -12,7 +12,7 @@ type Props = {
 
 const CHUNK_SIZE = 3;
 
-const renderPhotoList = (photos: ProjectPhoto[], fnc: (photoId: string | undefined) => void) => {
+const renderPhotoList = (photos: ProjectPhoto[], fnc: (photoId: string) => void) => {
   return photos.map((photo, i) => {
     const hasRightEdge = i % CHUNK_SIZE === 0;
     return <PhotoEdit hasRightEdge={hasRightEdge} key={photo.id} photo={photo} onPress={fnc} />;
@@ -38,7 +38,7 @@ const renderPhotoListSection = (index: number, photos: JSX.Element[]) => {
 };
 
 const renderNewPhoto = (availableRank: number, hasRightEdge: boolean, fnc: (rank: number) => void) => {
-  return <PhotoEdit hasRightEdge={hasRightEdge} onPress={() => fnc(availableRank)} />;
+  return <PhotoEdit hasRightEdge={hasRightEdge} onPressNewPhoto={() => fnc(availableRank)} />;
 };
 
 const PhotosEditForm: React.SFC<Props> = (props) => {

@@ -26,7 +26,7 @@ type ProjectDetailsOutput = {
 
 type WithdrawProjectLikeOutput = {
   data: any;
-  withdrawProjectLikeMutation: (input: { varialbles: { projectId: string } }) => void;
+  withdrawProjectLikeMutation: (input: { variables: { projectId: string } }) => void;
 } & MinimumOutput;
 
 class LikedProjectDetailsScreen extends React.Component<Props> {
@@ -46,8 +46,10 @@ class LikedProjectDetailsScreen extends React.Component<Props> {
     switch (e.id) {
       case PROJECT_ACTION_SHEET_BUTTON:
         this.ActionSheet.show();
+        break;
       case BACK_BUTTON:
         this.props.navigator.pop();
+        break;
     }
   };
 

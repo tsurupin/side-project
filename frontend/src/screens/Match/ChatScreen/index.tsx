@@ -44,7 +44,7 @@ class ChatScreen extends React.Component<Props> {
   render() {
     const id = this.props.id;
     return (
-      <ChatDetailsQuery variables={{ id }}>
+      <ChatDetailsQuery variables={{ chatId: id }}>
         {({ subscribeMessages, error, data, loading }: ChatDetailsOutput) => {
           if (loading) return <LoadingIndicator />;
           if (error) {
