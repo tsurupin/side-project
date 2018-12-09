@@ -1,7 +1,7 @@
 import gql from 'graphql-tag';
 
 export const PROJECT_FRAGMENTS = {
-  projectDetails: gql`
+  projectDetail: gql`
     fragment ProjectDetail on Project {
       id
       title

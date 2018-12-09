@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Mutation } from 'react-apollo';
 import { DELTE_PROJECT_PHOTO_MUTATION, PROJECT_FRAGMENTS } from '../../graphql/projects';
-import { ProjectDetails } from '../../interfaces';
+import { ProjectDetail } from '../../interfaces';
 
 type Props = {
   children: any;
@@ -18,7 +18,7 @@ const DeleteProjectPhotoMutation = (props: Props) => {
         const fragmentId: string = `Project:${deleteProjectPhoto.projectId}`;
         const project: ProjectDetails | null = cache.readFragment({
           id: fragmentId,
-          fragment: PROJECT_FRAGMENTS.projectDetails
+          fragment: PROJECT_FRAGMENTS.projectDetail
         });
         if (!project) {
           return console.error(project);
@@ -27,7 +27,7 @@ const DeleteProjectPhotoMutation = (props: Props) => {
 
         cache.writeFragment({
           id: fragmentId,
-          fragment: PROJECT_FRAGMENTS.projectDetails,
+          fragment: PROJECT_FRAGMENTS.projectDetail,
           data: { ...project, photos }
         });
       }}

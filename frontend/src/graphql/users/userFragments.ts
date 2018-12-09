@@ -1,7 +1,7 @@
 import gql from 'graphql-tag';
 
 export const USER_FRAGMENTS = {
-  userDetails: gql`
+  userDetail: gql`
     fragment UserDetail on User {
       id
       displayName

@@ -15,6 +15,6 @@ query UserEditForm{
     }
   }
   myUser {
-    ${parseFragment(USER_FRAGMENTS.userDetails)}
+    ${parseFragment(USER_FRAGMENTS.userDetail)}
   }
 }`;

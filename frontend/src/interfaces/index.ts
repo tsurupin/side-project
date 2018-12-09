@@ -28,7 +28,7 @@ export interface UserPhoto {
   userId?: string;
 }
 
-export interface UserDetails extends UserCore {
+export interface UserDetail extends UserCore {
   introduction: string | undefined;
   occupation: string | undefined;
   genre: Genre | undefined;
@@ -106,7 +106,7 @@ export interface ProjectPhoto {
   projectId?: string;
 }
 
-export interface ProjectDetails extends ProjectCore {
+export interface ProjectDetail extends ProjectCore {
   leadSentence: string;
   status: string;
   motivation: string | undefined;
@@ -137,6 +137,10 @@ export interface ProjectEditParams {
   genreId?: string;
   cityId?: string;
   skillIds?: string[];
+}
+
+export interface LikeProjectParams {
+  projectId: string;
 }
 
 export interface UploadPhotoParams {

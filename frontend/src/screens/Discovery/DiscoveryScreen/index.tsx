@@ -27,7 +27,6 @@ import { ErrorMessage, LoadingIndicator, CustomizedSegmentedControlTab } from '.
 import styles from './styles';
 import IconLoader from '../../../utilities/IconLoader';
 
-
 const USER_INDEX = 0;
 
 type Props = {
@@ -35,39 +34,37 @@ type Props = {
   client: any;
 };
 
-const initialState = {
-  loading: false,
-  errorMessage: '',
-  userSearchParams: {
-    occupationTypeId: undefined,
-    genreId: undefined,
-    isActive: undefined,
-    location: undefined,
-    skills: []
-  },
-  projectSearchParams: {
-    genreId: undefined,
-    city: undefined,
-    skills: []
-  },
-  selectedIndex: USER_INDEX
-};
-type State = Readonly<typeof initialState>;
-
-// type State = {
-//   loading: boolean;
-//   errorMessage: string;
-//   userSearchParams: UserSearchParams;
-//   projectSearchParams: ProjectSearchParams;
-//   selectedIndex: number;
+// const initialState = {
+//   loading: false,
+//   errorMessage: '',
+//   userSearchParams: {
+//     occupationTypeId: undefined,
+//     genreId: undefined,
+//     isActive: undefined,
+//     location: undefined,
+//     skills: []
+//   },
+//   projectSearchParams: {
+//     genreId: undefined,
+//     city: undefined,
+//     skills: []
+//   },
+//   selectedIndex: USER_INDEX
 // };
 
+type State = {
+  loading: boolean;
+  errorMessage: string;
+  userSearchParams: UserSearchParams;
+  projectSearchParams: ProjectSearchParams;
+  selectedIndex: number;
+};
 
 type UserListOutput = {
   loading: boolean;
   error: GraphQLErrorMessage | undefined;
   data: { users: UserCore[] };
-}
+};
 
 type ProjectListOutput = {
   loading: boolean;
@@ -79,26 +76,25 @@ type ProjectListOutput = {
 const CONTROL_TABS = ['People', 'Projects'];
 
 class DiscoveryScreen extends React.Component<Props, State> {
-  state = initialState;
   constructor(props: Props) {
     super(props);
-    // this.state = {
-    //   loading: false,
-    //   errorMessage: '',
-    //   userSearchParams: {
-    //     occupationTypeId: undefined,
-    //     genreId: undefined,
-    //     isActive: undefined,
-    //     location: undefined,
-    //     skills: []
-    //   },
-    //   projectSearchParams: {
-    //     genreId: undefined,
-    //     city: undefined,
-    //     skills: []
-    //   },
-    //   selectedIndex: USER_INDEX
-    // };
+    this.state = {
+      loading: false,
+      errorMessage: '',
+      userSearchParams: {
+        occupationTypeId: undefined,
+        genreId: undefined,
+        isActive: undefined,
+        location: undefined,
+        skills: []
+      },
+      projectSearchParams: {
+        genreId: undefined,
+        city: undefined,
+        skills: []
+      },
+      selectedIndex: USER_INDEX
+    };
 
     this.props.navigator.setOnNavigatorEvent(this.handleNavigatorEvent);
   }
@@ -109,9 +105,9 @@ class DiscoveryScreen extends React.Component<Props, State> {
 
   private handleUpdateSearchParams = (searchParams: UserSearchParams | ProjectSearchParams) => {
     if (this.isUserOriented()) {
-      this.setState({ userSearchParams: searchParams });
+      this.setState({ userSearchParams: searchParams as UserSearchParams });
     } else {
-      this.setState({ projectSearchParams: searchParams });
+      this.setState({ projectSearchParams: searchParams as ProjectSearchParams });
     }
   };
 
