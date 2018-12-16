@@ -42,7 +42,6 @@ class LikedProjectDetailsScreen extends React.Component<Props> {
   private handleNavigatorEvent = (e) => {
     if (e.type !== 'NavBarButtonPress') return;
 
-
     switch (e.id) {
       case PROJECT_ACTION_SHEET_BUTTON:
         this.ActionSheet.show();

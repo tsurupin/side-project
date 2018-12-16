@@ -6,7 +6,6 @@ import { UpdateUserSearchParamsMutation } from '../../../mutations/users';
 import SearchForm from './SearchForm';
 import { LoadingIndicator, ErrorMessage } from '../../../components/Common';
 
-
 type UserSearchParams = {
   occupationTypeId: string | undefined;
   genreId: string | undefined;
