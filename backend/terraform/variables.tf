@@ -11,22 +11,31 @@ variable "region" {
     default = "us-west-1"
 }
 
-# TODO: support multiple availability zones, and default to it.
-variable "availability_zone" {
+variable "availability_zones" {
     description = "The availability zone"
-    default = "us-east-1a"
+    type = "map"
+    default = {
+       "a" = "us-west-1a",
+       "b" = "us-west-1b",
+    }
 }
 
 variable "ecs_cluster_name" {
     description = "The name of the Amazon ECS cluster."
-    default = "main"
+    default = "side-project-prod"
+}
+
+variable "ecr_repository_name" {
+    description = "The name of the Amazon ECR Repository."
+    default = "side-project"
 }
 
 variable "amis" {
     description = "Which AMI to spawn. Defaults to the AWS ECS optimized images."
-    # TODO: support other regions.
+    type = "map"
     default = {
-        us-west-1 = "ami-ddc7b6b7"
+       "us-west-1" = "ami-ddc7b6b7",
+       "us-west-2" = "ami-ddc7b6b7",
     }
 }
 
@@ -37,12 +46,12 @@ variable "autoscale_min" {
 }
 
 variable "autoscale_max" {
-    default = "10"
+    default = "2"
     description = "Maximum autoscale (number of EC2)"
 }
 
 variable "autoscale_desired" {
-    default = "4"
+    default = "2"
     description = "Desired autoscale (number of EC2)"
 }
 

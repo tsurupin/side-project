@@ -28,7 +28,7 @@ resource "aws_internet_gateway" "main-gw" {
 resource "aws_subnet" "main-1a" {
   vpc_id     = "${aws_vpc.main.id}"
   cidr_block = "10.0.0.0/24"
-  availability_zone = "us-west-1a"
+  availability_zone = "${lookup(var.availability_zones, "a")}"
   tags {
     Name = "#{var.tag_name}"
   }
@@ -38,7 +38,7 @@ resource "aws_subnet" "main-1a" {
 resource "aws_subnet" "main-1b" {
   vpc_id     = "${aws_vpc.main.id}"
   cidr_block = "10.0.1.0/24"
-  availability_zone = "us-west-1b"
+  availability_zone = "${lookup(var.availability_zones, "b")}"
   tags {
     Name = "#{var.tag_name}"
   }
@@ -77,9 +77,27 @@ resource "aws_security_group" "internet" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 }
-resource "aws_security_group" "incoming" {
-  name = "incoming"
-  description = "Allow all incoming trafic"
+resource "aws_security_group" "alb" {
+  name = "side-project-alb"
+  description = "Allow all incoming trafic through ALB"
+  vpc_id = "${aws_vpc.main.id}"
+  ingress {
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0", "::/0"]
+  }
+  egress {
+    from_port = 0
+    to_port = 0
+    protocol = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+}
+
+resource "aws_security_group" "internal" {
+  name = "internal"
+  description = "Allow all internal trafic"
   vpc_id = "${aws_vpc.main.id}"
   ingress {
     from_port   = 0
@@ -95,25 +113,58 @@ resource "aws_security_group" "incoming" {
   }
 }
 
+# resource "aws_security_group" "ssh" {
+#   name = "side-project-ssh"
+#   description = "Allow all incoming trafic"
+#   vpc_id = "${aws_vpc.main.id}"
+#   ingress {
+#     from_port   = 0
+#     to_port     = 0
+#     protocol    = -1
+#     cidr_blocks = ["0.0.0.0/0"]
+#   }
+#   egress {
+#     from_port = 0
+#     to_port = 0
+#     protocol = "-1"
+#     cidr_blocks = ["0.0.0.0/0"]
+#   }
+# }
 resource "aws_security_group" "ecs" {
-  name = "ecs"
-  description = "Allows all traffic"
+  name = "side-project-ecs"
+  description = "ECS Allowed Ports"
   vpc_id = "${aws_vpc.main.id}"
 
-  # TODO: remove this and replace with a bastion host for SSHing into
-  # individual machines.
   ingress {
-      from_port = 0
-      to_port = 0
-      protocol = "-1"
-      cidr_blocks = ["0.0.0.0/0"]
+      from_port = 9000
+      to_port = 9100
+      protocol = "TCP"
+      security_groups = ["${aws_security_group.ecs.id}"]
+      description = "internal-nodes"
   }
 
   ingress {
       from_port = 0
-      to_port = 0
-      protocol = "-1"
-      security_groups = ["${aws_security_group.load_balancers.id}"]
+      to_port = 65535
+      protocol = "TCP"
+      security_groups = ["${aws_security_group.alb.id}"]
+      description = "side-project-alb"
+  }
+
+  ingress {
+      from_port = 22
+      to_port = 22
+      protocol = "TCP"
+      cidr_blocks = ["71.145.209.98/32"]
+      description = "side-project-ssh"
+  }
+
+  ingress {
+      from_port = 4369
+      to_port = 4369
+      protocol = "TCP"
+       security_groups = ["${aws_security_group.ecs.id}"]
+      description = "side-project-erlang.erlang connections from same ec2 container instances"
   }
 
   egress {
@@ -124,20 +175,77 @@ resource "aws_security_group" "ecs" {
   }
 }
 
-resource "aws_autoscaling_group" "ecs-cluster" {
+resource "aws_ecs_cluster" "app" {
   name = "${var.ecs_cluster_name}"
+  tags {
+    Name = "#{var.tag_name}"
+  }
+}
+
+resource "aws_ecr_repository" "master" {
+  name = "${var.ecr_repository_name}"
 }
 
 
+# resource "aws_ecs_service" "side-project-prod" {
+#   name            = "side-project-prod"
+#   cluster         = "${aws_ecs_cluster.app.id}"
+#   task_definition = "${aws_ecs_task_definition.mongo.arn}"
+#   desired_count   = 1
+#   iam_role        = "${aws_iam_role.foo.arn}"
+#   depends_on      = ["aws_iam_role_policy.foo"]
+
+#   # ordered_placement_strategy {
+#   #   type  = "binpack"
+#   #   field = "cpu"
+#   # }
+
+#   # load_balancer {
+#   #   target_group_arn = "${aws_lb_target_group.foo.arn}"
+#   #   container_name   = "mongo"
+#   #   container_port   = 8080
+#   # }
+
+#   # placement_constraints {
+#   #   type       = "memberOf"
+#   #   expression = "attribute:ecs.availability-zone in [us-west-2a, us-west-2b]"
+#   # }
+# }
+
+resource "aws_launch_configuration" "as_conf" {
+  name_prefix   = "ECS ${var.ecs_cluster_name}-"
+  image_id      = "${var.amis["us-west-1"]}"
+  instance_type = "t2.small"
+
+  lifecycle {
+    create_before_destroy = true
+  }
+}
+
 resource "aws_autoscaling_group" "ecs-cluster" {
-    availability_zones = ["${var.availability_zone}"]
     name = "ECS ${var.ecs_cluster_name}"
+    availability_zones = ["${var.availability_zones["a"]}","${var.availability_zones["b"]}"]
     min_size = "${var.autoscale_min}"
     max_size = "${var.autoscale_max}"
     desired_capacity = "${var.autoscale_desired}"
     health_check_type = "EC2"
-    launch_configuration = "${aws_launch_configuration.ecs.name}"
-    vpc_zone_identifier = ["${aws_subnet.main.id}"]
+    launch_configuration = "${aws_launch_configuration.as_conf.name}"
+    vpc_zone_identifier = ["${aws_subnet.main-1a.id}", "${aws_subnet.main-1b.id}"]
+
+    tags = [
+      {
+        key                 = "Description"
+        value               = "This instance is the part of the Auto Scaling group which was created through ECS Console"
+        propagate_at_launch = true
+      },
+       {
+        key                 = "Name"
+        value               = "ECS ${var.ecs_cluster_name}"
+        propagate_at_launch = true
+      },
+
+
+    ]
 }
 
 
