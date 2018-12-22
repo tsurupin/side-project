@@ -242,10 +242,34 @@ resource "aws_autoscaling_group" "ecs-cluster" {
         key                 = "Name"
         value               = "ECS ${var.ecs_cluster_name}"
         propagate_at_launch = true
-      },
-
-
+      }
     ]
+}
+
+resource "aws_db_instance" "default" {
+  allocated_storage    = 10
+  storage_type         = "gp2"
+  engine               = "postgresql"
+  engine_version       = "5.7"
+  instance_class       = "db.t2.micro"
+  name                 = "mydb"
+  username             = "foo"
+  password             = "foobarbaz"
+  parameter_group_name = "default.mysql5.7"
+
+  lifecycle {
+    ignore_changes = ["password"]
+  }
+}
+
+resource "aws_s3_bucket" "app" {
+  bucket = "my-tf-test-bucket"
+  acl    = "private"
+
+  tags = {
+    Name        = "My bucket"
+    Environment = "Dev"
+  }
 }
 
 
