@@ -187,30 +187,61 @@ resource "aws_ecr_repository" "master" {
 }
 
 
-# resource "aws_ecs_service" "side-project-prod" {
-#   name            = "side-project-prod"
-#   cluster         = "${aws_ecs_cluster.app.id}"
-#   task_definition = "${aws_ecs_task_definition.mongo.arn}"
-#   desired_count   = 1
-#   iam_role        = "${aws_iam_role.foo.arn}"
-#   depends_on      = ["aws_iam_role_policy.foo"]
+resource "aws_lb_target_group" "ecs" {
+  name = "${variable.ecs_service_name}"
+  port = 80
+  protocol = "HTTP"
+  target_type = "instance"
+  vpc_id   = "${aws_vpc.main.id}"
+}
 
-#   # ordered_placement_strategy {
-#   #   type  = "binpack"
-#   #   field = "cpu"
-#   # }
+# Simply specify the family to find the latest ACTIVE revision in that family.
+data "aws_ecs_task_definition" "app" {
+  task_definition = "${aws_ecs_task_definition.app.family}"
+}
 
-#   # load_balancer {
-#   #   target_group_arn = "${aws_lb_target_group.foo.arn}"
-#   #   container_name   = "mongo"
-#   #   container_port   = 8080
-#   # }
+resource "aws_ecs_task_definition" "app" {
+  family = "app"
 
-#   # placement_constraints {
-#   #   type       = "memberOf"
-#   #   expression = "attribute:ecs.availability-zone in [us-west-2a, us-west-2b]"
-#   # }
-# }
+  container_definitions = <<DEFINITION
+[
+  {
+    "cpu": 0,
+    "environment": [],
+    "essential": true,
+    "image": "alpine:latest",
+    "name": "default"
+  }
+]
+DEFINITION
+}
+
+
+
+resource "aws_ecs_service" "app" {
+  name            = "${var.ecs_service_name}"
+  cluster         = "${aws_ecs_cluster.app.id}"
+  task_definition = "${aws_ecs_task_definition.app.arn}"
+  desired_count   = 1
+  #iam_role        = "${aws_iam_role.ecs.arn}"
+  #depends_on      = ["aws_iam_role_policy.foo"]
+
+  # ordered_placement_strategy {
+  #   type  = "binpack"
+  #   field = "cpu"
+  # }
+
+  load_balancer {
+    target_group_arn = "${aws_lb_target_group.ecs.arn}"
+    container_name   = "${var.ecs_service_name}"
+    container_port   = 4000
+  }
+
+  tags {
+
+  }
+
+}
 
 resource "aws_launch_configuration" "as_conf" {
   name_prefix   = "ECS ${var.ecs_cluster_name}-"
@@ -246,30 +277,30 @@ resource "aws_autoscaling_group" "ecs-cluster" {
     ]
 }
 
-resource "aws_db_instance" "default" {
-  allocated_storage    = 10
-  storage_type         = "gp2"
-  engine               = "postgresql"
-  engine_version       = "5.7"
-  instance_class       = "db.t2.micro"
-  name                 = "mydb"
-  username             = "foo"
-  password             = "foobarbaz"
-  parameter_group_name = "default.mysql5.7"
+# resource "aws_db_instance" "default" {
+#   allocated_storage    = 10
+#   storage_type         = "gp2"
+#   engine               = "postgresql"
+#   engine_version       = "5.7"
+#   instance_class       = "db.t2.micro"
+#   name                 = "mydb"
+#   username             = "foo"
+#   password             = "foobarbaz"
+#   parameter_group_name = "default.mysql5.7"
 
-  lifecycle {
-    ignore_changes = ["password"]
-  }
-}
+#   lifecycle {
+#     ignore_changes = ["password"]
+#   }
+# }
 
-resource "aws_s3_bucket" "app" {
-  bucket = "my-tf-test-bucket"
-  acl    = "private"
+# resource "aws_s3_bucket" "app" {
+#   bucket = "my-tf-test-bucket"
+#   acl    = "private"
 
-  tags = {
-    Name        = "My bucket"
-    Environment = "Dev"
-  }
-}
+#   tags = {
+#     Name        = "My bucket"
+#     Environment = "Dev"
+#   }
+# }
 
 

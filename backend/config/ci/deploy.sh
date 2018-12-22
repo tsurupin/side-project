@@ -124,7 +124,7 @@ sed -e 's/$AWS_ECS_URL/'$AWS_ECS_URL'/g' \
 
 
 
-  # Deregister old task definition.
+# Deregister old task definition.
 # Every deploy we want a new task definition to be created with the latest
 # configurations. Task definitions are a set of configurations that state
 # how the Docker container should run and what resources to use: https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task_definitions.html

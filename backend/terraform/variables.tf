@@ -30,12 +30,17 @@ variable "ecr_repository_name" {
     default = "side-project"
 }
 
+variable "ecs_service_name" {
+    description = "The name of the Amazon ECS service."
+    default = "side-project-prod"
+}
+
 variable "amis" {
     description = "Which AMI to spawn. Defaults to the AWS ECS optimized images."
     type = "map"
     default = {
-       "us-west-1" = "ami-ddc7b6b7",
-       "us-west-2" = "ami-ddc7b6b7",
+       "us-west-1" = "ami-04c22ba97a0c063c4",
+       "us-west-2" = "ami-04c22ba97a0c063c4",
     }
 }
 
