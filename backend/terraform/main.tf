@@ -4,9 +4,9 @@ provider "aws" {
   region = "${var.region}"
 }
 
-resource "aws_key_pair" "side-project" {
-    key_name = "side-project"
-    public_key = "${file(var.ssh_pubkey_file)}"
+resource "aws_key_pair" "default" {
+    key_name = "${var.public_key_name}"
+    public_key = "${file(var.ssh_public_key_path)}"
 }
 
 resource "aws_vpc" "main" {
@@ -14,14 +14,14 @@ resource "aws_vpc" "main" {
   //enable_dns_hostnames = true
 
   tags {
-    Name = "#{var.tag_name}"
+    Name = "${var.tag_name}"
   }
 }
 
 resource "aws_internet_gateway" "main-gw" {
   vpc_id = "${aws_vpc.main.id}"
   tags {
-    Name = "#{var.tag_name}"
+    Name = "${var.tag_name}"
   }
 }
 
@@ -30,7 +30,7 @@ resource "aws_subnet" "main-1a" {
   cidr_block = "10.0.0.0/24"
   availability_zone = "${lookup(var.availability_zones, "a")}"
   tags {
-    Name = "#{var.tag_name}"
+    Name = "${var.tag_name}"
   }
   map_public_ip_on_launch = true
 }
@@ -40,7 +40,7 @@ resource "aws_subnet" "main-1b" {
   cidr_block = "10.0.1.0/24"
   availability_zone = "${lookup(var.availability_zones, "b")}"
   tags {
-    Name = "#{var.tag_name}"
+    Name = "${var.tag_name}"
   }
   map_public_ip_on_launch = true
 }
@@ -52,18 +52,18 @@ resource "aws_route_table" "main" {
     gateway_id = "${aws_internet_gateway.main-gw.id}"
   }
   tags {
-    Name = "#{var.tag_name}"
+    Name = "${var.tag_name}"
   }
 }
 
 resource "aws_route_table_association" "main-1a" {
   subnet_id = "${aws_subnet.main-1a.id}"
-  route_table_id = "${aws_route_table.rt.id}"
+  route_table_id = "${aws_route_table.main.id}"
 }
 
 resource "aws_route_table_association" "main-1b" {
   subnet_id = "${aws_subnet.main-1b.id}"
-  route_table_id = "${aws_route_table.rt.id}"
+  route_table_id = "${aws_route_table.main.id}"
 }
 
 resource "aws_security_group" "internet" {
@@ -85,7 +85,7 @@ resource "aws_security_group" "alb" {
     from_port   = 80
     to_port     = 80
     protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0", "::/0"]
+    cidr_blocks = ["0.0.0.0/0"]
   }
   egress {
     from_port = 0
@@ -139,7 +139,7 @@ resource "aws_security_group" "ecs" {
       from_port = 9000
       to_port = 9100
       protocol = "TCP"
-      security_groups = ["${aws_security_group.ecs.id}"]
+      self = true
       description = "internal-nodes"
   }
 
@@ -163,7 +163,7 @@ resource "aws_security_group" "ecs" {
       from_port = 4369
       to_port = 4369
       protocol = "TCP"
-       security_groups = ["${aws_security_group.ecs.id}"]
+      self = true
       description = "side-project-erlang.erlang connections from same ec2 container instances"
   }
 
@@ -178,7 +178,7 @@ resource "aws_security_group" "ecs" {
 resource "aws_ecs_cluster" "app" {
   name = "${var.ecs_cluster_name}"
   tags {
-    Name = "#{var.tag_name}"
+    Name = "${var.tag_name}"
   }
 }
 
@@ -188,17 +188,13 @@ resource "aws_ecr_repository" "master" {
 
 
 resource "aws_lb_target_group" "ecs" {
-  name = "${variable.ecs_service_name}"
+  name = "${var.ecs_service_name}"
   port = 80
   protocol = "HTTP"
   target_type = "instance"
   vpc_id   = "${aws_vpc.main.id}"
 }
 
-# Simply specify the family to find the latest ACTIVE revision in that family.
-data "aws_ecs_task_definition" "app" {
-  task_definition = "${aws_ecs_task_definition.app.family}"
-}
 
 resource "aws_ecs_task_definition" "app" {
   family = "app"
@@ -206,25 +202,33 @@ resource "aws_ecs_task_definition" "app" {
   container_definitions = <<DEFINITION
 [
   {
-    "cpu": 0,
-    "environment": [],
-    "essential": true,
-    "image": "alpine:latest",
-    "name": "default"
+    "name": "default",
+    "image": "busybox",
+    "cpu": 10,
+    "memory": 10,
+    "essential": true
   }
 ]
 DEFINITION
 }
+
+# Simply specify the family to find the latest ACTIVE revision in that family.
+data "aws_ecs_task_definition" "app" {
+  depends_on = ["aws_ecs_task_definition.app"]
+  task_definition = "${aws_ecs_task_definition.app.family}"
+}
+
 
 
 
 resource "aws_ecs_service" "app" {
   name            = "${var.ecs_service_name}"
   cluster         = "${aws_ecs_cluster.app.id}"
-  task_definition = "${aws_ecs_task_definition.app.arn}"
+  task_definition = "${aws_ecs_task_definition.app.family}:${max("${aws_ecs_task_definition.app.revision}", "${data.aws_ecs_task_definition.app.revision}")}"
+  #task_definition = "${aws_ecs_task_definition.app.arn}"
   desired_count   = 1
   #iam_role        = "${aws_iam_role.ecs.arn}"
-  #depends_on      = ["aws_iam_role_policy.foo"]
+  depends_on      = ["aws_ecs_task_definition.app"]
 
   # ordered_placement_strategy {
   #   type  = "binpack"
@@ -233,7 +237,7 @@ resource "aws_ecs_service" "app" {
 
   load_balancer {
     target_group_arn = "${aws_lb_target_group.ecs.arn}"
-    container_name   = "${var.ecs_service_name}"
+    container_name   = ""
     container_port   = 4000
   }
 
@@ -246,7 +250,7 @@ resource "aws_ecs_service" "app" {
 resource "aws_launch_configuration" "as_conf" {
   name_prefix   = "ECS ${var.ecs_cluster_name}-"
   image_id      = "${var.amis["us-west-1"]}"
-  instance_type = "t2.small"
+  instance_type = "${var.ecs_instance_type}"
 
   lifecycle {
     create_before_destroy = true
@@ -302,5 +306,3 @@ resource "aws_autoscaling_group" "ecs-cluster" {
 #     Environment = "Dev"
 #   }
 # }
-
-

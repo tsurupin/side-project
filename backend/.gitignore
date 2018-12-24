@@ -22,3 +22,5 @@ erl_crash.dump
 /uploads
 .env_file
 /config/ci/docker-compose.yml
+
+/terraform/.terraform/
