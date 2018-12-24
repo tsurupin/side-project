@@ -186,14 +186,41 @@ resource "aws_ecr_repository" "master" {
   name = "${var.ecr_repository_name}"
 }
 
-
-resource "aws_lb_target_group" "ecs" {
+resource "aws_alb_target_group" "ecs" {
   name = "${var.ecs_service_name}"
   port = 80
   protocol = "HTTP"
   target_type = "instance"
   vpc_id   = "${aws_vpc.main.id}"
 }
+
+resource "aws_alb" "main" {
+  name            = "${var.alb_name}"
+  subnets         = ["${aws_subnet.main-1a.id}", "${aws_subnet.main-1b.id}"]
+  security_groups = ["${aws_security_group.alb.id}"]
+  #   internal        = "${var.internal_alb}"  
+  #   idle_timeout    = "${var.idle_timeout}"  
+  # tags {    
+  #   Name    = "${var.alb_name}"    
+  # }   
+  # access_logs {    
+  #   bucket = "${var.s3_bucket}"    
+  #   prefix = "ELB-logs"  
+  # }
+}
+
+
+resource "aws_alb_listener" "app" {
+  load_balancer_arn = "${aws_alb.main.id}"
+  port              = "80"
+  protocol          = "HTTP"
+
+  default_action {
+    target_group_arn = "${aws_alb_target_group.ecs.id}"
+    type             = "forward"
+  }
+}
+
 
 
 resource "aws_ecs_task_definition" "app" {
@@ -202,11 +229,17 @@ resource "aws_ecs_task_definition" "app" {
   container_definitions = <<DEFINITION
 [
   {
-    "name": "default",
+    "name": "${var.ecs_service_name}",
     "image": "busybox",
     "cpu": 10,
     "memory": 10,
-    "essential": true
+    "essential": true,
+    "portMappings": [
+      {
+        "containerPort": 4000,
+        "hostPort": 80
+      }
+    ]
   }
 ]
 DEFINITION
@@ -227,8 +260,8 @@ resource "aws_ecs_service" "app" {
   task_definition = "${aws_ecs_task_definition.app.family}:${max("${aws_ecs_task_definition.app.revision}", "${data.aws_ecs_task_definition.app.revision}")}"
   #task_definition = "${aws_ecs_task_definition.app.arn}"
   desired_count   = 1
-  #iam_role        = "${aws_iam_role.ecs.arn}"
-  depends_on      = ["aws_ecs_task_definition.app"]
+  iam_role        = "${aws_iam_role.ecs.name}"
+  depends_on      = ["aws_ecs_task_definition.app", "aws_alb_target_group.ecs"]
 
   # ordered_placement_strategy {
   #   type  = "binpack"
@@ -236,8 +269,8 @@ resource "aws_ecs_service" "app" {
   # }
 
   load_balancer {
-    target_group_arn = "${aws_lb_target_group.ecs.arn}"
-    container_name   = ""
+    target_group_arn = "${aws_alb_target_group.ecs.arn}"
+    container_name   = "${var.ecs_service_name}"
     container_port   = 4000
   }
 
@@ -252,9 +285,14 @@ resource "aws_launch_configuration" "as_conf" {
   image_id      = "${var.amis["us-west-1"]}"
   instance_type = "${var.ecs_instance_type}"
 
+  security_groups = [
+    "${aws_security_group.ecs.id}",
+  ]
+
   lifecycle {
     create_before_destroy = true
   }
+
 }
 
 resource "aws_autoscaling_group" "ecs-cluster" {

@@ -1,11 +1,13 @@
 
-variable "aws_access_key" {
-    description = "The AWS access key."
-}
+# variable "aws_access_key" {
+#     description = "The AWS access key."
 
-variable "aws_secret_key" {
-    description = "The AWS secret key."
-}
+# }
+
+# variable "aws_secret_key" {
+#     description = "The AWS secret key."
+    
+# }
 
 variable "region" {
     description = "The AWS region to create resources in."
@@ -81,3 +83,18 @@ variable "public_key_name" {
     default = "side-project"
 }
 
+variable "alb_name" {
+    description = "ALB for side-project"
+    default = "side-project"
+}
+
+
+variable "aws_iam_role" {
+    description = "IAM role for ecs"
+    default = "side-project-ecs-role"
+}
+
+variable "aws_iam_role_policy" {
+    description = "IAM role policy for ecs"
+    default = "side-project-ecs-role-policy"
+}
