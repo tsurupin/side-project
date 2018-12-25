@@ -9,6 +9,26 @@
     
 # }
 
+
+variable "rds_name" {
+    description = "db name for RDS"
+    default = "side_project_prod"
+}
+
+variable "rds_identifier" {
+    description = "db identifier for RDS"
+    default = "side-project-prod"
+}
+
+variable "rds_username" {
+    description = "db username for RDS"
+    default = "postgres"
+}
+
+variable "rds_password" {
+    description = "db password for RDS"
+    default = "password"
+}
 variable "region" {
     description = "The AWS region to create resources in."
     default = "us-east-1"
