@@ -112,24 +112,6 @@ resource "aws_security_group" "internal" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 }
-
-# resource "aws_security_group" "ssh" {
-#   name = "side-project-ssh"
-#   description = "Allow all incoming trafic"
-#   vpc_id = "${aws_vpc.main.id}"
-#   ingress {
-#     from_port   = 0
-#     to_port     = 0
-#     protocol    = -1
-#     cidr_blocks = ["0.0.0.0/0"]
-#   }
-#   egress {
-#     from_port = 0
-#     to_port = 0
-#     protocol = "-1"
-#     cidr_blocks = ["0.0.0.0/0"]
-#   }
-# }
 resource "aws_security_group" "ecs" {
   name = "side-project-ecs"
   description = "ECS Allowed Ports"
@@ -224,8 +206,9 @@ resource "aws_alb_listener" "app" {
 
 
 resource "aws_ecs_task_definition" "app" {
-  family = "app"
-
+  family = "${var.ecs_task_definition}"
+  task_role_arn         = "${aws_iam_role.ecs.arn}"
+  #network_mode             = "awsvpc"
   container_definitions = <<DEFINITION
 [
   {
@@ -252,21 +235,49 @@ data "aws_ecs_task_definition" "app" {
 }
 
 
+resource "aws_service_discovery_private_dns_namespace" "app" {
+  name        = "side-project-prod"
+  description = "example"
+  vpc         = "${aws_vpc.main.id}"
+}
 
+resource "aws_service_discovery_service" "app" {
+  name = "side-project-prod"
+
+  dns_config {
+    namespace_id = "${aws_service_discovery_private_dns_namespace.app.id}"
+
+    dns_records {
+      ttl  = 60
+      type = "SRV"
+    }
+
+    routing_policy = "MULTIVALUE"
+  }
+
+  health_check_custom_config {
+    failure_threshold = 1
+  }
+}
 
 resource "aws_ecs_service" "app" {
   name            = "${var.ecs_service_name}"
   cluster         = "${aws_ecs_cluster.app.id}"
   task_definition = "${aws_ecs_task_definition.app.family}:${max("${aws_ecs_task_definition.app.revision}", "${data.aws_ecs_task_definition.app.revision}")}"
-  #task_definition = "${aws_ecs_task_definition.app.arn}"
   desired_count   = 1
-  iam_role        = "${aws_iam_role.ecs.name}"
+  #iam_role        = "${aws_iam_role.ecs.name}"
   depends_on      = ["aws_ecs_task_definition.app", "aws_alb_target_group.ecs"]
-
+  health_check_grace_period_seconds = 30
   # ordered_placement_strategy {
   #   type  = "binpack"
   #   field = "cpu"
   # }
+
+  service_registries  = {
+    registry_arn = "${aws_service_discovery_service.app.arn}"
+    container_name = "${var.ecs_service_name}"
+    container_port = 4000
+  }
 
   load_balancer {
     target_group_arn = "${aws_alb_target_group.ecs.arn}"
@@ -284,10 +295,8 @@ resource "aws_launch_configuration" "as_conf" {
   name_prefix   = "ECS ${var.ecs_cluster_name}-"
   image_id      = "${var.amis["us-west-1"]}"
   instance_type = "${var.ecs_instance_type}"
-
-  security_groups = [
-    "${aws_security_group.ecs.id}",
-  ]
+  key_name = "${var.public_key_name}"
+  security_groups = ["${aws_security_group.ecs.id}"]
 
   lifecycle {
     create_before_destroy = true
@@ -335,12 +344,20 @@ resource "aws_autoscaling_group" "ecs-cluster" {
 #   }
 # }
 
-# resource "aws_s3_bucket" "app" {
-#   bucket = "my-tf-test-bucket"
-#   acl    = "private"
+resource "aws_s3_bucket" "app" {
+  bucket = "${var.s3_app_bucket_name}"
+  acl    = "public-read"
 
-#   tags = {
-#     Name        = "My bucket"
-#     Environment = "Dev"
-#   }
-# }
+  cors_rule {
+    allowed_headers = ["*"]
+    allowed_methods = ["PUT", "POST"]
+    allowed_origins = ["https://google.com"]
+    expose_headers  = ["ETag"]
+    max_age_seconds = 3000
+  }
+
+  tags = {
+    Name        = "My bucket"
+    Environment = "Dev"
+  }
+}

@@ -46,28 +46,64 @@ resource "aws_iam_role" "ecs" {
 EOF
 }
 
+data "aws_iam_policy_document" "ecs" {
+  statement {
+    actions = [
+      "ec2:CreateNetworkInterface",
+      "ec2:DeleteNetworkInterface",
+      "ec2:DescribeInstances",
+      "ec2:DescribeNetworkInterfaces",
+      "ecs:DescribeContainerInstances",
+      "logs:CreateLogGroup",
+      "logs:CreateLogStream",
+      "logs:PutLogEvents",
+      "route53:ChangeResourceRecordSets",
+      "route53:CreateHealthCheck",
+      "route53:DeleteHealthCheck",
+      "route53:GetHealthCheck",
+      "route53:GetHostedZone",
+      "route53:ListHostedZonesByName",
+      "route53:UpdateHealthCheck",
+      "servicediscovery:DeregisterInstance",
+      "servicediscovery:Get*",
+      "servicediscovery:List*",
+      "servicediscovery:RegisterInstance",
+      "ec2:Describe*",
+      "elasticloadbalancing:DeregisterInstancesFromLoadBalancer",
+      "elasticloadbalancing:DeregisterTargets",
+      "elasticloadbalancing:Describe*",
+      "elasticloadbalancing:RegisterInstancesWithLoadBalancer",
+      "elasticloadbalancing:RegisterTargets"
+    ]
 
-resource "aws_iam_role_policy" "ecs_service" {
+    effect    = "Allow"
+    resources = ["*"]
+  }
+}
+
+resource "aws_iam_role_policy" "ecs" {
   name = "${var.ecs_iam_role_policy}"
   role = "${aws_iam_role.ecs.name}"
 
-  policy = <<EOF
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Effect": "Allow",
-      "Action": [
-        "ec2:Describe*",
-        "elasticloadbalancing:DeregisterInstancesFromLoadBalancer",
-        "elasticloadbalancing:DeregisterTargets",
-        "elasticloadbalancing:Describe*",
-        "elasticloadbalancing:RegisterInstancesWithLoadBalancer",
-        "elasticloadbalancing:RegisterTargets"
-      ],
-      "Resource": "*"
-    }
-  ]
-}
-EOF
+  policy = "${data.aws_iam_policy_document.ecs.json}"
+
+#   policy = <<EOF
+# {
+#   "Version": "2012-10-17",
+#   "Statement": [
+#     {
+#       "Effect": "Allow",
+#       "Action": [
+#         "ec2:Describe*",
+#         "elasticloadbalancing:DeregisterInstancesFromLoadBalancer",
+#         "elasticloadbalancing:DeregisterTargets",
+#         "elasticloadbalancing:Describe*",
+#         "elasticloadbalancing:RegisterInstancesWithLoadBalancer",
+#         "elasticloadbalancing:RegisterTargets"
+#       ],
+#       "Resource": "*"
+#     }
+#   ]
+# }
+# EOF
 }

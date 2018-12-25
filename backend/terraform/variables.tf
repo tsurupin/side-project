@@ -89,12 +89,22 @@ variable "alb_name" {
 }
 
 
-variable "aws_iam_role" {
+variable "ecs_iam_role" {
     description = "IAM role for ecs"
     default = "side-project-ecs-role"
 }
 
-variable "aws_iam_role_policy" {
+variable "ecs_iam_role_policy" {
     description = "IAM role policy for ecs"
     default = "side-project-ecs-role-policy"
+}
+
+variable "ecs_task_definition" {
+    description = "ECS task definition for app"
+    default = "side-project-prod"
+}
+
+variable "s3_app_bucket_name" {
+    description = "S3 bucket for app"
+    default = "side-project-prod-app"
 }
