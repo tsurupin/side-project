@@ -1,4 +1,4 @@
-
+#### base variables #####
 # variable "aws_access_key" {
 #     description = "The AWS access key."
 
@@ -8,8 +8,39 @@
 #     description = "The AWS secret key."
     
 # }
+variable "region" {
+    description = "The AWS region to create resources in."
+    default = "us-east-1"
+}
+
+variable "availability_zones" {
+    description = "The availability zone"
+    type = "map"
+    default = {
+       "a" = "us-east-1a",
+       "b" = "us-east-1b",
+    }
+}
+
+variable "tag_name" {
+    description = "The name of tag"
+    default = "side-project-prod"
+}
+
+variable "ssh_public_key_path" {
+    description = "Path to an SSH public key"
+    default = "~/.ssh/id_rsa.pub"
+}
+
+variable "public_key_name" {
+    description = "ssh public key name for aws"
+    default = "side-project"
+}
 
 
+
+
+#### RDS variables #####
 variable "rds_name" {
     description = "db name for RDS"
     default = "side_project_prod"
@@ -29,20 +60,9 @@ variable "rds_password" {
     description = "db password for RDS"
     default = "password"
 }
-variable "region" {
-    description = "The AWS region to create resources in."
-    default = "us-east-1"
-}
 
-variable "availability_zones" {
-    description = "The availability zone"
-    type = "map"
-    default = {
-       "a" = "us-east-1a",
-       "b" = "us-east-1b",
-    }
-}
 
+#### ECS variables #####
 variable "ecs_cluster_name" {
     description = "The name of the Amazon ECS cluster."
     default = "side-project-prod"
@@ -58,10 +78,6 @@ variable "ecs_service_name" {
     default = "side-project-prod"
 }
 
-variable "tag_name" {
-    description = "The name of tag"
-    default = "side-project-prod"
-}
 
 variable "amis" {
     description = "Which AMI to spawn. Defaults to the AWS ECS optimized images."
@@ -93,15 +109,6 @@ variable "ecs_instance_type" {
     default = "t2.small"
 }
 
-variable "ssh_public_key_path" {
-    description = "Path to an SSH public key"
-    default = "~/.ssh/id_rsa.pub"
-}
-
-variable "public_key_name" {
-    description = "ssh public key name for aws"
-    default = "side-project"
-}
 
 variable "alb_name" {
     description = "ALB for side-project"
@@ -123,6 +130,8 @@ variable "ecs_task_definition" {
     description = "ECS task definition for app"
     default = "side-project-prod"
 }
+
+#### S3 variables ####
 
 variable "s3_app_bucket_name" {
     description = "S3 bucket for app"
