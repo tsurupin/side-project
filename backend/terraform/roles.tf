@@ -87,23 +87,4 @@ resource "aws_iam_role_policy" "ecs" {
 
   policy = "${data.aws_iam_policy_document.ecs.json}"
 
-#   policy = <<EOF
-# {
-#   "Version": "2012-10-17",
-#   "Statement": [
-#     {
-#       "Effect": "Allow",
-#       "Action": [
-#         "ec2:Describe*",
-#         "elasticloadbalancing:DeregisterInstancesFromLoadBalancer",
-#         "elasticloadbalancing:DeregisterTargets",
-#         "elasticloadbalancing:Describe*",
-#         "elasticloadbalancing:RegisterInstancesWithLoadBalancer",
-#         "elasticloadbalancing:RegisterTargets"
-#       ],
-#       "Resource": "*"
-#     }
-#   ]
-# }
-# EOF
 }

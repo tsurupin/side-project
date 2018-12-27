@@ -1,8 +1,12 @@
 resource "aws_ecs_cluster" "app" {
   name = "${var.ecs_cluster_name}"
-  tags {
-    Name = "${var.tag_name}"
-  }
+  tags = [
+    {
+        key                 = "AppName"
+        value               = "${var.app_tag_name}"
+        propagate_at_launch = true
+      }
+  ]
 }
 
 resource "aws_ecr_repository" "master" {
@@ -84,9 +88,11 @@ resource "aws_ecs_service" "app" {
     container_port   = 4000
   }
 
-  tags {
-
-  }
+  # tags = {
+  #   key                 = "AppName"
+  #   value               = "${var.app_tag_name}"
+  #   propagate_at_launch = true
+  # }
 
 }
 
@@ -105,7 +111,7 @@ resource "aws_launch_configuration" "as_conf" {
 
 resource "aws_autoscaling_group" "ecs-cluster" {
     name = "ECS ${var.ecs_cluster_name}"
-    availability_zones = ["${var.availability_zones["a"]}","${var.availability_zones["b"]}"]
+    availability_zones = ["${lookup(var.availability_zones[terraform.workspace], "a")}","${lookup(var.availability_zones[terraform.workspace], "b")}"]
     min_size = "${var.autoscale_min}"
     max_size = "${var.autoscale_max}"
     desired_capacity = "${var.autoscale_desired}"
@@ -122,6 +128,11 @@ resource "aws_autoscaling_group" "ecs-cluster" {
        {
         key                 = "Name"
         value               = "ECS ${var.ecs_cluster_name}"
+        propagate_at_launch = true
+      },
+      {
+        key                 = "AppName"
+        value               = "${var.app_tag_name}"
         propagate_at_launch = true
       }
     ]

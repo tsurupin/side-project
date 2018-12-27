@@ -38,7 +38,7 @@ environment :prod do
   set include_erts: true
   set include_src: false
   set cookie: :"${NODE_COOKIE}"
-  
+
   set(pre_configure_hooks: "rel/pre_configure_hooks")
   set(pre_start_hooks: "rel/pre_start_hooks")
   set vm_args: "rel/vm.args"
@@ -70,6 +70,6 @@ release :backend do
     db: :permanent
   ]
 
-  
+
 end
 

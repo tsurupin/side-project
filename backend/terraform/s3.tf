@@ -1,6 +1,6 @@
 resource "aws_s3_bucket" "app" {
   bucket = "${var.s3_app_bucket_name}"
-  acl    = "public-read"
+  acl    = "private"
 
   cors_rule {
     allowed_headers = ["*"]
@@ -10,8 +10,15 @@ resource "aws_s3_bucket" "app" {
     max_age_seconds = 3000
   }
 
-  tags = {
-    Name        = "My bucket"
-    Environment = "Dev"
-  }
+  tags = [
+    {
+      Name        = "My bucket"
+      Environment = "s3"
+    },
+    {
+      key                 = "AppName"
+      value               = "${var.app_tag_name}"  
+      propagate_at_launch = true
+     } 
+  ]   
 }

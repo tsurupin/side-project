@@ -3,35 +3,51 @@ resource "aws_vpc" "main" {
   enable_dns_hostnames = true
   enable_dns_support = true
 
-  tags {
-    Name = "${var.tag_name}"
-  }
+  tags = [    
+     {
+      key                 = "AppName"
+      value               = "${var.app_tag_name}"  
+      propagate_at_launch = true
+     }
+  ]   
 }
 
 resource "aws_internet_gateway" "main-gw" {
   vpc_id = "${aws_vpc.main.id}"
-  tags {
-    Name = "${var.tag_name}"
-  }
+  tags = [    
+     {
+      key                 = "AppName"
+      value               = "${var.app_tag_name}"  
+      propagate_at_launch = true
+     }
+  ]   
 }
 
 resource "aws_subnet" "main-1a" {
   vpc_id     = "${aws_vpc.main.id}"
   cidr_block = "10.0.0.0/24"
-  availability_zone = "${lookup(var.availability_zones, "a")}"
-  tags {
-    Name = "${var.tag_name}"
-  }
+  availability_zone = "${lookup(var.availability_zones[terraform.workspace], "a")}"
+  tags = [    
+     {
+      key                 = "AppName"
+      value               = "${var.app_tag_name}"  
+      propagate_at_launch = true
+     }
+  ]   
   map_public_ip_on_launch = true
 }
 
 resource "aws_subnet" "main-1b" {
   vpc_id     = "${aws_vpc.main.id}"
   cidr_block = "10.0.1.0/24"
-  availability_zone = "${lookup(var.availability_zones, "b")}"
-  tags {
-    Name = "${var.tag_name}"
-  }
+  availability_zone = "${lookup(var.availability_zones[terraform.workspace], "b")}"
+  tags = [    
+     {
+      key                 = "AppName"
+      value               = "${var.app_tag_name}"  
+      propagate_at_launch = true
+     }
+  ]   
   map_public_ip_on_launch = true
 }
 
@@ -41,9 +57,13 @@ resource "aws_route_table" "main" {
     cidr_block = "0.0.0.0/0"
     gateway_id = "${aws_internet_gateway.main-gw.id}"
   }
-  tags {
-    Name = "${var.tag_name}"
-  }
+  tags = [    
+     {
+      key                 = "AppName"
+      value               = "${var.app_tag_name}"  
+      propagate_at_launch = true
+     }
+  ]   
 }
 
 resource "aws_route_table_association" "main-1a" {

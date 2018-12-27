@@ -25,7 +25,7 @@ resource "aws_db_instance" "default" {
   identifier = "${var.rds_identifier}"
  
   db_subnet_group_name = "${aws_db_subnet_group.rds.name}"
-  availability_zone = "${var.availability_zones["a"]}"
+  availability_zone = "${lookup(var.availability_zones[terraform.workspace], "a")}"
   multi_az = false
   backup_retention_period    = 0
   auto_minor_version_upgrade = true
@@ -33,9 +33,17 @@ resource "aws_db_instance" "default" {
   #storage_encrypted = true
 
   #enabled_cloudwatch_logs_exports = ["alert", "audit", "error", "general", "listener", "slowquery", "trace", "postgresql", "upgrade"]
-  deletion_protection = true
+ # deletion_protection = true
   lifecycle {
     ignore_changes = ["password"]
-    prevent_destroy = true
+   # prevent_destroy = true
   }
+
+  tags = [    
+     {
+      key                 = "AppName"
+      value               = "${var.app_tag_name}"  
+      propagate_at_launch = true
+     }
+  ]   
 }

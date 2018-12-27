@@ -8,23 +8,33 @@
 #     description = "The AWS secret key."
     
 # }
-variable "region" {
+variable "regions" {
     description = "The AWS region to create resources in."
-    default = "us-east-1"
+    type = "map"
+    default = {
+        "staging" = "us-east-1"
+        "production" = "us-west-2"
+    }
 }
 
 variable "availability_zones" {
     description = "The availability zone"
     type = "map"
     default = {
-       "a" = "us-east-1a",
-       "b" = "us-east-1b",
+        "staging" = {
+            "a" = "us-east-1a",
+            "b" = "us-east-1b",  
+        },
+        "production" = {
+            "a" = "us-west-2a",
+            "b" = "us-west-2b"
+        }
     }
 }
 
-variable "tag_name" {
+variable "app_tag_name" {
     description = "The name of tag"
-    default = "side-project-prod"
+    default = "side-project"
 }
 
 variable "ssh_public_key_path" {

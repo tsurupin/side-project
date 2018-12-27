@@ -23,7 +23,8 @@ erl_crash.dump
 .env_file
 /config/ci/docker-compose.yml
 
-/terraform/.terraform/
+/terraform/.terraform/*
 /terraform/terraform.tfstate
 /terraform/terraform.tfstate.backup
+/terraform/terraform.tfstate.d/*
 /terraform/secrets.tf

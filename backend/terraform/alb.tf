@@ -9,16 +9,25 @@ resource "aws_alb_target_group" "ecs" {
 
 resource "aws_alb" "main" {
   name            = "${var.alb_name}"
+  internal = false
+  enable_deletion_protection = true
   subnets         = ["${aws_subnet.main-1a.id}", "${aws_subnet.main-1b.id}"]
   security_groups = ["${aws_security_group.alb.id}"]
-  #   internal        = "${var.internal_alb}"  
-  #   idle_timeout    = "${var.idle_timeout}"  
-  # tags {    
-  #   Name    = "${var.alb_name}"    
-  # }   
+
+  tags = [    
+     {
+      key                 = "AppName"
+      value               = "${var.app_tag_name}"  
+      propagate_at_launch = true
+     }
+  ]   
+
+  # depends_on = ["aws_s3_bucket.app"]
+  
   # access_logs {    
-  #   bucket = "${var.s3_bucket}"    
-  #   prefix = "ELB-logs"  
+  #   bucket = "${var.s3_app_bucket_name}"    
+  #   prefix = "ELB-logs" 
+  #   enabled = true 
   # }
 }
 
@@ -34,17 +43,17 @@ resource "aws_alb_listener" "app" {
   }
 }
 
-resource "aws_lb_listener" "https" {
-  load_balancer_arn = "${aws_alb.main.arn}"
-  port              = "443"
-  protocol          = "HTTPS"
-  ssl_policy        = "ELBSecurityPolicy-2015-05"
-  #certificate_arn   = "arn:aws:iam::187416307283:server-certificate/test_cert_rab3wuqwgja25ct3n4jdj2tzu4"
+# resource "aws_lb_listener" "https" {
+#   load_balancer_arn = "${aws_alb.main.arn}"
+#   port              = "443"
+#   protocol          = "HTTPS"
+#   ssl_policy        = "ELBSecurityPolicy-2015-05"
+#   #certificate_arn   = "arn:aws:iam::187416307283:server-certificate/test_cert_rab3wuqwgja25ct3n4jdj2tzu4"
 
-  default_action {
-    type             = "forward"
-    target_group_arn = "${aws_alb_target_group.ecs.arn}"
-  }
-}
+#   default_action {
+#     type             = "forward"
+#     target_group_arn = "${aws_alb_target_group.ecs.arn}"
+#   }
+# }
 
 
