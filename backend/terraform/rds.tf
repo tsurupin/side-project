@@ -33,7 +33,7 @@ resource "aws_db_instance" "default" {
   #storage_encrypted = true
 
   #enabled_cloudwatch_logs_exports = ["alert", "audit", "error", "general", "listener", "slowquery", "trace", "postgresql", "upgrade"]
-  deletion_protection = false
+  deletion_protection = true
   lifecycle {
     ignore_changes = ["password"]
     prevent_destroy = true

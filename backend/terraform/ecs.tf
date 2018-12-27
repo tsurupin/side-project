@@ -39,11 +39,6 @@ data "aws_ecs_task_definition" "app" {
 }
 
 
-resource "aws_service_discovery_private_dns_namespace" "app" {
-  name        = "side-project-prod"
-  description = "example"
-  vpc         = "${aws_vpc.main.id}"
-}
 
 resource "aws_service_discovery_service" "app" {
   name = "side-project-prod"

@@ -1,6 +1,7 @@
 resource "aws_vpc" "main" {
   cidr_block = "10.0.0.0/16"
-  //enable_dns_hostnames = true
+  enable_dns_hostnames = true
+  enable_dns_support = true
 
   tags {
     Name = "${var.tag_name}"
@@ -91,10 +92,11 @@ resource "aws_security_group" "rds" {
   vpc_id = "${aws_vpc.main.id}"
 
   ingress {
-    from_port = 0
-    to_port = 0
-    protocol = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
+    from_port = 5432
+    to_port = 5432
+    protocol = "TCP"
+    security_groups = ["${aws_security_group.ecs.id}"]
+    description = "side-project-ecs"
   }
 
   egress {
