@@ -10,7 +10,6 @@ type CacheData = {
 
 const updateProjectSearchParams = (_: any, { projectSearchParams }: InputData, { cache }: CacheData) => {
   const data = cache.readQuery({ query: PROJECT_SEARCH_PARAMS_QUERY });
-
   for (const [k, v] of Object.entries(projectSearchParams)) {
     if (k === 'city') {
       data.projectSearchParams[k] = {

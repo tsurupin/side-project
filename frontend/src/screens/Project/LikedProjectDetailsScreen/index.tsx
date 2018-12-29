@@ -39,7 +39,7 @@ class LikedProjectDetailsScreen extends React.Component<Props> {
     this.props.navigator.setOnNavigatorEvent(this.handleNavigatorEvent);
   }
 
-  private handleNavigatorEvent = (e) => {
+  private handleNavigatorEvent = (e: any) => {
     if (e.type !== 'NavBarButtonPress') return;
 
     switch (e.id) {

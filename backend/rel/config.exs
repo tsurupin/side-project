@@ -40,7 +40,7 @@ environment :prod do
   set cookie: :"${NODE_COOKIE}"
 
   set(pre_configure_hooks: "rel/pre_configure_hooks")
-  set(pre_start_hooks: "rel/pre_start_hooks")
+  #set(pre_start_hooks: "rel/pre_start_hooks")
   set vm_args: "rel/vm.args"
 
   set commands: [

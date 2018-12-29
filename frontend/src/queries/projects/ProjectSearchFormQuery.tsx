@@ -15,7 +15,6 @@ const ProjectSearchFormQuery = (props: Props) => {
         return (
           <Query query={PROJECT_SEARCH_PARAMS_QUERY}>
             {({ data }) => {
-              console.log('search params', { ...data, ...formData });
               return children({
                 data: { ...data, ...formData },
                 loading,

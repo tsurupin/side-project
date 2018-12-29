@@ -60,7 +60,7 @@ class UserSearchFormScreen extends React.Component<Props> {
               {({ updateUserSearchParamsMutation, error }: UpdateUserSearchOutput) => {
                 if (error) {
                   console.log(error);
-                  return <View />;
+                  return <ErrorMessage {...error} />;
                 }
 
                 return (

@@ -7,7 +7,7 @@ import MemberList from '../MemberList';
 import { SkillList, CarouselPanel, TextGroup } from '../../../Common';
 import { ProjectDetails, City } from '../../../../interfaces';
 import { ActiveMainColor } from '../../../../constants/colors';
-import { CHECK_ICON, ICON_MAIN_TYPE } from '../../../../constants/icons';
+import { CHECK_ICON, ICON_MAIN_TYPE, MEDIUM_ICON_SIZE } from '../../../../constants/icons';
 import styles from './styles';
 
 type Props = {
@@ -32,7 +32,7 @@ const renderLikeButton = (liked: boolean, like: any) => {
   return (
     <View style={styles.likeContainer}>
       <Icon
-        size={30}
+        size={MEDIUM_ICON_SIZE}
         color={ActiveMainColor}
         containerStyle={styles.iconContainer}
         name={CHECK_ICON}

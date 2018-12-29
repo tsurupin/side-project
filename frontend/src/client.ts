@@ -61,25 +61,25 @@ const stateLink = withClientState({
     logined: false,
     userSearchParams: {
       __typename: 'UserSearchParams',
-      genreId: undefined,
-      occupationTypeId: undefined,
+      genreId: null,
+      occupationTypeId: null,
       isActive: false,
       skills: [],
       location: {
         __typename: 'UserSearchParamsLocation',
-        latitude: undefined,
-        longitude: undefined,
-        distance: undefined
+        latitude: null,
+        longitude: null,
+        distance: null
       }
     },
     projectSearchParams: {
       __typename: 'ProjectSearchParams',
-      genreId: undefined,
+      genreId: null,
       skills: [],
       city: {
         __typename: 'ProjectSearchParamsCity',
-        id: undefined,
-        fullName: undefined
+        id: null,
+        fullName: null
       }
     }
   },
