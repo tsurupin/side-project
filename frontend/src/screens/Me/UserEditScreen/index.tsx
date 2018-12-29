@@ -72,7 +72,7 @@ class UserEditScreen extends React.Component<Props, UserEditParams> {
   };
 
   private renderMainPhoto = (user: UserDetails) => {
-    const { id, photos } = user;
+    const { id, photos, mainPhotoUrl } = user;
     return (
       <View style={styles.avatarContainer}>
         <Avatar
@@ -80,7 +80,7 @@ class UserEditScreen extends React.Component<Props, UserEditParams> {
           size="xlarge"
           rounded
           source={{
-            uri: 'https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg'
+            uri: mainPhotoUrl
           }}
           onPress={() => this.handlePressPhoto(id, photos)}
           activeOpacity={0.7}

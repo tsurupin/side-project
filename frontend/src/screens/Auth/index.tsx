@@ -39,7 +39,6 @@ class AuthScreen extends React.Component<Props> {
 
         AccessToken.getCurrentAccessToken()
           .then((accessTokenData) => {
-            console.log('accessData', accessTokenData);
             if (!accessTokenData) {
               throw 'No accessToken';
             }
@@ -58,10 +57,7 @@ class AuthScreen extends React.Component<Props> {
   ): Promise<void> => {
     try {
       await firebaseSignIn(token);
-
-      console.log('hoggg');
       loginMutation({ variables: { logined: true } });
-      console.log('firebaseSignIn end');
     } catch (e) {
       console.log('error', e);
     }

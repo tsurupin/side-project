@@ -1,9 +1,11 @@
 import * as React from 'react';
+import { Navigation } from 'react-native-navigation';
 import { View } from 'react-native';
 import { ListItem } from 'react-native-elements';
 import { LOGOUT_ICON } from '../../../../constants/icons';
 import { firebaseSignOut } from '../../../../utilities/firebase';
 import styles from './styles';
+import { AUTH_SCREEN } from '../../../../constants/screens';
 
 type Item = {
   title: string;
@@ -12,11 +14,30 @@ type Item = {
   fnc?: any;
 };
 
+const logout = async () => {
+  return new Promise((resolve, reject) => {
+    firebaseSignOut()
+      .then(() => {
+        Navigation.startSingleScreenApp({
+          screen: {
+            screen: AUTH_SCREEN,
+            title: 'Login'
+          }
+        });
+        resolve();
+      })
+      .catch((e) => {
+        console.error(e);
+        reject();
+      });
+  });
+};
+
 const SETTINS_LIST: Item[] = [
   {
     title: 'Log Out',
     iconName: LOGOUT_ICON,
-    fnc: () => firebaseSignOut()
+    fnc: () => logout()
   }
 ];
 
