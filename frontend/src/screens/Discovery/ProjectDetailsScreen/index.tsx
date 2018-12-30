@@ -3,7 +3,7 @@ import { View } from 'react-native';
 import { ProjectDetailsQuery } from '../../../queries/projects';
 import { BACK_BUTTON } from '../../../constants/buttons';
 import { BACK_ICON } from '../../../constants/icons';
-
+import { Navigation } from 'react-native-navigation';
 import { LikeProjectMutation } from '../../../mutations/projectLikes';
 import { LIKED_PROJECT_DETAILS_SCREEN, USER_DETAILS_SCREEN } from '../../../constants/screens';
 import { ProjectDetailsBox } from '../../../components/Discovery/ProjectDetailsScreen';
@@ -32,13 +32,11 @@ class ProjectDetailsScreen extends React.Component<Props> {
   constructor(props: Props) {
     super(props);
 
-    this.props.navigator.setOnNavigatorEvent(this.handleNavigatorEvent);
+    Navigation.events().bindComponent(this);
   }
 
-  private handleNavigatorEvent = (e) => {
-    if (e.type !== 'NavBarButtonPress') return;
-
-    switch (e.id) {
+  private navigationButtonPressed = ({ buttonId }) => {
+    switch (buttonId) {
       case BACK_BUTTON:
         this.props.navigator.pop();
     }

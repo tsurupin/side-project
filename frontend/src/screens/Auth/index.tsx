@@ -2,8 +2,7 @@ import * as React from 'react';
 import { Text, TouchableOpacity, View } from 'react-native';
 import { AccessToken, LoginManager } from 'react-native-fbsdk';
 import { SignUpMutation } from '../../mutations/accounts';
-import { LoginStatusQuery } from '../../queries/accounts';
-import MainTab from '../MainTab';
+import { goToMainTabs } from '../../utilities/navigation';
 import { firebaseSignIn } from '../../utilities/firebase';
 import { LoadingIndicator, ErrorMessage } from '../../components/Common';
 import { SignUpParams, LoginParams, GraphQLErrorMessage } from '../../interfaces';
@@ -12,10 +11,6 @@ const FACEBOOK = 'facebook';
 const FB_READ_PERMISSIONS = ['public_profile', 'email'];
 
 type Props = {};
-
-type LoginStatusOutput = {
-  data: { logined: boolean };
-};
 
 type SignUpOutput = {
   signUpMutation: (input: { variables: SignUpParams }) => void;
@@ -58,52 +53,39 @@ class AuthScreen extends React.Component<Props> {
     try {
       await firebaseSignIn(token);
       loginMutation({ variables: { logined: true } });
+      goToMainTabs();
     } catch (e) {
       console.log('error', e);
     }
   };
 
-  private openMainTab = () => {
-    MainTab();
-  };
-
   render() {
+    console.log('auth screen');
     return (
-      <LoginStatusQuery>
-        {({ data }: LoginStatusOutput) => {
-          if (data && data.logined) {
-            this.openMainTab();
-            return <View />;
-          }
+      <View>
+        <SignUpMutation>
+          {({ signUpMutation, loginMutation, loading, error, signUpData }: SignUpOutput) => {
+            if (loading) {
+              return <LoadingIndicator />;
+            }
+            if (error) {
+              return <ErrorMessage {...error} />;
+            }
 
-          return (
-            <View>
-              <SignUpMutation>
-                {({ signUpMutation, loginMutation, loading, error, signUpData }: SignUpOutput) => {
-                  if (loading) {
-                    return <LoadingIndicator />;
-                  }
-                  if (error) {
-                    return <ErrorMessage {...error} />;
-                  }
+            if (signUpData && signUpData.signUp) {
+              console.log('loginFirebase');
+              this.loginFirebase(signUpData.signUp.token, loginMutation);
+              return <View />;
+            }
 
-                  if (signUpData && signUpData.signUp) {
-                    console.log('loginFirebase');
-                    this.loginFirebase(signUpData.signUp.token, loginMutation);
-                    return <View />;
-                  }
-
-                  return (
-                    <TouchableOpacity onPress={() => this.handleFbLogin(signUpMutation)}>
-                      <Text> Facebook SignIn </Text>
-                    </TouchableOpacity>
-                  );
-                }}
-              </SignUpMutation>
-            </View>
-          );
-        }}
-      </LoginStatusQuery>
+            return (
+              <TouchableOpacity onPress={() => this.handleFbLogin(signUpMutation)}>
+                <Text> Facebook SignIn </Text>
+              </TouchableOpacity>
+            );
+          }}
+        </SignUpMutation>
+      </View>
     );
   }
 }

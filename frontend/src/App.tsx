@@ -1,6 +1,7 @@
 import { Navigation } from 'react-native-navigation';
 import ApolloWrapper from './AppolloWrapper';
 import {
+  INITIALIZE_SCREEN,
   AUTH_SCREEN,
   USER_DISCOVERY_SCREEN,
   USER_SEARCH_MODAL_SCREEN,
@@ -22,6 +23,7 @@ import {
   TEXT_INPUT_SCREEN,
   PHOTOS_EDIT_SCREEN
 } from './constants/screens';
+import InitializeScreen from './screens/Initialize';
 import AuthScreen from './screens/Auth';
 import { MatchScreen, ChatScreen } from './screens/Match';
 
@@ -46,18 +48,24 @@ import {
 } from './screens/Common';
 
 import {
-  CLOSE_ICON,
-  FILTER_ICON,
-  FILTER_OUTLINE_ICON,
-  MESSAGE_OUTLINE_ICON,
-  PENCIL_ICON,
-  ACCOUNT_ICON,
-  LIBRARY_BOOKS_ICON,
   BACK_ICON
 } from './constants/icons';
+
+import { BACK_BUTTON } from './constants/buttons';
+
+import {
+  TabBarBackgroundColor,
+  TabBarSelectedButtonColor,
+  TabBarButtonColor,
+  NotificationBadgeColor,
+  NavBarBackgroundColor,
+  NavBarButtonColor,
+  NavBarTextColor
+} from './constants/colors';
 import IconLoader from './utilities/IconLoader';
 
-const registerComponents = () => {
+export const registerComponents = () => {
+  Navigation.registerComponent(INITIALIZE_SCREEN, () => ApolloWrapper(InitializeScreen));
   Navigation.registerComponent(AUTH_SCREEN, () => ApolloWrapper(AuthScreen));
 
   Navigation.registerComponent(USER_DISCOVERY_SCREEN, () => ApolloWrapper(DiscoveryScreen));
@@ -89,17 +97,63 @@ const registerComponents = () => {
 
 registerComponents();
 
-const navIcons = [CLOSE_ICON, FILTER_ICON, FILTER_OUTLINE_ICON, BACK_ICON];
-const tabIcons = [LIBRARY_BOOKS_ICON, PENCIL_ICON, MESSAGE_OUTLINE_ICON, ACCOUNT_ICON];
 
-const preloadTasks = [IconLoader.loadIcons(navIcons.concat(tabIcons))];
-Promise.all(preloadTasks).then(() => {
-  Navigation.startSingleScreenApp({
-    screen: {
-      screen: AUTH_SCREEN,
-      title: 'Login'
-    }
+export const launchApp = () => {
+  Promise.all(IconLoader.loadIcons([BACK_ICON]).then(() => {
+    Navigation.events().registerAppLaunchedListener(async () => {
+      Navigation.setDefaultOptions({
+        bottomTab: {
+          iconColor: TabBarButtonColor,
+          selectedIconColor: TabBarSelectedButtonColor,
+          textColor: TabBarButtonColor,
+          selectedTextColor: TabBarSelectedButtonColor,
+          fontSize: 14,
+          badgeColor: NotificationBadgeColor
+        },
+        layout: {
+          orientation: ['portrait']
+        },
+        bottomTabs: {
+          visible: true,
+          currentTabIndex: 0,
+          titleDisplayMode: 'alwaysShow',
+          backgroundColor: TabBarBackgroundColor
+        },
+        statusBar: {
+          visible: true,
+          blur: true,
+          style: 'light'
+        },
+        topBar: {
+          visible: true,
+          animate: false,
+          buttonColor: NavBarButtonColor,
+          testID: 'topBar',
+          background: {
+            color: NavBarBackgroundColor
+          },
+          title: {
+            fontSize: 14,
+            color: NavBarTextColor,
+            fontFamily: 'Helvetica'
+          },
+          backButton: {
+            icon: IconLoader.getIcon(BACK_ICON),
+            visible: true,
+            id: BACK_BUTTON
+          }
+        }
+      });
+      Navigation.setRoot({
+        root: {
+          component: {
+            name: INITIALIZE_SCREEN
+          }
+        }
+      });
+    });
   });
-});
+};
 
-console.disableYellowBox = true;
+// Promise.all(preloadTasks).then(() => {
+// });

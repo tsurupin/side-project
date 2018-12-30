@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { View, Text, ScrollView } from 'react-native';
-
+import { Navigation } from 'react-native-navigation';
 import {
   USER_SEARCH_MODAL_SCREEN,
   PROJECT_SEARCH_MODAL_SCREEN,
@@ -95,7 +95,7 @@ class DiscoveryScreen extends React.Component<Props, State> {
       selectedIndex: USER_INDEX
     };
 
-    this.props.navigator.setOnNavigatorEvent(this.handleNavigatorEvent);
+    Navigation.events().bindComponent(this);
   }
 
   private isUserOriented = (): boolean => {
@@ -110,10 +110,8 @@ class DiscoveryScreen extends React.Component<Props, State> {
     }
   };
 
-  private handleNavigatorEvent = (e) => {
-    if (e.type !== 'NavBarButtonPress') return;
-
-    switch (e.id) {
+  private navigationButtonPressed = ({ buttonId }) => {
+    switch (buttonId) {
       case SEARCH_BUTTON:
         this.props.navigator.showModal({
           screen: this.isUserOriented() ? USER_SEARCH_MODAL_SCREEN : PROJECT_SEARCH_MODAL_SCREEN,
@@ -250,6 +248,7 @@ class DiscoveryScreen extends React.Component<Props, State> {
   };
 
   render() {
+    console.log(IconLoader.getIcon(CLOSE_ICON));
     return (
       <View style={styles.container}>
         <CustomizedSegmentedControlTab

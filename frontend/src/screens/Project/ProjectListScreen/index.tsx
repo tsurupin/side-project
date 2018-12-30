@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { View } from 'react-native';
+import { Navigation } from 'react-native-navigation';
 import MyProjectList from './MyProjectList';
 import EditableProjectList from './EditableProjectList';
 import { LIKED_PROJECT_DETAILS_SCREEN, PROJECT_EDIT_SCREEN, PROJECT_NEW_SCREEN } from '../../../constants/screens';
@@ -32,13 +33,11 @@ class ProjectListScreen extends React.Component<Props, State> {
     this.state = {
       selectedIndex: LIKED_PROJECT_INDEX
     };
-    this.props.navigator.setOnNavigatorEvent(this.handleNavigatorEvent);
+    Navigation.events().bindComponent(this);
   }
 
-  private handleNavigatorEvent = (e) => {
-    if (e.type !== 'NavBarButtonPress') return;
-
-    switch (e.id) {
+  private navigationButtonPressed = ({ buttonId }) => {
+    switch (buttonId) {
       case PROJECT_NEW_BUTTON:
         this.props.navigator.showModal({
           screen: PROJECT_NEW_SCREEN,

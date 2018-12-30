@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { SKILL_SEARCH_MODAL_SCREEN, SELECT_BOX_PICKER_SCREEN } from '../../../../constants/screens';
-
+import { Navigation } from 'react-native-navigation';
 import { View, FlatList, Alert } from 'react-native';
 import { ListItem, Icon } from 'react-native-elements';
 import { SelectBox } from '../../../../components/Common';
@@ -76,14 +76,13 @@ class SearchForm extends React.Component<Props, State> {
       skills: props.skills
     };
 
-    this.props.navigator.setOnNavigatorEvent(this.handleNavigationEvent);
+    Navigation.events().bindComponent(this);
   }
-  private handleNavigationEvent = (e) => {
+
+  private navigationButtonPressed = ({ buttonId }) => {
     const { genreId, occupationTypeId, location, isActive, skills } = this.state;
-    if (e.type !== 'NavBarButtonPress') {
-      return;
-    }
-    switch (e.id) {
+
+    switch (buttonId) {
       case APPLY_BUTTON:
         this.props.onSubmit({
           genreId,

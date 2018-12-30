@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { Navigation } from 'react-native-navigation';
 import { ErrorMessage, LoadingIndicator } from '../../../components/Common';
 import { UserDetailsBox } from '../../../components/Discovery/UserDetailsScreen';
 import { USER_EDIT_SCREEN } from '../../../constants/screens';
@@ -20,13 +21,11 @@ type MyUserOutput = {
 class MyProfileScreen extends React.Component<Props> {
   constructor(props: Props) {
     super(props);
-    this.props.navigator.setOnNavigatorEvent(this.handleNavigatorEvent);
+    Navigation.events().bindComponent(this);
   }
 
-  private handleNavigatorEvent = (e) => {
-    if (e.type !== 'NavBarButtonPress') return;
-
-    switch (e.id) {
+  private navigationButtonPressed = ({ buttonId }) => {
+    switch (buttonId) {
       case USER_EDIT_BUTTON:
         this.props.navigator.showModal({
           screen: USER_EDIT_SCREEN,

@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { View } from 'react-native';
+import { Navigation } from 'react-native-navigation';
 import { ProjectDetailsQuery } from '../../../queries/projects';
 import ActionSheet from 'react-native-actionsheet';
 import { BACK_BUTTON, PROJECT_ACTION_SHEET_BUTTON } from '../../../constants/buttons';
@@ -36,13 +37,11 @@ class LikedProjectDetailsScreen extends React.Component<Props> {
 
   constructor(props: Props) {
     super(props);
-    this.props.navigator.setOnNavigatorEvent(this.handleNavigatorEvent);
+    Navigation.events().bindComponent(this);
   }
 
-  private handleNavigatorEvent = (e: any) => {
-    if (e.type !== 'NavBarButtonPress') return;
-
-    switch (e.id) {
+  private navigationButtonPressed = ({ buttonId }) => {
+    switch (buttonId) {
       case PROJECT_ACTION_SHEET_BUTTON:
         this.ActionSheet.show();
         break;
