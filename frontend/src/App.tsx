@@ -97,7 +97,6 @@ export const registerComponents = () => {
 
 registerComponents();
 
-
 export const launchApp = () => {
   Promise.all(IconLoader.loadIcons([BACK_ICON]).then(() => {
     Navigation.events().registerAppLaunchedListener(async () => {
@@ -127,7 +126,7 @@ export const launchApp = () => {
         topBar: {
           visible: true,
           animate: false,
-          buttonColor: NavBarButtonColor,
+          buttonColor: TabBarButtonColor,
           testID: 'topBar',
           background: {
             color: NavBarBackgroundColor
@@ -155,5 +154,3 @@ export const launchApp = () => {
   });
 };
 
-// Promise.all(preloadTasks).then(() => {
-// });

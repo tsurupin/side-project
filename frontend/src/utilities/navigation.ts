@@ -26,14 +26,13 @@ import {
   FILTER_OUTLINE_ICON
 } from '../constants/icons';
 
-
 const navIcons = [CLOSE_ICON, FILTER_ICON, FILTER_OUTLINE_ICON, BACK_ICON];
 const tabIcons = [LIBRARY_BOOKS_ICON, PENCIL_ICON, MESSAGE_OUTLINE_ICON, ACCOUNT_ICON];
 
 const preloadTasks = [IconLoader.loadIcons(navIcons.concat(tabIcons))];
 
 export const goToMainTabs = () => {
-  Promise.all(preloadTasks).then(() => {
+  Promise.all(preloadTasks).then(async () => {
     const DISCOVERY_SCREEN_STACK = {
       id: 'Discovery',
       options: {
@@ -66,7 +65,7 @@ export const goToMainTabs = () => {
     };
     
     const MATCH_SCREEN_STACK = {
-      id: 'MatchId',
+      id: 'Match',
       options: {
         bottomTab: {
           text: 'Match',
