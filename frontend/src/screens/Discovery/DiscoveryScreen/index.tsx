@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { View, Text, ScrollView } from 'react-native';
 import { Navigation } from 'react-native-navigation';
+import { buildDefaultNavigationStack } from '../../../utilities/navigationStackBuilder';
 import {
   USER_SEARCH_MODAL_SCREEN,
   PROJECT_SEARCH_MODAL_SCREEN,
@@ -110,30 +111,27 @@ class DiscoveryScreen extends React.Component<Props, State> {
     }
   };
 
-  private navigationButtonPressed = ({ buttonId }) => {
+  private navigationButtonPressed = ({ buttonId }: { buttonId: string }) => {
     switch (buttonId) {
       case SEARCH_BUTTON:
-        this.props.navigator.showModal({
-          screen: this.isUserOriented() ? USER_SEARCH_MODAL_SCREEN : PROJECT_SEARCH_MODAL_SCREEN,
-          title: 'Filter',
-          passProps: { onSubmit: this.handleUpdateSearchParams },
-          navigatorButtons: {
-            leftButtons: [
-              {
-                icon: IconLoader.getIcon(CLOSE_ICON),
-                title: 'Close',
-                id: CLOSE_BUTTON
-              }
-            ],
-            rightButtons: [
-              {
-                icon: IconLoader.getIcon(FILTER_ICON),
-                title: 'Apply',
-                id: APPLY_BUTTON
-              }
-            ]
-          }
-        });
+        Navigation.showModal(
+          buildDefaultNavigationStack({
+            stackId: this.isUserOriented() ? USER_SEARCH_MODAL_SCREEN : PROJECT_SEARCH_MODAL_SCREEN,
+            screenName: this.isUserOriented() ? USER_SEARCH_MODAL_SCREEN : PROJECT_SEARCH_MODAL_SCREEN,
+            props: {
+              onSubmit: this.handleUpdateSearchParams
+            },
+            title: 'Filter',
+            leftButton: {
+              icon: IconLoader.getIcon(CLOSE_ICON),
+              id: CLOSE_BUTTON
+            },
+            rightButton: {
+              icon: IconLoader.getIcon(FILTER_ICON),
+              id: APPLY_BUTTON
+            }
+          })
+        );
     }
   };
 

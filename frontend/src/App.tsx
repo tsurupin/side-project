@@ -47,9 +47,7 @@ import {
   PhotosEditScreen
 } from './screens/Common';
 
-import {
-  BACK_ICON
-} from './constants/icons';
+import { BACK_ICON } from './constants/icons';
 
 import { BACK_BUTTON } from './constants/buttons';
 
@@ -98,59 +96,59 @@ export const registerComponents = () => {
 registerComponents();
 
 export const launchApp = () => {
-  Promise.all(IconLoader.loadIcons([BACK_ICON]).then(() => {
-    Navigation.events().registerAppLaunchedListener(async () => {
-      Navigation.setDefaultOptions({
-        bottomTab: {
-          iconColor: TabBarButtonColor,
-          selectedIconColor: TabBarSelectedButtonColor,
-          textColor: TabBarButtonColor,
-          selectedTextColor: TabBarSelectedButtonColor,
-          fontSize: 14,
-          badgeColor: NotificationBadgeColor
+  // Promise.all(IconLoader.loadIcons([BACK_ICON]).then(() => {
+  Navigation.events().registerAppLaunchedListener(() => {
+    Navigation.setDefaultOptions({
+      bottomTab: {
+        iconColor: TabBarButtonColor,
+        selectedIconColor: TabBarSelectedButtonColor,
+        textColor: TabBarButtonColor,
+        selectedTextColor: TabBarSelectedButtonColor,
+        fontSize: 12,
+        badgeColor: NotificationBadgeColor
+      },
+      layout: {
+        orientation: ['portrait']
+      },
+      bottomTabs: {
+        visible: true,
+        currentTabIndex: 0,
+        titleDisplayMode: 'alwaysShow',
+        backgroundColor: TabBarBackgroundColor
+      },
+      statusBar: {
+        visible: true,
+        blur: true,
+        style: 'light'
+      },
+      topBar: {
+        visible: true,
+        animate: false,
+        buttonColor: TabBarButtonColor,
+        testID: 'topBar',
+        background: {
+          color: NavBarBackgroundColor
         },
-        layout: {
-          orientation: ['portrait']
-        },
-        bottomTabs: {
-          visible: true,
-          currentTabIndex: 0,
-          titleDisplayMode: 'alwaysShow',
-          backgroundColor: TabBarBackgroundColor
-        },
-        statusBar: {
-          visible: true,
-          blur: true,
-          style: 'light'
-        },
-        topBar: {
-          visible: true,
-          animate: false,
-          buttonColor: TabBarButtonColor,
-          testID: 'topBar',
-          background: {
-            color: NavBarBackgroundColor
-          },
-          title: {
-            fontSize: 14,
-            color: NavBarTextColor,
-            fontFamily: 'Helvetica'
-          },
-          backButton: {
-            icon: IconLoader.getIcon(BACK_ICON),
-            visible: true,
-            id: BACK_BUTTON
-          }
+        title: {
+          fontSize: 16,
+          color: NavBarTextColor,
+          fontFamily: 'Helvetica'
         }
-      });
-      Navigation.setRoot({
-        root: {
-          component: {
-            name: INITIALIZE_SCREEN
-          }
+        // backButton: {
+        //   icon: IconLoader.getIcon(BACK_ICON),
+        //   visible: true,
+        //   tintColor: NavBarButtonColor,
+        //   id: BACK_BUTTON
+        // }
+      }
+    });
+    Navigation.setRoot({
+      root: {
+        component: {
+          name: INITIALIZE_SCREEN
         }
-      });
+      }
     });
   });
+  // });
 };
-

@@ -1,5 +1,4 @@
 import { Navigation } from 'react-native-navigation';
-import Icon from 'react-native-vector-icons/Ionicons';
 import IconLoader from '../utilities/IconLoader';
 import {
   AUTH_SCREEN,
@@ -9,22 +8,17 @@ import {
   SETTING_LIST_SCREEN
 } from '../constants/screens';
 import { SEARCH_BUTTON, PROJECT_NEW_BUTTON } from '../constants/buttons';
-import IconLoader from './IconLoader';
 import {
   CLOSE_ICON,
   FILTER_ICON,
-  FILTER_OUTLINE_ICON,
-  MESSAGE_OUTLINE_ICON,
   PENCIL_ICON,
   ACCOUNT_ICON,
-  LIBRARY_BOOKS_ICON,
   BACK_ICON,
   LIBRARY_BOOKS_ICON,
   MESSAGE_OUTLINE_ICON,
-  PENCIL_ICON,
-  ACCOUNT_ICON,
   FILTER_OUTLINE_ICON
 } from '../constants/icons';
+import { NavBarButtonColor } from '../constants/colors';
 
 const navIcons = [CLOSE_ICON, FILTER_ICON, FILTER_OUTLINE_ICON, BACK_ICON];
 const tabIcons = [LIBRARY_BOOKS_ICON, PENCIL_ICON, MESSAGE_OUTLINE_ICON, ACCOUNT_ICON];
@@ -54,7 +48,8 @@ export const goToMainTabs = () => {
                   {
                     icon: IconLoader.getIcon(FILTER_OUTLINE_ICON),
                     title: 'Search',
-                    id: SEARCH_BUTTON
+                    id: SEARCH_BUTTON,
+                    color: NavBarButtonColor
                   }
                 ]
               }
@@ -63,12 +58,12 @@ export const goToMainTabs = () => {
         }
       ]
     };
-    
+
     const MATCH_SCREEN_STACK = {
-      id: 'Match',
+      id: 'Chat',
       options: {
         bottomTab: {
-          text: 'Match',
+          text: 'Chat',
           icon: IconLoader.getIcon(MESSAGE_OUTLINE_ICON)
         }
       },
@@ -78,9 +73,36 @@ export const goToMainTabs = () => {
             name: MATCH_SCREEN,
             options: {
               topBar: {
+                title: {
+                  text: 'Match'
+                }
+              }
+            }
+          }
+        }
+      ]
+    };
+
+    const PROJECT_LIST_SCREEN_STACK = {
+      id: 'Project',
+      options: {
+        bottomTab: {
+          text: 'Project',
+          icon: IconLoader.getIcon(PENCIL_ICON)
+        }
+      },
+      children: [
+        {
+          component: {
+            name: PROJECT_LIST_SCREEN,
+            options: {
+              topBar: {
+                title: {
+                  text: 'Projects'
+                },
                 rightButtons: [
                   {
-                    icon: IconLoader.getIcon(MESSAGE_OUTLINE_ICON),
+                    color: NavBarButtonColor,
                     text: 'New',
                     enabled: true,
                     id: PROJECT_NEW_BUTTON
@@ -92,34 +114,12 @@ export const goToMainTabs = () => {
         }
       ]
     };
-    
-    const PROJECT_LIST_SCREEN_STACK = {
-      id: 'ProjectList',
-      options: {
-        bottomTab: {
-          text: 'ProjectList',
-          icon: IconLoader.getIcon(PENCIL_ICON)
-        }
-      },
-      children: [
-        {
-          component: {
-            name: PROJECT_LIST_SCREEN,
-            options: {
-              topBar: {
-                text: 'ProjectList'
-              }
-            }
-          }
-        }
-      ]
-    };
-    
+
     const SETTING_LIST_SCREEN_STACK = {
-      id: 'SettingList',
+      id: 'Me',
       options: {
         bottomTab: {
-          text: 'SettingList',
+          text: 'Me',
           icon: IconLoader.getIcon(ACCOUNT_ICON)
         }
       },
@@ -129,14 +129,16 @@ export const goToMainTabs = () => {
             name: SETTING_LIST_SCREEN,
             options: {
               topBar: {
-                text: 'Settings'
+                title: {
+                  text: 'Settings'
+                }
               }
             }
           }
         }
       ]
     };
-    
+
     const bottomTabs = {
       id: 'Tabs',
       options: {
@@ -158,7 +160,7 @@ export const goToMainTabs = () => {
           stack: SETTING_LIST_SCREEN_STACK
         }
       ]
-    };    
+    };
     Navigation.setRoot({
       root: {
         bottomTabs
