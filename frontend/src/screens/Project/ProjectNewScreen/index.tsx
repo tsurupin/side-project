@@ -7,7 +7,7 @@ import { ProjectCreateParams, Genre, MinimumOutput } from '../../../interfaces';
 import { ProjectFormQuery } from '../../../queries/projects';
 import { CreateProjectMutation } from '../../../mutations/projects';
 import { PROJECT_DETAILS_SCREEN } from '../../../constants/screens';
-import { BACK_BUTTON } from '../../../constants/buttons';
+import { BACK_BUTTON, SUBMIT_BUTTON, CLOSE_BUTTON } from '../../../constants/buttons';
 
 import IconLoader from '../../../utilities/IconLoader';
 import { buildDefaultNavigationComponent } from '../../../utilities/navigationStackBuilder';
@@ -33,10 +33,22 @@ type CreateProjectOutput = {
 } & MinimumOutput;
 
 class ProjectNewScreen extends React.Component<Props> {
+  private form: any;
   constructor(props: Props) {
     super(props);
     Navigation.events().bindComponent(this);
   }
+
+  private navigationButtonPressed = ({ buttonId }: { buttonId: string }) => {
+    switch (buttonId) {
+      case SUBMIT_BUTTON:
+        this.form.handleSubmit();
+        break;
+      case CLOSE_BUTTON:
+        Navigation.dismissModal(this.props.componentId);
+        break;
+    }
+  };
 
   private handleSubmit = (
     variables: ProjectCreateParams,
@@ -89,7 +101,9 @@ class ProjectNewScreen extends React.Component<Props> {
                         genres={projectFormData.genres}
                         loading={loading}
                         error={error}
-                        navigator={this.props.navigator}
+                        ref={(instance) => {
+                          this.form = instance;
+                        }}
                       />
                     );
                   }}

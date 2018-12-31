@@ -55,6 +55,15 @@ class SearchForm extends React.Component<Props, State> {
     Navigation.events().bindComponent(this);
   }
 
+  private handleSubmit = () => {
+    const { genreId, city, skills } = this.state;
+    this.props.onSubmit({
+      genreId,
+      city,
+      skills
+    });
+  };
+
   private navigationButtonPressed = ({ buttonId }: { buttonId: string }) => {
     const { genreId, city, skills } = this.state;
 

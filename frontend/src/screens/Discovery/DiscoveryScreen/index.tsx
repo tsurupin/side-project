@@ -39,24 +39,6 @@ type Props = {
   client: any;
 };
 
-// const initialState = {
-//   loading: false,
-//   errorMessage: '',
-//   userSearchParams: {
-//     occupationTypeId: undefined,
-//     genreId: undefined,
-//     isActive: undefined,
-//     location: undefined,
-//     skills: []
-//   },
-//   projectSearchParams: {
-//     genreId: undefined,
-//     city: undefined,
-//     skills: []
-//   },
-//   selectedIndex: USER_INDEX
-// };
-
 type State = {
   loading: boolean;
   errorMessage: string;

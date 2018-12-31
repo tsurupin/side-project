@@ -1,15 +1,11 @@
 import * as React from 'react';
-import {
-  SKILL_SEARCH_MODAL_SCREEN,
-  SELECT_BOX_PICKER_SCREEN,
-  USER_SEARCH_MODAL_SCREEN
-} from '../../../../constants/screens';
+import { SKILL_SEARCH_MODAL_SCREEN, SELECT_BOX_PICKER_SCREEN } from '../../../../constants/screens';
 import { Navigation } from 'react-native-navigation';
 import { buildDefaultNavigationStack } from '../../../../utilities/navigationStackBuilder';
 import { View, FlatList, Alert } from 'react-native';
 import { ListItem, Icon } from 'react-native-elements';
 import { SelectBox } from '../../../../components/Common';
-import { APPLY_BUTTON, CLOSE_BUTTON } from '../../../../constants/buttons';
+import { CLOSE_BUTTON } from '../../../../constants/buttons';
 
 import { Skill, Genre, Location, OccupationType, UserSearchParams } from '../../../../interfaces';
 import IconLoader from '../../../../utilities/IconLoader';
@@ -80,36 +76,18 @@ class SearchForm extends React.Component<Props, State> {
       isActive: props.isActive,
       skills: props.skills
     };
-    // Navigation.events().bindComponent(this);
   }
 
-  // componentDidMount() {
-  //   Navigation.events().bindComponent(this.props.parent);
-  // }
-  private navigationButtonPressed = ({ buttonId }: { buttonId: string }) => {
-    console.log(buttonId, 'aaa');
+  private handleSubmit = () => {
+    const { genreId, occupationTypeId, location, isActive, skills } = this.state;
+    this.props.onSubmit({
+      genreId,
+      occupationTypeId,
+      location,
+      isActive,
+      skills
+    });
   };
-
-  // private navigationButtonPressed = ({ buttonId }: { buttonId: string }) => {
-  //   const { genreId, occupationTypeId, location, isActive, skills } = this.state;
-  //   console.log(buttonId, 'button is pushed')
-  //   switch (buttonId) {
-  //     case APPLY_BUTTON:
-  //       this.props.onSubmit({
-  //         genreId,
-  //         occupationTypeId,
-  //         location,
-  //         isActive,
-  //         skills
-  //       });
-  //       this.props.navigator.dismissModal();
-  //       break;
-  //     case 'testt':
-  //        Navigation.dismissModal(USER_SEARCH_MODAL_SCREEN);
-  //       console.log('hoge')
-  //       break;
-  //   }
-  // };
 
   private handleSkillSearchShowModal = () => {
     Navigation.showModal(
@@ -126,21 +104,6 @@ class SearchForm extends React.Component<Props, State> {
         }
       })
     );
-    // this.props.navigator.showModal({
-    //   screen: SKILL_SEARCH_MODAL_SCREEN,
-    //   title: 'Skill Search',
-    //   animationType: 'slide-up',
-    //   passProps: { onPress: this.handleAddSkill },
-    //   navigatorButtons: {
-    //     leftButtons: [
-    //       {
-    //         icon: IconLoader.getIcon(CLOSE_ICON),
-    //         title: 'CLOSE',
-    //         id: CLOSE_BUTTON
-    //       }
-    //     ]
-    //   }
-    // });
   };
 
   private handleChangeValue = (key: KeyNames, value: string | number | boolean) => {

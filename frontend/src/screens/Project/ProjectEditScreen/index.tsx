@@ -9,7 +9,7 @@ import { ProjectDetails, ProjectEditParams, Genre, MinimumOutput } from '../../.
 
 import { EditProjectMutation } from '../../../mutations/projects';
 import { CLOSE_ICON } from '../../../constants/icons';
-import { CLOSE_BUTTON } from '../../../constants/buttons';
+import { CLOSE_BUTTON, SUBMIT_BUTTON } from '../../../constants/buttons';
 import IconLoader from '../../../utilities/IconLoader';
 import styles from './styles';
 import { PHOTOS_EDIT_SCREEN } from '../../../constants/screens';
@@ -38,10 +38,22 @@ type ProjectEditFormOutput = {
 } & MinimumOutput;
 
 class ProjectEditScreen extends React.Component<Props> {
+  private form: any;
   constructor(props: Props) {
     super(props);
     Navigation.events().bindComponent(this);
   }
+
+  private navigationButtonPressed = ({ buttonId }: { buttonId: string }) => {
+    switch (buttonId) {
+      case SUBMIT_BUTTON:
+        this.form.handleSubmit();
+        break;
+      case CLOSE_BUTTON:
+        Navigation.dismissModal(this.props.componentId);
+        break;
+    }
+  };
 
   private handleSubmit = (
     variables: Partial<ProjectEditParams>,
@@ -111,7 +123,9 @@ class ProjectEditScreen extends React.Component<Props> {
               loading={loading}
               genres={genres}
               error={error}
-              navigator={this.props.navigator}
+              ref={(instance) => {
+                this.form = instance;
+              }}
             />
           );
         }}

@@ -5,7 +5,7 @@ import { ListItem } from 'react-native-elements';
 import { CLOSE_BUTTON } from '../../../constants/buttons';
 
 import styles from './styles';
-import { SELECT_BOX_PICKER_SCREEN } from '../../../constants/screens';
+
 type Item = {
   id: string | undefined;
   name: string;
@@ -45,7 +45,7 @@ class PickerScreen extends React.Component<Props> {
 
   private handlePress = (key: string, value: string | number) => {
     this.props.onPress(key, value);
-    Navigation.dismissModal(SELECT_BOX_PICKER_SCREEN);
+    Navigation.dismissModal(this.props.componentId);
   };
 
   private renderSelectedItem = () => {

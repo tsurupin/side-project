@@ -4,7 +4,7 @@ import { ProjectEditParams, Skill, City, Genre, ProjectDetails } from '../../../
 import { ListItem, Icon } from 'react-native-elements';
 import IconLoader from '../../../../utilities/IconLoader';
 import { SelectBox, TextAreaListItem } from '../../../Common';
-import { CLOSE_BUTTON, SUBMIT_BUTTON } from '../../../../constants/buttons';
+import { CLOSE_BUTTON } from '../../../../constants/buttons';
 import {
   SKILL_SEARCH_MODAL_SCREEN,
   CITY_SEARCH_MODAL_SCREEN,
@@ -21,10 +21,11 @@ import {
 } from '../../../../constants/icons';
 
 import styles from './styles';
+import { Navigation } from 'react-native-navigation';
+import { buildDefaultNavigationStack } from '../../../../utilities/navigationStackBuilder';
 
 type Props = {
   genres: Genre[];
-  navigator: any;
   loading: boolean;
   error: any;
   project: ProjectDetails;
@@ -73,8 +74,6 @@ class EditForm extends React.Component<Props, State> {
       city: project.city,
       skills: project.skills
     };
-
-    this.props.navigator.setOnNavigatorEvent(this.handleNavigatorEvent);
   }
 
   private buildProjectEditParams = (): Partial<ProjectEditParams> => {
@@ -130,60 +129,47 @@ class EditForm extends React.Component<Props, State> {
     return previousObjectIds.length !== intersectionCount || currentObjectIds.length !== intersectionCount;
   };
 
-  private handleNavigatorEvent = (e) => {
-    if (e.type !== 'NavBarButtonPress') return;
-    switch (e.id) {
-      case SUBMIT_BUTTON:
-        this.props.onSubmit(this.buildProjectEditParams());
-        break;
-      case CLOSE_BUTTON:
-        this.props.navigator.dismissModal();
-        break;
-    }
+  private handleSubmit = () => {
+    this.props.onSubmit(this.buildProjectEditParams());
   };
 
   private handlePressShowModal = (items: any[], keyName: string, selectedValue: string | number | undefined) => {
-    this.props.navigator.showModal({
-      screen: SELECT_BOX_PICKER_SCREEN,
-      passProps: {
-        items,
-        keyName,
-        selectedValue,
-        onPress: this.handleChangeValue
-      },
-      navigatorButtons: {
-        leftButtons: [
-          {
-            icon: IconLoader.getIcon(CLOSE_ICON),
-            title: 'CLOSE',
-            id: CLOSE_BUTTON
-          }
-        ]
-      }
-    });
+    Navigation.showModal(
+      buildDefaultNavigationStack({
+        stackId: SELECT_BOX_PICKER_SCREEN,
+        screenName: SELECT_BOX_PICKER_SCREEN,
+        props: {
+          items,
+          keyName,
+          selectedValue,
+          onPress: this.handleChangeValue
+        },
+        leftButton: {
+          icon: IconLoader.getIcon(CLOSE_ICON),
+          id: CLOSE_BUTTON
+        }
+      })
+    );
   };
 
   private handleTextInputModal = (keyName: string, value: string | undefined, placeholder: string) => {
-    this.props.navigator.showModal({
-      screen: TEXT_INPUT_SCREEN,
-      title: keyName.toUpperCase(),
-      animationType: 'slide-up',
-      passProps: {
-        keyName,
-        value,
-        placeholder,
-        onPress: this.handleChangeValue
-      },
-      navigatorButtons: {
-        leftButtons: [
-          {
-            icon: IconLoader.getIcon(CLOSE_ICON),
-            title: 'Close',
-            id: CLOSE_BUTTON
-          }
-        ]
-      }
-    });
+    Navigation.showModal(
+      buildDefaultNavigationStack({
+        stackId: TEXT_INPUT_SCREEN,
+        screenName: TEXT_INPUT_SCREEN,
+        props: {
+          keyName,
+          value,
+          placeholder,
+          onPress: this.handleChangeValue
+        },
+        title: keyName.toUpperCase(),
+        leftButton: {
+          icon: IconLoader.getIcon(CLOSE_ICON),
+          id: CLOSE_BUTTON
+        }
+      })
+    );
   };
 
   private handleChangeValue = (keyName: keyof State, value: string | number | undefined) => {
@@ -191,21 +177,20 @@ class EditForm extends React.Component<Props, State> {
   };
 
   private handleSkillSearchShowModal = () => {
-    this.props.navigator.showModal({
-      screen: SKILL_SEARCH_MODAL_SCREEN,
-      title: 'Skill Search',
-      animationType: 'slide-up',
-      passProps: { onPress: this.handleAddSkill },
-      navigatorButtons: {
-        leftButtons: [
-          {
-            icon: IconLoader.getIcon(CLOSE_ICON),
-            title: 'Close',
-            id: CLOSE_BUTTON
-          }
-        ]
-      }
-    });
+    Navigation.showModal(
+      buildDefaultNavigationStack({
+        stackId: SKILL_SEARCH_MODAL_SCREEN,
+        screenName: SKILL_SEARCH_MODAL_SCREEN,
+        props: {
+          onPress: this.handleAddSkill
+        },
+        title: 'Skill Search',
+        leftButton: {
+          icon: IconLoader.getIcon(CLOSE_ICON),
+          id: CLOSE_BUTTON
+        }
+      })
+    );
   };
 
   private handleAddSkill = (skill: Skill) => {
@@ -220,24 +205,21 @@ class EditForm extends React.Component<Props, State> {
   };
 
   private handleCitySearchShowModal = () => {
-    this.props.navigator.showModal({
-      screen: CITY_SEARCH_MODAL_SCREEN,
-      title: 'City Search',
-      animationType: 'slide-up',
-      passProps: {
-        onPress: this.handleUpdateLocation,
-        needLocationSearch: true
-      },
-      navigatorButtons: {
-        leftButtons: [
-          {
-            icon: IconLoader.getIcon(CLOSE_ICON),
-            title: 'Close',
-            id: CLOSE_BUTTON
-          }
-        ]
-      }
-    });
+    Navigation.showModal(
+      buildDefaultNavigationStack({
+        stackId: CITY_SEARCH_MODAL_SCREEN,
+        screenName: CITY_SEARCH_MODAL_SCREEN,
+        props: {
+          onPress: this.handleUpdateLocation,
+          needLocationSearch: true
+        },
+        title: 'City Search',
+        leftButton: {
+          icon: IconLoader.getIcon(CLOSE_ICON),
+          id: CLOSE_BUTTON
+        }
+      })
+    );
   };
 
   private handleUpdateLocation = (

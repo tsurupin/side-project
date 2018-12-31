@@ -6,6 +6,7 @@ import { UpdateProjectSearchParamsMutation } from '../../../mutations/projects';
 import SearchForm from './SearchForm';
 
 import { ErrorMessage, LoadingIndicator } from '../../../components/Common';
+import { APPLY_BUTTON, CLOSE_BUTTON } from '../../../constants/buttons';
 
 type ProjectSearchParams = {
   genreId: string | undefined;
@@ -15,6 +16,7 @@ type ProjectSearchParams = {
 
 type Props = {
   navigator: any;
+  componentId: string;
   onSubmit: (searchParams: ProjectSearchParams) => void;
 };
 
@@ -33,10 +35,24 @@ type UpdateProjectSearchOutput = {
 };
 
 class ProjectSearchFormScreen extends React.Component<Props> {
+  private form: any;
   constructor(props: Props) {
     super(props);
     Navigation.events().bindComponent(this);
   }
+
+  private navigationButtonPressed = ({ buttonId }: { buttonId: string }) => {
+    switch (buttonId) {
+      case APPLY_BUTTON:
+        this.form.handleSubmit();
+        Navigation.dismissModal(this.props.componentId);
+        break;
+
+      case CLOSE_BUTTON:
+        Navigation.dismissModal(this.props.componentId);
+        break;
+    }
+  };
 
   private onSubmit = (
     searchParams: ProjectSearchParams,
@@ -78,6 +94,9 @@ class ProjectSearchFormScreen extends React.Component<Props> {
                     onSubmit={(searchParams: ProjectSearchParams) =>
                       this.onSubmit(searchParams, updateProjectSearchParamsMutation)
                     }
+                    ref={(instance) => {
+                      this.form = instance;
+                    }}
                   />
                 );
               }}
