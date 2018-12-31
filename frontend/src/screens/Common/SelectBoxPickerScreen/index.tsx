@@ -16,6 +16,7 @@ type Props = {
   items: Item[];
   keyName: string;
   navigator: any;
+  componentId: string;
   label: string;
 
   selectedValue: string | number | undefined;
@@ -37,7 +38,7 @@ class PickerScreen extends React.Component<Props> {
   private navigationButtonPressed = ({ buttonId }: { buttonId: string }) => {
     switch (buttonId) {
       case CLOSE_BUTTON:
-        Navigation.dismissModal(SELECT_BOX_PICKER_SCREEN);
+        Navigation.dismissModal(this.props.componentId);
         break;
     }
   };

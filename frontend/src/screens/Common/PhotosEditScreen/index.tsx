@@ -15,12 +15,12 @@ import {
   UploadPhotoParams,
   GraphQLErrorMessage
 } from '../../../interfaces';
-import { PHOTOS_EDIT_SCREEN } from '../../../constants/screens';
 
 type Props = {
   navigator: any;
   photos: UserPhoto[] | ProjectPhoto[];
   id: string;
+  componentId: string;
   photoType: string;
 };
 
@@ -61,7 +61,7 @@ class PhotosEditScreen extends React.Component<Props> {
   private navigationButtonPressed = ({ buttonId }: { buttonId: string }) => {
     switch (buttonId) {
       case CLOSE_BUTTON:
-        Navigation.dismissModal(PHOTOS_EDIT_SCREEN);
+        Navigation.dismissModal(this.props.componentId);
         break;
     }
   };

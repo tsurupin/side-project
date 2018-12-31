@@ -18,6 +18,7 @@ import { buildDefaultNavigationStack } from '../../../utilities/navigationStackB
 type Props = {
   id: string;
   navigator: any;
+  componentId: string;
 };
 
 type DefaultProps = {
@@ -98,7 +99,7 @@ class ProjectEditScreen extends React.Component<Props> {
           if (loading) return <LoadingIndicator />;
           if (error) return <ErrorMessage {...error} />;
           if (data) {
-            this.props.navigator.dismissModal();
+            Navigation.dismissModal(this.props.componentId);
             return <View />;
           }
           return (

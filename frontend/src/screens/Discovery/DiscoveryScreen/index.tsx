@@ -34,6 +34,7 @@ import IconLoader from '../../../utilities/IconLoader';
 const USER_INDEX = 0;
 
 type Props = {
+  componentId: string;
   navigator: any;
   client: any;
 };
@@ -117,10 +118,11 @@ class DiscoveryScreen extends React.Component<Props, State> {
   private navigationButtonPressed = ({ buttonId }: { buttonId: string }) => {
     switch (buttonId) {
       case SEARCH_BUTTON:
+        const screen = this.isUserOriented() ? USER_SEARCH_MODAL_SCREEN : PROJECT_SEARCH_MODAL_SCREEN;
         Navigation.showModal(
           buildDefaultNavigationStack({
-            stackId: this.isUserOriented() ? USER_SEARCH_MODAL_SCREEN : PROJECT_SEARCH_MODAL_SCREEN,
-            screenName: this.isUserOriented() ? USER_SEARCH_MODAL_SCREEN : PROJECT_SEARCH_MODAL_SCREEN,
+            stackId: screen,
+            screenName: screen,
             props: {
               onSubmit: this.handleUpdateSearchParams
             },
@@ -140,7 +142,7 @@ class DiscoveryScreen extends React.Component<Props, State> {
 
   protected handlePressCard = (id: string) => {
     Navigation.push(
-      this.isUserOriented() ? USER_DETAILS_SCREEN : PROJECT_DETAILS_SCREEN,
+      this.props.componentId,
       buildDefaultNavigationComponent({
         screenName: this.isUserOriented() ? USER_DETAILS_SCREEN : PROJECT_DETAILS_SCREEN,
         props: {
@@ -251,7 +253,6 @@ class DiscoveryScreen extends React.Component<Props, State> {
   };
 
   render() {
-    console.log(IconLoader.getIcon(CLOSE_ICON));
     return (
       <View style={styles.container}>
         <CustomizedSegmentedControlTab

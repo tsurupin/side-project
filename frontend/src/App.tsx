@@ -3,7 +3,7 @@ import ApolloWrapper from './AppolloWrapper';
 import {
   INITIALIZE_SCREEN,
   AUTH_SCREEN,
-  USER_DISCOVERY_SCREEN,
+  DISCOVERY_SCREEN,
   USER_SEARCH_MODAL_SCREEN,
   SKILL_SEARCH_MODAL_SCREEN,
   CITY_SEARCH_MODAL_SCREEN,
@@ -66,7 +66,7 @@ export const registerComponents = () => {
   Navigation.registerComponent(INITIALIZE_SCREEN, () => ApolloWrapper(InitializeScreen));
   Navigation.registerComponent(AUTH_SCREEN, () => ApolloWrapper(AuthScreen));
 
-  Navigation.registerComponent(USER_DISCOVERY_SCREEN, () => ApolloWrapper(DiscoveryScreen));
+  Navigation.registerComponent(DISCOVERY_SCREEN, () => ApolloWrapper(DiscoveryScreen));
   Navigation.registerComponent(USER_SEARCH_MODAL_SCREEN, () => ApolloWrapper(UserSearchModalScreen));
 
   Navigation.registerComponent(PROJECT_SEARCH_MODAL_SCREEN, () => ApolloWrapper(ProjectSearchModalScreen));
@@ -118,7 +118,6 @@ export const launchApp = () => {
       },
       statusBar: {
         visible: true,
-        blur: true,
         style: 'light'
       },
       topBar: {

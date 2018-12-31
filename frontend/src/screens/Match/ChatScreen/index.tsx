@@ -8,10 +8,10 @@ import { BACK_BUTTON } from '../../../constants/buttons';
 import { MessageList, MessageForm } from '../../../components/Match/ChatScreen';
 import styles from './styles';
 import { LoadingIndicator, ErrorMessage } from '../../../components/Common';
-import { CHAT_SCREEN } from '../../../constants/screens';
 
 type Props = {
   id: string;
+  componentId: string;
   navigator: any;
 };
 
@@ -33,7 +33,7 @@ class ChatScreen extends React.Component<Props> {
   private navigationButtonPressed = ({ buttonId }: { buttonId: string }) => {
     switch (buttonId) {
       case BACK_BUTTON:
-        Navigation.pop(CHAT_SCREEN);
+        Navigation.pop(this.props.componentId);
     }
   };
 

@@ -6,13 +6,14 @@ import { ProjectDetailsQuery } from '../../../queries/projects';
 import { BACK_BUTTON } from '../../../constants/buttons';
 import { BACK_ICON } from '../../../constants/icons';
 import { LikeProjectMutation } from '../../../mutations/projectLikes';
-import { LIKED_PROJECT_DETAILS_SCREEN, USER_DETAILS_SCREEN, PROJECT_DETAILS_SCREEN } from '../../../constants/screens';
+import { LIKED_PROJECT_DETAILS_SCREEN, USER_DETAILS_SCREEN } from '../../../constants/screens';
 import { ProjectDetailsBox } from '../../../components/Discovery/ProjectDetailsScreen';
 import { ProjectDetails, GraphQLErrorMessage, LikeProjectParams } from '../../../interfaces';
 import { LoadingIndicator, ErrorMessage } from '../../../components/Common';
 import IconLoader from '../../../utilities/IconLoader';
 type Props = {
   id: string;
+  componentId: string;
   navigator: any;
 };
 
@@ -39,7 +40,7 @@ class ProjectDetailsScreen extends React.Component<Props> {
   private navigationButtonPressed = ({ buttonId }: { buttonId: string }) => {
     switch (buttonId) {
       case BACK_BUTTON:
-        Navigation.pop(PROJECT_DETAILS_SCREEN);
+        Navigation.pop(this.props.componentId);
     }
   };
 
@@ -49,7 +50,7 @@ class ProjectDetailsScreen extends React.Component<Props> {
 
   private handleUserPress = (userId: string) => {
     Navigation.push(
-      USER_DETAILS_SCREEN,
+      this.props.componentId,
       buildDefaultNavigationComponent({
         screenName: USER_DETAILS_SCREEN,
         props: {
@@ -79,10 +80,15 @@ class ProjectDetailsScreen extends React.Component<Props> {
                 if (loading) return <LoadingIndicator />;
                 if (error) return <ErrorMessage {...error} />;
                 if (data) {
-                  this.props.navigator.push({
-                    screen: LIKED_PROJECT_DETAILS_SCREEN,
-                    passProps: { id }
-                  });
+                  Navigation.push(
+                    this.props.componentId,
+                    buildDefaultNavigationComponent({
+                      screenName: LIKED_PROJECT_DETAILS_SCREEN,
+                      props: {
+                        id
+                      }
+                    })
+                  );
                   return <View />;
                 }
 

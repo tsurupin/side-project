@@ -7,10 +7,10 @@ import { CLOSE_BUTTON } from '../../../constants/buttons';
 import { ICON_MAIN_TYPE, CLOSE_CIRCLE_ICON, ICON_BLACK_COLOR, SMALL_ICON_SIZE } from '../../../constants/icons';
 import styles from './styles';
 import { LabelTextColor } from '../../../constants/colors';
-import { TEXT_INPUT_SCREEN } from '../../../constants/screens';
 
 type Props = {
   keyName: string;
+  componentId: string;
   value: string | undefined;
   placeholder: string;
   onPress: (keyName: string, value: string | undefined) => void;
@@ -37,7 +37,7 @@ class TextInputScreen extends React.Component<Props, State> {
   private navigationButtonPressed = ({ buttonId }: { buttonId: string }) => {
     switch (buttonId) {
       case CLOSE_BUTTON:
-        Navigation.dismissModal(TEXT_INPUT_SCREEN);
+        Navigation.dismissModal(this.props.componentId);
         break;
     }
   };
@@ -46,7 +46,7 @@ class TextInputScreen extends React.Component<Props, State> {
     const { keyName, onPress } = this.props;
     const { value } = this.state;
     onPress(keyName, value);
-    Navigation.dismissModal(TEXT_INPUT_SCREEN);
+    Navigation.dismissModal(this.props.componentId);
   };
 
   render() {

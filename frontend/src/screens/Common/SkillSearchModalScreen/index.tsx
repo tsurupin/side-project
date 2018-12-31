@@ -12,6 +12,7 @@ import { SKILL_SEARCH_MODAL_SCREEN } from '../../../constants/screens';
 
 type Props = {
   navigator?: any;
+  componentId: string;
   skills: Skill[];
   onPress: (skill: Skill) => void;
 };
@@ -46,7 +47,7 @@ class SkillSearchModalScreen extends React.Component<Props, State> {
   private navigationButtonPressed = ({ buttonId }: { buttonId: string }) => {
     switch (buttonId) {
       case CLOSE_BUTTON:
-        Navigation.dismissModal(SKILL_SEARCH_MODAL_SCREEN);
+        Navigation.dismissModal(this.props.componentId);
 
         break;
     }
@@ -54,7 +55,7 @@ class SkillSearchModalScreen extends React.Component<Props, State> {
 
   private onPressSkill = (skill: Skill) => {
     this.props.onPress(skill);
-    Navigation.dismissModal(SKILL_SEARCH_MODAL_SCREEN);
+    Navigation.dismissModal(this.props.componentId);
   };
 
   private handleChangeText = (name: string) => {

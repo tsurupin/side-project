@@ -9,11 +9,11 @@ import { FindOrCreateCityMutation } from '../../../mutations/cities';
 import { City, CityEditParams, MinimumOutput } from '../../../interfaces';
 import { fetchAddress } from '../../../utilities/geocoder';
 import styles from './styles';
-import { CITY_SEARCH_MODAL_SCREEN } from '../../../constants/screens';
 
 type Props = {
   navigator?: any;
   needLocationSearch: boolean;
+  componentId: string;
   onPress: (city: City, longtitude?: number, latitude?: number) => void;
 };
 
@@ -54,13 +54,13 @@ class CitySearchModalScreen extends React.Component<Props, State> {
   private navigationButtonPressed = ({ buttonId }: { buttonId: string }) => {
     switch (buttonId) {
       case CLOSE_BUTTON:
-        Navigation.dismissModal(CITY_SEARCH_MODAL_SCREEN);
+        Navigation.dismissModal(this.props.componentId);
     }
   };
 
   private onPress = (city: City) => {
     this.props.onPress(city);
-    Navigation.dismissModal(CITY_SEARCH_MODAL_SCREEN);
+    Navigation.dismissModal(this.props.componentId);
   };
 
   private handleChangeText = (name: string) => {
@@ -128,7 +128,7 @@ class CitySearchModalScreen extends React.Component<Props, State> {
             const city: City = data.findOrCreateCity;
             const { longitude, latitude } = this.state;
             onPress(city, longitude, latitude);
-            navigator.dismissModal();
+            Navigation.dismissModal(this.props.componentId);
           }
           return (
             <Button

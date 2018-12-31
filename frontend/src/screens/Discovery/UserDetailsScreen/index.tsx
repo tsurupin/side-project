@@ -3,15 +3,17 @@ import { View } from 'react-native';
 import { Navigation } from 'react-native-navigation';
 import { ErrorMessage, LoadingIndicator } from '../../../components/Common';
 import { UserDetailsBox } from '../../../components/Discovery/UserDetailsScreen';
-import { USER_DISCOVERY_SCREEN, CHAT_SCREEN, USER_DETAILS_SCREEN } from '../../../constants/screens';
+import { DISCOVERY_SCREEN, CHAT_SCREEN } from '../../../constants/screens';
 import { BACK_BUTTON } from '../../../constants/buttons';
 import { UserDetailsQuery } from '../../../queries/users';
 import { LikeUserMutation, AcceptUserLikeMutation, RejectUserLikeMutation } from '../../../mutations/userLikes';
 
 import { UserDetails, MinimumOutput } from '../../../interfaces';
+import { buildDefaultNavigationComponent } from '../../../utilities/navigationStackBuilder';
 
 type Props = {
   id: string;
+  componentId: string;
   liked: boolean | undefined;
   navigator: any;
 };
@@ -46,7 +48,7 @@ class UserDetailsScreen extends React.Component<Props, State> {
   private navigationButtonPressed = ({ buttonId }: { buttonId: string }) => {
     switch (buttonId) {
       case BACK_BUTTON:
-        Navigation.pop(USER_DETAILS_SCREEN);
+        Navigation.pop(this.props.componentId);
     }
   };
 
@@ -66,9 +68,10 @@ class UserDetailsScreen extends React.Component<Props, State> {
           if (loading) return <LoadingIndicator />;
           if (error) return <ErrorMessage {...error} />;
           if (data) {
-            this.props.navigator.push({
-              screen: USER_DISCOVERY_SCREEN
-            });
+            Navigation.push(
+              this.props.componentId,
+              buildDefaultNavigationComponent({ screenName: DISCOVERY_SCREEN, props: {} })
+            );
             return <View />;
           }
 
@@ -78,10 +81,11 @@ class UserDetailsScreen extends React.Component<Props, State> {
                 if (loading) return <LoadingIndicator />;
                 if (error) return <ErrorMessage {...error} />;
                 if (data) {
-                  this.props.navigator.push({
-                    screen: CHAT_SCREEN,
-                    passProps: { id: data.acceptUserLike.id }
-                  });
+                  Navigation.push(
+                    this.props.componentId,
+                    buildDefaultNavigationComponent({ screenName: CHAT_SCREEN, props: { id: data.acceptUserLike.id } })
+                  );
+
                   return <View />;
                 }
                 return (
@@ -107,9 +111,10 @@ class UserDetailsScreen extends React.Component<Props, State> {
           if (loading) return <LoadingIndicator />;
           if (error) return <ErrorMessage {...error} />;
           if (data) {
-            this.props.navigator.push({
-              screen: USER_DISCOVERY_SCREEN
-            });
+            Navigation.push(
+              this.props.componentId,
+              buildDefaultNavigationComponent({ screenName: DISCOVERY_SCREEN, props: {} })
+            );
             return <View />;
           }
           return <UserDetailsBox user={user} liked={false} like={() => this.handlePress(likeUserMutation)} />;

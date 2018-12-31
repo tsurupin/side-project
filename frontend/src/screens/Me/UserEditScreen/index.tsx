@@ -18,6 +18,7 @@ import { buildDefaultNavigationStack } from '../../../utilities/navigationStackB
 type Props = {
   id: string;
   navigator: any;
+  componentId: string;
 };
 
 type DefaultProps = {
@@ -97,7 +98,7 @@ class UserEditScreen extends React.Component<Props, UserEditParams> {
           if (error) return <ErrorMessage {...error} />;
 
           if (data) {
-            this.props.navigator.dismissModal();
+            Navigation.dismissModal(this.props.componentId);
             return <View />;
           }
           return (

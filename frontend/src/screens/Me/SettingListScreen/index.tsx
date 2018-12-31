@@ -15,6 +15,7 @@ import { buildDefaultNavigationComponent } from '../../../utilities/navigationSt
 
 type Props = {
   navigator: any;
+  componentId: string;
 };
 
 type MyUserOutput = {
@@ -29,7 +30,7 @@ class SettingsListScreen extends React.Component<Props> {
 
   onPress = (screen: string) => {
     Navigation.push(
-      screen,
+      this.props.componentId,
       buildDefaultNavigationComponent({
         screenName: screen,
         props: {},

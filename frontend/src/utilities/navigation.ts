@@ -3,7 +3,7 @@ import IconLoader from '../utilities/IconLoader';
 import {
   AUTH_SCREEN,
   MATCH_SCREEN,
-  USER_DISCOVERY_SCREEN,
+  DISCOVERY_SCREEN,
   PROJECT_LIST_SCREEN,
   SETTING_LIST_SCREEN
 } from '../constants/screens';
@@ -38,7 +38,7 @@ export const goToMainTabs = () => {
       children: [
         {
           component: {
-            name: USER_DISCOVERY_SCREEN,
+            name: DISCOVERY_SCREEN,
             options: {
               topBar: {
                 title: {

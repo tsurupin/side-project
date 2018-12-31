@@ -5,7 +5,7 @@ import { ProjectDetailsQuery } from '../../../queries/projects';
 import ActionSheet from 'react-native-actionsheet';
 import { BACK_BUTTON, PROJECT_ACTION_SHEET_BUTTON } from '../../../constants/buttons';
 import { ProjectDetailsBox } from '../../../components/Discovery/ProjectDetailsScreen';
-import { USER_DETAILS_SCREEN, LIKED_PROJECT_DETAILS_SCREEN } from '../../../constants/screens';
+import { USER_DETAILS_SCREEN } from '../../../constants/screens';
 import { WithdrawProjectLikeMutation } from '../../../mutations/projectLikes';
 import { LoadingIndicator, ErrorMessage } from '../../../components/Common';
 import { MinimumOutput, ProjectDetails } from '../../../interfaces';
@@ -14,6 +14,7 @@ import { buildDefaultNavigationComponent } from '../../../utilities/navigationSt
 type Props = {
   id: string;
   navigator: any;
+  componentId: string;
 };
 
 // add like button for newcomer
@@ -47,7 +48,7 @@ class LikedProjectDetailsScreen extends React.Component<Props> {
         this.ActionSheet.show();
         break;
       case BACK_BUTTON:
-        Navigation.pop(LIKED_PROJECT_DETAILS_SCREEN);
+        Navigation.pop(this.props.componentId);
         break;
     }
   };
@@ -66,7 +67,7 @@ class LikedProjectDetailsScreen extends React.Component<Props> {
 
   private handleUserPress = (userId: string) => {
     Navigation.push(
-      USER_DETAILS_SCREEN,
+      this.props.componentId,
       buildDefaultNavigationComponent({
         screenName: USER_DETAILS_SCREEN,
         props: {

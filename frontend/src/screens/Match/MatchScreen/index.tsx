@@ -14,6 +14,7 @@ import { LoadingIndicator, ErrorMessage } from '../../../components/Common';
 
 type Props = {
   navigator: any;
+  componentId: string;
 };
 
 type MatchListOutput = {
@@ -28,7 +29,7 @@ class MatchScreen extends React.Component<Props> {
 
   protected handleChatPress = (id: string, name: string): void => {
     Navigation.push(
-      CHAT_SCREEN,
+      this.props.componentId,
       buildDefaultNavigationComponent({
         screenName: CHAT_SCREEN,
         props: {
@@ -45,7 +46,7 @@ class MatchScreen extends React.Component<Props> {
 
   protected handleUserPress = (userId: string, displayName: string): void => {
     Navigation.push(
-      USER_DETAILS_SCREEN,
+      this.props.componentId,
       buildDefaultNavigationComponent({
         screenName: USER_DETAILS_SCREEN,
         props: {

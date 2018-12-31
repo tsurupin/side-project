@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Navigation } from 'react-native-navigation';
 import { ErrorMessage, LoadingIndicator } from '../../../components/Common';
 import { UserDetailsBox } from '../../../components/Discovery/UserDetailsScreen';
-import { USER_EDIT_SCREEN, MY_PROFILE_SCREEN } from '../../../constants/screens';
+import { USER_EDIT_SCREEN } from '../../../constants/screens';
 import { MyUserQuery } from '../../../queries/users';
 import { UserDetails, MinimumOutput } from '../../../interfaces';
 import { USER_EDIT_BUTTON, BACK_BUTTON, SUBMIT_BUTTON, CLOSE_BUTTON } from '../../../constants/buttons';
@@ -13,6 +13,7 @@ import { buildDefaultNavigationStack } from '../../../utilities/navigationStackB
 
 type Props = {
   navigator: any;
+  componentId: string;
 };
 
 type MyUserOutput = {
@@ -46,7 +47,7 @@ class MyProfileScreen extends React.Component<Props> {
         );
         break;
       case BACK_BUTTON:
-        Navigation.pop(MY_PROFILE_SCREEN);
+        Navigation.pop(this.props.componentId);
     }
   };
 

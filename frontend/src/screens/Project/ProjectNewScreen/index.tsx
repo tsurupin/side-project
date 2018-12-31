@@ -16,6 +16,7 @@ import styles from './styles';
 
 type Props = {
   navigator: any;
+  componentId: string;
 };
 
 type DefaultProps = {
@@ -66,7 +67,7 @@ class ProjectNewScreen extends React.Component<Props> {
                     if (data) {
                       Navigation.dismissAllModals();
                       Navigation.push(
-                        PROJECT_DETAILS_SCREEN,
+                        this.props.componentId,
                         buildDefaultNavigationComponent({
                           screenName: PROJECT_DETAILS_SCREEN,
                           props: {

@@ -22,6 +22,7 @@ import {
 
 type Props = {
   navigator: any;
+  componentId: string;
 };
 
 type State = {
@@ -67,7 +68,7 @@ class ProjectListScreen extends React.Component<Props, State> {
 
   private handleLikedProjectPress = (id: string) => {
     Navigation.push(
-      LIKED_PROJECT_DETAILS_SCREEN,
+      this.props.componentId,
       buildDefaultNavigationComponent({
         screenName: LIKED_PROJECT_DETAILS_SCREEN,
         props: {
