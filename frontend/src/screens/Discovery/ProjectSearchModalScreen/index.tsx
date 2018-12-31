@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { Navigation } from 'react-native-navigation';
 import { Skill, City, Genre, GraphQLErrorMessage } from '../../../interfaces';
 import { ProjectSearchFormQuery } from '../../../queries/projects';
 import { UpdateProjectSearchParamsMutation } from '../../../mutations/projects';
@@ -34,6 +35,7 @@ type UpdateProjectSearchOutput = {
 class ProjectSearchFormScreen extends React.Component<Props> {
   constructor(props: Props) {
     super(props);
+    Navigation.events().bindComponent(this);
   }
 
   private onSubmit = (

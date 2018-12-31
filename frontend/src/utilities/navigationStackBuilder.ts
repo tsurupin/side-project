@@ -7,13 +7,62 @@ type StackProps = {
   title?: string;
   leftButton?: object;
   rightButton?: object;
-  additionalOptions?: object;
+};
+
+type ComponentProps = {
+  screenName: string;
+  props: object | undefined;
+  title?: string;
+  leftButton?: object;
+  rightButton?: object;
 };
 
 type TopBarOptions = {
   title: string | undefined;
   leftButton: object | undefined;
   rightButton: object | undefined;
+};
+
+export const buildDefaultNavigationStack = ({
+  stackId,
+  screenName,
+  props,
+  title,
+  leftButton,
+  rightButton
+}: StackProps) => {
+  return {
+    stack: {
+      id: stackId,
+      children: [
+        {
+          ...buildDefaultNavigationComponent({
+            screenName,
+            props,
+            title,
+            leftButton,
+            rightButton
+          })
+        }
+      ]
+    }
+  };
+};
+
+export const buildDefaultNavigationComponent = ({
+  screenName,
+  props,
+  title,
+  leftButton,
+  rightButton
+}: ComponentProps) => {
+  return {
+    component: {
+      name: screenName,
+      passProps: props,
+      options: { ...buildTopBarOptions({ title, leftButton, rightButton }) }
+    }
+  };
 };
 
 const buildTopBarOptions = ({ title, leftButton, rightButton }: TopBarOptions) => {
@@ -30,30 +79,5 @@ const buildTopBarOptions = ({ title, leftButton, rightButton }: TopBarOptions) =
     options['rightButtons'] = [{ ...rightButton, color: NavBarButtonColor }];
   }
 
-  return options;
-};
-
-export const buildDefaultNavigationStack = ({
-  stackId,
-  screenName,
-  props,
-  title,
-  leftButton,
-  rightButton,
-  additionalOptions
-}: StackProps): any => {
-  return {
-    stack: {
-      id: stackId,
-      children: [
-        {
-          component: {
-            name: screenName,
-            passProps: props,
-            options: { ...buildTopBarOptions({ title, leftButton, rightButton }), additionalOptions }
-          }
-        }
-      ]
-    }
-  };
+  return { topBar: options };
 };

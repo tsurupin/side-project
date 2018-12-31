@@ -1,7 +1,10 @@
 import * as React from 'react';
 import { View, Text, ScrollView } from 'react-native';
 import { Navigation } from 'react-native-navigation';
-import { buildDefaultNavigationStack } from '../../../utilities/navigationStackBuilder';
+import {
+  buildDefaultNavigationStack,
+  buildDefaultNavigationComponent
+} from '../../../utilities/navigationStackBuilder';
 import {
   USER_SEARCH_MODAL_SCREEN,
   PROJECT_SEARCH_MODAL_SCREEN,
@@ -136,18 +139,20 @@ class DiscoveryScreen extends React.Component<Props, State> {
   };
 
   protected handlePressCard = (id: string) => {
-    this.props.navigator.push({
-      screen: this.isUserOriented() ? USER_DETAILS_SCREEN : PROJECT_DETAILS_SCREEN,
-      passProps: { id, liked: false },
-      navigatorButtons: {
-        leftButtons: [
-          {
-            icon: IconLoader.getIcon(BACK_ICON),
-            id: BACK_BUTTON
-          }
-        ]
-      }
-    });
+    Navigation.push(
+      this.isUserOriented() ? USER_DETAILS_SCREEN : PROJECT_DETAILS_SCREEN,
+      buildDefaultNavigationComponent({
+        screenName: this.isUserOriented() ? USER_DETAILS_SCREEN : PROJECT_DETAILS_SCREEN,
+        props: {
+          id,
+          liked: false
+        },
+        leftButton: {
+          icon: IconLoader.getIcon(BACK_ICON),
+          id: BACK_BUTTON
+        }
+      })
+    );
   };
 
   private buildUserSearchParams = (): UserSearchSubmitParams => {

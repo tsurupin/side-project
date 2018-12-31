@@ -5,10 +5,11 @@ import { ProjectDetailsQuery } from '../../../queries/projects';
 import ActionSheet from 'react-native-actionsheet';
 import { BACK_BUTTON, PROJECT_ACTION_SHEET_BUTTON } from '../../../constants/buttons';
 import { ProjectDetailsBox } from '../../../components/Discovery/ProjectDetailsScreen';
-import { USER_DETAILS_SCREEN } from '../../../constants/screens';
+import { USER_DETAILS_SCREEN, LIKED_PROJECT_DETAILS_SCREEN } from '../../../constants/screens';
 import { WithdrawProjectLikeMutation } from '../../../mutations/projectLikes';
 import { LoadingIndicator, ErrorMessage } from '../../../components/Common';
 import { MinimumOutput, ProjectDetails } from '../../../interfaces';
+import { buildDefaultNavigationComponent } from '../../../utilities/navigationStackBuilder';
 
 type Props = {
   id: string;
@@ -40,13 +41,13 @@ class LikedProjectDetailsScreen extends React.Component<Props> {
     Navigation.events().bindComponent(this);
   }
 
-  private navigationButtonPressed = ({ buttonId }) => {
+  private navigationButtonPressed = ({ buttonId }: { buttonId: string }) => {
     switch (buttonId) {
       case PROJECT_ACTION_SHEET_BUTTON:
         this.ActionSheet.show();
         break;
       case BACK_BUTTON:
-        this.props.navigator.pop();
+        Navigation.pop(LIKED_PROJECT_DETAILS_SCREEN);
         break;
     }
   };
@@ -64,12 +65,15 @@ class LikedProjectDetailsScreen extends React.Component<Props> {
   };
 
   private handleUserPress = (userId: string) => {
-    this.props.navigator.push({
-      screen: USER_DETAILS_SCREEN,
-      passProps: {
-        id: userId
-      }
-    });
+    Navigation.push(
+      USER_DETAILS_SCREEN,
+      buildDefaultNavigationComponent({
+        screenName: USER_DETAILS_SCREEN,
+        props: {
+          id: userId
+        }
+      })
+    );
   };
 
   render() {

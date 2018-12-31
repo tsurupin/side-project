@@ -3,7 +3,7 @@ import { View } from 'react-native';
 import { Navigation } from 'react-native-navigation';
 import { ErrorMessage, LoadingIndicator } from '../../../components/Common';
 import { UserDetailsBox } from '../../../components/Discovery/UserDetailsScreen';
-import { USER_DISCOVERY_SCREEN, CHAT_SCREEN } from '../../../constants/screens';
+import { USER_DISCOVERY_SCREEN, CHAT_SCREEN, USER_DETAILS_SCREEN } from '../../../constants/screens';
 import { BACK_BUTTON } from '../../../constants/buttons';
 import { UserDetailsQuery } from '../../../queries/users';
 import { LikeUserMutation, AcceptUserLikeMutation, RejectUserLikeMutation } from '../../../mutations/userLikes';
@@ -43,10 +43,10 @@ class UserDetailsScreen extends React.Component<Props, State> {
     Navigation.events().bindComponent(this);
   }
 
-  private navigationButtonPressed = ({ buttonId }) => {
+  private navigationButtonPressed = ({ buttonId }: { buttonId: string }) => {
     switch (buttonId) {
       case BACK_BUTTON:
-        this.props.navigator.pop();
+        Navigation.pop(USER_DETAILS_SCREEN);
     }
   };
 

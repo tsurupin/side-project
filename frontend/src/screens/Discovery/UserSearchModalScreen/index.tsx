@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { View } from 'react-native';
+import { Navigation } from 'react-native-navigation';
 import { OccupationType, Genre, Skill, Location, MinimumOutput } from '../../../interfaces';
 import { UserSearchFormQuery } from '../../../queries/users';
 import { UpdateUserSearchParamsMutation } from '../../../mutations/users';
@@ -36,6 +36,8 @@ type UpdateUserSearchOutput = {
 class UserSearchFormScreen extends React.Component<Props> {
   constructor(props: Props) {
     super(props);
+
+    // Navigation.events().bindComponent(this);
   }
 
   private onSubmit = (searchParams: UserSearchParams, mutation: (input: { variables: UserSearchParams }) => void) => {
@@ -67,6 +69,7 @@ class UserSearchFormScreen extends React.Component<Props> {
                   <SearchForm
                     {...userSearchParams}
                     genres={genres}
+                    parent={this}
                     occupationTypes={occupationTypes}
                     navigator={this.props.navigator}
                     onSubmit={(searchParams: UserSearchParams) =>

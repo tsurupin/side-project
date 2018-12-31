@@ -1,5 +1,7 @@
 import * as React from 'react';
 import { View } from 'react-native';
+import { Navigation } from 'react-native-navigation';
+import { buildDefaultNavigationComponent } from '../../../utilities/navigationStackBuilder';
 import { MatchListQuery } from '../../../queries/matches';
 import { CHAT_SCREEN, USER_DETAILS_SCREEN } from '../../../constants/screens';
 import { MatchQueueList, ChatList } from '../../../components/Match/MatchScreen';
@@ -21,38 +23,42 @@ type MatchListOutput = {
 class MatchScreen extends React.Component<Props> {
   constructor(props: Props) {
     super(props);
+    Navigation.events().bindComponent(this);
   }
 
   protected handleChatPress = (id: string, name: string): void => {
-    this.props.navigator.push({
-      screen: CHAT_SCREEN,
-      title: name,
-      passProps: { id },
-      navigatorButtons: {
-        leftButtons: [
-          {
-            icon: IconLoader.getIcon(BACK_ICON),
-            id: BACK_BUTTON
-          }
-        ]
-      }
-    });
+    Navigation.push(
+      CHAT_SCREEN,
+      buildDefaultNavigationComponent({
+        screenName: CHAT_SCREEN,
+        props: {
+          id
+        },
+        title: name,
+        leftButton: {
+          icon: IconLoader.getIcon(BACK_ICON),
+          id: BACK_BUTTON
+        }
+      })
+    );
   };
 
   protected handleUserPress = (userId: string, displayName: string): void => {
-    this.props.navigator.push({
-      screen: USER_DETAILS_SCREEN,
-      title: displayName,
-      passProps: { id: userId, liked: true },
-      navigatorButtons: {
-        leftButtons: [
-          {
-            icon: IconLoader.getIcon(BACK_ICON),
-            id: BACK_BUTTON
-          }
-        ]
-      }
-    });
+    Navigation.push(
+      USER_DETAILS_SCREEN,
+      buildDefaultNavigationComponent({
+        screenName: USER_DETAILS_SCREEN,
+        props: {
+          id: userId,
+          liked: true
+        },
+        title: displayName,
+        leftButton: {
+          icon: IconLoader.getIcon(BACK_ICON),
+          id: BACK_BUTTON
+        }
+      })
+    );
   };
 
   render() {

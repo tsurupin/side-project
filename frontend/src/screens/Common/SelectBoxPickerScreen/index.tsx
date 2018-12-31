@@ -1,9 +1,11 @@
 import * as React from 'react';
+import { Navigation } from 'react-native-navigation';
 import { View, FlatList, Text } from 'react-native';
 import { ListItem } from 'react-native-elements';
 import { CLOSE_BUTTON } from '../../../constants/buttons';
 
 import styles from './styles';
+import { SELECT_BOX_PICKER_SCREEN } from '../../../constants/screens';
 type Item = {
   id: string | undefined;
   name: string;
@@ -29,22 +31,20 @@ type ItemData = {
 class PickerScreen extends React.Component<Props> {
   constructor(props: Props) {
     super(props);
-    this.props.navigator.setOnNavigatorEvent(this.handleNavigatorEvent);
+    Navigation.events().bindComponent(this);
   }
 
-  private handleNavigatorEvent = (e) => {
-    if (e.type !== 'NavBarButtonPress') return;
-
-    switch (e.id) {
+  private navigationButtonPressed = ({ buttonId }: { buttonId: string }) => {
+    switch (buttonId) {
       case CLOSE_BUTTON:
-        this.props.navigator.dismissModal();
+        Navigation.dismissModal(SELECT_BOX_PICKER_SCREEN);
         break;
     }
   };
 
   private handlePress = (key: string, value: string | number) => {
     this.props.onPress(key, value);
-    this.props.navigator.dismissModal();
+    Navigation.dismissModal(SELECT_BOX_PICKER_SCREEN);
   };
 
   private renderSelectedItem = () => {

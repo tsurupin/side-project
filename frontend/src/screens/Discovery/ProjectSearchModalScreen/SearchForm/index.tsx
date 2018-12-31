@@ -105,7 +105,7 @@ class SearchForm extends React.Component<Props, State> {
   };
 
   private handlePressShowModal = (items: any[], keyName: string, selectedValue: string | number | undefined) => {
-    this.props.navigator.showModal(
+    Navigation.showModal(
       buildDefaultNavigationStack({
         stackId: SELECT_BOX_PICKER_SCREEN,
         screenName: SELECT_BOX_PICKER_SCREEN,

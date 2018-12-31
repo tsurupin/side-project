@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { Navigation } from 'react-native-navigation';
 import { View, ScrollView } from 'react-native';
 import { Avatar } from 'react-native-elements';
 
@@ -12,6 +13,7 @@ import { PHOTOS_EDIT_SCREEN } from '../../../constants/screens';
 import IconLoader from '../../../utilities/IconLoader';
 import { CLOSE_ICON } from '../../../constants/icons';
 import { CLOSE_BUTTON } from '../../../constants/buttons';
+import { buildDefaultNavigationStack } from '../../../utilities/navigationStackBuilder';
 
 type Props = {
   id: string;
@@ -35,6 +37,7 @@ type UserEditFormOutput = {
 class UserEditScreen extends React.Component<Props, UserEditParams> {
   constructor(props: Props) {
     super(props);
+    Navigation.events().bindComponent(this);
   }
 
   private handleSubmit = (
@@ -45,30 +48,26 @@ class UserEditScreen extends React.Component<Props, UserEditParams> {
   };
 
   private handlePressPhoto = (id: string, photos: any[]) => {
-    this.props.navigator.showModal({
-      screen: PHOTOS_EDIT_SCREEN,
-      title: 'Edit Photos',
-      passProps: {
-        id,
-        photos,
-        photoType: 'User'
-      },
-      navigatorButtons: {
-        leftButtons: [
-          {
-            icon: IconLoader.getIcon(CLOSE_ICON),
-            title: 'Close',
-            id: CLOSE_BUTTON
-          }
-        ],
-        rightButtons: [
-          {
-            title: 'Done',
-            id: CLOSE_BUTTON
-          }
-        ]
-      }
-    });
+    Navigation.showModal(
+      buildDefaultNavigationStack({
+        stackId: PHOTOS_EDIT_SCREEN,
+        screenName: PHOTOS_EDIT_SCREEN,
+        props: {
+          id,
+          photos,
+          photoType: 'User'
+        },
+        title: 'Edit Photos',
+        leftButton: {
+          icon: IconLoader.getIcon(CLOSE_ICON),
+          id: CLOSE_BUTTON
+        },
+        rightButton: {
+          title: 'Done',
+          id: CLOSE_BUTTON
+        }
+      })
+    );
   };
 
   private renderMainPhoto = (user: UserDetails) => {

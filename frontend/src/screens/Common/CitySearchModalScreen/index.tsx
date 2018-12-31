@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { View, Button } from 'react-native';
-
+import { Navigation } from 'react-native-navigation';
 import { CityList } from '../../../components/Common/CitySearchModalScreen';
 import { CLOSE_BUTTON } from '../../../constants/buttons';
 import { CityListQuery } from '../../../queries/cities';
@@ -9,6 +9,7 @@ import { FindOrCreateCityMutation } from '../../../mutations/cities';
 import { City, CityEditParams, MinimumOutput } from '../../../interfaces';
 import { fetchAddress } from '../../../utilities/geocoder';
 import styles from './styles';
+import { CITY_SEARCH_MODAL_SCREEN } from '../../../constants/screens';
 
 type Props = {
   navigator?: any;
@@ -47,21 +48,19 @@ class CitySearchModalScreen extends React.Component<Props, State> {
       errorMessage: ''
     };
 
-    this.props.navigator.setOnNavigatorEvent(this.handleNavigatorEvent);
+    Navigation.events().bindComponent(this);
   }
 
-  private handleNavigatorEvent = (e) => {
-    if (e.type !== 'NavBarButtonPress') return;
-
-    switch (e.id) {
+  private navigationButtonPressed = ({ buttonId }: { buttonId: string }) => {
+    switch (buttonId) {
       case CLOSE_BUTTON:
-        this.props.navigator.dismissModal();
+        Navigation.dismissModal(CITY_SEARCH_MODAL_SCREEN);
     }
   };
 
   private onPress = (city: City) => {
     this.props.onPress(city);
-    this.props.navigator.dismissModal();
+    Navigation.dismissModal(CITY_SEARCH_MODAL_SCREEN);
   };
 
   private handleChangeText = (name: string) => {

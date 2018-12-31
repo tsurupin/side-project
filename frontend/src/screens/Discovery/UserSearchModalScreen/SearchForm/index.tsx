@@ -1,5 +1,9 @@
 import * as React from 'react';
-import { SKILL_SEARCH_MODAL_SCREEN, SELECT_BOX_PICKER_SCREEN } from '../../../../constants/screens';
+import {
+  SKILL_SEARCH_MODAL_SCREEN,
+  SELECT_BOX_PICKER_SCREEN,
+  USER_SEARCH_MODAL_SCREEN
+} from '../../../../constants/screens';
 import { Navigation } from 'react-native-navigation';
 import { buildDefaultNavigationStack } from '../../../../utilities/navigationStackBuilder';
 import { View, FlatList, Alert } from 'react-native';
@@ -76,29 +80,36 @@ class SearchForm extends React.Component<Props, State> {
       isActive: props.isActive,
       skills: props.skills
     };
-
-    Navigation.events().bindComponent(this);
+    // Navigation.events().bindComponent(this);
   }
 
+  // componentDidMount() {
+  //   Navigation.events().bindComponent(this.props.parent);
+  // }
   private navigationButtonPressed = ({ buttonId }: { buttonId: string }) => {
-    const { genreId, occupationTypeId, location, isActive, skills } = this.state;
-
-    switch (buttonId) {
-      case APPLY_BUTTON:
-        this.props.onSubmit({
-          genreId,
-          occupationTypeId,
-          location,
-          isActive,
-          skills
-        });
-        this.props.navigator.dismissModal();
-        break;
-      case CLOSE_BUTTON:
-        this.props.navigator.dismissModal();
-        break;
-    }
+    console.log(buttonId, 'aaa');
   };
+
+  // private navigationButtonPressed = ({ buttonId }: { buttonId: string }) => {
+  //   const { genreId, occupationTypeId, location, isActive, skills } = this.state;
+  //   console.log(buttonId, 'button is pushed')
+  //   switch (buttonId) {
+  //     case APPLY_BUTTON:
+  //       this.props.onSubmit({
+  //         genreId,
+  //         occupationTypeId,
+  //         location,
+  //         isActive,
+  //         skills
+  //       });
+  //       this.props.navigator.dismissModal();
+  //       break;
+  //     case 'testt':
+  //        Navigation.dismissModal(USER_SEARCH_MODAL_SCREEN);
+  //       console.log('hoge')
+  //       break;
+  //   }
+  // };
 
   private handleSkillSearchShowModal = () => {
     Navigation.showModal(

@@ -15,6 +15,10 @@ import { CLOSE_ICON, BACK_ICON } from '../../../constants/icons';
 import IconLoader from '../../../utilities/IconLoader';
 import { CustomizedSegmentedControlTab } from '../../../components/Common';
 import styles from './styles';
+import {
+  buildDefaultNavigationStack,
+  buildDefaultNavigationComponent
+} from '../../../utilities/navigationStackBuilder';
 
 type Props = {
   navigator: any;
@@ -36,26 +40,24 @@ class ProjectListScreen extends React.Component<Props, State> {
     Navigation.events().bindComponent(this);
   }
 
-  private navigationButtonPressed = ({ buttonId }) => {
+  private navigationButtonPressed = ({ buttonId }: { buttonId: string }) => {
     switch (buttonId) {
       case PROJECT_NEW_BUTTON:
-        this.props.navigator.showModal({
-          screen: PROJECT_NEW_SCREEN,
-          navigatorButtons: {
-            leftButtons: [
-              {
-                icon: IconLoader.getIcon(CLOSE_ICON),
-                id: CLOSE_BUTTON
-              }
-            ],
-            rightButtons: [
-              {
-                title: 'Create',
-                id: SUBMIT_BUTTON
-              }
-            ]
-          }
-        });
+        Navigation.showModal(
+          buildDefaultNavigationStack({
+            stackId: PROJECT_NEW_SCREEN,
+            screenName: PROJECT_NEW_SCREEN,
+            props: {},
+            leftButton: {
+              icon: IconLoader.getIcon(CLOSE_ICON),
+              id: CLOSE_BUTTON
+            },
+            rightButton: {
+              title: 'Create',
+              id: SUBMIT_BUTTON
+            }
+          })
+        );
     }
   };
 
@@ -64,45 +66,41 @@ class ProjectListScreen extends React.Component<Props, State> {
   };
 
   private handleLikedProjectPress = (id: string) => {
-    this.props.navigator.push({
-      screen: LIKED_PROJECT_DETAILS_SCREEN,
-      passProps: { id },
-      navigatorButtons: {
-        leftButtons: [
-          {
-            icon: IconLoader.getIcon(BACK_ICON),
-            id: BACK_BUTTON
-          }
-        ],
-        rightButtons: [
-          {
-            title: 'ACTION',
-            id: PROJECT_ACTION_SHEET_BUTTON
-          }
-        ]
-      }
-    });
+    Navigation.push(
+      LIKED_PROJECT_DETAILS_SCREEN,
+      buildDefaultNavigationComponent({
+        screenName: LIKED_PROJECT_DETAILS_SCREEN,
+        props: {
+          id
+        },
+        leftButton: {
+          icon: IconLoader.getIcon(BACK_ICON),
+          id: BACK_BUTTON
+        },
+        rightButton: {
+          title: 'ACTION',
+          id: PROJECT_ACTION_SHEET_BUTTON
+        }
+      })
+    );
   };
 
   private handleEditableProjectPress = (id: string) => {
-    this.props.navigator.showModal({
-      screen: PROJECT_EDIT_SCREEN,
-      passProps: { id },
-      navigatorButtons: {
-        leftButtons: [
-          {
-            icon: IconLoader.getIcon(CLOSE_ICON),
-            id: CLOSE_BUTTON
-          }
-        ],
-        rightButtons: [
-          {
-            title: 'Submit',
-            id: SUBMIT_BUTTON
-          }
-        ]
-      }
-    });
+    Navigation.showModal(
+      buildDefaultNavigationStack({
+        stackId: PROJECT_EDIT_SCREEN,
+        screenName: PROJECT_EDIT_SCREEN,
+        props: { id },
+        leftButton: {
+          icon: IconLoader.getIcon(CLOSE_ICON),
+          id: CLOSE_BUTTON
+        },
+        rightButton: {
+          title: 'Submit',
+          id: SUBMIT_BUTTON
+        }
+      })
+    );
   };
 
   private renderProjectList = () => {

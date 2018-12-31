@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { Navigation } from 'react-native-navigation';
 import { View, ScrollView } from 'react-native';
 import { ErrorMessage, LoadingIndicator } from '../../../components/Common';
 import { EditForm } from '../../../components/Project/Common';
@@ -7,6 +8,10 @@ import { ProjectFormQuery } from '../../../queries/projects';
 import { CreateProjectMutation } from '../../../mutations/projects';
 import { PROJECT_DETAILS_SCREEN } from '../../../constants/screens';
 import { BACK_BUTTON } from '../../../constants/buttons';
+
+import IconLoader from '../../../utilities/IconLoader';
+import { buildDefaultNavigationComponent } from '../../../utilities/navigationStackBuilder';
+import { BACK_ICON } from '../../../constants/icons';
 import styles from './styles';
 
 type Props = {
@@ -29,6 +34,7 @@ type CreateProjectOutput = {
 class ProjectNewScreen extends React.Component<Props> {
   constructor(props: Props) {
     super(props);
+    Navigation.events().bindComponent(this);
   }
 
   private handleSubmit = (
@@ -58,21 +64,20 @@ class ProjectNewScreen extends React.Component<Props> {
                     if (loading) return <LoadingIndicator />;
                     if (error) return <ErrorMessage {...error} />;
                     if (data) {
-                      this.props.navigator.dismissAllModals({
-                        animationType: 'none'
-                      });
-                      this.props.navigator.push({
-                        screen: PROJECT_DETAILS_SCREEN,
-                        passProps: { id: data.createProject.id },
-                        navigatorButtons: {
-                          leftButtons: [
-                            {
-                              title: 'Back',
-                              id: BACK_BUTTON
-                            }
-                          ]
-                        }
-                      });
+                      Navigation.dismissAllModals();
+                      Navigation.push(
+                        PROJECT_DETAILS_SCREEN,
+                        buildDefaultNavigationComponent({
+                          screenName: PROJECT_DETAILS_SCREEN,
+                          props: {
+                            id: data.createProject.id
+                          },
+                          leftButton: {
+                            icon: IconLoader.getIcon(BACK_ICON),
+                            id: BACK_BUTTON
+                          }
+                        })
+                      );
                     }
 
                     return (

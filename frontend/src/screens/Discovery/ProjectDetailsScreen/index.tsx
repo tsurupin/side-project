@@ -1,11 +1,12 @@
 import * as React from 'react';
 import { View } from 'react-native';
+import { Navigation } from 'react-native-navigation';
+import { buildDefaultNavigationComponent } from '../../../utilities/navigationStackBuilder';
 import { ProjectDetailsQuery } from '../../../queries/projects';
 import { BACK_BUTTON } from '../../../constants/buttons';
 import { BACK_ICON } from '../../../constants/icons';
-import { Navigation } from 'react-native-navigation';
 import { LikeProjectMutation } from '../../../mutations/projectLikes';
-import { LIKED_PROJECT_DETAILS_SCREEN, USER_DETAILS_SCREEN } from '../../../constants/screens';
+import { LIKED_PROJECT_DETAILS_SCREEN, USER_DETAILS_SCREEN, PROJECT_DETAILS_SCREEN } from '../../../constants/screens';
 import { ProjectDetailsBox } from '../../../components/Discovery/ProjectDetailsScreen';
 import { ProjectDetails, GraphQLErrorMessage, LikeProjectParams } from '../../../interfaces';
 import { LoadingIndicator, ErrorMessage } from '../../../components/Common';
@@ -35,10 +36,10 @@ class ProjectDetailsScreen extends React.Component<Props> {
     Navigation.events().bindComponent(this);
   }
 
-  private navigationButtonPressed = ({ buttonId }) => {
+  private navigationButtonPressed = ({ buttonId }: { buttonId: string }) => {
     switch (buttonId) {
       case BACK_BUTTON:
-        this.props.navigator.pop();
+        Navigation.pop(PROJECT_DETAILS_SCREEN);
     }
   };
 
@@ -47,20 +48,19 @@ class ProjectDetailsScreen extends React.Component<Props> {
   };
 
   private handleUserPress = (userId: string) => {
-    this.props.navigator.push({
-      screen: USER_DETAILS_SCREEN,
-      passProps: {
-        id: userId
-      },
-      navigatorButtons: {
-        leftButtons: [
-          {
-            icon: IconLoader.getIcon(BACK_ICON),
-            id: BACK_BUTTON
-          }
-        ]
-      }
-    });
+    Navigation.push(
+      USER_DETAILS_SCREEN,
+      buildDefaultNavigationComponent({
+        screenName: USER_DETAILS_SCREEN,
+        props: {
+          id: userId
+        },
+        leftButton: {
+          icon: IconLoader.getIcon(BACK_ICON),
+          id: BACK_BUTTON
+        }
+      })
+    );
   };
 
   render() {
