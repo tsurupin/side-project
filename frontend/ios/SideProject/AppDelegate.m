@@ -1,11 +1,12 @@
 
 #import "AppDelegate.h"
 #import <React/RCTBundleURLProvider.h>
+#import <ReactNativeNavigation/ReactNativeNavigation.h>
 
 // **********************************************
 // *** DON'T MISS: THE NEXT LINE IS IMPORTANT ***
 // **********************************************
-#import "RCCManager.h"
+//#import "RCCManager.h"
 
 
 // IMPORTANT: if you're getting an Xcode error that RCCManager.h isn't found, you've probably ran "npm install"
@@ -34,7 +35,8 @@
   // **********************************************
   self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
   self.window.backgroundColor = [UIColor whiteColor];
-  [[RCCManager sharedInstance] initBridgeWithBundleURL:jsCodeLocation launchOptions:launchOptions];
+  //[[RCCManager sharedInstance] initBridgeWithBundleURL:jsCodeLocation launchOptions:launchOptions];
+  [ReactNativeNavigation bootstrap:jsCodeLocation launchOptions:launchOptions];
   
   /*
    // original RN bootstrap - remove this part

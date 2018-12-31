@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { Navigation } from 'react-native-navigation';
 import { ErrorMessage, LoadingIndicator } from '../../../components/Common';
 import { UserDetailsBox } from '../../../components/Discovery/UserDetailsScreen';
 import { USER_EDIT_SCREEN } from '../../../constants/screens';
@@ -7,10 +8,12 @@ import { UserDetails, MinimumOutput } from '../../../interfaces';
 import { USER_EDIT_BUTTON, BACK_BUTTON, SUBMIT_BUTTON, CLOSE_BUTTON } from '../../../constants/buttons';
 
 import { CLOSE_ICON } from '../../../constants/icons';
-import iconLoader from '../../../utilities/IconLoader';
+import IconLoader from '../../../utilities/IconLoader';
+import { buildDefaultNavigationStack } from '../../../utilities/navigationStackBuilder';
 
 type Props = {
   navigator: any;
+  componentId: string;
 };
 
 type MyUserOutput = {
@@ -20,34 +23,31 @@ type MyUserOutput = {
 class MyProfileScreen extends React.Component<Props> {
   constructor(props: Props) {
     super(props);
-    this.props.navigator.setOnNavigatorEvent(this.handleNavigatorEvent);
+    Navigation.events().bindComponent(this);
   }
 
-  private handleNavigatorEvent = (e) => {
-    if (e.type !== 'NavBarButtonPress') return;
-
-    switch (e.id) {
+  private navigationButtonPressed = ({ buttonId }: { buttonId: string }) => {
+    switch (buttonId) {
       case USER_EDIT_BUTTON:
-        this.props.navigator.showModal({
-          screen: USER_EDIT_SCREEN,
-          navigatorButtons: {
-            leftButtons: [
-              {
-                icon: iconLoader.getIcon(CLOSE_ICON),
-                id: CLOSE_BUTTON
-              }
-            ],
-            rightButtons: [
-              {
-                title: 'Submit',
-                id: SUBMIT_BUTTON
-              }
-            ]
-          }
-        });
+        Navigation.showModal(
+          buildDefaultNavigationStack({
+            stackId: USER_EDIT_SCREEN,
+            screenName: USER_EDIT_SCREEN,
+            props: {},
+            title: 'Filter',
+            leftButton: {
+              icon: IconLoader.getIcon(CLOSE_ICON),
+              id: CLOSE_BUTTON
+            },
+            rightButton: {
+              title: 'Submit',
+              id: SUBMIT_BUTTON
+            }
+          })
+        );
         break;
       case BACK_BUTTON:
-        this.props.navigator.pop();
+        Navigation.pop(this.props.componentId);
     }
   };
 

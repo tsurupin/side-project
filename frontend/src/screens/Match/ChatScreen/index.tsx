@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { View } from 'react-native';
+import { Navigation } from 'react-native-navigation';
 import { ChatDetailsQuery } from '../../../queries/chats';
 import { CreateMessageMutation } from '../../../mutations/chats';
 import { MessageParams, MinimumOutput, Chat } from '../../../interfaces';
@@ -10,6 +11,7 @@ import { LoadingIndicator, ErrorMessage } from '../../../components/Common';
 
 type Props = {
   id: string;
+  componentId: string;
   navigator: any;
 };
 
@@ -25,15 +27,13 @@ type CreateMessageOutput = {
 class ChatScreen extends React.Component<Props> {
   constructor(props: Props) {
     super(props);
-    this.props.navigator.setOnNavigatorEvent(this.handleNavigatorEvent);
+    Navigation.events().bindComponent(this);
   }
 
-  private handleNavigatorEvent = (e) => {
-    if (e.type !== 'NavBarButtonPress') return;
-
-    switch (e.id) {
+  private navigationButtonPressed = ({ buttonId }: { buttonId: string }) => {
+    switch (buttonId) {
       case BACK_BUTTON:
-        this.props.navigator.pop();
+        Navigation.pop(this.props.componentId);
     }
   };
 

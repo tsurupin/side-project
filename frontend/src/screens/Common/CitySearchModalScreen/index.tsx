@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { View, Button } from 'react-native';
-
+import { Navigation } from 'react-native-navigation';
 import { CityList } from '../../../components/Common/CitySearchModalScreen';
 import { CLOSE_BUTTON } from '../../../constants/buttons';
 import { CityListQuery } from '../../../queries/cities';
@@ -13,6 +13,7 @@ import styles from './styles';
 type Props = {
   navigator?: any;
   needLocationSearch: boolean;
+  componentId: string;
   onPress: (city: City, longtitude?: number, latitude?: number) => void;
 };
 
@@ -47,21 +48,19 @@ class CitySearchModalScreen extends React.Component<Props, State> {
       errorMessage: ''
     };
 
-    this.props.navigator.setOnNavigatorEvent(this.handleNavigatorEvent);
+    Navigation.events().bindComponent(this);
   }
 
-  private handleNavigatorEvent = (e) => {
-    if (e.type !== 'NavBarButtonPress') return;
-
-    switch (e.id) {
+  private navigationButtonPressed = ({ buttonId }: { buttonId: string }) => {
+    switch (buttonId) {
       case CLOSE_BUTTON:
-        this.props.navigator.dismissModal();
+        Navigation.dismissModal(this.props.componentId);
     }
   };
 
   private onPress = (city: City) => {
     this.props.onPress(city);
-    this.props.navigator.dismissModal();
+    Navigation.dismissModal(this.props.componentId);
   };
 
   private handleChangeText = (name: string) => {
@@ -129,7 +128,7 @@ class CitySearchModalScreen extends React.Component<Props, State> {
             const city: City = data.findOrCreateCity;
             const { longitude, latitude } = this.state;
             onPress(city, longitude, latitude);
-            navigator.dismissModal();
+            Navigation.dismissModal(this.props.componentId);
           }
           return (
             <Button

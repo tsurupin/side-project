@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { Navigation } from 'react-native-navigation';
 import { View, ScrollView } from 'react-native';
 import { ErrorMessage, LoadingIndicator } from '../../../components/Common';
 import { EditForm } from '../../../components/Project/Common';
@@ -6,11 +7,16 @@ import { ProjectCreateParams, Genre, MinimumOutput } from '../../../interfaces';
 import { ProjectFormQuery } from '../../../queries/projects';
 import { CreateProjectMutation } from '../../../mutations/projects';
 import { PROJECT_DETAILS_SCREEN } from '../../../constants/screens';
-import { BACK_BUTTON } from '../../../constants/buttons';
+import { BACK_BUTTON, SUBMIT_BUTTON, CLOSE_BUTTON } from '../../../constants/buttons';
+
+import IconLoader from '../../../utilities/IconLoader';
+import { buildDefaultNavigationComponent } from '../../../utilities/navigationStackBuilder';
+import { BACK_ICON } from '../../../constants/icons';
 import styles from './styles';
 
 type Props = {
   navigator: any;
+  componentId: string;
 };
 
 type DefaultProps = {
@@ -27,9 +33,22 @@ type CreateProjectOutput = {
 } & MinimumOutput;
 
 class ProjectNewScreen extends React.Component<Props> {
+  private form: any;
   constructor(props: Props) {
     super(props);
+    Navigation.events().bindComponent(this);
   }
+
+  private navigationButtonPressed = ({ buttonId }: { buttonId: string }) => {
+    switch (buttonId) {
+      case SUBMIT_BUTTON:
+        this.form.handleSubmit();
+        break;
+      case CLOSE_BUTTON:
+        Navigation.dismissModal(this.props.componentId);
+        break;
+    }
+  };
 
   private handleSubmit = (
     variables: ProjectCreateParams,
@@ -58,21 +77,20 @@ class ProjectNewScreen extends React.Component<Props> {
                     if (loading) return <LoadingIndicator />;
                     if (error) return <ErrorMessage {...error} />;
                     if (data) {
-                      this.props.navigator.dismissAllModals({
-                        animationType: 'none'
-                      });
-                      this.props.navigator.push({
-                        screen: PROJECT_DETAILS_SCREEN,
-                        passProps: { id: data.createProject.id },
-                        navigatorButtons: {
-                          leftButtons: [
-                            {
-                              title: 'Back',
-                              id: BACK_BUTTON
-                            }
-                          ]
-                        }
-                      });
+                      Navigation.dismissAllModals();
+                      Navigation.push(
+                        this.props.componentId,
+                        buildDefaultNavigationComponent({
+                          screenName: PROJECT_DETAILS_SCREEN,
+                          props: {
+                            id: data.createProject.id
+                          },
+                          leftButton: {
+                            icon: IconLoader.getIcon(BACK_ICON),
+                            id: BACK_BUTTON
+                          }
+                        })
+                      );
                     }
 
                     return (
@@ -83,7 +101,9 @@ class ProjectNewScreen extends React.Component<Props> {
                         genres={projectFormData.genres}
                         loading={loading}
                         error={error}
-                        navigator={this.props.navigator}
+                        ref={(instance) => {
+                          this.form = instance;
+                        }}
                       />
                     );
                   }}

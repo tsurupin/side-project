@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { View } from 'react-native';
+import { Navigation } from 'react-native-navigation';
 import MyProjectList from './MyProjectList';
 import EditableProjectList from './EditableProjectList';
 import { LIKED_PROJECT_DETAILS_SCREEN, PROJECT_EDIT_SCREEN, PROJECT_NEW_SCREEN } from '../../../constants/screens';
@@ -14,9 +15,14 @@ import { CLOSE_ICON, BACK_ICON } from '../../../constants/icons';
 import IconLoader from '../../../utilities/IconLoader';
 import { CustomizedSegmentedControlTab } from '../../../components/Common';
 import styles from './styles';
+import {
+  buildDefaultNavigationStack,
+  buildDefaultNavigationComponent
+} from '../../../utilities/navigationStackBuilder';
 
 type Props = {
   navigator: any;
+  componentId: string;
 };
 
 type State = {
@@ -32,31 +38,27 @@ class ProjectListScreen extends React.Component<Props, State> {
     this.state = {
       selectedIndex: LIKED_PROJECT_INDEX
     };
-    this.props.navigator.setOnNavigatorEvent(this.handleNavigatorEvent);
+    Navigation.events().bindComponent(this);
   }
 
-  private handleNavigatorEvent = (e) => {
-    if (e.type !== 'NavBarButtonPress') return;
-
-    switch (e.id) {
+  private navigationButtonPressed = ({ buttonId }: { buttonId: string }) => {
+    switch (buttonId) {
       case PROJECT_NEW_BUTTON:
-        this.props.navigator.showModal({
-          screen: PROJECT_NEW_SCREEN,
-          navigatorButtons: {
-            leftButtons: [
-              {
-                icon: IconLoader.getIcon(CLOSE_ICON),
-                id: CLOSE_BUTTON
-              }
-            ],
-            rightButtons: [
-              {
-                title: 'Create',
-                id: SUBMIT_BUTTON
-              }
-            ]
-          }
-        });
+        Navigation.showModal(
+          buildDefaultNavigationStack({
+            stackId: PROJECT_NEW_SCREEN,
+            screenName: PROJECT_NEW_SCREEN,
+            props: {},
+            leftButton: {
+              icon: IconLoader.getIcon(CLOSE_ICON),
+              id: CLOSE_BUTTON
+            },
+            rightButton: {
+              title: 'Create',
+              id: SUBMIT_BUTTON
+            }
+          })
+        );
     }
   };
 
@@ -65,45 +67,41 @@ class ProjectListScreen extends React.Component<Props, State> {
   };
 
   private handleLikedProjectPress = (id: string) => {
-    this.props.navigator.push({
-      screen: LIKED_PROJECT_DETAILS_SCREEN,
-      passProps: { id },
-      navigatorButtons: {
-        leftButtons: [
-          {
-            icon: IconLoader.getIcon(BACK_ICON),
-            id: BACK_BUTTON
-          }
-        ],
-        rightButtons: [
-          {
-            title: 'ACTION',
-            id: PROJECT_ACTION_SHEET_BUTTON
-          }
-        ]
-      }
-    });
+    Navigation.push(
+      this.props.componentId,
+      buildDefaultNavigationComponent({
+        screenName: LIKED_PROJECT_DETAILS_SCREEN,
+        props: {
+          id
+        },
+        leftButton: {
+          icon: IconLoader.getIcon(BACK_ICON),
+          id: BACK_BUTTON
+        },
+        rightButton: {
+          title: 'ACTION',
+          id: PROJECT_ACTION_SHEET_BUTTON
+        }
+      })
+    );
   };
 
   private handleEditableProjectPress = (id: string) => {
-    this.props.navigator.showModal({
-      screen: PROJECT_EDIT_SCREEN,
-      passProps: { id },
-      navigatorButtons: {
-        leftButtons: [
-          {
-            icon: IconLoader.getIcon(CLOSE_ICON),
-            id: CLOSE_BUTTON
-          }
-        ],
-        rightButtons: [
-          {
-            title: 'Submit',
-            id: SUBMIT_BUTTON
-          }
-        ]
-      }
-    });
+    Navigation.showModal(
+      buildDefaultNavigationStack({
+        stackId: PROJECT_EDIT_SCREEN,
+        screenName: PROJECT_EDIT_SCREEN,
+        props: { id },
+        leftButton: {
+          icon: IconLoader.getIcon(CLOSE_ICON),
+          id: CLOSE_BUTTON
+        },
+        rightButton: {
+          title: 'Submit',
+          id: SUBMIT_BUTTON
+        }
+      })
+    );
   };
 
   private renderProjectList = () => {

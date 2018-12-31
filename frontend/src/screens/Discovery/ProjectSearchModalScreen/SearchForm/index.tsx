@@ -4,7 +4,8 @@ import {
   CITY_SEARCH_MODAL_SCREEN,
   SELECT_BOX_PICKER_SCREEN
 } from '../../../../constants/screens';
-
+import { Navigation } from 'react-native-navigation';
+import { buildDefaultNavigationStack } from '../../../../utilities/navigationStackBuilder';
 import { View, FlatList } from 'react-native';
 import { ListItem, Icon } from 'react-native-elements';
 import { SelectBox } from '../../../../components/Common';
@@ -51,14 +52,22 @@ class SearchForm extends React.Component<Props, State> {
       skills: props.skills
     };
 
-    this.props.navigator.setOnNavigatorEvent(this.handleNavigationEvent);
+    Navigation.events().bindComponent(this);
   }
-  private handleNavigationEvent = (e) => {
+
+  private handleSubmit = () => {
     const { genreId, city, skills } = this.state;
-    if (e.type !== 'NavBarButtonPress') {
-      return;
-    }
-    switch (e.id) {
+    this.props.onSubmit({
+      genreId,
+      city,
+      skills
+    });
+  };
+
+  private navigationButtonPressed = ({ buttonId }: { buttonId: string }) => {
+    const { genreId, city, skills } = this.state;
+
+    switch (buttonId) {
       case APPLY_BUTTON:
         this.props.onSubmit({
           genreId,
@@ -74,21 +83,20 @@ class SearchForm extends React.Component<Props, State> {
   };
 
   private handleSkillSearchShowModal = () => {
-    this.props.navigator.showModal({
-      screen: SKILL_SEARCH_MODAL_SCREEN,
-      title: 'Skill Search',
-      animationType: 'slide-up',
-      passProps: { onPress: this.handleAddSkill },
-      navigatorButtons: {
-        leftButtons: [
-          {
-            icon: IconLoader.getIcon(CLOSE_ICON),
-            title: 'CLOSE',
-            id: CLOSE_BUTTON
-          }
-        ]
-      }
-    });
+    Navigation.showModal(
+      buildDefaultNavigationStack({
+        stackId: SKILL_SEARCH_MODAL_SCREEN,
+        screenName: SKILL_SEARCH_MODAL_SCREEN,
+        props: {
+          onPress: this.handleAddSkill
+        },
+        title: 'Skill Search',
+        leftButton: {
+          icon: IconLoader.getIcon(CLOSE_ICON),
+          id: CLOSE_BUTTON
+        }
+      })
+    );
   };
 
   private handleChangeValue = (key: keyof State, value: string | number | boolean) => {
@@ -106,41 +114,53 @@ class SearchForm extends React.Component<Props, State> {
   };
 
   private handlePressShowModal = (items: any[], keyName: string, selectedValue: string | number | undefined) => {
-    this.props.navigator.showModal({
-      screen: SELECT_BOX_PICKER_SCREEN,
-      passProps: {
-        items,
-        keyName,
-        selectedValue,
-        onPress: this.handleChangeValue
-      },
-      navigatorButtons: {
-        leftButtons: [
-          {
-            icon: IconLoader.getIcon(CLOSE_ICON),
-            title: 'CLOSE',
-            id: CLOSE_BUTTON
-          }
-        ]
-      }
-    });
+    Navigation.showModal(
+      buildDefaultNavigationStack({
+        stackId: SELECT_BOX_PICKER_SCREEN,
+        screenName: SELECT_BOX_PICKER_SCREEN,
+        props: {
+          items,
+          keyName,
+          selectedValue,
+          onPress: this.handleChangeValue
+        },
+        leftButton: {
+          icon: IconLoader.getIcon(CLOSE_ICON),
+          id: CLOSE_BUTTON
+        }
+      })
+    );
   };
 
   private handleCitySearchShowModal = () => {
-    this.props.navigator.showModal({
-      screen: CITY_SEARCH_MODAL_SCREEN,
-      title: 'City Search',
-      animationType: 'slide-up',
-      passProps: { onPress: this.handleAddCity },
-      navigatorButtons: {
-        leftButtons: [
-          {
-            title: 'Close',
-            id: CLOSE_BUTTON
-          }
-        ]
-      }
-    });
+    Navigation.showModal(
+      buildDefaultNavigationStack({
+        stackId: CITY_SEARCH_MODAL_SCREEN,
+        screenName: CITY_SEARCH_MODAL_SCREEN,
+        props: {
+          onPress: this.handleAddCity
+        },
+        title: 'City Search',
+        leftButton: {
+          icon: IconLoader.getIcon(CLOSE_ICON),
+          id: CLOSE_BUTTON
+        }
+      })
+    );
+    // this.props.navigator.showModal({
+    //   screen: CITY_SEARCH_MODAL_SCREEN,
+    //   title: 'City Search',
+    //   animationType: 'slide-up',
+    //   passProps: { onPress: this.handleAddCity },
+    //   navigatorButtons: {
+    //     leftButtons: [
+    //       {
+    //         title: 'Close',
+    //         id: CLOSE_BUTTON
+    //       }
+    //     ]
+    //   }
+    // });
   };
 
   private handleAddCity = (city: City) => {

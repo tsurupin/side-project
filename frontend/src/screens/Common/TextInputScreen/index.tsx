@@ -1,6 +1,7 @@
 import * as React from 'react';
 
 import { View } from 'react-native';
+import { Navigation } from 'react-native-navigation';
 import { Input, Button, Icon } from 'react-native-elements';
 import { CLOSE_BUTTON } from '../../../constants/buttons';
 import { ICON_MAIN_TYPE, CLOSE_CIRCLE_ICON, ICON_BLACK_COLOR, SMALL_ICON_SIZE } from '../../../constants/icons';
@@ -9,6 +10,7 @@ import { LabelTextColor } from '../../../constants/colors';
 
 type Props = {
   keyName: string;
+  componentId: string;
   value: string | undefined;
   placeholder: string;
   onPress: (keyName: string, value: string | undefined) => void;
@@ -29,15 +31,13 @@ class TextInputScreen extends React.Component<Props, State> {
       height: 0
     };
 
-    this.props.navigator.setOnNavigatorEvent(this.handleNavigatorEvent);
+    Navigation.events().bindComponent(this);
   }
 
-  private handleNavigatorEvent = (e) => {
-    if (e.type !== 'NavBarButtonPress') return;
-
-    switch (e.id) {
+  private navigationButtonPressed = ({ buttonId }: { buttonId: string }) => {
+    switch (buttonId) {
       case CLOSE_BUTTON:
-        this.props.navigator.dismissModal();
+        Navigation.dismissModal(this.props.componentId);
         break;
     }
   };
@@ -46,7 +46,7 @@ class TextInputScreen extends React.Component<Props, State> {
     const { keyName, onPress } = this.props;
     const { value } = this.state;
     onPress(keyName, value);
-    this.props.navigator.dismissModal();
+    Navigation.dismissModal(this.props.componentId);
   };
 
   render() {

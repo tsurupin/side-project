@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { View } from 'react-native';
-
+import { Navigation } from 'react-native-navigation';
 import { SkillList } from '../../../components/Common/SkillSearchModalScreen';
 import { CLOSE_BUTTON } from '../../../constants/buttons';
 import { SkillsQuery } from '../../../queries/skills';
@@ -8,9 +8,11 @@ import { LoadingIndicator, ErrorMessage, SearchInput } from '../../../components
 import { Skill, GraphQLErrorMessage } from '../../../interfaces';
 
 import styles from './styles';
+import { SKILL_SEARCH_MODAL_SCREEN } from '../../../constants/screens';
 
 type Props = {
   navigator?: any;
+  componentId: string;
   skills: Skill[];
   onPress: (skill: Skill) => void;
 };
@@ -39,23 +41,21 @@ class SkillSearchModalScreen extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
 
-    this.props.navigator.setOnNavigatorEvent(this.handleNavigationEvent);
+    Navigation.events().bindComponent(this);
   }
 
-  private handleNavigationEvent = (e) => {
-    if (e.type !== 'NavBarButtonPress') {
-      return;
-    }
-    switch (e.id) {
+  private navigationButtonPressed = ({ buttonId }: { buttonId: string }) => {
+    switch (buttonId) {
       case CLOSE_BUTTON:
-        this.props.navigator.dismissModal();
+        Navigation.dismissModal(this.props.componentId);
+
         break;
     }
   };
 
   private onPressSkill = (skill: Skill) => {
     this.props.onPress(skill);
-    this.props.navigator.dismissModal();
+    Navigation.dismissModal(this.props.componentId);
   };
 
   private handleChangeText = (name: string) => {

@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { View } from 'react-native';
+import { Navigation } from 'react-native-navigation';
 import { ProjectDetailsQuery } from '../../../queries/projects';
 import ActionSheet from 'react-native-actionsheet';
 import { BACK_BUTTON, PROJECT_ACTION_SHEET_BUTTON } from '../../../constants/buttons';
@@ -8,10 +9,12 @@ import { USER_DETAILS_SCREEN } from '../../../constants/screens';
 import { WithdrawProjectLikeMutation } from '../../../mutations/projectLikes';
 import { LoadingIndicator, ErrorMessage } from '../../../components/Common';
 import { MinimumOutput, ProjectDetails } from '../../../interfaces';
+import { buildDefaultNavigationComponent } from '../../../utilities/navigationStackBuilder';
 
 type Props = {
   id: string;
   navigator: any;
+  componentId: string;
 };
 
 // add like button for newcomer
@@ -36,18 +39,16 @@ class LikedProjectDetailsScreen extends React.Component<Props> {
 
   constructor(props: Props) {
     super(props);
-    this.props.navigator.setOnNavigatorEvent(this.handleNavigatorEvent);
+    Navigation.events().bindComponent(this);
   }
 
-  private handleNavigatorEvent = (e: any) => {
-    if (e.type !== 'NavBarButtonPress') return;
-
-    switch (e.id) {
+  private navigationButtonPressed = ({ buttonId }: { buttonId: string }) => {
+    switch (buttonId) {
       case PROJECT_ACTION_SHEET_BUTTON:
         this.ActionSheet.show();
         break;
       case BACK_BUTTON:
-        this.props.navigator.pop();
+        Navigation.pop(this.props.componentId);
         break;
     }
   };
@@ -65,12 +66,15 @@ class LikedProjectDetailsScreen extends React.Component<Props> {
   };
 
   private handleUserPress = (userId: string) => {
-    this.props.navigator.push({
-      screen: USER_DETAILS_SCREEN,
-      passProps: {
-        id: userId
-      }
-    });
+    Navigation.push(
+      this.props.componentId,
+      buildDefaultNavigationComponent({
+        screenName: USER_DETAILS_SCREEN,
+        props: {
+          id: userId
+        }
+      })
+    );
   };
 
   render() {

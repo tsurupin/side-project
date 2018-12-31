@@ -1,10 +1,11 @@
 import * as React from 'react';
-import { View } from 'react-native';
+import { Navigation } from 'react-native-navigation';
 import { OccupationType, Genre, Skill, Location, MinimumOutput } from '../../../interfaces';
 import { UserSearchFormQuery } from '../../../queries/users';
 import { UpdateUserSearchParamsMutation } from '../../../mutations/users';
 import SearchForm from './SearchForm';
 import { LoadingIndicator, ErrorMessage } from '../../../components/Common';
+import { APPLY_BUTTON, CLOSE_BUTTON } from '../../../constants/buttons';
 
 type UserSearchParams = {
   occupationTypeId: string | undefined;
@@ -16,6 +17,7 @@ type UserSearchParams = {
 
 type Props = {
   navigator: any;
+  componentId: string;
   onSubmit: (searchParams: UserSearchParams) => void;
 };
 
@@ -34,9 +36,26 @@ type UpdateUserSearchOutput = {
 } & MinimumOutput;
 
 class UserSearchFormScreen extends React.Component<Props> {
+  private form: any;
+
   constructor(props: Props) {
     super(props);
+
+    Navigation.events().bindComponent(this);
   }
+
+  private navigationButtonPressed = ({ buttonId }: { buttonId: string }) => {
+    switch (buttonId) {
+      case APPLY_BUTTON:
+        this.form.handleSubmit();
+        Navigation.dismissModal(this.props.componentId);
+        break;
+
+      case CLOSE_BUTTON:
+        Navigation.dismissModal(this.props.componentId);
+        break;
+    }
+  };
 
   private onSubmit = (searchParams: UserSearchParams, mutation: (input: { variables: UserSearchParams }) => void) => {
     mutation({ variables: searchParams });
@@ -72,6 +91,9 @@ class UserSearchFormScreen extends React.Component<Props> {
                     onSubmit={(searchParams: UserSearchParams) =>
                       this.onSubmit(searchParams, updateUserSearchParamsMutation)
                     }
+                    ref={(instance) => {
+                      this.form = instance;
+                    }}
                   />
                 );
               }}

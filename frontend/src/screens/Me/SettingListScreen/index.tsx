@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { Navigation } from 'react-native-navigation';
 import { ErrorMessage, LoadingIndicator } from '../../../components/Common';
 import { View } from 'react-native';
 import { UserCard, SettingList } from '../../../components/Me/SettingListScreen';
@@ -10,9 +11,11 @@ import { UserDetails, MinimumOutput } from '../../../interfaces';
 import IconLoader from '../../../utilities/IconLoader';
 
 import styles from './styles';
+import { buildDefaultNavigationComponent } from '../../../utilities/navigationStackBuilder';
 
 type Props = {
   navigator: any;
+  componentId: string;
 };
 
 type MyUserOutput = {
@@ -22,27 +25,26 @@ type MyUserOutput = {
 class SettingsListScreen extends React.Component<Props> {
   constructor(props: Props) {
     super(props);
+    Navigation.events().bindComponent(this);
   }
 
   onPress = (screen: string) => {
-    this.props.navigator.push({
-      screen,
-      navigatorButtons: {
-        leftButtons: [
-          {
-            icon: IconLoader.getIcon(BACK_ICON),
-            id: BACK_BUTTON
-          }
-        ],
-        rightButtons: [
-          {
-            icon: IconLoader.getIcon(PENCIL_ICON),
-            title: 'Edit',
-            id: USER_EDIT_BUTTON
-          }
-        ]
-      }
-    });
+    Navigation.push(
+      this.props.componentId,
+      buildDefaultNavigationComponent({
+        screenName: screen,
+        props: {},
+        leftButton: {
+          icon: IconLoader.getIcon(BACK_ICON),
+          id: BACK_BUTTON
+        },
+        rightButton: {
+          icon: IconLoader.getIcon(PENCIL_ICON),
+          title: 'Edit',
+          id: USER_EDIT_BUTTON
+        }
+      })
+    );
   };
 
   render() {

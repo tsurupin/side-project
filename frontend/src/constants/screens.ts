@@ -1,6 +1,7 @@
 const APP_NAME = 'side-project';
+const INITIALIZE_SCREEN = `${APP_NAME}.InitializeScreen`;
 const TOP_SCREEN = `${APP_NAME}.TopScreen`;
-const USER_DISCOVERY_SCREEN = `${APP_NAME}.UserDisccoveryScreen`;
+const DISCOVERY_SCREEN = `${APP_NAME}.DisccoveryScreen`;
 const USER_DETAILS_SCREEN = `${APP_NAME}.UserDetailsScreen`;
 
 const USER_SEARCH_MODAL_SCREEN = `${APP_NAME}.UserSearchModalScreen`;
@@ -29,7 +30,8 @@ const TEXT_INPUT_SCREEN = `${APP_NAME}.TextInputScreen`;
 const PHOTOS_EDIT_SCREEN = `${APP_NAME}.PhotosEditScreen`;
 
 export {
-  USER_DISCOVERY_SCREEN,
+  INITIALIZE_SCREEN,
+  DISCOVERY_SCREEN,
   USER_SEARCH_MODAL_SCREEN,
   PROJECT_SEARCH_MODAL_SCREEN,
   SKILL_SEARCH_MODAL_SCREEN,

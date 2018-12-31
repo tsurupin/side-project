@@ -1,6 +1,10 @@
 import * as React from 'react';
 import { View, Text, ScrollView } from 'react-native';
-
+import { Navigation } from 'react-native-navigation';
+import {
+  buildDefaultNavigationStack,
+  buildDefaultNavigationComponent
+} from '../../../utilities/navigationStackBuilder';
 import {
   USER_SEARCH_MODAL_SCREEN,
   PROJECT_SEARCH_MODAL_SCREEN,
@@ -30,27 +34,10 @@ import IconLoader from '../../../utilities/IconLoader';
 const USER_INDEX = 0;
 
 type Props = {
+  componentId: string;
   navigator: any;
   client: any;
 };
-
-// const initialState = {
-//   loading: false,
-//   errorMessage: '',
-//   userSearchParams: {
-//     occupationTypeId: undefined,
-//     genreId: undefined,
-//     isActive: undefined,
-//     location: undefined,
-//     skills: []
-//   },
-//   projectSearchParams: {
-//     genreId: undefined,
-//     city: undefined,
-//     skills: []
-//   },
-//   selectedIndex: USER_INDEX
-// };
 
 type State = {
   loading: boolean;
@@ -95,7 +82,7 @@ class DiscoveryScreen extends React.Component<Props, State> {
       selectedIndex: USER_INDEX
     };
 
-    this.props.navigator.setOnNavigatorEvent(this.handleNavigatorEvent);
+    Navigation.events().bindComponent(this);
   }
 
   private isUserOriented = (): boolean => {
@@ -110,48 +97,46 @@ class DiscoveryScreen extends React.Component<Props, State> {
     }
   };
 
-  private handleNavigatorEvent = (e) => {
-    if (e.type !== 'NavBarButtonPress') return;
-
-    switch (e.id) {
+  private navigationButtonPressed = ({ buttonId }: { buttonId: string }) => {
+    switch (buttonId) {
       case SEARCH_BUTTON:
-        this.props.navigator.showModal({
-          screen: this.isUserOriented() ? USER_SEARCH_MODAL_SCREEN : PROJECT_SEARCH_MODAL_SCREEN,
-          title: 'Filter',
-          passProps: { onSubmit: this.handleUpdateSearchParams },
-          navigatorButtons: {
-            leftButtons: [
-              {
-                icon: IconLoader.getIcon(CLOSE_ICON),
-                title: 'Close',
-                id: CLOSE_BUTTON
-              }
-            ],
-            rightButtons: [
-              {
-                icon: IconLoader.getIcon(FILTER_ICON),
-                title: 'Apply',
-                id: APPLY_BUTTON
-              }
-            ]
-          }
-        });
+        const screen = this.isUserOriented() ? USER_SEARCH_MODAL_SCREEN : PROJECT_SEARCH_MODAL_SCREEN;
+        Navigation.showModal(
+          buildDefaultNavigationStack({
+            stackId: screen,
+            screenName: screen,
+            props: {
+              onSubmit: this.handleUpdateSearchParams
+            },
+            title: 'Filter',
+            leftButton: {
+              icon: IconLoader.getIcon(CLOSE_ICON),
+              id: CLOSE_BUTTON
+            },
+            rightButton: {
+              icon: IconLoader.getIcon(FILTER_ICON),
+              id: APPLY_BUTTON
+            }
+          })
+        );
     }
   };
 
   protected handlePressCard = (id: string) => {
-    this.props.navigator.push({
-      screen: this.isUserOriented() ? USER_DETAILS_SCREEN : PROJECT_DETAILS_SCREEN,
-      passProps: { id, liked: false },
-      navigatorButtons: {
-        leftButtons: [
-          {
-            icon: IconLoader.getIcon(BACK_ICON),
-            id: BACK_BUTTON
-          }
-        ]
-      }
-    });
+    Navigation.push(
+      this.props.componentId,
+      buildDefaultNavigationComponent({
+        screenName: this.isUserOriented() ? USER_DETAILS_SCREEN : PROJECT_DETAILS_SCREEN,
+        props: {
+          id,
+          liked: false
+        },
+        leftButton: {
+          icon: IconLoader.getIcon(BACK_ICON),
+          id: BACK_BUTTON
+        }
+      })
+    );
   };
 
   private buildUserSearchParams = (): UserSearchSubmitParams => {

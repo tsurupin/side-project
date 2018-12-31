@@ -1,9 +1,10 @@
 import * as React from 'react';
 import { View } from 'react-native';
+import { Navigation } from 'react-native-navigation';
+import { buildDefaultNavigationComponent } from '../../../utilities/navigationStackBuilder';
 import { ProjectDetailsQuery } from '../../../queries/projects';
 import { BACK_BUTTON } from '../../../constants/buttons';
 import { BACK_ICON } from '../../../constants/icons';
-
 import { LikeProjectMutation } from '../../../mutations/projectLikes';
 import { LIKED_PROJECT_DETAILS_SCREEN, USER_DETAILS_SCREEN } from '../../../constants/screens';
 import { ProjectDetailsBox } from '../../../components/Discovery/ProjectDetailsScreen';
@@ -12,6 +13,7 @@ import { LoadingIndicator, ErrorMessage } from '../../../components/Common';
 import IconLoader from '../../../utilities/IconLoader';
 type Props = {
   id: string;
+  componentId: string;
   navigator: any;
 };
 
@@ -32,15 +34,13 @@ class ProjectDetailsScreen extends React.Component<Props> {
   constructor(props: Props) {
     super(props);
 
-    this.props.navigator.setOnNavigatorEvent(this.handleNavigatorEvent);
+    Navigation.events().bindComponent(this);
   }
 
-  private handleNavigatorEvent = (e) => {
-    if (e.type !== 'NavBarButtonPress') return;
-
-    switch (e.id) {
+  private navigationButtonPressed = ({ buttonId }: { buttonId: string }) => {
+    switch (buttonId) {
       case BACK_BUTTON:
-        this.props.navigator.pop();
+        Navigation.pop(this.props.componentId);
     }
   };
 
@@ -49,20 +49,19 @@ class ProjectDetailsScreen extends React.Component<Props> {
   };
 
   private handleUserPress = (userId: string) => {
-    this.props.navigator.push({
-      screen: USER_DETAILS_SCREEN,
-      passProps: {
-        id: userId
-      },
-      navigatorButtons: {
-        leftButtons: [
-          {
-            icon: IconLoader.getIcon(BACK_ICON),
-            id: BACK_BUTTON
-          }
-        ]
-      }
-    });
+    Navigation.push(
+      this.props.componentId,
+      buildDefaultNavigationComponent({
+        screenName: USER_DETAILS_SCREEN,
+        props: {
+          id: userId
+        },
+        leftButton: {
+          icon: IconLoader.getIcon(BACK_ICON),
+          id: BACK_BUTTON
+        }
+      })
+    );
   };
 
   render() {
@@ -81,10 +80,15 @@ class ProjectDetailsScreen extends React.Component<Props> {
                 if (loading) return <LoadingIndicator />;
                 if (error) return <ErrorMessage {...error} />;
                 if (data) {
-                  this.props.navigator.push({
-                    screen: LIKED_PROJECT_DETAILS_SCREEN,
-                    passProps: { id }
-                  });
+                  Navigation.push(
+                    this.props.componentId,
+                    buildDefaultNavigationComponent({
+                      screenName: LIKED_PROJECT_DETAILS_SCREEN,
+                      props: {
+                        id
+                      }
+                    })
+                  );
                   return <View />;
                 }
 

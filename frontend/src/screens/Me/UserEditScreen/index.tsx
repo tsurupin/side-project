@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { Navigation } from 'react-native-navigation';
 import { View, ScrollView } from 'react-native';
 import { Avatar } from 'react-native-elements';
 
@@ -11,11 +12,13 @@ import styles from './styles';
 import { PHOTOS_EDIT_SCREEN } from '../../../constants/screens';
 import IconLoader from '../../../utilities/IconLoader';
 import { CLOSE_ICON } from '../../../constants/icons';
-import { CLOSE_BUTTON } from '../../../constants/buttons';
+import { CLOSE_BUTTON, SUBMIT_BUTTON } from '../../../constants/buttons';
+import { buildDefaultNavigationStack } from '../../../utilities/navigationStackBuilder';
 
 type Props = {
   id: string;
   navigator: any;
+  componentId: string;
 };
 
 type DefaultProps = {
@@ -33,9 +36,24 @@ type UserEditFormOutput = {
 } & MinimumOutput;
 
 class UserEditScreen extends React.Component<Props, UserEditParams> {
+  private form: any;
+
   constructor(props: Props) {
     super(props);
+    Navigation.events().bindComponent(this);
   }
+
+  private navigationButtonPressed = ({ buttonId }: { buttonId: string }) => {
+    switch (buttonId) {
+      case SUBMIT_BUTTON:
+        this.form.handleSubmit();
+        break;
+
+      case CLOSE_BUTTON:
+        Navigation.dismissModal(this.props.componentId);
+        break;
+    }
+  };
 
   private handleSubmit = (
     variables: UserEditParams,
@@ -45,30 +63,26 @@ class UserEditScreen extends React.Component<Props, UserEditParams> {
   };
 
   private handlePressPhoto = (id: string, photos: any[]) => {
-    this.props.navigator.showModal({
-      screen: PHOTOS_EDIT_SCREEN,
-      title: 'Edit Photos',
-      passProps: {
-        id,
-        photos,
-        photoType: 'User'
-      },
-      navigatorButtons: {
-        leftButtons: [
-          {
-            icon: IconLoader.getIcon(CLOSE_ICON),
-            title: 'Close',
-            id: CLOSE_BUTTON
-          }
-        ],
-        rightButtons: [
-          {
-            title: 'Done',
-            id: CLOSE_BUTTON
-          }
-        ]
-      }
-    });
+    Navigation.showModal(
+      buildDefaultNavigationStack({
+        stackId: PHOTOS_EDIT_SCREEN,
+        screenName: PHOTOS_EDIT_SCREEN,
+        props: {
+          id,
+          photos,
+          photoType: 'User'
+        },
+        title: 'Edit Photos',
+        leftButton: {
+          icon: IconLoader.getIcon(CLOSE_ICON),
+          id: CLOSE_BUTTON
+        },
+        rightButton: {
+          title: 'Done',
+          id: CLOSE_BUTTON
+        }
+      })
+    );
   };
 
   private renderMainPhoto = (user: UserDetails) => {
@@ -98,7 +112,7 @@ class UserEditScreen extends React.Component<Props, UserEditParams> {
           if (error) return <ErrorMessage {...error} />;
 
           if (data) {
-            this.props.navigator.dismissModal();
+            Navigation.dismissModal(this.props.componentId);
             return <View />;
           }
           return (
@@ -109,7 +123,9 @@ class UserEditScreen extends React.Component<Props, UserEditParams> {
               genres={genres}
               occupationTypes={occupationTypes}
               error={error}
-              navigator={this.props.navigator}
+              ref={(instance) => {
+                this.form = instance;
+              }}
             />
           );
         }}

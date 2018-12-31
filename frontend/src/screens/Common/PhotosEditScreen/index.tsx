@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { Navigation } from 'react-native-navigation';
 import { View, Alert } from 'react-native';
 import { ErrorMessage, PhotosEditForm, LoadingIndicator } from '../../../components/Common';
 import { UploadProjectPhotoMutation, DeleteProjectPhotoMutation } from '../../../mutations/projects';
@@ -19,6 +20,7 @@ type Props = {
   navigator: any;
   photos: UserPhoto[] | ProjectPhoto[];
   id: string;
+  componentId: string;
   photoType: string;
 };
 
@@ -53,16 +55,13 @@ type UploadProjectPhotoOutput = {
 class PhotosEditScreen extends React.Component<Props> {
   constructor(props: Props) {
     super(props);
-    this.props.navigator.setOnNavigatorEvent(this.handleNavigationEvent);
+    Navigation.events().bindComponent(this);
   }
 
-  private handleNavigationEvent = (e) => {
-    if (e.type !== 'NavBarButtonPress') {
-      return;
-    }
-    switch (e.id) {
+  private navigationButtonPressed = ({ buttonId }: { buttonId: string }) => {
+    switch (buttonId) {
       case CLOSE_BUTTON:
-        this.props.navigator.dismissModal();
+        Navigation.dismissModal(this.props.componentId);
         break;
     }
   };

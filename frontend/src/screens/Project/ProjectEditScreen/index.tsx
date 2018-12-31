@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { Navigation } from 'react-native-navigation';
 import { View, ScrollView } from 'react-native';
 import { Avatar } from 'react-native-elements';
 import { ErrorMessage, LoadingIndicator } from '../../../components/Common';
@@ -8,14 +9,16 @@ import { ProjectDetails, ProjectEditParams, Genre, MinimumOutput } from '../../.
 
 import { EditProjectMutation } from '../../../mutations/projects';
 import { CLOSE_ICON } from '../../../constants/icons';
-import { CLOSE_BUTTON } from '../../../constants/buttons';
+import { CLOSE_BUTTON, SUBMIT_BUTTON } from '../../../constants/buttons';
 import IconLoader from '../../../utilities/IconLoader';
 import styles from './styles';
 import { PHOTOS_EDIT_SCREEN } from '../../../constants/screens';
+import { buildDefaultNavigationStack } from '../../../utilities/navigationStackBuilder';
 
 type Props = {
   id: string;
   navigator: any;
+  componentId: string;
 };
 
 type DefaultProps = {
@@ -35,9 +38,22 @@ type ProjectEditFormOutput = {
 } & MinimumOutput;
 
 class ProjectEditScreen extends React.Component<Props> {
+  private form: any;
   constructor(props: Props) {
     super(props);
+    Navigation.events().bindComponent(this);
   }
+
+  private navigationButtonPressed = ({ buttonId }: { buttonId: string }) => {
+    switch (buttonId) {
+      case SUBMIT_BUTTON:
+        this.form.handleSubmit();
+        break;
+      case CLOSE_BUTTON:
+        Navigation.dismissModal(this.props.componentId);
+        break;
+    }
+  };
 
   private handleSubmit = (
     variables: Partial<ProjectEditParams>,
@@ -47,30 +63,26 @@ class ProjectEditScreen extends React.Component<Props> {
   };
 
   private handlePressPhoto = (id: string, photos: any[]) => {
-    this.props.navigator.showModal({
-      screen: PHOTOS_EDIT_SCREEN,
-      title: 'Edit Photos',
-      passProps: {
-        id,
-        photos,
-        photoType: 'Project'
-      },
-      navigatorButtons: {
-        leftButtons: [
-          {
-            icon: IconLoader.getIcon(CLOSE_ICON),
-            title: 'Close',
-            id: CLOSE_BUTTON
-          }
-        ],
-        rightButtons: [
-          {
-            title: 'Done',
-            id: CLOSE_BUTTON
-          }
-        ]
-      }
-    });
+    Navigation.showModal(
+      buildDefaultNavigationStack({
+        stackId: PHOTOS_EDIT_SCREEN,
+        screenName: PHOTOS_EDIT_SCREEN,
+        props: {
+          id,
+          photos,
+          photoType: 'Project'
+        },
+        title: 'Edit Photos',
+        leftButton: {
+          icon: IconLoader.getIcon(CLOSE_ICON),
+          id: CLOSE_BUTTON
+        },
+        rightButton: {
+          title: 'Done',
+          id: CLOSE_BUTTON
+        }
+      })
+    );
   };
 
   private renderMainPhoto = (project: ProjectDetails) => {
@@ -99,7 +111,7 @@ class ProjectEditScreen extends React.Component<Props> {
           if (loading) return <LoadingIndicator />;
           if (error) return <ErrorMessage {...error} />;
           if (data) {
-            this.props.navigator.dismissModal();
+            Navigation.dismissModal(this.props.componentId);
             return <View />;
           }
           return (
@@ -111,7 +123,9 @@ class ProjectEditScreen extends React.Component<Props> {
               loading={loading}
               genres={genres}
               error={error}
-              navigator={this.props.navigator}
+              ref={(instance) => {
+                this.form = instance;
+              }}
             />
           );
         }}

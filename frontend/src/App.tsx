@@ -1,8 +1,9 @@
 import { Navigation } from 'react-native-navigation';
 import ApolloWrapper from './AppolloWrapper';
 import {
+  INITIALIZE_SCREEN,
   AUTH_SCREEN,
-  USER_DISCOVERY_SCREEN,
+  DISCOVERY_SCREEN,
   USER_SEARCH_MODAL_SCREEN,
   SKILL_SEARCH_MODAL_SCREEN,
   CITY_SEARCH_MODAL_SCREEN,
@@ -22,6 +23,7 @@ import {
   TEXT_INPUT_SCREEN,
   PHOTOS_EDIT_SCREEN
 } from './constants/screens';
+import InitializeScreen from './screens/Initialize';
 import AuthScreen from './screens/Auth';
 import { MatchScreen, ChatScreen } from './screens/Match';
 
@@ -45,22 +47,26 @@ import {
   PhotosEditScreen
 } from './screens/Common';
 
+import { BACK_ICON } from './constants/icons';
+
+import { BACK_BUTTON } from './constants/buttons';
+
 import {
-  CLOSE_ICON,
-  FILTER_ICON,
-  FILTER_OUTLINE_ICON,
-  MESSAGE_OUTLINE_ICON,
-  PENCIL_ICON,
-  ACCOUNT_ICON,
-  LIBRARY_BOOKS_ICON,
-  BACK_ICON
-} from './constants/icons';
+  TabBarBackgroundColor,
+  TabBarSelectedButtonColor,
+  TabBarButtonColor,
+  NotificationBadgeColor,
+  NavBarBackgroundColor,
+  NavBarButtonColor,
+  NavBarTextColor
+} from './constants/colors';
 import IconLoader from './utilities/IconLoader';
 
-const registerComponents = () => {
+export const registerComponents = () => {
+  Navigation.registerComponent(INITIALIZE_SCREEN, () => ApolloWrapper(InitializeScreen));
   Navigation.registerComponent(AUTH_SCREEN, () => ApolloWrapper(AuthScreen));
 
-  Navigation.registerComponent(USER_DISCOVERY_SCREEN, () => ApolloWrapper(DiscoveryScreen));
+  Navigation.registerComponent(DISCOVERY_SCREEN, () => ApolloWrapper(DiscoveryScreen));
   Navigation.registerComponent(USER_SEARCH_MODAL_SCREEN, () => ApolloWrapper(UserSearchModalScreen));
 
   Navigation.registerComponent(PROJECT_SEARCH_MODAL_SCREEN, () => ApolloWrapper(ProjectSearchModalScreen));
@@ -87,19 +93,60 @@ const registerComponents = () => {
   Navigation.registerComponent(PHOTOS_EDIT_SCREEN, () => ApolloWrapper(PhotosEditScreen));
 };
 
-registerComponents();
 
-const navIcons = [CLOSE_ICON, FILTER_ICON, FILTER_OUTLINE_ICON, BACK_ICON];
-const tabIcons = [LIBRARY_BOOKS_ICON, PENCIL_ICON, MESSAGE_OUTLINE_ICON, ACCOUNT_ICON];
-
-const preloadTasks = [IconLoader.loadIcons(navIcons.concat(tabIcons))];
-Promise.all(preloadTasks).then(() => {
-  Navigation.startSingleScreenApp({
-    screen: {
-      screen: AUTH_SCREEN,
-      title: 'Login'
-    }
+export const launchApp = () => {
+  // Promise.all(IconLoader.loadIcons([BACK_ICON]).then(() => {
+  Navigation.events().registerAppLaunchedListener(() => {
+    Navigation.setDefaultOptions({
+      bottomTab: {
+        iconColor: TabBarButtonColor,
+        selectedIconColor: TabBarSelectedButtonColor,
+        textColor: TabBarButtonColor,
+        selectedTextColor: TabBarSelectedButtonColor,
+        fontSize: 12,
+        badgeColor: NotificationBadgeColor
+      },
+      layout: {
+        orientation: ['portrait']
+      },
+      bottomTabs: {
+        visible: true,
+        currentTabIndex: 0,
+        titleDisplayMode: 'alwaysShow',
+        backgroundColor: TabBarBackgroundColor
+      },
+      statusBar: {
+        visible: true,
+        style: 'light'
+      },
+      topBar: {
+        visible: true,
+        animate: false,
+        buttonColor: TabBarButtonColor,
+        testID: 'topBar',
+        background: {
+          color: NavBarBackgroundColor
+        },
+        title: {
+          fontSize: 16,
+          color: NavBarTextColor,
+          fontFamily: 'Helvetica'
+        }
+        // backButton: {
+        //   icon: IconLoader.getIcon(BACK_ICON),
+        //   visible: true,
+        //   tintColor: NavBarButtonColor,
+        //   id: BACK_BUTTON
+        // }
+      }
+    });
+    Navigation.setRoot({
+      root: {
+        component: {
+          name: INITIALIZE_SCREEN
+        }
+      }
+    });
   });
-});
-
-console.disableYellowBox = true;
+  // });
+};
