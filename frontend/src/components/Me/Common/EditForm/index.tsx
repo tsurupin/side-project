@@ -53,7 +53,6 @@ const updateState = (key: keyof State, value: string | number | undefined) => (p
   [key]: value
 });
 
-
 class EditForm extends React.Component<Props, State> {
   static defaultProps = {
     loading: false,

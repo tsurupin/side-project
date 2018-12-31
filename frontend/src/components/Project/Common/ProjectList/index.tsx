@@ -24,7 +24,7 @@ const keyExtractor = (item: ProjectCore, _: number) => item.id;
 
 const renderProject = (data: any) => {
   const item: Item = data.item;
-  
+
   console.log(item.mainPhotoUrl);
 
   const editing = item.status === 'EDITING';
@@ -33,7 +33,7 @@ const renderProject = (data: any) => {
       title={editing ? `${item.title} (Editing)` : item.title}
       subtitle={item.genre ? item.genre.name : ''}
       // NOTE: needs to endure mainPhotoUrl is real image url
-      //leftAvatar={{ source: { uri: item.mainPhotoUrl } }}
+      // leftAvatar={{ source: { uri: item.mainPhotoUrl } }}
       chevron
       bottomDivider
       onPress={() => onPress(item.id)}
