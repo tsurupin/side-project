@@ -28,7 +28,6 @@ const preloadTasks = [IconLoader.loadIcons(navIcons.concat(tabIcons))];
 export const goToMainTabs = () => {
   Promise.all(preloadTasks).then(async () => {
     const DISCOVERY_SCREEN_STACK = {
-      id: 'Discovery',
       options: {
         bottomTab: {
           text: 'Discover',
@@ -42,7 +41,7 @@ export const goToMainTabs = () => {
             options: {
               topBar: {
                 title: {
-                  text: 'Doscovery'
+                  text: 'Discovery'
                 },
                 leftButtons: [
                   {
@@ -60,7 +59,6 @@ export const goToMainTabs = () => {
     };
 
     const MATCH_SCREEN_STACK = {
-      id: 'Chat',
       options: {
         bottomTab: {
           text: 'Chat',
@@ -84,7 +82,6 @@ export const goToMainTabs = () => {
     };
 
     const PROJECT_LIST_SCREEN_STACK = {
-      id: 'Project',
       options: {
         bottomTab: {
           text: 'Project',
@@ -116,7 +113,6 @@ export const goToMainTabs = () => {
     };
 
     const SETTING_LIST_SCREEN_STACK = {
-      id: 'Me',
       options: {
         bottomTab: {
           text: 'Me',
@@ -140,7 +136,6 @@ export const goToMainTabs = () => {
     };
 
     const bottomTabs = {
-      id: 'Tabs',
       options: {
         statusBar: {
           visible: true
@@ -169,11 +164,10 @@ export const goToMainTabs = () => {
   });
 };
 
-export const goToAuthScreen = () =>
-  Navigation.setRoot({
+export const goToAuthScreen = async () =>
+  await Navigation.setRoot({
     root: {
       stack: {
-        id: 'Auth',
         children: [
           {
             component: {

@@ -2,7 +2,7 @@ import * as React from 'react';
 import { View, Text } from 'react-native';
 
 import { LoginStatusQuery } from '../../queries/accounts';
-import { goToAuthScreen, goToMainTabs } from '../../utilities/navigation';
+import { goToMainTabs, goToAuthScreen } from '../../utilities/NavigationManager';
 
 type Props = {};
 
