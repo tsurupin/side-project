@@ -108,7 +108,6 @@ class LikedProjectDetailsScreen extends React.Component<Props> {
                       destructiveButtonIndex={CANCEL_INDEX}
                       onPress={(index: number) => this.handlePressActionSheet(index, withdrawProjectLikeMutation)}
                     />
-                    ;
                   </View>
                 );
               }}
