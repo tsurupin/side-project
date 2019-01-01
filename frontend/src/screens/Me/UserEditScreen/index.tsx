@@ -78,7 +78,8 @@ class UserEditScreen extends React.Component<Props, UserEditParams> {
           id: CLOSE_BUTTON
         },
         rightButton: {
-          title: 'Done',
+          text: 'Done',
+          enabled: true,
           id: CLOSE_BUTTON
         }
       })
@@ -87,6 +88,7 @@ class UserEditScreen extends React.Component<Props, UserEditParams> {
 
   private renderMainPhoto = (user: UserDetails) => {
     const { id, photos, mainPhotoUrl } = user;
+    console.log(photos, mainPhotoUrl);
     return (
       <View style={styles.avatarContainer}>
         <Avatar
@@ -142,6 +144,7 @@ class UserEditScreen extends React.Component<Props, UserEditParams> {
 
           const defaultProps: DefaultProps = data.userForm;
           const user: UserDetails = data.myUser;
+          console.log(user);
 
           return (
             <View style={styles.container}>

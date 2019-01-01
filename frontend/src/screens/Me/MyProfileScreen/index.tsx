@@ -34,13 +34,14 @@ class MyProfileScreen extends React.Component<Props> {
             stackId: USER_EDIT_SCREEN,
             screenName: USER_EDIT_SCREEN,
             props: {},
-            title: 'Filter',
+            title: 'Edit',
             leftButton: {
               icon: IconLoader.getIcon(CLOSE_ICON),
               id: CLOSE_BUTTON
             },
             rightButton: {
-              title: 'Submit',
+              text: 'Submit',
+              enabled: true,
               id: SUBMIT_BUTTON
             }
           })

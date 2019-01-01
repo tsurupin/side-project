@@ -40,7 +40,7 @@ class SettingsListScreen extends React.Component<Props> {
         },
         rightButton: {
           icon: IconLoader.getIcon(PENCIL_ICON),
-          title: 'Edit',
+          text: 'Edit',
           id: USER_EDIT_BUTTON
         }
       })

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { View } from 'react-native';
+import { View, BackHandler } from 'react-native';
 import { Navigation } from 'react-native-navigation';
 import { ProjectDetailsQuery } from '../../../queries/projects';
 import ActionSheet from 'react-native-actionsheet';
@@ -10,6 +10,8 @@ import { WithdrawProjectLikeMutation } from '../../../mutations/projectLikes';
 import { LoadingIndicator, ErrorMessage } from '../../../components/Common';
 import { MinimumOutput, ProjectDetails } from '../../../interfaces';
 import { buildDefaultNavigationComponent } from '../../../utilities/navigationStackBuilder';
+import IconLoader from '../../../utilities/IconLoader';
+import { BACK_ICON } from '../../../constants/icons';
 
 type Props = {
   id: string;
@@ -72,6 +74,10 @@ class LikedProjectDetailsScreen extends React.Component<Props> {
         screenName: USER_DETAILS_SCREEN,
         props: {
           id: userId
+        },
+        leftButton: {
+          icon: IconLoader.getIcon(BACK_ICON),
+          id: BACK_BUTTON
         }
       })
     );

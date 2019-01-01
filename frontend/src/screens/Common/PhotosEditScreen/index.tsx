@@ -17,7 +17,6 @@ import {
 } from '../../../interfaces';
 
 type Props = {
-  navigator: any;
   photos: UserPhoto[] | ProjectPhoto[];
   id: string;
   componentId: string;
@@ -93,7 +92,7 @@ class PhotosEditScreen extends React.Component<Props> {
         {({ deleteUserPhotoMutation, data, loading, error }: DeleteUserPhotoOutput) => {
           if (loading) return <LoadingIndicator />;
           if (error) return <ErrorMessage {...error} />;
-          let updatedPhotos: UserPhoto[];
+          let updatedPhotos: UserPhoto[] = photos;
           if (data) {
             const { deleteUserPhoto } = data;
             updatedPhotos = photos.filter((photo) => photo.id !== deleteUserPhoto.id);

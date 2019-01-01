@@ -84,10 +84,6 @@ class ProjectNewScreen extends React.Component<Props> {
                           screenName: PROJECT_DETAILS_SCREEN,
                           props: {
                             id: data.createProject.id
-                          },
-                          leftButton: {
-                            icon: IconLoader.getIcon(BACK_ICON),
-                            id: BACK_BUTTON
                           }
                         })
                       );

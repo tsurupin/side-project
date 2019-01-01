@@ -17,7 +17,7 @@ const renderPhoto = (photo: UserPhoto | ProjectPhoto | undefined) => {
   if (photo) {
     return <Image style={styles.image} source={{ uri: photo.imageUrl }} />;
   }
-  return <View style={styles.emptyImage}> </View>;
+  return <View style={styles.emptyImage} />;
 };
 
 const PhotoEdit: React.SFC<Props> = ({ photo, onPress, onPressNewPhoto, hasRightEdge }) => {

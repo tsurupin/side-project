@@ -19,7 +19,6 @@ import {
   buildDefaultNavigationStack,
   buildDefaultNavigationComponent
 } from '../../../utilities/navigationStackBuilder';
-import { NAV_BAR_TEXT_COLOR } from '../../../constants/colors';
 
 type Props = {
   navigator: any;
@@ -107,7 +106,7 @@ class ProjectListScreen extends React.Component<Props, State> {
   };
 
   private renderProjectList = () => {
-    if (this.state.selectedIndex === 0) {
+    if (this.state.selectedIndex === LIKED_PROJECT_INDEX) {
       return <MyProjectList onPress={this.handleLikedProjectPress} />;
     }
     return <EditableProjectList onPress={this.handleEditableProjectPress} />;

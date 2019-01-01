@@ -15,7 +15,7 @@ const CHUNK_SIZE = 3;
 const renderPhotoList = (photos: ProjectPhoto[], fnc: (photoId: string) => void) => {
   return photos.map((photo, i) => {
     const hasRightEdge = i % CHUNK_SIZE === 0;
-    return <PhotoEdit hasRightEdge={hasRightEdge} key={photo.id} photo={photo} onPress={fnc} />;
+    return <PhotoEdit key={photo.id} hasRightEdge={hasRightEdge} photo={photo} onPress={fnc} />;
   });
 };
 
@@ -43,6 +43,7 @@ const renderNewPhoto = (availableRank: number, hasRightEdge: boolean, fnc: (rank
 
 const PhotosEditForm: React.SFC<Props> = (props) => {
   const { photos, onPressPhoto, onPressNewPhoto } = props;
+  console.log(photos, 'photos')
   const availableRank = photos.length;
   const hasRightEdge = (photos.length + 1) % CHUNK_SIZE === 0;
   const photoListGroup = [
