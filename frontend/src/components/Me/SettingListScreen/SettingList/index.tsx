@@ -1,5 +1,5 @@
 import * as React from 'react';
-
+import { goToAuthScreen } from '../../../../utilities/navigation';
 import { View } from 'react-native';
 import { ListItem } from 'react-native-elements';
 import { LOGOUT_ICON } from '../../../../constants/icons';
@@ -17,12 +17,7 @@ const logout = async () => {
   return new Promise((resolve, reject) => {
     firebaseSignOut()
       .then(() => {
-        // Navigation.startSingleScreenApp({
-        //   screen: {
-        //     screen: AUTH_SCREEN,
-        //     title: 'Login'
-        //   }
-        // });
+        goToAuthScreen();
         resolve();
       })
       .catch((e) => {
