@@ -1,5 +1,5 @@
-import { registerComponents, launchApp } from './build/App';
+import { AppRegistry } from 'react-native';
+import App from './build/App';
 
-registerComponents();
-launchApp();
-console.disableYellowBox = true;
+AppRegistry.registerComponent('myApp', () => App);
+

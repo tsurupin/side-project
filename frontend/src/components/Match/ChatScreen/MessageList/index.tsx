@@ -30,7 +30,6 @@ class MessageList extends React.Component<Props> {
           this.scrollView.scrollToEnd({ animated: false });
         }}
       >
-        >
         {messages.map((message) => {
           return <MessageItem key={message.id} {...message} />;
         })}

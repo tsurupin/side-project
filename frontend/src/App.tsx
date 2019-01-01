@@ -93,6 +93,8 @@ export const registerComponents = () => {
   Navigation.registerComponent(PHOTOS_EDIT_SCREEN, () => ApolloWrapper(PhotosEditScreen));
 };
 
+registerComponents();
+
 export const launchApp = () => {
   // Promise.all(IconLoader.loadIcons([BACK_ICON]).then(() => {
   Navigation.events().registerAppLaunchedListener(() => {
@@ -149,3 +151,7 @@ export const launchApp = () => {
   });
   // });
 };
+
+launchApp();
+
+console.disableYellowBox = true;
