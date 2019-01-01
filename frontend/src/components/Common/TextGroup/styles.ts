@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { DetailTextColor, DetailLabelColor } from '../../../constants/colors';
+import { DETAIL_LABEL_COLOR, DETAIL_TEXT_COLOR } from '../../../constants/colors';
 
 const styles = StyleSheet.create({
   container: {
@@ -9,11 +9,11 @@ const styles = StyleSheet.create({
   labelText: {
     fontSize: 16,
     fontWeight: 'bold',
-    color: DetailLabelColor,
+    color: DETAIL_LABEL_COLOR,
     marginBottom: 5
   },
   text: {
-    color: DetailTextColor,
+    color: DETAIL_TEXT_COLOR,
     fontSize: 16
   }
 });

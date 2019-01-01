@@ -1,10 +1,11 @@
 import { StyleSheet, Dimensions } from 'react-native';
 import {
-  DetailTextColor,
-  DetailLabelColor,
-  ActiveMainColor,
-  DividerColor,
-  BackgroundColor
+  DETAIL_TEXT_COLOR,
+  BACKGROUND_COLOR,
+  WHITE_COLOR,
+  ACTIVE_MAIN_COLOR,
+  DIVIDER_COLOR,
+  DETAIL_LABEL_COLOR
 } from '../../../../constants/colors';
 
 const width = Math.trunc(Dimensions.get('window').width);
@@ -13,11 +14,11 @@ const height = Math.trunc(windowHeight * 0.85);
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: BackgroundColor
+    backgroundColor: BACKGROUND_COLOR
   },
   scrollContainer: {
-    color: DetailTextColor,
-    backgroundColor: 'white'
+    color: DETAIL_TEXT_COLOR,
+    backgroundColor: WHITE_COLOR
   },
 
   carouselWrapper: {
@@ -44,13 +45,13 @@ const styles = StyleSheet.create({
 
   titleText: {
     fontSize: 16,
-    color: DetailTextColor
+    color: DETAIL_TEXT_COLOR
   },
 
   subText: {
     marginTop: 5,
     fontSize: 16,
-    color: DetailTextColor
+    color: DETAIL_TEXT_COLOR
   },
 
   badgeContainer: {
@@ -58,7 +59,7 @@ const styles = StyleSheet.create({
     marginTop: '15%',
     padding: '10%',
     height: '54%',
-    backgroundColor: ActiveMainColor
+    backgroundColor: ACTIVE_MAIN_COLOR
   },
   badgeText: {
     fontWeight: 'bold',
@@ -68,7 +69,7 @@ const styles = StyleSheet.create({
 
   divider: {
     height: 1,
-    color: DividerColor
+    color: DIVIDER_COLOR
   },
   detailsContainer: {
     marginTop: Math.trunc(height * 0.03),
@@ -78,7 +79,7 @@ const styles = StyleSheet.create({
   labelText: {
     fontSize: 16,
     fontWeight: 'bold',
-    color: DetailLabelColor,
+    color: DETAIL_LABEL_COLOR,
     marginBottom: 5
   },
   mainText: {

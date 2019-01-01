@@ -1,15 +1,15 @@
 import { StyleSheet, Dimensions } from 'react-native';
-import { DetailTextColor, ActiveMainColor, DividerColor, BackgroundColor } from '../../../../constants/colors';
+import { BACKGROUND_COLOR, DETAIL_TEXT_COLOR, ACTIVE_MAIN_COLOR, DIVIDER_COLOR } from '../../../../constants/colors';
 const width = Math.trunc(Dimensions.get('window').width);
 const windowHeight = Math.trunc(Dimensions.get('window').height);
 const height = Math.trunc(windowHeight * 0.85);
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: BackgroundColor
+    backgroundColor: BACKGROUND_COLOR
   },
   scrollContainer: {
-    color: DetailTextColor,
+    color: DETAIL_TEXT_COLOR,
     backgroundColor: 'white'
   },
 
@@ -38,13 +38,13 @@ const styles = StyleSheet.create({
 
   titleText: {
     fontSize: 16,
-    color: DetailTextColor
+    color: DETAIL_TEXT_COLOR
   },
 
   subText: {
     marginTop: 5,
     fontSize: 16,
-    color: DetailTextColor
+    color: DETAIL_TEXT_COLOR
   },
 
   badgeContainer: {
@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
     marginTop: '15%',
     padding: '10%',
     height: '54%',
-    backgroundColor: ActiveMainColor
+    backgroundColor: ACTIVE_MAIN_COLOR
   },
   badgeText: {
     fontWeight: 'bold',
@@ -62,7 +62,7 @@ const styles = StyleSheet.create({
 
   divider: {
     height: 1,
-    color: DividerColor
+    color: DIVIDER_COLOR
   },
   detailsContainer: {
     marginTop: Math.trunc(height * 0.03),

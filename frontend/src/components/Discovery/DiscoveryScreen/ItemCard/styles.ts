@@ -1,10 +1,11 @@
 import { StyleSheet, Dimensions } from 'react-native';
-import { BorderColor, SubTextColor, ActiveMainColor } from '../../../../constants/colors';
+import { BORDER_COLOR, SUB_TEXT_COLOR, ACTIVE_MAIN_COLOR } from '../../../../constants/colors';
+
 const windowWidth = Math.trunc(Dimensions.get('window').width);
 const windowHeight = Math.trunc(Dimensions.get('window').height);
 const width = Math.trunc(windowWidth * 0.9);
 const height = Math.trunc(windowHeight * 0.85);
-console.log(height);
+
 const styles = StyleSheet.create({
   container: {},
   cardContainer: {
@@ -18,7 +19,7 @@ const styles = StyleSheet.create({
     width: '100%',
     height: Math.trunc(height * 0.4),
     borderBottomWidth: 1,
-    borderColor: BorderColor
+    borderColor: BORDER_COLOR
   },
   contentContainer: {
     height: Math.trunc(height * 0.4),
@@ -46,7 +47,7 @@ const styles = StyleSheet.create({
   },
   subText: {
     fontSize: 12,
-    color: SubTextColor
+    color: SUB_TEXT_COLOR
   },
 
   badgeContainer: {
@@ -54,7 +55,7 @@ const styles = StyleSheet.create({
     marginTop: '15%',
     padding: '10%',
     height: '50%',
-    backgroundColor: ActiveMainColor
+    backgroundColor: ACTIVE_MAIN_COLOR
   },
   badgeText: {
     fontWeight: 'bold',

@@ -1,10 +1,10 @@
 import { StyleSheet } from 'react-native';
-import { BorderColor, LabelTextColor } from '../../../../constants/colors';
+import { BORDER_COLOR, LABEL_TEXT_COLOR } from '../../../../constants/colors';
 
 const styles = StyleSheet.create({
   container: {},
   label: {
-    color: LabelTextColor,
+    color: LABEL_TEXT_COLOR,
     fontSize: 16,
     fontWeight: 'bold',
     marginLeft: 10,
@@ -12,7 +12,7 @@ const styles = StyleSheet.create({
   },
   itemContainer: {
     height: 80,
-    borderColor: BorderColor
+    borderColor: BORDER_COLOR
   },
   itemTitle: {
     fontSize: 20,

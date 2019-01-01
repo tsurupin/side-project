@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { MainTextColor, SubTextColor } from '../../../../constants/colors';
+import { MAIN_TEXT_COLOR, SUB_TEXT_COLOR } from '../../../../constants/colors';
 
 const styles = StyleSheet.create({
   container: {
@@ -12,13 +12,13 @@ const styles = StyleSheet.create({
   avatar: {},
   mainText: {
     marginTop: 10,
-    color: MainTextColor,
+    color: MAIN_TEXT_COLOR,
     fontWeight: 'bold',
     fontSize: 20
   },
   subText: {
     marginTop: 5,
-    color: SubTextColor,
+    color: SUB_TEXT_COLOR,
     fontSize: 14
   }
 });

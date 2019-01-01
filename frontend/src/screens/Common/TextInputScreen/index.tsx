@@ -6,7 +6,7 @@ import { Input, Button, Icon } from 'react-native-elements';
 import { CLOSE_BUTTON } from '../../../constants/buttons';
 import { ICON_MAIN_TYPE, CLOSE_CIRCLE_ICON, ICON_BLACK_COLOR, SMALL_ICON_SIZE } from '../../../constants/icons';
 import styles from './styles';
-import { LabelTextColor } from '../../../constants/colors';
+import { LABEL_TEXT_COLOR } from '../../../constants/colors';
 
 type Props = {
   keyName: string;
@@ -66,7 +66,7 @@ class TextInputScreen extends React.Component<Props, State> {
           ]}
           inputStyle={[styles.inputText, { height: Math.max(DEFAULT_HEIGHT, height) }]}
           placeholder={placeholder}
-          placeholderTextColor={LabelTextColor}
+          placeholderTextColor={LABEL_TEXT_COLOR}
           value={value}
           rightIcon={
             <Icon

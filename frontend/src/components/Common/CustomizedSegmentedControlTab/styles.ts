@@ -1,33 +1,33 @@
 import { StyleSheet } from 'react-native';
-import { SegmentControlActiveColor, SegmentControlColor, WhiteColor } from '../../../constants/colors';
+import { SEGMENT_CONTROL_COLOR, WHITE_COLOR, SEGMENT_CONTROL_ACTIVE_COLOR } from '../../../constants/colors';
 
 const styles = StyleSheet.create({
   tabContainerStyle: {},
   tabStyle: {
     height: 40,
-    backgroundColor: WhiteColor,
+    backgroundColor: WHITE_COLOR,
     borderBottomWidth: 1,
     borderLeftWidth: 0,
     borderRightWidth: 0,
     borderTopWidth: 0,
-    borderRightColor: WhiteColor,
-    borderBottomColor: SegmentControlColor
+    borderRightColor: WHITE_COLOR,
+    borderBottomColor: SEGMENT_CONTROL_COLOR
   },
   tabTextStyle: {
-    color: SegmentControlColor
+    color: SEGMENT_CONTROL_COLOR
   },
   activeTabStyle: {
     height: 40,
-    backgroundColor: WhiteColor,
+    backgroundColor: WHITE_COLOR,
     borderBottomWidth: 4,
     borderLeftWidth: 0,
     borderRightWidth: 0,
     borderTopWidth: 0,
-    borderRightColor: WhiteColor,
-    borderBottomColor: SegmentControlActiveColor
+    borderRightColor: WHITE_COLOR,
+    borderBottomColor: SEGMENT_CONTROL_ACTIVE_COLOR
   },
   activeTabTextStyle: {
-    color: SegmentControlActiveColor
+    color: SEGMENT_CONTROL_ACTIVE_COLOR
   }
 });
 

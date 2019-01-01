@@ -1,10 +1,10 @@
 import { StyleSheet, Dimensions } from 'react-native';
-import { BackgroundColor, LabelTextColor, MainTextColor, BorderColor } from '../../../constants/colors';
+import { BACKGROUND_COLOR, BORDER_COLOR, MAIN_TEXT_COLOR, LABEL_TEXT_COLOR } from '../../../constants/colors';
 
 const height = Dimensions.get('window').height;
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: BackgroundColor,
+    backgroundColor: BACKGROUND_COLOR,
     height
   },
   text: {
@@ -25,14 +25,14 @@ const styles = StyleSheet.create({
   },
   itemContainer: {
     height: 48,
-    borderColor: BorderColor
+    borderColor: BORDER_COLOR
   },
   title: {
-    color: MainTextColor,
+    color: MAIN_TEXT_COLOR,
     fontSize: 16
   },
   label: {
-    color: LabelTextColor,
+    color: LABEL_TEXT_COLOR,
     fontSize: 12,
     marginLeft: 10,
     marginBottom: 5

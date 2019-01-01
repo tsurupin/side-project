@@ -1,50 +1,48 @@
-const MainColor = '6BBA4A';
-const TabBarBackgroundColor = '#F9F9F9';
-const TabBarSelectedButtonColor = '#263144';
-const TabBarSelectedLabelColor = '#30394C';
-const TabBarButtonColor = '#A5A7AE';
-const TabBarLabelColor = '#A5A7AE';
-const NavBarBackgroundColor = '#283145';
-const NavBarButtonColor = '#FFFFFF';
-const NavBarTextColor = '#FFFFFF';
-const NotificationBadgeColor = '#EC4926';
-const SegmentControlActiveColor = '#394561';
-const SegmentControlColor = '#7F8792';
-const WhiteColor = '#FFFFFF';
-const DividerColor = '#D3D4D5';
+const MAIN_COLOR = '6BBA4A';
+const TAB_BAR_BACKGROUND_COLOR = '#F9F9F9';
+const TAB_BAR_SELECTED_BUTTON_COLOR = '#263144';
+const TAB_BAR_SELECTED_LABEL_COLOR = '#30394C';
+const TAB_BAR_BUTTON_COLOR = '#A5A7AE';
+const TAB_BAR_LABEL_COLOR = '#A5A7AE';
+const NAV_BAR_BACKGROUND_COLOR = '#283145';
+const NAV_BAR_BUTTON_COLOR = '#FFFFFF';
+const NAV_BAR_TEXT_COLOR = '#FFFFFF';
+const NOTIFICATION_BADGE_COLOR = '#EC4926';
+const SEGMENT_CONTROL_ACTIVE_COLOR = '#394561';
+const SEGMENT_CONTROL_COLOR = '#7F8792';
+const WHITE_COLOR = '#FFFFFF';
+const DIVIDER_COLOR = '#D3D4D5';
 
-const MainTextColor = '#000000';
-const DetailTextColor = '#636465';
-const DetailLabelColor = '#A9AAAB';
-const BorderColor = '#CACACE';
-const BackgroundColor = '#EFEFF4';
-const LabelTextColor = '#6F6E74';
-const SubTextColor = '#8F8F94';
-const ActiveMainColor = '#55B237';
+const MAIN_TEXT_COLOR = '#000000';
+const DETAIL_TEXT_COLOR = '#636465';
+const DETAIL_LABEL_COLOR = '#A9AAAB';
+const BORDER_COLOR = '#CACACE';
+const BACKGROUND_COLOR = '#EFEFF4';
+const LABEL_TEXT_COLOR = '#6F6E74';
+const SUB_TEXT_COLOR = '#8F8F94';
 const ACTIVE_MAIN_COLOR = '#55B237';
 
 export {
-  MainColor,
-  TabBarBackgroundColor,
-  TabBarSelectedButtonColor,
-  TabBarSelectedLabelColor,
-  TabBarLabelColor,
-  TabBarButtonColor,
-  NavBarBackgroundColor,
-  NavBarButtonColor,
-  NavBarTextColor,
-  NotificationBadgeColor,
-  SegmentControlActiveColor,
-  SegmentControlColor,
-  WhiteColor,
-  MainTextColor,
-  BorderColor,
-  BackgroundColor,
-  LabelTextColor,
-  SubTextColor,
-  ActiveMainColor,
-  ACTIVE_MAIN_COLOR,
-  DetailTextColor,
-  DetailLabelColor,
-  DividerColor
+  MAIN_COLOR,
+  TAB_BAR_BACKGROUND_COLOR,
+  TAB_BAR_SELECTED_BUTTON_COLOR,
+  TAB_BAR_SELECTED_LABEL_COLOR,
+  TAB_BAR_BUTTON_COLOR,
+  TAB_BAR_LABEL_COLOR,
+  NAV_BAR_BACKGROUND_COLOR,
+  NAV_BAR_BUTTON_COLOR,
+  NAV_BAR_TEXT_COLOR,
+  NOTIFICATION_BADGE_COLOR,
+  SEGMENT_CONTROL_ACTIVE_COLOR,
+  SEGMENT_CONTROL_COLOR,
+  WHITE_COLOR,
+  DIVIDER_COLOR,
+  MAIN_TEXT_COLOR,
+  DETAIL_TEXT_COLOR,
+  DETAIL_LABEL_COLOR,
+  BORDER_COLOR,
+  BACKGROUND_COLOR,
+  LABEL_TEXT_COLOR,
+  SUB_TEXT_COLOR,
+  ACTIVE_MAIN_COLOR
 };

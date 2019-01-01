@@ -1,9 +1,9 @@
 import { StyleSheet } from 'react-native';
-import { BackgroundColor, WhiteColor, SubTextColor } from '../../../constants/colors';
+import { WHITE_COLOR, SUB_TEXT_COLOR, BACKGROUND_COLOR } from '../../../constants/colors';
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: BackgroundColor,
+    backgroundColor: BACKGROUND_COLOR,
     padding: 10
   },
 
@@ -16,14 +16,14 @@ const styles = StyleSheet.create({
   },
   inputContainer: {
     borderBottomWidth: 0,
-    backgroundColor: WhiteColor,
-    borderBottomColor: WhiteColor,
+    backgroundColor: WHITE_COLOR,
+    borderBottomColor: WHITE_COLOR,
 
     width: '100%'
   },
   inputTextContainer: {
     fontSize: 16,
-    color: SubTextColor
+    color: SUB_TEXT_COLOR
   }
 });
 

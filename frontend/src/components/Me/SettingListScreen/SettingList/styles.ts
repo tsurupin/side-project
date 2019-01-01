@@ -1,9 +1,9 @@
 import { StyleSheet } from 'react-native';
-import { BorderColor } from '../../../../constants/colors';
+import { BORDER_COLOR } from '../../../../constants/colors';
 
 const styles = StyleSheet.create({
   container: {
-    borderColor: BorderColor
+    borderColor: BORDER_COLOR
   },
   itemContainer: {
     height: 60

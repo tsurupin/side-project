@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { SubTextColor } from '../../../../constants/colors';
+import { SUB_TEXT_COLOR } from '../../../../constants/colors';
 
 const styles = StyleSheet.create({
   container: {
@@ -10,7 +10,7 @@ const styles = StyleSheet.create({
     height: '100%'
   },
   title: {
-    color: SubTextColor,
+    color: SUB_TEXT_COLOR,
     fontWeight: 'bold',
     fontSize: 16,
     marginBottom: 5

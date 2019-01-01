@@ -8,7 +8,6 @@ import { LoadingIndicator, ErrorMessage, SearchInput } from '../../../components
 import { Skill, GraphQLErrorMessage } from '../../../interfaces';
 
 import styles from './styles';
-import { SKILL_SEARCH_MODAL_SCREEN } from '../../../constants/screens';
 
 type Props = {
   navigator?: any;

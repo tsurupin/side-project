@@ -115,7 +115,7 @@ class CitySearchModalScreen extends React.Component<Props, State> {
 
   private renderCurrentLocationButtton = (): undefined | JSX.Element => {
     if (!this.props.needLocationSearch) return undefined;
-    const { onPress, navigator } = this.props;
+    const { onPress } = this.props;
     return (
       <FindOrCreateCityMutation>
         {({ findOrCreateCityMutation, data, loading, error }: FindOrCreateCityMutationOutput) => {

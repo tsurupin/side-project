@@ -47,20 +47,15 @@ import {
   PhotosEditScreen
 } from './screens/Common';
 
-import { BACK_ICON } from './constants/icons';
-
-import { BACK_BUTTON } from './constants/buttons';
-
 import {
-  TabBarBackgroundColor,
-  TabBarSelectedButtonColor,
-  TabBarButtonColor,
-  NotificationBadgeColor,
-  NavBarBackgroundColor,
-  NavBarButtonColor,
-  NavBarTextColor
+  NAV_BAR_BACKGROUND_COLOR,
+  TAB_BAR_BUTTON_COLOR,
+  TAB_BAR_BACKGROUND_COLOR,
+  NOTIFICATION_BADGE_COLOR,
+  TAB_BAR_SELECTED_LABEL_COLOR,
+  TAB_BAR_SELECTED_BUTTON_COLOR,
+  NAV_BAR_TEXT_COLOR
 } from './constants/colors';
-import IconLoader from './utilities/IconLoader';
 
 export const registerComponents = () => {
   Navigation.registerComponent(INITIALIZE_SCREEN, () => ApolloWrapper(InitializeScreen));
@@ -100,12 +95,12 @@ export const launchApp = () => {
   Navigation.events().registerAppLaunchedListener(() => {
     Navigation.setDefaultOptions({
       bottomTab: {
-        iconColor: TabBarButtonColor,
-        selectedIconColor: TabBarSelectedButtonColor,
-        textColor: TabBarButtonColor,
-        selectedTextColor: TabBarSelectedButtonColor,
+        iconColor: TAB_BAR_BUTTON_COLOR,
+        selectedIconColor: TAB_BAR_SELECTED_BUTTON_COLOR,
+        textColor: TAB_BAR_BUTTON_COLOR,
+        selectedTextColor: TAB_BAR_SELECTED_LABEL_COLOR,
         fontSize: 12,
-        badgeColor: NotificationBadgeColor
+        badgeColor: NOTIFICATION_BADGE_COLOR
       },
       layout: {
         orientation: ['portrait']
@@ -114,7 +109,7 @@ export const launchApp = () => {
         visible: true,
         currentTabIndex: 0,
         titleDisplayMode: 'alwaysShow',
-        backgroundColor: TabBarBackgroundColor
+        backgroundColor: TAB_BAR_BACKGROUND_COLOR
       },
       statusBar: {
         visible: true,
@@ -123,14 +118,14 @@ export const launchApp = () => {
       topBar: {
         visible: true,
         animate: false,
-        buttonColor: TabBarButtonColor,
+        buttonColor: TAB_BAR_BUTTON_COLOR,
         testID: 'topBar',
         background: {
-          color: NavBarBackgroundColor
+          color: NAV_BAR_BACKGROUND_COLOR
         },
         title: {
           fontSize: 16,
-          color: NavBarTextColor,
+          color: NAV_BAR_TEXT_COLOR,
           fontFamily: 'Helvetica'
         }
         // backButton: {

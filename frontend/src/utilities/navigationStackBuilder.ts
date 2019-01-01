@@ -1,4 +1,4 @@
-import { NavBarButtonColor } from '../constants/colors';
+import { NAV_BAR_BUTTON_COLOR } from '../constants/colors';
 
 type StackProps = {
   stackId: string;
@@ -72,11 +72,11 @@ const buildTopBarOptions = ({ title, leftButton, rightButton }: TopBarOptions) =
   }
 
   if (leftButton) {
-    options['leftButtons'] = [{ ...leftButton, color: NavBarButtonColor }];
+    options['leftButtons'] = [{ ...leftButton, color: NAV_BAR_BUTTON_COLOR }];
   }
 
   if (rightButton) {
-    options['rightButtons'] = [{ ...rightButton, color: NavBarButtonColor }];
+    options['rightButtons'] = [{ ...rightButton, color: NAV_BAR_BUTTON_COLOR}];
   }
 
   return { topBar: options };

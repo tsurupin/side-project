@@ -1,4 +1,5 @@
 import { StyleSheet, Dimensions } from 'react-native';
+import { WHITE_COLOR } from '../../../constants/colors';
 const width = Math.trunc(Dimensions.get('window').width) - 30;
 const styles = StyleSheet.create({
   container: {
@@ -21,7 +22,7 @@ const styles = StyleSheet.create({
   emptyImage: {
     width: '100%',
     height: '100%',
-    backgroundColor: 'white'
+    backgroundColor: WHITE_COLOR
   },
   icon: {
     position: 'absolute',

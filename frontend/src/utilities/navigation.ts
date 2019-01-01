@@ -18,7 +18,7 @@ import {
   MESSAGE_OUTLINE_ICON,
   FILTER_OUTLINE_ICON
 } from '../constants/icons';
-import { NavBarButtonColor } from '../constants/colors';
+import { NAV_BAR_BUTTON_COLOR } from '../constants/colors';
 
 const navIcons = [CLOSE_ICON, FILTER_ICON, FILTER_OUTLINE_ICON, BACK_ICON];
 const tabIcons = [LIBRARY_BOOKS_ICON, PENCIL_ICON, MESSAGE_OUTLINE_ICON, ACCOUNT_ICON];
@@ -49,7 +49,7 @@ export const goToMainTabs = () => {
                     icon: IconLoader.getIcon(FILTER_OUTLINE_ICON),
                     title: 'Search',
                     id: SEARCH_BUTTON,
-                    color: NavBarButtonColor
+                    color: NAV_BAR_BUTTON_COLOR
                   }
                 ]
               }
@@ -102,7 +102,7 @@ export const goToMainTabs = () => {
                 },
                 rightButtons: [
                   {
-                    color: NavBarButtonColor,
+                    color: NAV_BAR_BUTTON_COLOR,
                     text: 'New',
                     enabled: true,
                     id: PROJECT_NEW_BUTTON

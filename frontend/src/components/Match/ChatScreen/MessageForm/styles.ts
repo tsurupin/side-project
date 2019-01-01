@@ -1,5 +1,5 @@
 import { StyleSheet, Dimensions } from 'react-native';
-import { ActiveMainColor } from '../../../../constants/colors';
+import { ACTIVE_MAIN_COLOR } from '../../../../constants/colors';
 const width = Math.trunc(Dimensions.get('window').width);
 
 const styles = StyleSheet.create({
@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
   },
   button: {
     height: 36,
-    backgroundColor: ActiveMainColor
+    backgroundColor: ACTIVE_MAIN_COLOR
   },
   buttonDisabled: {
     opacity: 0.2

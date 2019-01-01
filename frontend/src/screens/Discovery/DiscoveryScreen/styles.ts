@@ -1,10 +1,10 @@
 import { StyleSheet } from 'react-native';
-import { BackgroundColor } from '../../../constants/colors';
+import { BACKGROUND_COLOR } from '../../../constants/colors';
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: BackgroundColor
+    backgroundColor: BACKGROUND_COLOR
   },
   cardListContainer: {
     width: '100%',

@@ -1,5 +1,5 @@
 import { StyleSheet, Dimensions } from 'react-native';
-import { BackgroundColor } from '../../../../constants/colors';
+import { BACKGROUND_COLOR } from '../../../../constants/colors';
 const width = Math.trunc(Dimensions.get('window').width);
 
 const styles = StyleSheet.create({
@@ -8,7 +8,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row'
   },
   blankContainer: {
-    backgroundColor: BackgroundColor,
+    backgroundColor: BACKGROUND_COLOR,
     width,
     height: '100%',
     justifyContent: 'center',
