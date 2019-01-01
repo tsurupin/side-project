@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { goToAuthScreen } from '../../../../utilities/NavigationManager';
+import { goToAuthScreen } from '../../../../utilities/navigation';
 import { View } from 'react-native';
 import { ListItem } from 'react-native-elements';
 import { LOGOUT_ICON } from '../../../../constants/icons';

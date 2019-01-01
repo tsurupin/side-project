@@ -1,5 +1,5 @@
 import { Navigation } from 'react-native-navigation';
-import IconLoader from '../utilities/IconLoader';
+import IconLoader from './IconLoader';
 import {
   AUTH_SCREEN,
   MATCH_SCREEN,

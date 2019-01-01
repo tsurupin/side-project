@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Text, TouchableOpacity, View } from 'react-native';
 import { AccessToken, LoginManager } from 'react-native-fbsdk';
 import { SignUpMutation } from '../../mutations/accounts';
-import { goToMainTabs } from '../../utilities/NavigationManager';
+import { goToMainTabs } from '../../utilities/navigation';
 import { firebaseSignIn } from '../../utilities/firebase';
 import { LoadingIndicator, ErrorMessage } from '../../components/Common';
 import { SignUpParams, LoginParams, GraphQLErrorMessage } from '../../interfaces';
