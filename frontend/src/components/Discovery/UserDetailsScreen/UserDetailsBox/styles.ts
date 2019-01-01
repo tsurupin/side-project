@@ -62,7 +62,7 @@ const styles = StyleSheet.create({
 
   divider: {
     height: 1,
-    color: DIVIDER_COLOR
+    borderColor: DIVIDER_COLOR
   },
   detailsContainer: {
     marginTop: Math.trunc(height * 0.03),

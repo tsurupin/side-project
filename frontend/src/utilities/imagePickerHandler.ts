@@ -1,5 +1,5 @@
 import ImagePicker from 'react-native-image-picker';
-import * as ImageResizer from 'react-native-image-resizer';
+import ImageResizer from 'react-native-image-resizer';
 import { ReactNativeFile } from '@richeterre/apollo-upload-client';
 
 type Props = {
@@ -30,6 +30,7 @@ export const uploadImage = (props: Props) => {
 
         onCallback({ variables: { ...variables, photo } });
       } catch (err) {
+        console.log(err);
         onError('Unable to resize the photo, Check the console for full the error message');
       }
     }

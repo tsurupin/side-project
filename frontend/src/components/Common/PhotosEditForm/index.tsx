@@ -38,12 +38,11 @@ const renderPhotoListSection = (index: number, photos: JSX.Element[]) => {
 };
 
 const renderNewPhoto = (availableRank: number, hasRightEdge: boolean, fnc: (rank: number) => void) => {
-  return <PhotoEdit hasRightEdge={hasRightEdge} onPressNewPhoto={() => fnc(availableRank)} />;
+  return <PhotoEdit key="new" hasRightEdge={hasRightEdge} onPressNewPhoto={() => fnc(availableRank)} />;
 };
 
 const PhotosEditForm: React.SFC<Props> = (props) => {
   const { photos, onPressPhoto, onPressNewPhoto } = props;
-  console.log(photos, 'photos')
   const availableRank = photos.length;
   const hasRightEdge = (photos.length + 1) % CHUNK_SIZE === 0;
   const photoListGroup = [
