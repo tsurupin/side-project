@@ -1,5 +1,11 @@
 import { StyleSheet, Dimensions } from 'react-native';
-import { BACKGROUND_COLOR, WHITE_COLOR, BORDER_COLOR, MAIN_TEXT_COLOR, ACTIVE_MAIN_COLOR } from '../../../constants/colors';
+import {
+  BACKGROUND_COLOR,
+  WHITE_COLOR,
+  BORDER_COLOR,
+  MAIN_TEXT_COLOR,
+  ACTIVE_MAIN_COLOR
+} from '../../../constants/colors';
 const height = Dimensions.get('window').height;
 
 const styles = StyleSheet.create({

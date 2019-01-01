@@ -76,7 +76,7 @@ const buildTopBarOptions = ({ title, leftButton, rightButton }: TopBarOptions) =
   }
 
   if (rightButton) {
-    options['rightButtons'] = [{ ...rightButton, color: NAV_BAR_BUTTON_COLOR}];
+    options['rightButtons'] = [{ ...rightButton, color: NAV_BAR_BUTTON_COLOR }];
   }
 
   return { topBar: options };
