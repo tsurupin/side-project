@@ -52,7 +52,6 @@ class SearchForm extends React.Component<Props, State> {
       skills: props.skills
     };
 
-    Navigation.events().bindComponent(this);
   }
 
   private handleSubmit = () => {
@@ -147,20 +146,6 @@ class SearchForm extends React.Component<Props, State> {
         }
       })
     );
-    // this.props.navigator.showModal({
-    //   screen: CITY_SEARCH_MODAL_SCREEN,
-    //   title: 'City Search',
-    //   animationType: 'slide-up',
-    //   passProps: { onPress: this.handleAddCity },
-    //   navigatorButtons: {
-    //     leftButtons: [
-    //       {
-    //         title: 'Close',
-    //         id: CLOSE_BUTTON
-    //       }
-    //     ]
-    //   }
-    // });
   };
 
   private handleAddCity = (city: City) => {
