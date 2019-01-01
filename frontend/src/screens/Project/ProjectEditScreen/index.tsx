@@ -78,7 +78,8 @@ class ProjectEditScreen extends React.Component<Props> {
           id: CLOSE_BUTTON
         },
         rightButton: {
-          title: 'Done',
+          text: 'Done',
+          enabled: true,
           id: CLOSE_BUTTON
         }
       })

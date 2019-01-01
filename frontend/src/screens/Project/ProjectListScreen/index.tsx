@@ -19,6 +19,7 @@ import {
   buildDefaultNavigationStack,
   buildDefaultNavigationComponent
 } from '../../../utilities/navigationStackBuilder';
+import { NAV_BAR_TEXT_COLOR } from '../../../constants/colors';
 
 type Props = {
   navigator: any;
@@ -54,7 +55,8 @@ class ProjectListScreen extends React.Component<Props, State> {
               id: CLOSE_BUTTON
             },
             rightButton: {
-              title: 'Create',
+              text: 'Create',
+              enabled: true,
               id: SUBMIT_BUTTON
             }
           })
@@ -79,7 +81,6 @@ class ProjectListScreen extends React.Component<Props, State> {
           id: BACK_BUTTON
         },
         rightButton: {
-          title: 'ACTION',
           id: PROJECT_ACTION_SHEET_BUTTON
         }
       })
@@ -97,7 +98,8 @@ class ProjectListScreen extends React.Component<Props, State> {
           id: CLOSE_BUTTON
         },
         rightButton: {
-          title: 'Submit',
+          text: 'Submit',
+          enabled: true,
           id: SUBMIT_BUTTON
         }
       })
