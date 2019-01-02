@@ -79,7 +79,6 @@ const ProjectDetailsBox: React.SFC<Props> = (props) => {
               <MemberListItem key={owner.id} member={owner} onPress={onPressUser} />
             </View>
             <MemberList members={users} onPressUser={onPressUser} />
-
             <View>
               <SkillList skills={skills} />
             </View>
