@@ -113,7 +113,7 @@ class UserDetailsScreen extends React.Component<Props, State> {
           if (data) {
             Navigation.push(
               this.props.componentId,
-              buildDefaultNavigationComponent({ screenName: DISCOVERY_SCREEN, props: {} })
+              buildDefaultNavigationComponent({ screenName: DISCOVERY_SCREEN, props: {}, title: 'Discovery' })
             );
             return <View />;
           }
