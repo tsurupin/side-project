@@ -16,7 +16,7 @@ type Item = {
 
 type Props = {
   projects: ProjectCore[];
-  onPress: (id: string) => void;
+  onPress: (id: string, title: string) => void;
 };
 
 let onPress: any;
@@ -25,7 +25,6 @@ const keyExtractor = (item: ProjectCore, _: number) => item.id;
 const renderProject = (data: any) => {
   const item: Item = data.item;
 
-  console.log(item.mainPhotoUrl);
 
   const editing = item.status === 'EDITING';
   return (
@@ -36,7 +35,7 @@ const renderProject = (data: any) => {
       // leftAvatar={{ source: { uri: item.mainPhotoUrl } }}
       chevron
       bottomDivider
-      onPress={() => onPress(item.id)}
+      onPress={() => onPress(item.id, item.title)}
       containerStyle={styles.container}
       titleStyle={styles.title}
     />
@@ -44,7 +43,7 @@ const renderProject = (data: any) => {
 };
 
 const ProjectList: React.SFC<Props> = (props) => {
-  onPress = (id: string): void => props.onPress(id);
+  onPress = (id: string, title: string): void => props.onPress(id, title);
   return (
     <FlatList
       keyExtractor={keyExtractor}

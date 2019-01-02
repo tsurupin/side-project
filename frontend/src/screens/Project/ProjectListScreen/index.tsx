@@ -67,7 +67,7 @@ class ProjectListScreen extends React.Component<Props, State> {
     this.setState({ selectedIndex });
   };
 
-  private handleLikedProjectPress = (id: string) => {
+  private handleLikedProjectPress = (id: string, title: string) => {
     Navigation.push(
       this.props.componentId,
       buildDefaultNavigationComponent({
@@ -75,6 +75,7 @@ class ProjectListScreen extends React.Component<Props, State> {
         props: {
           id
         },
+        title,
         leftButton: {
           icon: IconLoader.getIcon(BACK_ICON),
           id: BACK_BUTTON

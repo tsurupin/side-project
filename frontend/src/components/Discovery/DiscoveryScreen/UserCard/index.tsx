@@ -4,7 +4,7 @@ import { UserCore } from '../../../../interfaces';
 
 type Props = {
   user: UserCore;
-  onPressCard: (id: string) => void;
+  onPressCard: (id: string, title: string) => void;
 };
 
 const buildProfessionText = (occupation: string | undefined, companyName: string | undefined): string => {

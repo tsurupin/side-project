@@ -122,7 +122,7 @@ class DiscoveryScreen extends React.Component<Props, State> {
     }
   };
 
-  protected handlePressCard = (id: string) => {
+  protected handlePressCard = (id: string, title: string) => {
     Navigation.push(
       this.props.componentId,
       buildDefaultNavigationComponent({
@@ -131,6 +131,7 @@ class DiscoveryScreen extends React.Component<Props, State> {
           id,
           liked: false
         },
+        title,
         leftButton: {
           icon: IconLoader.getIcon(BACK_ICON),
           id: BACK_BUTTON

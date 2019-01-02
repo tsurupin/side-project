@@ -14,7 +14,7 @@ type Props = {
   subText?: string | undefined;
   badgeText: string | undefined;
   city: City | undefined;
-  onPressCard: (id: string) => void;
+  onPressCard: (id: string, title: string) => void;
 };
 
 const renderCityName = (city: City | undefined) => {
@@ -37,7 +37,7 @@ const ItemCard: React.SFC<Props> = (props) => {
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity onPress={() => onPressCard(id)}>
+      <TouchableOpacity onPress={() => onPressCard(id, title)}>
         <Card
           containerStyle={styles.cardContainer}
           image={{ uri: mainPhotoUrl }}

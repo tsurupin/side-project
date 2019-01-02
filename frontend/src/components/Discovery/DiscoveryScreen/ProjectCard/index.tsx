@@ -3,7 +3,7 @@ import { ProjectCore } from '../../../../interfaces';
 import ItemCard from '../ItemCard';
 type Props = {
   project: ProjectCore;
-  onPressCard: (id: string) => void;
+  onPressCard: (id: string, title: string) => void;
 };
 
 const ProjectCard: React.SFC<Props> = ({ project, onPressCard }) => {

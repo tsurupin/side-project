@@ -99,7 +99,7 @@ class LikedProjectDetailsScreen extends React.Component<Props> {
                 if (loading) return <LoadingIndicator />;
                 if (error) return <ErrorMessage {...error} />;
                 if (data) {
-                  this.props.navigator.pop();
+                  Navigation.pop(this.props.componentId);
                   return <View />;
                 }
 

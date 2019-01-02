@@ -10,7 +10,7 @@ type Item = UserCore | ProjectCore;
 type Props = {
   type: string;
   items: Item[];
-  onPressCard: (id: string) => void;
+  onPressCard: (id: string, title: string) => void;
 };
 
 const renderItem = (type: string, item: Item, fnc: (id: string) => void) => {

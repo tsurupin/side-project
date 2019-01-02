@@ -6,7 +6,7 @@ import { ProjectList } from '../../../../components/Project/Common';
 import { LoadingIndicator, ErrorMessage } from '../../../../components/Common';
 
 type Props = {
-  onPress: (id: string) => void;
+  onPress: (id: string, title: string) => void;
 };
 
 type MyProjectOutput = {
