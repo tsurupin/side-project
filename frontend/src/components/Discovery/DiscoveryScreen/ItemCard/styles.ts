@@ -51,10 +51,10 @@ const styles = StyleSheet.create({
   },
 
   badgeContainer: {
-    width: Math.trunc(width * 0.25),
+    width: Math.trunc(width * 0.28),
     marginTop: '15%',
-    padding: '10%',
-    height: '50%',
+    padding: '6%',
+    height: '44%',
     backgroundColor: ACTIVE_MAIN_COLOR
   },
   badgeText: {

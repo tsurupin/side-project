@@ -67,7 +67,7 @@ class LikedProjectDetailsScreen extends React.Component<Props> {
     }
   };
 
-  private handleUserPress = (userId: string) => {
+  private handleUserPress = (userId: string, name) => {
     Navigation.push(
       this.props.componentId,
       buildDefaultNavigationComponent({
@@ -75,6 +75,7 @@ class LikedProjectDetailsScreen extends React.Component<Props> {
         props: {
           id: userId
         },
+        title: name,
         leftButton: {
           icon: IconLoader.getIcon(BACK_ICON),
           id: BACK_BUTTON

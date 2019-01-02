@@ -5,11 +5,11 @@ import styles from './styles';
 
 type Props = {
   member: UserCore;
-  onPress: (userId: string) => void;
+  onPress: (userId: string, name: string) => void;
 };
 
 const MemberListItem: React.SFC<Props> = ({ member, onPress }) => {
-  const { displayName, mainPhotoUrl, occupationType } = member;
+  const { id, displayName, mainPhotoUrl, occupationType } = member;
   return (
     <ListItem
       title={displayName}
@@ -21,7 +21,7 @@ const MemberListItem: React.SFC<Props> = ({ member, onPress }) => {
       leftAvatar={{
         source: { uri: mainPhotoUrl }
       }}
-      onPress={() => onPress(member.id)}
+      onPress={() => onPress(id, displayName)}
     />
   );
 };

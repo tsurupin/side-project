@@ -14,7 +14,7 @@ type Props = {
   liked: boolean;
   project: ProjectDetails;
   like?: () => void;
-  onPressUser: (userId: string) => void;
+  onPressUser: (userId: string, name: string) => void;
 };
 
 const renderCityName = (city: City | undefined) => {

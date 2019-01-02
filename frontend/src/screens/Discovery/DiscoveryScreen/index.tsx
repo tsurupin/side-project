@@ -203,7 +203,7 @@ class DiscoveryScreen extends React.Component<Props, State> {
           }
           return (
             <View>
-              <Text>No data</Text>
+              <Text>No data is found</Text>
             </View>
           );
         }}
@@ -227,7 +227,7 @@ class DiscoveryScreen extends React.Component<Props, State> {
           }
           return (
             <View>
-              <Text>No data</Text>
+              <Text>No data is found</Text>
             </View>
           );
         }}
