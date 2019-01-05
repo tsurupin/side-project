@@ -51,7 +51,6 @@ class SearchForm extends React.Component<Props, State> {
       city: props.city,
       skills: props.skills
     };
-
   }
 
   private handleSubmit = () => {

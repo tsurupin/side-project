@@ -14,7 +14,7 @@ import styles from './styles';
 
 type Props = {
   members: UserCore[];
-  onPressUser: (userId: string) => void;
+  onPressUser: (userId: string, name: string) => void;
 };
 
 const MIN_HEIGHT = 2;
@@ -26,7 +26,6 @@ type State = {
 };
 
 class MemberList extends React.Component<Props, State> {
-
   constructor(props: Props) {
     super(props);
     this.state = {

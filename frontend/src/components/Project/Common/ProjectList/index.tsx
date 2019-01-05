@@ -25,7 +25,6 @@ const keyExtractor = (item: ProjectCore, _: number) => item.id;
 const renderProject = (data: any) => {
   const item: Item = data.item;
 
-
   const editing = item.status === 'EDITING';
   return (
     <ListItem

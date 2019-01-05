@@ -29,8 +29,8 @@ const renderActionContainer = (
   acceptLike: (() => void) | undefined
 ) => {
   if (liked === undefined) return <View />;
-  if (liked) return renderLikeContainer(like!);
-  return renderResponseLikeContainer(rejectLike!, acceptLike!);
+  if (liked) return renderResponseLikeContainer(rejectLike!, acceptLike!);
+  return renderLikeContainer(like!);
 };
 
 const renderResponseLikeContainer = (rejectLike: () => void, acceptLike: () => void) => {

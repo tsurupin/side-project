@@ -7,6 +7,7 @@ import { withClientState } from 'apollo-link-state';
 import { createUploadLink } from '@richeterre/apollo-upload-client';
 
 import { onError } from 'apollo-link-error';
+import { GraphQLError } from 'graphql';
 // import Retry from 'apollo-link-retry';
 import TokenManager from './utilities/TokenManager';
 import AbsintheSocketLink from './utilities/AbsintheSocketLink';
@@ -22,13 +23,20 @@ const uploadLink = createUploadLink({
 });
 
 const errorLink = onError(({ graphQLErrors, networkError }) => {
-  if (graphQLErrors) {
-    graphQLErrors.map(({ message, locations, path }) =>
-      console.log(`[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`)
-    );
+  if (Array.isArray(graphQLErrors)) {
+    graphQLErrors.forEach(({ message, locations, path }: GraphQLError) => {
+      console.log(`[GraphQL error]: Message: ${message}, Path: ${path}`);
+      if (Array.isArray(locations)) {
+        locations.forEach((location) => {
+          console.log(`[GraphQL error]: Location: ${location}`);
+        });
+      }
+    });
   }
 
-  if (networkError) console.log(`[Network error]: ${networkError}`);
+  if (networkError) {
+    console.log(`[Network error]: ${networkError}`);
+  }
 });
 
 const authLink = setContext(async (_, context) => {

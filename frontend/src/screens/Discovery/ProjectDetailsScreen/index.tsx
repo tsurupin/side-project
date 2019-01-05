@@ -78,7 +78,10 @@ class ProjectDetailsScreen extends React.Component<Props> {
             <LikeProjectMutation>
               {({ likeProjectMutation, data, loading, error }: LikeProjectOutput) => {
                 if (loading) return <LoadingIndicator />;
-                if (error) return <ErrorMessage {...error} />;
+                if (error) {
+                  console.log(error);
+                  return <ErrorMessage {...error} />;
+                }
                 if (data) {
                   Navigation.push(
                     this.props.componentId,

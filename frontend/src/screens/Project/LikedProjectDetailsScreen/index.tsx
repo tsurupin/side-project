@@ -67,7 +67,7 @@ class LikedProjectDetailsScreen extends React.Component<Props> {
     }
   };
 
-  private handleUserPress = (userId: string, name) => {
+  private handleUserPress = (userId: string, name: string) => {
     Navigation.push(
       this.props.componentId,
       buildDefaultNavigationComponent({
