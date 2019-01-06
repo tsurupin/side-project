@@ -8,11 +8,14 @@ import { BACK_BUTTON } from '../../../constants/buttons';
 import { MessageList, MessageForm } from '../../../components/Match/ChatScreen';
 import styles from './styles';
 import { LoadingIndicator } from '../../../components/Common';
+import { buildDefaultNavigationComponent } from '../../../utilities/navigationStackBuilder';
+import { USER_DETAILS_SCREEN } from '../../../constants/screens';
+import IconLoader from '../../../utilities/IconLoader';
+import { BACK_ICON } from '../../../constants/icons';
 
 type Props = {
   id: string;
   componentId: string;
-  navigator: any;
 };
 
 type ChatDetailsOutput = {
@@ -37,8 +40,25 @@ class ChatScreen extends React.Component<Props> {
     }
   };
 
-  handlePress = (variables: MessageParams, mutation: (input: { variables: MessageParams }) => void) => {
+  private handlePress = (variables: MessageParams, mutation: (input: { variables: MessageParams }) => void) => {
     mutation({ variables });
+  };
+
+  private handlePressUser = (userId: string, displayName: string) => {
+    Navigation.push(
+      this.props.componentId,
+      buildDefaultNavigationComponent({
+        screenName: USER_DETAILS_SCREEN,
+        props: {
+          id: userId
+        },
+        title: displayName,
+        leftButton: {
+          icon: IconLoader.getIcon(BACK_ICON),
+          id: BACK_BUTTON
+        }
+      })
+    );
   };
 
   render() {
@@ -54,7 +74,11 @@ class ChatScreen extends React.Component<Props> {
 
           return (
             <View style={styles.container}>
-              <MessageList subscribeMessages={subscribeMessages} messages={chat.messages} />
+              <MessageList
+                subscribeMessages={subscribeMessages}
+                messages={chat.messages}
+                handlePress={this.handlePressUser}
+              />
 
               <CreateMessageMutation>
                 {({ createMessageMutation, loading, error }: CreateMessageOutput) => {

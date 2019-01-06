@@ -10,6 +10,7 @@ type Props = {
   comment?: string;
   imageUrl?: string;
   insertedAt: string;
+  handlePress: (userId: string, displayName: string) => void;
   user: UserCore;
 };
 
@@ -25,7 +26,7 @@ const renderMessage = (imageUrl: string | undefined, comment: string | undefined
 // Add pagination not to load all the messages
 
 const MessageItem: React.SFC<Props> = (props) => {
-  const { user, comment, imageUrl, insertedAt } = props;
+  const { user, comment, imageUrl, insertedAt, handlePress } = props;
   return (
     <View style={styles.container}>
       <View style={styles.userImageContainer}>
@@ -38,7 +39,7 @@ const MessageItem: React.SFC<Props> = (props) => {
           source={{
             uri: 'https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg'
           }}
-          onPress={() => console.log(user.id)}
+          onPress={() => handlePress(user.id, user.displayName)}
           activeOpacity={0.7}
         />
       </View>

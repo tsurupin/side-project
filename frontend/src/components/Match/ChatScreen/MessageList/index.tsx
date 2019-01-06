@@ -7,6 +7,7 @@ import styles from './styles';
 type Props = {
   messages: Message[];
   subscribeMessages: () => void;
+  handlePress: (userId: string, displayName: string) => void;
 };
 
 class MessageList extends React.Component<Props> {
@@ -20,7 +21,7 @@ class MessageList extends React.Component<Props> {
   }
 
   render() {
-    const { messages } = this.props;
+    const { messages, handlePress } = this.props;
     return (
       <ScrollView
         style={styles.container}
@@ -31,7 +32,7 @@ class MessageList extends React.Component<Props> {
         }}
       >
         {messages.map((message) => {
-          return <MessageItem key={message.id} {...message} />;
+          return <MessageItem key={message.id} {...message} handlePress={handlePress} />;
         })}
       </ScrollView>
     );

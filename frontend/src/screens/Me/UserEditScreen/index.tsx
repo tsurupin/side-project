@@ -146,7 +146,6 @@ class UserEditScreen extends React.Component<Props, UserEditParams> {
           }
           const defaultProps: DefaultProps = data.userForm;
           const user: UserDetails = data.myUser;
-        
 
           return (
             <View style={styles.container}>

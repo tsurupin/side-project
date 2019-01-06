@@ -13,7 +13,7 @@ import {
   ICON_GRAY_COLOR
 } from '../../../../constants/icons';
 import styles from './styles';
-
+// add userlike for this userdetail
 type Props = {
   liked?: boolean;
   rejectLike?: () => void;
