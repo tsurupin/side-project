@@ -1,10 +1,10 @@
 import * as React from 'react';
-import { View, Button } from 'react-native';
+import { View, Button, Alert } from 'react-native';
 import { Navigation } from 'react-native-navigation';
 import { CityList } from '../../../components/Common/CitySearchModalScreen';
 import { CLOSE_BUTTON } from '../../../constants/buttons';
 import { CityListQuery } from '../../../queries/cities';
-import { SearchInput, ErrorMessage, LoadingIndicator } from '../../../components/Common';
+import { SearchInput, LoadingIndicator } from '../../../components/Common';
 import { FindOrCreateCityMutation } from '../../../mutations/cities';
 import { City, CityEditParams, MinimumOutput } from '../../../interfaces';
 import { fetchAddress } from '../../../utilities/geocoder';
@@ -104,7 +104,7 @@ class CitySearchModalScreen extends React.Component<Props, State> {
             return <LoadingIndicator />;
           }
           if (error) {
-            return <ErrorMessage {...error} />;
+            Alert.alert(error.message);
           }
           const cityList = data!.cityList;
           return <CityList cities={cityList} onPress={this.onPress} />;
@@ -121,8 +121,7 @@ class CitySearchModalScreen extends React.Component<Props, State> {
         {({ findOrCreateCityMutation, data, loading, error }: FindOrCreateCityMutationOutput) => {
           if (loading) return <View />;
           if (error) {
-            console.log('FindOrCreateCityMutationError', error);
-            return <View />;
+            Alert.alert(error.message);
           }
           if (data) {
             const city: City = data.findOrCreateCity;

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { View } from 'react-native';
+import { View, Alert } from 'react-native';
 import { Navigation } from 'react-native-navigation';
 import { buildDefaultNavigationComponent } from '../../../utilities/navigationStackBuilder';
 import { ProjectDetailsQuery } from '../../../queries/projects';
@@ -9,7 +9,7 @@ import { LikeProjectMutation } from '../../../mutations/projectLikes';
 import { LIKED_PROJECT_DETAILS_SCREEN, USER_DETAILS_SCREEN } from '../../../constants/screens';
 import { ProjectDetailsBox } from '../../../components/Discovery/ProjectDetailsScreen';
 import { ProjectDetails, GraphQLErrorMessage, LikeProjectParams } from '../../../interfaces';
-import { LoadingIndicator, ErrorMessage } from '../../../components/Common';
+import { LoadingIndicator } from '../../../components/Common';
 import IconLoader from '../../../utilities/IconLoader';
 type Props = {
   id: string;
@@ -70,8 +70,9 @@ class ProjectDetailsScreen extends React.Component<Props> {
       <ProjectDetailsQuery variables={{ id }}>
         {({ data, loading, error }: ProjectDetailOutput) => {
           if (loading) return <LoadingIndicator />;
-          if (error) return <ErrorMessage {...error} />;
-
+          if (error) {
+            Alert.alert(error.message);
+          }
           const project: ProjectDetails = data.project;
 
           return (
@@ -79,8 +80,7 @@ class ProjectDetailsScreen extends React.Component<Props> {
               {({ likeProjectMutation, data, loading, error }: LikeProjectOutput) => {
                 if (loading) return <LoadingIndicator />;
                 if (error) {
-                  console.log(error);
-                  return <ErrorMessage {...error} />;
+                  Alert.alert(error.message);
                 }
                 if (data) {
                   Navigation.push(

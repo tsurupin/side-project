@@ -1,10 +1,10 @@
 import * as React from 'react';
-import { Text, TouchableOpacity, View } from 'react-native';
+import { Text, TouchableOpacity, View, Alert } from 'react-native';
 import { AccessToken, LoginManager } from 'react-native-fbsdk';
 import { SignUpMutation } from '../../mutations/accounts';
 import { goToMainTabs } from '../../utilities/navigation';
 import { firebaseSignIn } from '../../utilities/firebase';
-import { LoadingIndicator, ErrorMessage } from '../../components/Common';
+import { LoadingIndicator } from '../../components/Common';
 import { SignUpParams, LoginParams, GraphQLErrorMessage } from '../../interfaces';
 
 const FACEBOOK = 'facebook';
@@ -29,7 +29,8 @@ class AuthScreen extends React.Component<Props> {
     LoginManager.logInWithReadPermissions(FB_READ_PERMISSIONS)
       .then((result) => {
         if (result.isCancelled) {
-          return console.log('Login is cancelled');
+          console.log('Login is cancelled');
+          Alert.alert('Login is cancelled');
         }
 
         AccessToken.getCurrentAccessToken()
@@ -41,9 +42,15 @@ class AuthScreen extends React.Component<Props> {
               variables: { providerId: FACEBOOK, uid: accessTokenData.userID }
             });
           })
-          .catch((error) => console.log('getcurrentaccesserror', error));
+          .catch((error) => {
+            console.log('getcurrentaccesserror', error);
+            Alert.alert(`AccessToken error: ${error}`);
+          });
       })
-      .catch((error) => console.log('loginError', error));
+      .catch((error) => {
+        console.log('loginError', error);
+        Alert.alert(`Login Error error: ${error}`);
+      });
   };
 
   private loginFirebase = async (
@@ -55,12 +62,12 @@ class AuthScreen extends React.Component<Props> {
       loginMutation({ variables: { logined: true } });
       goToMainTabs();
     } catch (e) {
-      console.log('error', e);
+      console.log('Firebase Error', e);
+      Alert.alert(`Firebase Error: ${e}`);
     }
   };
 
   render() {
-    console.log('auth screen');
     return (
       <View>
         <SignUpMutation>
@@ -69,11 +76,10 @@ class AuthScreen extends React.Component<Props> {
               return <LoadingIndicator />;
             }
             if (error) {
-              return <ErrorMessage {...error} />;
+              Alert.alert(error.message);
             }
 
             if (signUpData && signUpData.signUp) {
-              console.log('loginFirebase');
               this.loginFirebase(signUpData.signUp.token, loginMutation);
               return <View />;
             }

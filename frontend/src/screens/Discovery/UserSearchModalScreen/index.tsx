@@ -1,10 +1,11 @@
 import * as React from 'react';
+import { Alert } from 'react-native';
 import { Navigation } from 'react-native-navigation';
 import { OccupationType, Genre, Skill, Location, MinimumOutput } from '../../../interfaces';
 import { UserSearchFormQuery } from '../../../queries/users';
 import { UpdateUserSearchParamsMutation } from '../../../mutations/users';
 import SearchForm from './SearchForm';
-import { LoadingIndicator, ErrorMessage } from '../../../components/Common';
+import { LoadingIndicator } from '../../../components/Common';
 import { APPLY_BUTTON, CLOSE_BUTTON } from '../../../constants/buttons';
 
 type UserSearchParams = {
@@ -68,7 +69,9 @@ class UserSearchFormScreen extends React.Component<Props> {
         {({ data, loading, error }: UserSearchFormOutput) => {
           if (loading) return <LoadingIndicator />;
 
-          if (error) return <ErrorMessage {...error} />;
+          if (error) {
+            Alert.alert(error.message);
+          }
           const {
             userSearchForm: { genres, occupationTypes },
             userSearchParams
@@ -78,8 +81,7 @@ class UserSearchFormScreen extends React.Component<Props> {
             <UpdateUserSearchParamsMutation>
               {({ updateUserSearchParamsMutation, error }: UpdateUserSearchOutput) => {
                 if (error) {
-                  console.log(error);
-                  return <ErrorMessage {...error} />;
+                  Alert.alert(error.message);
                 }
 
                 return (

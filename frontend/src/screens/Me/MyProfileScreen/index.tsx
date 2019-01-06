@@ -1,6 +1,7 @@
 import * as React from 'react';
+import { Alert } from 'react-native';
 import { Navigation } from 'react-native-navigation';
-import { ErrorMessage, LoadingIndicator } from '../../../components/Common';
+import { LoadingIndicator } from '../../../components/Common';
 import { UserDetailsBox } from '../../../components/Discovery/UserDetailsScreen';
 import { USER_EDIT_SCREEN } from '../../../constants/screens';
 import { MyUserQuery } from '../../../queries/users';
@@ -57,8 +58,9 @@ class MyProfileScreen extends React.Component<Props> {
       <MyUserQuery>
         {({ data, loading, error }: MyUserOutput) => {
           if (loading) return <LoadingIndicator />;
-          if (error) return <ErrorMessage {...error} />;
-
+          if (error) {
+            Alert.alert(error.message);
+          }
           const myUser: UserDetails = data.myUser;
 
           return <UserDetailsBox user={myUser} />;

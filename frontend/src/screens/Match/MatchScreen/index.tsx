@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { View } from 'react-native';
+import { View, Alert } from 'react-native';
 import { Navigation } from 'react-native-navigation';
 import { buildDefaultNavigationComponent } from '../../../utilities/navigationStackBuilder';
 import { MatchListQuery } from '../../../queries/matches';
@@ -10,7 +10,7 @@ import { BACK_BUTTON } from '../../../constants/buttons';
 import { BACK_ICON } from '../../../constants/icons';
 import IconLoader from '../../../utilities/IconLoader';
 import styles from './styles';
-import { LoadingIndicator, ErrorMessage } from '../../../components/Common';
+import { LoadingIndicator } from '../../../components/Common';
 
 type Props = {
   navigator: any;
@@ -71,7 +71,7 @@ class MatchScreen extends React.Component<Props> {
               return <LoadingIndicator />;
             }
             if (error) {
-              return <ErrorMessage {...error} />;
+              Alert.alert(error.message);
             }
 
             const likedUserList: UserCore[] = data.matchList.likedUserList;

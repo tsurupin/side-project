@@ -1,10 +1,10 @@
 import * as React from 'react';
-import { View } from 'react-native';
+import { View, Alert } from 'react-native';
 import { Navigation } from 'react-native-navigation';
 import { SkillList } from '../../../components/Common/SkillSearchModalScreen';
 import { CLOSE_BUTTON } from '../../../constants/buttons';
 import { SkillsQuery } from '../../../queries/skills';
-import { LoadingIndicator, ErrorMessage, SearchInput } from '../../../components/Common';
+import { LoadingIndicator, SearchInput } from '../../../components/Common';
 import { Skill, GraphQLErrorMessage } from '../../../interfaces';
 
 import styles from './styles';
@@ -68,8 +68,9 @@ class SkillSearchModalScreen extends React.Component<Props, State> {
         {({ data, error, loading }: SkillsQueryOutput) => {
           if (loading) return <LoadingIndicator />;
 
-          if (error) return <ErrorMessage {...error} />;
-
+          if (error) {
+            Alert.alert(error.message);
+          }
           if (!data) return <View />;
 
           return <SkillList skills={data.skills} onPressSkill={this.onPressSkill} />;

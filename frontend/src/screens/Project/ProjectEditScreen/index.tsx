@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { Navigation } from 'react-native-navigation';
-import { View, ScrollView } from 'react-native';
+import { View, ScrollView, Alert } from 'react-native';
 import { Avatar } from 'react-native-elements';
-import { ErrorMessage, LoadingIndicator } from '../../../components/Common';
+import { LoadingIndicator } from '../../../components/Common';
 import { EditForm } from '../../../components/Project/Common';
 import { ProjectEditFormQuery } from '../../../queries/projects';
 import { ProjectDetails, ProjectEditParams, Genre, MinimumOutput } from '../../../interfaces';
@@ -110,7 +110,9 @@ class ProjectEditScreen extends React.Component<Props> {
       <EditProjectMutation>
         {({ editProjectMutation, loading, error, data }: EditProjectOutput) => {
           if (loading) return <LoadingIndicator />;
-          if (error) return <ErrorMessage {...error} />;
+          if (error) {
+            Alert.alert(error.message);
+          }
           if (data) {
             Navigation.dismissModal(this.props.componentId);
             return <View />;
@@ -140,8 +142,9 @@ class ProjectEditScreen extends React.Component<Props> {
       <ProjectEditFormQuery variables={{ id }}>
         {({ data, loading, error }: ProjectEditFormOutput) => {
           if (loading) return <LoadingIndicator />;
-          if (error) return <ErrorMessage {...error} />;
-
+          if (error) {
+            Alert.alert(error.message);
+          }
           const defaultProps: DefaultProps = data.projectForm;
 
           const project: ProjectDetails = data.project;

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { View, BackHandler } from 'react-native';
+import { View, Alert } from 'react-native';
 import { Navigation } from 'react-native-navigation';
 import { ProjectDetailsQuery } from '../../../queries/projects';
 import ActionSheet from 'react-native-actionsheet';
@@ -90,15 +90,18 @@ class LikedProjectDetailsScreen extends React.Component<Props> {
       <ProjectDetailsQuery variables={{ id }}>
         {({ data, loading, error }: ProjectDetailsOutput) => {
           if (loading) return <LoadingIndicator />;
-          if (error) return <ErrorMessage {...error} />;
-
+          if (error) {
+            Alert.alert(error.message);
+          }
           const { project } = data;
 
           return (
             <WithdrawProjectLikeMutation>
               {({ withdrawProjectLikeMutation, data, loading, error }: WithdrawProjectLikeOutput) => {
                 if (loading) return <LoadingIndicator />;
-                if (error) return <ErrorMessage {...error} />;
+                if (error) {
+                  Alert.alert(error.message);
+                }
                 if (data) {
                   Navigation.pop(this.props.componentId);
                   return <View />;

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { View } from 'react-native';
+import { View, Alert } from 'react-native';
 import { Navigation } from 'react-native-navigation';
 import { ChatDetailsQuery } from '../../../queries/chats';
 import { CreateMessageMutation } from '../../../mutations/chats';
@@ -7,7 +7,7 @@ import { MessageParams, MinimumOutput, Chat } from '../../../interfaces';
 import { BACK_BUTTON } from '../../../constants/buttons';
 import { MessageList, MessageForm } from '../../../components/Match/ChatScreen';
 import styles from './styles';
-import { LoadingIndicator, ErrorMessage } from '../../../components/Common';
+import { LoadingIndicator } from '../../../components/Common';
 
 type Props = {
   id: string;
@@ -48,7 +48,7 @@ class ChatScreen extends React.Component<Props> {
         {({ subscribeMessages, error, data, loading }: ChatDetailsOutput) => {
           if (loading) return <LoadingIndicator />;
           if (error) {
-            return <ErrorMessage {...error} />;
+            Alert.alert(error.message);
           }
           const { chat } = data;
 
@@ -59,9 +59,8 @@ class ChatScreen extends React.Component<Props> {
               <CreateMessageMutation>
                 {({ createMessageMutation, loading, error }: CreateMessageOutput) => {
                   if (error) {
-                    return <ErrorMessage {...error} />;
+                    Alert.alert(error.message);
                   }
-
                   return (
                     <MessageForm
                       onPress={(variables) => this.handlePress(variables, createMessageMutation)}

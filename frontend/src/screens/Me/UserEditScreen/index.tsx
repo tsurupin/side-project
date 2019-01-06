@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { Navigation } from 'react-native-navigation';
-import { View, ScrollView } from 'react-native';
+import { View, ScrollView, Alert } from 'react-native';
 import { Avatar } from 'react-native-elements';
 
-import { ErrorMessage, LoadingIndicator } from '../../../components/Common';
+import { LoadingIndicator } from '../../../components/Common';
 import { EditForm } from '../../../components/Me/Common';
 import { UserEditFormQuery } from '../../../queries/users';
 import { EditUserMutation } from '../../../mutations/users';
@@ -111,8 +111,9 @@ class UserEditScreen extends React.Component<Props, UserEditParams> {
       <EditUserMutation>
         {({ editUserMutation, loading, error, data }: EditUserOutput) => {
           if (loading) return <LoadingIndicator />;
-          if (error) return <ErrorMessage {...error} />;
-
+          if (error) {
+            Alert.alert(error.message);
+          }
           if (data) {
             Navigation.dismissModal(this.props.componentId);
             return <View />;
@@ -140,11 +141,12 @@ class UserEditScreen extends React.Component<Props, UserEditParams> {
       <UserEditFormQuery>
         {({ data, loading, error }: UserEditFormOutput) => {
           if (loading) return <LoadingIndicator />;
-          if (error) return <ErrorMessage {...error} />;
-
+          if (error) {
+            Alert.alert(error.message);
+          }
           const defaultProps: DefaultProps = data.userForm;
           const user: UserDetails = data.myUser;
-          console.log(user);
+        
 
           return (
             <View style={styles.container}>

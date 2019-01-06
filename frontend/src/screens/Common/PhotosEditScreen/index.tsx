@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Navigation } from 'react-native-navigation';
 import { View, Alert } from 'react-native';
-import { ErrorMessage, PhotosEditForm, LoadingIndicator } from '../../../components/Common';
+import { PhotosEditForm, LoadingIndicator } from '../../../components/Common';
 import { UploadProjectPhotoMutation, DeleteProjectPhotoMutation } from '../../../mutations/projects';
 import { UploadUserPhotoMutation, DeleteUserPhotoMutation } from '../../../mutations/users';
 import { CLOSE_BUTTON } from '../../../constants/buttons';
@@ -91,7 +91,9 @@ class PhotosEditScreen extends React.Component<Props> {
       <DeleteUserPhotoMutation>
         {({ deleteUserPhotoMutation, data, loading, error }: DeleteUserPhotoOutput) => {
           if (loading) return <LoadingIndicator />;
-          if (error) return <ErrorMessage {...error} />;
+          if (error) {
+            Alert.alert(error.message);
+          }
           let updatedPhotos: UserPhoto[] = photos;
           if (data) {
             const { deleteUserPhoto } = data;
@@ -101,7 +103,9 @@ class PhotosEditScreen extends React.Component<Props> {
             <UploadUserPhotoMutation>
               {({ uploadUserPhotoMutation, data, loading, error }: UploadUserPhotoOutput) => {
                 if (loading) return <LoadingIndicator />;
-                if (error) return <ErrorMessage {...error} />;
+                if (error) {
+                  Alert.alert(error.message);
+                }
                 if (data) {
                   const { uploadUserPhoto } = data;
                   updatedPhotos = [...photos, uploadUserPhoto];
@@ -120,7 +124,9 @@ class PhotosEditScreen extends React.Component<Props> {
       <DeleteProjectPhotoMutation>
         {({ deleteProjectPhotoMutation, data, loading, error }: DeleteProjectPhotoOutput) => {
           if (loading) return <LoadingIndicator />;
-          if (error) return <ErrorMessage {...error} />;
+          if (error) {
+            Alert.alert(error.message);
+          }
           let updatedPhotos: ProjectPhoto[];
           if (data) {
             const { deleteProjectPhoto } = data;
@@ -130,7 +136,9 @@ class PhotosEditScreen extends React.Component<Props> {
             <UploadProjectPhotoMutation>
               {({ uploadProjectPhotoMutation, data, loading, error }: UploadProjectPhotoOutput) => {
                 if (loading) return <LoadingIndicator />;
-                if (error) return <ErrorMessage {...error} />;
+                if (error) {
+                  Alert.alert(error.message);
+                }
                 if (data) {
                   const { uploadProjectPhoto } = data;
                   updatedPhotos = [...photos, uploadProjectPhoto];

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Navigation } from 'react-native-navigation';
-import { View, ScrollView } from 'react-native';
-import { ErrorMessage, LoadingIndicator } from '../../../components/Common';
+import { View, ScrollView, Alert } from 'react-native';
+import { LoadingIndicator } from '../../../components/Common';
 import { EditForm } from '../../../components/Project/Common';
 import { ProjectCreateParams, Genre, MinimumOutput } from '../../../interfaces';
 import { ProjectFormQuery } from '../../../queries/projects';
@@ -62,8 +62,9 @@ class ProjectNewScreen extends React.Component<Props> {
       <ProjectFormQuery>
         {({ data, loading, error }: ProjectFormOutput) => {
           if (loading) return <LoadingIndicator />;
-          if (error) return <ErrorMessage {...error} />;
-
+          if (error) {
+            Alert.alert(error.message);
+          }
           const projectFormData = data.projectForm;
           return (
             <View style={styles.container}>
@@ -75,7 +76,9 @@ class ProjectNewScreen extends React.Component<Props> {
                 <CreateProjectMutation>
                   {({ createProjectMutation, data, loading, error }: CreateProjectOutput) => {
                     if (loading) return <LoadingIndicator />;
-                    if (error) return <ErrorMessage {...error} />;
+                    if (error) {
+                      Alert.alert(error.message);
+                    }
                     if (data) {
                       Navigation.dismissAllModals();
                       Navigation.push(

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { View, Text, ScrollView } from 'react-native';
+import { View, Text, ScrollView, Alert } from 'react-native';
 import { Navigation } from 'react-native-navigation';
 import {
   buildDefaultNavigationStack,
@@ -27,7 +27,7 @@ import {
   UserCore,
   ProjectCore
 } from '../../../interfaces';
-import { ErrorMessage, LoadingIndicator, CustomizedSegmentedControlTab } from '../../../components/Common';
+import { LoadingIndicator, CustomizedSegmentedControlTab } from '../../../components/Common';
 import styles from './styles';
 import IconLoader from '../../../utilities/IconLoader';
 
@@ -196,7 +196,7 @@ class DiscoveryScreen extends React.Component<Props, State> {
             return <LoadingIndicator />;
           }
           if (error) {
-            return <ErrorMessage {...error} />;
+            Alert.alert(error.message);
           }
           if (data && data.users) {
             return <ItemList type="User" items={data.users} onPressCard={this.handlePressCard} />;
@@ -220,7 +220,7 @@ class DiscoveryScreen extends React.Component<Props, State> {
             return <LoadingIndicator />;
           }
           if (error) {
-            return <ErrorMessage {...error} />;
+            Alert.alert(error.message);
           }
           if (data && data.projects) {
             return <ItemList type="Project" items={data.projects} onPressCard={this.handlePressCard} />;

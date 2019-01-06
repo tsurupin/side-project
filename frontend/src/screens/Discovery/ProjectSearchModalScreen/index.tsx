@@ -1,11 +1,12 @@
 import * as React from 'react';
+import { Alert } from 'react-native';
 import { Navigation } from 'react-native-navigation';
 import { Skill, City, Genre, GraphQLErrorMessage } from '../../../interfaces';
 import { ProjectSearchFormQuery } from '../../../queries/projects';
 import { UpdateProjectSearchParamsMutation } from '../../../mutations/projects';
 import SearchForm from './SearchForm';
 
-import { ErrorMessage, LoadingIndicator } from '../../../components/Common';
+import { LoadingIndicator } from '../../../components/Common';
 import { APPLY_BUTTON, CLOSE_BUTTON } from '../../../constants/buttons';
 
 type ProjectSearchParams = {
@@ -71,7 +72,7 @@ class ProjectSearchFormScreen extends React.Component<Props> {
           }
 
           if (error) {
-            return <ErrorMessage {...error} />;
+            Alert.alert(error.message);
           }
 
           const {
@@ -83,7 +84,7 @@ class ProjectSearchFormScreen extends React.Component<Props> {
             <UpdateProjectSearchParamsMutation>
               {({ updateProjectSearchParamsMutation, error }: UpdateProjectSearchOutput) => {
                 if (error) {
-                  return <ErrorMessage {...error} />;
+                  Alert.alert(error.message);
                 }
 
                 return (

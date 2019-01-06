@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Navigation } from 'react-native-navigation';
-import { ErrorMessage, LoadingIndicator } from '../../../components/Common';
-import { View } from 'react-native';
+import { LoadingIndicator } from '../../../components/Common';
+import { View, Alert } from 'react-native';
 import { UserCard, SettingList } from '../../../components/Me/SettingListScreen';
 import { MY_PROFILE_SCREEN } from '../../../constants/screens';
 import { BACK_BUTTON, USER_EDIT_BUTTON } from '../../../constants/buttons';
@@ -53,8 +53,9 @@ class SettingsListScreen extends React.Component<Props> {
         <MyUserQuery>
           {({ data, loading, error }: MyUserOutput) => {
             if (loading) return <LoadingIndicator />;
-            if (error) return <ErrorMessage {...error} />;
-
+            if (error) {
+              Alert.alert(error.message);
+            }
             const myUser: UserDetails = data.myUser;
             return (
               <View>
