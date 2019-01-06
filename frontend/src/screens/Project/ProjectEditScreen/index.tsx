@@ -5,7 +5,7 @@ import { Avatar } from 'react-native-elements';
 import { LoadingIndicator } from '../../../components/Common';
 import { EditForm } from '../../../components/Project/Common';
 import { ProjectEditFormQuery } from '../../../queries/projects';
-import { ProjectDetails, ProjectEditParams, Genre, MinimumOutput } from '../../../interfaces';
+import { ProjectDetails, ProjectEditParams, Genre, MinimumOutput, ProjectPhoto } from '../../../interfaces';
 
 import { EditProjectMutation } from '../../../mutations/projects';
 import { CLOSE_ICON } from '../../../constants/icons';
@@ -62,7 +62,7 @@ class ProjectEditScreen extends React.Component<Props> {
     editProjectMutation({ variables: { id: this.props.id, ...variables } });
   };
 
-  private handlePressPhoto = (id: string, photos: any[]) => {
+  private handlePressPhoto = (id: string, photos: ProjectPhoto[]) => {
     Navigation.showModal(
       buildDefaultNavigationStack({
         stackId: PHOTOS_EDIT_SCREEN,

@@ -127,7 +127,7 @@ class PhotosEditScreen extends React.Component<Props> {
           if (error) {
             Alert.alert(error.message);
           }
-          let updatedPhotos: ProjectPhoto[];
+          let updatedPhotos = photos;
           if (data) {
             const { deleteProjectPhoto } = data;
             updatedPhotos = photos.filter((photo) => photo.id !== deleteProjectPhoto.id);
