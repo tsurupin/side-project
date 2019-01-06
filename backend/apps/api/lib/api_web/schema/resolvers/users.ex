@@ -24,14 +24,15 @@ defmodule ApiWeb.Schema.Resolvers.Users do
     end
   end
 
-  def fetch_profile(_, %{id: id}, _) do
+  def fetch_profile(_, %{id: id},  %{context: %{current_user: current_user}}) do
     case Users.get_by(%{id: id}) do
       {:error, :not_found} ->
         {:error, %{reason: "Not Found"}}
 
       {:ok, user} ->
         user = Repo.preload(user, [:photos, :skills, :city, :genre, :occupation_type])
-        {:ok, user}
+        has_liked = Users.has_liked(%{user_id: current_user.id, target_user_id: id})
+        {:ok, Map.merge(user, %{has_liked: has_liked})}
     end
   end
 

@@ -19,6 +19,7 @@ defmodule ApiWeb.Schema.Types.Users do
     field(:city, :city)
     field(:skills, list_of(:skill))
     field(:photos, list_of(:user_photo))
+    field(:has_liked, :boolean)
 
     field(
       :main_photo_url,

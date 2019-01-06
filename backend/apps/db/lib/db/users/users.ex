@@ -33,6 +33,17 @@ defmodule Db.Users.Users do
     )
   end
 
+  @spec has_liked(%{user_id: integer, target_user_id: integer}) :: boolean()
+  def has_liked(%{user_id: user_id, target_user_id: target_user_id}) do
+    Repo.exists?(
+      from(
+        u in User,
+        join: l in UserLike,
+        where: l.user_id == u.id and l.user_id == ^user_id and l.target_user_id == ^target_user_id and l.status == ^:requested
+      )
+    )
+  end
+
   @spec edit(User.t(), map()) :: {:ok, any} | {:error, Ecto.Multi.name(), any()}
   def edit(%User{} = user, user_input) do
     transaction =

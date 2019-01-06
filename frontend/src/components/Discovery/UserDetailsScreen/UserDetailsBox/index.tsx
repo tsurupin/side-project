@@ -24,13 +24,14 @@ type Props = {
 
 const renderActionContainer = (
   liked: boolean | undefined,
+  hasLiked: boolean | undefined,
   like: (() => void) | undefined,
   rejectLike: (() => void) | undefined,
   acceptLike: (() => void) | undefined
 ) => {
   if (liked === undefined) return <View />;
   if (liked) return renderResponseLikeContainer(rejectLike!, acceptLike!);
-  return renderLikeContainer(like!);
+  return renderLikeContainer(hasLiked!, like!);
 };
 
 const renderResponseLikeContainer = (rejectLike: () => void, acceptLike: () => void) => {
@@ -58,7 +59,7 @@ const renderResponseLikeContainer = (rejectLike: () => void, acceptLike: () => v
   );
 };
 
-const renderLikeContainer = (like: () => void) => {
+const renderLikeContainer = (hasLiked: boolean, like: () => void) => {
   return (
     <View style={styles.likeContainer}>
       <Icon
@@ -67,6 +68,8 @@ const renderLikeContainer = (like: () => void) => {
         containerStyle={styles.iconContainer}
         type={ICON_MAIN_TYPE}
         name={HEART_OUTLINE_ICON}
+        disabled={hasLiked}
+        disabledStyle={styles.disabled}
         onPress={like}
         raised
       />
@@ -86,7 +89,7 @@ const renderBadge = (badgeName: string | undefined) => {
 
 const UserDetailsBox: React.SFC<Props> = (props) => {
   const { liked, rejectLike, acceptLike, like, user } = props;
-  const { displayName, occupation, city, companyName, schoolName, occupationType, skills, introduction, photos } = user;
+  const { displayName, occupation, city, hasLiked, companyName, schoolName, occupationType, skills, introduction, photos } = user;
   // occupation = 'Software Engineer';
   // companyName = 'Google';
   // schoolName = 'UC Berkley';
@@ -126,7 +129,7 @@ const UserDetailsBox: React.SFC<Props> = (props) => {
               <SkillList skills={skills} />
             </View>
           </View>
-          {renderActionContainer(liked, like, rejectLike, acceptLike)}
+          {renderActionContainer(liked, hasLiked, like, rejectLike, acceptLike)}
         </View>
       </ScrollView>
     </View>

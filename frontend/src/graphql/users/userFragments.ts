@@ -10,6 +10,7 @@ export const USER_FRAGMENTS = {
       occupation
       introduction
       status
+      hasLiked
       city {
         id
         fullName

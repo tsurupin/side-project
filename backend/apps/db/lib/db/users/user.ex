@@ -28,6 +28,7 @@ defmodule Db.Users.User do
     field(:zip_code, :string)
     field(:longitude, :float, virtual: true)
     field(:latitude, :float, virtual: true)
+    field(:has_liked, :boolean, virtual: true)
 
     belongs_to(:occupation_type, OccupationType)
     belongs_to(:city, City)

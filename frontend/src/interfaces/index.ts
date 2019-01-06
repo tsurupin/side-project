@@ -36,6 +36,7 @@ export interface UserDetails extends UserCore {
   skills: Skill[];
   companyName: string | undefined;
   schoolName: string | undefined;
+  hasLiked: boolean | undefined;
   city: City | undefined;
   photos: UserPhoto[];
 }

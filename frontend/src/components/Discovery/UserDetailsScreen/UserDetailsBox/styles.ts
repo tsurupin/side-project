@@ -86,6 +86,9 @@ const styles = StyleSheet.create({
     width: 48,
     height: 48,
     borderRadius: 12
+  },
+  disabled: {
+    opacity: 0.5
   }
 });
 
