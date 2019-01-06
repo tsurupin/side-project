@@ -23,7 +23,7 @@ type Props = {
 const CANCEL_INDEX = 0;
 const WITHDRAW_PROJECT_LIKE_INDEX = 1;
 // handle options dynamically
-const ACTION_SHEET_OPTIONS = ['Cancel', 'Leave project'];
+const ACTION_SHEET_OPTIONS = ['Stay', 'Leave'];
 
 type ProjectDetailsOutput = {
   data: { project: ProjectDetails };
@@ -67,7 +67,7 @@ class LikedProjectDetailsScreen extends React.Component<Props> {
     }
   };
 
-  private handleUserPress = (userId: string, name: string) => {
+  private handlePressUser = (userId: string, name: string) => {
     Navigation.push(
       this.props.componentId,
       buildDefaultNavigationComponent({
@@ -103,16 +103,16 @@ class LikedProjectDetailsScreen extends React.Component<Props> {
                   Alert.alert(error.message);
                 }
                 if (data) {
-                  Navigation.pop(this.props.componentId);
+                  Navigation.popToRoot(this.props.componentId);
                   return <View />;
                 }
 
                 return (
                   <View>
-                    <ProjectDetailsBox project={project} liked={true} onPressUser={this.handleUserPress} />
+                    <ProjectDetailsBox project={project} liked={true} onPressUser={this.handlePressUser} />
                     <ActionSheet
                       ref={(o: any) => (this.ActionSheet = o)}
-                      title={'Title'}
+                      title={'Are you sure you want to leave this group?'}
                       options={ACTION_SHEET_OPTIONS}
                       cancelButtonIndex={CANCEL_INDEX}
                       destructiveButtonIndex={CANCEL_INDEX}

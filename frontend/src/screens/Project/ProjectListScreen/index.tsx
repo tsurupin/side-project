@@ -81,7 +81,9 @@ class ProjectListScreen extends React.Component<Props, State> {
           id: BACK_BUTTON
         },
         rightButton: {
-          id: PROJECT_ACTION_SHEET_BUTTON
+          id: PROJECT_ACTION_SHEET_BUTTON,
+          text: 'Leave',
+          enabled: true
         }
       })
     );

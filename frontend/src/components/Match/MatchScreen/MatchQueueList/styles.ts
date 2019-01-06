@@ -16,6 +16,7 @@ const styles = StyleSheet.create({
     borderColor: BORDER_COLOR,
     borderWidth: 1,
     padding: 10,
+    height: 70,
     backgroundColor: WHITE_COLOR
   },
 
