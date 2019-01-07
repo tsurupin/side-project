@@ -48,6 +48,7 @@ defmodule ApiWeb.Schema.Queries.UsersTest do
           companyName
           introduction
           status
+          hasLiked
           genre {
             id
             name
@@ -70,8 +71,9 @@ defmodule ApiWeb.Schema.Queries.UsersTest do
         }
       }
     """
-    test "returns user", cxt do
+    test "when current_user has not liked user, returns user with hasLiked false", cxt do
       %{
+        current_user: current_user,
         user: user,
         skill: skill,
         genre: genre,
@@ -81,10 +83,10 @@ defmodule ApiWeb.Schema.Queries.UsersTest do
       } = cxt
 
       with_mock Api.Accounts.Authentication,
-        verify: fn user_id -> {:ok, Db.Repo.get(Db.Users.User, user.id)} end do
+        verify: fn user_id -> {:ok, Db.Repo.get(Db.Users.User, current_user.id)} end do
         conn =
           build_conn()
-          |> put_req_header("authorization", "Bearer #{user.id}")
+          |> put_req_header("authorization", "Bearer #{current_user.id}")
           |> get("/api", %{
             query: @query,
             variables: %{id: user.id}
@@ -100,6 +102,7 @@ defmodule ApiWeb.Schema.Queries.UsersTest do
             "companyName" => user.company_name,
             "introduction" => user.introduction,
             "status" => "COMPLETED",
+            "hasLiked" => false,
             "skills" => [%{"id" => "#{skill.id}", "name" => skill.name}],
             "city" => %{
               "id" => "#{city.id}",
@@ -114,6 +117,56 @@ defmodule ApiWeb.Schema.Queries.UsersTest do
         assert response["data"] == expected_result
       end
     end
+    test "when current_user alreadh liked the user, returns user with hasLiked true", cxt do
+      %{
+        current_user: current_user,
+        user: user,
+        skill: skill,
+        genre: genre,
+        city: city,
+        occupation_type: occupation_type,
+        photo_url: photo_url
+      } = cxt
+
+      Factory.insert(:user_like, user: current_user, target_user: user)
+
+      with_mock Api.Accounts.Authentication,
+        verify: fn user_id -> {:ok, Db.Repo.get(Db.Users.User, current_user.id)} end do
+        conn =
+          build_conn()
+          |> put_req_header("authorization", "Bearer #{current_user.id}")
+          |> get("/api", %{
+            query: @query,
+            variables: %{id: user.id}
+          })
+
+        response = json_response(conn, 200)
+
+        expected_result = %{
+          "user" => %{
+            "id" => "#{user.id}",
+            "displayName" => user.display_name,
+            "schoolName" => user.school_name,
+            "companyName" => user.company_name,
+            "introduction" => user.introduction,
+            "status" => "COMPLETED",
+            "hasLiked" => true,
+            "skills" => [%{"id" => "#{skill.id}", "name" => skill.name}],
+            "city" => %{
+              "id" => "#{city.id}",
+              "fullName" => "#{city.name}, #{city.state_abbreviation}"
+            },
+            "genre" => %{"id" => "#{genre.id}", "name" => genre.name},
+            "occupationType" => %{"id" => "#{occupation_type.id}", "name" => occupation_type.name},
+            "photos" => [%{"imageUrl" => photo_url}]
+          }
+        }
+
+        assert response["data"] == expected_result
+      end
+    end
+
+
   end
 
   describe "query Users" do

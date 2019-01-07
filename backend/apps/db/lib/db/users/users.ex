@@ -38,8 +38,8 @@ defmodule Db.Users.Users do
     Repo.exists?(
       from(
         u in User,
-        join: l in UserLike,
-        where: l.user_id == u.id and l.user_id == ^user_id and l.target_user_id == ^target_user_id and l.status in [^:requested, ^:approved, ^:rejected]
+        join: ul in UserLike,
+        where: ul.user_id == u.id and ul.user_id == ^user_id and ul.target_user_id == ^target_user_id and ul.status in [^:requested, ^:approved, ^:rejected]
       )
     )
   end
