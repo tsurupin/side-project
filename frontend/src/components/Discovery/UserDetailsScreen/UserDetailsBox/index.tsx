@@ -89,7 +89,18 @@ const renderBadge = (badgeName: string | undefined) => {
 
 const UserDetailsBox: React.SFC<Props> = (props) => {
   const { liked, rejectLike, acceptLike, like, user } = props;
-  const { displayName, occupation, city, hasLiked, companyName, schoolName, occupationType, skills, introduction, photos } = user;
+  const {
+    displayName,
+    occupation,
+    city,
+    hasLiked,
+    companyName,
+    schoolName,
+    occupationType,
+    skills,
+    introduction,
+    photos
+  } = user;
   // occupation = 'Software Engineer';
   // companyName = 'Google';
   // schoolName = 'UC Berkley';

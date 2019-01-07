@@ -41,8 +41,8 @@ defmodule ApiWeb.Schema.Resolvers.Users do
     {:ok, user}
   end
 
-  def search(_ctx, %{conditions: conditions}, _) do
-    case Users.search(conditions) do
+  def search(_ctx, %{conditions: conditions}, %{context: %{current_user: current_user}}) do
+    case Users.search(%{conditions: conditions, user_id: current_user.id}) do
       {:error, :not_found} ->
         {:error, %{reason: "Not Found"}}
 

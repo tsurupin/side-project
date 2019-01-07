@@ -16,6 +16,9 @@ defmodule ApiWeb.Schema.Queries.UsersTest do
 
     genre = Factory.insert(:genre)
 
+    current_user =
+      Factory.insert(:user, genre: genre, city: san_francisco, occupation_type: occupation_type)
+
     user =
       Factory.insert(:user, genre: genre, city: san_francisco, occupation_type: occupation_type)
 
@@ -25,6 +28,7 @@ defmodule ApiWeb.Schema.Queries.UsersTest do
 
     {
       :ok,
+      current_user: current_user,
       user: user,
       skill: skill,
       city: san_francisco,
@@ -139,6 +143,7 @@ defmodule ApiWeb.Schema.Queries.UsersTest do
     """
     test "returns users", cxt do
       %{
+        current_user: current_user,
         user: user,
         occupation_type: occupation_type,
         city: city,
@@ -147,10 +152,10 @@ defmodule ApiWeb.Schema.Queries.UsersTest do
       } = cxt
 
       with_mock Api.Accounts.Authentication,
-        verify: fn user_id -> {:ok, Db.Repo.get(Db.Users.User, user.id)} end do
+        verify: fn user_id -> {:ok, Db.Repo.get(Db.Users.User, current_user.id)} end do
         conn =
           build_conn()
-          |> put_req_header("authorization", "Bearer #{user.id}")
+          |> put_req_header("authorization", "Bearer #{current_user.id}")
           |> get("/api", %{
             query: @query,
             variables: %{occupationTypeId: occupation_type.id, genreId: genre.id}

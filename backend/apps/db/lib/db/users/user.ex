@@ -1,7 +1,7 @@
 defmodule Db.Users.User do
   use Ecto.Schema
   import Ecto.Changeset
-  alias Db.Users.Photo
+  alias Db.Users.{UserLike, Photo}
   alias Db.OccupationTypes.OccupationType
   alias Db.Locations.City
   alias Db.Projects.Project
@@ -35,6 +35,7 @@ defmodule Db.Users.User do
     belongs_to(:genre, Genre)
 
     has_many(:photos, Photo)
+    has_many(:user_likes, UserLike)
     has_many(:user_skills, UserSkill)
     many_to_many(:skills, Skill, join_through: "user_skills")
     many_to_many(:projects, Project, join_through: "project_members")

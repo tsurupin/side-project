@@ -39,7 +39,7 @@ defmodule Db.Users.Users do
       from(
         u in User,
         join: l in UserLike,
-        where: l.user_id == u.id and l.user_id == ^user_id and l.target_user_id == ^target_user_id and l.status == ^:requested
+        where: l.user_id == u.id and l.user_id == ^user_id and l.target_user_id == ^target_user_id and l.status in [^:requested, ^:approved, ^:rejected]
       )
     )
   end
@@ -63,13 +63,11 @@ defmodule Db.Users.Users do
     end
   end
 
-  @spec search(map) :: {:ok, [User.t()]} | {:ok, []}
-  def search(conditions), do: search(User, conditions)
+  @spec search(%{conditions: map, user_id: integer}) :: {:ok, [User.t()]} | {:ok, []}
+  def search(%{conditions: conditions, user_id: user_id}), do: search(%{query: base_search_query(user_id), conditions: conditions})
 
-  # def search(condition) when is_bitstring(condtion), do: search(User, [condition])
-
-  @spec search(query :: Ecto.Queryable.t(), map) :: {:ok, [User.t()]} | {:ok, []}
-  def search(query, conditions) do
+  @spec search(%{query: Ecto.Queryable.t(), conditions: map}) :: {:ok, [User.t()]} | {:ok, []}
+  def search(%{query: query, conditions: conditions}) do
     users = Repo.all(build_queries(query, conditions))
     {:ok, users}
   end
@@ -78,6 +76,16 @@ defmodule Db.Users.Users do
   @spec main_photo(integer) :: Photo.t() | no_return
   def main_photo(user_id) do
     Repo.get_by(Photo, user_id: user_id, rank: @main_photo_rank)
+  end
+
+  @spec base_search_query(integer) :: Ecto.Queyable.t()
+  defp base_search_query(user_id) do
+    from(
+      u in User,
+      left_join: ul in UserLike,
+      on: ul.target_user_id == u.id and ul.user_id == ^user_id,
+      where: is_nil(ul.id) and u.id != ^user_id
+    )
   end
 
   @active_duration_days 60 * 60 * 24 * 3
