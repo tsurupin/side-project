@@ -20,11 +20,22 @@ defmodule Db.Projects.Projects do
     end
   end
 
-  @spec search(map) :: {:ok, list(Project.t())}
-  def search(conditions), do: search(Project, conditions)
+  def has_liked(%{user_id: user_id, project_id: project_id}) do
+    Repo.exists?(
+      from(
+        p in Project,
+        join: pl in ProjectLike,
+        where: pl.project_id == p.id and pl.project_id == ^project_id and pl.user_id == ^user_id and pl.status in [^:requested, ^:approved, ^:rejected]
+      )
+    )
+  end
 
-  @spec search(Ecto.Queryable.t(), map) :: {:ok, list(Project.t())}
-  def search(query, conditions) do
+
+  @spec search(%{conditions: map, user_id: integer}) :: {:ok, [User.t()]} | {:ok, []}
+  def search(%{conditions: conditions, user_id: user_id}), do: search(%{query: base_search_query(user_id), conditions: conditions})
+
+  @spec search(%{query: Ecto.Queryable.t(), conditions: map}) :: {:ok, [User.t()]} | {:ok, []}
+  def search(%{query: query, conditions: conditions}) do
     projects = Repo.all(build_search_queries(query, conditions))
     {:ok, projects}
   end
@@ -55,6 +66,17 @@ defmodule Db.Projects.Projects do
   @spec main_photo(integer) :: Photo.t()
   def main_photo(project_id) do
     Repo.one(from(p in Photo, where: p.project_id == ^project_id and p.rank == ^@main_photo_rank))
+  end
+
+
+  @spec base_search_query(integer) :: Ecto.Queyable.t()
+  defp base_search_query(user_id) do
+    from(
+      p in Project,
+      left_join: pl in ProjectLike,
+      on: pl.project_id == p.id and pl.user_id == ^user_id,
+      where: is_nil(pl.id) and p.owner_id != ^user_id
+    )
   end
 
   @spec create(%{owner_id: integer}) :: {:ok, Project.t()} | {:error, String.t()}

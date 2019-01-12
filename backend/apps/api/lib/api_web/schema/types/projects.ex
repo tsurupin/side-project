@@ -18,6 +18,7 @@ defmodule ApiWeb.Schema.Types.Projects do
     field(:skills, list_of(:skill))
     field(:photos, list_of(:project_photo))
     field(:users, list_of(:user))
+    field(:has_liked, :boolean)
 
     field(
       :main_photo_url,

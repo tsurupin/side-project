@@ -1,7 +1,7 @@
 defmodule Db.Projects.Project do
   use Ecto.Schema
   import Ecto.Changeset
-  alias Db.Users.User
+  alias Db.Users.{User, ProjectLike}
   alias Db.Genres.Genre
   alias Db.Projects.{Photo, Member}
   alias Db.Skills.Skill
@@ -19,11 +19,13 @@ defmodule Db.Projects.Project do
     field(:motivation, :string)
     field(:requirement, :string)
     field(:zip_code, :string)
+    field(:has_liked, :boolean, virtual: true)
 
     belongs_to(:owner, User)
     belongs_to(:genre, Genre)
     belongs_to(:city, City)
     has_many(:photos, Photo)
+    has_many(:project_likes, ProjectLike)
 
     many_to_many(:users, User, join_through: "project_members")
     many_to_many(:skills, Skill, join_through: "project_skills")

@@ -9,6 +9,7 @@ export const PROJECT_FRAGMENTS = {
       status
       motivation
       requirement
+      hasLiked
       owner {
         id
         displayName

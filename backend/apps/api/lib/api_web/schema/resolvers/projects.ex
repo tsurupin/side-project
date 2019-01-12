@@ -3,7 +3,7 @@ defmodule ApiWeb.Schema.Resolvers.Projects do
   alias Db.Genres.Genres
   alias Db.Repo
 
-  def fetch_profile(_, %{id: id}, _) do
+  def fetch_profile(_, %{id: id}, %{context: %{current_user: current_user}}) do
     case Projects.get_by(%{id: id}) do
       {:error, :not_found} ->
         {:error, %{reason: "Not Found"}}
@@ -18,8 +18,9 @@ defmodule ApiWeb.Schema.Resolvers.Projects do
             :owner,
             {:users, :occupation_type}
           ])
+        has_liked = Projects.has_liked(%{user_id: current_user.id, project_id: id})
 
-        {:ok, project}
+        {:ok, Map.merge(project, %{has_liked: has_liked})}
     end
   end
 
@@ -42,11 +43,12 @@ defmodule ApiWeb.Schema.Resolvers.Projects do
     {:ok, %{genres: genres}}
   end
 
-  def search(_, %{conditions: conditions}, _) do
-    case Projects.search(conditions) do
+  def search(_, %{conditions: conditions}, %{context: %{current_user: current_user}}) do
+    case Projects.search(%{conditions: conditions, user_id: current_user.id}) do
       {:error, :not_found} ->
         {:error, %{reason: "Not Found"}}
 
+        
       {:ok, projects} ->
         projects =
           Repo.preload(projects, [:photos, :genre, :city, :owner, {:users, :occupation_type}])
