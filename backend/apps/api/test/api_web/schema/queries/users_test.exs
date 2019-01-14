@@ -117,6 +117,7 @@ defmodule ApiWeb.Schema.Queries.UsersTest do
         assert response["data"] == expected_result
       end
     end
+
     test "when current_user alreadh liked the user, returns user with hasLiked true", cxt do
       %{
         current_user: current_user,
@@ -165,8 +166,6 @@ defmodule ApiWeb.Schema.Queries.UsersTest do
         assert response["data"] == expected_result
       end
     end
-
-
   end
 
   describe "query Users" do

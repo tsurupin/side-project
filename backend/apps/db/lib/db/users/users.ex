@@ -39,7 +39,9 @@ defmodule Db.Users.Users do
       from(
         u in User,
         join: ul in UserLike,
-        where: ul.user_id == u.id and ul.user_id == ^user_id and ul.target_user_id == ^target_user_id and ul.status in [^:requested, ^:approved, ^:rejected]
+        where:
+          ul.user_id == u.id and ul.user_id == ^user_id and ul.target_user_id == ^target_user_id and
+            ul.status in [^:requested, ^:approved, ^:rejected]
       )
     )
   end
@@ -64,7 +66,8 @@ defmodule Db.Users.Users do
   end
 
   @spec search(%{conditions: map, user_id: integer}) :: {:ok, [User.t()]} | {:ok, []}
-  def search(%{conditions: conditions, user_id: user_id}), do: search(%{query: base_search_query(user_id), conditions: conditions})
+  def search(%{conditions: conditions, user_id: user_id}),
+    do: search(%{query: base_search_query(user_id), conditions: conditions})
 
   @spec search(%{query: Ecto.Queryable.t(), conditions: map}) :: {:ok, [User.t()]} | {:ok, []}
   def search(%{query: query, conditions: conditions}) do

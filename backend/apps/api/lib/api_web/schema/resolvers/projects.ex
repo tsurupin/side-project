@@ -18,6 +18,7 @@ defmodule ApiWeb.Schema.Resolvers.Projects do
             :owner,
             {:users, :occupation_type}
           ])
+
         has_liked = Projects.has_liked(%{user_id: current_user.id, project_id: id})
 
         {:ok, Map.merge(project, %{has_liked: has_liked})}
@@ -48,7 +49,6 @@ defmodule ApiWeb.Schema.Resolvers.Projects do
       {:error, :not_found} ->
         {:error, %{reason: "Not Found"}}
 
-        
       {:ok, projects} ->
         projects =
           Repo.preload(projects, [:photos, :genre, :city, :owner, {:users, :occupation_type}])

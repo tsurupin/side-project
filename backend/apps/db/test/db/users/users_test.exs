@@ -36,7 +36,7 @@ defmodule Db.UsersTest do
           :user,
           genre: genre1,
           occupation_type: occupation_type1
-      )
+        )
 
       user1 =
         Factory.insert(
@@ -72,13 +72,16 @@ defmodule Db.UsersTest do
       }
     end
 
-    test "returns users which current_user hasn't liked yet, when conditions is empty", %{current_user: current_user, user1: user1, user2: user2} do
+    test "returns users which current_user hasn't liked yet, when conditions is empty", %{
+      current_user: current_user,
+      user1: user1,
+      user2: user2
+    } do
       Factory.insert(
         :user_like,
         user: current_user,
         target_user: user1
       )
-
 
       conditions = %{}
 
@@ -87,24 +90,23 @@ defmodule Db.UsersTest do
       assert Enum.map(users, & &1.id) == [user2.id]
     end
 
-    test "returns empty record, when condition doesn't match users which current_user hasn't liked yet", %{
-      current_user: current_user,
-      user1: user1,
-      genre_id: genre_id
-    } do
+    test "returns empty record, when condition doesn't match users which current_user hasn't liked yet",
+         %{
+           current_user: current_user,
+           user1: user1,
+           genre_id: genre_id
+         } do
       Factory.insert(
-          :user_like,
-          user: current_user,
-          target_user: user1
-        )
+        :user_like,
+        user: current_user,
+        target_user: user1
+      )
 
       conditions = %{genre_id: genre_id}
       {:ok, users} = Users.search(%{conditions: conditions, user_id: current_user.id})
 
       assert Enum.map(users, & &1.id) == []
     end
-
-
 
     test "returns all record, when only unexpected keyword is included", %{
       current_user: current_user,
@@ -116,7 +118,10 @@ defmodule Db.UsersTest do
       assert Enum.map(users, & &1.id) == [user1.id, user2.id]
     end
 
-    test "returns users that are close to the current user", %{  current_user: current_user,user1: user1} do
+    test "returns users that are close to the current user", %{
+      current_user: current_user,
+      user1: user1
+    } do
       conditions = %{
         location: %{distance: 10, latitude: 30, longitude: -90}
       }
@@ -146,9 +151,9 @@ defmodule Db.UsersTest do
     end
 
     test "returns users that was activated app within the last 3 days, when is_active is included",
-         %{  current_user: current_user,user2: user2} do
+         %{current_user: current_user, user2: user2} do
       conditions = %{is_active: true}
-      {:ok, users} =Users.search(%{conditions: conditions, user_id: current_user.id})
+      {:ok, users} = Users.search(%{conditions: conditions, user_id: current_user.id})
 
       assert Enum.map(users, & &1.id) == [user2.id]
     end
@@ -164,7 +169,12 @@ defmodule Db.UsersTest do
     end
 
     test "returns users matches to the multiple conditions, when multiple conditions are included",
-         %{  current_user: current_user, user2: user2, genre_id: genre_id, occupation_type_id: occupation_type_id} do
+         %{
+           current_user: current_user,
+           user2: user2,
+           genre_id: genre_id,
+           occupation_type_id: occupation_type_id
+         } do
       conditions = %{genre_id: genre_id, is_active: true}
       {:ok, users} = Users.search(%{conditions: conditions, user_id: current_user.id})
 
@@ -239,6 +249,4 @@ defmodule Db.UsersTest do
   #     assert Enum.map(users, & &1.id) == []
   #   end
   # end
-
-
 end

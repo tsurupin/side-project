@@ -24,7 +24,7 @@ defmodule ApiWeb.Schema.Resolvers.Users do
     end
   end
 
-  def fetch_profile(_, %{id: id},  %{context: %{current_user: current_user}}) do
+  def fetch_profile(_, %{id: id}, %{context: %{current_user: current_user}}) do
     case Users.get_by(%{id: id}) do
       {:error, :not_found} ->
         {:error, %{reason: "Not Found"}}
