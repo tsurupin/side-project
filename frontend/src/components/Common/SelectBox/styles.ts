@@ -12,6 +12,8 @@ const styles = StyleSheet.create({
   },
   rightTitle: {
     color: SUB_TEXT_COLOR,
+    width: 200,
+    textAlign: 'right',
     fontSize: 16
   }
 });
