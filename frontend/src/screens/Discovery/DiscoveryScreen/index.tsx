@@ -103,7 +103,6 @@ class DiscoveryScreen extends React.Component<Props, State> {
         const screen = this.isUserOriented() ? USER_SEARCH_MODAL_SCREEN : PROJECT_SEARCH_MODAL_SCREEN;
         Navigation.showModal(
           buildDefaultNavigationStack({
-            stackId: screen,
             screenName: screen,
             props: {
               onSubmit: this.handleUpdateSearchParams

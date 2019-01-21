@@ -46,7 +46,6 @@ class ProjectListScreen extends React.Component<Props, State> {
       case PROJECT_NEW_BUTTON:
         Navigation.showModal(
           buildDefaultNavigationStack({
-            stackId: PROJECT_NEW_SCREEN,
             screenName: PROJECT_NEW_SCREEN,
             props: {},
             leftButton: {
@@ -92,7 +91,6 @@ class ProjectListScreen extends React.Component<Props, State> {
   private handleEditableProjectPress = (id: string) => {
     Navigation.showModal(
       buildDefaultNavigationStack({
-        stackId: PROJECT_EDIT_SCREEN,
         screenName: PROJECT_EDIT_SCREEN,
         props: { id },
         leftButton: {

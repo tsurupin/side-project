@@ -9,9 +9,7 @@ import { CreateProjectMutation } from '../../../mutations/projects';
 import { PROJECT_DETAILS_SCREEN } from '../../../constants/screens';
 import { BACK_BUTTON, SUBMIT_BUTTON, CLOSE_BUTTON } from '../../../constants/buttons';
 
-import IconLoader from '../../../utilities/IconLoader';
 import { buildDefaultNavigationComponent } from '../../../utilities/navigationStackBuilder';
-import { BACK_ICON } from '../../../constants/icons';
 import styles from './styles';
 
 type Props = {

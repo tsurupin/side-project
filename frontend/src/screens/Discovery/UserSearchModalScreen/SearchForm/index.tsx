@@ -92,7 +92,6 @@ class SearchForm extends React.Component<Props, State> {
   private handleSkillSearchShowModal = () => {
     Navigation.showModal(
       buildDefaultNavigationStack({
-        stackId: SKILL_SEARCH_MODAL_SCREEN,
         screenName: SKILL_SEARCH_MODAL_SCREEN,
         props: {
           onPress: this.handleAddSkill
@@ -149,7 +148,6 @@ class SearchForm extends React.Component<Props, State> {
   ) => {
     Navigation.showModal(
       buildDefaultNavigationStack({
-        stackId: SELECT_BOX_PICKER_SCREEN,
         screenName: SELECT_BOX_PICKER_SCREEN,
         props: {
           items,

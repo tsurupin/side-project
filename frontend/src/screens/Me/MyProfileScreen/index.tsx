@@ -32,7 +32,6 @@ class MyProfileScreen extends React.Component<Props> {
       case USER_EDIT_BUTTON:
         Navigation.showModal(
           buildDefaultNavigationStack({
-            stackId: USER_EDIT_SCREEN,
             screenName: USER_EDIT_SCREEN,
             props: {},
             title: 'Edit',

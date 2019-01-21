@@ -65,7 +65,6 @@ class ProjectEditScreen extends React.Component<Props> {
   private handlePressPhoto = (id: string, photos: ProjectPhoto[]) => {
     Navigation.showModal(
       buildDefaultNavigationStack({
-        stackId: PHOTOS_EDIT_SCREEN,
         screenName: PHOTOS_EDIT_SCREEN,
         props: {
           id,

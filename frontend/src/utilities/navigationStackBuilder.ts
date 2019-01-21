@@ -1,7 +1,6 @@
 import { NAV_BAR_BUTTON_COLOR } from '../constants/colors';
 
 type StackProps = {
-  stackId: string;
   screenName: string;
   props: object | undefined;
   title?: string;
@@ -24,7 +23,6 @@ type TopBarOptions = {
 };
 
 export const buildDefaultNavigationStack = ({
-  stackId,
   screenName,
   props,
   title,
@@ -33,7 +31,6 @@ export const buildDefaultNavigationStack = ({
 }: StackProps) => {
   return {
     stack: {
-      id: stackId,
       children: [
         {
           ...buildDefaultNavigationComponent({
