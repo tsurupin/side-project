@@ -99,8 +99,13 @@ defmodule Db.Repo.Migrations.CreateInitialTables do
       add :deleted_at, :utc_datetime
       timestamps()
     end
-    create unique_index(:user_photos, [:user_id, :rank], name: "user_photos_user_id_and_rank_index")
+    create unique_index(:user_photos, [:user_id, :rank], name: "user_photos_user_id_and_rank_index", where: "deleted_at IS NULL")
     create constraint(:user_photos, "valid_user_photo_rank", check: "rank >= 0 ")
+
+    execute(
+      "CREATE VIEW alive_user_photos AS SELECT id, user_id, image_url, rank, uuid, inserted_at, updated_at, deleted_at from user_photos WHERE deleted_at IS NULL;",
+      "DROP VIEW IF EXISTS alive_user_photos;"
+    )
 
     create table(:user_skills) do
       add :skill_id, references(:skills, on_delete: :delete_all), null: false
@@ -109,8 +114,13 @@ defmodule Db.Repo.Migrations.CreateInitialTables do
       add :deleted_at, :utc_datetime
       timestamps()
     end
-    create unique_index(:user_skills, [:skill_id, :user_id], name: "user_skills_skill_id_and_user_id_index")
+    create unique_index(:user_skills, [:skill_id, :user_id], name: "user_skills_skill_id_and_user_id_index", where: "deleted_at IS NULL")
     #create unique_index(:user_skills, [:user_id, :rank], name: "user_skills_user_id_and_rank_index")
+
+    execute(
+      "CREATE VIEW alive_user_skills AS SELECT id, skill_id, user_id, rank, inserted_at, updated_at from user_skills WHERE deleted_at IS NULL;",
+      "DROP VIEW IF EXISTS alive_user_skills;"
+    )
 
     create table(:user_likes) do
        add :user_id, references(:users, on_delete: :delete_all), null: false
@@ -120,7 +130,12 @@ defmodule Db.Repo.Migrations.CreateInitialTables do
        timestamps()
     end
 
-    create unique_index(:user_likes, [:user_id, :target_user_id], name: "user_likes_unique_index")
+    create unique_index(:user_likes, [:user_id, :target_user_id], name: "user_likes_unique_index", where: "deleted_at IS NULL")
+
+    execute(
+      "CREATE VIEW alive_user_likes AS SELECT id, user_id, target_user_id, status, inserted_at, updated_at, deleted_at from user_likes WHERE deleted_at IS NULL;",
+      "DROP VIEW IF EXISTS alive_user_likes;"
+    )
 
     create table(:projects) do
       add :title, :string, null: false, default: ""
@@ -136,8 +151,15 @@ defmodule Db.Repo.Migrations.CreateInitialTables do
       timestamps()
     end
 
-    create unique_index(:projects, [:owner_id, :title], name: "projects_owner_id_and_title_index")
+    create unique_index(:projects, [:owner_id, :title], name: "projects_owner_id_and_title_index",  where: "deleted_at IS NULL")
     create constraint(:projects, "valid_project_status", check: "(status != 1) OR (status = 1 AND lead_sentence IS NOT NULL)")
+
+
+    execute(
+      "CREATE VIEW alive_projects AS SELECT id, title, status, genre_id, lead_sentence, motivation, requirement, zip_code, city_id, owner_id, inserted_at, updated_at, deleted_at from projects WHERE deleted_at IS NULL;",
+      "DROP VIEW IF EXISTS alive_projects;"
+    )
+
 
     create table(:project_likes) do
        add :user_id, references(:users, on_delete: :delete_all), null: false
@@ -147,7 +169,12 @@ defmodule Db.Repo.Migrations.CreateInitialTables do
        timestamps()
     end
 
-    create unique_index(:project_likes, [:user_id, :project_id], name: "project_likes_unique_index")
+    create unique_index(:project_likes, [:user_id, :project_id], name: "project_likes_unique_index", where: "deleted_at IS NULL")
+
+    execute(
+      "CREATE VIEW alive_project_likes AS SELECT id, user_id, project_id, status, inserted_at, updated_at, deleted_at from project_likes WHERE deleted_at IS NULL;",
+      "DROP VIEW IF EXISTS alive_project_likes;"
+    )
 
     create table(:project_skills) do
       add :skill_id, references(:skills, on_delete: :delete_all), null: false
@@ -158,6 +185,11 @@ defmodule Db.Repo.Migrations.CreateInitialTables do
     end
     create unique_index(:project_skills, [:skill_id, :project_id], name: "project_skills_skill_id_and_project_id_index")
     #create unique_index(:project_skills, [:project_id, :rank], name: "project_skills_project_id_and_rank_index")
+
+    execute(
+      "CREATE VIEW alive_project_skills AS SELECT id, user_id, target_user_id, status, inserted_at, updated_at, deleted_at from user_likes WHERE deleted_at IS NULL;",
+      "DROP VIEW IF EXISTS alive_project_skills;"
+    )
 
     create table(:project_photos, comment: "always main photo is displayed first and the others are displayed in recent order") do
       add :project_id, references(:projects, on_delete: :delete_all), null: false

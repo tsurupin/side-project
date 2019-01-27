@@ -8,7 +8,7 @@ defmodule Db.Users.ProjectLikes do
   alias Ecto.Multi
 
   alias Db.Repo
-  alias Db.Users.{User, ProjectLike}
+  alias Db.Users.{User, ProjectLike, AliveProjectLike}
   alias Db.Chats.{Chats, Chat}
   alias Db.Projects
 
@@ -16,7 +16,7 @@ defmodule Db.Users.ProjectLikes do
   def like(%{project_id: _project_id, user_id: _user_id} = attrs) do
     transaction =
       Multi.new()
-      |> Multi.insert(:create_project_like, ProjectLike.changeset(attrs))
+      |> Multi.insert(:create_project_like, AliveProjectLike.changeset(attrs))
       |> Multi.merge(fn %{create_project_like: project_like} ->
         approve(project_like)
       end)
@@ -34,14 +34,14 @@ defmodule Db.Users.ProjectLikes do
           | {:error, String.t()}
           | {:error, :bad_request}
   def withdraw_like(%{project_id: project_id, user_id: user_id} = attrs) do
-    case Repo.get_by(ProjectLike, attrs) do
-      %ProjectLike{status: :requested} = like ->
-        case Repo.delete(like) do
+    case Repo.get_by(AliveProjectLike, attrs) do
+      %AliveProjectLike{status: :requested} = like ->
+        case Repo.update(ProjectLike.delete_changeset(like)) do
           {:ok, _like} -> {:ok, _like}
           {:error, changeset} -> {:error, Db.FullErrorMessage.message(changeset)}
         end
 
-      %ProjectLike{status: :approved} = like ->
+      %AliveProjectLike{status: :approved} = like ->
         transaction =
           Multi.new()
           |> Multi.run(:delete_chat_member, fn _repo, _ ->
@@ -53,7 +53,7 @@ defmodule Db.Users.ProjectLikes do
               user_id: user_id
             })
           end)
-          |> Multi.delete(:delete_project_like, like)
+          |> Multi.update(:delete_project_like, ProjectLike.delete_changeset(like))
           |> Repo.transaction()
 
         case transaction do
@@ -66,10 +66,10 @@ defmodule Db.Users.ProjectLikes do
     end
   end
 
-  @spec approve(ProjectLike.t()) :: {:ok, Chat.t()} | {:error, Ecto.Multi.name(), any()}
-  defp approve(%ProjectLike{project_id: project_id, user_id: user_id} = project_like) do
+  @spec approve(AliveProjectLike.t()) :: {:ok, Chat.t()} | {:error, Ecto.Multi.name(), any()}
+  defp approve(%AliveProjectLike{project_id: project_id, user_id: user_id} = project_like) do
     Multi.new()
-    |> Multi.update(:approve, ProjectLike.approve_changeset(project_like, %{status: :approved}))
+    |> Multi.update(:approve, AliveProjectLike.approve_changeset(project_like, %{status: :approved}))
     |> Multi.insert_or_update(
       :add_member_to_project,
       Db.Projects.Member.changeset(%{project_id: project_id, user_id: user_id})

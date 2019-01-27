@@ -9,7 +9,7 @@ defmodule Db.Projects.Photos do
   alias Ecto.Multi
 
   alias Db.Repo
-  alias Db.Projects.{Project, Photo}
+  alias Db.Projects.{Project, Photo, AlivePhoto}
   alias Db.Uploaders.ProjectPhotoUploader
 
   @spec upload_photo(%{required(:user_id) => integer, photo_inputs: map}) ::
@@ -20,7 +20,7 @@ defmodule Db.Projects.Photos do
       }) do
     with %Project{} = project <- Repo.get_by(Project, owner_id: user_id, id: project_id),
          {:ok, photo} <-
-           Repo.insert(Photo.changeset(%{project_id: project_id, image: photo, rank: rank})) do
+           Repo.insert(AlivePhoto.changeset(%{project_id: project_id, image: photo, rank: rank})) do
       {:ok, photo}
     else
       {:error, changeset} ->
@@ -34,7 +34,7 @@ defmodule Db.Projects.Photos do
   @spec delete_photo(%{required(:user_id) => integer, required(:photo_id) => integer}) ::
           {:ok, any()} | {:error, String.t()} | {:error, :unauthorized} | {:error, :not_found}
   def delete_photo(%{user_id: user_id, photo_id: photo_id}) do
-    case Repo.get(Photo, photo_id) do
+    case Repo.one(from( p in Photo, where: p.id == ^photo_id and is_nil(p.deleted_at))) do
       nil ->
         {:error, :not_found}
 
@@ -47,7 +47,7 @@ defmodule Db.Projects.Photos do
             photos =
               Repo.all(
                 from(
-                  p in Photo,
+                  p in AlivePhoto,
                   where: p.project_id == ^photo.project_id and p.rank > ^photo.rank,
                   order_by: [asc: p.rank]
                 )
@@ -55,7 +55,7 @@ defmodule Db.Projects.Photos do
 
             transaction =
               Multi.new()
-              |> Multi.delete(:deleted_photo, photo)
+              |> Multi.update(:deleted_photo, Photo.delete_changeset(photo))
               |> promote_photos(photos, photo.rank)
               |> Multi.run(:delete_image_file, fn _repo, %{deleted_photo: deleted_photo} ->
                 delete_image_file(deleted_photo)
@@ -77,12 +77,12 @@ defmodule Db.Projects.Photos do
   # @spec promote_photos(Ecto.Multi.t, [], integer) :: Ecto.Multi.t()
   defp promote_photos(multi, [], _rank), do: multi
 
-  @spec promote_photos(Ecto.Multi.t(), nonempty_list(Photo.t()), integer) :: Ecto.Multi.t()
+  @spec promote_photos(Ecto.Multi.t(), nonempty_list(AlivePhoto.t()), integer) :: Ecto.Multi.t()
   defp promote_photos(multi, [photo | remaining], rank) do
     multi
     |> Multi.update(
       "promote_photos:#{photo.id}",
-      Photo.promote_changeset(photo, %{rank: rank})
+      AlivePhoto.promote_changeset(photo, %{rank: rank})
     )
     |> promote_photos(remaining, rank + 1)
   end

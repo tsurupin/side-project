@@ -1,5 +1,6 @@
 defmodule Db.Projects.Project do
   use Ecto.Schema
+  use Db.Helpers.SoftDeletion
   import Ecto.Changeset
   alias Db.Users.{User, ProjectLike}
   alias Db.Genres.Genre
@@ -33,50 +34,5 @@ defmodule Db.Projects.Project do
     timestamps(type: :utc_datetime)
   end
 
-  @spec changeset(map()) :: Ecto.Changeset.t()
-  def changeset(attrs) do
-    permitted_attrs =
-      ~w(title lead_sentence owner_id genre_id status motivation requirement city_id zip_code)a
 
-    required_attrs = ~w(title owner_id)a
-
-    %Project{}
-    |> cast(attrs, permitted_attrs)
-    |> validate_required(required_attrs)
-    |> assoc_constraint(:genre)
-    |> assoc_constraint(:owner)
-    |> assoc_constraint(:city)
-    |> unique_constraint(:title, name: "projects_owner_id_and_title_index")
-    |> check_constraint(:status, name: "valid_project_status")
-  end
-
-  def edit_changeset(%__MODULE__{} = project, attrs) do
-    permitted_attrs = ~w(title lead_sentence genre_id motivation requirement city_id zip_code)a
-
-    project
-    |> cast(attrs, permitted_attrs)
-    |> validate_blank
-    |> assoc_constraint(:genre)
-    |> assoc_constraint(:city)
-    |> unique_constraint(:title, name: "projects_owner_id_and_title_index")
-    |> check_constraint(:status, name: "valid_project_status")
-  end
-
-  def change_status_changeset(%__MODULE__{} = project, attrs) do
-    permitted_attrs = ~w(status)a
-    required_attrs = ~w(status)a
-
-    project
-    |> cast(attrs, permitted_attrs)
-    |> validate_required(required_attrs)
-    |> check_constraint(:status, name: "valid_project_status")
-  end
-
-  def validate_blank(changeset) do
-    if is_nil(get_field(changeset, :title)) do
-      add_error(changeset, :title, "can't be blank")
-    else
-      changeset
-    end
-  end
 end

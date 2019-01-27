@@ -6,7 +6,7 @@ defmodule Db.Skills.UserSkills do
   import Ecto.Query, only: [from: 1, from: 2, first: 1]
   alias Ecto.Multi
   alias Db.Repo
-  alias Db.Skills.{UserSkill}
+  alias Db.Skills.{UserSkill, AliveUserSkill}
 
   @default_rank 0
   @spec build_upsert_user_skills_multi(integer, list(integer)) :: Multi.t()
@@ -18,10 +18,10 @@ defmodule Db.Skills.UserSkills do
   @spec build_upsert_user_skills_multi(Multi.t(), integer, nonempty_list(integer)) :: Multi.t()
   def build_upsert_user_skills_multi(multi, user_id, skill_ids) do
     deleted_skill_query =
-      from(us in UserSkill, where: us.user_id == ^user_id and us.skill_id not in ^skill_ids)
+      from(us in AliveUserSkill, where: us.user_id == ^user_id and us.skill_id not in ^skill_ids)
 
     multi
-    |> Multi.delete_all(:deleted_user_skills, deleted_skill_query)
+    |> Multi.delete_all(:deleted_user_skills, deleted_skill_query, set: [deleted_at:  DateTime.truncate(DateTime.utc_now, :second)])
     |> build_upsert_user_skills_multi(user_id, @default_rank, skill_ids)
   end
 
@@ -34,13 +34,12 @@ defmodule Db.Skills.UserSkills do
           Multi.t()
   def build_upsert_user_skills_multi(multi, user_id, rank, [skill_id | tail]) do
     user_skill_changeset =
-      case Repo.get_by(UserSkill, user_id: user_id, skill_id: skill_id) do
-        %UserSkill{} = user_skill ->
-          IO.inspect(user_skill)
-          UserSkill.edit_changeset(user_skill, %{rank: rank})
+      case Repo.get_by(AliveUserSkill, user_id: user_id, skill_id: skill_id) do
+        %AliveUserSkill{} = user_skill ->
+          AliveUserSkill.edit_changeset(user_skill, %{rank: rank})
 
         nil ->
-          UserSkill.changeset(%{user_id: user_id, rank: rank, skill_id: skill_id})
+          AliveUserSkill.changeset(%{user_id: user_id, rank: rank, skill_id: skill_id})
       end
 
     multi
