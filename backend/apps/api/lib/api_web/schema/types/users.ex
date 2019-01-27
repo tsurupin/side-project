@@ -1,7 +1,7 @@
 defmodule ApiWeb.Schema.Types.Users do
   use Absinthe.Schema.Notation
   alias Db.Uploaders.UserPhotoUploader
-  alias Db.Users.Photo
+  alias Db.Users.{AlivePhoto, Photo}
   alias Db.Users.Users
 
   object :user do
@@ -26,7 +26,7 @@ defmodule ApiWeb.Schema.Types.Users do
       :string,
       resolve: fn _, %{source: user} ->
         case Users.main_photo(user.id) do
-          %Photo{image_url: image_url} = photo ->
+          %AlivePhoto{image_url: image_url} = photo ->
             {:ok, UserPhotoUploader.url({image_url, photo}, :thumb)}
 
           _ ->

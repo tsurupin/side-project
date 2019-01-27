@@ -8,13 +8,13 @@ defmodule Db.Users.UserLikes do
   alias Ecto.Multi
 
   alias Db.Repo
-  alias Db.Users.{User, UserLike}
+  alias Db.Users.{User, UserLike, AliveUserLike}
   alias Db.Chats.{Chats, Chat}
 
   @spec like(%{target_user_id: integer, user_id: integer}) ::
-          {:ok, UserLike.t()} | {:error, String.t()}
+          {:ok, AliveUserLike.t()} | {:error, String.t()}
   def like(%{target_user_id: _target_user_id, user_id: _user_id} = attrs) do
-    case UserLike.changeset(attrs) |> Repo.insert() do
+    case AliveUserLike.changeset(attrs) |> Repo.insert() do
       {:ok, _user_like} -> {:ok, true}
       {:error, changeset} -> {:error, Db.FullErrorMessage.message(changeset)}
     end
@@ -23,13 +23,13 @@ defmodule Db.Users.UserLikes do
   @spec withdraw_like(%{target_user_id: integer, user_id: integer}) ::
           {:ok, any} | {:error, String.t()} | {:error, :bad_request}
   def withdraw_like(%{target_user_id: target_user_id, user_id: user_id}) do
-    case Repo.get_by(UserLike,
+    case Repo.get_by(AliveUserLike,
            target_user_id: target_user_id,
            user_id: user_id,
            status: :requested
          ) do
-      %UserLike{} = like ->
-        case Repo.delete(like) do
+      %AliveUserLike{} = like ->
+        case Repo.update(UserLike.delete_changeset(like)) do
           {:ok, _user_like} -> {:ok, true}
           {:error, changeset} -> {:error, Db.FullErrorMessage.message(changeset)}
         end
@@ -42,17 +42,17 @@ defmodule Db.Users.UserLikes do
   @spec accept_like(User.t(), %{user_id: integer}) ::
           {:ok, Chat.t()} | {:error, String.t()} | {:error, :bad_request}
   def accept_like(%User{id: target_user_id}, %{user_id: user_id}) do
-    case Repo.get_by(UserLike,
+    case Repo.get_by(AliveUserLike,
            user_id: user_id,
            target_user_id: target_user_id,
            status: :requested
          ) do
-      %UserLike{} = like ->
+      %AliveUserLike{} = like ->
         transaction =
           Multi.new()
           |> Multi.update(
             :accept_like,
-            UserLike.change_status_changeset(like, %{status: :approved})
+            AliveUserLike.change_status_changeset(like, %{status: :approved})
           )
           |> Multi.run(:create_chat, fn _repo, _ ->
             Chats.create_chat_group(%{like: like})
@@ -72,14 +72,14 @@ defmodule Db.Users.UserLikes do
   @spec reject_like(User.t(), %{user_id: integer}) ::
           {:ok, true} | {:error, String.t()} | {:error, :bad_request}
   def reject_like(%User{id: target_user_id}, %{user_id: user_id}) do
-    case Repo.get_by(UserLike,
+    case Repo.get_by(AliveUserLike,
            user_id: user_id,
            target_user_id: target_user_id,
            status: :requested
          ) do
-      %UserLike{} = like ->
+      %AliveUserLike{} = like ->
         transaction =
-          UserLike.change_status_changeset(like, %{status: :rejected})
+          AliveUserLike.change_status_changeset(like, %{status: :rejected})
           |> Repo.update()
 
         case transaction do

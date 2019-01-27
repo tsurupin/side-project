@@ -128,7 +128,7 @@ defmodule Db.Repo.Migrations.CreateInitialTables do
     #create unique_index(:user_skills, [:user_id, :rank], name: "user_skills_user_id_and_rank_index")
 
     execute(
-      "CREATE VIEW alive_user_skills AS SELECT id, skill_id, user_id, rank, inserted_at, updated_at from user_skills WHERE deleted_at IS NULL;",
+      "CREATE VIEW alive_user_skills AS SELECT id, skill_id, user_id, rank, inserted_at, updated_at, deleted_at from user_skills WHERE deleted_at IS NULL;",
       "DROP VIEW IF EXISTS alive_user_skills;"
     )
 
@@ -255,7 +255,7 @@ defmodule Db.Repo.Migrations.CreateInitialTables do
     create unique_index(:chats, [:chat_group_id, :name], name: "chats_chat_group_id_and_name_index", where: "deleted_at IS NULL")
 
     execute(
-      "CREATE VIEW alive_chats AS SELECT id, name, is_main, inserted_at, updated_at, deleted_at from chats WHERE deleted_at IS NULL;",
+      "CREATE VIEW alive_chats AS SELECT id, chat_group_id, name, is_main, inserted_at, updated_at, deleted_at from chats WHERE deleted_at IS NULL;",
       "DROP VIEW IF EXISTS alive_chats;"
     )
     create table(:chat_messages) do

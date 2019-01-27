@@ -73,8 +73,8 @@ defmodule Db.Projects.Projects do
   @spec base_search_query(integer) :: Ecto.Queyable.t()
   defp base_search_query(user_id) do
     from(
-      p in Project,
-      left_join: pl in ProjectLike,
+      p in AliveProject,
+      left_join: pl in AliveProjectLike,
       on: pl.project_id == p.id and pl.user_id == ^user_id,
       where: is_nil(pl.id) and p.owner_id != ^user_id
     )
@@ -230,7 +230,7 @@ defmodule Db.Projects.Projects do
     end
   end
 
-  defp run_change_status(%Project{} = project, %{status: _} = attrs) do
+  defp run_change_status(%AliveProject{} = project, %{status: _} = attrs) do
     case Repo.update(AliveProject.change_status_changeset(project, attrs)) do
       {:ok, project} -> {:ok, project}
       {:error, changeset} -> {:error, Db.FullErrorMessage.message(changeset)}

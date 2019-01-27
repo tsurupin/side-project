@@ -72,7 +72,7 @@ defmodule Db.Users.ProjectLikes do
     |> Multi.update(:approve, AliveProjectLike.approve_changeset(project_like, %{status: :approved}))
     |> Multi.insert_or_update(
       :add_member_to_project,
-      Db.Projects.Member.changeset(%{project_id: project_id, user_id: user_id})
+      Db.Projects.AliveMember.changeset(%{project_id: project_id, user_id: user_id})
     )
     |> Multi.run(:main_chat, fn _repo, _ ->
       case Chats.main_chat(%{source_id: project_id, source_type: "Project"}) do

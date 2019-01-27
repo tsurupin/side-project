@@ -130,7 +130,7 @@ user_photo_changeset = %{
   image_url: %Plug.Upload{content_type: "image/jpeg", filename: "user1.jpg", path: Path.join(__DIR__, "images/seeds/user1.jpg")}
 }
 
-Users.Photo.changeset(user_photo_changeset) |> Repo.insert!
+Users.AlivePhoto.changeset(user_photo_changeset) |> Repo.insert!
 
 project = Repo.insert!(
   %Projects.Project{
@@ -159,7 +159,7 @@ project_photo_changeset = %{
 }
 
 
-Projects.Photo.changeset(project_photo_changeset) |> Repo.insert!
+Projects.AlivePhoto.changeset(project_photo_changeset) |> Repo.insert!
 
 Repo.insert!(
   %Projects.Member{
@@ -263,7 +263,8 @@ Repo.insert!(
 chat_image_changeset = %{
   chat_id: chat.id,
   user_id: user.id,
+  message_type: :upload,
   image_url: %Plug.Upload{content_type: "image/jpeg", filename: "project1.jpg", path: Path.join(__DIR__, "images/seeds/project1.jpg")}
 }
 
-Chats.Message.changeset(chat_image_changeset) |> Repo.insert!
+Chats.AliveMessage.changeset(chat_image_changeset) |> Repo.insert!

@@ -1,7 +1,7 @@
 defmodule Db.Projects.AliveProject do
   use Ecto.Schema
   import Ecto.Changeset
-  alias Db.Users.{User, ProjectLike, AliveProjectLike}
+  alias Db.Users.{User, AliveProjectLike}
   alias Db.Genres.Genre
   alias Db.Projects.{AlivePhoto, AliveMember}
   alias Db.Skills.Skill
@@ -9,7 +9,7 @@ defmodule Db.Projects.AliveProject do
   alias Db.Users.Favorite
   alias __MODULE__
 
-  @type t :: %AliveProject{}
+  @type t :: %__MODULE__{}
 
   schema "alive_projects" do
     field(:title, :string, null: false)
@@ -50,7 +50,7 @@ defmodule Db.Projects.AliveProject do
     |> check_constraint(:status, name: "valid_project_status")
   end
 
-  def edit_changeset(project, attrs) do
+  def edit_changeset(%__MODULE__{} = project, attrs) do
     permitted_attrs = ~w(title lead_sentence genre_id motivation requirement city_id zip_code)a
 
     project
@@ -62,7 +62,7 @@ defmodule Db.Projects.AliveProject do
     |> check_constraint(:status, name: "valid_project_status")
   end
 
-  def change_status_changeset(project, attrs) do
+  def change_status_changeset(%__MODULE__{} = project, attrs) do
     permitted_attrs = ~w(status)a
     required_attrs = ~w(status)a
 

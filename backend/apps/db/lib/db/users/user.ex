@@ -4,8 +4,8 @@ defmodule Db.Users.User do
   alias Db.Users.{AliveUserLike, AlivePhoto}
   alias Db.OccupationTypes.OccupationType
   alias Db.Locations.City
-  alias Db.Projects.Project
-  alias Db.Skills.{Skill, UserSkill, AliveUserSkill}
+  alias Db.Projects.{AliveProject}
+  alias Db.Skills.{Skill, AliveUserSkill, AliveUserSkill}
   alias Db.Chats.Chat
   alias Db.Genres.Genre
 

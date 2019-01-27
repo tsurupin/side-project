@@ -6,6 +6,7 @@ defmodule Db.Chats.Chats do
   import Ecto.Query, only: [from: 1, from: 2, first: 1, limit: 2]
   alias Ecto.Multi
   alias Db.Chats.{Chat, Message, Member, Group, AliveChat, AliveMessage, AliveMember}
+  alias Db.Projects.AliveProject
   alias Db.Users.UserLike
   alias Db.Repo
 
@@ -136,7 +137,7 @@ defmodule Db.Chats.Chats do
       Group.changeset(%{source_id: source_id, source_type: source_type})
     )
     |> Multi.run(:chat, fn _repo, %{chat_group: chat_group} ->
-      Chat.changeset(%{chat_group_id: chat_group.id, is_main: true, name: chat_name})
+      AliveChat.changeset(%{chat_group_id: chat_group.id, is_main: true, name: chat_name})
       |> Repo.insert()
     end)
     |> Multi.run(:chat_member, fn _repo, %{chat: chat} ->
