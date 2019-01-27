@@ -32,7 +32,7 @@ defmodule Db.Skills.AliveUserSkill do
     # |> unique_constraint(:rank, name: "user_skills_user_id_and_rank_index")
   end
 
-  @spec edit_changeset(UserSkill.t(), map()) :: Ecto.Changeset.t()
+  @spec edit_changeset(__MODULE__.t(), map()) :: Ecto.Changeset.t()
   def edit_changeset(user_skill, attrs) do
     permitted_attrs = ~w(rank)a
     required_attrs = ~w(rank)a

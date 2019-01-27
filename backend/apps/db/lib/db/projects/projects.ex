@@ -6,16 +6,16 @@ defmodule Db.Projects.Projects do
   import Ecto.Query, warn: false
   alias Ecto.Multi
   alias Db.Repo
-  alias Db.Projects.{Project, Member}
-  alias Db.Users.{ProjectLike}
+  alias Db.Projects.{Project, Member, AliveMember, AliveProject}
+  alias Db.Users.{ProjectLike, AliveProjectLike}
   alias Db.Projects.Photo
-  alias Db.Skills.{ProjectSkills, ProjectSkill}
+  alias Db.Skills.{ProjectSkills, ProjectSkill, AliveProjectSkill}
   alias Db.Chats.Chats
 
-  @spec get_by(%{id: integer}) :: {:ok, Project.t()} | {:error, :not_found}
+  @spec get_by(%{id: integer}) :: {:ok, AliveProject.t()} | {:error, :not_found}
   def get_by(%{id: id}) do
-    case Repo.get_by(Project, id: id) do
-      %Project{} = project -> {:ok, project}
+    case Repo.get_by(AliveProject, id: id) do
+      %AliveProject{} = project -> {:ok, project}
       nil -> {:error, :not_found}
     end
   end
@@ -23,8 +23,8 @@ defmodule Db.Projects.Projects do
   def has_liked(%{user_id: user_id, project_id: project_id}) do
     Repo.exists?(
       from(
-        p in Project,
-        join: pl in ProjectLike,
+        p in AliveProject,
+        join: pl in AliveProjectLike,
         where:
           pl.project_id == p.id and pl.project_id == ^project_id and pl.user_id == ^user_id and
             pl.status in [^:requested, ^:approved, ^:rejected]
@@ -42,7 +42,7 @@ defmodule Db.Projects.Projects do
     {:ok, projects}
   end
 
-  @spec editable(integer) :: {:ok, list(Project.t())}
+  @spec editable(integer) :: {:ok, list(AliveProject.t())}
   def editable(user_id) do
     projects =
       editable_by_user(user_id)
@@ -51,12 +51,12 @@ defmodule Db.Projects.Projects do
     {:ok, projects}
   end
 
-  @spec liked_by(String.t() | integer) :: {:ok, list(Project.t())}
+  @spec liked_by(String.t() | integer) :: {:ok, list(AliveProject.t())}
   def liked_by(user_id) do
     projects =
       from(
-        p in Project,
-        join: pl in ProjectLike,
+        p in AliveProject,
+        join: pl in AliveProjectLike,
         where: p.id == pl.project_id and pl.user_id == ^user_id and p.status == ^:completed
       )
       |> Repo.all()
@@ -65,9 +65,9 @@ defmodule Db.Projects.Projects do
   end
 
   @main_photo_rank 0
-  @spec main_photo(integer) :: Photo.t()
+  @spec main_photo(integer) :: AlivePhoto.t()
   def main_photo(project_id) do
-    Repo.one(from(p in Photo, where: p.project_id == ^project_id and p.rank == ^@main_photo_rank))
+    Repo.one(from(p in AlivePhoto, where: p.project_id == ^project_id and p.rank == ^@main_photo_rank))
   end
 
   @spec base_search_query(integer) :: Ecto.Queyable.t()
@@ -80,16 +80,16 @@ defmodule Db.Projects.Projects do
     )
   end
 
-  @spec create(%{owner_id: integer}) :: {:ok, Project.t()} | {:error, String.t()}
+  @spec create(%{owner_id: integer}) :: {:ok, AliveProject.t()} | {:error, String.t()}
   def create(%{owner_id: owner_id} = attrs) do
     transaction =
       Multi.new()
-      |> Multi.insert(:project, Project.changeset(attrs))
+      |> Multi.insert(:project, AliveProject.changeset(attrs))
       |> Multi.merge(fn %{project: project} ->
         ProjectSkills.build_upsert_project_skills_multi(project.id, attrs[:skill_ids] || [])
       end)
       |> Multi.run(:create_master_project_member, fn _repo, %{project: project} ->
-        Db.Projects.Member.changeset(%{
+        Db.Projects.AliveMember.changeset(%{
           project_id: project.id,
           user_id: owner_id,
           role: :master,
@@ -115,7 +115,7 @@ defmodule Db.Projects.Projects do
       {:ok, true, project} ->
         transaction =
           Multi.new()
-          |> Multi.update(:project, Project.edit_changeset(project, attrs))
+          |> Multi.update(:project, AliveProject.edit_changeset(project, attrs))
           |> Multi.merge(fn _ ->
             ProjectSkills.build_upsert_project_skills_multi(project.id, attrs[:skill_ids] || [])
           end)
@@ -131,8 +131,8 @@ defmodule Db.Projects.Projects do
   @spec change_status(integer, %{project_id: integer, status: String.t()}) ::
           {:ok, Project.t()} | {:error, String.t()}
   def change_status(user_id, %{project_id: project_id, status: status}) do
-    case Repo.get_by(Project, owner_id: user_id, id: project_id) do
-      %Project{} = project -> run_change_status(project, %{status: status})
+    case Repo.get_by(AliveProject, owner_id: user_id, id: project_id) do
+      %AliveProject{} = project -> run_change_status(project, %{status: status})
       nil -> {:error, :unauthorized}
     end
   end
@@ -140,10 +140,9 @@ defmodule Db.Projects.Projects do
   @spec remove_member_from_project(%{project_id: integer, user_id: integer}) ::
           {:ok, Member.t()} | {:error, any}
   def remove_member_from_project(%{project_id: project_id, user_id: user_id}) do
-    case Repo.get_by(Member, project_id: project_id, user_id: user_id) do
-      %Member{} = member ->
-        Member.delete_changeset(member, %{deleted_at: NaiveDateTime.utc_now()})
-        |> Repo.update()
+    case Repo.get_by(AliveMember, project_id: project_id, user_id: user_id) do
+      %AliveMember{} = member ->
+        Repo.update(Member.delete_changeset(member))
 
       _ ->
         {:error, :not_found}
@@ -151,7 +150,7 @@ defmodule Db.Projects.Projects do
   end
 
   @spec editable?(%{project_id: integer, user_id: integer}) ::
-          {:ok, true, Project.t()} | {:error, false, :unauthorized}
+          {:ok, true, AliveProject.t()} | {:error, false, :unauthorized}
   defp editable?(%{project_id: project_id, user_id: user_id} = attrs) do
     project =
       editable_by_user(user_id)
@@ -159,7 +158,7 @@ defmodule Db.Projects.Projects do
       |> Repo.one()
 
     case project do
-      %Project{} -> {:ok, true, project}
+      %AliveProject{} -> {:ok, true, project}
       _ -> {:error, false, :unauthorized}
     end
   end
@@ -167,8 +166,8 @@ defmodule Db.Projects.Projects do
   @spec editable_by_user(integer) :: Ecto.Queryable.t()
   defp editable_by_user(user_id) do
     from(
-      p in Project,
-      join: pm in Member,
+      p in AliveProject,
+      join: pm in AliveMember,
       where:
         p.id == pm.project_id and pm.user_id == ^user_id and pm.role in [^:admin, ^:master] and
           pm.status == ^:approved
@@ -194,7 +193,7 @@ defmodule Db.Projects.Projects do
         {:skill_ids, skill_ids}, queries ->
           from(
             p in queries,
-            join: ps in ProjectSkill,
+            join: ps in AliveProjectSkill,
             where: ps.project_id == p.id and ps.skill_id in ^skill_ids
           )
 
@@ -212,12 +211,12 @@ defmodule Db.Projects.Projects do
     from(p in queries, where: p.status == ^:completed)
   end
 
-  @spec run_change_status(Project.t(), %{status: String.t()}) ::
-          {:ok, Project.t()} | {:error, String.t()}
-  defp run_change_status(%Project{} = project, %{status: "completed"} = attrs) do
+  @spec run_change_status(AliveProject.t(), %{status: String.t()}) ::
+          {:ok, AliveProject.t()} | {:error, String.t()}
+  defp run_change_status(%AliveProject{} = project, %{status: "completed"} = attrs) do
     transaction =
       Multi.new()
-      |> Multi.update(:update_project, Project.change_status_changeset(project, attrs))
+      |> Multi.update(:update_project, AliveProject.change_status_changeset(project, attrs))
       |> Multi.run(:create_chat, fn _repo, _ ->
         Chats.create_chat_group(%{project: project})
       end)
@@ -232,7 +231,7 @@ defmodule Db.Projects.Projects do
   end
 
   defp run_change_status(%Project{} = project, %{status: _} = attrs) do
-    case Repo.update(Project.change_status_changeset(project, attrs)) do
+    case Repo.update(AliveProject.change_status_changeset(project, attrs)) do
       {:ok, project} -> {:ok, project}
       {:error, changeset} -> {:error, Db.FullErrorMessage.message(changeset)}
     end

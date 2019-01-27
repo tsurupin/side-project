@@ -3,6 +3,7 @@ defmodule Db.OccupationTypes.OccupationType do
 
   """
   use Ecto.Schema
+  use Db.Helpers.SoftDeletion
   import Ecto.Changeset
   alias Db.Users.User
   alias __MODULE__
@@ -15,16 +16,5 @@ defmodule Db.OccupationTypes.OccupationType do
     timestamps(type: :utc_datetime)
 
     has_many(:users, User)
-  end
-
-  @spec changeset(map()) :: Ecto.Changeset.t()
-  def changeset(attrs) do
-    permitted_attrs = ~w(name)a
-    required_attrs = ~w(name)a
-
-    %OccupationType{}
-    |> cast(attrs, permitted_attrs)
-    |> validate_required(required_attrs)
-    |> unique_constraint(:name, name: "occupation_types_name_index")
   end
 end

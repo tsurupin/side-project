@@ -1,9 +1,9 @@
 defmodule Db.Genres.Genres do
-  alias Db.Genres.Genre
+  alias Db.Genres.AliveGenre
   alias Db.Repo
 
-  @spec all :: [Genre.t()]
+  @spec all :: [AliveGenre.t()]
   def all do
-    Repo.all(Genre)
+    Repo.all(AliveGenre)
   end
 end

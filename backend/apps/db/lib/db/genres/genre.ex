@@ -3,6 +3,7 @@ defmodule Db.Genres.Genre do
 
   """
   use Ecto.Schema
+  use Db.Helpers.SoftDeletion
   import Ecto.Changeset
   alias Db.Users.User
   alias Db.Projects.Project
@@ -19,16 +20,4 @@ defmodule Db.Genres.Genre do
     has_many(:projects, Project)
   end
 
-  @names ~w()s
-  @spec changeset(map()) :: Ecto.Changeset.t()
-  def changeset(attrs) do
-    permitted_attrs = ~w(name)a
-    required_attrs = ~w(name)a
-
-    %Genre{}
-    |> cast(attrs, permitted_attrs)
-    |> validate_required(required_attrs)
-    # |> validate_inclusion(:name, @names)
-    |> unique_constraint(:name, name: "genres_name_index")
-  end
 end

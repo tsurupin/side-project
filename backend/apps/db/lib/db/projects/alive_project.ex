@@ -1,15 +1,15 @@
 defmodule Db.Projects.AliveProject do
   use Ecto.Schema
   import Ecto.Changeset
-  alias Db.Users.{User, ProjectLike}
+  alias Db.Users.{User, ProjectLike, AliveProjectLike}
   alias Db.Genres.Genre
-  alias Db.Projects.{Photo, Member}
+  alias Db.Projects.{AlivePhoto, AliveMember}
   alias Db.Skills.Skill
   alias Db.Locations.City
   alias Db.Users.Favorite
   alias __MODULE__
 
-  @type t :: %__MODULE__{}
+  @type t :: %AliveProject{}
 
   schema "alive_projects" do
     field(:title, :string, null: false)
@@ -24,11 +24,11 @@ defmodule Db.Projects.AliveProject do
     belongs_to(:owner, User)
     belongs_to(:genre, Genre)
     belongs_to(:city, City)
-    has_many(:photos, Photo)
-    has_many(:project_likes, ProjectLike)
+    has_many(:photos, AlivePhoto)
+    has_many(:project_likes, AliveProjectLike)
 
-    many_to_many(:users, User, join_through: "project_members")
-    many_to_many(:skills, Skill, join_through: "project_skills")
+    many_to_many(:users, User, join_through: "alive_project_members")
+    many_to_many(:skills, Skill, join_through: "alive_project_skills")
 
     timestamps(type: :utc_datetime)
   end
@@ -40,7 +40,7 @@ defmodule Db.Projects.AliveProject do
 
     required_attrs = ~w(title owner_id)a
 
-    %Project{}
+    %__MODULE__{}
     |> cast(attrs, permitted_attrs)
     |> validate_required(required_attrs)
     |> assoc_constraint(:genre)
@@ -50,7 +50,7 @@ defmodule Db.Projects.AliveProject do
     |> check_constraint(:status, name: "valid_project_status")
   end
 
-  def edit_changeset(%__MODULE__{} = project, attrs) do
+  def edit_changeset(project, attrs) do
     permitted_attrs = ~w(title lead_sentence genre_id motivation requirement city_id zip_code)a
 
     project
@@ -62,7 +62,7 @@ defmodule Db.Projects.AliveProject do
     |> check_constraint(:status, name: "valid_project_status")
   end
 
-  def change_status_changeset(%__MODULE__{} = project, attrs) do
+  def change_status_changeset(project, attrs) do
     permitted_attrs = ~w(status)a
     required_attrs = ~w(status)a
 

@@ -1,11 +1,11 @@
 defmodule Db.Users.User do
   use Ecto.Schema
   import Ecto.Changeset
-  alias Db.Users.{UserLike, Photo}
+  alias Db.Users.{AliveUserLike, AlivePhoto}
   alias Db.OccupationTypes.OccupationType
   alias Db.Locations.City
   alias Db.Projects.Project
-  alias Db.Skills.{Skill, UserSkill}
+  alias Db.Skills.{Skill, UserSkill, AliveUserSkill}
   alias Db.Chats.Chat
   alias Db.Genres.Genre
 
@@ -34,12 +34,12 @@ defmodule Db.Users.User do
     belongs_to(:city, City)
     belongs_to(:genre, Genre)
 
-    has_many(:photos, Photo)
-    has_many(:user_likes, UserLike)
-    has_many(:user_skills, UserSkill)
-    many_to_many(:skills, Skill, join_through: "user_skills")
-    many_to_many(:projects, Project, join_through: "project_members")
-    many_to_many(:chats, Chat, join_through: "chat_members")
+    has_many(:photos, AlivePhoto)
+    has_many(:user_likes, AliveUserLike)
+    has_many(:user_skills, AliveUserSkill)
+    many_to_many(:skills, Skill, join_through: "alive_user_skills")
+    many_to_many(:projects, AliveProject, join_through: "alive_project_members")
+    many_to_many(:chats, Chat, join_through: "alive_chat_members")
     timestamps(type: :utc_datetime)
   end
 

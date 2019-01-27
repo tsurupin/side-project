@@ -23,7 +23,7 @@ defmodule Db.Projects.AlivePhoto do
     permitted_attrs = ~w(project_id rank uuid)a
     required_attrs = ~w(project_id rank image_url)a
 
-    %Photo{}
+    %__MODULE__{}
     |> cast(attrs, permitted_attrs)
     |> set_uuid_if_nil
     |> assoc_constraint(:project)
@@ -33,7 +33,7 @@ defmodule Db.Projects.AlivePhoto do
     |> check_constraint(:rank, name: "valid_project_photo_rank")
   end
 
-  @spec promote_changeset(__MODULE__(), map) :: Ecto.Changeset.t()
+  @spec promote_changeset(__MODULE__.t(), map) :: Ecto.Changeset.t()
   def promote_changeset(photo, attrs) do
     permitted_attrs = ~w(rank)a
     required_attrs = ~w(rank)a

@@ -11,17 +11,20 @@ defmodule Db.Repo.Migrations.CreateInitialTables do
       timestamps()
     end
 
-    create unique_index(:genres, [:name], name: "genres_name_index")
+    create unique_index(:genres, [:name], name: "genres_name_index", where: "deleted_at IS NULL")
 
-
+    execute(
+      "CREATE VIEW alive_genres AS SELECT id, name, inserted_at, updated_at, deleted_at from genres WHERE deleted_at IS NULL;",
+      "DROP VIEW IF EXISTS alive_genres;"
+    )
     create table(:countries) do
       add :name, :string, null: false
       add :deleted_at, :utc_datetime
       timestamps()
     end
 
-    create unique_index(:countries, [:name], name: "countries_name_index")
-
+    create unique_index(:countries, [:name], name: "countries_name_index", where: "deleted_at IS NULL")
+    create index(:countries, [:deleted_at])
 
     create table(:cities) do
       add :country_id, references(:countries), null: false
@@ -33,7 +36,8 @@ defmodule Db.Repo.Migrations.CreateInitialTables do
       timestamps()
     end
 
-    create unique_index(:cities, [:name, :state_name, :country_id], name: "cities_name_and_state_name_and_country_id_index")
+    create unique_index(:cities, [:name, :state_name, :country_id], name: "cities_name_and_state_name_and_country_id_index", where: "deleted_at IS NULL")
+
 
     create table(:zip_codes) do
       add :zip_code, :string, null: false
@@ -42,7 +46,7 @@ defmodule Db.Repo.Migrations.CreateInitialTables do
       timestamps()
     end
 
-    create unique_index(:zip_codes, [:zip_code], name: "zip_codes_code_index")
+    create unique_index(:zip_codes, [:zip_code], name: "zip_codes_code_index", where: "deleted_at IS NULL")
 
     create table(:occupation_types) do
       add :name, :string, null: false
@@ -50,8 +54,11 @@ defmodule Db.Repo.Migrations.CreateInitialTables do
       timestamps()
     end
 
-    create unique_index(:occupation_types, [:name], name: "occupation_types_name_index")
-
+    create unique_index(:occupation_types, [:name], name: "occupation_types_name_index", where: "deleted_at IS NULL")
+    execute(
+      "CREATE VIEW alive_occupation_types AS SELECT id, name, inserted_at, updated_at, deleted_at from occupation_types WHERE deleted_at IS NULL;",
+      "DROP VIEW IF EXISTS alive_occupation_types;"
+    )
 
     create table(:skills) do
       add :name, :string, null: false
@@ -59,8 +66,11 @@ defmodule Db.Repo.Migrations.CreateInitialTables do
       timestamps()
     end
 
-    create unique_index(:skills, [:name], name: "skills_name_index")
-
+    create unique_index(:skills, [:name], name: "skills_name_index", where: "deleted_at IS NULL")
+    execute(
+      "CREATE VIEW alive_skills AS SELECT id, name, inserted_at, updated_at, deleted_at from skills WHERE deleted_at IS NULL;",
+      "DROP VIEW IF EXISTS alive_skills;"
+    )
 
     create table(:users) do
       add :provider_id, :string, null: false
@@ -183,11 +193,11 @@ defmodule Db.Repo.Migrations.CreateInitialTables do
       add :deleted_at, :utc_datetime
       timestamps()
     end
-    create unique_index(:project_skills, [:skill_id, :project_id], name: "project_skills_skill_id_and_project_id_index")
+    create unique_index(:project_skills, [:skill_id, :project_id], name: "project_skills_skill_id_and_project_id_index",where: "deleted_at IS NULL")
     #create unique_index(:project_skills, [:project_id, :rank], name: "project_skills_project_id_and_rank_index")
 
     execute(
-      "CREATE VIEW alive_project_skills AS SELECT id, user_id, target_user_id, status, inserted_at, updated_at, deleted_at from user_likes WHERE deleted_at IS NULL;",
+      "CREATE VIEW alive_project_skills AS SELECT id, skill_id, project_id, rank, inserted_at, updated_at, deleted_at from project_skills WHERE deleted_at IS NULL;",
       "DROP VIEW IF EXISTS alive_project_skills;"
     )
 
@@ -199,8 +209,14 @@ defmodule Db.Repo.Migrations.CreateInitialTables do
       add :deleted_at, :utc_datetime
       timestamps()
     end
-    create unique_index(:project_photos, [:project_id, :rank], name: "project_photos_project_id_and_rank_index")
+    create unique_index(:project_photos, [:project_id, :rank], name: "project_photos_project_id_and_rank_index", where: "deleted_at IS NULL")
     create constraint(:project_photos, "valid_project_photo_rank", check: "rank >= 0 ")
+
+    execute(
+      "CREATE VIEW alive_project_photos AS SELECT id, project_id, image_url, rank, uuid, inserted_at, updated_at, deleted_at from project_photos WHERE deleted_at IS NULL;",
+      "DROP VIEW IF EXISTS alive_project_photos;"
+    )
+
 
     create table(:project_members) do
       add :project_id, references(:projects, on_delete: :delete_all), null: false
@@ -211,7 +227,13 @@ defmodule Db.Repo.Migrations.CreateInitialTables do
       timestamps()
     end
 
-    create unique_index(:project_members, [:project_id, :user_id], name: "project_members_project_id_and_user_id_index")
+    create unique_index(:project_members, [:project_id, :user_id], name: "project_members_project_id_and_user_id_index", where: "deleted_at IS NULL")
+
+    execute(
+      "CREATE VIEW alive_project_members AS SELECT id, project_id, user_id, status, inserted_at, updated_at, deleted_at from project_members WHERE deleted_at IS NULL;",
+      "DROP VIEW IF EXISTS alive_project_members;"
+    )
+
 
     create table(:chat_groups) do
       add :source_id, :integer, null: false
@@ -229,10 +251,13 @@ defmodule Db.Repo.Migrations.CreateInitialTables do
       add :deleted_at, :utc_datetime
       timestamps()
     end
-    create unique_index(:chats, [:chat_group_id, :is_main], where: "is_main = true", name: "chats_chat_group_id_and_is_main_index")
-    create unique_index(:chats, [:chat_group_id, :name], name: "chats_chat_group_id_and_name_index")
+    create unique_index(:chats, [:chat_group_id, :is_main], where: "is_main = true and deleted_at is NULL", name: "chats_chat_group_id_and_is_main_index")
+    create unique_index(:chats, [:chat_group_id, :name], name: "chats_chat_group_id_and_name_index", where: "deleted_at IS NULL")
 
-
+    execute(
+      "CREATE VIEW alive_chats AS SELECT id, name, is_main, inserted_at, updated_at, deleted_at from chats WHERE deleted_at IS NULL;",
+      "DROP VIEW IF EXISTS alive_chats;"
+    )
     create table(:chat_messages) do
       add :chat_id, references(:chats, on_delete: :delete_all), null: false
       add :user_id, references(:users, on_delete: :delete_all), null: false
@@ -246,13 +271,22 @@ defmodule Db.Repo.Migrations.CreateInitialTables do
 
     create constraint(:chat_messages, "valid_chat_message", check: "comment IS NOT NULL OR image_url IS NOT NULL")
 
+    execute(
+      "CREATE VIEW alive_chat_messages AS SELECT id, chat_id, user_id, comment, image_url, message_type, uuid, inserted_at, updated_at, deleted_at from chat_messages WHERE deleted_at IS NULL;",
+      "DROP VIEW IF EXISTS alive_chat_messages;"
+    )
+
     create table(:chat_members) do
       add :chat_id, references(:chats, on_delete: :delete_all), null: false
       add :user_id, references(:users, on_delete: :delete_all), null: false
       add :deleted_at, :utc_datetime
       timestamps()
     end
-    create unique_index(:chat_members, [:chat_id, :user_id], name: "chat_members_chat_id_and_user_id_index")
+    create unique_index(:chat_members, [:chat_id, :user_id], name: "chat_members_chat_id_and_user_id_index", where: "deleted_at IS NULL")
 
+    execute(
+      "CREATE VIEW alive_chat_members AS SELECT id, chat_id, user_id, inserted_at, updated_at, deleted_at from chat_members WHERE deleted_at IS NULL;",
+      "DROP VIEW IF EXISTS alive_chat_members;"
+    )
   end
 end

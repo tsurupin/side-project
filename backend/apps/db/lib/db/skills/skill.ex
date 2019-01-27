@@ -2,7 +2,7 @@ defmodule Db.Skills.Skill do
   use Ecto.Schema
   use Db.Helpers.SoftDeletion
   import Ecto.Changeset
-  alias Db.Skills.{UserSkill, ProjectSkill}
+  alias Db.Skills.{AliveUserSkill, AliveProjectSkill}
   alias __MODULE__
 
   @type t :: %Skill{}
@@ -12,7 +12,7 @@ defmodule Db.Skills.Skill do
     field(:deleted_at, :utc_datetime)
     timestamps(type: :utc_datetime)
 
-    has_many(:user_skills, UserSkill)
-    has_many(:project_skills, ProjectSkill)
+    has_many(:user_skills, AliveUserSkill)
+    has_many(:project_skills, AliveProjectSkill)
   end
 end

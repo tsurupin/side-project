@@ -5,7 +5,7 @@ defmodule Db.Skills.AliveProjectSkill do
   alias Db.Projects.Project
 
   alias __MODULE__
-  @type t :: %ProjectSkill{}
+  @type t :: %__MODULE__{}
 
   schema "alive_project_skills" do
     field(:rank, :integer, null: false)
@@ -31,7 +31,7 @@ defmodule Db.Skills.AliveProjectSkill do
     # |> unique_constraint(:rank, name: "project_skills_project_id_and_rank_index")
   end
 
-  @spec edit_changeset(ProjectSkill.t(), map()) :: Ecto.Changeset.t()
+  @spec edit_changeset(__MODULE__.t(), map()) :: Ecto.Changeset.t()
   def edit_changeset(project_skill, attrs) do
     permitted_attrs = ~w(rank)a
     required_attrs = ~w(rank)a

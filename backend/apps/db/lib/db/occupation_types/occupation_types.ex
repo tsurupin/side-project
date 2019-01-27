@@ -1,9 +1,9 @@
 defmodule Db.OccupationTypes.OccupationTypes do
-  alias Db.OccupationTypes.OccupationType
+  alias Db.OccupationTypes.AliveOccupationType
   alias Db.Repo
 
-  @spec all :: [OccupationType.t()]
+  @spec all :: [AliveOccupationType.t()]
   def all do
-    Repo.all(OccupationType)
+    Repo.all(AliveOccupationType)
   end
 end

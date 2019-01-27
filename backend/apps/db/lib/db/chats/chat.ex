@@ -1,5 +1,6 @@
 defmodule Db.Chats.Chat do
   use Ecto.Schema
+  use Db.Helpers.SoftDeletion
   import Ecto.Changeset
   alias Db.Users.User
   alias Db.Chats.{Message, Member, Project, Group}
@@ -19,16 +20,4 @@ defmodule Db.Chats.Chat do
     many_to_many(:users, User, join_through: "chat_members")
   end
 
-  @spec changeset(map()) :: Ecto.Changeset.t()
-  def changeset(attrs) do
-    permitted_attrs = ~w(name is_main chat_group_id)a
-    required_attrs = ~w(name is_main chat_group_id)a
-
-    %__MODULE__{}
-    |> cast(attrs, permitted_attrs)
-    |> assoc_constraint(:chat_group)
-    |> validate_required(required_attrs)
-    |> unique_constraint(:name, name: "chats_chat_group_id_and_is_main_index")
-    |> unique_constraint(:name, name: "chats_chat_group_id_and_name_index")
-  end
 end
