@@ -4,6 +4,7 @@ defmodule Db.Chats.Member do
   """
 
   use Ecto.Schema
+  use Db.Helper.SoftDeletion
   import Ecto.{Changeset, Query}
   alias Db.Chats.Chat
   alias Db.Users.User

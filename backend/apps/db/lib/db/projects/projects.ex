@@ -171,7 +171,7 @@ defmodule Db.Projects.Projects do
       join: pm in Member,
       where:
         p.id == pm.project_id and pm.user_id == ^user_id and pm.role in [^:admin, ^:master] and
-          pm.status == ^:approved
+          pm.status == ^:approved and is_nil(pm.deleted_at)
     )
   end
 
@@ -179,7 +179,7 @@ defmodule Db.Projects.Projects do
   defp by_project(query, project_id) do
     from(
       p in query,
-      where: p.id == ^project_id
+      where: p.id == ^project_id and is_nil(p.deleted_at)
     )
   end
 
@@ -209,7 +209,7 @@ defmodule Db.Projects.Projects do
       end)
       |> limit(@limit_num)
 
-    from(p in queries, where: p.status == ^:completed)
+    from(p in queries, where: p.status == ^:completed and is_nil(p.deleted_at))
   end
 
   @spec run_change_status(Project.t(), %{status: String.t()}) ::

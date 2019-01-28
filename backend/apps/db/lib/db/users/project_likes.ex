@@ -34,9 +34,14 @@ defmodule Db.Users.ProjectLikes do
           | {:error, String.t()}
           | {:error, :bad_request}
   def withdraw_like(%{project_id: project_id, user_id: user_id} = attrs) do
-    case Repo.get_by(ProjectLike, attrs) do
+    case Repo.one(
+           from(pl in ProjectLike,
+             where:
+               pl.project_id == ^project_id and pl.user_id == ^user_id and is_nil(pl.deleted_at)
+           )
+         ) do
       %ProjectLike{status: :requested} = like ->
-        case Repo.delete(like) do
+        case Repo.update(:delete_project_like, ProjectLike.delete_changeset(like)) do
           {:ok, _like} -> {:ok, _like}
           {:error, changeset} -> {:error, Db.FullErrorMessage.message(changeset)}
         end
@@ -53,7 +58,7 @@ defmodule Db.Users.ProjectLikes do
               user_id: user_id
             })
           end)
-          |> Multi.delete(:delete_project_like, like)
+          |> Multi.update(:delete_project_like, ProjectLike.delete_changeset(like))
           |> Repo.transaction()
 
         case transaction do

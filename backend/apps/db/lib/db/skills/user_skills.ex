@@ -18,10 +18,17 @@ defmodule Db.Skills.UserSkills do
   @spec build_upsert_user_skills_multi(Multi.t(), integer, nonempty_list(integer)) :: Multi.t()
   def build_upsert_user_skills_multi(multi, user_id, skill_ids) do
     deleted_skill_query =
-      from(us in UserSkill, where: us.user_id == ^user_id and us.skill_id not in ^skill_ids)
+      Repo.all(
+        from(us in UserSkill,
+          where:
+            us.user_id == ^user_id and us.skill_id not in ^skill_ids and is_nil(us.deleted_at)
+        )
+      )
 
     multi
-    |> Multi.delete_all(:deleted_user_skills, deleted_skill_query)
+    |> Multi.update_all(:deleted_user_skills, deleted_skill_query,
+      set: [deleted_at: DateTime.truncate(DateTime.utc_now(), :second)]
+    )
     |> build_upsert_user_skills_multi(user_id, @default_rank, skill_ids)
   end
 
@@ -34,9 +41,13 @@ defmodule Db.Skills.UserSkills do
           Multi.t()
   def build_upsert_user_skills_multi(multi, user_id, rank, [skill_id | tail]) do
     user_skill_changeset =
-      case Repo.get_by(UserSkill, user_id: user_id, skill_id: skill_id) do
+      case Repo.one(
+             from(us in UserSkill,
+               where:
+                 us.user_id == ^user_id and us.skill_id == ^skill_id and is_nil(us.deleted_at)
+             )
+           ) do
         %UserSkill{} = user_skill ->
-          IO.inspect(user_skill)
           UserSkill.edit_changeset(user_skill, %{rank: rank})
 
         nil ->

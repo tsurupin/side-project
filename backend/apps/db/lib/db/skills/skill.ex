@@ -1,5 +1,6 @@
 defmodule Db.Skills.Skill do
   use Ecto.Schema
+  use Db.Helper.SoftDeletion
   import Ecto.Changeset
   alias Db.Skills.{UserSkill, ProjectSkill}
   alias __MODULE__

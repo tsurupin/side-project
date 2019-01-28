@@ -11,7 +11,7 @@ defmodule Db.Chats.Chats do
 
   @spec get_by(%{id: integer | String.t()}) :: {:ok, :chat} | {:error, :not_found}
   def get_by(%{id: id}) do
-    case Repo.get_by(Chat, id: id) do
+    case Repo.one(from(c in Chat, where: c.id == ^id and is_nil(c.deleted_at))) do
       %Chat{} = chat -> {:ok, chat}
       _ -> {:error, :not_found}
     end
@@ -21,7 +21,8 @@ defmodule Db.Chats.Chats do
   def with_messages(chat) do
     Repo.preload(
       chat,
-      messages: from(m in Message, order_by: m.inserted_at, preload: :user)
+      messages:
+        from(m in Message, where: is_nil(m.deleted_at), order_by: m.inserted_at, preload: :user)
     )
   end
 
@@ -30,7 +31,7 @@ defmodule Db.Chats.Chats do
     from(
       c in Chat,
       join: m in Member,
-      where: m.chat_id == c.id and m.user_id == ^user_id,
+      where: m.chat_id == c.id and m.user_id == ^user_id and is_nil(m.deleted_at),
       order_by: [desc: c.is_main]
     )
     |> Repo.all()
@@ -43,7 +44,7 @@ defmodule Db.Chats.Chats do
       join: g in Group,
       where:
         c.chat_group_id == g.id and c.is_main == true and g.source_id == ^source_id and
-          g.source_type == ^source_type
+          g.source_type == ^source_type and is_nil(c.deleted_at)
     )
     |> Repo.one()
   end
@@ -156,7 +157,7 @@ defmodule Db.Chats.Chats do
       join: g in Group,
       where:
         m.chat_id == c.id and m.user_id == ^user_id and c.chat_group_id == g.id and
-          g.source_id == ^project_id and g.source_type == "Project"
+          g.source_id == ^project_id and g.source_type == "Project" and is_nil(m.deleted_at)
     )
     |> Repo.all()
   end
@@ -187,7 +188,7 @@ defmodule Db.Chats.Chats do
     Multi.update(
       multi,
       "remove_member:#{member.id}",
-      Member.delete_changeset(member, %{deleted_at: NaiveDateTime.utc_now()})
+      Member.delete_changeset(member)
     )
     |> remove_member_from_chat(remainings)
   end

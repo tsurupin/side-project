@@ -28,7 +28,9 @@ defmodule Db.Users.Users do
       from(
         u in User,
         join: l in UserLike,
-        where: l.user_id == u.id and l.target_user_id == ^user_id and l.status == ^:requested
+        where:
+          l.user_id == u.id and l.target_user_id == ^user_id and l.status == ^:requested and
+            is_nil(l.deleted_at)
       )
     )
   end
@@ -41,7 +43,7 @@ defmodule Db.Users.Users do
         join: ul in UserLike,
         where:
           ul.user_id == u.id and ul.user_id == ^user_id and ul.target_user_id == ^target_user_id and
-            ul.status in [^:requested, ^:approved, ^:rejected]
+            ul.status in [^:requested, ^:approved, ^:rejected] and is_nil(ul.deleted_at)
       )
     )
   end
@@ -78,7 +80,11 @@ defmodule Db.Users.Users do
   @main_photo_rank 0
   @spec main_photo(integer) :: Photo.t() | no_return
   def main_photo(user_id) do
-    Repo.get_by(Photo, user_id: user_id, rank: @main_photo_rank)
+    Repo.one(
+      from(p in Photo,
+        where: p.user_id == ^user_id and p.rank == ^@main_photo_rank and is_nil(p.deleted_at)
+      )
+    )
   end
 
   @spec base_search_query(integer) :: Ecto.Queyable.t()
@@ -87,7 +93,7 @@ defmodule Db.Users.Users do
       u in User,
       left_join: ul in UserLike,
       on: ul.target_user_id == u.id and ul.user_id == ^user_id,
-      where: is_nil(ul.id) and u.id != ^user_id
+      where: is_nil(ul.id) and u.id != ^user_id and is_nil(ul.deleted_at)
     )
   end
 
@@ -115,7 +121,7 @@ defmodule Db.Users.Users do
         from(
           u in queries,
           join: us in UserSkill,
-          where: us.user_id == u.id and us.skill_id in ^skill_ids
+          where: us.user_id == u.id and us.skill_id in ^skill_ids and is_nil(us.deleted_at)
         )
 
       {:location, %{distance: distance, latitude: latitude, longitude: longitude}}, queries ->
