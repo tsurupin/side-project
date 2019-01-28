@@ -41,7 +41,7 @@ defmodule Db.Users.ProjectLikes do
            )
          ) do
       %ProjectLike{status: :requested} = like ->
-        case Repo.update(:delete_project_like, ProjectLike.delete_changeset(like)) do
+        case Repo.update(ProjectLike.delete_changeset(like)) do
           {:ok, _like} -> {:ok, _like}
           {:error, changeset} -> {:error, Db.FullErrorMessage.message(changeset)}
         end

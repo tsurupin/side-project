@@ -18,11 +18,9 @@ defmodule Db.Skills.UserSkills do
   @spec build_upsert_user_skills_multi(Multi.t(), integer, nonempty_list(integer)) :: Multi.t()
   def build_upsert_user_skills_multi(multi, user_id, skill_ids) do
     deleted_skill_query =
-        from(us in UserSkill,
-          where:
-            us.user_id == ^user_id and us.skill_id not in ^skill_ids and is_nil(us.deleted_at)
-        )
-
+      from(us in UserSkill,
+        where: us.user_id == ^user_id and us.skill_id not in ^skill_ids and is_nil(us.deleted_at)
+      )
 
     multi
     |> Multi.update_all(:deleted_user_skills, deleted_skill_query,

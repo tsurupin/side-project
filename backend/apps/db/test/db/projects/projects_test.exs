@@ -5,35 +5,64 @@ defmodule Db.ProjectsTest do
   alias Db.Repo
 
   describe "search/1" do
-    test "returns all completed projects without conditions" do
-      project = Factory.insert(:project, status: :completed)
-      project = Factory.insert(:project, status: :editing)
-      assert {:ok, [project]} = Projects.search(%{})
+    setup do
+      current_user = Factory.insert(:user)
+
+      {
+        :ok,
+        current_user_id: current_user.id
+      }
     end
 
-    test "returns matched projects that are associated to skill conditions" do
+    test "returns all completed projects without conditions", %{current_user_id: current_user_id} do
+      project = Factory.insert(:project, status: :completed)
+      project = Factory.insert(:project, status: :editing)
+      assert {:ok, [project]} = Projects.search(%{conditions: %{}, user_id: current_user_id})
+    end
+
+    test "returns matched projects that are associated to skill conditions", %{
+      current_user_id: current_user_id
+    } do
       project1 = Factory.insert(:project, status: :completed)
       project2 = Factory.insert(:project, status: :completed)
       project_skill = Factory.insert(:project_skill, project: project1)
 
-      assert {:ok, [project1]} = Projects.search(%{skill_ids: [project_skill.skill_id]})
+      assert {:ok, [project1]} =
+               Projects.search(%{
+                 conditions: %{skill_ids: [project_skill.skill_id]},
+                 user_id: current_user_id
+               })
     end
 
-    test "returns matched projects that are associated to city conditions" do
+    test "returns matched projects that are associated to city conditions", %{
+      current_user_id: current_user_id
+    } do
       project1 = Factory.insert(:project, status: :completed)
       project2 = Factory.insert(:project, status: :completed)
 
-      assert {:ok, [project1]} = Projects.search(%{city_id: project1.city_id})
+      assert {:ok, [project1]} =
+               Projects.search(%{
+                 conditions: %{city_id: project1.city_id},
+                 user_id: current_user_id
+               })
     end
 
-    test "returns matched projects that are associated to genre conditions" do
+    test "returns matched projects that are associated to genre conditions", %{
+      current_user_id: current_user_id
+    } do
       project1 = Factory.insert(:project, status: :completed)
       project2 = Factory.insert(:project, status: :completed)
 
-      assert {:ok, [project1]} = Projects.search(%{genre_id: project1.genre_id})
+      assert {:ok, [project1]} =
+               Projects.search(%{
+                 conditions: %{genre_id: project1.genre_id},
+                 user_id: current_user_id
+               })
     end
 
-    test "returns matched projects that are associated to genre and skills conditions" do
+    test "returns matched projects that are associated to genre and skills conditions", %{
+      current_user_id: current_user_id
+    } do
       city = Factory.insert(:city)
       skill = Factory.insert(:skill)
 
@@ -44,7 +73,11 @@ defmodule Db.ProjectsTest do
       Factory.insert(:project_skill, skill: skill, project: project1)
       Factory.insert(:project_skill, skill: skill, project: project2)
 
-      assert {:ok, [project1]} = Projects.search(%{city_id: city.id, skill_ids: [skill.id]})
+      assert {:ok, [project1]} =
+               Projects.search(%{
+                 conditions: %{city_id: city.id, skill_ids: [skill.id]},
+                 user_id: current_user_id
+               })
     end
   end
 

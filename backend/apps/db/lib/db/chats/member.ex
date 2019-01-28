@@ -42,6 +42,4 @@ defmodule Db.Chats.Member do
     |> cast(attrs, permitted_attrs)
     |> unique_constraint(:chat_id, name: "chat_members_chat_id_and_user_id_index")
   end
-
-
 end

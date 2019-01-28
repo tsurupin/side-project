@@ -27,8 +27,8 @@ defmodule Db.Projects.Projects do
         join: pl in ProjectLike,
         where:
           pl.project_id == p.id and pl.project_id == ^project_id and pl.user_id == ^user_id and
-            pl.status in [^:requested, ^:approved, ^:rejected]
-            and is_nil(pl.deleted_at) and is_nil(p.deleted_at)
+            pl.status in [^:requested, ^:approved, ^:rejected] and is_nil(pl.deleted_at) and
+            is_nil(p.deleted_at)
       )
     )
   end
@@ -58,7 +58,9 @@ defmodule Db.Projects.Projects do
       from(
         p in Project,
         join: pl in ProjectLike,
-        where: p.id == pl.project_id and pl.user_id == ^user_id and p.status == ^:completed and is_nil(pl.deleted_at) and is_nil(p.deleted_at)
+        where:
+          p.id == pl.project_id and pl.user_id == ^user_id and p.status == ^:completed and
+            is_nil(pl.deleted_at) and is_nil(p.deleted_at)
       )
       |> Repo.all()
 
@@ -68,7 +70,12 @@ defmodule Db.Projects.Projects do
   @main_photo_rank 0
   @spec main_photo(integer) :: Photo.t()
   def main_photo(project_id) do
-    Repo.one(from(p in Photo, where: p.project_id == ^project_id and p.rank == ^@main_photo_rank and is_nil(p.deleted_at)))
+    Repo.one(
+      from(p in Photo,
+        where:
+          p.project_id == ^project_id and p.rank == ^@main_photo_rank and is_nil(p.deleted_at)
+      )
+    )
   end
 
   @spec base_search_query(integer) :: Ecto.Queyable.t()
@@ -76,8 +83,8 @@ defmodule Db.Projects.Projects do
     from(
       p in Project,
       left_join: pl in ProjectLike,
-      on: pl.project_id == p.id and pl.user_id == ^user_id,
-      where: is_nil(pl.id) and p.owner_id != ^user_id and is_nil(p.deleted_at)
+      on: pl.project_id == p.id and pl.user_id == ^user_id and is_nil(pl.id),
+      where: is_nil(pl.id) and p.owner_id != ^user_id
     )
   end
 

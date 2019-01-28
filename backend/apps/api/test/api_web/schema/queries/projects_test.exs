@@ -98,7 +98,7 @@ defmodule ApiWeb.Schema.Queries.ProjectsTest do
       } = cxt
 
       with_mock Api.Accounts.Authentication,
-      verify: fn user_id -> {:ok, Db.Repo.get(Db.Users.User, user.id)} end do
+        verify: fn user_id -> {:ok, Db.Repo.get(Db.Users.User, user.id)} end do
         conn =
           build_conn()
           |> put_req_header("authorization", "Bearer #{user.id}")
