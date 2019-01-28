@@ -1,6 +1,7 @@
 defmodule Db.Chats.Chat do
   use Ecto.Schema
   import Ecto.Changeset
+  use Db.Helper.SoftDeletion
   alias Db.Users.User
   alias Db.Chats.{Message, Member, Project, Group}
 

@@ -1,6 +1,7 @@
 defmodule Db.Users.Photo do
   use Ecto.Schema
   use Arc.Ecto.Schema
+  use Db.Helper.SoftDeletion
   import Ecto.Changeset
   alias Db.Users.User
   alias Db.Uploaders.UserPhotoUploader

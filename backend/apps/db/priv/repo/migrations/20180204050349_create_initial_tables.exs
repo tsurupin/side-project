@@ -11,7 +11,7 @@ defmodule Db.Repo.Migrations.CreateInitialTables do
       timestamps()
     end
 
-    create unique_index(:genres, [:name], name: "genres_name_index")
+    create unique_index(:genres, [:name], name: "genres_name_index", where: "deleted_at IS NULL")
 
 
     create table(:countries) do
@@ -20,7 +20,7 @@ defmodule Db.Repo.Migrations.CreateInitialTables do
       timestamps()
     end
 
-    create unique_index(:countries, [:name], name: "countries_name_index")
+    create unique_index(:countries, [:name], name: "countries_name_index", where: "deleted_at IS NULL")
 
 
     create table(:cities) do
@@ -33,7 +33,7 @@ defmodule Db.Repo.Migrations.CreateInitialTables do
       timestamps()
     end
 
-    create unique_index(:cities, [:name, :state_name, :country_id], name: "cities_name_and_state_name_and_country_id_index")
+    create unique_index(:cities, [:name, :state_name, :country_id], name: "cities_name_and_state_name_and_country_id_index", where: "deleted_at IS NULL")
 
     create table(:zip_codes) do
       add :zip_code, :string, null: false
@@ -42,7 +42,7 @@ defmodule Db.Repo.Migrations.CreateInitialTables do
       timestamps()
     end
 
-    create unique_index(:zip_codes, [:zip_code], name: "zip_codes_code_index")
+    create unique_index(:zip_codes, [:zip_code], name: "zip_codes_code_index", where: "deleted_at IS NULL")
 
     create table(:occupation_types) do
       add :name, :string, null: false
@@ -50,7 +50,7 @@ defmodule Db.Repo.Migrations.CreateInitialTables do
       timestamps()
     end
 
-    create unique_index(:occupation_types, [:name], name: "occupation_types_name_index")
+    create unique_index(:occupation_types, [:name], name: "occupation_types_name_index", where: "deleted_at IS NULL")
 
 
     create table(:skills) do
@@ -59,7 +59,7 @@ defmodule Db.Repo.Migrations.CreateInitialTables do
       timestamps()
     end
 
-    create unique_index(:skills, [:name], name: "skills_name_index")
+    create unique_index(:skills, [:name], name: "skills_name_index", where: "deleted_at IS NULL")
 
 
     create table(:users) do
@@ -99,7 +99,7 @@ defmodule Db.Repo.Migrations.CreateInitialTables do
       add :deleted_at, :utc_datetime
       timestamps()
     end
-    create unique_index(:user_photos, [:user_id, :rank], name: "user_photos_user_id_and_rank_index")
+    create unique_index(:user_photos, [:user_id, :rank], name: "user_photos_user_id_and_rank_index", where: "deleted_at IS NULL")
     create constraint(:user_photos, "valid_user_photo_rank", check: "rank >= 0 ")
 
     create table(:user_skills) do
@@ -109,7 +109,7 @@ defmodule Db.Repo.Migrations.CreateInitialTables do
       add :deleted_at, :utc_datetime
       timestamps()
     end
-    create unique_index(:user_skills, [:skill_id, :user_id], name: "user_skills_skill_id_and_user_id_index")
+    create unique_index(:user_skills, [:skill_id, :user_id], name: "user_skills_skill_id_and_user_id_index", where: "deleted_at IS NULL")
     #create unique_index(:user_skills, [:user_id, :rank], name: "user_skills_user_id_and_rank_index")
 
     create table(:user_likes) do
@@ -120,7 +120,7 @@ defmodule Db.Repo.Migrations.CreateInitialTables do
        timestamps()
     end
 
-    create unique_index(:user_likes, [:user_id, :target_user_id], name: "user_likes_unique_index")
+    create unique_index(:user_likes, [:user_id, :target_user_id], name: "user_likes_unique_index", where: "deleted_at IS NULL")
 
     create table(:projects) do
       add :title, :string, null: false, default: ""
@@ -136,7 +136,7 @@ defmodule Db.Repo.Migrations.CreateInitialTables do
       timestamps()
     end
 
-    create unique_index(:projects, [:owner_id, :title], name: "projects_owner_id_and_title_index")
+    create unique_index(:projects, [:owner_id, :title], name: "projects_owner_id_and_title_index", where: "deleted_at IS NULL")
     create constraint(:projects, "valid_project_status", check: "(status != 1) OR (status = 1 AND lead_sentence IS NOT NULL)")
 
     create table(:project_likes) do
@@ -147,7 +147,7 @@ defmodule Db.Repo.Migrations.CreateInitialTables do
        timestamps()
     end
 
-    create unique_index(:project_likes, [:user_id, :project_id], name: "project_likes_unique_index")
+    create unique_index(:project_likes, [:user_id, :project_id], name: "project_likes_unique_index", where: "deleted_at IS NULL")
 
     create table(:project_skills) do
       add :skill_id, references(:skills, on_delete: :delete_all), null: false
@@ -156,7 +156,7 @@ defmodule Db.Repo.Migrations.CreateInitialTables do
       add :deleted_at, :utc_datetime
       timestamps()
     end
-    create unique_index(:project_skills, [:skill_id, :project_id], name: "project_skills_skill_id_and_project_id_index")
+    create unique_index(:project_skills, [:skill_id, :project_id], name: "project_skills_skill_id_and_project_id_index", where: "deleted_at IS NULL")
     #create unique_index(:project_skills, [:project_id, :rank], name: "project_skills_project_id_and_rank_index")
 
     create table(:project_photos, comment: "always main photo is displayed first and the others are displayed in recent order") do
@@ -167,7 +167,7 @@ defmodule Db.Repo.Migrations.CreateInitialTables do
       add :deleted_at, :utc_datetime
       timestamps()
     end
-    create unique_index(:project_photos, [:project_id, :rank], name: "project_photos_project_id_and_rank_index")
+    create unique_index(:project_photos, [:project_id, :rank], name: "project_photos_project_id_and_rank_index", where: "deleted_at IS NULL")
     create constraint(:project_photos, "valid_project_photo_rank", check: "rank >= 0 ")
 
     create table(:project_members) do
@@ -179,7 +179,7 @@ defmodule Db.Repo.Migrations.CreateInitialTables do
       timestamps()
     end
 
-    create unique_index(:project_members, [:project_id, :user_id], name: "project_members_project_id_and_user_id_index")
+    create unique_index(:project_members, [:project_id, :user_id], name: "project_members_project_id_and_user_id_index", where: "deleted_at IS NULL")
 
     create table(:chat_groups) do
       add :source_id, :integer, null: false
@@ -188,7 +188,7 @@ defmodule Db.Repo.Migrations.CreateInitialTables do
       timestamps()
     end
 
-    create unique_index(:chat_groups, [:source_id, :source_type], name: "chat_groups_source_id_and_source_type_index")
+    create unique_index(:chat_groups, [:source_id, :source_type], name: "chat_groups_source_id_and_source_type_index", where: "deleted_at IS NULL")
 
     create table(:chats) do
       add :chat_group_id, references(:chat_groups, on_delete: :delete_all), null: false
@@ -197,8 +197,8 @@ defmodule Db.Repo.Migrations.CreateInitialTables do
       add :deleted_at, :utc_datetime
       timestamps()
     end
-    create unique_index(:chats, [:chat_group_id, :is_main], where: "is_main = true", name: "chats_chat_group_id_and_is_main_index")
-    create unique_index(:chats, [:chat_group_id, :name], name: "chats_chat_group_id_and_name_index")
+    create unique_index(:chats, [:chat_group_id, :is_main], where: "is_main = true and deleted_at IS NULL", name: "chats_chat_group_id_and_is_main_index")
+    create unique_index(:chats, [:chat_group_id, :name], name: "chats_chat_group_id_and_name_index", where: "deleted_at IS NULL")
 
 
     create table(:chat_messages) do
@@ -220,7 +220,7 @@ defmodule Db.Repo.Migrations.CreateInitialTables do
       add :deleted_at, :utc_datetime
       timestamps()
     end
-    create unique_index(:chat_members, [:chat_id, :user_id], name: "chat_members_chat_id_and_user_id_index")
+    create unique_index(:chat_members, [:chat_id, :user_id], name: "chat_members_chat_id_and_user_id_index", where: "deleted_at IS NULL")
 
   end
 end

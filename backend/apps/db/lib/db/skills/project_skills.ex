@@ -21,11 +21,14 @@ defmodule Db.Skills.ProjectSkills do
   def build_upsert_project_skills_multi(multi, project_id, skill_ids) do
     deleted_skill_query =
       from(ps in ProjectSkill,
-        where: ps.project_id == ^project_id and ps.skill_id not in ^skill_ids
+        where:
+          ps.project_id == ^project_id and ps.skill_id not in ^skill_ids and is_nil(ps.deleted_at)
       )
 
     multi
-    |> Multi.delete_all(:deleted_project_skills, deleted_skill_query)
+    |> Multi.update_all(:deleted_project_skills, deleted_skill_query,
+      set: [deleted_at: DateTime.truncate(DateTime.utc_now(), :second)]
+    )
     |> build_upsert_project_skills_multi(project_id, @default_rank, skill_ids)
   end
 
@@ -36,9 +39,14 @@ defmodule Db.Skills.ProjectSkills do
 
   def build_upsert_project_skills_multi(multi, project_id, rank, [skill_id | tail]) do
     project_skill_changeset =
-      case Repo.get_by(ProjectSkill, project_id: project_id, skill_id: skill_id) do
+      case Repo.one(
+             from(ps in ProjectSkill,
+               where:
+                 ps.project_id == ^project_id and ps.skill_id == ^skill_id and
+                   is_nil(ps.deleted_at)
+             )
+           ) do
         %ProjectSkill{} = project_skill ->
-          IO.inspect(project_skill)
           ProjectSkill.edit_changeset(project_skill, %{rank: rank})
 
         nil ->

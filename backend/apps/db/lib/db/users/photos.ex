@@ -24,17 +24,21 @@ defmodule Db.Users.Photos do
   @spec delete_photo(integer) ::
           {:ok, any} | {:error, Ecto.Muti.name(), any} | {:error, :not_found}
   def delete_photo(photo_id) do
-    case Repo.get(Photo, photo_id) do
+    case Repo.one(from(p in Photo, where: p.id == ^photo_id and is_nil(p.deleted_at))) do
       nil ->
         {:error, :not_found}
 
       %Photo{} = photo ->
         photos =
-          Repo.all(from(p in Photo, where: p.user_id == ^photo.user_id and p.rank > ^photo.rank))
+          Repo.all(
+            from(p in Photo,
+              where: p.user_id == ^photo.user_id and p.rank > ^photo.rank and is_nil(p.deleted_at)
+            )
+          )
 
         transaction =
           Multi.new()
-          |> Multi.delete(:deleted_photo, photo)
+          |> Multi.update(:deleted_photo, Photo.delete_changeset(photo))
           |> promote_photos(photos, photo.rank)
           |> Multi.run(:delete_image_file, fn _repo, %{deleted_photo: deleted_photo} ->
             delete_image_file(deleted_photo)

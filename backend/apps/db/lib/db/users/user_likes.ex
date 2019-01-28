@@ -23,11 +23,11 @@ defmodule Db.Users.UserLikes do
   @spec withdraw_like(%{target_user_id: integer, user_id: integer}) ::
           {:ok, any} | {:error, String.t()} | {:error, :bad_request}
   def withdraw_like(%{target_user_id: target_user_id, user_id: user_id}) do
-    case Repo.get_by(UserLike,
-           target_user_id: target_user_id,
+    case get_by_status(%{
            user_id: user_id,
+           target_user_id: target_user_id,
            status: :requested
-         ) do
+         }) do
       %UserLike{} = like ->
         case Repo.delete(like) do
           {:ok, _user_like} -> {:ok, true}
@@ -42,11 +42,11 @@ defmodule Db.Users.UserLikes do
   @spec accept_like(User.t(), %{user_id: integer}) ::
           {:ok, Chat.t()} | {:error, String.t()} | {:error, :bad_request}
   def accept_like(%User{id: target_user_id}, %{user_id: user_id}) do
-    case Repo.get_by(UserLike,
+    case get_by_status(%{
            user_id: user_id,
            target_user_id: target_user_id,
            status: :requested
-         ) do
+         }) do
       %UserLike{} = like ->
         transaction =
           Multi.new()
@@ -72,11 +72,11 @@ defmodule Db.Users.UserLikes do
   @spec reject_like(User.t(), %{user_id: integer}) ::
           {:ok, true} | {:error, String.t()} | {:error, :bad_request}
   def reject_like(%User{id: target_user_id}, %{user_id: user_id}) do
-    case Repo.get_by(UserLike,
+    case get_by_status(%{
            user_id: user_id,
            target_user_id: target_user_id,
            status: :requested
-         ) do
+         }) do
       %UserLike{} = like ->
         transaction =
           UserLike.change_status_changeset(like, %{status: :rejected})
@@ -90,5 +90,18 @@ defmodule Db.Users.UserLikes do
       _ ->
         {:error, :bad_request}
     end
+  end
+
+  @spec get_by_status(%{user_id: integer, target_user_id: integer, status: Atom.t()}) ::
+          UserLike.t() | nil
+  defp get_by_status(%{user_id: user_id, target_user_id: target_user_id, status: status}) do
+    Repo.one(
+      from(
+        ul in UserLike,
+        where:
+          ul.user_id == ^user_id and ul.target_user_id == ^target_user_id and ul.status == ^status and
+            is_nil(ul.deleted_at)
+      )
+    )
   end
 end

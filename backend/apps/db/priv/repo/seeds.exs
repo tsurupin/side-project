@@ -263,6 +263,7 @@ Repo.insert!(
 chat_image_changeset = %{
   chat_id: chat.id,
   user_id: user.id,
+  message_type: :upload,
   image_url: %Plug.Upload{content_type: "image/jpeg", filename: "project1.jpg", path: Path.join(__DIR__, "images/seeds/project1.jpg")}
 }
 

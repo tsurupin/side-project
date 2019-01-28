@@ -34,12 +34,17 @@ defmodule Db.Projects.Photos do
   @spec delete_photo(%{required(:user_id) => integer, required(:photo_id) => integer}) ::
           {:ok, any()} | {:error, String.t()} | {:error, :unauthorized} | {:error, :not_found}
   def delete_photo(%{user_id: user_id, photo_id: photo_id}) do
-    case Repo.get(Photo, photo_id) do
+    case Repo.one(from(p in Photo, where: p.id == ^photo_id and is_nil(p.deleted_at))) do
       nil ->
         {:error, :not_found}
 
       %Photo{} = photo ->
-        case(Repo.get_by(Project, owner_id: user_id, id: photo.project_id)) do
+        case Repo.one(
+               from(p in Project,
+                 where:
+                   p.owner_id == ^user_id and p.id == ^photo.project_id and is_nil(p.deleted_at)
+               )
+             ) do
           nil ->
             {:error, :unauthorized}
 
@@ -48,14 +53,16 @@ defmodule Db.Projects.Photos do
               Repo.all(
                 from(
                   p in Photo,
-                  where: p.project_id == ^photo.project_id and p.rank > ^photo.rank,
+                  where:
+                    p.project_id == ^photo.project_id and p.rank > ^photo.rank and
+                      is_nil(p.deleted_at),
                   order_by: [asc: p.rank]
                 )
               )
 
             transaction =
               Multi.new()
-              |> Multi.delete(:deleted_photo, photo)
+              |> Multi.update(:deleted_photo, Photo.delete_changeset(photo))
               |> promote_photos(photos, photo.rank)
               |> Multi.run(:delete_image_file, fn _repo, %{deleted_photo: deleted_photo} ->
                 delete_image_file(deleted_photo)

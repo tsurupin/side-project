@@ -18,7 +18,7 @@ defmodule Db.ProjectSkillsTest do
 
       assert {:ok, changeset} = Repo.transaction(output)
 
-      project_skills = Repo.all(from(ps in ProjectSkill, where: ps.project_id == ^project.id))
+      project_skills = Repo.all(from(ps in ProjectSkill, where: ps.project_id == ^project.id and is_nil(ps.deleted_at)))
 
       assert Enum.map(project_skills, & &1.skill_id) == [skill1.id, skill2.id]
       assert Enum.map(project_skills, & &1.rank) == [0, 1]

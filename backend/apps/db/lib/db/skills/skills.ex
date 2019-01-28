@@ -20,7 +20,7 @@ defmodule Db.Skills.Skills do
     query =
       from(
         s in query,
-        where: ilike(s.name, ^"#{term}%")
+        where: ilike(s.name, ^"#{term}%") and is_nil(s.deleted_at)
       )
 
     Repo.all(query)
@@ -28,7 +28,11 @@ defmodule Db.Skills.Skills do
 
   @spec get_by(map) :: Skill.t() :: no_return
   def get_by(%{name: name}) do
-    Repo.get_by(Skill, name: name)
+    Repo.one(
+      from(s in Skill,
+        where: s.name == ^name and is_nil(s.deleted_at)
+      )
+    )
   end
 
   @spec create(String.t()) :: {:ok, Skill.t()} | {:error, String.t()}

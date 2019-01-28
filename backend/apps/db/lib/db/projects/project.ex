@@ -1,5 +1,6 @@
 defmodule Db.Projects.Project do
   use Ecto.Schema
+  use Db.Helper.SoftDeletion
   import Ecto.Changeset
   alias Db.Users.{User, ProjectLike}
   alias Db.Genres.Genre

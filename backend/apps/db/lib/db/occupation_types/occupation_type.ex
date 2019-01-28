@@ -3,6 +3,7 @@ defmodule Db.OccupationTypes.OccupationType do
 
   """
   use Ecto.Schema
+  use Db.Helper.SoftDeletion
   import Ecto.Changeset
   alias Db.Users.User
   alias __MODULE__

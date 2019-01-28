@@ -191,7 +191,7 @@ defmodule ApiWeb.Schema.Mutations.UsersTest do
         assert promoted_photo.rank == main_photo.rank
 
         main_photo = Repo.get(Db.Users.Photo, main_photo.id)
-        assert is_nil(main_photo)
+        assert main_photo.deleted_at
       end
     end
 

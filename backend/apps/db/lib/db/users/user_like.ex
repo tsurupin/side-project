@@ -1,5 +1,6 @@
 defmodule Db.Users.UserLike do
   use Ecto.Schema
+  use Db.Helper.SoftDeletion
   import Ecto.{Changeset, Query}
   alias Db.Users.{User}
 

@@ -14,7 +14,7 @@ defmodule Db.Projects.Projects do
 
   @spec get_by(%{id: integer}) :: {:ok, Project.t()} | {:error, :not_found}
   def get_by(%{id: id}) do
-    case Repo.get_by(Project, id: id) do
+    case Repo.one(from(p in Project, where: p.id == ^id and is_nil(p.deleted_at))) do
       %Project{} = project -> {:ok, project}
       nil -> {:error, :not_found}
     end
@@ -27,7 +27,8 @@ defmodule Db.Projects.Projects do
         join: pl in ProjectLike,
         where:
           pl.project_id == p.id and pl.project_id == ^project_id and pl.user_id == ^user_id and
-            pl.status in [^:requested, ^:approved, ^:rejected]
+            pl.status in [^:requested, ^:approved, ^:rejected] and is_nil(pl.deleted_at) and
+            is_nil(p.deleted_at)
       )
     )
   end
@@ -57,7 +58,9 @@ defmodule Db.Projects.Projects do
       from(
         p in Project,
         join: pl in ProjectLike,
-        where: p.id == pl.project_id and pl.user_id == ^user_id and p.status == ^:completed
+        where:
+          p.id == pl.project_id and pl.user_id == ^user_id and p.status == ^:completed and
+            is_nil(pl.deleted_at) and is_nil(p.deleted_at)
       )
       |> Repo.all()
 
@@ -67,7 +70,12 @@ defmodule Db.Projects.Projects do
   @main_photo_rank 0
   @spec main_photo(integer) :: Photo.t()
   def main_photo(project_id) do
-    Repo.one(from(p in Photo, where: p.project_id == ^project_id and p.rank == ^@main_photo_rank))
+    Repo.one(
+      from(p in Photo,
+        where:
+          p.project_id == ^project_id and p.rank == ^@main_photo_rank and is_nil(p.deleted_at)
+      )
+    )
   end
 
   @spec base_search_query(integer) :: Ecto.Queyable.t()
@@ -75,7 +83,7 @@ defmodule Db.Projects.Projects do
     from(
       p in Project,
       left_join: pl in ProjectLike,
-      on: pl.project_id == p.id and pl.user_id == ^user_id,
+      on: pl.project_id == p.id and pl.user_id == ^user_id and is_nil(pl.id),
       where: is_nil(pl.id) and p.owner_id != ^user_id
     )
   end
@@ -142,7 +150,7 @@ defmodule Db.Projects.Projects do
   def remove_member_from_project(%{project_id: project_id, user_id: user_id}) do
     case Repo.get_by(Member, project_id: project_id, user_id: user_id) do
       %Member{} = member ->
-        Member.delete_changeset(member, %{deleted_at: NaiveDateTime.utc_now()})
+        Member.delete_changeset(member)
         |> Repo.update()
 
       _ ->
@@ -171,7 +179,7 @@ defmodule Db.Projects.Projects do
       join: pm in Member,
       where:
         p.id == pm.project_id and pm.user_id == ^user_id and pm.role in [^:admin, ^:master] and
-          pm.status == ^:approved
+          pm.status == ^:approved and is_nil(pm.deleted_at) and is_nil(p.deleted_at)
     )
   end
 
@@ -179,7 +187,7 @@ defmodule Db.Projects.Projects do
   defp by_project(query, project_id) do
     from(
       p in query,
-      where: p.id == ^project_id
+      where: p.id == ^project_id and is_nil(p.deleted_at)
     )
   end
 
@@ -195,7 +203,7 @@ defmodule Db.Projects.Projects do
           from(
             p in queries,
             join: ps in ProjectSkill,
-            where: ps.project_id == p.id and ps.skill_id in ^skill_ids
+            where: ps.project_id == p.id and ps.skill_id in ^skill_ids and is_nil(ps.deleted_at)
           )
 
         {:city_id, city_id}, queries ->
@@ -209,7 +217,7 @@ defmodule Db.Projects.Projects do
       end)
       |> limit(@limit_num)
 
-    from(p in queries, where: p.status == ^:completed)
+    from(p in queries, where: p.status == ^:completed and is_nil(p.deleted_at))
   end
 
   @spec run_change_status(Project.t(), %{status: String.t()}) ::
@@ -222,8 +230,6 @@ defmodule Db.Projects.Projects do
         Chats.create_chat_group(%{project: project})
       end)
       |> Repo.transaction()
-
-    IO.inspect(transaction)
 
     case transaction do
       {:ok, %{update_project: project}} -> {:ok, project}
