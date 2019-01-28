@@ -5,8 +5,10 @@ defmodule ApiWeb.Schema.Queries.CitiesTest do
 
   describe "query CityList" do
     setup do
+      IO.inspect(Db.Repo.all(Db.Locations.ZipCode))
       san_francisco = Factory.insert(:city, name: "San Francisco", state_name: "California")
       Factory.insert(:zip_code, zip_code: "94103", city_id: san_francisco.id)
+
 
       new_york =
         Factory.insert(

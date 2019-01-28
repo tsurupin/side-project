@@ -43,14 +43,5 @@ defmodule Db.Chats.Member do
     |> unique_constraint(:chat_id, name: "chat_members_chat_id_and_user_id_index")
   end
 
-  @spec delete_changeset(Member.t(), map()) :: Ecto.Changeset.t()
-  def delete_changeset(member, attrs) do
-    permitted_attrs = ~w(deleted_at)a
-    required_attrs = ~w(deleted_at)a
 
-    member
-    |> cast(attrs, permitted_attrs)
-    |> validate_required(required_attrs)
-    |> unique_constraint(:chat_id, name: "chat_members_chat_id_and_user_id_index")
-  end
 end
