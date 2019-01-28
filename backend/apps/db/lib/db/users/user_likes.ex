@@ -99,7 +99,7 @@ defmodule Db.Users.UserLikes do
       from(
         ul in UserLike,
         where:
-          ul.user_like == ^user_id and ul.target_user_id == ^target_user_id and
+          ul.user_id == ^user_id and ul.target_user_id == ^target_user_id and
             ul.status == ^status and is_nil(ul.deleted_at)
       )
     )

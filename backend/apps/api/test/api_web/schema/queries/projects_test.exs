@@ -97,41 +97,50 @@ defmodule ApiWeb.Schema.Queries.ProjectsTest do
         photo_url: photo_url
       } = cxt
 
-      conn = build_conn()
-      conn = get(conn, "/api", %{query: @query, variables: %{id: project.id}})
-      response = json_response(conn, 200)
+      with_mock Api.Accounts.Authentication,
+      verify: fn user_id -> {:ok, Db.Repo.get(Db.Users.User, user.id)} end do
+        conn =
+          build_conn()
+          |> put_req_header("authorization", "Bearer #{user.id}")
+          |> get("/api", %{
+            query: @query,
+            variables: %{id: project.id}
+          })
 
-      expected_result = %{
-        "project" => %{
-          "id" => "#{project.id}",
-          "title" => project.title,
-          "leadSentence" => project.lead_sentence,
-          "motivation" => project.motivation,
-          "requirement" => project.requirement,
-          "status" => "COMPLETED",
-          "skills" => [%{"id" => "#{skill.id}", "name" => skill.name}],
-          "genre" => %{"id" => "#{genre.id}", "name" => genre.name},
-          "owner" => %{"id" => "#{owner.id}", "displayName" => owner.display_name},
-          "city" => %{
-            "id" => "#{city.id}",
-            "fullName" => "#{city.name}, #{city.state_abbreviation}"
-          },
-          "users" => [
-            %{
-              "id" => "#{user.id}",
-              "displayName" => user.display_name,
-              "mainPhotoUrl" => user_photo_url,
-              "occupationType" => %{
-                "id" => "#{occupation_type.id}",
-                "name" => occupation_type.name
+        response = json_response(conn, 200)
+
+        expected_result = %{
+          "project" => %{
+            "id" => "#{project.id}",
+            "title" => project.title,
+            "leadSentence" => project.lead_sentence,
+            "motivation" => project.motivation,
+            "requirement" => project.requirement,
+            "status" => "COMPLETED",
+            "skills" => [%{"id" => "#{skill.id}", "name" => skill.name}],
+            "genre" => %{"id" => "#{genre.id}", "name" => genre.name},
+            "owner" => %{"id" => "#{owner.id}", "displayName" => owner.display_name},
+            "city" => %{
+              "id" => "#{city.id}",
+              "fullName" => "#{city.name}, #{city.state_abbreviation}"
+            },
+            "users" => [
+              %{
+                "id" => "#{user.id}",
+                "displayName" => user.display_name,
+                "mainPhotoUrl" => user_photo_url,
+                "occupationType" => %{
+                  "id" => "#{occupation_type.id}",
+                  "name" => occupation_type.name
+                }
               }
-            }
-          ],
-          "photos" => [%{"imageUrl" => photo_url}]
+            ],
+            "photos" => [%{"imageUrl" => photo_url}]
+          }
         }
-      }
 
-      assert response["data"] == expected_result
+        assert response["data"] == expected_result
+      end
     end
   end
 

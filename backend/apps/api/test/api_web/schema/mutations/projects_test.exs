@@ -228,7 +228,7 @@ defmodule ApiWeb.Schema.Mutations.ProjectsTest do
         assert promoted_photo.rank == current_photo.rank
 
         current_photo = Repo.get(Db.Projects.Photo, current_photo.id)
-        assert is_nil(current_photo)
+        assert current_photo.deleted_at
       end
     end
 

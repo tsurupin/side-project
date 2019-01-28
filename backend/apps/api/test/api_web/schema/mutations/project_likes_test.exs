@@ -84,7 +84,7 @@ defmodule ApiWeb.Schema.Mutations.ProjectLikesTest do
         assert response["data"]["withdrawProjectLike"]
         assert project_member.deleted_at
         assert chat_member.deleted_at
-        refute project_like
+        assert project_like.deleted_at
       end
     end
   end
