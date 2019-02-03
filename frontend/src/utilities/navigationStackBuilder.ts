@@ -22,13 +22,7 @@ type TopBarOptions = {
   rightButton: object | undefined;
 };
 
-export const buildDefaultNavigationStack = ({
-  screenName,
-  props,
-  title,
-  leftButton,
-  rightButton
-}: StackProps) => {
+export const buildDefaultNavigationStack = ({ screenName, props, title, leftButton, rightButton }: StackProps) => {
   return {
     stack: {
       children: [

@@ -115,7 +115,7 @@ defmodule Db.UsersTest do
     } do
       conditions = %{test_id: 1}
       {:ok, users} = Users.search(%{conditions: conditions, user_id: current_user.id})
-      assert Enum.map(users, & &1.id) |> Enum.sort == [user1.id, user2.id]
+      assert Enum.map(users, & &1.id) |> Enum.sort() == [user1.id, user2.id]
     end
 
     test "returns users that are close to the current user", %{

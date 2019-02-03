@@ -67,7 +67,15 @@ defmodule Db.ProjectLikesTest do
                )
              )
 
-      assert is_nil(Repo.one(from(pl  in Db.Users.ProjectLike, where: pl.project_id == ^project.id and  pl.user_id == ^user.id and is_nil(pl.deleted_at))))
+      assert is_nil(
+               Repo.one(
+                 from(pl in Db.Users.ProjectLike,
+                   where:
+                     pl.project_id == ^project.id and pl.user_id == ^user.id and
+                       is_nil(pl.deleted_at)
+                 )
+               )
+             )
     end
   end
 end
