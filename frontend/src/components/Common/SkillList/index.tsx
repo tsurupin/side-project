@@ -17,7 +17,7 @@ const SkillList: React.SFC<Props> = ({ skills }) => {
             <Badge
               key={skill.id}
               value={skill.name}
-              containerStyle={[
+              badgeStyle={[
                 styles.badgeContainer,
                 {
                   width: 16 * skill.name.length,
