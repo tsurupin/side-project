@@ -92,7 +92,7 @@ defmodule Db.Users.Users do
     from(
       u in User,
       left_join: ul in UserLike,
-      on: ul.target_user_id == u.id and ul.user_id == ^user_id,
+      on: (ul.target_user_id == u.id and ul.user_id == ^user_id) or (ul.target_user_id == ^user_id and ul.user_id == u.id),
       where: is_nil(ul.id) and u.id != ^user_id and is_nil(ul.deleted_at)
     )
   end
