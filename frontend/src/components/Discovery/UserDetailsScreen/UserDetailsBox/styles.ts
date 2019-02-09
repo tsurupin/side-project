@@ -46,18 +46,18 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: DETAIL_TEXT_COLOR
   },
-
   badgeContainer: {
-    marginTop: '10%', 
-    width: Math.trunc(width * 0.26),
-    padding: '8%',
+    marginTop: 15,
+    width: Math.trunc(width * 0.25),
     borderRadius: 20,
-    height: '58%',
+    padding: '7%',
+    height: 40,
     backgroundColor: ACTIVE_MAIN_COLOR
   },
   badgeText: {
     fontWeight: 'bold',
     fontSize: 12,
+    marginTop: 0,
     color: 'white'
   },
 

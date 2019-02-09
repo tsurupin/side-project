@@ -39,8 +39,8 @@ const styles = StyleSheet.create({
   mainTextContainer: {
     height: '100%',
     marginTop: 10,
-    maxWidth: Math.trunc(width * 0.65),
-    marginRight: Math.trunc(width * 0.025)
+    width: Math.trunc(width * 0.65),
+    marginRight: Math.trunc(width * 0.025),
   },
 
   titleText: {
@@ -53,13 +53,12 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: DETAIL_TEXT_COLOR
   },
-
   badgeContainer: {
-    maxWidth: Math.trunc(width * 0.25),
-    marginTop: '15%',
-    padding: '10%',
-    height: '54%',
+    marginTop: 15,
+    width: Math.trunc(width * 0.25),
     borderRadius: 20,
+    padding: '7%',
+    height: 40,
     backgroundColor: ACTIVE_MAIN_COLOR
   },
   badgeText: {
