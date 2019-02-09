@@ -48,10 +48,11 @@ const styles = StyleSheet.create({
   },
 
   badgeContainer: {
-    width: Math.trunc(width * 0.25),
-    marginTop: '15%',
-    padding: '10%',
-    height: '54%',
+    marginTop: '10%', 
+    width: Math.trunc(width * 0.26),
+    padding: '8%',
+    borderRadius: 20,
+    height: '58%',
     backgroundColor: ACTIVE_MAIN_COLOR
   },
   badgeText: {

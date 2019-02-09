@@ -20,6 +20,7 @@ const styles = StyleSheet.create({
     height: 30,
     marginLeft: 10,
     marginBottom: 10,
+    borderRadius: 15,
     backgroundColor: ACTIVE_MAIN_COLOR
   },
   badgeFirstContainer: {

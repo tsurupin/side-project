@@ -29,7 +29,7 @@ const renderSubText = (subText: string | undefined) => {
 
 const renderBadge = (badgeName: string | undefined) => {
   if (!badgeName) return undefined;
-  return <Badge value={badgeName} containerStyle={styles.badgeContainer} textStyle={styles.badgeText} />;
+  return <Badge value={badgeName} badgeStyle={styles.badgeContainer} textStyle={styles.badgeText} />;
 };
 
 const ItemCard: React.SFC<Props> = (props) => {

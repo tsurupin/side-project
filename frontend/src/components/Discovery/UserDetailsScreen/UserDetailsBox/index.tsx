@@ -84,7 +84,7 @@ const renderCityName = (city: City | undefined) => {
 
 const renderBadge = (badgeName: string | undefined) => {
   if (!badgeName) return undefined;
-  return <Badge value={badgeName} containerStyle={styles.badgeContainer} textStyle={styles.badgeText} />;
+  return <Badge value={badgeName} badgeStyle={styles.badgeContainer} textStyle={styles.badgeText} />;
 };
 
 const UserDetailsBox: React.SFC<Props> = (props) => {

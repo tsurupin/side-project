@@ -59,6 +59,7 @@ const styles = StyleSheet.create({
     marginTop: '15%',
     padding: '10%',
     height: '54%',
+    borderRadius: 20,
     backgroundColor: ACTIVE_MAIN_COLOR
   },
   badgeText: {
