@@ -159,7 +159,6 @@ class EditForm extends React.Component<Props, State> {
   private handlePressShowModal = (items: any[], keyName: string, selectedValue: string | number | undefined) => {
     Navigation.showModal(
       buildDefaultNavigationStack({
-        stackId: SELECT_BOX_PICKER_SCREEN,
         screenName: SELECT_BOX_PICKER_SCREEN,
         props: {
           items,
@@ -178,7 +177,6 @@ class EditForm extends React.Component<Props, State> {
   private handleTextInputModal = (keyName: string, value: string | undefined, placeholder: string) => {
     Navigation.showModal(
       buildDefaultNavigationStack({
-        stackId: TEXT_INPUT_SCREEN,
         screenName: TEXT_INPUT_SCREEN,
         props: {
           keyName,
@@ -202,7 +200,6 @@ class EditForm extends React.Component<Props, State> {
   private handleSkillSearchShowModal = () => {
     Navigation.showModal(
       buildDefaultNavigationStack({
-        stackId: SKILL_SEARCH_MODAL_SCREEN,
         screenName: SKILL_SEARCH_MODAL_SCREEN,
         props: {
           onPress: this.handleAddSkill
@@ -217,7 +214,7 @@ class EditForm extends React.Component<Props, State> {
   };
 
   private handleAddSkill = (skill: Skill) => {
-    if (this.state.skills.find((skill) => skill.id === skill.id)) return;
+    if (this.state.skills.find((currentSkill) => currentSkill.id === skill.id)) return;
     const skills = Array.from(new Set(this.state.skills.concat(skill)));
     this.setState({ skills });
   };
@@ -230,7 +227,6 @@ class EditForm extends React.Component<Props, State> {
   private handleCitySearchShowModal = () => {
     Navigation.showModal(
       buildDefaultNavigationStack({
-        stackId: CITY_SEARCH_MODAL_SCREEN,
         screenName: CITY_SEARCH_MODAL_SCREEN,
         props: {
           onPress: this.handleUpdateLocation,
