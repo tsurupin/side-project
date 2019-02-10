@@ -14,6 +14,7 @@ const FIREBASE_TOKEN_URL = 'https://securetoken.googleapis.com/v1/token';
 
 export const firebaseSignIn = (firebaseToken: string) => {
   return new Promise((resolve, reject) => {
+    console.log(firebaseConfig);
     try {
       firebase
         .auth()
@@ -21,10 +22,12 @@ export const firebaseSignIn = (firebaseToken: string) => {
         .then((result) => {
           console.log(result);
           const { user } = result;
+          console.log('user', user)
 
           if (!user) return reject('not found user');
 
           user.getIdToken(false).then(async (userToken) => {
+            console.log('ger token');
             await TokenManager.setToken(userToken, user.refreshToken);
             resolve();
           });
@@ -34,7 +37,7 @@ export const firebaseSignIn = (firebaseToken: string) => {
           reject();
         });
     } catch (e) {
-      console.log(e);
+      console.log('error', e);
       resolve();
     }
   });

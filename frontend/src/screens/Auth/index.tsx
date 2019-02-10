@@ -58,7 +58,9 @@ class AuthScreen extends React.Component<Props> {
     loginMutation: (input: { variables: LoginParams }) => void
   ): Promise<void> => {
     try {
+      console.log('firebase before');
       await firebaseSignIn(token);
+      console.log('firebase done');
       loginMutation({ variables: { logined: true } });
       goToMainTabs();
     } catch (e) {
@@ -81,6 +83,7 @@ class AuthScreen extends React.Component<Props> {
 
             if (signUpData && signUpData.signUp) {
               this.loginFirebase(signUpData.signUp.token, loginMutation);
+              console.log('singup is fone')
               return <View />;
             }
 

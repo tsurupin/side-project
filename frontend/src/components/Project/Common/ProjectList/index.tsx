@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { FlatList } from 'react-native';
+import { FlatList, View, Text } from 'react-native';
 import { ListItem } from 'react-native-elements';
 
 import { ProjectCore, Genre } from '../../../../interfaces';
@@ -43,6 +43,14 @@ const renderProject = (data: any) => {
 
 const ProjectList: React.SFC<Props> = (props) => {
   onPress = (id: string, title: string): void => props.onPress(id, title);
+  const { projects } = props;
+  if (projects.length === 0) {
+    return (
+      <View style={styles.blankContainer}>
+        <Text style={styles.text}>No Project Found</Text>
+      </View>
+    );
+  }
   return (
     <FlatList
       keyExtractor={keyExtractor}

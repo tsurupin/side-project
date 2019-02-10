@@ -200,11 +200,7 @@ class DiscoveryScreen extends React.Component<Props, State> {
           if (data && data.users) {
             return <ItemList type="User" items={data.users} onPressCard={this.handlePressCard} />;
           }
-          return (
-            <View>
-              <Text>No data is found</Text>
-            </View>
-          );
+          return <View />;
         }}
       </UserListQuery>
     );
@@ -224,11 +220,7 @@ class DiscoveryScreen extends React.Component<Props, State> {
           if (data && data.projects) {
             return <ItemList type="Project" items={data.projects} onPressCard={this.handlePressCard} />;
           }
-          return (
-            <View>
-              <Text>No data is found</Text>
-            </View>
-          );
+          return <View />;
         }}
       </ProjectListQuery>
     );
