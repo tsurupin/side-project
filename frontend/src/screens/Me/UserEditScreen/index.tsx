@@ -85,9 +85,8 @@ class UserEditScreen extends React.Component<Props, UserEditParams> {
     );
   };
 
-  private renderMainPhoto = (user: UserDetails) => {
+  private renderPhotos = (user: UserDetails) => {
     const { id, photos, mainPhotoUrl } = user;
-    console.log(photos, mainPhotoUrl);
     return (
       <View style={styles.avatarContainer}>
         <Avatar
@@ -149,7 +148,7 @@ class UserEditScreen extends React.Component<Props, UserEditParams> {
           return (
             <View style={styles.container}>
               <ScrollView alwaysBounceVertical={true} showsVerticalScrollIndicator={false}>
-                {this.renderMainPhoto(user)}
+                {this.renderPhotos(user)}
                 {this.renderEditForm(user, defaultProps)}
               </ScrollView>
             </View>

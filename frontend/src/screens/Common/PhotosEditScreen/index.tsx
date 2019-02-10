@@ -110,6 +110,7 @@ class PhotosEditScreen extends React.Component<Props> {
                   const { uploadUserPhoto } = data;
                   updatedPhotos = [...photos, uploadUserPhoto];
                 }
+                console.log('parent photos', updatedPhotos);
                 return this.renderEditForm(updatedPhotos, deleteUserPhotoMutation, uploadUserPhotoMutation);
               }}
             </UploadUserPhotoMutation>

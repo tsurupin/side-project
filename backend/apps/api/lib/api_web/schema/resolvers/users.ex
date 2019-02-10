@@ -16,7 +16,9 @@ defmodule ApiWeb.Schema.Resolvers.Users do
   def edit(_, %{user_input: user_input}, %{context: %{current_user: current_user}}) do
     case Users.edit(current_user, user_input) do
       {:ok, user} ->
-        user = Repo.preload(user, [:photos, :skills, :city, :genre, :occupation_type])
+        user =
+          Users.with_associations(user.id, [:photos, :skills, :city, :genre, :occupation_type])
+
         {:ok, user}
 
       {:error, reason} ->
@@ -30,14 +32,18 @@ defmodule ApiWeb.Schema.Resolvers.Users do
         {:error, %{reason: "Not Found"}}
 
       {:ok, user} ->
-        user = Repo.preload(user, [:photos, :skills, :city, :genre, :occupation_type])
+        user =
+          Users.with_associations(user.id, [:photos, :skills, :city, :genre, :occupation_type])
+
         has_liked = Users.has_liked(%{user_id: current_user.id, target_user_id: id})
         {:ok, Map.merge(user, %{has_liked: has_liked})}
     end
   end
 
   def fetch_current_user(_, _, %{context: %{current_user: current_user}}) do
-    user = Repo.preload(current_user, [:photos, :skills, :city, :genre, :occupation_type])
+    user =
+      Users.with_associations(current_user.id, [:photos, :skills, :city, :genre, :occupation_type])
+
     {:ok, user}
   end
 
@@ -47,7 +53,14 @@ defmodule ApiWeb.Schema.Resolvers.Users do
         {:error, %{reason: "Not Found"}}
 
       {:ok, users} ->
-        users = Repo.preload(users, [:photos, :occupation_type, :city, :genre])
+        users =
+          Users.with_associations(Enum.map(users, & &1.id), [
+            :photos,
+            :occupation_type,
+            :city,
+            :genre
+          ])
+
         {:ok, users}
     end
   end

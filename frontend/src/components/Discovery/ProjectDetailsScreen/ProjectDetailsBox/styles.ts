@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
     height: '100%',
     marginTop: 10,
     width: Math.trunc(width * 0.65),
-    marginRight: Math.trunc(width * 0.025),
+    marginRight: Math.trunc(width * 0.025)
   },
 
   titleText: {

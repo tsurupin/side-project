@@ -3,7 +3,6 @@ defmodule Db.Users.Users do
   A context that is responsible fo user related data
   """
   import Ecto.Query, warn: false
-  import Ecto.Query, only: [from: 1, from: 2, first: 1, limit: 2]
   import Geo.PostGIS
   alias Ecto.Multi
 
@@ -87,12 +86,43 @@ defmodule Db.Users.Users do
     )
   end
 
+  @spec with_associations(integer, [Atom.t()]) :: User.t()
+  def with_associations(user_id, associations) when is_integer(user_id) do
+    User
+    |> where(id: ^user_id)
+    |> preload_alive_associations(associations)
+    |> Repo.one()
+  end
+
+  @spec with_associations([integer], [Atom.t()]) :: [User.t()]
+  def with_associations(user_ids, associations) when is_list(user_ids) do
+    User
+    |> where([u], u.id in ^user_ids)
+    |> preload_alive_associations(associations)
+    |> Repo.all()
+  end
+
+  @spec preload_alive_associations(Ecto.Queryable.t(), [Atom.t()]) :: Ecto.Queryable.t()
+  def preload_alive_associations(query, associations) do
+    Enum.reduce(associations, query, fn association, acc ->
+      case association do
+        :photos -> preload(acc, photos: ^from(p in Photo, where: is_nil(p.deleted_at)))
+        :genre -> preload(acc, [:genre])
+        :skills -> preload(acc, skills: ^from(us in UserSkill, where: is_nil(us.deleted_at)))
+        :city -> preload(acc, [:city])
+        :occupation_type -> preload(acc, [:occupation_type])
+      end
+    end)
+  end
+
   @spec base_search_query(integer) :: Ecto.Queyable.t()
   defp base_search_query(user_id) do
     from(
       u in User,
       left_join: ul in UserLike,
-      on: (ul.target_user_id == u.id and ul.user_id == ^user_id) or (ul.target_user_id == ^user_id and ul.user_id == u.id),
+      on:
+        (ul.target_user_id == u.id and ul.user_id == ^user_id) or
+          (ul.target_user_id == ^user_id and ul.user_id == u.id),
       where: is_nil(ul.id) and u.id != ^user_id and is_nil(ul.deleted_at)
     )
   end
