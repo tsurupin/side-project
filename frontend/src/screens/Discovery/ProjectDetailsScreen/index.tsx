@@ -74,6 +74,7 @@ class ProjectDetailsScreen extends React.Component<Props> {
             Alert.alert(error.message);
           }
           const project: ProjectDetails = data.project;
+          console.log(project)
 
           return (
             <LikeProjectMutation>

@@ -10,13 +10,13 @@ defmodule ApiWeb.Schema.Resolvers.Projects do
 
       {:ok, project} ->
         project =
-          Repo.preload(project, [
+          Projects.with_associations(project.id, [
             :photos,
             :skills,
             :city,
             :genre,
             :owner,
-            {:users, :occupation_type}
+           {:users, :occupation_type}
           ])
 
         has_liked = Projects.has_liked(%{user_id: current_user.id, project_id: id})
@@ -28,8 +28,7 @@ defmodule ApiWeb.Schema.Resolvers.Projects do
   def fetch_editable(_, _, %{context: %{current_user: current_user}}) do
     case Projects.editable(current_user.id) do
       {:ok, projects} ->
-        projects = Repo.preload(projects, [:photos, :genre, :city, {:users, :occupation_type}])
-
+        projects = Projects.with_associations(Enum.map(projects, &(&1.id)), [:photos, :genre, :city, {:users, :occupation_type}])
         {:ok, projects}
     end
   end
@@ -51,7 +50,7 @@ defmodule ApiWeb.Schema.Resolvers.Projects do
 
       {:ok, projects} ->
         projects =
-          Repo.preload(projects, [:photos, :genre, :city, :owner, {:users, :occupation_type}])
+          Projects.with_associations(Enum.map(projects, &(&1.id)), [:photos, :genre, :city, :owner, {:users, :occupation_type}])
 
         {:ok, projects}
     end
@@ -60,7 +59,7 @@ defmodule ApiWeb.Schema.Resolvers.Projects do
   def liked_by(_, _, %{context: %{current_user: current_user}}) do
     case Projects.liked_by(current_user.id) do
       {:ok, projects} ->
-        projects = Repo.preload(projects, [:photos, :genre, :city, {:users, :occupation_type}])
+        projects =  Projects.with_associations(Enum.map(projects, &(&1.id)), [:photos, :genre, :city, {:users, :occupation_type}])
 
         {:ok, projects}
     end
@@ -92,7 +91,7 @@ defmodule ApiWeb.Schema.Resolvers.Projects do
     case Projects.edit(current_user.id, Map.merge(project_input, %{project_id: project_id})) do
       {:ok, project} ->
         project =
-          Repo.preload(project, [
+          Projects.with_associations(project.id, [
             :photos,
             :skills,
             :city,

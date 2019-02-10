@@ -8,6 +8,7 @@ type Props = {
   skills: Skill[];
 };
 const SkillList: React.SFC<Props> = ({ skills }) => {
+  console.log(skills)
   return (
     <View style={styles.container}>
       <Text style={styles.labelText}>Skills</Text>

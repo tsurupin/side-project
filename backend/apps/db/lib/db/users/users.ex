@@ -7,7 +7,7 @@ defmodule Db.Users.Users do
   alias Ecto.Multi
 
   alias Db.Repo
-  alias Db.Skills.{UserSkill, UserSkills}
+  alias Db.Skills.{UserSkill, UserSkills, Skill}
   alias Db.Genres.Genre
   alias Db.OccupationTypes.OccupationType
   alias Db.Users.{User, Photo, Favorite, UserLike}
@@ -108,7 +108,7 @@ defmodule Db.Users.Users do
       case association do
         :photos -> preload(acc, photos: ^from(p in Photo, where: is_nil(p.deleted_at)))
         :genre -> preload(acc, [:genre])
-        :skills -> preload(acc, skills: ^from(us in UserSkill, where: is_nil(us.deleted_at)))
+        :skills -> preload(acc, skills: ^from(s in Skill, join: us in assoc(s, :user_skills),where: is_nil(us.deleted_at)))
         :city -> preload(acc, [:city])
         :occupation_type -> preload(acc, [:occupation_type])
       end

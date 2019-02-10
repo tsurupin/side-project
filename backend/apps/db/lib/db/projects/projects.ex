@@ -9,7 +9,7 @@ defmodule Db.Projects.Projects do
   alias Db.Projects.{Project, Member}
   alias Db.Users.{ProjectLike}
   alias Db.Projects.Photo
-  alias Db.Skills.{ProjectSkills, ProjectSkill}
+  alias Db.Skills.{ProjectSkills, ProjectSkill, Skill}
   alias Db.Chats.Chats
 
   @spec get_by(%{id: integer}) :: {:ok, Project.t()} | {:error, :not_found}
@@ -76,6 +76,36 @@ defmodule Db.Projects.Projects do
           p.project_id == ^project_id and p.rank == ^@main_photo_rank and is_nil(p.deleted_at)
       )
     )
+  end
+
+  @spec with_associations(integer, [Atom.t()]) :: Project.t()
+  def with_associations(project_id, associations) when is_integer(project_id) do
+    Project
+    |> where(id: ^project_id)
+    |> preload_alive_associations(associations)
+    |> Repo.one()
+  end
+
+  @spec with_associations([integer], [Atom.t()]) :: [Project.t()]
+  def with_associations(project_ids, associations) when is_list(project_ids) do
+    Project
+    |> where([p], p.id in ^project_ids)
+    |> preload_alive_associations(associations)
+    |> Repo.all()
+  end
+
+  @spec preload_alive_associations(Ecto.Queryable.t(), [Atom.t()]) :: Ecto.Queryable.t()
+  def preload_alive_associations(query, associations) do
+    Enum.reduce(associations, query, fn association, acc ->
+      case association do
+        :photos -> preload(acc, photos: ^from(pp in Photo, where: is_nil(pp.deleted_at)))
+        :genre -> preload(acc, [:genre])
+        :skills -> preload(acc, skills: ^from(s in Skill, join: ps in assoc(s, :project_skills),where: is_nil(ps.deleted_at)))
+        :city -> preload(acc, [:city])
+        :owner -> preload(acc, [:owner])
+        {:users, :occupation_type} -> preload(acc, [users: :occupation_type])
+      end
+    end)
   end
 
   @spec base_search_query(integer) :: Ecto.Queyable.t()
