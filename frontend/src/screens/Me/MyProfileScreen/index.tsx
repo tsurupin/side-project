@@ -40,7 +40,7 @@ class MyProfileScreen extends React.Component<Props> {
               id: CLOSE_BUTTON
             },
             rightButton: {
-              text: 'Submit',
+              text: 'Change',
               enabled: true,
               id: SUBMIT_BUTTON
             }

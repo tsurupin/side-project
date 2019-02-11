@@ -98,7 +98,7 @@ class ProjectListScreen extends React.Component<Props, State> {
           id: CLOSE_BUTTON
         },
         rightButton: {
-          text: 'Submit',
+          text: 'Change',
           enabled: true,
           id: SUBMIT_BUTTON
         }
