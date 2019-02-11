@@ -5,7 +5,7 @@ defmodule Db.Projects.Project do
   alias Db.Users.{User, ProjectLike}
   alias Db.Genres.Genre
   alias Db.Projects.{Photo, Member}
-  alias Db.Skills.Skill
+  alias Db.Skills.{Skill, ProjectSkill}
   alias Db.Locations.City
   alias Db.Users.Favorite
   alias __MODULE__
@@ -27,6 +27,7 @@ defmodule Db.Projects.Project do
     belongs_to(:city, City)
     has_many(:photos, Photo)
     has_many(:project_likes, ProjectLike)
+    has_many(:project_skills, ProjectSkill)
 
     many_to_many(:users, User, join_through: "project_members")
     many_to_many(:skills, Skill, join_through: "project_skills")

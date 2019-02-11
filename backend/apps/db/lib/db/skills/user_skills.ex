@@ -15,7 +15,7 @@ defmodule Db.Skills.UserSkills do
     |> build_upsert_user_skills_multi(user_id, skill_ids)
   end
 
-  @spec build_upsert_user_skills_multi(Multi.t(), integer, nil]) :: Multi.t()
+  @spec build_upsert_user_skills_multi(Multi.t(), integer, nil) :: Multi.t()
   def build_upsert_user_skills_multi(multi, user_id, nil) do
     multi
   end

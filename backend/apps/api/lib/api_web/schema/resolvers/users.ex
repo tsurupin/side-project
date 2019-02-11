@@ -17,7 +17,7 @@ defmodule ApiWeb.Schema.Resolvers.Users do
     case Users.edit(current_user, user_input) do
       {:ok, user} ->
         user =
-          Users.with_associations(user.id, [:photos, :skills, :city, :genre, :occupation_type])
+          Users.preload_alive(user.id, [:photos, :skills, :city, :genre, :occupation_type])
 
         {:ok, user}
 
@@ -33,7 +33,7 @@ defmodule ApiWeb.Schema.Resolvers.Users do
 
       {:ok, user} ->
         user =
-          Users.with_associations(user.id, [:photos, :skills, :city, :genre, :occupation_type])
+          Users.preload_alive(user.id, [:photos, :skills, :city, :genre, :occupation_type])
 
         has_liked = Users.has_liked(%{user_id: current_user.id, target_user_id: id})
         {:ok, Map.merge(user, %{has_liked: has_liked})}
@@ -42,7 +42,8 @@ defmodule ApiWeb.Schema.Resolvers.Users do
 
   def fetch_current_user(_, _, %{context: %{current_user: current_user}}) do
     user =
-      Users.with_associations(current_user.id, [:photos, :skills, :city, :genre, :occupation_type])
+      Users.preload_alive(current_user.id, [:photos, :skills, :city, :genre, :occupation_type])
+    IO.inspect(user)
 
     {:ok, user}
   end
@@ -54,7 +55,7 @@ defmodule ApiWeb.Schema.Resolvers.Users do
 
       {:ok, users} ->
         users =
-          Users.with_associations(Enum.map(users, & &1.id), [
+          Users.preload_alive(Enum.map(users, & &1.id), [
             :photos,
             :occupation_type,
             :city,
