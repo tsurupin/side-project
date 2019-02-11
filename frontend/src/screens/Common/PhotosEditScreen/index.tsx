@@ -127,6 +127,7 @@ class PhotosEditScreen extends React.Component<Props> {
           if (loading) return <LoadingIndicator />;
           if (error) {
             Alert.alert(error.message);
+            return <View />;
           }
           let updatedPhotos = photos;
           if (data) {
@@ -139,6 +140,7 @@ class PhotosEditScreen extends React.Component<Props> {
                 if (loading) return <LoadingIndicator />;
                 if (error) {
                   Alert.alert(error.message);
+                  return <View />;
                 }
                 if (data) {
                   const { uploadProjectPhoto } = data;

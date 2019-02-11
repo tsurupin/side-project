@@ -46,10 +46,21 @@ usa = Repo.insert!(
 san_francisco = Repo.insert!(
 %City{
   name: "San Francisco",
-  state_name: "CA",
+  state_abbreviation: "CA",
+  state_name: "California",
   country_id: usa.id
 }
 )
+
+los_angels = Repo.insert!(
+%City{
+  name: "Los Angels",
+  state_abbreviation: "CA",
+  state_name: "California",
+  country_id: usa.id
+}
+)
+
 
 
 san_francisco_zip = Repo.insert!(

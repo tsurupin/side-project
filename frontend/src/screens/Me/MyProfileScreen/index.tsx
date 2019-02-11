@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Alert } from 'react-native';
+import { Alert, View } from 'react-native';
 import { Navigation } from 'react-native-navigation';
 import { LoadingIndicator } from '../../../components/Common';
 import { UserDetailsBox } from '../../../components/Discovery/UserDetailsScreen';
@@ -59,6 +59,7 @@ class MyProfileScreen extends React.Component<Props> {
           if (loading) return <LoadingIndicator />;
           if (error) {
             Alert.alert(error.message);
+            return <View/>;
           }
           const myUser: UserDetails = data.myUser;
 

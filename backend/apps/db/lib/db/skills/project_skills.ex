@@ -17,7 +17,12 @@ defmodule Db.Skills.ProjectSkills do
     |> build_upsert_project_skills_multi(project_id, skill_ids)
   end
 
-  @spec build_upsert_project_skills_multi(Multi.t(), integer, nonempty_list(integer)) :: Multi.t()
+  @spec build_upsert_project_skills_multi(Multi.t(), integer, nil) :: Multi.t()
+  def build_upsert_project_skills_multi(multi, _project_id,  nil) do
+    multi
+  end
+
+  @spec build_upsert_project_skills_multi(Multi.t(), integer, [integer]) :: Multi.t()
   def build_upsert_project_skills_multi(multi, project_id, skill_ids) do
     deleted_skill_query =
       from(ps in ProjectSkill,
@@ -31,6 +36,7 @@ defmodule Db.Skills.ProjectSkills do
     )
     |> build_upsert_project_skills_multi(project_id, @default_rank, skill_ids)
   end
+
 
   @spec build_upsert_project_skills_multi(Multi.t(), integer, integer, []) :: Multi.t()
   def build_upsert_project_skills_multi(multi, _project_id, _rank, []) do

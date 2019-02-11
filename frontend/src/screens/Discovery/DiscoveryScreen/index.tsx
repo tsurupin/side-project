@@ -196,6 +196,7 @@ class DiscoveryScreen extends React.Component<Props, State> {
           }
           if (error) {
             Alert.alert(error.message);
+            return <View />;
           }
           if (data && data.users) {
             return <ItemList type="User" items={data.users} onPressCard={this.handlePressCard} />;
@@ -216,6 +217,7 @@ class DiscoveryScreen extends React.Component<Props, State> {
           }
           if (error) {
             Alert.alert(error.message);
+            return <View />;
           }
           if (data && data.projects) {
             return <ItemList type="Project" items={data.projects} onPressCard={this.handlePressCard} />;

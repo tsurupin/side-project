@@ -53,7 +53,7 @@ defmodule Db.Users.Users do
       Multi.new()
       |> Multi.update(:user, User.edit_changeset(user, user_input))
       |> Multi.merge(fn _ ->
-        UserSkills.build_upsert_user_skills_multi(user.id, user_input[:skill_ids] || [])
+        UserSkills.build_upsert_user_skills_multi(user.id, user_input[:skill_ids])
       end)
       |> Repo.transaction()
 

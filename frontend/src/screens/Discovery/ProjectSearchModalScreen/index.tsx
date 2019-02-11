@@ -73,6 +73,7 @@ class ProjectSearchFormScreen extends React.Component<Props> {
 
           if (error) {
             Alert.alert(error.message);
+            return <View />;
           }
 
           const {

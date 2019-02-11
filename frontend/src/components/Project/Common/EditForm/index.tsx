@@ -74,6 +74,7 @@ class EditForm extends React.Component<Props, State> {
       city: project.city,
       skills: project.skills
     };
+    console.log('current state', this.state);
   }
 
   private buildProjectEditParams = (): Partial<ProjectEditParams> => {

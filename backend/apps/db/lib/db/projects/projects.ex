@@ -78,16 +78,16 @@ defmodule Db.Projects.Projects do
     )
   end
 
-  @spec with_associations(integer, [Atom.t()]) :: Project.t()
-  def with_associations(project_id, associations) when is_integer(project_id) do
+  @spec preload_alive(integer, [Atom.t()]) :: Project.t()
+  def preload_alive(project_id, associations) when is_integer(project_id) do
     Project
     |> where(id: ^project_id)
     |> preload_alive_associations(associations)
     |> Repo.one()
   end
 
-  @spec with_associations([integer], [Atom.t()]) :: [Project.t()]
-  def with_associations(project_ids, associations) when is_list(project_ids) do
+  @spec preload_alive([integer], [Atom.t()]) :: [Project.t()]
+  def preload_alive(project_ids, associations) when is_list(project_ids) do
     Project
     |> where([p], p.id in ^project_ids)
     |> preload_alive_associations(associations)
@@ -155,7 +155,7 @@ defmodule Db.Projects.Projects do
           Multi.new()
           |> Multi.update(:project, Project.edit_changeset(project, attrs))
           |> Multi.merge(fn _ ->
-            ProjectSkills.build_upsert_project_skills_multi(project.id, attrs[:skill_ids] || [])
+            ProjectSkills.build_upsert_project_skills_multi(project.id, attrs[:skill_ids])
           end)
           |> Repo.transaction()
 

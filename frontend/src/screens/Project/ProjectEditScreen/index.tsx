@@ -143,10 +143,12 @@ class ProjectEditScreen extends React.Component<Props> {
           if (loading) return <LoadingIndicator />;
           if (error) {
             Alert.alert(error.message);
+            return <View />;
           }
           const defaultProps: DefaultProps = data.projectForm;
 
           const project: ProjectDetails = data.project;
+         
           return (
             <View style={styles.container}>
               <ScrollView alwaysBounceVertical={true} showsVerticalScrollIndicator={false}>

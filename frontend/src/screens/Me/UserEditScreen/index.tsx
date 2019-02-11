@@ -141,6 +141,7 @@ class UserEditScreen extends React.Component<Props, UserEditParams> {
           if (loading) return <LoadingIndicator />;
           if (error) {
             Alert.alert(error.message);
+            return <View />;
           }
           const defaultProps: DefaultProps = data.userForm;
           const user: UserDetails = data.myUser;

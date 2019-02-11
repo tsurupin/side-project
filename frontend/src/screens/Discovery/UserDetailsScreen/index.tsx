@@ -67,6 +67,7 @@ class UserDetailsScreen extends React.Component<Props, State> {
           if (loading) return <LoadingIndicator />;
           if (error) {
             Alert.alert(error.message);
+            return <View />;
           }
           if (data) {
             Navigation.popToRoot(this.props.componentId);
@@ -79,6 +80,7 @@ class UserDetailsScreen extends React.Component<Props, State> {
                 if (loading) return <LoadingIndicator />;
                 if (error) {
                   Alert.alert(error.message);
+                  return <View />;
                 }
                 if (data) {
                   Navigation.push(
@@ -111,13 +113,10 @@ class UserDetailsScreen extends React.Component<Props, State> {
           if (loading) return <LoadingIndicator />;
           if (error) {
             Alert.alert(error.message);
+            return <View />;
           }
           if (data) {
             Navigation.popToRoot(this.props.componentId);
-            // Navigation.push(
-            //   this.props.componentId,
-            //   buildDefaultNavigationComponent({ screenName: DISCOVERY_SCREEN, props: {}, title: 'Discovery' })
-            // );
             return <View />;
           }
           return <UserDetailsBox user={user} liked={false} like={() => this.handlePress(likeUserMutation)} />;
@@ -135,6 +134,7 @@ class UserDetailsScreen extends React.Component<Props, State> {
           if (loading) return <LoadingIndicator />;
           if (error) {
             Alert.alert(error.message);
+            return <View />;
           }
 
           const user: UserDetails = data.user;

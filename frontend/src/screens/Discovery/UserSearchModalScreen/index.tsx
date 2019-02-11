@@ -71,6 +71,7 @@ class UserSearchFormScreen extends React.Component<Props> {
 
           if (error) {
             Alert.alert(error.message);
+            return <View />;
           }
           const {
             userSearchForm: { genres, occupationTypes },
@@ -82,6 +83,7 @@ class UserSearchFormScreen extends React.Component<Props> {
               {({ updateUserSearchParamsMutation, error }: UpdateUserSearchOutput) => {
                 if (error) {
                   Alert.alert(error.message);
+                  return <View />;
                 }
 
                 return (

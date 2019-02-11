@@ -22,6 +22,7 @@ const EditableProjectList: React.SFC<Props> = (props) => {
           if (loading) return <LoadingIndicator />;
           if (error) {
             Alert.alert(error.message);
+            return <View />;
           }
           const projects: ProjectCore[] = data.editableProjects;
 

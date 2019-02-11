@@ -72,6 +72,7 @@ class MatchScreen extends React.Component<Props> {
             }
             if (error) {
               Alert.alert(error.message);
+              return <View/>;
             }
 
             const likedUserList: UserCore[] = data.matchList.likedUserList;

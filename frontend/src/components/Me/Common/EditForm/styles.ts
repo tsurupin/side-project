@@ -1,4 +1,4 @@
-import { StyleSheet, Dimensions } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { SUB_TEXT_COLOR, MAIN_TEXT_COLOR, BORDER_COLOR } from '../../../../constants/colors';
 
 const styles = StyleSheet.create({

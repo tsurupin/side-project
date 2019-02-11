@@ -22,10 +22,15 @@ const MyProjectList: React.SFC<Props> = (props) => {
           if (loading) return <LoadingIndicator />;
           if (error) {
             Alert.alert(error.message);
+            return <View />;
           }
-          const projects: ProjectCore[] = data.myProjects;
+          if (data && data.myProjects) {
+            const projects: ProjectCore[] = data.myProjects;
 
-          return <ProjectList projects={projects} onPress={onPress} />;
+            return <ProjectList projects={projects} onPress={onPress} />;
+          }
+
+          return <View />;
         }}
       </MyProjectListQuery>
     </View>

@@ -82,6 +82,7 @@ class ProjectDetailsScreen extends React.Component<Props> {
                 if (loading) return <LoadingIndicator />;
                 if (error) {
                   Alert.alert(error.message);
+                  return <View />;
                 }
                 if (data) {
                   Navigation.push(

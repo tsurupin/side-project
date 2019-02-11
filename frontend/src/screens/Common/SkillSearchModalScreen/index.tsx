@@ -70,6 +70,7 @@ class SkillSearchModalScreen extends React.Component<Props, State> {
 
           if (error) {
             Alert.alert(error.message);
+            return <View />;
           }
           if (!data) return <View />;
 
