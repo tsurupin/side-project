@@ -83,7 +83,7 @@ class AuthScreen extends React.Component<Props> {
 
             if (signUpData && signUpData.signUp) {
               this.loginFirebase(signUpData.signUp.token, loginMutation);
-              console.log('singup is fone')
+              console.log('singup is fone');
               return <View />;
             }
 

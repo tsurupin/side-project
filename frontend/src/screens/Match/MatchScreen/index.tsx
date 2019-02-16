@@ -72,8 +72,9 @@ class MatchScreen extends React.Component<Props> {
             }
             if (error) {
               Alert.alert(error.message);
-              return <View/>;
+              return <View />;
             }
+            console.log(data);
 
             const likedUserList: UserCore[] = data.matchList.likedUserList;
             const chatList: Chat[] = data.matchList.chatList;

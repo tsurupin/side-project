@@ -1,7 +1,6 @@
 import { StyleSheet, Dimensions } from 'react-native';
 const width = Math.trunc(Dimensions.get('window').width);
 
-
 const styles = StyleSheet.create({
   container: {
     height: 80

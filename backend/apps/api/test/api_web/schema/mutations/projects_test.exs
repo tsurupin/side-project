@@ -302,13 +302,13 @@ defmodule ApiWeb.Schema.Mutations.ProjectsTest do
     end
 
     @mutation """
-      mutation ChangeProjectStatus($projectId: ID!, $status: String!) {
-        changeProjectStatus(projectId: $projectId, status: $status)
+      mutation ChangeProjectStatus($id: ID!, $status: String!) {
+        changeProjectStatus(id: $id, status: $status)
       }
     """
     test "succeeds to changes project status", %{user: user} do
       project = Factory.insert(:project, owner: user, status: :editing)
-      attrs = %{projectId: "#{project.id}", status: "completed"}
+      attrs = %{id: "#{project.id}", status: "completed"}
       user_id = user.id
 
       with_mock Api.Accounts.Authentication, verify: fn user_id -> {:ok, user} end do
@@ -334,7 +334,7 @@ defmodule ApiWeb.Schema.Mutations.ProjectsTest do
 
     test "fails to change project status because lead_sentence is not present", %{user: user} do
       project = Factory.insert(:project, owner: user, lead_sentence: nil, status: :editing)
-      attrs = %{projectId: "#{project.id}", status: "completed"}
+      attrs = %{id: "#{project.id}", status: "completed"}
       user_id = user.id
 
       with_mock Api.Accounts.Authentication, verify: fn user_id -> {:ok, user} end do
@@ -354,7 +354,7 @@ defmodule ApiWeb.Schema.Mutations.ProjectsTest do
     test "fails to change project status because project owner is not current user", %{user: user} do
       other_project = Factory.insert(:project)
 
-      attrs = %{projectId: "#{other_project.id}", status: "completed"}
+      attrs = %{id: "#{other_project.id}", status: "completed"}
       user_id = user.id
 
       with_mock Api.Accounts.Authentication, verify: fn user_id -> {:ok, user} end do

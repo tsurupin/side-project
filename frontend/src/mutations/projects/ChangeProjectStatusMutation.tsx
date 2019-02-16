@@ -25,6 +25,7 @@ const ChangeProjectStatusMutation = (props: Props) => {
           fragment: PROJECT_FRAGMENTS.projectDetails
         });
 
+        console.log(projectData, 'changestatus');
         const project = projectData!.project;
 
         cache.writeFragment({

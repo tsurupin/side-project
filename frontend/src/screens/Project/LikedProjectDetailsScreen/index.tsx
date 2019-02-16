@@ -7,7 +7,7 @@ import { BACK_BUTTON, PROJECT_ACTION_SHEET_BUTTON } from '../../../constants/but
 import { ProjectDetailsBox } from '../../../components/Discovery/ProjectDetailsScreen';
 import { USER_DETAILS_SCREEN } from '../../../constants/screens';
 import { WithdrawProjectLikeMutation } from '../../../mutations/projectLikes';
-import { LoadingIndicator, ErrorMessage } from '../../../components/Common';
+import { LoadingIndicator } from '../../../components/Common';
 import { MinimumOutput, ProjectDetails } from '../../../interfaces';
 import { buildDefaultNavigationComponent } from '../../../utilities/navigationStackBuilder';
 import IconLoader from '../../../utilities/IconLoader';

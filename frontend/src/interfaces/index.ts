@@ -145,6 +145,11 @@ export interface ProjectEditParams extends ProjectCreateParams {
   id: string;
 }
 
+export interface ProjectChangeStatusParams {
+  id: string;
+  status: string;
+}
+
 export interface LikeProjectParams {
   projectId: string;
 }

@@ -22,7 +22,7 @@ export const firebaseSignIn = (firebaseToken: string) => {
         .then((result) => {
           console.log(result);
           const { user } = result;
-          console.log('user', user)
+          console.log('user', user);
 
           if (!user) return reject('not found user');
 

@@ -59,7 +59,7 @@ class MyProfileScreen extends React.Component<Props> {
           if (loading) return <LoadingIndicator />;
           if (error) {
             Alert.alert(error.message);
-            return <View/>;
+            return <View />;
           }
           const myUser: UserDetails = data.myUser;
 
