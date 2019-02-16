@@ -18,7 +18,7 @@ defmodule Db.Skills.ProjectSkills do
   end
 
   @spec build_upsert_project_skills_multi(Multi.t(), integer, nil) :: Multi.t()
-  def build_upsert_project_skills_multi(multi, _project_id,  nil) do
+  def build_upsert_project_skills_multi(multi, _project_id, nil) do
     multi
   end
 
@@ -36,7 +36,6 @@ defmodule Db.Skills.ProjectSkills do
     )
     |> build_upsert_project_skills_multi(project_id, @default_rank, skill_ids)
   end
-
 
   @spec build_upsert_project_skills_multi(Multi.t(), integer, integer, []) :: Multi.t()
   def build_upsert_project_skills_multi(multi, _project_id, _rank, []) do

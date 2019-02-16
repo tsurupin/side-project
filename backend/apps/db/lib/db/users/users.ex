@@ -88,10 +88,12 @@ defmodule Db.Users.Users do
 
   @spec preload_alive(integer, [Atom.t()]) :: User.t()
   def preload_alive(user_id, associations) when is_integer(user_id) do
-    us = User
-    |> where(id: ^user_id)
-    |> preload_alive_associations(associations)
-    |> Repo.one()
+    us =
+      User
+      |> where(id: ^user_id)
+      |> preload_alive_associations(associations)
+      |> Repo.one()
+
     IO.inspect(us)
   end
 
@@ -107,11 +109,32 @@ defmodule Db.Users.Users do
   def preload_alive_associations(query, associations) do
     Enum.reduce(associations, query, fn association, acc ->
       case association do
-        :photos -> from u in acc, left_join: up in assoc(u, :photos), on: is_nil(up.deleted_at), preload: [photos: up]
-        :genre -> from u in acc, left_join: g in assoc(u, :genre), preload: [genre: g]
-        :skills -> from u in acc, left_join: us in assoc(u, :user_skills), join: s in assoc(us, :skill),  on: is_nil(us.deleted_at), preload: [skills: s]
-        :city -> from u in acc, left_join: c in assoc(u, :city), preload: [city: c]
-        :occupation_type -> from u in acc, left_join: oc in assoc(u, :occupation_type), preload: [occupation_type: oc]
+        :photos ->
+          from(u in acc,
+            left_join: up in assoc(u, :photos),
+            on: is_nil(up.deleted_at),
+            preload: [photos: up]
+          )
+
+        :genre ->
+          from(u in acc, left_join: g in assoc(u, :genre), preload: [genre: g])
+
+        :skills ->
+          from(u in acc,
+            left_join: us in assoc(u, :user_skills),
+            join: s in assoc(us, :skill),
+            on: is_nil(us.deleted_at),
+            preload: [skills: s]
+          )
+
+        :city ->
+          from(u in acc, left_join: c in assoc(u, :city), preload: [city: c])
+
+        :occupation_type ->
+          from(u in acc,
+            left_join: oc in assoc(u, :occupation_type),
+            preload: [occupation_type: oc]
+          )
       end
     end)
   end

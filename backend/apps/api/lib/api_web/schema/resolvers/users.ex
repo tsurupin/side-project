@@ -16,8 +16,7 @@ defmodule ApiWeb.Schema.Resolvers.Users do
   def edit(_, %{user_input: user_input}, %{context: %{current_user: current_user}}) do
     case Users.edit(current_user, user_input) do
       {:ok, user} ->
-        user =
-          Users.preload_alive(user.id, [:photos, :skills, :city, :genre, :occupation_type])
+        user = Users.preload_alive(user.id, [:photos, :skills, :city, :genre, :occupation_type])
 
         {:ok, user}
 
@@ -32,8 +31,7 @@ defmodule ApiWeb.Schema.Resolvers.Users do
         {:error, %{reason: "Not Found"}}
 
       {:ok, user} ->
-        user =
-          Users.preload_alive(user.id, [:photos, :skills, :city, :genre, :occupation_type])
+        user = Users.preload_alive(user.id, [:photos, :skills, :city, :genre, :occupation_type])
 
         has_liked = Users.has_liked(%{user_id: current_user.id, target_user_id: id})
         {:ok, Map.merge(user, %{has_liked: has_liked})}
@@ -43,6 +41,7 @@ defmodule ApiWeb.Schema.Resolvers.Users do
   def fetch_current_user(_, _, %{context: %{current_user: current_user}}) do
     user =
       Users.preload_alive(current_user.id, [:photos, :skills, :city, :genre, :occupation_type])
+
     IO.inspect(user)
 
     {:ok, user}

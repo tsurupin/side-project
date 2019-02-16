@@ -98,12 +98,36 @@ defmodule Db.Projects.Projects do
   def preload_alive_associations(query, associations) do
     Enum.reduce(associations, query, fn association, acc ->
       case association do
-        :photos -> from p in acc, left_join: pp in assoc(p, :photos), on: is_nil(pp.deleted_at), preload: [photos: pp]
-        :genre -> from p in acc, left_join: g in assoc(p, :genre), preload: [genre: g]
-        :skills -> from p in acc, left_join: ps in assoc(p, :project_skills), left_join: s in assoc(ps, :skill), on: is_nil(ps.deleted_at), preload: [skills: s]
-        :city -> from p in acc, left_join: c in assoc(p, :city), preload: [city: c]
-        :owner -> from p in acc, left_join: o in assoc(p, :owner), preload: [owner: o]
-        {:users, :occupation_type} -> from p in acc, left_join: u in assoc(p, :users), left_join: oc in assoc(u, :occupation_type), preload: [users: u]
+        :photos ->
+          from(p in acc,
+            left_join: pp in assoc(p, :photos),
+            on: is_nil(pp.deleted_at),
+            preload: [photos: pp]
+          )
+
+        :genre ->
+          from(p in acc, left_join: g in assoc(p, :genre), preload: [genre: g])
+
+        :skills ->
+          from(p in acc,
+            left_join: ps in assoc(p, :project_skills),
+            left_join: s in assoc(ps, :skill),
+            on: is_nil(ps.deleted_at),
+            preload: [skills: s]
+          )
+
+        :city ->
+          from(p in acc, left_join: c in assoc(p, :city), preload: [city: c])
+
+        :owner ->
+          from(p in acc, left_join: o in assoc(p, :owner), preload: [owner: o])
+
+        {:users, :occupation_type} ->
+          from(p in acc,
+            left_join: u in assoc(p, :users),
+            left_join: oc in assoc(u, :occupation_type),
+            preload: [users: u]
+          )
       end
     end)
   end
