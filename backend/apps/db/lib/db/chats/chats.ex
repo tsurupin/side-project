@@ -131,19 +131,24 @@ defmodule Db.Chats.Chats do
          chat_name: chat_name,
          member_ids: member_ids
        }) do
-    Multi.new()
-    |> Multi.insert(
-      :chat_group,
-      Group.changeset(%{source_id: source_id, source_type: source_type})
-    )
-    |> Multi.run(:chat, fn _repo, %{chat_group: chat_group} ->
-      Chat.changeset(%{chat_group_id: chat_group.id, is_main: true, name: chat_name})
-      |> Repo.insert()
-    end)
-    |> Multi.run(:chat_member, fn _repo, %{chat: chat} ->
-      add_members(Multi.new(), chat.id, member_ids)
-    end)
-    |> Repo.transaction()
+    case Repo.exists?(from g in Group, where: g.source_id == ^source_id and g.source_type == ^source_type) do
+      true -> {:ok, true}
+      false ->
+        Multi.new()
+        |> Multi.insert(
+          :chat_group,
+          Group.changeset(%{source_id: source_id, source_type: source_type})
+        )
+        |> Multi.run(:chat, fn _repo, %{chat_group: chat_group} ->
+          Chat.changeset(%{chat_group_id: chat_group.id, is_main: true, name: chat_name})
+          |> Repo.insert()
+        end)
+        |> Multi.run(:chat_member, fn _repo, %{chat: chat} ->
+          add_members(Multi.new(), chat.id, member_ids)
+        end)
+        |> Repo.transaction()
+    end
+
   end
 
   @spec attended_members_in_project(%{

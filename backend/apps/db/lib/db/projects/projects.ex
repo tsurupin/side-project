@@ -291,7 +291,7 @@ defmodule Db.Projects.Projects do
     end
   end
 
-  defp run_change_status(%Project{} = project, %{status: _} = attrs) do
+  defp run_change_status(%Project{} = project, %{status: "editing"} = attrs) do
     case Repo.update(Project.change_status_changeset(project, attrs)) do
       {:ok, project} -> {:ok, project}
       {:error, changeset} -> {:error, Db.FullErrorMessage.message(changeset)}
