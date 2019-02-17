@@ -11,7 +11,7 @@ import {
   CLOSE_BUTTON,
   SUBMIT_BUTTON
 } from '../../../constants/buttons';
-import { CLOSE_ICON, BACK_ICON } from '../../../constants/icons';
+import { CLOSE_ICON, BACK_ICON, CHEVRON_DOWN_ICON } from '../../../constants/icons';
 import IconLoader from '../../../utilities/IconLoader';
 import { CustomizedSegmentedControlTab } from '../../../components/Common';
 import styles from './styles';
@@ -81,7 +81,7 @@ class ProjectListScreen extends React.Component<Props, State> {
         },
         rightButton: {
           id: PROJECT_ACTION_SHEET_BUTTON,
-          text: 'Leave',
+          icon: IconLoader.getIcon(CHEVRON_DOWN_ICON),
           enabled: true
         }
       })

@@ -26,8 +26,6 @@ const ChangeProjectStatusMutation = (props: Props) => {
           id: fragmentId,
           fragment: PROJECT_FRAGMENTS.projectDetails
         });
-
-
       
         if (!project) {
           return console.error(changedProject);

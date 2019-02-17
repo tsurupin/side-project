@@ -23,6 +23,7 @@ const SMALL_ICON_SIZE = 24;
 const MEDIUM_ICON_SIZE = 30;
 const ICON_BLACK_COLOR = 'black';
 const ICON_GRAY_COLOR = 'gray';
+const CHEVRON_DOWN_ICON = 'chevron-down';
 
 export {
   CHECK_ICON,
@@ -45,6 +46,7 @@ export {
   PLUS_CIRCLE_ICON,
   CLOSE_CIRCLE_ICON,
   MAGNIFY_ICON,
+  CHEVRON_DOWN_ICON,
   ICON_MAIN_TYPE,
   MEDIUM_ICON_SIZE,
   SMALL_ICON_SIZE,

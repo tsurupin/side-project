@@ -16,11 +16,12 @@ import {
   BACK_ICON,
   LIBRARY_BOOKS_ICON,
   MESSAGE_OUTLINE_ICON,
-  FILTER_OUTLINE_ICON
+  FILTER_OUTLINE_ICON,
+  CHEVRON_DOWN_ICON
 } from '../constants/icons';
 import { NAV_BAR_BUTTON_COLOR } from '../constants/colors';
 
-const navIcons = [CLOSE_ICON, FILTER_ICON, FILTER_OUTLINE_ICON, BACK_ICON];
+const navIcons = [CLOSE_ICON, FILTER_ICON, FILTER_OUTLINE_ICON, BACK_ICON, CHEVRON_DOWN_ICON];
 const tabIcons = [LIBRARY_BOOKS_ICON, PENCIL_ICON, MESSAGE_OUTLINE_ICON, ACCOUNT_ICON];
 
 const preloadTasks = [IconLoader.loadIcons(navIcons.concat(tabIcons))];

@@ -10,7 +10,7 @@ defmodule Db.Projects.Projects do
   alias Db.Users.{ProjectLike}
   alias Db.Projects.Photo
   alias Db.Skills.{ProjectSkills, ProjectSkill, Skill}
-  alias Db.Chats.Chats
+  alias Db.Chats.{Chats, Group, Chat}
 
   @spec get_by(%{id: integer}) :: {:ok, Project.t()} | {:error, :not_found}
   def get_by(%{id: id}) do
@@ -74,6 +74,21 @@ defmodule Db.Projects.Projects do
       from(p in Photo,
         where:
           p.project_id == ^project_id and p.rank == ^@main_photo_rank and is_nil(p.deleted_at)
+      )
+    )
+  end
+
+  @spec main_chat(integer) :: Chat.t()
+  def main_chat(project_id) do
+    Repo.one(
+      from(
+        p in Project,
+        join: g in Group,
+        on: g.source_id == p.id and g.source_type == ^"Project",
+        join: c in Chat,
+        on: c.chat_group_id == g.id and c.is_main == ^true,
+        where: p.id == ^project_id,
+        select: [c]
       )
     )
   end

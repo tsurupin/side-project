@@ -2,6 +2,7 @@ defmodule ApiWeb.Schema.Types.Projects do
   use Absinthe.Schema.Notation
   alias Db.Uploaders.ProjectPhotoUploader
   alias Db.Projects.Photo
+  alias Db.Chats.Chat
   alias Db.Projects.Projects
 
   object :project do
@@ -19,6 +20,18 @@ defmodule ApiWeb.Schema.Types.Projects do
     field(:photos, list_of(:project_photo))
     field(:users, list_of(:user))
     field(:has_liked, :boolean)
+    field(
+      :chat_id,
+      :string,
+      resolve: fn _, %{source: project} ->
+        case Projects.main_chat(project.id) do
+         %Chat{id: id} = chat ->
+           {:ok. id}
+         _ ->
+          {:ok, nil}
+        end
+      end
+    )
 
     field(
       :main_photo_url,

@@ -5,7 +5,7 @@ import { ProjectDetailsQuery } from '../../../queries/projects';
 import ActionSheet from 'react-native-actionsheet';
 import { BACK_BUTTON, PROJECT_ACTION_SHEET_BUTTON } from '../../../constants/buttons';
 import { ProjectDetailsBox } from '../../../components/Discovery/ProjectDetailsScreen';
-import { USER_DETAILS_SCREEN } from '../../../constants/screens';
+import { USER_DETAILS_SCREEN, CHAT_SCREEN } from '../../../constants/screens';
 import { WithdrawProjectLikeMutation } from '../../../mutations/projectLikes';
 import { LoadingIndicator } from '../../../components/Common';
 import { MinimumOutput, ProjectDetails } from '../../../interfaces';
@@ -20,10 +20,11 @@ type Props = {
 };
 
 // add like button for newcomer
-const CANCEL_INDEX = 0;
-const WITHDRAW_PROJECT_LIKE_INDEX = 1;
+const CANCEL_INDEX = 3;
+const WITHDRAW_PROJECT_LIKE_INDEX = 2;
+const MOVE_TO_CHAT_INDEX = 1;
 // handle options dynamically
-const ACTION_SHEET_OPTIONS = ['Stay', 'Leave'];
+const ACTION_SHEET_OPTIONS = ['Move to Project Chat', 'Leave', 'Cancel'];
 
 type ProjectDetailsOutput = {
   data: { project: ProjectDetails };
@@ -57,10 +58,27 @@ class LikedProjectDetailsScreen extends React.Component<Props> {
 
   private handlePressActionSheet = (
     index: number,
+    chatId: string,
     withdrawProjectLikeMutation: (input: { variables: { projectId: string } }) => void
   ) => {
     const { id } = this.props;
     switch (index) {
+      case MOVE_TO_CHAT_INDEX:
+        Navigation.push(
+          this.props.componentId,
+          buildDefaultNavigationComponent({
+            screenName: CHAT_SCREEN,
+            props: {
+              id: chatId
+            },
+            title: name,
+            leftButton: {
+              icon: IconLoader.getIcon(BACK_ICON),
+              id: BACK_BUTTON
+            }
+          })
+        );
+        break;
       case WITHDRAW_PROJECT_LIKE_INDEX:
         withdrawProjectLikeMutation({ variables: { projectId: id } });
         break;
@@ -87,12 +105,14 @@ class LikedProjectDetailsScreen extends React.Component<Props> {
   render() {
     const { id } = this.props;
     return (
-      <ProjectDetailsQuery variables={{ id }}>
+      <ProjectDetailsQuery variables={{ id, withChat: true }}>
         {({ data, loading, error }: ProjectDetailsOutput) => {
           if (loading) return <LoadingIndicator />;
           if (error) {
             Alert.alert(error.message);
+            return <View />;
           }
+  
           const { project } = data;
 
           return (
@@ -113,11 +133,11 @@ class LikedProjectDetailsScreen extends React.Component<Props> {
                     <ProjectDetailsBox project={project} liked={true} onPressUser={this.handlePressUser} />
                     <ActionSheet
                       ref={(o: any) => (this.ActionSheet = o)}
-                      title={'Are you sure you want to leave this group?'}
+                      title={''}
                       options={ACTION_SHEET_OPTIONS}
                       cancelButtonIndex={CANCEL_INDEX}
-                      destructiveButtonIndex={CANCEL_INDEX}
-                      onPress={(index: number) => this.handlePressActionSheet(index, withdrawProjectLikeMutation)}
+                      destructiveButtonIndex={CANCEL_INDEX - 1}
+                      onPress={(index: number) => this.handlePressActionSheet(index, project.mainChatId, withdrawProjectLikeMutation)}
                     />
                   </View>
                 );

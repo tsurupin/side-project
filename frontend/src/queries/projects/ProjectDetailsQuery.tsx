@@ -3,7 +3,7 @@ import { Query } from 'react-apollo';
 import { PROJECT_DETAILS_QUERY } from '../../graphql/projects';
 
 type Props = {
-  variables: { id: string };
+  variables: { id: string, withChat?: boolean };
   children: any;
 };
 
