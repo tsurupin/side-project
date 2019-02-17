@@ -131,8 +131,12 @@ defmodule Db.Chats.Chats do
          chat_name: chat_name,
          member_ids: member_ids
        }) do
-    case Repo.exists?(from g in Group, where: g.source_id == ^source_id and g.source_type == ^source_type) do
-      true -> {:ok, true}
+    case Repo.exists?(
+           from(g in Group, where: g.source_id == ^source_id and g.source_type == ^source_type)
+         ) do
+      true ->
+        {:ok, true}
+
       false ->
         Multi.new()
         |> Multi.insert(
@@ -148,7 +152,6 @@ defmodule Db.Chats.Chats do
         end)
         |> Repo.transaction()
     end
-
   end
 
   @spec attended_members_in_project(%{
