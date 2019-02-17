@@ -33,7 +33,7 @@ defmodule ApiWeb.Schema.Mutations.Projects do
     end
 
     @desc "Change project status"
-    field :change_project_status, :boolean do
+    field :change_project_status, :project_status_change do
       arg(:id, non_null(:id))
       arg(:status, non_null(:string))
       middleware(Middleware.Authorize)

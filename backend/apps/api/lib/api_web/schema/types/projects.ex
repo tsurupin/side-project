@@ -58,6 +58,11 @@ defmodule ApiWeb.Schema.Types.Projects do
     field(:genres, list_of(:genre))
   end
 
+  object :project_status_change do
+    field(:id, :id)
+    field(:status, :project_status)
+  end
+
   object :project_form do
     field(:genres, list_of(:genre))
   end

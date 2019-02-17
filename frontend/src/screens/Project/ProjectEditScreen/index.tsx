@@ -173,7 +173,7 @@ class ProjectEditScreen extends React.Component<Props> {
                   options = [...options, 'Publish'];
                 }
                 options = [...options, 'Cancel'];
-                console.log('pro', project);
+             
                 return (
                   <View>
                     <EditForm

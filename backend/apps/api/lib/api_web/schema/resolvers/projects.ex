@@ -99,7 +99,7 @@ defmodule ApiWeb.Schema.Resolvers.Projects do
         context: %{current_user: current_user}
       }) do
     case Projects.change_status(current_user.id, %{project_id: project_id, status: status}) do
-      {:ok, _project} -> {:ok, true}
+      {:ok, project} -> {:ok, %{id: project.id, status: project.status}}
       {:error, message} -> {:error, message}
     end
   end
