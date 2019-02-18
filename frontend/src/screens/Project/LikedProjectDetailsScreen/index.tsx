@@ -20,9 +20,9 @@ type Props = {
 };
 
 // add like button for newcomer
-const CANCEL_INDEX = 3;
-const WITHDRAW_PROJECT_LIKE_INDEX = 2;
-const MOVE_TO_CHAT_INDEX = 1;
+const MOVE_TO_CHAT_INDEX = 0;
+const WITHDRAW_PROJECT_LIKE_INDEX = 1;
+const CANCEL_INDEX = 2;
 // handle options dynamically
 const ACTION_SHEET_OPTIONS = ['Move to Project Chat', 'Leave', 'Cancel'];
 
@@ -61,6 +61,7 @@ class LikedProjectDetailsScreen extends React.Component<Props> {
     chatId: string,
     withdrawProjectLikeMutation: (input: { variables: { projectId: string } }) => void
   ) => {
+    console.log('actionsheet', index);
     const { id } = this.props;
     switch (index) {
       case MOVE_TO_CHAT_INDEX:
@@ -114,6 +115,7 @@ class LikedProjectDetailsScreen extends React.Component<Props> {
           }
 
           const { project } = data;
+          console.log('details', project);
 
           return (
             <WithdrawProjectLikeMutation>
@@ -138,7 +140,7 @@ class LikedProjectDetailsScreen extends React.Component<Props> {
                       cancelButtonIndex={CANCEL_INDEX}
                       destructiveButtonIndex={CANCEL_INDEX - 1}
                       onPress={(index: number) =>
-                        this.handlePressActionSheet(index, project.mainChatId, withdrawProjectLikeMutation)
+                        this.handlePressActionSheet(index, project.chatId, withdrawProjectLikeMutation)
                       }
                     />
                   </View>

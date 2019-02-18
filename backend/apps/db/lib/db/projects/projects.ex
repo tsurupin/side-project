@@ -88,7 +88,7 @@ defmodule Db.Projects.Projects do
         join: c in Chat,
         on: c.chat_group_id == g.id and c.is_main == ^true,
         where: p.id == ^project_id,
-        select: [c]
+        select: c
       )
     )
   end
