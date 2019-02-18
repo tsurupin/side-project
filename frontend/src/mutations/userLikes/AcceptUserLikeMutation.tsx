@@ -19,17 +19,19 @@ const AcceptUserLikeMutation = (props: Props) => {
     <Mutation
       mutation={ACCEPT_USER_LIKE_MUTATION}
       context={{ needAuth: true }}
-      update={(cache, { data: { acceptUserLike: chat } }) => {
-        const matchData: MatchData | null = cache.readQuery({ query: MATCH_LIST_QUERY });
+      refetchQueries={() => [{ query: MATCH_LIST_QUERY }]}
+      // update={(cache, { data: { acceptUserLike: chat } }) => {
+      //   const matchData: MatchData | null = cache.readQuery({ query: MATCH_LIST_QUERY });
 
-        const matchList: MatchList = matchData!.matchList;
-        cache.writeQuery({
-          query: MATCH_LIST_QUERY,
-          data: {
-            matchList: { ...matchList, chatList: [...matchList.chatList, chat] }
-          }
-        });
-      }}
+      //   const matchList: MatchList = matchData!.matchList;
+      //   cache.writeQuery({
+      //     query: MATCH_LIST_QUERY,
+      //     data: {
+      //       ...matchList,
+      //       chatList: [...matchList.chatList, chat]
+      //     }
+      //   });
+      // }}
     >
       {(acceptUserLikeMutation, { loading, error, data }) => {
         return children({

@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { View, Alert } from 'react-native';
 import { Navigation } from 'react-native-navigation';
-import { ErrorMessage, LoadingIndicator, ErrorAlert } from '../../../components/Common';
+import { LoadingIndicator} from '../../../components/Common';
 import { UserDetailsBox } from '../../../components/Discovery/UserDetailsScreen';
-import { DISCOVERY_SCREEN, CHAT_SCREEN } from '../../../constants/screens';
+import { CHAT_SCREEN } from '../../../constants/screens';
 import { BACK_BUTTON } from '../../../constants/buttons';
 import { UserDetailsQuery } from '../../../queries/users';
 import { LikeUserMutation, AcceptUserLikeMutation, RejectUserLikeMutation } from '../../../mutations/userLikes';

@@ -10,7 +10,11 @@ const MatchListQuery = (props: Props) => {
   const { children } = props;
 
   return (
-    <Query query={MATCH_LIST_QUERY} context={{ needAuth: true }} notifyOnNetworkStatusChange>
+    <Query 
+      query={MATCH_LIST_QUERY} 
+      fetchPolicy="cache-and-network"
+      context={{ needAuth: true }} 
+      notifyOnNetworkStatusChange>
       {({ error, loading, data }) => {
         return children({ data, error, loading });
       }}

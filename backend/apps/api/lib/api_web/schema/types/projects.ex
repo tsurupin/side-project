@@ -20,15 +20,16 @@ defmodule ApiWeb.Schema.Types.Projects do
     field(:photos, list_of(:project_photo))
     field(:users, list_of(:user))
     field(:has_liked, :boolean)
+
     field(
       :chat_id,
       :string,
       resolve: fn _, %{source: project} ->
         case Projects.main_chat(project.id) do
-         %Chat{id: id} = chat ->
-           {:ok. id}
-         _ ->
-          {:ok, nil}
+          %Chat{id: id} = chat ->
+            {:ok, id}
+          _ ->
+            {:ok, nil}
         end
       end
     )
