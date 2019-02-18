@@ -12,8 +12,6 @@ const LikeUserMutation = (props: Props) => {
   return (
     <Mutation mutation={LIKE_USER_MUTATION} context={{ needAuth: true }}>
       {(likeUserMutation, a) => {
-        console.log('error', a);
-
         const { loading, error, data } = a;
         return children({
           likeUserMutation,

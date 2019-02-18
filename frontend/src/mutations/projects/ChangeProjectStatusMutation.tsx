@@ -20,16 +20,15 @@ const ChangeProjectStatusMutation = (props: Props) => {
       mutation={CHANGE_PROJECT_STATUS_MUTATION}
       context={{ needAuth: true }}
       update={(cache, { data: { changeProjectStatus: changedProject } }) => {
-      
         const fragmentId: string = `Project:${changedProject.id}`;
         const project: ProjectData | null = cache.readFragment({
           id: fragmentId,
           fragment: PROJECT_FRAGMENTS.projectDetails
         });
-      
+
         if (!project) {
           return console.error(changedProject);
-        };
+        }
 
         cache.writeFragment({
           id: fragmentId,

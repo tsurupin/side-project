@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { View, Alert } from 'react-native';
 import { Navigation } from 'react-native-navigation';
-import { LoadingIndicator} from '../../../components/Common';
+import { LoadingIndicator } from '../../../components/Common';
 import { UserDetailsBox } from '../../../components/Discovery/UserDetailsScreen';
 import { CHAT_SCREEN } from '../../../constants/screens';
 import { BACK_BUTTON } from '../../../constants/buttons';
@@ -79,15 +79,12 @@ class UserDetailsScreen extends React.Component<Props, State> {
               {({ acceptUserLikeMutation, data, loading, error }: AcceptUserLikeOutput) => {
                 if (loading) return <LoadingIndicator />;
                 if (error) {
+                  console.log(error);
                   Alert.alert(error.message);
                   return <View />;
                 }
                 if (data) {
-                  Navigation.push(
-                    this.props.componentId,
-                    buildDefaultNavigationComponent({ screenName: CHAT_SCREEN, props: { id: data.acceptUserLike.id } })
-                  );
-
+                  Navigation.popToRoot(this.props.componentId);
                   return <View />;
                 }
                 return (

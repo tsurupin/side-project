@@ -112,7 +112,7 @@ class LikedProjectDetailsScreen extends React.Component<Props> {
             Alert.alert(error.message);
             return <View />;
           }
-  
+
           const { project } = data;
 
           return (
@@ -137,7 +137,9 @@ class LikedProjectDetailsScreen extends React.Component<Props> {
                       options={ACTION_SHEET_OPTIONS}
                       cancelButtonIndex={CANCEL_INDEX}
                       destructiveButtonIndex={CANCEL_INDEX - 1}
-                      onPress={(index: number) => this.handlePressActionSheet(index, project.mainChatId, withdrawProjectLikeMutation)}
+                      onPress={(index: number) =>
+                        this.handlePressActionSheet(index, project.mainChatId, withdrawProjectLikeMutation)
+                      }
                     />
                   </View>
                 );

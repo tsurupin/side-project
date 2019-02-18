@@ -173,7 +173,7 @@ class ProjectEditScreen extends React.Component<Props> {
                   options = [...options, 'Publish'];
                 }
                 options = [...options, 'Cancel'];
-             
+
                 return (
                   <View>
                     <EditForm

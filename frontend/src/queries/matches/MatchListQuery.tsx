@@ -8,13 +8,15 @@ type Props = {
 
 const MatchListQuery = (props: Props) => {
   const { children } = props;
+  console.log('matchlist query');
 
   return (
-    <Query 
-      query={MATCH_LIST_QUERY} 
+    <Query
+      query={MATCH_LIST_QUERY}
       fetchPolicy="cache-and-network"
-      context={{ needAuth: true }} 
-      notifyOnNetworkStatusChange>
+      context={{ needAuth: true }}
+      notifyOnNetworkStatusChange
+    >
       {({ error, loading, data }) => {
         return children({ data, error, loading });
       }}

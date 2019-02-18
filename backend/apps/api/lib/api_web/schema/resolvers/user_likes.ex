@@ -19,7 +19,7 @@ defmodule ApiWeb.Schema.Resolvers.UserLikes do
 
   def accept_like(_parent, %{user_id: user_id}, %{context: %{current_user: current_user}}) do
     case UserLikes.accept_like(current_user, %{user_id: user_id}) do
-      {:ok, chat} -> {:ok, chat}
+      {:ok, chat} -> {:ok, true}
       {:error, reason} -> {:error, reason}
     end
   end

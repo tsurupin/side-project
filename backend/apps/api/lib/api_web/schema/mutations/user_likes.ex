@@ -18,7 +18,7 @@ defmodule ApiWeb.Schema.Mutations.UserLikes do
     end
 
     @desc "accept like"
-    field :accept_user_like, :chat do
+    field :accept_user_like, :boolean do
       arg(:user_id, :id)
       middleware(Middleware.Authorize)
       resolve(&Resolvers.UserLikes.accept_like/3)

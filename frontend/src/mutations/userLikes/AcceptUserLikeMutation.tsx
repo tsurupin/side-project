@@ -19,19 +19,8 @@ const AcceptUserLikeMutation = (props: Props) => {
     <Mutation
       mutation={ACCEPT_USER_LIKE_MUTATION}
       context={{ needAuth: true }}
-      refetchQueries={() => [{ query: MATCH_LIST_QUERY }]}
-      // update={(cache, { data: { acceptUserLike: chat } }) => {
-      //   const matchData: MatchData | null = cache.readQuery({ query: MATCH_LIST_QUERY });
-
-      //   const matchList: MatchList = matchData!.matchList;
-      //   cache.writeQuery({
-      //     query: MATCH_LIST_QUERY,
-      //     data: {
-      //       ...matchList,
-      //       chatList: [...matchList.chatList, chat]
-      //     }
-      //   });
-      // }}
+      refetchQueries={() => [{ query: MATCH_LIST_QUERY, context: { needAuth: true } }]}
+      awaitRefetchQueries={true}
     >
       {(acceptUserLikeMutation, { loading, error, data }) => {
         return children({
