@@ -10,10 +10,14 @@ export const MATCH_LIST_QUERY = gql`
       }
       chatList {
         id
-        name
         lastComment
         lastCommentedAt
-        imageUrl
+        subject {
+          id
+          name
+          sourceType
+          imageUrl
+        }
       }
     }
   }

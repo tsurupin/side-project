@@ -45,6 +45,7 @@ defmodule Db.MixProject do
       {:libcluster, "~> 3.0"},
       {:rollbax, ">= 0.0.0"},
       {:cachex, "~> 3.0"},
+      {:typed_struct, "~> 0.1.4"},
       {:dialyxir, "~> 0.5.1", only: [:dev], runtime: false},
       {:ex_machina, "~> 2.2.2", only: [:test]},
       {:faker, "~> 0.11.2", only: [:test]},

@@ -28,6 +28,7 @@ defmodule ApiWeb.Schema.Types.Projects do
         case Projects.main_chat(project.id) do
           %Chat{id: id} = chat ->
             {:ok, id}
+
           _ ->
             {:ok, nil}
         end

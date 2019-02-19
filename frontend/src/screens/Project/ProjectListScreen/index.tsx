@@ -6,7 +6,7 @@ import EditableProjectList from './EditableProjectList';
 import { LIKED_PROJECT_DETAILS_SCREEN, PROJECT_EDIT_SCREEN, PROJECT_NEW_SCREEN } from '../../../constants/screens';
 import {
   PROJECT_NEW_BUTTON,
-  PROJECT_ACTION_SHEET_BUTTON,
+  ACTION_SHEET_BUTTON,
   BACK_BUTTON,
   CLOSE_BUTTON,
   SUBMIT_BUTTON
@@ -80,7 +80,7 @@ class ProjectListScreen extends React.Component<Props, State> {
           id: BACK_BUTTON
         },
         rightButton: {
-          id: PROJECT_ACTION_SHEET_BUTTON,
+          id: ACTION_SHEET_BUTTON,
           icon: IconLoader.getIcon(CHEVRON_DOWN_ICON),
           enabled: true
         }

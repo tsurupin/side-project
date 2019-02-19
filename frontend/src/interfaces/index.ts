@@ -167,12 +167,17 @@ export interface ProjectUploadParams extends UploadPhotoParams {
   projectId: string;
 }
 
-export interface Chat {
+export interface ChatSubject {
   id: string;
   name: string;
+  sourceType: string;
+  imageUrl: string;
+}
+export interface Chat {
+  id: string;
+  subject: ChatSubject;
   lastComment?: string | undefined;
   lastCommentedAt?: string | undefined;
-  imageUrl?: string;
   messages: Message[];
 }
 

@@ -16,13 +16,13 @@ const renderChat = (data: any) => {
   const item: Chat = data.item;
   return (
     <ListItem
-      title={item.name}
+      title={item.subject.name}
       subtitle={item.lastComment || ''}
-      leftAvatar={{ source: { uri: item.imageUrl } }}
+      leftAvatar={{ source: { uri: item.subject.imageUrl } }}
       chevron
       bottomDivider
       topDivider
-      onPress={() => onPress(item.id, item.name)}
+      onPress={() => onPress(item.id, item.subject.name)}
       containerStyle={styles.itemContainer}
       titleStyle={styles.itemTitle}
       rightSubtitle={item.lastCommentedAt || ''}

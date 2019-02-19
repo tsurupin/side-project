@@ -3,7 +3,7 @@ import { View, Alert } from 'react-native';
 import { Navigation } from 'react-native-navigation';
 import { ProjectDetailsQuery } from '../../../queries/projects';
 import ActionSheet from 'react-native-actionsheet';
-import { BACK_BUTTON, PROJECT_ACTION_SHEET_BUTTON } from '../../../constants/buttons';
+import { BACK_BUTTON, ACTION_SHEET_BUTTON } from '../../../constants/buttons';
 import { ProjectDetailsBox } from '../../../components/Discovery/ProjectDetailsScreen';
 import { USER_DETAILS_SCREEN, CHAT_SCREEN } from '../../../constants/screens';
 import { WithdrawProjectLikeMutation } from '../../../mutations/projectLikes';
@@ -47,7 +47,7 @@ class LikedProjectDetailsScreen extends React.Component<Props> {
 
   private navigationButtonPressed = ({ buttonId }: { buttonId: string }) => {
     switch (buttonId) {
-      case PROJECT_ACTION_SHEET_BUTTON:
+      case ACTION_SHEET_BUTTON:
         this.ActionSheet.show();
         break;
       case BACK_BUTTON:

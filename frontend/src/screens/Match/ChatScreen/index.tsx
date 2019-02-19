@@ -1,17 +1,24 @@
 import * as React from 'react';
 import { View, Alert } from 'react-native';
 import { Navigation } from 'react-native-navigation';
+import ActionSheet from 'react-native-actionsheet';
 import { ChatDetailsQuery } from '../../../queries/chats';
 import { CreateMessageMutation } from '../../../mutations/chats';
 import { MessageParams, MinimumOutput, Chat } from '../../../interfaces';
-import { BACK_BUTTON } from '../../../constants/buttons';
+import { BACK_BUTTON, ACTION_SHEET_BUTTON } from '../../../constants/buttons';
 import { MessageList, MessageForm } from '../../../components/Match/ChatScreen';
 import styles from './styles';
 import { LoadingIndicator } from '../../../components/Common';
 import { buildDefaultNavigationComponent } from '../../../utilities/navigationStackBuilder';
-import { USER_DETAILS_SCREEN } from '../../../constants/screens';
+import { USER_DETAILS_SCREEN, CHAT_SCREEN, PROJECT_DETAILS_SCREEN } from '../../../constants/screens';
 import IconLoader from '../../../utilities/IconLoader';
 import { BACK_ICON } from '../../../constants/icons';
+
+// add like button for newcomer
+const MOVE_TO_SOURCE_INDEX = 0;
+const CANCEL_INDEX = 1;
+// handle options dynamically
+const ACTION_SHEET_OPTIONS = ['See Details', 'Cancel'];
 
 type Props = {
   id: string;
@@ -28,6 +35,10 @@ type CreateMessageOutput = {
 } & MinimumOutput;
 
 class ChatScreen extends React.Component<Props> {
+  public refs = {
+    actionSheet: ActionSheet
+  };
+
   constructor(props: Props) {
     super(props);
     Navigation.events().bindComponent(this);
@@ -35,8 +46,35 @@ class ChatScreen extends React.Component<Props> {
 
   private navigationButtonPressed = ({ buttonId }: { buttonId: string }) => {
     switch (buttonId) {
+      case ACTION_SHEET_BUTTON:
+        this.ActionSheet.show();
+        break;
       case BACK_BUTTON:
         Navigation.pop(this.props.componentId);
+    }
+  };
+
+  private handlePressActionSheet = (index: number, sourceId: string, sourceType: string) => {
+    console.log('actionsheet', index);
+    const { id } = this.props;
+    switch (index) {
+      case MOVE_TO_SOURCE_INDEX:
+        const screenName = sourceType === 'UserLike' ? USER_DETAILS_SCREEN : PROJECT_DETAILS_SCREEN;
+
+        Navigation.push(
+          this.props.componentId,
+          buildDefaultNavigationComponent({
+            screenName,
+            props: {
+              id: sourceId
+            },
+            leftButton: {
+              icon: IconLoader.getIcon(BACK_ICON),
+              id: BACK_BUTTON
+            }
+          })
+        );
+        break;
     }
   };
 
@@ -95,6 +133,16 @@ class ChatScreen extends React.Component<Props> {
                   );
                 }}
               </CreateMessageMutation>
+              <ActionSheet
+                ref={(o: any) => (this.ActionSheet = o)}
+                title={''}
+                options={ACTION_SHEET_OPTIONS}
+                cancelButtonIndex={CANCEL_INDEX}
+                destructiveButtonIndex={CANCEL_INDEX - 1}
+                onPress={(index: number) =>
+                  this.handlePressActionSheet(index, chat.subject.id, chat.subject.sourceType)
+                }
+              />
             </View>
           );
         }}

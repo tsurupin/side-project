@@ -2,15 +2,45 @@ defmodule ApiWeb.Schema.Types.Chats do
   use Absinthe.Schema.Notation
 
   alias Db.Chats.Message
-  alias Db.Chats.Chat
+  alias Db.Chats.{Chat, Subject}
   alias Db.Users.Photo
   alias Db.Users.Users
   alias Db.Uploaders.ChatImageUploader
-  alias Db.Uploaders.UserPhotoUploader
+  alias Db.Uploaders.{UserPhotoUploader, ProjectPhotoUploader}
 
   object :chat do
     field(:id, :id)
-    field(:name, :string)
+    field(:subject, :subject)
+
+    # field :subject_name, :string do
+    #   resolve(fn %Chat{subject: subject}, _, _ ->
+    #     {:ok, subject.name}
+    #   end)
+    # end
+
+    # field :subject_id, :id do
+    #   resolve(fn %Chat{subject: subject}, _, _ ->
+    #     {:ok, subject.id}
+    #   end)
+    # end
+
+    # field :subject_image_url, :string do
+    #   resolve(fn %Chat{subject: subject}, _, _ ->
+    #     case subject.source_type do
+    #       "Project" ->
+    #         case subject.photo do
+    #           nil -> {:ok, ProjectPhotoUploader.missing_url(:thumb)}
+    #           photo -> {:ok, ProjectPhotoUploader.url({photo.image_url, photo}, :thumb)}
+    #         end
+    #       "UserLike" ->
+    #         case subject.photo do
+    #           nil -> {:ok, UserPhotoUploader.missing_url(:thumb)}
+    #           photo -> {:ok, UserPhotoUploader.url({photo.image_url, photo}, :thumb)}
+    #         end
+    #     end
+    #   end)
+    # end
+
     field(:messages, list_of(:message))
 
     field :last_comment, :string do
@@ -34,14 +64,41 @@ defmodule ApiWeb.Schema.Types.Chats do
         end
       end)
     end
+  end
+
+  object :subject do
+    field :id, :id do
+      resolve(fn %Subject{} = subject, _, _ ->
+        {:ok, subject.id}
+      end)
+    end
+
+    field :name, :string do
+      resolve(fn %Subject{} = subject, _, _ ->
+        {:ok, subject.name}
+      end)
+    end
+
+    field :source_type, :string do
+      resolve(fn %Subject{} = subject, _, _ ->
+        {:ok, subject.source_type}
+      end)
+    end
 
     field :image_url, :string do
-      resolve(fn %Chat{messages: messages}, _, _ ->
-        with %Message{user: user} <- List.last(messages),
-             %Photo{image_url: image_url} = photo <- Users.main_photo(user.id) do
-          {:ok, UserPhotoUploader.url({image_url, photo}, :thumb)}
-        else
-          _ -> {:ok, UserPhotoUploader.missing_url(:thumb)}
+      resolve(fn %Subject{} = subject, _, _ ->
+        case subject.source_type do
+          "Project" ->
+            case subject.photo do
+              nil -> {:ok, ProjectPhotoUploader.missing_url(:thumb)}
+              photo -> {:ok, ProjectPhotoUploader.url({photo.image_url, photo}, :thumb)}
+            end
+
+          "UserLike" ->
+            case subject.photo do
+              nil -> {:ok, UserPhotoUploader.missing_url(:thumb)}
+              photo -> {:ok, UserPhotoUploader.url({photo.image_url, photo}, :thumb)}
+            end
         end
       end)
     end

@@ -20,7 +20,12 @@ const CHAT_DETAIL_FRAGMENT = parseFragment(gql`
     fragment ChatDetail on Chat {
       __typename
       id
-      name
+      subject {
+        id
+        name
+        sourceType
+        imageUrl
+      }
       messages {
         ${MESSAGE_DETAIL_FRAGMENT}
       }

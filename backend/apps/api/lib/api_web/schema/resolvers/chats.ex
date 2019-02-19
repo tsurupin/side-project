@@ -2,13 +2,13 @@ defmodule ApiWeb.Schema.Resolvers.Chats do
   alias Db.Repo
   alias Db.Chats.Chats
 
-  def fetch_chat_with_messages(_, %{id: id}, _) do
+  def fetch_chat_with_messages(_, %{id: id}, %{context: %{current_user: current_user}}) do
     case Chats.get_by(%{id: id}) do
       {:error, :not_found} ->
         {:error, "Not Found"}
 
       {:ok, chat} ->
-        chat = Chats.with_messages(chat)
+        chat = Chats.with_messages(chat) |> Chats.with_subject(current_user.id)
         {:ok, chat}
     end
   end

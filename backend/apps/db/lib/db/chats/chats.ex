@@ -5,8 +5,9 @@ defmodule Db.Chats.Chats do
 
   import Ecto.Query, only: [from: 1, from: 2, first: 1, limit: 2]
   alias Ecto.Multi
-  alias Db.Chats.{Chat, Message, Member, Group}
-  alias Db.Users.UserLike
+  alias Db.Chats.{Chat, Message, Member, Group, Subject}
+  alias Db.Users.{UserLike, Users, User}
+  alias Db.Projects.{Photo, Projects, Project}
   alias Db.Repo
 
   @spec get_by(%{id: integer | String.t()}) :: {:ok, :chat} | {:error, :not_found}
@@ -21,9 +22,49 @@ defmodule Db.Chats.Chats do
   def with_messages(chat) do
     Repo.preload(
       chat,
-      messages:
-        from(m in Message, where: is_nil(m.deleted_at), order_by: m.inserted_at, preload: :user)
+      [
+        :chat_group,
+        messages:
+          from(m in Message, where: is_nil(m.deleted_at), order_by: m.inserted_at, preload: :user)
+      ]
     )
+  end
+
+  @spec with_subject(Chat.t(), integer) :: Chat.t()
+  def with_subject(%Chat{chat_group: group} = chat, user_id) do
+    case group.source_type do
+      "Project" ->
+        project = Repo.get(Project, group.source_id)
+
+        Map.put(
+          chat,
+          :subject,
+          %Subject{
+            name: project.title,
+            id: project.id,
+            source_type: group.source_type,
+            photo: Projects.main_photo(project.id)
+          }
+        )
+
+      "UserLike" ->
+        user_like = Repo.get(UserLike, group.source_id)
+
+        subject_user_id =
+          case user_like.user_id === user_id do
+            true -> user_like.target_user_id
+            false -> user_like.user_id
+          end
+
+        user = Repo.get(User, subject_user_id)
+
+        Map.put(chat, :subject, %Subject{
+          name: user.display_name,
+          id: user.id,
+          source_type: group.source_type,
+          photo: Users.main_photo(user.id)
+        })
+    end
   end
 
   @spec attended_chats(integer) :: [Chat.t()] | []

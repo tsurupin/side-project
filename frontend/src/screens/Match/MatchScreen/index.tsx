@@ -6,8 +6,8 @@ import { MatchListQuery } from '../../../queries/matches';
 import { CHAT_SCREEN, USER_DETAILS_SCREEN } from '../../../constants/screens';
 import { MatchQueueList, ChatList } from '../../../components/Match/MatchScreen';
 import { Chat, UserCore, MatchList, MinimumOutput } from '../../../interfaces';
-import { BACK_BUTTON } from '../../../constants/buttons';
-import { BACK_ICON } from '../../../constants/icons';
+import { BACK_BUTTON, ACTION_SHEET_BUTTON } from '../../../constants/buttons';
+import { BACK_ICON, CHEVRON_DOWN_ICON } from '../../../constants/icons';
 import IconLoader from '../../../utilities/IconLoader';
 import styles from './styles';
 import { LoadingIndicator } from '../../../components/Common';
@@ -39,6 +39,11 @@ class MatchScreen extends React.Component<Props> {
         leftButton: {
           icon: IconLoader.getIcon(BACK_ICON),
           id: BACK_BUTTON
+        },
+        rightButton: {
+          id: ACTION_SHEET_BUTTON,
+          icon: IconLoader.getIcon(CHEVRON_DOWN_ICON),
+          enabled: true
         }
       })
     );

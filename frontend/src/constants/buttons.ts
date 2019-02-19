@@ -14,7 +14,7 @@ const PROJECT_NEW_BUTTON = 'ProjectNewButton';
 const CANCEL_PROJECT_NEW_BUTTON = 'CancelProjectNewButton';
 const SUBMIT_PROJECT_NEW_BUTTON = 'SubmitProjectNewButton';
 
-const PROJECT_ACTION_SHEET_BUTTON = 'ProjectActionSheetButton';
+const ACTION_SHEET_BUTTON = 'ActionSheetButton';
 const BACK_BUTTON = 'BackButton';
 const SUBMIT_BUTTON = 'SubmitButton';
 const APPLY_BUTTON = 'ApplyButton';
@@ -38,7 +38,7 @@ export {
   PROJECT_NEW_BUTTON,
   SUBMIT_PROJECT_NEW_BUTTON,
   CANCEL_PROJECT_NEW_BUTTON,
-  PROJECT_ACTION_SHEET_BUTTON,
+  ACTION_SHEET_BUTTON,
   BACK_BUTTON,
   APPLY_BUTTON,
   SUBMIT_BUTTON,

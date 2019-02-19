@@ -13,6 +13,7 @@ defmodule Db.Chats.Chat do
     field(:name, :string, null: false)
     field(:is_main, :boolean, null: false, default: false)
     field(:deleted_at, :utc_datetime)
+    field(:subject, :map, virtual: true)
     timestamps(type: :utc_datetime)
 
     belongs_to(:chat_group, Group)
