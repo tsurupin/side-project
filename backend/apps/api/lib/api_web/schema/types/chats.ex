@@ -12,35 +12,6 @@ defmodule ApiWeb.Schema.Types.Chats do
     field(:id, :id)
     field(:subject, :subject)
 
-    # field :subject_name, :string do
-    #   resolve(fn %Chat{subject: subject}, _, _ ->
-    #     {:ok, subject.name}
-    #   end)
-    # end
-
-    # field :subject_id, :id do
-    #   resolve(fn %Chat{subject: subject}, _, _ ->
-    #     {:ok, subject.id}
-    #   end)
-    # end
-
-    # field :subject_image_url, :string do
-    #   resolve(fn %Chat{subject: subject}, _, _ ->
-    #     case subject.source_type do
-    #       "Project" ->
-    #         case subject.photo do
-    #           nil -> {:ok, ProjectPhotoUploader.missing_url(:thumb)}
-    #           photo -> {:ok, ProjectPhotoUploader.url({photo.image_url, photo}, :thumb)}
-    #         end
-    #       "UserLike" ->
-    #         case subject.photo do
-    #           nil -> {:ok, UserPhotoUploader.missing_url(:thumb)}
-    #           photo -> {:ok, UserPhotoUploader.url({photo.image_url, photo}, :thumb)}
-    #         end
-    #     end
-    #   end)
-    # end
-
     field(:messages, list_of(:message))
 
     field :last_comment, :string do
