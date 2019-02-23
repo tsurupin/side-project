@@ -9,9 +9,7 @@ type Props = {
 const LoadingIndicator: React.SFC<Props> = ({ color }) => {
   return (
     <View style={styles.container}>
-      <View style={styles.indicatorContainer}>
-        <ActivityIndicator size="large" color={color} />
-      </View>
+      <ActivityIndicator size="large" color={color} />
     </View>
   );
 };
