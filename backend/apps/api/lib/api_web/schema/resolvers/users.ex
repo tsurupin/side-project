@@ -42,27 +42,21 @@ defmodule ApiWeb.Schema.Resolvers.Users do
     user =
       Users.preload_alive(current_user.id, [:photos, :skills, :city, :genre, :occupation_type])
 
-    IO.inspect(user)
-
     {:ok, user}
   end
 
   def search(_ctx, %{conditions: conditions}, %{context: %{current_user: current_user}}) do
-    case Users.search(%{conditions: conditions, user_id: current_user.id}) do
-      {:error, :not_found} ->
-        {:error, %{reason: "Not Found"}}
+    {:ok, tmp_users} =  Users.search(%{conditions: conditions, user_id: current_user.id})
 
-      {:ok, users} ->
-        users =
-          Users.preload_alive(Enum.map(users, & &1.id), [
-            :photos,
-            :occupation_type,
-            :city,
-            :genre
-          ])
+    users =
+      Users.preload_alive(Enum.map(tmp_users, & &1.id), [
+        :photos,
+        :occupation_type,
+        :city,
+        :genre
+      ])
 
-        {:ok, users}
-    end
+    {:ok, users}
   end
 
   @placeholder %{id: nil, name: "All"}

@@ -24,4 +24,8 @@ defmodule Db.Uploaders.ChatImageUploader do
       "#{__DIR__}/../../../priv/uploads/chat_images/#{scope.uuid}"
     end
   end
+
+  def missing_url(:thumb) do
+    "https://placehold.it/100x100"
+  end
 end

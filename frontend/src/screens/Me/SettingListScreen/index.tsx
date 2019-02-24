@@ -58,6 +58,7 @@ class SettingsListScreen extends React.Component<Props> {
               return <View />;
             }
             const myUser: UserDetails = data.myUser;
+            console.log(myUser, data);
             return (
               <View>
                 <UserCard user={myUser} onPress={() => this.onPress(MY_PROFILE_SCREEN)} />

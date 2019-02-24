@@ -28,4 +28,8 @@ defmodule Db.Uploaders.ProjectPhotoUploader do
   def default_url(:thumb) do
     "https://placehold.it/100x100"
   end
+
+  def missing_url(:thumb) do
+    "https://placehold.it/100x100"
+  end
 end

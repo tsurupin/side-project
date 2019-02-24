@@ -152,7 +152,7 @@ defmodule Db.Projects.Projects do
     from(
       p in Project,
       left_join: pl in ProjectLike,
-      on: pl.project_id == p.id and pl.user_id == ^user_id and is_nil(pl.id),
+      on: pl.project_id == p.id and pl.user_id == ^user_id and is_nil(pl.deleted_at),
       where: is_nil(pl.id) and p.owner_id != ^user_id
     )
   end

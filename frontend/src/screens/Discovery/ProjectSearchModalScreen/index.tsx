@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Alert } from 'react-native';
+import { View, Alert } from 'react-native';
 import { Navigation } from 'react-native-navigation';
 import { Skill, City, Genre, GraphQLErrorMessage } from '../../../interfaces';
 import { ProjectSearchFormQuery } from '../../../queries/projects';
@@ -72,6 +72,7 @@ class ProjectSearchFormScreen extends React.Component<Props> {
           }
 
           if (error) {
+            console.log(error)
             Alert.alert(error.message);
             return <View />;
           }
@@ -81,29 +82,31 @@ class ProjectSearchFormScreen extends React.Component<Props> {
             projectSearchParams
           } = data;
 
-          return (
-            <UpdateProjectSearchParamsMutation>
-              {({ updateProjectSearchParamsMutation, error }: UpdateProjectSearchOutput) => {
-                if (error) {
-                  Alert.alert(error.message);
-                }
+        return (
+          <UpdateProjectSearchParamsMutation>
+            {({ updateProjectSearchParamsMutation, error }: UpdateProjectSearchOutput) => {
+              if (error) {
+                console.log(error)l
+                Alert.alert(error.message);
+                return <View />;
+              }
 
-                return (
-                  <SearchForm
-                    {...projectSearchParams}
-                    genres={genres}
-                    navigator={this.props.navigator}
-                    onSubmit={(searchParams: ProjectSearchParams) =>
-                      this.onSubmit(searchParams, updateProjectSearchParamsMutation)
-                    }
-                    ref={(instance) => {
-                      this.form = instance;
-                    }}
-                  />
-                );
-              }}
-            </UpdateProjectSearchParamsMutation>
-          );
+              return (
+                <SearchForm
+                  {...projectSearchParams}
+                  genres={genres}
+                  navigator={this.props.navigator}
+                  onSubmit={(searchParams: ProjectSearchParams) =>
+                    this.onSubmit(searchParams, updateProjectSearchParamsMutation)
+                  }
+                  ref={(instance) => {
+                    this.form = instance;
+                  }}
+                />
+              );
+            }}
+          </UpdateProjectSearchParamsMutation>
+        );
         }}
       </ProjectSearchFormQuery>
     );

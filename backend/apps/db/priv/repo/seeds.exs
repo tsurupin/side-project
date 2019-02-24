@@ -77,12 +77,39 @@ software_engineer = Repo.insert!(
 }
 )
 
+designer = Repo.insert!(
+%OccupationType{
+  name: "designer"
+}
+)
+
+
+business = Repo.insert!(
+%OccupationType{
+  name: "business"
+}
+)
+
+
 
 education = Repo.insert!(
 %Genre{
   name: "education"
 }
 )
+
+tech = Repo.insert!(
+%Genre{
+  name: "technology"
+}
+)
+
+volunteer = Repo.insert!(
+%Genre{
+  name: "volunteer"
+}
+)
+
 
 
 
@@ -107,17 +134,33 @@ user = Repo.insert!(
   %Users.User{
     uid: "uid2",
     provider_id: "facebook",
-    display_name: "user",
+    display_name: "Alfred",
     email: "user@gmail.com",
-    occupation: "software engineer",
-    company_name: "GoBay",
+    occupation: "designer",
+    company_name: "Fitbot",
     school_name: "Stonford",
     status: 0,
-    latitude: 37.772640,
-    longitude: -122.409915,
+    geom: %Geo.Point{ coordinates: {37.773972, -122.431297}, srid: 4326 },
     city_id: san_francisco.id,
-    occupation_type_id: software_engineer.id,
-    genre_id: education.id
+    occupation_type_id: designer.id,
+    genre_id: volunteer.id
+  }
+)
+
+user2 = Repo.insert!(
+  %Users.User{
+    uid: "uid3",
+    provider_id: "facebook",
+    display_name: "Jon",
+    email: "job@gmail.com",
+    occupation: "designer",
+    company_name: "Fitbot",
+    school_name: "Stonford",
+    status: 0,
+    geom: %Geo.Point{ coordinates: {37.773972, -122.431297}, srid: 4326 },
+    city_id: san_francisco.id,
+    occupation_type_id: designer.id,
+    genre_id: volunteer.id
   }
 )
 
@@ -128,13 +171,7 @@ Repo.insert!(
   }
 )
 
-# Repo.insert!(
-#   %Users.Favorite{
-#     user_id: user.id,
-#     target_id: owner.id,
-#     target_type: "User"
-#   }
-# )
+
 user_photo_changeset = %{
   user_id: owner.id,
   rank: 0,
@@ -149,9 +186,22 @@ project = Repo.insert!(
     lead_sentence: "this project is to connect engineers",
     motivation: "I has been struggling with finding engineers",
     requirement: "we need backend engineers",
-    status: 1,
+    status: :editing,
     owner_id: owner.id,
     genre_id: education.id,
+    city_id: san_francisco.id
+  }
+)
+
+project2 = Repo.insert!(
+  %Projects.Project{
+    title: "health CMS platform",
+    lead_sentence: "this project is to connect engineers",
+    motivation: "I has been struggling with finding engineers",
+    requirement: "we need backend engineers",
+    status: :completed,
+    owner_id: user.id,
+    genre_id: volunteer.id,
     city_id: san_francisco.id
   }
 )

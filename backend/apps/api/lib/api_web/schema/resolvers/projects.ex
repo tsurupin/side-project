@@ -20,7 +20,6 @@ defmodule ApiWeb.Schema.Resolvers.Projects do
           ])
 
         has_liked = Projects.has_liked(%{user_id: current_user.id, project_id: id})
-        IO.inspect(project)
         {:ok, Map.merge(project, %{has_liked: has_liked})}
     end
   end
@@ -51,22 +50,20 @@ defmodule ApiWeb.Schema.Resolvers.Projects do
   end
 
   def search(_, %{conditions: conditions}, %{context: %{current_user: current_user}}) do
-    case Projects.search(%{conditions: conditions, user_id: current_user.id}) do
-      {:error, :not_found} ->
-        {:error, %{reason: "Not Found"}}
+    {:ok, tmp_projects} =  Projects.search(%{conditions: conditions, user_id: current_user.id})
 
-      {:ok, projects} ->
-        projects =
-          Projects.preload_alive(Enum.map(projects, & &1.id), [
-            :photos,
-            :genre,
-            :city,
-            :owner,
-            {:users, :occupation_type}
-          ])
+    projects =
+      Projects.preload_alive(Enum.map(tmp_projects, & &1.id), [
+        :photos,
+        :genre,
+        :city,
+        :owner,
+        {:users, :occupation_type}
+      ])
 
-        {:ok, projects}
-    end
+      IO.inspect(projects)
+
+    {:ok, projects}
   end
 
   def liked_by(_, _, %{context: %{current_user: current_user}}) do

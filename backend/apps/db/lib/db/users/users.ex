@@ -73,7 +73,14 @@ defmodule Db.Users.Users do
   @spec search(%{query: Ecto.Queryable.t(), conditions: map}) :: {:ok, [User.t()]} | {:ok, []}
   def search(%{query: query, conditions: conditions}) do
     users = Repo.all(build_queries(query, conditions))
+    IO.inspect(users)
+    IO.inspect(build_queries(query, conditions))
     {:ok, users}
+
+    # IO.inspect(build_queries(query, conditions))
+    # IO.inspect(users)
+
+    # {:ok, users}
   end
 
   @main_photo_rank 0
@@ -122,7 +129,7 @@ defmodule Db.Users.Users do
         :skills ->
           from(u in acc,
             left_join: us in assoc(u, :user_skills),
-            join: s in assoc(us, :skill),
+            left_join: s in assoc(us, :skill),
             on: is_nil(us.deleted_at),
             preload: [skills: s]
           )

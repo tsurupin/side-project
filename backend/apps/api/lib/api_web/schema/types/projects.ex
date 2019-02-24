@@ -44,7 +44,7 @@ defmodule ApiWeb.Schema.Types.Projects do
             {:ok, ProjectPhotoUploader.url({image_url, photo}, :thumb)}
 
           _ ->
-            {:ok, nil}
+            {:ok, ProjectPhotoUploader.missing_url(:thumb)}
         end
       end
     )
