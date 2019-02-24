@@ -1,11 +1,14 @@
 import * as React from 'react';
 import { Text, TouchableOpacity, View, Alert } from 'react-native';
+import { SocialIcon } from 'react-native-elements';
+
 import { AccessToken, LoginManager } from 'react-native-fbsdk';
 import { SignUpMutation } from '../../mutations/accounts';
 import { goToMainTabs } from '../../utilities/navigation';
 import { firebaseSignIn } from '../../utilities/firebase';
 import { LoadingIndicator } from '../../components/Common';
 import { SignUpParams, LoginParams, GraphQLErrorMessage } from '../../interfaces';
+import styles from './styles';
 
 const FACEBOOK = 'facebook';
 const FB_READ_PERMISSIONS = ['public_profile', 'email'];
@@ -29,7 +32,6 @@ class AuthScreen extends React.Component<Props> {
     LoginManager.logInWithReadPermissions(FB_READ_PERMISSIONS)
       .then((result) => {
         if (result.isCancelled) {
-          console.log('Login is cancelled');
           Alert.alert('Login is cancelled');
         }
 
@@ -43,12 +45,10 @@ class AuthScreen extends React.Component<Props> {
             });
           })
           .catch((error) => {
-            console.log('getcurrentaccesserror', error);
             Alert.alert(`AccessToken error: ${error}`);
           });
       })
       .catch((error) => {
-        console.log('loginError', error);
         Alert.alert(`Login Error error: ${error}`);
       });
   };
@@ -58,13 +58,10 @@ class AuthScreen extends React.Component<Props> {
     loginMutation: (input: { variables: LoginParams }) => void
   ): Promise<void> => {
     try {
-      console.log('firebase before');
       await firebaseSignIn(token);
-      console.log('firebase done');
       loginMutation({ variables: { logined: true } });
       goToMainTabs();
     } catch (e) {
-      console.log('Firebase Error', e);
       Alert.alert(`Firebase Error: ${e}`);
     }
   };
@@ -83,14 +80,21 @@ class AuthScreen extends React.Component<Props> {
 
             if (signUpData && signUpData.signUp) {
               this.loginFirebase(signUpData.signUp.token, loginMutation);
-              console.log('singup is fone');
+
               return <View />;
             }
 
             return (
-              <TouchableOpacity onPress={() => this.handleFbLogin(signUpMutation)}>
-                <Text> Facebook SignIn </Text>
-              </TouchableOpacity>
+              <View style={styles.iconContainer}>
+                <Text style={styles.title}>Side Project</Text>
+                <SocialIcon
+                  title="Sign In With Facebook"
+                  button
+                  type="facebook"
+                  style={styles.icon}
+                  onPress={() => this.handleFbLogin(signUpMutation)}
+                />
+              </View>
             );
           }}
         </SignUpMutation>

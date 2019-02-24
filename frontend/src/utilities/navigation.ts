@@ -174,17 +174,7 @@ export const goToAuthScreen = async () =>
         children: [
           {
             component: {
-              name: AUTH_SCREEN,
-              passProps: {
-                title: 'Login'
-              },
-              options: {
-                topBar: {
-                  title: {
-                    text: 'Login'
-                  }
-                }
-              }
+              name: AUTH_SCREEN
             }
           }
         ]
