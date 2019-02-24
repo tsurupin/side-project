@@ -4,7 +4,7 @@ defmodule ApiWeb.Schema.Mutations.ProjectLikes do
 
   object :project_likes_mutations do
     @desc "give like to project"
-    field :like_project, :chat do
+    field :like_project, :project do
       arg(:project_id, non_null(:id))
       middleware(Middleware.Authorize)
       resolve(&Resolvers.ProjectLikes.like/3)

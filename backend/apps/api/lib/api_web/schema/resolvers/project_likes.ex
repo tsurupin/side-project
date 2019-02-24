@@ -3,8 +3,8 @@ defmodule ApiWeb.Schema.Resolvers.ProjectLikes do
 
   def like(_parent, %{project_id: project_id}, %{context: %{current_user: current_user}}) do
     case ProjectLikes.like(%{project_id: project_id, user_id: current_user.id}) do
-      {:ok, chat} ->
-        {:ok, chat}
+      {:ok, project} ->
+        {:ok, project}
 
       {:error, reason} ->
         IO.inspect(reason)

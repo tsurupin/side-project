@@ -13,9 +13,15 @@ defmodule Db.Users.ProjectLikes do
   alias Db.Projects
 
   @spec like(%{project_id: integer, user_id: integer}) :: {:ok, Chat.t()} | {:error, String.t()}
-  def like(%{project_id: _project_id, user_id: _user_id} = attrs) do
+  def like(%{project_id: project_id, user_id: _user_id} = attrs) do
     transaction =
       Multi.new()
+      |> Multi.run(:project, fn _repo, _ ->
+        case Repo.get(Projects.Project, project_id) do
+          %Projects.Project{} = project -> {:ok, project}
+          nil -> {:error, :project_not_found}
+        end
+      end)
       |> Multi.insert(:create_project_like, ProjectLike.changeset(attrs))
       |> Multi.merge(fn %{create_project_like: project_like} ->
         approve(project_like)
@@ -23,8 +29,9 @@ defmodule Db.Users.ProjectLikes do
       |> Repo.transaction()
 
     case transaction do
-      {:ok, %{main_chat: chat}} -> {:ok, chat}
+      {:ok, %{project: project}} -> {:ok, project}
       {:error, :main_chat, reason, _changeset} -> {:error, "main chat is not found"}
+      {:error, :not_found_project} -> {:error, "project is not found"}
       {:error, _name, changeset, _prev} -> {:error, Db.FullErrorMessage.message(changeset)}
     end
   end
