@@ -112,7 +112,9 @@ class UserDetailsScreen extends React.Component<Props, State> {
             return <View />;
           }
           if (data) {
-            Navigation.popToRoot(this.props.componentId);
+            Alert.alert(`Liked ${user.displayName}!`, undefined, [
+              { text: 'OK', onPress: () => Navigation.popToRoot(this.props.componentId) }
+            ]);
             return <View />;
           }
           return <UserDetailsBox user={user} liked={false} like={() => this.handlePress(likeUserMutation)} />;

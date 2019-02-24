@@ -3,7 +3,7 @@ defmodule ApiWeb.Schema.Resolvers.UserLikes do
 
   def like(_parent, %{target_user_id: target_user_id}, %{context: %{current_user: current_user}}) do
     case UserLikes.like(%{target_user_id: target_user_id, user_id: current_user.id}) do
-      {:ok, _} -> {:ok, true}
+      {:ok, _} -> {:ok, target_user_id}
       {:error, reason} -> {:error, reason}
     end
   end
