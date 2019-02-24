@@ -305,6 +305,29 @@ Repo.insert!(
   }
 )
 
+
+chat_group2 = Repo.insert!(
+  %Chats.Group{
+    source_id: project2.id,
+    source_type: "Project"
+  }
+)
+
+
+chat2 = Repo.insert!(
+  %Chats.Chat{
+    chat_group_id: chat_group2.id,
+    name: "Side Project2",
+    is_main: true
+  }
+)
+
+Repo.insert!(
+  %Chats.Member{
+    chat_id: chat2.id,
+    user_id: user.id
+  }
+)
 Repo.insert!(
   %Chats.Member{
     chat_id: chat.id,

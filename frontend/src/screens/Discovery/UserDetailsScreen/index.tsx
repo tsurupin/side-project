@@ -79,7 +79,6 @@ class UserDetailsScreen extends React.Component<Props, State> {
               {({ acceptUserLikeMutation, data, loading, error }: AcceptUserLikeOutput) => {
                 if (loading) return <LoadingIndicator />;
                 if (error) {
-                  console.log(error);
                   Alert.alert(error.message);
                   return <View />;
                 }

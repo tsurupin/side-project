@@ -1,4 +1,10 @@
 const APP_NAME = 'side-project';
+const BOTTOM_TAB_ID = 'BottomTabsId';
+const DISCOVERY_TAB_INDEX = 0;
+const CHAT_TAB_INDEX = 1;
+const PROJECT_TAB_INDEX = 2;
+const ME_TAB_INDEX = 3;
+
 const INITIALIZE_SCREEN = `${APP_NAME}.InitializeScreen`;
 const TOP_SCREEN = `${APP_NAME}.TopScreen`;
 const DISCOVERY_SCREEN = `${APP_NAME}.DisccoveryScreen`;
@@ -30,6 +36,12 @@ const TEXT_INPUT_SCREEN = `${APP_NAME}.TextInputScreen`;
 const PHOTOS_EDIT_SCREEN = `${APP_NAME}.PhotosEditScreen`;
 
 export {
+  APP_NAME,
+  BOTTOM_TAB_ID,
+  DISCOVERY_TAB_INDEX,
+  CHAT_TAB_INDEX,
+  PROJECT_TAB_INDEX,
+  ME_TAB_INDEX,
   INITIALIZE_SCREEN,
   DISCOVERY_SCREEN,
   USER_SEARCH_MODAL_SCREEN,

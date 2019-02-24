@@ -5,7 +5,8 @@ import {
   MATCH_SCREEN,
   DISCOVERY_SCREEN,
   PROJECT_LIST_SCREEN,
-  SETTING_LIST_SCREEN
+  SETTING_LIST_SCREEN,
+  BOTTOM_TAB_ID
 } from '../constants/screens';
 import { SEARCH_BUTTON, PROJECT_NEW_BUTTON } from '../constants/buttons';
 import {
@@ -137,6 +138,7 @@ export const goToMainTabs = () => {
     };
 
     const bottomTabs = {
+      id: BOTTOM_TAB_ID,
       options: {
         statusBar: {
           visible: true

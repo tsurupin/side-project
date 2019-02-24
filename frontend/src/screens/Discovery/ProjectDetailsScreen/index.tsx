@@ -6,7 +6,7 @@ import { ProjectDetailsQuery } from '../../../queries/projects';
 import { BACK_BUTTON } from '../../../constants/buttons';
 import { BACK_ICON } from '../../../constants/icons';
 import { LikeProjectMutation } from '../../../mutations/projectLikes';
-import { LIKED_PROJECT_DETAILS_SCREEN, USER_DETAILS_SCREEN } from '../../../constants/screens';
+import { LIKED_PROJECT_DETAILS_SCREEN, USER_DETAILS_SCREEN, PROJECT_LIST_SCREEN, BOTTOM_TAB_ID, PROJECT_TAB_INDEX } from '../../../constants/screens';
 import { ProjectDetailsBox } from '../../../components/Discovery/ProjectDetailsScreen';
 import { ProjectDetails, GraphQLErrorMessage, LikeProjectParams } from '../../../interfaces';
 import { LoadingIndicator } from '../../../components/Common';
@@ -84,15 +84,13 @@ class ProjectDetailsScreen extends React.Component<Props> {
                   return <View />;
                 }
                 if (data) {
-                  Navigation.push(
-                    this.props.componentId,
-                    buildDefaultNavigationComponent({
-                      screenName: LIKED_PROJECT_DETAILS_SCREEN,
-                      props: {
-                        id
-                      }
-                    })
-                  );
+                  Navigation.popToRoot(this.props.componentId);
+                  Navigation.mergeOptions(BOTTOM_TAB_ID, {
+                    bottomTabs: {
+                      currentTabIndex: PROJECT_TAB_INDEX
+                    }
+                  });
+
                   return <View />;
                 }
 
