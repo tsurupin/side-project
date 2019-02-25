@@ -18,6 +18,7 @@ const LoginStatusQuery = (props: { children: any }) => {
             }
           });
         }
+
         return children({ data });
       }}
     </Query>

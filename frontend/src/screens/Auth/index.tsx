@@ -33,6 +33,7 @@ class AuthScreen extends React.Component<Props> {
       .then((result) => {
         if (result.isCancelled) {
           Alert.alert('Login is cancelled');
+          return;
         }
 
         AccessToken.getCurrentAccessToken()
@@ -46,6 +47,7 @@ class AuthScreen extends React.Component<Props> {
           })
           .catch((error) => {
             Alert.alert(`AccessToken error: ${error}`);
+            return;
           });
       })
       .catch((error) => {
@@ -78,7 +80,7 @@ class AuthScreen extends React.Component<Props> {
               Alert.alert(error.message);
             }
 
-            if (signUpData && signUpData.signUp) {
+            if (signUpData && signUpData.signUp.token) {
               this.loginFirebase(signUpData.signUp.token, loginMutation);
 
               return <View />;

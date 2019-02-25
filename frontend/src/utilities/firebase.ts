@@ -14,7 +14,6 @@ const FIREBASE_TOKEN_URL = 'https://securetoken.googleapis.com/v1/token';
 
 export const firebaseSignIn = (firebaseToken: string) => {
   return new Promise((resolve, reject) => {
-    console.log(firebaseConfig);
     try {
       firebase
         .auth()

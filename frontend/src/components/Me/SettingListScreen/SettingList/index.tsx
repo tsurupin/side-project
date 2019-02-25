@@ -10,7 +10,6 @@ type Item = {
   title: string;
   iconName: string;
   screen?: string;
-  fnc?: any;
 };
 
 const logout = async () => {
@@ -30,16 +29,16 @@ const logout = async () => {
 const SETTINS_LIST: Item[] = [
   {
     title: 'Log Out',
-    iconName: LOGOUT_ICON,
-    fnc: () => logout()
+    iconName: LOGOUT_ICON
   }
 ];
 
 type Props = {
-  onPress: (screen: string) => void;
+  handlePress: (screen: string) => void;
+  handleLogout: () => void;
 };
 
-const SettingList: React.SFC<Props> = ({ onPress }) => {
+const SettingList: React.SFC<Props> = ({ handlePress, handleLogout }) => {
   return (
     <View>
       {SETTINS_LIST.map((item) => {
@@ -53,7 +52,7 @@ const SettingList: React.SFC<Props> = ({ onPress }) => {
             containerStyle={styles.itemContainer}
             titleStyle={styles.itemTitle}
             leftIcon={{ name: item.iconName }}
-            onPress={() => (item.screen ? onPress(item.screen) : item.fnc())}
+            onPress={() => (item.screen ? handlePress(item.screen) : handleLogout())}
           />
         );
       })}
