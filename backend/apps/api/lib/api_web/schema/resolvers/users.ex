@@ -46,7 +46,7 @@ defmodule ApiWeb.Schema.Resolvers.Users do
   end
 
   def search(_ctx, %{conditions: conditions}, %{context: %{current_user: current_user}}) do
-    {:ok, tmp_users} =  Users.search(%{conditions: conditions, user_id: current_user.id})
+    {:ok, tmp_users} = Users.search(%{conditions: conditions, user_id: current_user.id})
 
     users =
       Users.preload_alive(Enum.map(tmp_users, & &1.id), [

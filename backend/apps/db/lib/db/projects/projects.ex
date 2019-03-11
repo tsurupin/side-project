@@ -59,12 +59,8 @@ defmodule Db.Projects.Projects do
         p in Project,
         join: pl in ProjectLike,
         where:
-          p.id == pl.project_id
-          and pl.user_id == ^user_id
-          and p.status == ^:completed
-          and pl.status == ^:approved
-          and is_nil(pl.deleted_at)
-          and is_nil(p.deleted_at)
+          p.id == pl.project_id and pl.user_id == ^user_id and p.status == ^:completed and
+            pl.status == ^:approved and is_nil(pl.deleted_at) and is_nil(p.deleted_at)
       )
       |> Repo.all()
 

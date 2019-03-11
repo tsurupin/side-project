@@ -50,7 +50,7 @@ defmodule ApiWeb.Schema.Resolvers.Projects do
   end
 
   def search(_, %{conditions: conditions}, %{context: %{current_user: current_user}}) do
-    {:ok, tmp_projects} =  Projects.search(%{conditions: conditions, user_id: current_user.id})
+    {:ok, tmp_projects} = Projects.search(%{conditions: conditions, user_id: current_user.id})
 
     projects =
       Projects.preload_alive(Enum.map(tmp_projects, & &1.id), [
@@ -60,8 +60,6 @@ defmodule ApiWeb.Schema.Resolvers.Projects do
         :owner,
         {:users, :occupation_type}
       ])
-
-      IO.inspect(projects)
 
     {:ok, projects}
   end
@@ -87,7 +85,6 @@ defmodule ApiWeb.Schema.Resolvers.Projects do
         {:ok, project}
 
       {:error, message} ->
-        IO.inspect(message)
         {:error, message}
     end
   end
@@ -135,7 +132,6 @@ defmodule ApiWeb.Schema.Resolvers.Projects do
         {:ok, photo}
 
       {:error, reason} ->
-        IO.inspect(reason)
         {:error, reason}
     end
   end
