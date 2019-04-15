@@ -28,7 +28,6 @@
     "strictFunctionTypes": true,
     "strictPropertyInitialization": true,
     "allowSyntheticDefaultImports": true,
-    
     "alwaysStrict": true,
     "suppressImplicitAnyIndexErrors": true,
     "pretty": true,
