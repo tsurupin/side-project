@@ -1,4 +1,4 @@
-import { GOOGLE_MAP_API_KEY } from '../config';
+import { GOOGLE_MAP_API_KEY } from 'react-native-dotenv';
 const GOOGLE_MAP_REVERSE_GEOCIDING_API = 'https://maps.googleapis.com/maps/api/geocode/json';
 
 const STREET_ADDRESS_TYPE = 'street_address';

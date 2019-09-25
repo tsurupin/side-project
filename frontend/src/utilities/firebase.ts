@@ -1,5 +1,10 @@
 import * as firebase from 'firebase';
-import { FIREBASE_API_KEY, FIREBASE_AUTH_DOMAIN, FIREBASE_DATABASE_URL, FIREBASE_PROJECT_ID } from '../config';
+import { 
+  FIREBASE_API_KEY,
+  FIREBASE_AUTH_DOMAIN,
+  FIREBASE_DATABASE_URL,
+  FIREBASE_PROJECT_ID
+ } from 'react-native-dotenv';
 import TokenManager from './TokenManager';
 
 const firebaseConfig = {
